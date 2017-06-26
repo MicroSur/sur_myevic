@@ -289,14 +289,14 @@ typedef struct {
 
 const pt3d_t cube_points[] = 
 	{
-		{  1,  1,  1 }, // 0
-		{ -1,  1,  1 }, // 1
-		{  1, -1,  1 }, // 2
-		{ -1, -1,  1 }, // 3
-		{  1,  1, -1 }, // 4
-		{ -1,  1, -1 }, // 5
-		{  1, -1, -1 }, // 6
-		{ -1, -1, -1 }  // 7
+		{  1,  1,  1 }, // 0  000
+		{ -1,  1,  1 }, // 1  X00
+		{  1, -1,  1 }, // 2  0Y0
+		{ -1, -1,  1 }, // 3  XY0
+		{  1,  1, -1 }, // 4  00Z
+		{ -1,  1, -1 }, // 5  X0Z
+		{  1, -1, -1 }, // 6  0YZ
+		{ -1, -1, -1 }  // 7  XYZ
 	};
 
 const line3d_t cube_lines[] = 
@@ -350,6 +350,33 @@ const obj3d_t tetra =
 	tetra_points,
 	tetra_lines
 };
+
+/*
+const pt3d_t square_points[] = 
+	{
+		{  1,  1,  1 }, // 0
+		{  1,  1, -1 }, // 1
+		{ -1, -1,  1 }, // 2
+		{ -1, -1, -1 }  // 3
+	};
+
+const line3d_t square_lines[] = 
+	{
+		{ 0, 1 },
+		{ 0, 2 },
+		{ 1, 3 },
+		{ 2, 3 }
+	};
+	
+const obj3d_t square =
+{
+	16, 1,
+	4,
+	4,
+	square_points,
+	square_lines
+};
+*/
 
 const pt3d_t octa_points[] = 
 	{

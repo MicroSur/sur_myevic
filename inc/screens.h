@@ -206,7 +206,7 @@ extern const uint8_t String_COM[];
 extern const uint8_t String_DSK[];
 extern const uint8_t String_DBG[];
 extern const uint8_t String_X32[];
-extern const uint8_t String_NFE[];
+extern const uint8_t String_PCT[];
 extern const uint8_t String_Saver[];
 extern const uint8_t String_Preheat[];
 extern const uint8_t String_Time[];

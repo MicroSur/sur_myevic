@@ -34,7 +34,7 @@ uint16_t	KeyPressTime;
 
 __myevic__ int PCGetPoint()
 {
-	int t = EditItemIndex * 5;
+	int t = EditItemIndex; //* 5;
 	int i;
 
 	for ( i = 0 ; i < PWR_CURVE_PTS ; ++i )
@@ -63,7 +63,7 @@ __myevic__ int PCAddPoint()
 {
 	int i;
 
-	int t = EditItemIndex * 5;
+	int t = EditItemIndex; // * 5;
 
 	if ( t == 0 )
 		return 0;
@@ -352,7 +352,7 @@ __myevic__ void GetUserInput()
 				case 1:
 					FireClicksEvent = 15;	// single click
 
-					if ( Screen != 1 || !EditModeTimer || EditItemIndex != 4 )
+					if ( Screen != 1 || !EditModeTimer || ( EditItemIndex != 4 && EditItemIndex != 5 ) )
 					{
 						Event = 1;	// fire
 					}
@@ -416,13 +416,13 @@ __myevic__ void GetUserInput()
 					Event = 17;	// Switch On/Off
 					break;
 
-				case 10:
-					Event = 17;	// Switch Back
-					FireClicksEvent = 31;	// board temp screen
+				case 6:
+					//Event = 17;	// Switch Back
+					FireClicksEvent = 31;	// board temp screen from off state
 					break;
 
-				case 20:
-					Event = 29;	// firmware version screen
+				case 7:
+					Event = 29;	// firmware version screen from off state
 					break;
 			}
 		}
@@ -519,23 +519,33 @@ __myevic__ void GetUserInput()
 	}
 	else if ( KeyPressTime == 200 )
 	{
-		if ( UserInputs == 1 )
-		{
-			if (( Screen == 1 )
-			&& (( EditModeTimer > 0 ) && ( EditItemIndex == 4 )))
+		if ( UserInputs == 1 ){
+                    if (( Screen == 1 ) && ( EditModeTimer > 0 )){   
+			if ( EditItemIndex == 4 ) //3-d info line
 			{
 				EditModeTimer = 1000;
+				if ( dfAPT3 == 1 )
+					Event = 22;	// puff reset
+				if ( dfAPT3 == 2 )
+					Event = 23;	// time reset
+				if ( dfAPT3 == 3 )
+					Event = EVENT_RESET_VVEL;	// vvel reset
+			}
+                        else if ( EditItemIndex == 5 ) 
+                        {
+                                EditModeTimer = 1000;
 				if ( dfAPT == 1 )
 					Event = 22;	// puff reset
 				if ( dfAPT == 2 )
 					Event = 23;	// time reset
 				if ( dfAPT == 3 )
-					Event = EVENT_RESET_VVEL;	// vvel reset
-			}
-			else
-			{
+					Event = EVENT_RESET_VVEL;	// vvel reset        
+                        }
+			else{
 				Event = EVENT_LONG_FIRE;
 			}
+                    }
+                        
 		}
 		else if ( UserInputs == 4 )
 		{

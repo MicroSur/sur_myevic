@@ -217,8 +217,8 @@ const Battery_t const Batteries[] =
 			{  63, 389 },
 			{  78, 403 },
 			{  91, 409 },
-			{  99, 416 },
-			{ 100, 420 }
+			{  99, 416 }, 
+			{ 100, 420 } 
 		},
 		280,
 		20,
@@ -1021,32 +1021,36 @@ __myevic__ int CheckBattery()
 		)
 	{
 		v0 = 1;
-		PowerScale = 100 * BatteryMaxPwr / pwr;
+		//PowerScale = 100 * BatteryMaxPwr / pwr;
 	}
 
 	if ( v0 || gFlags.limit_power || bv < limit_voltage )
 	{
 		if ( !gFlags.limit_power || !gFlags.read_bir )
 		{
-			ShowWeakBatFlag = 5;
+			ShowWeakBatFlag = 2; //5;
 		}
 
 		gFlags.limit_power = 0;
-		gFlags.decrease_voltage = 1;
+		gFlags.decrease_voltage = 0; //1;
 
+/*
 		if ( ISMODEVW(dfMode) && ( PowerScale > 5 ))
 		{
 			--PowerScale;
 		}
+*/
 	}
 	else
 	{
 		gFlags.decrease_voltage = 0;
 
+/*
 		if (( PowerScale < 100 ) && ( bv > limit_voltage ))
 		{
 			++PowerScale;
 		}
+*/
 	}
 	return 0;
 }
@@ -1669,7 +1673,7 @@ __myevic__ void LoadCustomBattery()
 //-------------------------------------------------------------------------
 __myevic__ void ResetCustomBattery()
 {
-	SaveCustomBattery( &Batteries[0] );
+	SaveCustomBattery( &Batteries[0] ); //[0]
 	LoadCustomBattery();
 }
 

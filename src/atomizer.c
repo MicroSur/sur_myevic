@@ -623,7 +623,7 @@ __myevic__ void CheckMode()
 			dfMillis |= ( word_200000B8 % 10 ) << 12;
 		}
 
-		if ( AtoRez < 10 )
+		if ( AtoRez < 5 )
 		{
 			StopFire();
 			Event = 27;
@@ -1093,7 +1093,7 @@ __myevic__ void TweakTargetVoltsVW()
 	}
 
 	pwr = AtoPowerLimit( pwr );
-	TargetVolts = GetVoltsForPower( pwr * PowerScale / 100 );
+	TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
 }
 
 

@@ -415,7 +415,7 @@ __myevic__ void ResetDataFlash()
 	dfProtec = FIRE_PROTEC_DEF;
 	dfVWVolts = 330;
 	dfPower = 200;
-	dfTCPower = 200;
+	dfTCPower = 300;
 	dfIsCelsius = 1;
 	dfRezType = 1;
 	dfTempAlgo = 1;
@@ -423,6 +423,7 @@ __myevic__ void ResetDataFlash()
 //	dfResistance = 0;
 	dfUIVersion = 2;
 //	dfAPT = 0;
+//	dfAPT3 = 0;
 //	dfRezTI = 0;
 //	dfRezNI = 0;
 //	dfRezLockedTI = 0;
@@ -443,42 +444,44 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.storage = 0;
 //	dfStatus.dbgena = 0;
 	dfStatus.x32off = X32Off;
-//	dfStatus.onewatt = 0;
+	dfStatus.onewatt = 1;
 //	dfStatus.digclk = 0;
-//	dfStatus.battpc = 0;
+	dfStatus.battpc = 1;
+        dfStatus.battv = 0;
 //	dfStatus.phpct = 0;
-//	dfStatus.wakeonpm = 0;
+	dfStatus.wakeonpm = 1;
 //	dfStatus.font = 0;
-//	dfStatus.nfe = 0;
+	dfStatus.nfe = 0;
 //	dfRezSS = 0;
 //	dfRezLockedSS = 0;
 //	dfRezTCR = 0;
 //	dfRezLockedTCR = 0;
 //	dfTCRIndex = 0;
-//	dfScrMainTime = 0;
-	dfTCRM[0] = 100;
-	dfTCRM[1] = 110;
-	dfTCRM[2] = 120;
-	dfScreenSaver = SSAVER_CLOCK;
+	dfScrMainTime = 5; //ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
+	dfTCRM[0] = 90;
+	dfTCRM[1] = 100;
+	dfTCRM[2] = 110;
+	dfScreenSaver = SSAVER_QIX;
 //	dfTCMode = 0;
-//	dfScreenProt = 0;
+	dfScreenProt = 0;
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
 //	MemClear( dfSavedCfgPwr, sizeof(dfSavedCfgPwr) );
 //	dfFBBest = 0;
 //	dfFBSpeed = 0;
 //	dfBattPC = 0;
         dfTTBest = 0;
+        dfTTSpeed = 2;
 	dfContrast = 45;
 //	dfModesSel = 0;
 	dfClkRatio = RTC_DEF_CLK_RATIO;
 	dfVVRatio = VVEL_DEF_RATIO;
 //	dfPreheatTime = 0;
-	dfClick[0] = CLICK_ACTION_CLOCK;
-	dfClick[1] = CLICK_ACTION_EDIT;
-//	dfClick[2] = CLICK_ACTION_NONE;
-	dfDimTimeout = 30;
+	dfClick[0] = CLICK_ACTION_EDIT;
+	dfClick[1] = CLICK_ACTION_ON_OFF;
+	dfClick[2] = CLICK_ACTION_TETRIS;
+	dfDimTimeout = 20; //see dfScrMainTime
 //	dfBatteryModel = 0;
-	dfPreheatPwr = 200;
+	dfPreheatPwr = 300;
 	dfTCAlgo = TCALGO_DEF;
 	dfTCBoost = 50;
 	dfPID.P = PID_P_DEF;
@@ -529,7 +532,10 @@ __myevic__ void DFCheckValuesValidity()
 
 	if ( dfAPT > 8 )
 		dfAPT = 0;
-
+        
+	if ( dfAPT3 > 8 )
+		dfAPT3 = 0;
+        
 	if ( dfTempAlgo != 1 && dfTempAlgo != 2 && dfTempAlgo != 3 && dfTempAlgo != 4 )
 		dfTempAlgo = 1;
 
@@ -567,7 +573,7 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfStealthOn > 1 )
 		dfStealthOn = 0;
 
-	if (( dfTempCoefsNI <= 200 ) || ( dfTempCoefsNI <= 100 ))
+	if (( dfTempCoefsNI <= 200 ) || ( dfTempCoefsTI <= 100 ))
 	{
 		dfTempCoefsNI = 201;
 		dfTempCoefsTI = 101;

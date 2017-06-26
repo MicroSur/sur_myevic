@@ -185,6 +185,7 @@ typedef struct dfParams
 /* 00E3 */	int8_t		BVOffset[4];
 /* 00E7 */	uint16_t	TTBest;
 /* 00E9 */	uint8_t		TTSpeed;
+/* 00EA */	uint8_t		APT3;
 }
 dfParams_t;
 
@@ -317,6 +318,7 @@ extern dfStruct_t DataFlash;
 #define dfTCPower		DFP(TCPower)
 #define dfVWVolts		DFP(VWVolts)
 #define dfAPT			DFP(APT)
+#define dfAPT3			DFP(APT3)
 #define dfRezType		DFP(RezType)
 #define dfTempAlgo		DFP(TempAlgo)
 #define dfIsCelsius		DFP(IsCelsius)

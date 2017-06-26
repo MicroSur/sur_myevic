@@ -49,7 +49,8 @@ __myevic__ void DrawScreen()
 	if ( Screen == 2 && FireDuration && FireDuration != CurrentFD )
 	{
 		CurrentFD = FireDuration;
-		ScreenDuration = ISMODETC(dfMode) ? 1 : 3;
+		//ScreenDuration = ISMODETC(dfMode) ? 1 : 2;
+                ScreenDuration = 2;
 		TenthOfSecs = 0;
 		gFlags.refresh_display = 1;
 	}
@@ -509,7 +510,7 @@ __myevic__ void ShowRTCSpeed()
 
 __myevic__ int IsClockOnScreen()
 {
-	return (  ((( Screen == 1 ) || ( Screen == 2 )) && ( dfAPT == 8 ))
+	return (  ((( Screen == 1 ) || ( Screen == 2 )) && ( ( dfAPT == 8 ) || ( dfAPT3 == 8 ) ) )
 			|| (( Screen == 1 ) && ( dfStatus.clock ))
 			|| (( Screen == 60 ) && ( dfScreenSaver == SSAVER_CLOCK ))
 			||  ( Screen == 103 )
@@ -522,7 +523,7 @@ __myevic__ int IsClockOnScreen()
 //----- (000067C8) --------------------------------------------------------
 __myevic__ void ShowBattery()
 {
-	if ( BLINKITEM(5) ) return;
+	if ( BLINKITEM(6) ) return;
 
 	if ( dfStatus.battpc )
 	{
@@ -534,8 +535,8 @@ __myevic__ void ShowBattery()
 		}
 		else
 		{
-			DrawValueRight(	18, 118, BatteryPercent, 0, 0x0B, 0 );
-			DrawImage( 19, 118, 0xC2 );
+			DrawValueRight(	17, 118, BatteryPercent, 0, 0x0B, 0 );
+			DrawImage( 18, 118, 0xC2 );
 		}
 	}
 
@@ -1029,7 +1030,7 @@ __myevic__ void ShowPowerCurve()
 	DrawVLine( 10,  27, 126, 1 );
 	DrawVLine( 60,  27, 126, 1 );
 
-	int t = EditItemIndex * 5;
+	int t = EditItemIndex; // * 5;
 	int j = -1;
 
 	for ( int i = 0; i < PWR_CURVE_PTS; ++i )
@@ -1074,7 +1075,7 @@ __myevic__ void ShowPowerCurve()
 
 	if ( !gFlags.edit_value || gFlags.draw_edited_item )
 	{
-		DrawImage( 6, 23 + EditItemIndex * 2 , 0xD4 );
+		DrawImage( 6, 23 + EditItemIndex * 5 , 0xD4 ); //2
 	}
 
 	DrawImage( 12, 3, 0xAF );

@@ -204,7 +204,7 @@ __myevic__ void EventHandler()
 
 			if ( BatteryStatus == 2 )
 			{
-				Screen = 56;
+				Screen = 56; // Check Battery
 				ScreenDuration = 2;
 				gFlags.refresh_display = 1;
 				return;
@@ -212,7 +212,7 @@ __myevic__ void EventHandler()
 
 			if ( BatteryStatus == 3 )
 			{
-				Screen = 57;
+				Screen = 57; // Check USB Adapter
 				ScreenDuration = 2;
 				gFlags.refresh_display = 1;
 				return;
@@ -220,7 +220,7 @@ __myevic__ void EventHandler()
 
 			if ( BatteryStatus == 4 )
 			{
-				Screen = 58;
+				Screen = 58; // Charge Error
 				ScreenDuration = 2;
 				gFlags.refresh_display = 1;
 				return;
@@ -228,10 +228,10 @@ __myevic__ void EventHandler()
 
 			if ( gFlags.low_battery )
 			{
-				if ( BatteryVoltage < BatteryCutOff + 50 )
+				if ( BatteryVoltage < BatteryCutOff + 20) //+ 50 )
 				{
 					gFlags.refresh_display = 1;
-					Screen = 25;
+					Screen = 25; //Battery Low Lock
 					ScreenDuration = 2;
 					KeyPressTime |= 0x8000;
 					return;
@@ -242,7 +242,7 @@ __myevic__ void EventHandler()
 				}
 			}
 
-			if ( BatteryVoltage <= BatteryCutOff + 30 )
+			if ( BatteryVoltage <= BatteryCutOff ) //+ 30 )
 			{
 				Event = 28;
 				gFlags.low_battery = 1;
@@ -258,7 +258,7 @@ __myevic__ void EventHandler()
 			while ( AtoStatus == 4 && AtoProbeCount < 12 )
 			{
 				ProbeAtomizer();
-				WaitOnTMR2( 10 );
+                                WaitOnTMR2( 10 );
 			}
 
 			switch ( AtoStatus )
@@ -641,7 +641,7 @@ __myevic__ void EventHandler()
 
 			if ( !ISMODETC(dfMode) )
 			{
-				if ( AtoRez < 10 )
+				if ( AtoRez < 5 )
 				{
 					StopFire();
 					Event = 27;
@@ -694,15 +694,17 @@ __myevic__ void EventHandler()
 					pwr = PreheatPower;
 				}
 
-				if ( pwr > 300 ) pwr = 300;
 
 				gFlags.limit_power = 0;
+/*
+ *                              if ( pwr > 300 ) pwr = 300;
 				if ( pwr > BatteryMaxPwr )
 				{
 					gFlags.limit_power = 1;
 					PowerScale = 100 * BatteryMaxPwr / pwr;
 					pwr = BatteryMaxPwr;
 				}
+*/
 
 				TargetVolts = GetVoltsForPower( pwr );
 
@@ -1090,11 +1092,11 @@ __myevic__ void EventHandler()
 					}
 					else if ( !ISMODETC(dfMode) )
 					{
-						if ( dfMode == 6 )
+						if ( dfMode == 6 ) //smart
 						{
 							if ( EditItemIndex == 0 )
 							{
-								EditItemIndex = 5;
+								EditItemIndex = 6;
 							}
 							else
 							{
@@ -1109,14 +1111,14 @@ __myevic__ void EventHandler()
 							}
 							else
 							{
-								if ( ++EditItemIndex > 5 )
+								if ( ++EditItemIndex > 6 )
 									EditItemIndex = 0;
 							}
 						}
 					}
 					else
 					{
-						if ( ++EditItemIndex > 5 )
+						if ( ++EditItemIndex > 6 )
 							EditItemIndex = 0;
 					}
 				}
@@ -1253,11 +1255,15 @@ __myevic__ void EventHandler()
 							SwitchRezLock();
 							break;
 
-						case 4:
+                                                case 4:
+							if ( ++dfAPT3 > 8 ) dfAPT3 = 0;
+							break;
+                                                        
+                                                case 5: //4:
 							if ( ++dfAPT > 8 ) dfAPT = 0;
 							break;
 
-						case 5:
+                                                case 6: //5:
 							if ( !dfStatus.battpc )
 							{
 								dfStatus.battpc = 1;

@@ -199,7 +199,7 @@ $(TARGET)_dec.bin: $(OBJS_FIXPATH) $(MYEVIC_OBJS)
     export LANG=C.UTF-8
 
 $(TARGET).bin: $(TARGET)_dec.bin
-	evic convert $(OUTDIR)/$(TARGET)_dec.bin -o $(OUTDIR)/$(TARGET).bin
+	# evic convert $(OUTDIR)/$(TARGET)_dec.bin -o $(OUTDIR)/$(TARGET).bin
 
 docs:
 	doxygen

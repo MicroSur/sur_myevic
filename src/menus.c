@@ -683,7 +683,7 @@ __myevic__ int PreheatMEvent( int event )
 				{
 					if ( dfStatus.onewatt )
 					{
-						dfPreheatPwr -= dfPreheatPwr % 10;
+						dfPreheatPwr -= dfPreheatPwr % 10; //correct to int
 					}
 					if ( dfStatus.phpct )
 					{
@@ -719,7 +719,7 @@ __myevic__ int PreheatMEvent( int event )
 						PowerMinus( &dfPreheatPwr, 50, 300 );
 					}
 					else
-					{
+					{                                      
 						PowerMinus( &dfPreheatPwr, AtoMinPower, AtoMaxPower );
 					}
 				}
@@ -778,61 +778,62 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 
 	switch ( it )
 	{
-		case 0:	// USB
-			if ( dfStatus.vcom )
-				DrawString( String_COM, 36, line+2 );
-			else if ( dfStatus.storage )
-				DrawString( String_DSK, 36, line+2 );
-			else
-				DrawString( String_HID, 36, line+2 );
-			break;
-
-		case 1:	// DBG
-			if ( dfStatus.dbgena )
-				DrawString( String_ON, 36, line+2 );
-			else
-				DrawString( String_OFF, 36, line+2 );
-			break;
-
-		case 2:	// X32
+		case 0:	// BVO                      
+                        break;
+                        
+		case 1:	// X32
 			if ( dfStatus.x32off )
-				DrawString( String_OFF, 36, line+2 );
+				DrawString( String_OFF, 40, line+2 );
 			else
-				DrawString( String_ON, 36, line+2 );
+				DrawString( String_ON, 40, line+2 );
 			break;
-
-		case 3:	// LSL
+                    
+		case 2:	// LSL
 			if ( dfStatus.lsloff )
-				DrawString( String_OFF, 36, line+2 );
+				DrawString( String_OFF, 40, line+2 );
 			else
-				DrawString( String_ON, 36, line+2 );
+				DrawString( String_ON, 40, line+2 );
 			break;
 
-		case 4:	// NFE
-			if ( dfStatus.nfe )
-				DrawString( String_ON, 36, line+2 );
-			else
-				DrawString( String_OFF, 36, line+2 );
-			break;
-
-		case 5:	// SHR
-			DrawValue( 36, line+2, AtoShuntRez, 0, 0x0B, 3 );
+		case 3:	// SHR
+			DrawValue( 40, line+2, AtoShuntRez, 0, 0x0B, 3 );
 			if ( gFlags.edit_value && sel )
 				InvertRect( 0, line, 63, line+12 );
-			break;
+			break;                    
 
-		case 6:	// UCH
+		case 4:	// UCH
 			if ( dfStatus.usbchgoff )
-				DrawString( String_OFF, 36, line+2 );
+				DrawString( String_OFF, 40, line+2 );
 			else
-				DrawString( String_ON, 36, line+2 );
+				DrawString( String_ON, 40, line+2 );
+			break;                   
+
+		case 5:	// BAT profile
+			DrawString( GetBatteryName(), 40, line+2 );
 			break;
 
-		case 7:	// BAT
-			DrawString( GetBatteryName(), 36, line+2 );
+		case 6:	// USB
+			if ( dfStatus.vcom )
+				DrawString( String_COM, 40, line+2 );
+			else if ( dfStatus.storage )
+				DrawString( String_DSK, 40, line+2 );
+			else
+				DrawString( String_HID, 40, line+2 );
 			break;
 
-		case 8:	// BVO
+		case 7:	// DBG
+			if ( dfStatus.dbgena )
+				DrawString( String_ON, 40, line+2 );
+			else
+				DrawString( String_OFF, 40, line+2 );
+			break;
+
+		case 8:	// PC Tools
+			if ( dfStatus.nfe )
+				DrawString( String_ON, 40, line+2 );
+			else
+				DrawString( String_OFF, 40, line+2 );
+			break;
 		default:
 			break;
 	}
@@ -842,7 +843,33 @@ __myevic__ void ExpertMenuOnClick()
 {
 	switch ( CurrentMenuItem )
 	{
-		case 0:	// USB
+		case 0:	// BVO
+			break;
+                    
+		case 1:	// X32
+			dfStatus.x32off ^= 1;
+			break;
+                   
+		case 2:	// LSL
+			dfStatus.lsloff ^= 1;
+			break;
+                    
+		case 3:	// SHR
+			if ( !(gFlags.edit_value ^= 1) )
+				dfShuntRez = AtoShuntRez;
+			break;
+                    
+		case 4:	// UCH
+			dfStatus.usbchgoff ^= 1;
+			break;
+                   
+		case 5:	// BAT
+			if ( ++dfBatteryModel >= GetNBatteries() )
+				dfBatteryModel = 0;
+			SetBatteryModel();
+			break;
+
+		case 6:	// USB
 			if ( dfStatus.vcom )
 			{
 				dfStatus.vcom = 0;
@@ -858,43 +885,17 @@ __myevic__ void ExpertMenuOnClick()
 			}
 			InitUSB();
 			break;
-
-		case 1:	// DBG
+                    
+		case 7:	// DBG
 			dfStatus.dbgena ^= 1;
 			if ( ! dfStatus.dbgena ) gFlags.debug = 0;
 			break;
-
-		case 2:	// X32
-			dfStatus.x32off ^= 1;
-			break;
-
-		case 3:	// LSL
-			dfStatus.lsloff ^= 1;
-			break;
-
-		case 4:	// NFE
+                    
+		case 8:	// PCT
 			dfStatus.nfe ^= 1;
 			break;
-
-		case 5:	// SHR
-			if ( !(gFlags.edit_value ^= 1) )
-				dfShuntRez = AtoShuntRez;
-			break;
-
-		case 6:	// UCH
-			dfStatus.usbchgoff ^= 1;
-			break;
-
-		case 7:	// BAT
-			if ( ++dfBatteryModel >= GetNBatteries() )
-				dfBatteryModel = 0;
-			SetBatteryModel();
-			break;
-
-		case 8:	// BVO
-			break;
-
-		case 9:	// Back
+                        
+                case 9:	// Back
 			UpdateDataFlash();
 			break;
 	}
@@ -913,7 +914,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
 				break;
 			switch ( CurrentMenuItem )
 			{
-				case 5:	// Shunt Rez
+				case 3:	// Shunt Rez
 					if ( ++AtoShuntRez > SHUNT_MAX_VALUE )
 					{
 						AtoShuntRez = ( KeyTicks == 0 ) ? SHUNT_MIN_VALUE : SHUNT_MAX_VALUE;
@@ -928,7 +929,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
 				break;
 			switch ( CurrentMenuItem )
 			{
-				case 5:	// Shunt Rez
+				case 3:	// Shunt Rez
 					if ( --AtoShuntRez < SHUNT_MIN_VALUE )
 					{
 						AtoShuntRez = ( KeyTicks == 0 ) ? SHUNT_MAX_VALUE : SHUNT_MIN_VALUE;
@@ -941,14 +942,14 @@ __myevic__ int ExpertMenuOnEvent( int event )
 		case EVENT_LONG_FIRE:
 			switch ( CurrentMenuItem )
 			{
-				case 5:	// Shunt Rez
+				case 3:	// Shunt Rez
 					AtoShuntRez = GetShuntRezValue();
 					dfShuntRez = 0;
 					gFlags.edit_value = 0;
 					vret = 1;
 					break;
 
-				case 7:	// Battery model
+				case 5:	// Battery model
 					dfBatteryModel = BATTERY_CUSTOM;
 					SetBatteryModel();
 					vret = 1;
@@ -1976,15 +1977,15 @@ const menu_t ExpertMenu =
 	ExpertMenuOnEvent+1,
 	10,
 	{
+                { String_BVO, &BVOMenu, 0, MACTION_SUBMENU },
+                { String_X32, 0, 0, 0 },
+                { String_LSL, 0, 0, 0 }, 
+                { String_SHR, 0, 0, 0 }, 
+                { String_UCH, 0, 0, 0 }, 
+                { String_BAT, 0, 0, 0 },        
 		{ String_USB, 0, 0, 0 },
 		{ String_DBG, 0, 0, 0 },
-		{ String_X32, 0, 0, 0 },
-		{ String_LSL, 0, 0, 0 },
-		{ String_NFE, 0, 0, 0 },
-		{ String_SHR, 0, 0, 0 },
-		{ String_UCH, 0, 0, 0 },
-		{ String_BAT, 0, 0, 0 },
-		{ String_BVO, &BVOMenu, 0, MACTION_SUBMENU },
+		{ String_PCT, 0, 0, 0 },		
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

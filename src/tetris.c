@@ -288,11 +288,13 @@ void DrawDot(int X, int Y, uint8_t dot) {
     DrawFillRect(X, Y, X + 4, Y + 4, dot);
 }
 
+/*
 void DrawHole(int X, int Y) {
     X = oledX(X);
     Y = oledY(Y);
     DrawFillRect(X + 1, Y + 1, X + 3, Y + 3, 0);
 }
+*/
 
 void DrawBoard() {
     //21
@@ -476,8 +478,8 @@ void CompletedLines() {
             //make line values 3's and render
             for (int c = 2; c < 12; c++) {
                 tetrisScreen[c][rowCheck] = 3; //to del
-                 DrawHole(c, rowCheck); 
-                 DisplayRefresh();
+                 //DrawHole(c, rowCheck); //animation
+                 //DisplayRefresh();
             }
             //  bottomRow = rowCheck - 1; ?
             linesProcessed++;

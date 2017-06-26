@@ -143,10 +143,10 @@ __myevic__ void DrawTime( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 	if ( gFlags.draw_edited_item ) colors = 0x1F;
 
 	if (colors&0x10) DrawValue( x   , y, rtd->u32Hour, 0, 0x1F, 2 );
-	if (colors&0x08) DrawImage( x+16, y, 0xDD );
-	if (colors&0x04) DrawValue( x+19, y, rtd->u32Minute, 0, 0x1F, 2 );
-	if (colors&0x02) DrawImage( x+35, y, 0xDD );
-	if (colors&0x01) DrawValue( x+38, y, rtd->u32Second, 0, 0x1F, 2 );
+	if (colors&0x08) DrawImage( x+17, y, 0xDD );
+	if (colors&0x04) DrawValue( x+21, y, rtd->u32Minute, 0, 0x1F, 2 );
+	if (colors&0x02) DrawImage( x+38, y, 0xDD );
+	if (colors&0x01) DrawValue( x+42, y, rtd->u32Second, 0, 0x1F, 2 );
 }
 
 typedef struct
@@ -301,6 +301,15 @@ __myevic__ void DrawHLine( const int x1, const int y, const int x2, const int co
 	}
 }
 
+__myevic__ void DrawHLineDots( const int x1, const int y, const int x2, const int color )
+{
+	int inc = ( x1 < x2 ) * 2 - 1;
+
+	for ( int x = x1 ; x != x2 + inc ; x += 2 * inc )
+	{
+		DrawPoint( x, y, color );
+	}
+}
 
 //=========================================================================
 __myevic__ void DrawVLine( const int x, const int y1, const int y2, const int color )

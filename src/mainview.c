@@ -187,10 +187,19 @@ __myevic__ void DrawCoilLine( int line )
 
 	if ( gFlags.firing )
 	{
-		rez = AtoRezMilli;
+		rez = AtoRezMilli / 10;
 	}
 	else if ( ISMODETC(dfMode) )
 	{
+            	if ( byte_200000B3 || !AtoRez )
+		{
+			rez = AtoRez;
+		}
+		else
+		{
+			rez = dfResistance;
+		}
+/*
 		if ( byte_200000B3 || !AtoRez )
 		{
 			rez = AtoRez * 10 + AtoMillis;
@@ -199,18 +208,22 @@ __myevic__ void DrawCoilLine( int line )
 		{
 			rez = dfResistance * 10 + RezMillis;
 		}
+*/
 	}
 	else
 	{
-		rez = AtoRez * 10 + AtoMillis;
+		rez = AtoRez; // * 10 + AtoMillis;
 	}
 
+        DrawValue( 27, line, rez, 2, 0x1F, 3 );
+/*
 	if ( rez < 1000 )
 		DrawValueRight( 55, line, rez, 3, 0x1F, 3 );
 	else
 		DrawValueRight( 55, line, rez / 10, 2, 0x1F, 3 );
+*/
 
-	if ((( dfMode == 0 ) && ( dfRezLockedNI ))
+	if     ((( dfMode == 0 ) && ( dfRezLockedNI ))
 	||	(( dfMode == 1 ) && ( dfRezLockedTI ))
 	||	(( dfMode == 2 ) && ( dfRezLockedSS ))
 	||	(( dfMode == 3 ) && ( dfRezLockedTCR )))
@@ -224,8 +237,8 @@ __myevic__ void DrawCoilLine( int line )
 
 	if ( rez )
 	{
-		if (   ( ISMODETC(dfMode) && ( rez > 1500 ) )
-			|| ( ISMODEVW(dfMode) && ( rez <  100 ) ) )
+		if (   ( ISMODETC(dfMode) && ( rez > 150 ) )
+			|| ( ISMODEVW(dfMode) && ( rez < 5 ) ) )
 		{
 			if ( gFlags.osc_1hz )
 			{
@@ -240,7 +253,7 @@ __myevic__ void DrawCoilLine( int line )
 
 __myevic__ void DrawAPTLine( int line )
 {
-	if ( BLINKITEM(4) )
+	if ( BLINKITEM(5) )
 		return;
 
 	switch ( dfAPT )
@@ -286,16 +299,17 @@ __myevic__ void DrawAPTLine( int line )
 			if ( vv > 9999 ) vv = 9999;
 			if ( dfStatus.vapedml )
 			{
-				DrawString( String_LIQ_s, 0, line+2 );
-				DrawString( String_ml, 52, line+2 );
-				DrawValueRight( 50, line, vv, 2, 0x1F, 0 );
+				//DrawString( String_LIQ_s, 0, line+2 );
+				DrawString( String_ml, 0, line+2 );
+				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
 			}
 			else
 			{
 				vv = vv * 86400 / ( t ? : 1 );
-				DrawString( String_mld, 42, line+2 );
-				DrawValueRight( 40, line, vv, 2, 0x1F, 0 );
+				DrawString( String_mld, 0, line+2 );
+				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
 			}
+                        DrawImage( 56, line+2, 0xCD ); //flask
 			break;
 		}
 
@@ -329,9 +343,9 @@ __myevic__ void DrawAPTLine( int line )
 		case 7:	// Real-time atomizer resistance
 		{
 			int rez = AtoError ? 0 : AtoRezMilli;
-			int nd = ( rez < 1000 ) ? 3 : 4;
+			//int nd = ( rez < 1000 ) ? 3 : 4;
 			DrawString( String_RES_s, 0, line+2 );
-			DrawValueRight( 55, line, rez, 3, 0x1F, nd );
+			DrawValueRight( 55, line, rez, 3, 0x1F, 4 );
 			DrawImage( 56, line+2, 0xC0 );
 			// Refresh every second
 			ScreenRefreshTimer = 10;
@@ -342,12 +356,124 @@ __myevic__ void DrawAPTLine( int line )
 		{
 			S_RTC_TIME_DATA_T rtd;
 			GetRTC( &rtd );
-			DrawTime( 5, line, &rtd, 0x1F );
+			DrawTime( 3, line, &rtd, 0x1F );
 			break;
 		}
 	}
 }
 
+//=============================================================================
+
+__myevic__ void DrawAPTLine3( int line )
+{
+	if ( BLINKITEM(4) )
+		return;
+
+	switch ( dfAPT3 )
+	{
+		default:
+		case 0:	// Current
+		{
+			DrawString( String_AMP_s, 0, line+2 );
+			DrawValue( 27, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 3 );
+			DrawImage( 56, line+2, 0x9C );
+			break;
+		}
+
+		case 1:	// Puff counter
+		{
+			DrawString( String_PUFF_s, 0, line+2 );
+			DrawValueRight( 24+8*5, line, dfPuffCount, 0, 0x1F, 0 );
+			break;
+		}
+
+		case 2:	// Time counter
+		{
+		//	DrawString( String_TIME_s, 0, line+2 );
+		//	DrawValue( 24, line, dfTimeCount / 10, 0, 0x1F, 5 );
+			DrawString( String_PUFF_s, 0, line+2 );
+			DrawValueRight( 34, line+2, dfTimeCount / 36000, 0, 0x0B, 0 );
+			DrawImage( 34, line+2, 0xD7 );
+			DrawValue( 37, line+2, dfTimeCount / 600 % 60, 0, 0x0B, 2 );
+			DrawImage( 49, line+2, 0xD7 );
+			DrawValue( 52, line+2, dfTimeCount / 10 % 60, 0, 0x0B, 2 );
+			break;
+		}
+
+		case 3:	// Vape Velocity
+		{
+			uint32_t vv, t;
+			// Elasped seconds since last VV reset
+			t = RTCGetEpoch( 0 );
+			t -= RTCReadRegister( RTCSPARE_VV_BASE );
+
+			vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
+			vv /= 10;
+			if ( vv > 9999 ) vv = 9999;
+			if ( dfStatus.vapedml )
+			{
+				//DrawString( String_LIQ_s, 0, line+2 );
+				DrawString( String_ml, 0, line+2 );
+				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
+			}
+			else
+			{
+				vv = vv * 86400 / ( t ? : 1 );
+				DrawString( String_mld, 0, line+2 );
+				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
+			}
+                        DrawImage( 56, line+2, 0xCD ); //flask
+			break;
+		}
+
+		case 4:	// Atomizer voltage
+		{
+			DrawString( String_VOUT_s, 0, line+2 );
+			DrawValue( 27, line, gFlags.firing?AtoVolts:0, 2, 0x1F, 3 );
+			DrawImage( 57, line+2, 0x97 );
+			break;
+		}
+
+		case 5:	// Battery voltage
+		{
+			DrawString( String_BATT_s, 0, line+2 );
+			DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
+			DrawImage( 57, line+2, 0x97 );
+			break;
+		}
+
+		case 6:	// Board temperature
+		{
+			DrawString( String_BOARD_s, 0, line+2 );
+
+			int t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+
+			DrawValue( t>99?31:39, line, t, 0, 0x1F, t>99?3:2 );
+			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			break;
+		}
+
+		case 7:	// Real-time atomizer resistance
+		{
+			int rez = AtoError ? 0 : AtoRezMilli;
+			//int nd = ( rez < 1000 ) ? 3 : 4;
+			DrawString( String_RES_s, 0, line+2 );
+			DrawValueRight( 55, line, rez, 3, 0x1F, 4 );
+			DrawImage( 56, line+2, 0xC0 );
+			// Refresh every second
+			ScreenRefreshTimer = 10;
+			break;
+		}
+
+		case 8:	// Real-time clock
+		{
+			S_RTC_TIME_DATA_T rtd;
+			GetRTC( &rtd );
+			DrawTime( 3, line, &rtd, 0x1F );
+			break;
+		}
+	}
+}
 
 //=============================================================================
 __myevic__ void ShowFireDuration( int line )
@@ -389,17 +515,17 @@ __myevic__ void DrawInfoLines()
 			case 3:
 				if ( dfStatus.priopwr )
 				{
-					DrawTempLine( 52 );
+					DrawTempLine( 46 ); //52 );
 				}
 				else
 				{
-					DrawPwrLine( AtoPower( AtoVolts ), 52 );
+					DrawPwrLine( AtoPower( AtoVolts ), 46 ); //52 );
 				}
 				break;
 			case 4:
 			case 5:
 			{
-				ShowFireDuration( 49 );
+				ShowFireDuration( 43 ); //49 );
 				break;
 			}
 			default:
@@ -416,26 +542,27 @@ __myevic__ void DrawInfoLines()
 			case 3:
 				if ( dfStatus.priopwr )
 				{
-					DrawTempLine( 52 );
+					DrawTempLine( 46 ); //52 );
 				}
 				else
 				{
-					DrawPwrLine( dfTCPower, 52 );
+					DrawPwrLine( dfTCPower, 46 ); //52 );
 				}
 				break;
 			case 4:
-				DrawVoltsLine( dfVWVolts, 52 );
+				DrawVoltsLine( dfVWVolts, 46 ); //52 );
 				break;
 			case 5:
-				DrawVoltsLine( BypassVolts, 52 );
+				DrawVoltsLine( BypassVolts, 46 ); //52 );
 				break;
 			default:
 				break;
 		}
 	}
 
-	DrawCoilLine( 71 );
-	DrawAPTLine( 90 );
+	DrawCoilLine( 63 ); //71 );
+        DrawAPTLine3( 80 );
+	DrawAPTLine( 97 ); //90 );
 }
 
 
@@ -490,7 +617,7 @@ __myevic__ void DrawPower( int pwr )
 		yp = 13;
 
 		DrawValue( 5, 13, pwr, 1, 0x48, 2 );
-		DrawImage( 46, 19, 0xB9 );
+		DrawImage( 46, 20, 0xB9 ); //W
 	}
 	else
 	{
@@ -507,7 +634,7 @@ __myevic__ void DrawPower( int pwr )
 		//	DrawValue( 0, 18, pwr, 1, 0x29, 4 );
 		}
 
-		DrawImage( 54, 27, 0x98 );
+		DrawImage( 54, 28, 0x98 ); //w
 	}
 
 	if ( ISMODEVW(dfMode) )
@@ -516,14 +643,14 @@ __myevic__ void DrawPower( int pwr )
 		{
 			if ( !PreheatDelay || gFlags.osc_1hz )
 			{
-				DrawImage( xp, yp, 0x6A );
+				DrawImage( xp, yp, 0x6A ); //C
 			}
 		}
 		else if ( dfPreheatTime )
 		{
 			if ( !PreheatDelay || gFlags.osc_1hz )
 			{
-				DrawImage( xp, yp, 0x77 );
+				DrawImage( xp, yp, 0x77 ); //P
 			}
 		}
 	}
@@ -671,8 +798,8 @@ __myevic__ void ShowMainView()
 
 	if ( dfMode != 6 )
 	{
-		DrawHLine( 0, 43, 63, 1 );
-		DrawHLine( 0, 107, 63, 1 );
+		DrawHLineDots( 0, 40, 63, 1 ); //main lines
+		DrawHLineDots( 0, 113, 63, 1 );
 
 		ShowBattery();
 
@@ -710,7 +837,13 @@ __myevic__ void ShowMainView()
 
 			if ( h > 0 )
 			{
-                                if (dfStatus.clock) DrawFillRect( 0, 48, 63, 106, 0 );
+                                if (!dfStatus.clock) {
+                            //        DrawFillRect( 0, 48, 63, 106, 0 );
+                            //        DrawClock( 54 );  
+                            //    } else {
+                                     DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                                }
+                                
 				if ( h > 40 )
 				{	
                                     
