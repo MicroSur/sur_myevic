@@ -59,5 +59,6 @@ genuine/
 wrkspc.txt
 !/bin/
 /bin/myevic.elf
-/bin/myevic_dec.bin
 /nbproject/
+/driver/
+/ldrom.zip
