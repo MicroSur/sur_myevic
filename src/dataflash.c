@@ -422,8 +422,8 @@ __myevic__ void ResetDataFlash()
 	dfTemp = 210;
 //	dfResistance = 0;
 	dfUIVersion = 2;
-//	dfAPT = 0;
-//	dfAPT3 = 0;
+	dfAPT = 6;
+	dfAPT3 = 5;
 //	dfRezTI = 0;
 //	dfRezNI = 0;
 //	dfRezLockedTI = 0;
@@ -445,7 +445,8 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.dbgena = 0;
 	dfStatus.x32off = X32Off;
 	dfStatus.onewatt = 1;
-//	dfStatus.digclk = 0;
+        dfStatus.vapedml = 1;
+	dfStatus.digclk = 1;
 	dfStatus.battpc = 1;
         dfStatus.battv = 0;
 //	dfStatus.phpct = 0;
@@ -466,12 +467,12 @@ __myevic__ void ResetDataFlash()
 	dfScreenProt = 0;
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
 //	MemClear( dfSavedCfgPwr, sizeof(dfSavedCfgPwr) );
-//	dfFBBest = 0;
-//	dfFBSpeed = 0;
+	dfFBBest = 0;
+	dfFBSpeed = 0;
 //	dfBattPC = 0;
         dfTTBest = 0;
         dfTTSpeed = 2;
-	dfContrast = 45;
+	dfContrast = 45; //17%
 //	dfModesSel = 0;
 	dfClkRatio = RTC_DEF_CLK_RATIO;
 	dfVVRatio = VVEL_DEF_RATIO;

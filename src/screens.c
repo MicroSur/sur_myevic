@@ -468,7 +468,7 @@ __myevic__ void ShowContrast()
 	DrawStringCentered( String_Fireto, 57 );
 	DrawStringCentered( String_Exit, 67 );
 
-	DrawLOGO( 0, 88 );
+	DrawLOGO( 0, 80 );
 }
 
 

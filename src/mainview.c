@@ -643,10 +643,11 @@ __myevic__ void DrawPower( int pwr )
 		{
 			if ( !PreheatDelay || gFlags.osc_1hz )
 			{
-				DrawImage( xp, yp, 0x6A ); //C
+				DrawImage( xp + 6, yp, 0x6A ); //C
 			}
 		}
-		else if ( dfPreheatTime )
+                
+		if ( dfPreheatTime )
 		{
 			if ( !PreheatDelay || gFlags.osc_1hz )
 			{
@@ -837,11 +838,11 @@ __myevic__ void ShowMainView()
 
 			if ( h > 0 )
 			{
-                                if (!dfStatus.clock) {
+                                if (!dfStatus.clock && h > 40) {
                             //        DrawFillRect( 0, 48, 63, 106, 0 );
                             //        DrawClock( 54 );  
                             //    } else {
-                                     DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                                 if (!dfStatus.nologo) DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
                                 }
                                 
 				if ( h > 40 )

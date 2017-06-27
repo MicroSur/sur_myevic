@@ -182,7 +182,12 @@ __myevic__ void EventHandler()
 		{
 			if ( dfStatus.off )
 			{
-				return;
+                            if( !gFlags.battery_charging ){
+                                DrawDigitClock( 80 );
+                                DrawClock( 0 );   
+                                DisplayRefresh();
+                            }
+                        return;                       
 			}
 
 			if ( Screen == 1 )

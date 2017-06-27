@@ -796,7 +796,9 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 			break;
 
 		case 3:	// SHR
-			DrawValue( 40, line+2, AtoShuntRez, 0, 0x0B, 3 );
+			//DrawValue( 40, line+2, AtoShuntRez, 0, 0x0B, 3 );
+                        ProbeAtomizer();
+                        DrawValue( 35, line+2, AtoRezMilli , 3, 0x0B, 4 );
 			if ( gFlags.edit_value && sel )
 				InvertRect( 0, line, 63, line+12 );
 			break;                    
@@ -864,6 +866,7 @@ __myevic__ void ExpertMenuOnClick()
 			break;
                    
 		case 5:	// BAT
+                        //BATTERY_CUSTOM 255
 			if ( ++dfBatteryModel >= GetNBatteries() )
 				dfBatteryModel = 0;
 			SetBatteryModel();
@@ -1482,6 +1485,7 @@ const menu_t IFMenu;
 const menu_t CurveMenu;
 const menu_t VapingMenu;
 const menu_t ExpertMenu;
+const menu_t ProfileMenu;
 
 //-----------------------------------------------------------------------------
 
@@ -2866,7 +2870,7 @@ __myevic__ int MenuEvent( int event )
 				case 107:
 					CurrentMenu = &CurveMenu;
 					break;
-
+                                                                               
 				default:
 					CurrentMenu = 0;
 					break;
@@ -2901,7 +2905,7 @@ __myevic__ int MenuEvent( int event )
 		case EVENT_PROFILE_MENU:
 			CurrentMenu = &ProfileMenu;
 			CurrentMenuItem = dfProfile;
-			SetScreen( 102, 30 );
+			SetScreen( 102, 30 );       
 			vret = 1;
 			break;
 

@@ -541,11 +541,12 @@ __myevic__ void GetUserInput()
 				if ( dfAPT == 3 )
 					Event = EVENT_RESET_VVEL;	// vvel reset        
                         }
-			else{
+			
+                    }else{
+
 				Event = EVENT_LONG_FIRE;
-			}
                     }
-                        
+                    
 		}
 		else if ( UserInputs == 4 )
 		{
@@ -563,7 +564,7 @@ __myevic__ void GetUserInput()
 		}
 		else if ( UserInputs == 5 )
 		{
-			// Fire + Right button
+			// Fire + Right button LONG
 			if ( dfStatus.off )
 			{
 				Event = 39;	// tcr set menu
