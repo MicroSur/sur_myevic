@@ -41,7 +41,7 @@ __myevic__ void GPD_IRQHandler()
 	{
 		GPIO_CLR_INT_FLAG( PD, GPIO_PIN_PIN0_Msk );
 
-		if ( ISPRESA75W || ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+		if ( ISPRESA75W || ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 )
 		{
 			if ( gFlags.firing || gFlags.probing_ato )
 			{
@@ -108,12 +108,24 @@ __myevic__ void InitGPIO()
 		GPIO_SetMode( PF, GPIO_PIN_PIN0_Msk, GPIO_MODE_OUTPUT );
 	}
 
+        if ( ISPRIMO1 )
+	{
+            //?
+            	//SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD0MFP_Msk;
+		//SYS->GPD_MFPL |= SYS_GPD_MFPL_PD0MFP_GPIO;
+		PD1 = 0;
+		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
+                //check primo
+		//SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk|SYS_GPD_MFPL_PD1MFP_Msk);
+		//SYS->GPD_MFPL |= SYS_GPD_MFPL_PD0MFP_GPIO|SYS_GPD_MFPL_PD1MFP_GPIO;
+	}
+        
 	// PD1 = Data transmitter output pin for UART0
 	#if (ENABLE_UART)
 	SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_UART0_TXD;
 	#endif
-
-	if ( ISRX300 )
+//check primo
+	if ( ISRX300 || ISPRIMO1 )
 	{
 		SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk|SYS_GPD_MFPL_PD1MFP_Msk);
 		SYS->GPD_MFPL |= SYS_GPD_MFPL_PD0MFP_GPIO|SYS_GPD_MFPL_PD1MFP_GPIO;
@@ -124,7 +136,7 @@ __myevic__ void InitGPIO()
 	// PC2 = PWM0 CH2
 	BBC_Configure( BBC_PWMCH_BOOST, 1 );
 
-	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 )
 	{
 		PD7 = 0;
 		BBC_Configure( BBC_PWMCH_CHARGER, 0 );
@@ -154,6 +166,13 @@ __myevic__ void InitGPIO()
 		PA2 = 0;
 		GPIO_SetMode( PA, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );
 	}
+        else if ( ISPRIMO1 )
+        {
+		PA3 = 0;
+		GPIO_SetMode( PA, GPIO_PIN_PIN3_Msk, GPIO_MODE_OUTPUT );
+		PA2 = 0;
+		GPIO_SetMode( PA, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );            
+        }
 
 	// BUCK/BOOST CONVERTER CONTROL LINES
 	PC1 = 0;
@@ -183,7 +202,7 @@ __myevic__ void InitGPIO()
 		GPIO_EnableInt( PD, 1, GPIO_INT_RISING );
 		GPIO_ENABLE_DEBOUNCE( PD, GPIO_PIN_PIN1_Msk );
 	}
-	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 )
+	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 )
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 		GPIO_EnableInt( PD, 7, GPIO_INT_RISING );

@@ -57,6 +57,7 @@ const char pid_rx23		[8]	__PIDATTR__	= { 'W','0','1','8', 1, 0, 2, 0 };
 const char pid_rx300	[8]	__PIDATTR__	= { 'W','0','6','9', 1, 0, 0, 0 };
 const char pid_rxmini	[8]	__PIDATTR__	= { 'W','0','7','3', 1, 0, 0, 0 };
 const char pid_lpb		[8]	__PIDATTR__	= { 'W','0','4','3', 1, 0, 0, 0 };
+const char pid_primo1   [8]	__PIDATTR__	= { 'E','1','8','2', 1, 0, 1, 0 };
 
 #define PID_SCRAMBLE 0x12345678UL
 #define MAKEPID(p) ((((p)[0])|((p)[1]<<8)|((p)[2]<<16)|((p)[3]<<24))^PID_SCRAMBLE)
@@ -82,6 +83,7 @@ const char pid_lpb		[8]	__PIDATTR__	= { 'W','0','4','3', 1, 0, 0, 0 };
 #define PID_RX300		MAKEPID(pid_rx300)
 #define PID_RXMINI		MAKEPID(pid_rxmini)
 #define PID_LPB			MAKEPID(pid_lpb)
+#define PID_PRIMO1		MAKEPID(pid_primo1)
 
 #define HWV_VTCMINI		MAKEHWV(pid_vtcmini)
 #define HWV_VTWOMINI	MAKEHWV(pid_vtwomini)
@@ -101,6 +103,7 @@ const char pid_lpb		[8]	__PIDATTR__	= { 'W','0','4','3', 1, 0, 0, 0 };
 #define HWV_RX300		MAKEHWV(pid_rx300)
 #define HWV_RXMINI		MAKEHWV(pid_rxmini)
 #define HWV_LPB			MAKEHWV(pid_lpb)
+#define HWV_PRIMO1		MAKEHWV(pid_primo1)
 
 
 //=========================================================================
@@ -169,6 +172,17 @@ __myevic__ void SetProductID()
 			BoxModel = BOX_VTCDUAL;
 			NumBatteries = 0;
 			MaxBatteries = 2;
+			gFlags.pwm_pll = 1;
+			break;
+		}
+                else if ( u32Data == PID_PRIMO1 )
+		{
+			dfMaxHWVersion = HWV_PRIMO1;
+			DFMagicNumber = 0x11;
+			BoxModel = BOX_PRIMO1;
+			NumBatteries = 2;
+			MaxBatteries = 2;
+                        MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
 			break;
 		}
@@ -1069,6 +1083,10 @@ __myevic__ void InitDataFlash()
 		MaxPower = 1500;
 		gFlags.batt_unk = 1;
 	}
+	else if ( ISPRIMO1 )
+	{
+		MaxPower = 3000; //2280
+	}        
 	else if ( ISCUBOID || ISCUBO200 )
 	{
 		MaxPower = 2000;
@@ -1276,6 +1294,10 @@ __myevic__ uint16_t GetShuntRezValue()
 				rez = 105;
 				break;
 		}
+	}
+	else if ( ISPRIMO1 )
+	{
+                rez = 108;
 	}
 	else if ( ISRX23 )
 	{

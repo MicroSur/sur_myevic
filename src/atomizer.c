@@ -108,7 +108,8 @@ __myevic__ void SetPWMClock()
 #define MaxBuck  MaxDuty
 #define MinBoost MaxDuty
 
-	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+        //check primo
+	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 )
 	{
 		MaxDuty = 95 * PWMCycles / 100;
 	}
@@ -141,7 +142,7 @@ __myevic__ void InitPWM()
 	BuckDuty = 0;
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
 
-	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 )
 	{
 		PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_CHARGER, BBC_PWM_FREQ, 0 );
 		PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_CHARGER );
@@ -154,6 +155,10 @@ __myevic__ void InitPWM()
 		{
 			MaxChargerDuty = 512;
 		}
+                else if ( ISPRIMO1 )
+                {
+                        MaxChargerDuty = 1300;
+                }
 		else
 		{
 			MaxChargerDuty = 256;
@@ -306,7 +311,7 @@ __myevic__ void StopFire()
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_INPUT );
 	}
-	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 )
+	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 )
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 	}
@@ -693,7 +698,8 @@ __myevic__ void ReadAtomizer()
 		ADCShuntSum = ( ADCShuntSum1 + ADCShuntSum2 ) ? : 1;
 
 		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ( ADCShuntSum ) );
-
+                if ( ISPRIMO1 ) AtoRezMilli /= 2;
+                
 		if ( gFlags.firing )
 		{
 			uint32_t pwr = AtoCurrent * AtoCurrent * AtoRezMilli / 100000;
@@ -1365,11 +1371,13 @@ __myevic__ void SetAtoLimits()
 //----- (00006038) --------------------------------------------------------
 __myevic__ void ProbeAtomizer()
 {
-	if (( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
-	||  ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 ) && ( BatteryStatus == 2 || !PF0 ) ))
-	{
-		AtoStatus = 0;
-//		myprintf( "Can't Probe: BS=%d PF0=%d\n", BatteryStatus, PF0 );
+    //check primo 1
+	if ( ( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
+	|| ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 ) && ( BatteryStatus == 2 || !PF0 ) )
+        || ( ISPRIMO1 && ( BatteryStatus == 2 || !PD1 ) ))
+        {
+		AtoStatus = 0;     
+                
 	}
 	else
 	{

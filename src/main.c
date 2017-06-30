@@ -395,7 +395,7 @@ __myevic__ void DevicesOnOff( int off )
 		SetADCState( 2, 0 );
 		SetADCState( 14, 0 );
 
-		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 )
 		{
 			SetADCState( 3, 0 );
 			SetADCState( 13, 0 );
@@ -446,14 +446,18 @@ __myevic__ void DevicesOnOff( int off )
 			PA3 = 0;
 			PA2 = 0;
 		}
-
+		if ( ISPRIMO1 )
+		{
+			PA3 = 0;
+			PA2 = 0;
+		}
 		if ( ISVTCDUAL )
 		{
 			GPIO_DisableInt( PD, 1 );
 			PD1 = 0;
 			GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 		}
-		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 )
+		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 )
 		{
 			GPIO_DisableInt( PD, 7 );
 			PD7 = 0;
@@ -485,7 +489,11 @@ __myevic__ void DevicesOnOff( int off )
 		{
 			PF0 = 0;
 		}
-
+                else if ( ISPRIMO1 )
+                {
+                        PD1 = 0;
+                }
+                
 		SYS_UnlockReg();
 		SYS->USBPHY &= ~SYS_USBPHY_LDO33EN_Msk;
 		SYS->IVSCTL &= ~(SYS_IVSCTL_VBATUGEN_Msk|SYS_IVSCTL_VTEMPEN_Msk);
@@ -503,10 +511,12 @@ __myevic__ void DevicesOnOff( int off )
 		SYS_UnlockReg();
 		SYS->USBPHY |= SYS_USBPHY_LDO33EN_Msk;
 		SYS->IVSCTL |= SYS_IVSCTL_VBATUGEN_Msk;
+                               
 		if ( ISRX300 )
 		{
 			SYS->IVSCTL |= SYS_IVSCTL_VTEMPEN_Msk;
 		}
+                
 		SYS->VREFCTL = SYS_VREFCTL_VREF_2_56V;
 		SYS_EnableBOD( SYS_BODCTL_BOD_RST_EN, SYS_BODCTL_BODVL_2_2V );
 		SYS_LockReg();
@@ -532,7 +542,7 @@ __myevic__ void DevicesOnOff( int off )
 			GPIO_EnableInt( PD, 1, GPIO_INT_RISING );
 			GPIO_ENABLE_DEBOUNCE( PD, GPIO_PIN_PIN1_Msk );
 		}
-		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 )
+		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 )
 		{
 			GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 			GPIO_EnableInt( PD, 7, GPIO_INT_RISING );
@@ -556,7 +566,7 @@ __myevic__ void DevicesOnOff( int off )
 		SetADCState( 2, 1 );
 		SetADCState( 14, 1 );
 
-		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 )
 		{
 			SetADCState( 3, 1 );
 			SetADCState( 13, 1 );
@@ -938,7 +948,7 @@ __myevic__ void Main()
 			{
 				BatteryChargeDual();
 			}
-			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 )
 			{
 				BatteryCharge();
 			}

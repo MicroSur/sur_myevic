@@ -551,7 +551,7 @@ __myevic__ void EventHandler()
 				GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 				PD1 = 0;
 			}
-			else if ( !ISCUBOID && ! ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 )
+			else if ( !ISCUBOID && ! ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 )
 			{
 				GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );
 				PD7 = 0;
@@ -786,7 +786,7 @@ __myevic__ void EventHandler()
 			StopFire();
 			KeyPressTime |= 0x8000;
 			gFlags.refresh_display = 1;
-			Screen = 24;
+			Screen = 24; // Battery Low
 			ScreenDuration = 2;
 			return;
 
@@ -794,7 +794,7 @@ __myevic__ void EventHandler()
 			StopFire();
 			gFlags.refresh_display = 1;
 			Screen = 22;
-			ScreenDuration = 1;
+			ScreenDuration = 2;
 			KeyPressTime |= 0x8000;
 			return;
 
@@ -802,13 +802,13 @@ __myevic__ void EventHandler()
 			StopFire();
 			gFlags.refresh_display = 1;
 			Screen = 20;
-			ScreenDuration = 1;
+			ScreenDuration = 2;
 			return;
 
 		case 25:	// Atomizer short
 			gFlags.refresh_display = 1;
 			Screen = 21;
-			ScreenDuration = 1;
+			ScreenDuration = 2;
 			return;
 
 		case 24:	// 10s Fire protection
@@ -1016,7 +1016,7 @@ __myevic__ void EventHandler()
 			dfStealthOn = ( dfStealthOn == 0 );
 			gFlags.refresh_display = 1;
 			Screen = 40;
-			ScreenDuration = 3;
+			ScreenDuration = 2;
 			return;
 
 		case 4:		// Key (Un)Lock

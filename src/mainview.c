@@ -324,7 +324,15 @@ __myevic__ void DrawAPTLine( int line )
 		case 5:	// Battery voltage
 		{
 			DrawString( String_BATT_s, 0, line+2 );
-			DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
+			//DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
+                        if (dfAPT == dfAPT3)
+                        {
+                            DrawValue( 27, line, gFlags.firing?RTBVolts[1]:BattVolts[1], 2, 0x1F, 3 ); 
+                        }
+                        else
+                        {
+                            DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );   
+                        }
 			DrawImage( 57, line+2, 0x97 );
 			break;
 		}
@@ -437,7 +445,15 @@ __myevic__ void DrawAPTLine3( int line )
 		case 5:	// Battery voltage
 		{
 			DrawString( String_BATT_s, 0, line+2 );
-			DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
+			//DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
+                        if (dfAPT3 == dfAPT)
+                        {
+                            DrawValue( 27, line, gFlags.firing?RTBVolts[0]:BattVolts[0], 2, 0x1F, 3 ); 
+                        }
+                        else
+                        {
+                            DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );   
+                        }
 			DrawImage( 57, line+2, 0x97 );
 			break;
 		}

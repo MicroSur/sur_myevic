@@ -1,5 +1,5 @@
 ## **myevic**
-This is myevic Custom Firmware.
+This is myevic Custom Firmware from ClockSelect https://github.com/ClockSelect/myevic/blob/master/src/atomizer.c
 
 ### Compatible hardwares:
 * Joyetech
@@ -205,16 +205,16 @@ If you continue holding Fire and Right (+) buttons after entering menus, after t
 
   * Miscs  
       Sub-menu
-      * Game
-
+      * Flappy
             Flappy bird. Guenuine menu.
 
-      * Led  
+      * Tetris
+            Tetris. Guenuine menu.
 
+      * Led  
             eGrip II / eVic AIO LED Color setting.
 
       * 3D
-
             ![3D cube](http://i345.photobucket.com/albums/p374/ClockSelect/eVic/cube_zpsf9apfiun.png)
 
             Cool 3D spinning shapes.  
@@ -413,10 +413,6 @@ If you continue holding Fire and Right (+) buttons after entering menus, after t
 
         Enable/Disable box wake up from sleep mode when pressing the + or - button.
 
-  * Font A/B
-
-        Change the display font. You have two fonts available; choose what pleases you more. Choice is purely aesthetic. One may find the bolder font B more readable on some displays.
-
   * Temp °C/°F
 
         Choose once and for all your temperature unit, between °C and °F. Nobody needs to switch back and forth between standards. Moreover, Farenheit is not even a standard. Maybe I'll replace it by Kelvins one day. Changing temperature unit by wrapping around the temperature has been disabled.
@@ -482,7 +478,7 @@ If you continue holding Fire and Right (+) buttons after entering menus, after t
         On boxes where the Real-Time Clock is emulated (like the VTC-Mini), by setting the Light Sleep mode "ON", the box continues to drive the Real-Time Clock with the external 12.000MHz Crystal instead of the internal LIRC oscillator when entering sleep mode. This makes the Clock far more accurate and eliminates the need for the Clock Speed ratio, at the cost of a greater battery consumption (estimated less than 50 mAh/day).  
         Using this setting, Clock accuracy is identical to those of real RTC boxes.
 
-  * NFE
+  * PCT
  
         *Warning: You can't use Joyetech's firmware updater while this option is "ON". It may aloso cause issues with third-party firmware management systems.*  
         Enables or disables partial compatibility with the [NFirmwareEditor 5.x](https://github.com/TBXin/NFirmwareEditor/releases) myEvic Configuration Editor.  
@@ -491,7 +487,7 @@ If you continue holding Fire and Right (+) buttons after entering menus, after t
  
   * SHR
   
-        Shunt Resistance (in mΩ).  
+        Shunt Resistance (in mΩ). (real resistance in Ohm now)
         *Warning: This item is dangerous to your box. Messing with this parameter may cause overcurrent in the atomizer circuitry and lead to definitive box failure.*  
         This item let you edit the value of the Atomizer's circuit shunt resistance. This resistance is involved in every resistance/current/power measures and computation in the whole firmware. This value should only be changed if you know exactly what you are doing.  
         To reset the shunt value, select the SHR menu item and press the fire button during 2 seconds. This will revert the value to the default hardware setting.
