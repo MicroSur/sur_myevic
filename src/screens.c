@@ -664,22 +664,25 @@ __myevic__ void ShowBatCharging()
 			DrawValue(  1, 104 - i * 14, BattVolts[NumBatteries - i - 1], 2, 0x0B, 3 );
 			DrawImage( 27, 104 - i * 14, 0x7D );
 		}
+                
+                if ( NumBatteries > 1 )
+                {
+                DrawString( String_USB, 6, 0 );
+                DrawValue(  31, 9, USBVolts, 2, 0x0B, 3 );
+                DrawImage( 52, 9, 0x7D );
+        
+                DrawString( String_Charge, 6, 20 );
+                DrawValue(  31, 34, ChargeCurrent / 10, 2, 0x0B, 3 );
+                DrawImage( 52, 34, 0x68 );
+                }
+        
 	}
 
 	int t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 
 	DrawValueRight( 52, 104, t, 0, 0x0B, 0 );
 	DrawImage( 54, 104, dfIsCelsius ? 0xC9 : 0xC8 );
-        
-        DrawString( String_USB, 6, 0 );
-        DrawValue(  31, 9, USBVolts, 2, 0x0B, 3 );
-        DrawImage( 52, 9, 0x7D );
-        
-        DrawString( String_Charge, 6, 20 );
-        DrawValue(  31, 34, ChargeCurrent / 10, 2, 0x0B, 3 );
-        DrawImage( 52, 34, 0x68 );
 }
-
 
 //=========================================================================
 //----- (0000683C) --------------------------------------------------------

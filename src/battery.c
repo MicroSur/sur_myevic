@@ -1407,6 +1407,8 @@ __myevic__ void BatteryCharge()
 		ChargeCurrent = 135 * ADC_Read( 13 ) / 360;
 	}
 	else
+            //primo2
+            // ChargeCurrent = 135 * ADC_Read( 13 ) / 360;
 	{
 		ChargeCurrent = ADC_Read( 13 ) >> 2;
 	}

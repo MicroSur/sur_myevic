@@ -1,5 +1,5 @@
 ## **myevic**
-This is myevic Custom Firmware from ClockSelect https://github.com/ClockSelect/myevic/blob/master/src/atomizer.c
+This is myevic Custom Firmware from ClockSelect https://github.com/ClockSelect/myevic/blob/master/src
 
 ### Compatible hardwares:
 * Joyetech
