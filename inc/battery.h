@@ -63,6 +63,8 @@ extern uint8_t	ChargeMode;
 extern uint8_t	ChargeStep;
 
 extern Battery_t CustomBattery;
+extern uint32_t  USBVolts;
+extern uint32_t  ChargeCurrent;
 
 //-------------------------------------------------------------------------
 

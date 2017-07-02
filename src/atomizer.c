@@ -157,7 +157,7 @@ __myevic__ void InitPWM()
 		}
                 else if ( ISPRIMO1 )
                 {
-                        MaxChargerDuty = 1300;
+                        MaxChargerDuty = 288;
                 }
 		else
 		{

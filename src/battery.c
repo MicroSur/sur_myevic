@@ -266,7 +266,8 @@ uint8_t		BatteryStatus;
 uint8_t		BBBits;
 uint8_t		ChargeMode;
 uint8_t		ChargeStep;
-
+uint32_t        USBVolts;
+uint32_t        ChargeCurrent;
 
 //=========================================================================
 
@@ -567,25 +568,35 @@ __myevic__ void ChargeBalance()
 		}
 		else if ( gFlags.battery_charging )
 		{
-                    if ( !ISPRIMO1 )
+                    if ( ISPRIMO1 )
                     {
+			PA3 = ( BBBits & 1 ) != 0;
+			PA2 = ( BBBits & 2 ) != 0;
+                    }    
+                    else if ( ISRX300 )    
+                    {        
                         PF5 = ( BBBits & 1 ) != 0;
 			PF6 = ( BBBits & 2 ) != 0;
-                    }
 			PA3 = ( BBBits & 4 ) != 0;
 			PA2 = ( BBBits & 8 ) != 0;
+                    }    
 		}
 	}
 
 	if ( !gFlags.usb_attached || !gFlags.battery_charging || ChBalTimer <= 50 )
 	{
-	        if ( !ISPRIMO1 )
+	        if ( ISPRIMO1 )
+                {
+                    PA3 = 0;
+                    PA2 = 0;
+                }
+                else if ( ISRX300 )
                 {
                     PF5 = 0;
                     PF6 = 0;
+                    PA3 = 0;
+                    PA2 = 0;
                 }
-		PA3 = 0;
-		PA2 = 0;
 	}
 }
 
@@ -763,6 +774,7 @@ __myevic__ void ReadBatteryVoltage()
 			BattVolts[0] = VbatSample1;
 		}
 
+                //set offsets
 		if ( ISVTCDUAL )
 		{
 			if ( NumBatteries == 1 )
@@ -1111,7 +1123,7 @@ __myevic__ int CheckBattery()
 //-------------------------------------------------------------------------
 __myevic__ void BatteryChargeDual()
 {
-	uint32_t ChargeCurrent, USBVolts;
+	//uint32_t ChargeCurrent, USBVolts;
 
 	static uint32_t ChargerTarget = 0;
 	static uint32_t ChargerTempo = 0;
@@ -1384,7 +1396,7 @@ __myevic__ void BatteryChargeDual()
 //-------------------------------------------------------------------------
 __myevic__ void BatteryCharge()
 {
-	uint32_t USBVolts, ChargeCurrent;
+	//uint32_t USBVolts, ChargeCurrent;
 
 	static uint32_t ChargerTarget = 0;
 	static uint32_t ChargerTempo = 0;
@@ -1401,14 +1413,14 @@ __myevic__ void BatteryCharge()
 
 	USBVolts = 147 * ADC_Read( 3 ) / 752 + 5;
 
-//	myprintf( "ChargeCurrent=%d usbv=%d, b55=%d, b56=%d, BS=%d PF0=%d CD=%d\n",
-//		ChargeCurrent, USBVolts,
-//		USBMaxLoad, ChargeStatus, BatteryStatus,
-//		PF0, ChargerDuty );
+	//myprintf( "BBBits=%d BV=%d, BVH=%d, ChMode=%d, ChStat=%d, BS=%d PD1=%d CD=%d EOC=%d\n",
+	//	BBBits, BatteryVoltage, BattVoltsHighest,
+	//	ChargeMode, ChargeStatus, BatteryStatus,
+	//	PD1, ChargerDuty, EOCTempo );
 
 	if ( gFlags.bad_cell )
 	{
-		BatteryStatus = 2;
+		BatteryStatus = 2; // Check Battery
                 if ( ISPRIMO1 )
                 {
                     PD1 = 0;
@@ -1422,7 +1434,7 @@ __myevic__ void BatteryCharge()
 	{
 		if ( gFlags.usb_attached && USBVolts > 580 )
 		{
-			BatteryStatus = 3;
+			BatteryStatus = 3; // Check USB Adapter
 			if ( ISPRIMO1 )
                         {
                             PD1 = 0;
@@ -1488,8 +1500,8 @@ __myevic__ void BatteryCharge()
 		{
 			if ( ChargeStatus != 5 && ChargeStatus != 6 )
 			{
-				Event = 13;
-				ChargeStatus = 6;
+				Event = 13;  // Battery charge stop
+				ChargeStatus = 6; //no charge
 			}
 		}
 		else if ( BatteryStatus == 2 )
@@ -1500,7 +1512,7 @@ __myevic__ void BatteryCharge()
 				Screen = 58;	// Charge Error
 				ScreenDuration = 2;
 			}
-			ChargeStatus = 6;
+			ChargeStatus = 6; //no charge
 		}
 		else if ( BatteryStatus == 3 )
 		{
@@ -1510,7 +1522,7 @@ __myevic__ void BatteryCharge()
 				Screen = 57;	// USB Adapter Error
 				ScreenDuration = 2;
 			}
-			ChargeStatus = 6;
+			ChargeStatus = 6; //no charge
 		}
 		else if ( BatteryStatus == 4 )
 		{
@@ -1520,7 +1532,7 @@ __myevic__ void BatteryCharge()
 				Screen = 58;	// Charge Error
 				ScreenDuration = 2;
 			}
-			ChargeStatus = 6;
+			ChargeStatus = 6; //no charge
 		}
 		else if ( ChargeMode == 2 && ChargeStatus != 5 )
 		{
@@ -1531,7 +1543,7 @@ __myevic__ void BatteryCharge()
 					EOCTempo = 0;
 
 					ChargeMode = 1;
-					Event = 12;
+					Event = 12; // Battery charging
 					ChargeStatus = 0;
 				}
 			}
@@ -1540,16 +1552,16 @@ __myevic__ void BatteryCharge()
 				if ( BattVoltsHighest > 418 )
 				{
 					ChargeMode = 0;
-					Event = 13;
-					ChargeStatus = 5;
+					Event = 13; // Battery charge stop
+					ChargeStatus = 5; //charge full
 				}
 				else
 				{
 					EOCTempo = 0;
 
 					ChargeMode = 1;
-					Event = 12;
-					ChargeStatus = 0;
+					Event = 12; // Battery charging
+					ChargeStatus = 0; // charging
 				}
 			}
 		}
@@ -1563,7 +1575,7 @@ __myevic__ void BatteryCharge()
 				{
 					Event = 12;
 					ChargeStatus = 0;
-				}
+				}                               
 			}
 		}
 		else
@@ -1587,7 +1599,7 @@ __myevic__ void BatteryCharge()
 						ChargeMode = 0;
 						Event = 13;
 						ChargeStatus = 5;
-					}
+					}       
 				}
 			}
 			else
@@ -1598,8 +1610,7 @@ __myevic__ void BatteryCharge()
 
 		if ( gFlags.battery_charging && ChargeStatus != 5 && ChargeStatus != 6 )
 		{
-			EOCTempo = 0;
-
+			//EOCTempo = 0; ffuck!
 			if ( ChargeMode != 2 )
 			{
 				if ( BatteryVoltage < 290 )
@@ -1607,7 +1618,7 @@ __myevic__ void BatteryCharge()
 					ChargeStatus = 2;
 					ChargerTarget = 300;
 				}
-				else if ( BattVoltsHighest < 416 )
+				else if ( BattVoltsHighest < 419 ) //416
 				{
 					if ( ChargeStatus != 4 )
 					{
@@ -1642,7 +1653,7 @@ __myevic__ void BatteryCharge()
 				else
 				{
 					ChargeStatus = 4;
-					ChargerTarget = 600;
+					ChargerTarget = 500; //600
 				}
 
 				BBC_Configure( BBC_PWMCH_CHARGER, 1 );

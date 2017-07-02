@@ -115,16 +115,13 @@ __myevic__ void InitGPIO()
 		//SYS->GPD_MFPL |= SYS_GPD_MFPL_PD0MFP_GPIO;
 		PD1 = 0;
 		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
-                //check primo
-		//SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk|SYS_GPD_MFPL_PD1MFP_Msk);
-		//SYS->GPD_MFPL |= SYS_GPD_MFPL_PD0MFP_GPIO|SYS_GPD_MFPL_PD1MFP_GPIO;
 	}
         
 	// PD1 = Data transmitter output pin for UART0
 	#if (ENABLE_UART)
 	SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_UART0_TXD;
 	#endif
-//check primo
+
 	if ( ISRX300 || ISPRIMO1 )
 	{
 		SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk|SYS_GPD_MFPL_PD1MFP_Msk);
