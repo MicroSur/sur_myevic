@@ -341,7 +341,7 @@ __myevic__ uint32_t ReadBatterySample( int nbat )
 			{
 				sample = ADC_Read( 0 );
 			}
-			else if ( ISVTCDUAL || ISPRIMO1 )
+			else if ( ISVTCDUAL || ISPRIMO1 || ISPRIMO2 )
 			{
 				sample = ADC_Read( 4 );
 			}
@@ -568,7 +568,7 @@ __myevic__ void ChargeBalance()
 		}
 		else if ( gFlags.battery_charging )
 		{
-                    if ( ISPRIMO1 )
+                    if ( ISPRIMO1 || ISPRIMO2 )
                     {
 			PA3 = ( BBBits & 1 ) != 0;
 			PA2 = ( BBBits & 2 ) != 0;
@@ -585,7 +585,7 @@ __myevic__ void ChargeBalance()
 
 	if ( !gFlags.usb_attached || !gFlags.battery_charging || ChBalTimer <= 50 )
 	{
-	        if ( ISPRIMO1 )
+	        if ( ISPRIMO1 || ISPRIMO2 )
                 {
                     PA3 = 0;
                     PA2 = 0;
@@ -628,7 +628,7 @@ __myevic__ void ReadBatteryVoltage()
 
 		gFlags.sample_vbat = 0;
 
-		if ( ISPRIMO1 )
+		if ( ISPRIMO1 || ISPRIMO2 )
 		{
                         VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
 			if ( VbatSample2 ) VbatSample2 += 4;
@@ -643,7 +643,7 @@ __myevic__ void ReadBatteryVoltage()
 			}
 			else
 			{
-				//BatteryVoltage = 0;
+				BatteryVoltage = 0;
 				BattVolts[0] = 0;
 				BattVolts[1] = 0;
 				NumBatteries = 0;
@@ -796,7 +796,7 @@ __myevic__ void ReadBatteryVoltage()
 
 		NewBatteryData();
                 
-		if ( ISRX300 || ISPRIMO1 )
+		if ( ISRX300 || ISPRIMO1 || ISPRIMO2 )
 		{
 			ChargeBalance();
 		}
@@ -878,7 +878,7 @@ __myevic__ int CheckBattery()
 				RTBVTotal = bv;
 			}
 		}
-                else if ( ISPRIMO1 )
+                else if ( ISPRIMO1 || ISPRIMO2 )
                 {
                     
 			bvtot = 139 * ReadBatterySample( 1 ) / 624;
@@ -1401,21 +1401,30 @@ __myevic__ void BatteryCharge()
 	static uint32_t ChargerTarget = 0;
 	static uint32_t ChargerTempo = 0;
 	static uint8_t	EOCTempo = 0;
+        uint16_t        tmpChargeCurrent;
+        uint32_t        ADCChargeCurrent;
 
+        tmpChargeCurrent = 1300;
+        ADCChargeCurrent = ADC_Read( 13 );
+        
 	if ( ISRX300 || ISPRIMO1 )
 	{
-		ChargeCurrent = 135 * ADC_Read( 13 ) / 360;
+		ChargeCurrent = 135 * ADCChargeCurrent / 360;
 	}
+        else if ( ISPRIMO2 )
+        {
+                ChargeCurrent = 885 * ADCChargeCurrent / 1576;
+                tmpChargeCurrent = 1800;
+        }
 	else
-            //primo2
-            // ChargeCurrent = 135 * ADC_Read( 13 ) / 360;
 	{
-		ChargeCurrent = ADC_Read( 13 ) >> 2;
+		ChargeCurrent = ADCChargeCurrent >> 2;
 	}
 
 	USBVolts = 147 * ADC_Read( 3 ) / 752 + 5;
 
-	//myprintf( "BBBits=%d BV=%d, BVH=%d, ChMode=%d, ChStat=%d, BS=%d PD1=%d CD=%d EOC=%d\n",
+        //myprintf( "ADC13=%d ChCur=%d\n", ADCChargeCurrent, ChargeCurrent); 
+        //myprintf( "BBBits=%d BV=%d, BVH=%d, ChMode=%d, ChStat=%d, BS=%d PD1=%d CD=%d EOC=%d\n",
 	//	BBBits, BatteryVoltage, BattVoltsHighest,
 	//	ChargeMode, ChargeStatus, BatteryStatus,
 	//	PD1, ChargerDuty, EOCTempo );
@@ -1423,7 +1432,7 @@ __myevic__ void BatteryCharge()
 	if ( gFlags.bad_cell )
 	{
 		BatteryStatus = 2; // Check Battery
-                if ( ISPRIMO1 )
+                if ( ISPRIMO1 || ISPRIMO2 )
                 {
                     PD1 = 0;
                 }
@@ -1437,7 +1446,7 @@ __myevic__ void BatteryCharge()
 		if ( gFlags.usb_attached && USBVolts > 580 )
 		{
 			BatteryStatus = 3; // Check USB Adapter
-			if ( ISPRIMO1 )
+			if ( ISPRIMO1 || ISPRIMO2 )
                         {
                             PD1 = 0;
                         }
@@ -1459,7 +1468,7 @@ __myevic__ void BatteryCharge()
 					BatteryStatus = 0;
 				}
 
-				if ( ISPRIMO1 )
+				if ( ISPRIMO1 || ISPRIMO2 )
                                 {
                                     PD1 = 1;
                                 }
@@ -1485,7 +1494,7 @@ __myevic__ void BatteryCharge()
 			PF1 = 1;
 		}
 	}
-        else if ( ISPRIMO1 )
+        else if ( ISPRIMO1 || ISPRIMO2 )
         {
                 BatteryStatus = 2;
 		PD1 = 0;
@@ -1626,6 +1635,18 @@ __myevic__ void BatteryCharge()
 					{
 						ChargeStatus = 3;
 
+						if ( USBMaxLoad == 3 && ISPRIMO2 )
+						{
+							if ( USBVolts <= 420 )
+							{
+								USBMaxLoad = 2;
+								ChargerTarget = 1500;
+							}
+							else
+							{
+								ChargerTarget = 2000;
+							}
+						}                                                
 						if ( USBMaxLoad == 2 )
 						{
 							if ( USBVolts <= 420 )
@@ -1669,8 +1690,8 @@ __myevic__ void BatteryCharge()
 				}
 				else if ( ChargeCurrent < ChargerTarget )
 				{
-					if (( ++ChargerTempo >  10 && ChargeCurrent <  1300 )
-					||	(	ChargerTempo > 100 && ChargeCurrent >= 1300 ))
+					if (( ++ChargerTempo >  10 && ChargeCurrent <  tmpChargeCurrent )
+					||	(	ChargerTempo > 100 && ChargeCurrent >= tmpChargeCurrent ))
 					{
 						ChargerTempo = 0;
 
@@ -1679,7 +1700,7 @@ __myevic__ void BatteryCharge()
 							if ( ChargeCurrent < 180 )
 							{
 								BatteryStatus = 4;
-								if ( ISPRIMO1 )
+								if ( ISPRIMO1 || ISPRIMO2  )
                                                                 {
                                                                     PD1 = 0;
                                                                 }
@@ -1690,7 +1711,8 @@ __myevic__ void BatteryCharge()
                                                                 
 							}
 						}
-						else if ( ChargeCurrent < 1507 )
+						//else if ( ChargeCurrent < 1507 )
+                                                else if ( ADCChargeCurrent < 4020 )
 						{
 							++ChargerDuty;
 						}

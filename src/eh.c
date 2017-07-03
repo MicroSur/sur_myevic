@@ -551,7 +551,7 @@ __myevic__ void EventHandler()
 				GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 				PD1 = 0;
 			}
-			else if ( !ISCUBOID && ! ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 )
+			else if ( !ISCUBOID && ! ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 )
 			{
 				GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );
 				PD7 = 0;
@@ -861,7 +861,7 @@ __myevic__ void EventHandler()
 				{
 					dfStatus.off = 0;
 					MainView();
-					SplashTimer = 3;
+					SplashTimer = 2;
 				}
 			}
 			else
@@ -989,7 +989,14 @@ __myevic__ void EventHandler()
 			ChargeStatus = 1;
 			if ( NumBatteries > 1 )
 			{
-				USBMaxLoad = 2;
+                            if ( ISPRIMO2 )
+                            {
+                                USBMaxLoad = 3;
+                            } 
+                            else 
+                            {
+                                USBMaxLoad = 2;
+                            }				
 			}
 			else
 			{

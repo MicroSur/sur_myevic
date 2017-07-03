@@ -58,6 +58,7 @@ const char pid_rx300	[8]	__PIDATTR__	= { 'W','0','6','9', 1, 0, 0, 0 };
 const char pid_rxmini	[8]	__PIDATTR__	= { 'W','0','7','3', 1, 0, 0, 0 };
 const char pid_lpb		[8]	__PIDATTR__	= { 'W','0','4','3', 1, 0, 0, 0 };
 const char pid_primo1   [8]	__PIDATTR__	= { 'E','1','8','2', 1, 0, 1, 0 };
+const char pid_primo2   [8]	__PIDATTR__	= { 'E','2','0','3', 1, 0, 1, 0 };
 
 #define PID_SCRAMBLE 0x12345678UL
 #define MAKEPID(p) ((((p)[0])|((p)[1]<<8)|((p)[2]<<16)|((p)[3]<<24))^PID_SCRAMBLE)
@@ -84,6 +85,7 @@ const char pid_primo1   [8]	__PIDATTR__	= { 'E','1','8','2', 1, 0, 1, 0 };
 #define PID_RXMINI		MAKEPID(pid_rxmini)
 #define PID_LPB			MAKEPID(pid_lpb)
 #define PID_PRIMO1		MAKEPID(pid_primo1)
+#define PID_PRIMO2		MAKEPID(pid_primo2)
 
 #define HWV_VTCMINI		MAKEHWV(pid_vtcmini)
 #define HWV_VTWOMINI	MAKEHWV(pid_vtwomini)
@@ -104,6 +106,7 @@ const char pid_primo1   [8]	__PIDATTR__	= { 'E','1','8','2', 1, 0, 1, 0 };
 #define HWV_RXMINI		MAKEHWV(pid_rxmini)
 #define HWV_LPB			MAKEHWV(pid_lpb)
 #define HWV_PRIMO1		MAKEHWV(pid_primo1)
+#define HWV_PRIMO2		MAKEHWV(pid_primo2)
 
 
 //=========================================================================
@@ -186,6 +189,17 @@ __myevic__ void SetProductID()
 			gFlags.pwm_pll = 1;
 			break;
 		}
+                else if ( u32Data == PID_PRIMO2 )
+		{
+			dfMaxHWVersion = HWV_PRIMO2;
+			DFMagicNumber = 0x10;
+			BoxModel = BOX_PRIMO2;
+			NumBatteries = 2;
+			MaxBatteries = 2;
+                        MaxCurrent = 50;
+			gFlags.pwm_pll = 1;
+			break;
+		}                
 		else if ( u32Data == PID_EVICAIO )
 		{
 			dfMaxHWVersion = HWV_EVICAIO;
@@ -1083,9 +1097,9 @@ __myevic__ void InitDataFlash()
 		MaxPower = 1500;
 		gFlags.batt_unk = 1;
 	}
-	else if ( ISPRIMO1 )
+	else if ( ISPRIMO1 || ISPRIMO2 )
 	{
-		MaxPower = 3000; //2280
+		MaxPower = 2500; //2280
 	}        
 	else if ( ISCUBOID || ISCUBO200 )
 	{
@@ -1097,7 +1111,7 @@ __myevic__ void InitDataFlash()
 	}
 	else if ( ISRX300 )
 	{
-		MaxPower = 3000;
+		MaxPower = 4000;
 	}
 	else
 	{
@@ -1313,7 +1327,7 @@ __myevic__ uint16_t GetShuntRezValue()
 				break;
 		}
 	}
-	else if ( ISRX200S )
+	else if ( ISRX200S || ISPRIMO2 )
 	{
 		rez = 110;
 	}
