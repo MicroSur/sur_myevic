@@ -625,8 +625,10 @@ __myevic__ void DrawTemp()
 
 __myevic__ void DrawPower( int pwr )
 {
-	int xp, yp;
+	int xp, yp, xc;
 
+    if ( !dfStatus.onewatt )
+    {            
 	if ( pwr < 100 )
 	{
 		xp = 45;
@@ -652,14 +654,44 @@ __myevic__ void DrawPower( int pwr )
 
 		DrawImage( 54, 28, 0x98 ); //w
 	}
+    }
+    else
+    {
+        if ( pwr < 100 )
+	{
+		xp = 33;
+		yp = 13;
+		DrawValue( 13, 13, pwr / 10, 0, 0x48, 1 );
+		DrawImage( 33, 20, 0xB9 ); //W
+	}
+	else
+	{
+		yp = 13;
+		if ( pwr < 1000 )
+		{
+                    	xp = 47;
+			DrawValue( 11, 13, pwr / 10, 0, 0x48, 2 );
+                        DrawImage( 46, 28, 0xB2 ); //w
+		}
+		else
+		{
+                        xp = 54;
+			DrawValue( 3, 13, pwr / 10, 0, 0x48, 3 );
+                        DrawImage( 54, 28, 0x98 ); //w
+		}
+		
+	}  
+    }
 
 	if ( ISMODEVW(dfMode) )
 	{
 		if ( dfStatus.pcurve )
 		{
+                    xc = dfPreheatTime ? 6: 0;
+                    
 			if ( !PreheatDelay || gFlags.osc_1hz )
 			{
-				DrawImage( xp + 6, yp, 0x6A ); //C
+				DrawImage( xp + xc, yp, 0x6A ); //C
 			}
 		}
                 

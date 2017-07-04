@@ -159,7 +159,7 @@ __myevic__ void KeyRepeat()
 		{
 			// Quadratic function having its minimum (1) at 104
 			KRDelay = 104 - KeyTicks;
-			KRDelay = ( KRDelay * KRDelay ) / 545 + 1;
+			KRDelay = ( KRDelay * KRDelay ) / 1090 + 1; // 545 + 1; 
 		}
 		// +3.60s (4.60s)
 		else if ( KeyTicks < 205 )
@@ -167,7 +167,7 @@ __myevic__ void KeyRepeat()
 			// Step jumped from 1 to 10, ie. speed x10
 			// Recover this jump then smooth with same function as above
 			KRDelay = 204 - KeyTicks;
-			KRDelay = ( KRDelay * KRDelay ) / 545 + 1;
+			KRDelay = ( KRDelay * KRDelay ) / 1090 + 1; // 545 + 1;
 		}
 
 		if ( !PD2 )
