@@ -363,7 +363,7 @@ __myevic__ void StopFire()
 			if ( ++dfPuffCount > 99999 ) dfPuffCount = 0;
 			UpdatePTTimer = 80;                        
                         
-                        if ( ++PuffsOffCount >= dfPuffsOff ) // mod off case puffs counter
+                        if ( dfPuffsOff && ++PuffsOffCount >= dfPuffsOff ) // mod off case puffs counter
                         {
                             PuffsOffCount = 0;
                             dfStatus.off = 1;
