@@ -1669,7 +1669,7 @@ __myevic__ void BatteryCharge()
 								ChargerTarget = 2000;
 							}
 						}                                                
-						if ( USBMaxLoad == 2 )
+						else if ( USBMaxLoad == 2 )
 						{
 							if ( USBVolts <= 420 )
 							{
