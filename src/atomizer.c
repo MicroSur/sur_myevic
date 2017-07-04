@@ -55,6 +55,8 @@ uint8_t		LastAtoError;
 uint16_t	LastAtoRez;
 uint8_t		LastAtoMillis;
 
+uint8_t         PuffsOffCount;
+        
 //-------------------------------------------------------------------------
 
 uint8_t		BBCNextMode;
@@ -141,7 +143,7 @@ __myevic__ void InitPWM()
 	BuckDuty = 0;
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
 
-	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 )
 	{
 		PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_CHARGER, BBC_PWM_FREQ, 0 );
 		PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_CHARGER );
@@ -154,6 +156,14 @@ __myevic__ void InitPWM()
 		{
 			MaxChargerDuty = 512;
 		}
+                else if ( ISPRIMO1 )
+                {
+                        MaxChargerDuty = 288;
+                }
+                else if ( ISPRIMO2 )
+                {
+                        MaxChargerDuty = 320;
+                }
 		else
 		{
 			MaxChargerDuty = 256;
@@ -306,7 +316,7 @@ __myevic__ void StopFire()
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_INPUT );
 	}
-	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 )
+	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 )
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 	}
@@ -338,21 +348,39 @@ __myevic__ void StopFire()
 	{
 		gFlags.firing = 0;
 
-		if ( FireDuration > 5 )
-		{
-			dfTimeCount += FireDuration;
-			if ( dfTimeCount > 999999 ) dfTimeCount = 0;
-			if ( ++dfPuffCount > 99999 ) dfPuffCount = 0;
-			UpdatePTTimer = 80;
-		}
-
 		RTCWriteRegister( RTCSPARE_VV_MJOULES, MilliJoules );
 
 		if (( FireDuration * 10 >= dfPreheatTime )
 		||  ( dfStatus.pcurve && FireDuration > 10 ))
 		{
 			PreheatDelay = dfPHDelay * 100;
-		}
+		}       
+                
+                if ( FireDuration > 5 )
+		{
+			dfTimeCount += FireDuration;
+			if ( dfTimeCount > 999999 ) dfTimeCount = 0;
+			if ( ++dfPuffCount > 99999 ) dfPuffCount = 0;
+			UpdatePTTimer = 80;                        
+                        
+                        if ( dfPuffsOff && ++PuffsOffCount >= dfPuffsOff ) // mod off case puffs counter
+                        {
+                            PuffsOffCount = 0;
+                            dfStatus.off = 1;
+                            gFlags.refresh_display = 1;
+                            LEDOff();
+                            if ( gFlags.battery_charging )
+                            {
+				ChargeView();
+				BatAnimLevel = BatteryTenth;
+                            }   
+                            else
+                            {
+				Screen = 0;
+				SleepTimer = 0;
+                            }                               
+                        }      
+		}             
 	}
 
 //	myprintf( "StopFire from 0x%08x\n", caller );
@@ -693,7 +721,8 @@ __myevic__ void ReadAtomizer()
 		ADCShuntSum = ( ADCShuntSum1 + ADCShuntSum2 ) ? : 1;
 
 		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ( ADCShuntSum ) );
-
+                if ( ISPRIMO1 || ISPRIMO2 ) AtoRezMilli /= 2;
+                
 		if ( gFlags.firing )
 		{
 			uint32_t pwr = AtoCurrent * AtoCurrent * AtoRezMilli / 100000;
@@ -1365,11 +1394,13 @@ __myevic__ void SetAtoLimits()
 //----- (00006038) --------------------------------------------------------
 __myevic__ void ProbeAtomizer()
 {
-	if (( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
-	||  ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 ) && ( BatteryStatus == 2 || !PF0 ) ))
-	{
-		AtoStatus = 0;
-//		myprintf( "Can't Probe: BS=%d PF0=%d\n", BatteryStatus, PF0 );
+    //check primo 1
+	if ( ( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
+	|| ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 ) && ( BatteryStatus == 2 || !PF0 ) )
+        || ( ( ISPRIMO1 || ISPRIMO2 ) && ( BatteryStatus == 2 || !PD1 ) ))
+        {
+		AtoStatus = 0;     
+                
 	}
 	else
 	{

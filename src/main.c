@@ -20,7 +20,7 @@
 
 volatile gFlags_t gFlags;
 uint8_t BoxModel;
-
+const uint8_t  MaxBoardTemp = 70;
 
 //=========================================================================
 // Additional initialisations
@@ -143,8 +143,13 @@ void InitDevices()
 	// Internal 22.1184MHz oscillator
 	CLK_EnableXtalRC( CLK_PWRCTL_HIRCEN_Msk );
 	CLK_WaitClockReady( CLK_STATUS_HIRCSTB_Msk );
+        // HCLK clock source: HIRC, HCLK source divider: 1
 	CLK_SetHCLK( CLK_CLKSEL0_HCLKSEL_HIRC, CLK_CLKDIV0_HCLK( 1 ) );
-
+	
+        // LIRC clock (internal RC 10kHz)
+	//	CLK_EnableXtalRC(CLK_PWRCTL_LIRCEN_Msk);
+	//	CLK_WaitClockReady(CLK_STATUS_LIRCSTB_Msk);
+        
 	// 12.000MHz external crystal
 	CLK_EnableXtalRC( CLK_PWRCTL_HXTEN_Msk );
 	CLK_WaitClockReady( CLK_STATUS_HXTSTB_Msk );
@@ -164,6 +169,7 @@ void InitDevices()
 	// USB CLK = PLL/3 (48MHz)
 	CLK_EnableModuleClock( USBD_MODULE );
 	CLK_SetModuleClock( USBD_MODULE, 0, CLK_CLKDIV0_USB( 3 ) );
+        // Enable USB 3.3V LDO
 	SYS->USBPHY = SYS_USBPHY_LDO33EN_Msk;
 
 	// WDT CLK = LIRC/1
@@ -171,6 +177,7 @@ void InitDevices()
 	CLK_SetModuleClock( WDT_MODULE, CLK_CLKSEL1_WDTSEL_LIRC, 0 );
 
 	// SPI0 CLK = PCLK0/1
+        //CLK_SetModuleClock(SPI0_MODULE, CLK_CLKSEL2_SPI0SEL_PCLK0, 0);
 	CLK_EnableModuleClock( SPI0_MODULE );
 
 	// EADC CLK = PCLK1/8 (9MHz)
@@ -395,7 +402,7 @@ __myevic__ void DevicesOnOff( int off )
 		SetADCState( 2, 0 );
 		SetADCState( 14, 0 );
 
-		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 )
 		{
 			SetADCState( 3, 0 );
 			SetADCState( 13, 0 );
@@ -446,14 +453,18 @@ __myevic__ void DevicesOnOff( int off )
 			PA3 = 0;
 			PA2 = 0;
 		}
-
+		if ( ISPRIMO1 || ISPRIMO2 )
+		{
+			PA3 = 0;
+			PA2 = 0;
+		}
 		if ( ISVTCDUAL )
 		{
 			GPIO_DisableInt( PD, 1 );
 			PD1 = 0;
 			GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 		}
-		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 )
+		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 )
 		{
 			GPIO_DisableInt( PD, 7 );
 			PD7 = 0;
@@ -485,7 +496,11 @@ __myevic__ void DevicesOnOff( int off )
 		{
 			PF0 = 0;
 		}
-
+                else if ( ISPRIMO1 || ISPRIMO2 )
+                {
+                        PD1 = 0;
+                }
+                
 		SYS_UnlockReg();
 		SYS->USBPHY &= ~SYS_USBPHY_LDO33EN_Msk;
 		SYS->IVSCTL &= ~(SYS_IVSCTL_VBATUGEN_Msk|SYS_IVSCTL_VTEMPEN_Msk);
@@ -503,10 +518,12 @@ __myevic__ void DevicesOnOff( int off )
 		SYS_UnlockReg();
 		SYS->USBPHY |= SYS_USBPHY_LDO33EN_Msk;
 		SYS->IVSCTL |= SYS_IVSCTL_VBATUGEN_Msk;
+                               
 		if ( ISRX300 )
 		{
 			SYS->IVSCTL |= SYS_IVSCTL_VTEMPEN_Msk;
 		}
+                
 		SYS->VREFCTL = SYS_VREFCTL_VREF_2_56V;
 		SYS_EnableBOD( SYS_BODCTL_BOD_RST_EN, SYS_BODCTL_BODVL_2_2V );
 		SYS_LockReg();
@@ -532,7 +549,7 @@ __myevic__ void DevicesOnOff( int off )
 			GPIO_EnableInt( PD, 1, GPIO_INT_RISING );
 			GPIO_ENABLE_DEBOUNCE( PD, GPIO_PIN_PIN1_Msk );
 		}
-		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 )
+		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 )
 		{
 			GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 			GPIO_EnableInt( PD, 7, GPIO_INT_RISING );
@@ -556,7 +573,7 @@ __myevic__ void DevicesOnOff( int off )
 		SetADCState( 2, 1 );
 		SetADCState( 14, 1 );
 
-		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 )
 		{
 			SetADCState( 3, 1 );
 			SetADCState( 13, 1 );
@@ -688,6 +705,7 @@ __myevic__ void SleepIfIdle()
 			byte_200000B3 = 2;
 			AtoProbeCount = 0;
 			AtoRezMilli = 0;
+                        PuffsOffCount = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();
 			if (( BatteryVoltage <= BatteryCutOff + 20 ) && !gFlags.usb_attached )
@@ -808,7 +826,7 @@ __myevic__ void Main()
 
 	InitDisplay();
 	MainView();
-	SplashTimer = 3;
+	SplashTimer = 2;
 
 	CustomStartup();
 
@@ -929,7 +947,7 @@ __myevic__ void Main()
 			ReadBatteryVoltage();
 			ReadBoardTemp();
 
-			if ( gFlags.firing && BoardTemp >= 70 )
+			if ( gFlags.firing && BoardTemp >= MaxBoardTemp )
 			{
 				Overtemp();
 			}
@@ -938,7 +956,7 @@ __myevic__ void Main()
 			{
 				BatteryChargeDual();
 			}
-			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 )
 			{
 				BatteryCharge();
 			}

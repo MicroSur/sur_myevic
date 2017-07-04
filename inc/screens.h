@@ -299,6 +299,7 @@ extern const uint8_t String_Curve[];
 extern const uint8_t String_Enable[];
 extern const uint8_t String_Reset[];
 extern const uint8_t String_Splash[];
+extern const uint8_t String_PuffsOff[];
 
 //from display.c
 extern const uint8_t String_Sunday[];

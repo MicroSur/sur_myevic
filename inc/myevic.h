@@ -58,7 +58,10 @@ enum
 	BOX_RX200S,
 	BOX_RX23,
 	BOX_RX300,
-	BOX_RXMINI
+	BOX_RXMINI,
+        BOX_PRIMO1,
+        BOX_PRIMO2
+                
 };
 
 #define ISVTCMINI		(BoxModel==BOX_VTCMINI)
@@ -78,6 +81,8 @@ enum
 #define ISRX23			(BoxModel==BOX_RX23)
 #define ISRX300			(BoxModel==BOX_RX300)
 #define ISRXMINI		(BoxModel==BOX_RXMINI)
+#define ISPRIMO1		(BoxModel==BOX_PRIMO1)
+#define ISPRIMO2		(BoxModel==BOX_PRIMO2)
 
 
 //=========================================================================
@@ -174,6 +179,8 @@ extern void DrawHexLong( int x, int y, int v, int font );
 
 extern uint32_t sqrtul( uint32_t v );
 extern uint32_t GetFirmwareSize();
+
+extern const uint8_t  MaxBoardTemp;
 
 //=========================================================================
 #endif /* __MYEVIC_H__ */

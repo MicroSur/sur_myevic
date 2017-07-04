@@ -324,7 +324,15 @@ __myevic__ void DrawAPTLine( int line )
 		case 5:	// Battery voltage
 		{
 			DrawString( String_BATT_s, 0, line+2 );
-			DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
+			//DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
+                        if (dfAPT == dfAPT3)
+                        {
+                            DrawValue( 27, line, gFlags.firing?RTBVolts[1]:BattVolts[1], 2, 0x1F, 3 ); 
+                        }
+                        else
+                        {
+                            DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );   
+                        }
 			DrawImage( 57, line+2, 0x97 );
 			break;
 		}
@@ -437,7 +445,15 @@ __myevic__ void DrawAPTLine3( int line )
 		case 5:	// Battery voltage
 		{
 			DrawString( String_BATT_s, 0, line+2 );
-			DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
+			//DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
+                        if (dfAPT3 == dfAPT)
+                        {
+                            DrawValue( 27, line, gFlags.firing?RTBVolts[0]:BattVolts[0], 2, 0x1F, 3 ); 
+                        }
+                        else
+                        {
+                            DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );   
+                        }
 			DrawImage( 57, line+2, 0x97 );
 			break;
 		}
@@ -609,8 +625,10 @@ __myevic__ void DrawTemp()
 
 __myevic__ void DrawPower( int pwr )
 {
-	int xp, yp;
+	int xp, yp, xc;
 
+    if ( !dfStatus.onewatt )
+    {            
 	if ( pwr < 100 )
 	{
 		xp = 45;
@@ -636,14 +654,44 @@ __myevic__ void DrawPower( int pwr )
 
 		DrawImage( 54, 28, 0x98 ); //w
 	}
+    }
+    else
+    {
+        if ( pwr < 100 )
+	{
+		xp = 33;
+		yp = 13;
+		DrawValue( 13, 13, pwr / 10, 0, 0x48, 1 );
+		DrawImage( 33, 20, 0xB9 ); //W
+	}
+	else
+	{
+		yp = 13;
+		if ( pwr < 1000 )
+		{
+                    	xp = 47;
+			DrawValue( 11, 13, pwr / 10, 0, 0x48, 2 );
+                        DrawImage( 46, 28, 0xB2 ); //w
+		}
+		else
+		{
+                        xp = 54;
+			DrawValue( 3, 13, pwr / 10, 0, 0x48, 3 );
+                        DrawImage( 54, 28, 0x98 ); //w
+		}
+		
+	}  
+    }
 
 	if ( ISMODEVW(dfMode) )
 	{
 		if ( dfStatus.pcurve )
 		{
+                    xc = dfPreheatTime ? 6: 0;
+                    
 			if ( !PreheatDelay || gFlags.osc_1hz )
 			{
-				DrawImage( xp + 6, yp, 0x6A ); //C
+				DrawImage( xp + xc, yp, 0x6A ); //C
 			}
 		}
                 
@@ -815,7 +863,7 @@ __myevic__ void ShowMainView()
 				anim3d( 1 );
 			}
 			else if ( dfStatus.clock )
-			{                                
+			{                                 
 				if ( dfStatus.digclk )
 				{
 					DrawDigitClock( 58 );
@@ -899,18 +947,18 @@ __myevic__ void DrawDigitClock( int line )
 
 	if ( dfStatus.timebig )
 	{
-		DrawValue( 5, line-3, rtd.u32Hour, 0, 0x29, 2 );
-		DrawValue( 33, line-3, rtd.u32Minute, 0, 0x29, 2 );
+		DrawValue( 4, line-3, rtd.u32Hour, 0, 0x29, 2 );
+		DrawValue( 32, line-3, rtd.u32Minute, 0, 0x29, 2 );
 		if ( !( rtd.u32Second & 1 ) )
 		{
-			DrawImage( 29, line-5, 0xDF );
-			DrawImage( 29, line-13, 0xDF );
+			DrawImage( 28, line-5, 0xDF );
+			DrawImage( 28, line-13, 0xDF );
 		}
 		DrawDate( 4, line+19, &rtd, 0x1F );
 	}
 	else
 	{
-		DrawTime( 5, line,    &rtd, 0x1F );
+		DrawTime( 3, line,    &rtd, 0x1F );
 		DrawDate( 4, line+16, &rtd, 0x1F );
 	}
 }

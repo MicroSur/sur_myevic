@@ -604,6 +604,7 @@ __myevic__ void ShowBatCharging()
 		return;
 	}
 
+/*
 	switch ( dfScreenSaver )
 	{
 		case SSAVER_CLOCK:
@@ -614,6 +615,7 @@ __myevic__ void ShowBatCharging()
 		default:
 			break;
 	}
+*/
 
 	if ( dfStatus.battpc )
 	{
@@ -652,26 +654,39 @@ __myevic__ void ShowBatCharging()
 		}
 	}
 
+/*
 	if (( dfScreenSaver == SSAVER_CLOCK ) || ( dfScreenSaver == SSAVER_LOGO ))
 	{
-		DrawValue(  6, 104, BatteryVoltage, 2, 0x0B, 3 );
+		DrawValue(  1, 104, BatteryVoltage, 2, 0x0B, 3 );
 		DrawImage( 27, 104, 0x7D );
 	}
 	else
 	{
+*/
 		for ( int i = 0 ; i < NumBatteries ; ++i )
 		{
-			DrawValue(  6, 104 - i * 12, BattVolts[i], 2, 0x0B, 3 );
-			DrawImage( 27, 104 - i * 12, 0x7D );
+			DrawValue(  1, 104 - i * 14, BattVolts[NumBatteries - i - 1], 2, 0x0B, 3 );
+			DrawImage( 23, 104 - i * 14, 0x7D );
 		}
-	}
+                
+                if ( NumBatteries > 1 )
+                {
+                DrawString( String_USB, 6, 0 );
+                DrawValue(  31, 9, USBVolts, 2, 0x0B, 3 );
+                DrawImage( 52, 9, 0x7D );
+        
+                DrawString( String_Charge, 6, 20 );
+                DrawValue(  31, 34, ChargeCurrent / 10, 2, 0x0B, 3 );
+                DrawImage( 52, 34, 0x68 );
+                }
+        
+	//}
 
 	int t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 
 	DrawValueRight( 52, 104, t, 0, 0x0B, 0 );
 	DrawImage( 54, 104, dfIsCelsius ? 0xC9 : 0xC8 );
 }
-
 
 //=========================================================================
 //----- (0000683C) --------------------------------------------------------
@@ -880,6 +895,10 @@ __myevic__ void ShowScreenSaver()
 	switch ( dfScreenSaver )
 	{
 		case SSAVER_CLOCK:
+                        
+                        DrawDigitClock( 80 );
+                        DrawClock( 0 );           
+/*
 			if ( dfStatus.digclk )
 			{
 				DrawDigitClock( 40 );
@@ -888,6 +907,7 @@ __myevic__ void ShowScreenSaver()
 			{
 				DrawClock( 25 );
 			}
+*/
 			break;
 
 		case SSAVER_3D:

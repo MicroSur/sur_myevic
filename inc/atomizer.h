@@ -22,6 +22,10 @@
 #define FIRE_PROTEC_DEF 100
 #define FIRE_PROTEC_MAX 250
 
+#define PUFFS_OFF_MIN  0
+#define PUFFS_OFF_DEF  0
+#define PUFFS_OFF_MAX 50
+
 enum
 {
 	TCALGO_JOY	= 0,
@@ -85,6 +89,8 @@ extern uint16_t	word_200000BE;
 
 extern const uint8_t TempCoefsNI[];
 extern const uint8_t TempCoefsTI[];
+
+extern uint8_t  PuffsOffCount;
 
 //-------------------------------------------------------------------------
 
