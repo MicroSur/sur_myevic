@@ -55,6 +55,8 @@ uint8_t		LastAtoError;
 uint16_t	LastAtoRez;
 uint8_t		LastAtoMillis;
 
+uint8_t         PuffsOffCount;
+        
 //-------------------------------------------------------------------------
 
 uint8_t		BBCNextMode;
@@ -346,21 +348,39 @@ __myevic__ void StopFire()
 	{
 		gFlags.firing = 0;
 
-		if ( FireDuration > 5 )
-		{
-			dfTimeCount += FireDuration;
-			if ( dfTimeCount > 999999 ) dfTimeCount = 0;
-			if ( ++dfPuffCount > 99999 ) dfPuffCount = 0;
-			UpdatePTTimer = 80;
-		}
-
 		RTCWriteRegister( RTCSPARE_VV_MJOULES, MilliJoules );
 
 		if (( FireDuration * 10 >= dfPreheatTime )
 		||  ( dfStatus.pcurve && FireDuration > 10 ))
 		{
 			PreheatDelay = dfPHDelay * 100;
-		}
+		}       
+                
+                if ( FireDuration > 5 )
+		{
+			dfTimeCount += FireDuration;
+			if ( dfTimeCount > 999999 ) dfTimeCount = 0;
+			if ( ++dfPuffCount > 99999 ) dfPuffCount = 0;
+			UpdatePTTimer = 80;                        
+                        
+                        if ( ++PuffsOffCount >= dfPuffsOff ) // mod off case puffs counter
+                        {
+                            PuffsOffCount = 0;
+                            dfStatus.off = 1;
+                            gFlags.refresh_display = 1;
+                            LEDOff();
+                            if ( gFlags.battery_charging )
+                            {
+				ChargeView();
+				BatAnimLevel = BatteryTenth;
+                            }   
+                            else
+                            {
+				Screen = 0;
+				SleepTimer = 0;
+                            }                               
+                        }      
+		}             
 	}
 
 //	myprintf( "StopFire from 0x%08x\n", caller );

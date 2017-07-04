@@ -504,6 +504,7 @@ __myevic__ void ResetDataFlash()
 //	dfModesSel = 0;
 	dfClkRatio = RTC_DEF_CLK_RATIO;
 	dfVVRatio = VVEL_DEF_RATIO;
+        dfPuffsOff = PUFFS_OFF_DEF;
 //	dfPreheatTime = 0;
 	dfClick[0] = CLICK_ACTION_EDIT;
 	dfClick[1] = CLICK_ACTION_ON_OFF;
@@ -696,6 +697,9 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfVVRatio < VVEL_MIN_RATIO || dfVVRatio > VVEL_MAX_RATIO )
 		dfVVRatio = VVEL_DEF_RATIO;
 
+        if ( dfPuffsOff > PUFFS_OFF_MAX )
+		dfPuffsOff = PUFFS_OFF_DEF;
+        
 	if ( dfPHDelay > 180 )
 		dfPHDelay = 0;
 

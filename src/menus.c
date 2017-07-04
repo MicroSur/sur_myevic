@@ -230,11 +230,25 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 			break;
 
 		case 6: // mL/kJ
-			DrawFillRect( 39, line, 63, line+12, 0 );
+			DrawFillRect( 37, line, 63, line+12, 0 );
 			DrawValueRight( 61, line+2, dfVVRatio, 0, 0x0B, 0 );
 			if ( sel && gFlags.edit_value )
 				InvertRect( 0, line, 63, line+12 );
 			break;
+                        
+		case 7: // puffs off mod
+                        DrawFillRect( 44, line, 63, line+12, 0 );
+                        if ( dfPuffsOff ) 
+                        {
+                            DrawValueRight( 61, line+2, dfPuffsOff, 0, 0x0B, 0 );
+                        }
+                        else 
+                        {
+                            DrawString( String_Off, 46, line+2 );
+                        }
+			if ( sel && gFlags.edit_value )
+				InvertRect( 0, line, 63, line+12 );
+			break;                
 	}
 }
 
@@ -255,6 +269,10 @@ __myevic__ void VapingMenuOnClick()
 		case 6: // mL/kJ
 			gFlags.edit_value ^= 1;
 			break;
+                        
+		case 7: // puffs off
+			gFlags.edit_value ^= 1;
+			break;                        
 	}
 
 	gFlags.refresh_display = 1;
@@ -290,6 +308,15 @@ __myevic__ int VapingMenuOnEvent( int event )
 					}
 					vret = 1;
 					break;
+                                        
+				case 7: // Puffs off
+					if ( ++dfPuffsOff > PUFFS_OFF_MAX )
+					{
+						if ( KeyTicks < 5 ) dfPuffsOff = PUFFS_OFF_MIN;
+						else dfPuffsOff = PUFFS_OFF_MAX;
+					}
+					vret = 1;
+					break;                                        
 			}
 			break;
 
@@ -306,13 +333,22 @@ __myevic__ int VapingMenuOnEvent( int event )
 					break;
 
 				case 6: // mL/kJ
-					if ( --dfVVRatio < VVEL_MIN_RATIO )
+					if ( --dfVVRatio < VVEL_MIN_RATIO  )
 					{
 						if ( KeyTicks < 5 ) dfVVRatio = VVEL_MAX_RATIO;
 						else dfVVRatio = VVEL_MIN_RATIO;
 					}
 					vret = 1;
 					break;
+
+				case 7: // Puffs off
+					if ( --dfPuffsOff > PUFFS_OFF_MAX )
+					{
+						if ( KeyTicks < 5 ) dfPuffsOff = PUFFS_OFF_MAX;
+						else dfPuffsOff = PUFFS_OFF_MIN;
+					}
+					vret = 1;
+					break;                                         
 			}
 			break;
 	}
@@ -2295,7 +2331,7 @@ const menu_t VapingMenu =
 	0,
 	VapingMenuOnClick+1,
 	VapingMenuOnEvent+1,
-	8,
+	9,
 	{
 		{ String_Preheat, &PreheatMenu, 0, MACTION_SUBMENU },
 		{ String_Modes, &ModesMenu, 0, MACTION_SUBMENU },
@@ -2304,6 +2340,7 @@ const menu_t VapingMenu =
 		{ String_Prot, 0, 0, 0 },
 		{ String_Vaped, 0, 0, 0 },
 		{ String_mlkJ, 0, 0, 0 },
+                { String_PuffsOff, 0, 0, 0 },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

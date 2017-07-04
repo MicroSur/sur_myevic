@@ -879,6 +879,7 @@ __myevic__ void EventHandler()
 					Screen = 0;
 					SleepTimer = 0;
 				}
+                                PuffsOffCount = 0;
 			}
 			return;
 
