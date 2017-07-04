@@ -180,5 +180,7 @@ extern void DrawHexLong( int x, int y, int v, int font );
 extern uint32_t sqrtul( uint32_t v );
 extern uint32_t GetFirmwareSize();
 
+extern const uint8_t  MaxBoardTemp;
+
 //=========================================================================
 #endif /* __MYEVIC_H__ */

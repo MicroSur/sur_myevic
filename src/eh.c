@@ -254,7 +254,7 @@ __myevic__ void EventHandler()
 				return;
 			}
 
-			if ( BoardTemp >= 70 )
+			if ( BoardTemp >= MaxBoardTemp )
 			{
 				Overtemp();
 				return;
@@ -916,7 +916,7 @@ __myevic__ void EventHandler()
 
 		case 13:	// Battery charge stop
 			gFlags.battery_charging = 0;
-			if ( Screen == 5 )
+                        if ( Screen == 5 )
 			{
 				gFlags.refresh_display = 1;
 				Screen = 0;

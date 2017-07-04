@@ -20,7 +20,7 @@
 
 volatile gFlags_t gFlags;
 uint8_t BoxModel;
-
+const uint8_t  MaxBoardTemp = 70;
 
 //=========================================================================
 // Additional initialisations
@@ -947,7 +947,7 @@ __myevic__ void Main()
 			ReadBatteryVoltage();
 			ReadBoardTemp();
 
-			if ( gFlags.firing && BoardTemp >= 70 )
+			if ( gFlags.firing && BoardTemp >= MaxBoardTemp )
 			{
 				Overtemp();
 			}

@@ -1234,6 +1234,17 @@ __myevic__ void BatteryChargeDual()
 				ChargeStatus = 6;
 			}
 		}
+                else if ( BoardTemp >= MaxBoardTemp )
+                {
+                    Event = 13;  // Battery charge stop
+                    if ( ChargeStatus != 6 )
+                    {
+			ChargeStatus = 6; //no charge      
+                        gFlags.refresh_display = 1;
+			Screen = 29;	// overtemp
+			ScreenDuration = 3;                      
+                    }
+                }               
 		else if ( BatteryStatus == 2 )
 		{
 			if ( ChargeCurrent > 250 )
@@ -1515,6 +1526,17 @@ __myevic__ void BatteryCharge()
 				ChargeStatus = 6; //no charge
 			}
 		}
+                else if ( BoardTemp >= MaxBoardTemp )
+                {
+                    Event = 13;  // Battery charge stop
+                    if ( ChargeStatus != 6 )
+                    {
+			ChargeStatus = 6; //no charge      
+                        gFlags.refresh_display = 1;
+			Screen = 29;	// overtemp
+			ScreenDuration = 3;                      
+                    }
+                }
 		else if ( BatteryStatus == 2 )
 		{
 			if ( ChargeCurrent > 250 )
