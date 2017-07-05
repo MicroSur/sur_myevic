@@ -89,6 +89,7 @@ struct menu_s
 
 const menu_t const *CurrentMenu;
 uint8_t CurrentMenuItem;
+uint8_t PrevMenuItem;
 
 
 //-----------------------------------------------------------------------------
@@ -797,7 +798,7 @@ __myevic__ void BVOMenuIDraw( int it, int line, int sel )
 	uint16_t bvo = ( dfBVOffset[it] >= 0 ) ? dfBVOffset[it] : -dfBVOffset[it];
 	DrawImage( 26, line+2, ( dfBVOffset[it] >= 0 ) ? 0xFC : 0xFD );
 	DrawValue( 34, line+2, bvo, 2, 0x0B, 3 );
-	DrawImage( 55, line+2, 0x97 );
+	DrawImage( 55, line+2, 0x7D );
 	if ( gFlags.edit_value && sel )
 		InvertRect( 0, line, 63, line+12 );
 }
@@ -1161,7 +1162,7 @@ __myevic__ void Object3DOnClick()
 	Object3D = CurrentMenuItem ? : 1;
 	if ( CurrentMenuItem ) gFlags.anim3d = 1;
 	else gFlags.anim3d = 0;
-	MainView();
+	//MainView();
 }
 
 
@@ -1169,7 +1170,7 @@ __myevic__ void Object3DOnClick()
 
 __myevic__ void GameMEnter()
 {
-	CurrentMenuItem = dfFBSpeed;
+    CurrentMenuItem = dfFBSpeed;
 }
 
 __myevic__ void GameISelect()
@@ -1180,7 +1181,7 @@ __myevic__ void GameISelect()
 
 __myevic__ void GameIClick()
 {
-	fbStartGame();
+	if ( dfFBSpeed < 3 ) fbStartGame();
 }
 
 __myevic__ void GameTtMEnter()
@@ -1196,7 +1197,7 @@ __myevic__ void GameTtISelect()
 
 __myevic__ void GameTtIClick()
 {
-	ttStartGame();
+        if ( dfTTSpeed < 3 ) ttStartGame();
 }
 
 //-----------------------------------------------------------------------------
@@ -1290,14 +1291,13 @@ __myevic__ void CoilsIDraw( int it, int line, int sel )
 			DrawImage( 56, line+2, img );
 			CoilsSelectRez( CurrentMenuItem );
 			break;
-		}
+		} 
 
 		case 5:	// Check
 		{
 			const uint8_t *s;
 			DrawFillRect( 36, line, 63, line+12, 0 );
-			s = ( ISMODETC(dfMode) && dfStatus.chkmodeoff ) ?
-				String_No : String_Yes;
+			s = ( dfStatus.chkmodeoff ) ? String_No : String_Yes;
 			DrawString( s, 44, line+2 );
 			break;
 		}
@@ -1332,10 +1332,10 @@ __myevic__ void CoilsIClick()
 			break;
 
 		case 5:	// Check
-			if ( ISMODETC(dfMode) )
-			{
+			//if ( ISMODETC(dfMode) )
+			//{
 				dfStatus.chkmodeoff ^= 1;
-			}
+			//}
 			break;
 	}
 	if ( CurrentMenuItem == CurrentMenu->nitems - 1 )
@@ -1352,7 +1352,7 @@ __myevic__ void CoilsIClick()
 __myevic__ int CoilsMEvent( int event )
 {
 	int vret = 0;
-
+        
 	static char rmodified = 0;
 
 	if ( CurrentMenuItem > 3 )
@@ -1360,12 +1360,12 @@ __myevic__ int CoilsMEvent( int event )
 
 	int millis = ( dfMillis >> CoilShift ) & 0xf;
 	int rez = *CoilSelectedRez * 10 + millis;
-
+        
 	if ( event != 1 ) rmodified = 0;
 
 	switch ( event )
 	{
-		case 1:
+		case 1: //fire
 			gFlags.edit_value ^= 1;
 			if ( !gFlags.edit_value && !rmodified && *CoilSelectedRez > 0 )
 			{
@@ -1376,7 +1376,7 @@ __myevic__ int CoilsMEvent( int event )
 			vret = 1;
 			break;
 
-		case 2:
+		case 2: //plus
 			if ( gFlags.edit_value )
 			{
 				if ( rez == 0 )
@@ -1393,7 +1393,7 @@ __myevic__ int CoilsMEvent( int event )
 			}
 			break;
 
-		case 3:
+		case 3: //minus
 			if ( gFlags.edit_value )
 			{
 				if ( rez == 50 )
@@ -1411,7 +1411,7 @@ __myevic__ int CoilsMEvent( int event )
 			}
 			break;
 
-		case EVENT_LONG_FIRE:
+		case EVENT_LONG_FIRE: //zero current
 			rez = 0;
 			*CoilSelectedLock = 0;
 			if ( CurrentMenuItem == dfMode )
@@ -1432,7 +1432,7 @@ __myevic__ int CoilsMEvent( int event )
 
 	if ( rmodified )
 	{
-		*CoilSelectedRez = rez / 10;
+                *CoilSelectedRez = rez / 10;
 		millis = rez % 10;
 		dfMillis &= ~( 0xf << CoilShift );
 		dfMillis |= millis << CoilShift;
@@ -1805,12 +1805,12 @@ const menu_t Object3DMenu =
 	0,
 	6,
 	{
-		{ String_None, 0, EVENT_EXIT_MENUS, 0 },
-		{ String_Tetra, 0, EVENT_EXIT_MENUS, 0 },
-		{ String_Cube, 0, EVENT_EXIT_MENUS, 0 },
-		{ String_Octa, 0, EVENT_EXIT_MENUS, 0 },
-		{ String_Dodeca, 0, EVENT_EXIT_MENUS, 0 },
-		{ String_Isoca, 0, EVENT_EXIT_MENUS, 0 }
+		{ String_None, 0, EVENT_PARENT_MENU, 0 },
+		{ String_Tetra, 0, EVENT_PARENT_MENU, 0 },
+		{ String_Cube, 0, EVENT_PARENT_MENU, 0 },
+		{ String_Octa, 0, EVENT_PARENT_MENU, 0 },
+		{ String_Dodeca, 0, EVENT_PARENT_MENU, 0 },
+		{ String_Isoca, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
 
@@ -2791,7 +2791,7 @@ __myevic__ int MenuEvent( int event )
 
 	switch ( event )
 	{
-		case 1:
+		case 1: //fire
 		{
 			ScreenDuration = 30;
 			if ( CurrentMenu->on_clickitem ) CurrentMenu->on_clickitem();
@@ -2803,8 +2803,10 @@ __myevic__ int MenuEvent( int event )
 					case MACTION_SUBMENU:
 					{
 						CurrentMenu = (const menu_t*)mi->action;
+                                                
+                                                PrevMenuItem = CurrentMenuItem;
 						CurrentMenuItem = 0;
-
+                                                
 						if ( CurrentMenu->on_enter ) CurrentMenu->on_enter();
 
 						gFlags.refresh_display = 1;
@@ -2821,7 +2823,7 @@ __myevic__ int MenuEvent( int event )
 
 		}	break;
 
-		case 2:
+		case 2: //plus
 		{
 			if ( CurrentMenuItem < CurrentMenu->nitems - 1 )
 			{
@@ -2831,7 +2833,7 @@ __myevic__ int MenuEvent( int event )
 			{
 				CurrentMenuItem = 0;
 			}
-
+                        
 			ScreenDuration = 30;
 			gFlags.refresh_display = 1;
 
@@ -2851,7 +2853,7 @@ __myevic__ int MenuEvent( int event )
 			{
 				CurrentMenuItem = CurrentMenu->nitems - 1;
 			}
-
+                        
 			ScreenDuration = 30;
 			gFlags.refresh_display = 1;
 
@@ -2915,7 +2917,9 @@ __myevic__ int MenuEvent( int event )
 
 			if ( !dfStatus.off && CurrentMenu )
 			{
-				CurrentMenuItem = 0;
+				//CurrentMenuItem = 0;
+                                CurrentMenuItem = PrevMenuItem;
+                                PrevMenuItem = 0;
 				if ( CurrentMenu->on_enter ) CurrentMenu->on_enter();
 				SetScreen( 102, 30 );
 			}

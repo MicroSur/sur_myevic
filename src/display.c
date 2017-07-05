@@ -454,9 +454,9 @@ __myevic__ uint8_t* Value2Str( uint8_t *str, int v, int dp, uint8_t z, int nd )
 			case 0x0B:
 				dot = 0xC1;
 				break;
-			case 0x15:
-				dot = 0xD8;
-				break;
+			//case 0x15:
+			//	dot = 0xD8;
+			//	break;
 			case 0x1F:
 				dot = 0xDC;
 				break;
@@ -472,12 +472,12 @@ __myevic__ uint8_t* Value2Str( uint8_t *str, int v, int dp, uint8_t z, int nd )
 			case 0x48:
 				dot = 0xF7;
 				break;
-			case 0x52:
-				dot = 0xF9;
-				break;
-			case 0x5C:
-				dot = 0x66;
-				break;
+			//case 0x52:
+			//	dot = 0xF9;
+			//	break;
+			//case 0x5C:
+			//	dot = 0x66;
+			//	break;
 		}
 
 		str[nd + 1] = dot;

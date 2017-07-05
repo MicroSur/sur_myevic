@@ -699,19 +699,18 @@ __myevic__ void fbStartScreen()
 __myevic__ void fbStartGame()
 {
 	UpdateDataFlash();
-	if ( dfFBSpeed <= 2 )
-	{
-		gFlags.playing_fb = 1;
-		Screen = 0;
-		gFlags.user_idle = 1;
-		gFlags.refresh_display = 1;
-		NoEventTimer = 0;
-		SleepTimer = 3000;
-		fbInitTimeouts();
-		ClearScreenBuffer();
-		DisplayRefresh();
-                fbAnimStep = 0;
-		//fbBirdAnim( 24 );
-		fbCreateTimeout( fbStartScreen + 1 );
-	}
+        if ( dfFBSpeed > 2 ) dfTTSpeed = 0;
+	
+	gFlags.playing_fb = 1;
+	Screen = 0;
+	gFlags.user_idle = 1;
+	gFlags.refresh_display = 1;
+	NoEventTimer = 0;
+	SleepTimer = 3000;
+	fbInitTimeouts();
+	ClearScreenBuffer();
+	DisplayRefresh();
+        fbAnimStep = 0;
+	//fbBirdAnim( 24 );
+	fbCreateTimeout( fbStartScreen + 1 );
 }

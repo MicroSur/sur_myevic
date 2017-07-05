@@ -1132,7 +1132,7 @@ __myevic__ int EvtContrastMenu()
 
 __myevic__ int EvtEnterMenus()
 {
-	CurrentMenu = 0;
+        CurrentMenu = 0;
 	CurrentMenuItem = 0;
 	SetScreen( 102, 30 );
 	return 1;

@@ -793,7 +793,14 @@ void ttStartScreen() {
         DrawString(strLastScore, 4, 70);
         DrawValue(29, 61, dfTTBest, 0, 1, 5);
         DrawValue(29, 71, ttScore, 0, 1, 5);
-
+        
+        switch ( dfTTSpeed )
+	{
+		case 0:	DrawStringCentered(String_Easy, 95); break;
+                case 1:	DrawStringCentered(String_Normal, 95); break;
+                case 2:	DrawStringCentered(String_Survival, 95); break;
+	}
+        
         DrawTTCup();
         DisplayRefresh();
         ttSetTimeoutDelay(10);
@@ -832,37 +839,36 @@ void ttGame() {
 void ttStartGame() {
 
     UpdateDataFlash();
-    if (dfTTSpeed <= 2) {
+    if (dfTTSpeed > 2) dfTTSpeed = 2;
 
-        if (dfTTBest < ttScore) {
-            dfTTBest = ttScore;
-            ttSetTimeoutDelay(4);
-            UpdateDFTimer = 50; //survive
-        }
-
-        if (dfTTSpeed == 2) {
-            bto = 5;
-            countdown = 50;
-        } else if (dfTTSpeed == 1) {
-            bto = 5;
-        } else {
-            bto = 3;
-        }
-
-        ScrFlip = dfStatus.flipped;
-        gFlags.playing_tt = 1;
-        Screen = 0;
-        gFlags.user_idle = 1; //0
-        gFlags.refresh_display = 1;
-
-        NoEventTimer = 0;
-        SleepTimer = 0;
-
-        ttInitTimeouts();
-        ClearScreenBuffer();
-        DisplayRefresh();
-
-        ttSetTimeoutDelay(20);
-        ttCreateTimeout(ttStartScreen + 1);
+    if (dfTTBest < ttScore) {
+        dfTTBest = ttScore;
+        ttSetTimeoutDelay(4);
+        UpdateDFTimer = 50; //survive
     }
+
+    if (dfTTSpeed == 2) {
+        bto = 5;
+        countdown = 50;
+    } else if (dfTTSpeed == 1) {
+        bto = 5;
+    } else {
+        bto = 3;
+    }
+
+    ScrFlip = dfStatus.flipped;
+    gFlags.playing_tt = 1;
+    Screen = 0;
+    gFlags.user_idle = 1; //0
+    gFlags.refresh_display = 1;
+
+    NoEventTimer = 0;
+    SleepTimer = 0;
+
+    ttInitTimeouts();
+    ClearScreenBuffer();
+    DisplayRefresh();
+
+    ttSetTimeoutDelay(20);
+    ttCreateTimeout(ttStartScreen + 1);
 }

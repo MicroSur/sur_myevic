@@ -170,7 +170,7 @@ __myevic__ void DrawVoltsLine( int volts, int line )
 	DrawString( String_VOLT_s, 0, line+2 );
 	if ( volts > MaxVolts ) volts = MaxVolts;
 	DrawValue( 27, line, volts, 2, 0x1F, 3 );
-	DrawImage( 57, line+2, 0x97 );
+	DrawImage( 57, line+2, 0x7D );
 }
 
 
@@ -317,7 +317,7 @@ __myevic__ void DrawAPTLine( int line )
 		{
 			DrawString( String_VOUT_s, 0, line+2 );
 			DrawValue( 27, line, gFlags.firing?AtoVolts:0, 2, 0x1F, 3 );
-			DrawImage( 57, line+2, 0x97 );
+			DrawImage( 57, line+2, 0x7D );
 			break;
 		}
 
@@ -333,7 +333,7 @@ __myevic__ void DrawAPTLine( int line )
                         {
                             DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );   
                         }
-			DrawImage( 57, line+2, 0x97 );
+			DrawImage( 57, line+2, 0x7D );
 			break;
 		}
 
@@ -438,7 +438,7 @@ __myevic__ void DrawAPTLine3( int line )
 		{
 			DrawString( String_VOUT_s, 0, line+2 );
 			DrawValue( 27, line, gFlags.firing?AtoVolts:0, 2, 0x1F, 3 );
-			DrawImage( 57, line+2, 0x97 );
+			DrawImage( 57, line+2, 0x7D );
 			break;
 		}
 
@@ -454,7 +454,7 @@ __myevic__ void DrawAPTLine3( int line )
                         {
                             DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );   
                         }
-			DrawImage( 57, line+2, 0x97 );
+			DrawImage( 57, line+2, 0x7D );
 			break;
 		}
 

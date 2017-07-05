@@ -715,7 +715,7 @@ __myevic__ void ShowBattVolts()
 __myevic__ void ShowBoardTemp()
 {
 	DrawStringCentered( String_Temp, 88 );
-	DrawValue( 16, 102, BoardTemp, 0, 0x52, 2 );
+	DrawValue( 16, 102, BoardTemp, 0, 0x48, 2 );
 }
 
 
@@ -732,7 +732,7 @@ __myevic__ void ShowVersion()
 	DrawStringCentered( buf, 69 );
 
 	DrawStringCentered( String_Version, 88 );
-	DrawValue( 6, 102, FWVERSION, 2, 0x52, 3 );
+	DrawValue( 6, 102, FWVERSION, 2, 0x48, 3 );
 }
 
 
