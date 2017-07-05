@@ -719,8 +719,8 @@ __myevic__ void ReadAtomizer()
 		}
 
 		ADCShuntSum = ( ADCShuntSum1 + ADCShuntSum2 ) ? : 1;
-
-		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ( ADCShuntSum ) );
+                
+		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ADCShuntSum );
                 if ( ISPRIMO1 || ISPRIMO2 ) AtoRezMilli /= 2;
                 
 		if ( gFlags.firing )
@@ -734,8 +734,8 @@ __myevic__ void ReadAtomizer()
 			if ( AtoRezMilli <= 20 )
 			{
 				AtoStatus = 1;
-				myprintf( "RL_GND %d(%d,%d,%d)\n",
-						  AtoRezMilli, ADCAtoSum, ADCShuntSum1, ADCShuntSum2 );
+				//myprintf( "RL_GND %d(%d,%d,%d)\n",
+				//		  AtoRezMilli, ADCAtoSum, ADCShuntSum1, ADCShuntSum2 );
 				if ( gFlags.firing )
 				{
 					StopFire();
@@ -745,7 +745,7 @@ __myevic__ void ReadAtomizer()
 			}
 			if ( ( AtoProbeCount <= 10 && AtoRezMilli < 50 ) || AtoRezMilli < 40 )
 			{
-				myprintf( "RL_LOW %d\n", AtoRezMilli );
+				//myprintf( "RL_LOW %d\n", AtoRezMilli );
 				AtoStatus = 2;
 				if ( gFlags.firing )
 				{
@@ -753,7 +753,7 @@ __myevic__ void ReadAtomizer()
 				}
 				return;
 			}
-			if ( AtoRezMilli > 50000 )
+			if ( AtoRezMilli > 20000 )
 			{
 				AtoStatus = 0;
 				AtoRezMilli = 0;
@@ -766,14 +766,14 @@ __myevic__ void ReadAtomizer()
 			if ( AtoProbeCount <= 10 && AtoRezMilli > 3500 )
 			{
 				AtoStatus = 3;
-				myprintf( "RL_LARGE %d\n", AtoRezMilli );
+				//myprintf( "RL_LARGE %d\n", AtoRezMilli );
 				return;
 			}
 			if ( gFlags.firing && AtoRezMilli / 10 <= AtoRez >> 2 )
 			{
 				StopFire();
 				Event = 25;
-				myprintf( "RL_GND2 %d\n", AtoRezMilli );
+				//myprintf( "RL_GND2 %d\n", AtoRezMilli );
 				return;
 			}
 			if ( (AtoStatus == 4 || !AtoStatus || AtoStatus == 3)
@@ -1394,7 +1394,6 @@ __myevic__ void SetAtoLimits()
 //----- (00006038) --------------------------------------------------------
 __myevic__ void ProbeAtomizer()
 {
-    //check primo 1
 	if ( ( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
 	|| ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 ) && ( BatteryStatus == 2 || !PF0 ) )
         || ( ( ISPRIMO1 || ISPRIMO2 ) && ( BatteryStatus == 2 || !PD1 ) ))
@@ -1459,11 +1458,13 @@ __myevic__ void ProbeAtomizer()
 		}
 	}
 
+        //AtoStatus;	0,1,2,3,4 = Open,Short,Low,Large,Ok
+        //AtoError;     0,1,2,3 = Ok,Open/Large,Short,Low
 	switch ( AtoStatus )
 	{
 		case 0:
 		case 3:
-			AtoError = 1;
+			AtoError = 1; //no ato
 			break;
 		case 1:
 			AtoError = 2;
@@ -1473,11 +1474,11 @@ __myevic__ void ProbeAtomizer()
 			break;
 		case 4:
 		default:
-			AtoError = 0;
+			AtoError = 0; //Ok
 			break;
 	}
 
-//	myprintf( "Probe: %2d. ARM=%d AS=%d\n", AtoProbeCount, AtoRezMilli, AtoStatus );
+	//myprintf( "Probe: %2d. ARM=%d AS=%d\n", AtoProbeCount, AtoRezMilli, AtoStatus );
 
 	if ( AtoProbeCount < 12 )
 	{
