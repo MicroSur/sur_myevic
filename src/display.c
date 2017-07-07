@@ -159,7 +159,13 @@ typedef struct
 	uint8_t sep2offset;
 }
 datefmt_t;
-  
+
+__myevic__ uint8_t dayofweek(uint32_t d, uint32_t m, uint32_t y) {
+    static int t[] = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
+    y -= m < 3;
+    return ( y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
+}
+
 __myevic__ void DrawDate( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 { 
 	const datefmt_t format[] =
@@ -181,7 +187,8 @@ __myevic__ void DrawDate( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 	if (colors&0x02) DrawImage( x + f->sep2offset,  y, f->separator );
         
         y += 13;
-            switch ( rtd->u32DayOfWeek )
+            //switch ( rtd->u32DayOfWeek )
+        switch ( dayofweek ( rtd->u32Day, rtd->u32Month, rtd->u32Year ) )
 	{
 		case 0:
 			DrawStringCentered( String_Sunday, y );

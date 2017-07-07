@@ -1228,13 +1228,13 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 				if ( i->Format != HID_PROFILE_FORMAT || p->Magic != DFMagicNumber )
 				{
-					myprintf( "Incompatible parameters format.\n" );
+					//myprintf( "Incompatible parameters format.\n" );
 					break;
 				}
 
 				if ( u32StartAddr > DATAFLASH_PROFILES_MAX )
 				{
-					myprintf( "Invalid profile #.\n" );
+					//myprintf( "Invalid profile #.\n" );
 					break;
 				}
 
@@ -1274,7 +1274,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 					SYS_LockReg();
 				}
 
-				myprintf( "Set Profile command complete.\n" );
+				//myprintf( "Set Profile command complete.\n" );
 			}
 
 			break;
@@ -1300,20 +1300,20 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 				MemCpy( (uint8_t*)(&hidDFData) + u32StartAddr, hidData, sz );
 
-				myprintf( "Set Sys Param complete.\n" );
+				//myprintf( "Set Sys Param complete.\n" );
 
 				dfStruct_t * df = (dfStruct_t*)hidDFData;
 
 				if ( Checksum( (uint8_t*)df->params, FMC_FLASH_PAGE_SIZE - 4 ) == df->Checksum )
 				{
-					myprintf( "\tCompany ID ............................ [0x%08x]\n",
-								df->i.fmcCID );
-					myprintf( "\tDevice ID ............................. [0x%08x]\n",
-								df->i.fmcDID  );
-					myprintf( "\tProduct ID ............................ [0x%08x]\n",
-								df->i.fmcPID );
-					myprintf( "\tu8UpdateAPRom ......................... [0x%08x]\n",
-								df->p.BootFlag );
+					//myprintf( "\tCompany ID ............................ [0x%08x]\n",
+					//			df->i.fmcCID );
+					//myprintf( "\tDevice ID ............................. [0x%08x]\n",
+					//			df->i.fmcDID  );
+					//myprintf( "\tProduct ID ............................ [0x%08x]\n",
+					//			df->i.fmcPID );
+					//myprintf( "\tu8UpdateAPRom ......................... [0x%08x]\n",
+					//			df->p.BootFlag );
 
 					if ( df->p.Magic == DFMagicNumber )
 					{
@@ -1324,7 +1324,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 					}
 					else
 					{
-						myprintf( "Incompatible parameters format.\n" );
+						//myprintf( "Incompatible parameters format.\n" );
 
 						if ( df->p.Magic == DATAFLASH_NFE_MAGIC )
 						{
@@ -1343,7 +1343,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 							}
 							else
 							{
-								myprintf( "Invalid battery data.\n" );
+								//myprintf( "Invalid battery data.\n" );
 								LoadCustomBattery();
 							}
 
@@ -1369,7 +1369,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 				}
 				else
 				{
-					myprintf( "Sys Param Receive fail.\n" );
+					//myprintf( "Sys Param Receive fail.\n" );
 				}
 
 				hidDataIndex = 0;
@@ -1390,7 +1390,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 			u32Page = u32StartAddr + u32ByteCount;
 
-			myprintf( "Writing page %d\n", u32Page );
+			//myprintf( "Writing page %d\n", u32Page );
 
 			SYS_UnlockReg();
 			FMC_ENABLE_ISP();
@@ -1398,19 +1398,19 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 			if ( FMCEraseWritePage( u32Page, (uint32_t*)hidData ) )
 			{
-				myprintf( "Data Flash Erase error!\n" );
+				//myprintf( "Data Flash Erase error!\n" );
 			}
 
 			veo = FMCVerifyPage( u32Page, (uint32_t*)hidData );
 			if ( veo )
 			{
-				myprintf( "Data Flash Verify error! 0x%x\n", 4 * veo - 4 );
+				//myprintf( "Data Flash Verify error! 0x%x\n", 4 * veo - 4 );
 			}
 
 			MemClear( hidData, FMC_FLASH_PAGE_SIZE );
 			u32ByteCount += hidDataIndex;
 
-			myprintf( "g_u32BytesInPageBuf %d, u32LenCnt 0x%x\n", hidDataIndex, u32ByteCount );
+			//myprintf( "g_u32BytesInPageBuf %d, u32LenCnt 0x%x\n", hidDataIndex, u32ByteCount );
 
 			FMC_DISABLE_AP_UPDATE();
 			FMC_DISABLE_ISP();
@@ -1423,7 +1423,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 			else
 			{
 				u8Cmd = HID_CMD_NONE;
-				myprintf( "set boot logo command complete.\n" );
+				//myprintf( "set boot logo command complete.\n" );
 			}
 
 			break;
@@ -1440,7 +1440,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 			}
 
 			u32Page = u32StartAddr + u32ByteCount;
-			myprintf( "Writing page 0x%08X\n", u32Page );
+			//myprintf( "Writing page 0x%08X\n", u32Page );
 
 			SYS_UnlockReg();
 			FMC_ENABLE_ISP();
@@ -1448,20 +1448,20 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 			if ( FMCEraseWritePage( u32Page, (uint32_t*)hidData ) )
 			{
-				myprintf( "Data Flash Erase error!\n" );
+				//myprintf( "Data Flash Erase error!\n" );
 			}
 
 			veo = FMCVerifyPage( u32Page, (uint32_t*)hidData );
 			if ( veo )
 			{
-				myprintf( "Data Flash Verify error! 0x%x\n", 4 * veo - 4 );
+				//myprintf( "Data Flash Verify error! 0x%x\n", 4 * veo - 4 );
 			}
 
 			MemClear( hidData, FMC_FLASH_PAGE_SIZE );
 			u32ByteCount += hidDataIndex;
 			hidDataIndex = 0;
 
-			myprintf( "g_u32BytesInPageBuf %d, u32LenCnt 0x%x\n", hidDataIndex, u32ByteCount );
+			//myprintf( "g_u32BytesInPageBuf %d, u32LenCnt 0x%x\n", hidDataIndex, u32ByteCount );
 
 			FMC_DisableLDUpdate();
 			FMC_DISABLE_ISP();
@@ -1470,7 +1470,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 			if ( u32ByteCount >= u32DataSize )
 			{
 				u8Cmd = HID_CMD_NONE;
-				myprintf( "Update LDROM command complete.\n" );
+				//myprintf( "Update LDROM command complete.\n" );
 			}
 
 			break;
@@ -1496,7 +1496,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 			u8Cmd = HID_CMD_NONE;
 
-			myprintf( "Set Date/Time command complete.\n" );
+			//myprintf( "Set Date/Time command complete.\n" );
 			break;
 		}
 
@@ -1504,7 +1504,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 		{
 			if ( hidProcessCommand( pu8Buffer, u32BufferLen ) )
 			{
-				myprintf( "Unknown HID command %02X!\n", hidCmd.u8Cmd );
+				//myprintf( "Unknown HID command %02X!\n", hidCmd.u8Cmd );
 			}
 			return;
 		}

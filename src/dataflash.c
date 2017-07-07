@@ -466,7 +466,7 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.off = 0;
 //	dfStatus.keylock = 0;
 	dfStatus.flipped = ScrFlip;
-//	dfStatus.nologo = 0;
+	dfStatus.nologo = 1;
 //	dfStatus.clock = 0;
 //	dfStatus.vcom = 0;
 //	dfStatus.storage = 0;
@@ -476,11 +476,11 @@ __myevic__ void ResetDataFlash()
         dfStatus.vapedml = 1;
 	dfStatus.digclk = 1;
 	dfStatus.battpc = 1;
-        dfStatus.battv = 0;
+//        dfStatus.battv = 0;
 //	dfStatus.phpct = 0;
 	dfStatus.wakeonpm = 1;
 //	dfStatus.font = 0;
-	dfStatus.nfe = 0;
+//	dfStatus.nfe = 0;
 //	dfRezSS = 0;
 //	dfRezLockedSS = 0;
 //	dfRezTCR = 0;
@@ -492,7 +492,7 @@ __myevic__ void ResetDataFlash()
 	dfTCRM[2] = 110;
 	dfScreenSaver = SSAVER_QIX;
 //	dfTCMode = 0;
-	dfScreenProt = 0;
+//	dfScreenProt = 0;
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
 //	MemClear( dfSavedCfgPwr, sizeof(dfSavedCfgPwr) );
 	dfFBBest = 0;

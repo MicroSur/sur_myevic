@@ -55,6 +55,30 @@ const Battery_t BatteryRXMini =
 	20
 };
 
+const Battery_t const myCustom[] =
+{
+    //for custom reset
+	{
+		String_CUS,
+		{
+			{   0, 310 },
+			{  10, 340 },
+			{  20, 350 },
+			{  30, 355 },
+			{  40, 359 },
+			{  50, 362 },
+			{  60, 365 },
+			{  70, 369 },
+			{  80, 373 },
+			{  90, 380 },
+			{ 100, 418 }
+		},
+		280,
+		25,
+		20
+	}
+};
+
 const Battery_t const Batteries[] =
 {
 	// Generic 18650
@@ -1814,7 +1838,7 @@ __myevic__ void LoadCustomBattery()
 //-------------------------------------------------------------------------
 __myevic__ void ResetCustomBattery()
 {
-	SaveCustomBattery( &Batteries[0] ); //[0]
+	SaveCustomBattery( &myCustom[0] ); //&Batteries[0] ); //[0]
 	LoadCustomBattery();
 }
 

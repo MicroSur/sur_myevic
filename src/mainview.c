@@ -929,7 +929,7 @@ __myevic__ void DrawClock( int line )
 	int c = line + 32;
 
 	DrawImage( 0, line, 0xFE );
-	DrawCircle( 32, c, 3, 1, 1 );
+	DrawCircle( 32, c, 2, 1, 1 );
 
 	int32_t h = ( rtd.u32Hour % 12 ) * 30 + ( rtd.u32Minute >> 1 );
 	int32_t m = ( rtd.u32Minute ) * 6;
@@ -947,12 +947,16 @@ __myevic__ void DrawDigitClock( int line )
 
 	if ( dfStatus.timebig )
 	{
-		DrawValue( 4, line-3, rtd.u32Hour, 0, 0x29, 2 );
-		DrawValue( 32, line-3, rtd.u32Minute, 0, 0x29, 2 );
+		//DrawValue( 4, line-3, rtd.u32Hour, 0, 0x29, 2 );
+		//DrawValue( 32, line-3, rtd.u32Minute, 0, 0x29, 2 );
+                DrawValue( 4, line-10, rtd.u32Hour, 0, 0x3D, 2 );
+		DrawValue( 36, line-10, rtd.u32Minute, 0, 0x3D, 2 );
+            
 		if ( !( rtd.u32Second & 1 ) )
 		{
-			DrawImage( 28, line-5, 0xDF );
-			DrawImage( 28, line-13, 0xDF );
+                        DrawImage( 31, line-1, 0xD8 );
+			//DrawImage( 28, line-5, 0xDF );
+			//DrawImage( 28, line-13, 0xDF );
 		}
 		DrawDate( 4, line+19, &rtd, 0x1F );
 	}

@@ -51,39 +51,41 @@
 
 typedef struct
 {
-/* 00000001 */	unsigned int off:1;
-/* 00000002 */	unsigned int keylock:1;
-/* 00000004 */	unsigned int flipped:1;
-/* 00000008 */	unsigned int nologo:1;
-/* 00000010 */	unsigned int clock:1;
-/* 00000020 */	unsigned int vcom:1;
-/* 00000040 */	unsigned int storage:1;
-/* 00000080 */	unsigned int dbgena:1;
+/* 00000001 */	unsigned int off:1;         //lsls 0x1F
+/* 00000002 */	unsigned int keylock:1;     //lsls 0x1E
+/* 00000004 */	unsigned int flipped:1;     //lsls 0x1D
+/* 00000008 */	unsigned int nologo:1;      //lsls 0x1C
+/* 00000010 */	unsigned int clock:1;       //lsls 0x1B
+/* 00000020 */	unsigned int vcom:1;        //lsls 0x1A
+/* 00000040 */	unsigned int storage:1;     //lsls 0x19
+/* 00000080 */	unsigned int dbgena:1;      //lsls 0x18
 
-/* 00000100 */	unsigned int x32off:1;
-/* 00000200 */	unsigned int priopwr:1;
-/* 00000400 */	unsigned int onewatt:1;
-/* 00000800 */	unsigned int digclk:1;
-/* 00001000 */	unsigned int battpc:1;
-/* 00002000 */	unsigned int phpct:1;
-/* 00004000 */	unsigned int wakeonpm:1;
-/* 00008000 */	unsigned int font:1;
+/* 00000100 */	unsigned int x32off:1;      //lsls 0x17
+/* 00000200 */	unsigned int priopwr:1;     //lsls 0x16
+/* 00000400 */	unsigned int onewatt:1;     //lsls 0x15
+/* 00000800 */	unsigned int digclk:1;      //lsls 0x14
+/* 00001000 */	unsigned int battpc:1;      //lsls 0x13
+/* 00002000 */	unsigned int phpct:1;       //lsls 0x12
+/* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
+/* 00008000 */	unsigned int font:1;        //lsls 0x10
 
-/* 00010000 */	unsigned int nfe:1;
-/* 00020000 */	unsigned int dfmt1:1;
-/* 00040000 */	unsigned int invert:1;
-/* 00080000 */	unsigned int vapedml:1;
-/* 00100000 */	unsigned int onedegree:1;
-/* 00200000 */	unsigned int battv:1;
-/* 00400000 */	unsigned int lsloff:1;
-/* 00800000 */	unsigned int logomid:1;
+/* 00010000 */	unsigned int nfe:1;         //lsls 0x0F
+/* 00020000 */	unsigned int dfmt1:1;       //lsls 0x0E
+/* 00040000 */	unsigned int invert:1;      //lsls 0x0D
+/* 00080000 */	unsigned int vapedml:1;     //lsls 0x0C
+/* 00100000 */	unsigned int onedegree:1;   //lsls 0x0B
+/* 00200000 */	unsigned int battv:1;       //lsls 0x0A
+/* 00400000 */	unsigned int lsloff:1;      //lsls 0x09
+/* 00800000 */	unsigned int logomid:1;     //lsls 0x08
 
-/* 01000000 */	unsigned int timebig:1;
-/* 02000000 */	unsigned int usbchgoff:1;
-/* 04000000 */	unsigned int chkmodeoff:1;
-/* 08000000 */	unsigned int dfmt2:1;
-/* 10000000 */	unsigned int pcurve:1;
-
+/* 01000000 */	unsigned int timebig:1;     //lsls 0x07
+/* 02000000 */	unsigned int usbchgoff:1;   //lsls 0x06
+/* 04000000 */	unsigned int chkmodeoff:1;  //lsls 0x05
+/* 08000000 */	unsigned int dfmt2:1;       //lsls 0x04
+/* 10000000 */	unsigned int pcurve:1;      //lsls 0x03
+                                            //lsls 0x02
+                                            //lsls 0x01
+                                            //lsls 0
 // Do not exceed 32 bits;
 // if you may do so, create another bitfield.
 }

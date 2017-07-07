@@ -139,10 +139,10 @@ __myevic__ int ProfileMenuOnEvent( int event )
 
 	switch ( event )
 	{
-		case 1:
+		case 1: // Fire button
 			break;
 
-		case 15:
+		case 15: // Single Fire
 			if ( CurrentMenuItem != dfProfile )
 			{
 				SaveProfile();
@@ -152,11 +152,11 @@ __myevic__ int ProfileMenuOnEvent( int event )
 			break;
 
 		case EVENT_LONG_FIRE:
-			if ( CurrentMenuItem != dfProfile )
-			{
+			//if ( CurrentMenuItem != dfProfile )
+			//{
 				SaveProfile();
 				dfProfile = CurrentMenuItem;
-			}
+			//}
 			Event = EVENT_EXIT_MENUS;
 			break;
 

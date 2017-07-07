@@ -123,7 +123,7 @@ __myevic__ void RTCTimeToEpoch( time_t *t, const S_RTC_TIME_DATA_T *d )
 	s.tm_min   = d->u32Minute;
 	s.tm_sec   = d->u32Second;
 	s.tm_yday  = 0;
-	s.tm_wday  = d->u32DayOfWeek;
+	s.tm_wday  = 0; //d->u32DayOfWeek;
 	s.tm_isdst = 0;
 
 	*t = time_to_epoch( &s, 0 );
@@ -142,7 +142,7 @@ __myevic__ void RTCEpochToTime( S_RTC_TIME_DATA_T *d, const time_t *t )
 	d->u32Hour		= s.tm_hour;
 	d->u32Minute	= s.tm_min;
 	d->u32Second	= s.tm_sec;
-	d->u32DayOfWeek	= s.tm_wday;
+	d->u32DayOfWeek	= 0; //s.tm_wday;
 	d->u32TimeScale	= RTC_CLOCK_24;
 }
 

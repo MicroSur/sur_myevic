@@ -517,6 +517,33 @@ __myevic__ void GetUserInput()
 			}
 		}
 	}
+        else if ( KeyPressTime == 120 )
+        {
+		if ( UserInputs == 5 )
+		{
+			// Fire + Right button LONG
+			if ( dfStatus.off )
+			{
+				Event = 39;	// tcr set menu
+			}
+			else
+			{
+                                gFlags.user_idle = 0;
+				Event = EVENT_PROFILE_MENU;	// profile selection
+			}
+		}
+		else if ( UserInputs == 6 )
+		{
+			if ( dfStatus.off )
+			{
+				Event = 34;	// battery voltage screen
+			}
+			else
+			{
+				Event = 6;	// stealth on/off
+			}
+		}            
+        }
 	else if ( KeyPressTime == 200 )
 	{
 		if ( UserInputs == 1 ){
@@ -562,6 +589,7 @@ __myevic__ void GetUserInput()
 				}
 			}
 		}
+/*
 		else if ( UserInputs == 5 )
 		{
 			// Fire + Right button LONG
@@ -585,8 +613,9 @@ __myevic__ void GetUserInput()
 				Event = 6;	// stealth on/off
 			}
 		}
+*/
 	}
-	else if ( KeyPressTime == 500 )
+	else if ( KeyPressTime == 300 )
 	{
 		if ( UserInputs == 5 )
 		{

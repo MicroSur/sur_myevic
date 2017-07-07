@@ -91,41 +91,41 @@ enum
 
 typedef struct
 {
-/* 00000001 */	int	tick_5khz:1;
-/* 00000002 */	int	tick_1khz:1;
-/* 00000004 */	int	tick_us:1;
-/* 00000008 */	int	tick_100hz:1;
-/* 00000010 */	int	tick_10hz:1;
-/* 00000020 */	int	tick_5hz:1;
-/* 00000040 */	int	tick_2hz:1;
-/* 00000080 */	int read_battery:1;
+/* 00000001 */	int	tick_5khz:1;            //lsls 0x1F
+/* 00000002 */	int	tick_1khz:1;            //lsls 0x1E
+/* 00000004 */	int	tick_us:1;              //lsls 0x1D
+/* 00000008 */	int	tick_100hz:1;           //lsls 0x1C
+/* 00000010 */	int	tick_10hz:1;            //lsls 0x1B
+/* 00000020 */	int	tick_5hz:1;             //lsls 0x1A
+/* 00000040 */	int	tick_2hz:1;             //lsls 0x19
+/* 00000080 */	int read_battery:1;             //lsls 0x18
 
-/* 00000100 */	int firing:1;
-/* 00000200 */	int low_battery:1;
-/* 00000400 */	int usb_attached:1;
-/* 00000800 */	int refresh_battery:1;
-/* 00001000 */	int battery_charging:1;
-/* 00002000 */	int probing_ato:1;
-/* 00004000 */	int user_idle:1;
-/* 00008000 */	int sample_vbat:1;
+/* 00000100 */	int firing:1;                   //lsls 0x17
+/* 00000200 */	int low_battery:1;              //lsls 0x16
+/* 00000400 */	int usb_attached:1;             //lsls 0x15
+/* 00000800 */	int refresh_battery:1;          //lsls 0x14
+/* 00001000 */	int battery_charging:1;         //lsls 0x13
+/* 00002000 */	int probing_ato:1;              //lsls 0x12
+/* 00004000 */	int user_idle:1;                //lsls 0x11
+/* 00008000 */	int sample_vbat:1;              //lsls 0x10
 
-/* 00010000 */	int sample_btemp:1;
-/* 00020000 */	int refresh_display:1;
-/* 00040000 */	int draw_edited_item:1;
-/* 00080000 */	int battery_10pc:1;
-/* 00100000 */	int draw_battery:1;
-/* 00200000 */	int draw_battery_charging:1;
-/* 00400000 */	int decrease_voltage:1;
-/* 00800000 */	int check_mode:1;
+/* 00010000 */	int sample_btemp:1;             //lsls 0x0F
+/* 00020000 */	int refresh_display:1;          //lsls 0x0E
+/* 00040000 */	int draw_edited_item:1;         //lsls 0x0D
+/* 00080000 */	int battery_10pc:1;             //lsls 0x0C
+/* 00100000 */	int draw_battery:1;             //lsls 0x0B
+/* 00200000 */	int draw_battery_charging:1;    //lsls 0x0A
+/* 00400000 */	int decrease_voltage:1;         //lsls 9
+/* 00800000 */	int check_mode:1;               //lsls 8
 
-/* 01000000 */	int unused24:1;
-/* 02000000 */	int unused25:1;
-/* 04000000 */	int limit_ato_temp:1;
-/* 08000000 */	int new_rez_ti:1;
-/* 10000000 */	int new_rez_ni:1;
-/* 20000000 */	int limit_power:1;
-/* 40000000 */	int batteries_ooe:1;
-/* 80000000 */	int new_rez_ss:1;
+/* 01000000 */	int unused24:1;                 //lsls 7
+/* 02000000 */	int unused25:1;                 //lsls 6
+/* 04000000 */	int limit_ato_temp:1;           //lsls 5
+/* 08000000 */	int new_rez_ti:1;               //lsls 4
+/* 10000000 */	int new_rez_ni:1;               //lsls 3
+/* 20000000 */	int limit_power:1;              //lsls 2
+/* 40000000 */	int batteries_ooe:1;            //lsls 1
+/* 80000000 */	int new_rez_ss:1;               //lsls 0
 
 /* 00000001 */	int edit_value:1;
 /* 00000002 */	int new_rez_tcr:1;
