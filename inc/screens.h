@@ -266,6 +266,7 @@ extern const uint8_t String_HM[];
 extern const uint8_t String_Octa[];
 extern const uint8_t String_Dodeca[];
 extern const uint8_t String_Isoca[];
+extern const uint8_t String_Square[];
 extern const uint8_t String_B1[];
 extern const uint8_t String_B2[];
 extern const uint8_t String_B3[];

@@ -519,6 +519,8 @@ __myevic__ void ResetDataFlash()
 	dfPID.D = PID_D_DEF;
 //	dfMillis = 0;
 //	dfProfile = 0;
+        dfStatus.offmodclock = 0;
+        
 	UpdateDataFlash();
 
 	dfPuffCount = 0;

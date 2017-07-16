@@ -182,7 +182,8 @@ __myevic__ void EventHandler()
 		{
 			if ( dfStatus.off )
 			{
-                            if( !gFlags.battery_charging ){
+                            if( !gFlags.battery_charging && !dfStatus.offmodclock)
+                            {
                                 DrawDigitClock( 80 );
                                 DrawClock( 0 );   
                                 DisplayRefresh();

@@ -1803,9 +1803,10 @@ const menu_t Object3DMenu =
 	0,
 	Object3DOnClick+1,
 	0,
-	6,
+	7,
 	{
 		{ String_None, 0, EVENT_PARENT_MENU, 0 },
+                { String_Square, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Tetra, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Cube, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Octa, 0, EVENT_PARENT_MENU, 0 },
@@ -1903,6 +1904,14 @@ const mdata_t ClkSizeData =
 	24
 };
 
+const mdata_t OffModClock =
+{
+	&dfStatus,
+	&InvBitDesc,
+	MITYPE_BIT,
+	29
+};
+
 const menu_t ClockMenu =
 {
 	String_Clock,
@@ -1912,7 +1921,7 @@ const menu_t ClockMenu =
 	0,
 	ClockMenuOnClick+1,
 	0,
-	8,
+	9,
 	{
 		{ String_SetTime, 0, 0, 0 },
 		{ String_SetDate, 0, 0, 0 },
@@ -1920,7 +1929,8 @@ const menu_t ClockMenu =
 		{ String_ClkSpeed, 0, EVENT_CLK_SPEED, 0 },
 		{ String_Fmt, 0, 0, 0 },
 		{ String_Size, &ClkSizeData, 0, MACTION_DATA },
-		{ String_Dial, 0, 0, 0 },
+		{ String_Dial, 0, 0, 0 },               
+                { String_Off, &OffModClock, 0, MACTION_DATA },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

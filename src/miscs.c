@@ -351,7 +351,6 @@ const obj3d_t tetra =
 	tetra_lines
 };
 
-/*
 const pt3d_t square_points[] = 
 	{
 		{  1,  1,  1 }, // 0
@@ -376,7 +375,6 @@ const obj3d_t square =
 	square_points,
 	square_lines
 };
-*/
 
 const pt3d_t octa_points[] = 
 	{
@@ -541,6 +539,7 @@ const obj3d_t isoca =
 
 const obj3d_t const *objects3d[] =
 	{
+                &square,
 		&tetra,
 		&cube,
 		&octa,

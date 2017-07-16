@@ -858,52 +858,59 @@ __myevic__ void ShowMainView()
 		}
 		else
 		{
-			if ( gFlags.anim3d )
+			if ( gFlags.anim3d && !HideLogo )
 			{
 				anim3d( 1 );
 			}
-			else if ( dfStatus.clock )
+			else if ( dfStatus.clock && !HideLogo )
 			{                                 
 				if ( dfStatus.digclk )
 				{
-					DrawDigitClock( 58 );
+					DrawDigitClock( 61 );
 				}
 				else
 				{	
                                         DrawFillRect( 0, 44, 63, 127, 0 );
 					DrawClock( 54 );                         
-				}
+				}       
 			}
-			else
+			
+                        else if ( !dfStatus.nologo && dfStatus.logomid && !HideLogo )
 			{
-			if ( !dfStatus.logomid || (dfStatus.logomid && HideLogo) ) DrawInfoLines();	
+                               int h = GetLogoHeight();
+
+                                if ( h )
+                                {
+                                    if ( h > 40 ) 
+                                    {
+                                        DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                                        DrawLOGO( 0, 50 );
+                                    }
+                                    else 
+                                    {
+                                        DrawLOGO( 0, 56 );
+                                    } 
+                                }
                         }
+                        else 
+                        {
+                                DrawInfoLines();
+                        }                              
                 }
 
-		if (( Screen == 1 ) && ( !HideLogo ))
+		if (( Screen == 1 ) && !HideLogo && !dfStatus.nologo && !dfStatus.logomid)
 		{
 			int h = GetLogoHeight();
 
-			if ( h > 0 )
-			{
-                                if (!dfStatus.clock && h > 40) {
-                            //        DrawFillRect( 0, 48, 63, 106, 0 );
-                            //        DrawClock( 54 );  
-                            //    } else {
-                                 if (!dfStatus.nologo) DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
-                                }
-                                
-				if ( h > 40 )
-				{	
-                                    
-                                        DrawLOGO( 0, dfStatus.logomid ? 50 : 0 );
-				} else {
-                                        DrawLOGO( 0, dfStatus.logomid ? 56 : 0 );
-                                }
-			}
+                        if ( h )
+                        {
+                            if ( h > 40 ) DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                            
+                            DrawLOGO( 0, 0 );
+                        }
 		}
-	}
-
+        }
+        
 	if ( ShowProfNum )
 	{
 		DrawFillRect( 0, 108, 63, 127, 0 );

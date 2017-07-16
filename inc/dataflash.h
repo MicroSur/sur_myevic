@@ -76,14 +76,14 @@ typedef struct
 /* 00100000 */	unsigned int onedegree:1;   //lsls 0x0B
 /* 00200000 */	unsigned int battv:1;       //lsls 0x0A
 /* 00400000 */	unsigned int lsloff:1;      //lsls 0x09
-/* 00800000 */	unsigned int logomid:1;     //lsls 0x08
+/* 00800000 */	unsigned int logomid:1;     //lsls 0x08  23-d bit
 
 /* 01000000 */	unsigned int timebig:1;     //lsls 0x07
 /* 02000000 */	unsigned int usbchgoff:1;   //lsls 0x06
 /* 04000000 */	unsigned int chkmodeoff:1;  //lsls 0x05
 /* 08000000 */	unsigned int dfmt2:1;       //lsls 0x04
 /* 10000000 */	unsigned int pcurve:1;      //lsls 0x03
-                                            //lsls 0x02
+/* 20000000 */  unsigned int offmodclock:1; //lsls 0x02 29
                                             //lsls 0x01
                                             //lsls 0
 // Do not exceed 32 bits;
