@@ -145,7 +145,7 @@ typedef struct
 /* 00004000 */	int read_bir:1;
 /* 00008000 */	int monitoring:1;
 
-/* 00010000 */	int anim3d:1;
+/* 00010000 */	int anim3d:1;  //bit 48
 /* 00020000 */	int pwm_pll:1;
 /* 00040000 */	int rtcinit:1;
 /* 00080000 */	int light_sleep:1;

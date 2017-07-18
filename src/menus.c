@@ -90,6 +90,7 @@ struct menu_s
 const menu_t const *CurrentMenu;
 uint8_t CurrentMenuItem;
 uint8_t PrevMenuItem;
+const menu_t LogoMenu;
 
 
 //-----------------------------------------------------------------------------
@@ -1538,7 +1539,12 @@ const mbitdesc_t InvBitDesc =
 	String_Off,
 	String_On
 };
-
+const mbitdesc_t InvBitDesc_Inv =
+{
+	0, 0,
+	String_On,
+	String_Off
+};
 const menu_t GameMenu =
 {
 	String_Game,
@@ -1797,7 +1803,7 @@ const menu_t CoilsMenu =
 const menu_t Object3DMenu =
 {
 	String_3D,
-	&MiscsMenu,
+	&LogoMenu,
 	Object3DOnEnter+1,
 	0,
 	0,
@@ -1879,12 +1885,12 @@ const menu_t MiscsMenu =
 	0,
 	0,
 	0,
-	5,
+	4,
 	{
 		{ String_Game, &GameMenu, 0, MACTION_SUBMENU },
                 { String_Tetris, &GameTtMenu, 0, MACTION_SUBMENU },                        
 		{ String_Led, &LedMenu, 0, MACTION_SUBMENU },
-		{ String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
+		//{ String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -1911,7 +1917,13 @@ const mdata_t OffModClock =
 	MITYPE_BIT,
 	29
 };
-
+const mdata_t OnModClock =
+{
+	&dfStatus,
+	&InvBitDesc_Inv,
+	MITYPE_BIT,
+	4
+};
 const menu_t ClockMenu =
 {
 	String_Clock,
@@ -1921,7 +1933,7 @@ const menu_t ClockMenu =
 	0,
 	ClockMenuOnClick+1,
 	0,
-	9,
+	10,
 	{
 		{ String_SetTime, 0, 0, 0 },
 		{ String_SetDate, 0, 0, 0 },
@@ -1930,7 +1942,8 @@ const menu_t ClockMenu =
 		{ String_Fmt, 0, 0, 0 },
 		{ String_Size, &ClkSizeData, 0, MACTION_DATA },
 		{ String_Dial, 0, 0, 0 },               
-                { String_Off, &OffModClock, 0, MACTION_DATA },        
+                { String_OFF, &OffModClock, 0, MACTION_DATA },    
+                { String_ON, &OnModClock, 0, MACTION_DATA },         
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2093,9 +2106,11 @@ const menu_t LogoMenu =
 	0,
 	0,
 	0,
-	3,
+	5,
 	{
-		{ String_Show, &LogoShowData, 0, MACTION_DATA },
+	        { String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
+                { String_Clock, &OnModClock, 0, MACTION_DATA },  
+                { String_Logo, &LogoShowData, 0, MACTION_DATA },
 		{ String_Where, &LogoWhereData, 0, MACTION_DATA },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}

@@ -54,8 +54,8 @@ typedef struct
 /* 00000001 */	unsigned int off:1;         //lsls 0x1F
 /* 00000002 */	unsigned int keylock:1;     //lsls 0x1E
 /* 00000004 */	unsigned int flipped:1;     //lsls 0x1D
-/* 00000008 */	unsigned int nologo:1;      //lsls 0x1C
-/* 00000010 */	unsigned int clock:1;       //lsls 0x1B
+/* 00000008 */	unsigned int nologo:1;      //lsls 0x1C 3-d bit for menu
+/* 00000010 */	unsigned int clock:1;       //lsls 0x1B 4
 /* 00000020 */	unsigned int vcom:1;        //lsls 0x1A
 /* 00000040 */	unsigned int storage:1;     //lsls 0x19
 /* 00000080 */	unsigned int dbgena:1;      //lsls 0x18
