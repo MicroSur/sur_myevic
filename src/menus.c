@@ -496,27 +496,23 @@ __myevic__ void IFMenuIDraw( int it, int line, int sel )
 
 	switch ( it )
 	{
-		case 0:	// 1Watt
+		case 1:	// 1Watt
 			DrawString( dfStatus.onewatt ? String_On : String_Off, 44, line+2 );
 			break;
 
-		case 1:	// 1C5F
+		case 2:	// 1C5F
 			DrawString( dfStatus.onedegree ? String_On : String_Off, 44, line+2 );
 			break;
 
-		case 2:	// Wake -+
+		case 3:	// Wake -+
 			DrawString( dfStatus.wakeonpm ? String_On : String_Off, 44, line+2 );
 			break;
 
-		//case 3:	// Font
-		//	DrawImage( 44, line+2, dfStatus.font ? 0x9D : 0x9C );
-		//	break;
-
-		case 3:	// Temp
+		case 4:	// Temp
 			DrawImage( 44, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
 
-		case 4:	// TDom
+		case 5:	// TDom
 			DrawString( dfStatus.priopwr ? String_On : String_Off, 44, line+2 );
 			break;
 
@@ -530,7 +526,7 @@ __myevic__ void IFMenuOnClick()
 {
 	switch ( CurrentMenuItem )
 	{
-		case 0:	// 1Watt
+		case 1:	// 1Watt
 			dfStatus.onewatt ^= 1;
 			if ( dfStatus.onewatt )
 			{
@@ -543,7 +539,7 @@ __myevic__ void IFMenuOnClick()
 			}
 			break;
 
-		case 1:	// 1C5F
+		case 2:	// 1C5F
 			dfStatus.onedegree ^= 1;
 			if ( !dfStatus.onedegree )
 			{
@@ -551,7 +547,7 @@ __myevic__ void IFMenuOnClick()
 			}
 			break;
 
-		case 2:	// Wake -+
+		case 3:	// Wake -+
 			dfStatus.wakeonpm ^= 1;
 			break;
 
@@ -560,7 +556,7 @@ __myevic__ void IFMenuOnClick()
 		//	DisplaySetFont();
 		//	break;
 
-		case 3:	// Temp
+		case 4:	// Temp
 			dfIsCelsius ^= 1;
 			if ( dfIsCelsius )
 			{
@@ -579,7 +575,7 @@ __myevic__ void IFMenuOnClick()
 			}
 			break;
 
-		case 4:	// TDom
+		case 5:	// TDom
 			dfStatus.priopwr ^= 1;
 			break;
 
@@ -771,7 +767,16 @@ __myevic__ int PreheatMEvent( int event )
 				vret = 1;
 			}
 			break;
-
+                        
+                case EVENT_LONG_FIRE:
+			if ( CurrentMenuItem == 2 )
+                        { //preheat off
+                        dfPreheatTime = 0;
+                        UpdateDFTimer = 50;
+			gFlags.refresh_display = 1;
+			vret = 1;
+                        }
+                        break;
 	}
 	return vret;
 }
@@ -1047,7 +1052,14 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 			if ( v )
 			{
 				DrawValueRight( 53, line+2, v, 0, 0x0B, 0 );
-				DrawImage( 55, line+2, 0x8E );
+                                if ( dfScreenProt < 3 ) 
+                                { //sec
+                                    DrawImage( 55, line+2, 0x94 );
+                                }
+				else 
+                                { //min
+                                    DrawImage( 55, line+2, 0x8E );
+                                }
 			}
 			else
 			{
@@ -1503,7 +1515,7 @@ __myevic__ int LedMenuEvent( int event )
 
 __myevic__ void CurveMenuOnClick()
 {
-	if ( CurrentMenuItem == 1 )
+	if ( CurrentMenuItem == 2 )
 	{
 		ResetPowerCurve();
 	}
@@ -2154,11 +2166,12 @@ const menu_t ClicksMenu =
 	0,
 	ClicksMenuOnClick+1,
 	0,
-	4,
+	5,
 	{
 		{ String_2, 0, 0, 0 },
 		{ String_3, 0, 0, 0 },
 		{ String_4, 0, 0, 0 },
+                { String_5, 0, 0, 0 },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2174,13 +2187,12 @@ const menu_t IFMenu =
 	0,
 	7,
 	{
+                { String_Clicks, &ClicksMenu, 0, MACTION_SUBMENU },
 		{ String_1Watt, 0, 0, 0 },
 		{ String_1C5F, 0, 0, 0 },
 		{ String_WakeMP, 0, 0, 0 },
-	//	{ String_Font, 0, 0, 0 },
 		{ String_Temp, 0, 0, 0 },
 		{ String_PPwr, 0, 0, 0 },
-		{ String_Clicks, &ClicksMenu, 0, MACTION_SUBMENU },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2339,8 +2351,8 @@ const menu_t CurveMenu =
 	5,
 	{
 		{ String_Enable, &CurveEnaData, 0, MACTION_DATA },
-		{ String_Reset, 0, EVENT_POWER_CURVE, 0 },
-		{ String_Edit, 0, EVENT_POWER_CURVE, 0 },
+                { String_Edit, 0, EVENT_POWER_CURVE, 0 },
+		{ String_Reset, 0, EVENT_POWER_CURVE, 0 },		
 		{ String_Delay, &CurveDelayData, 0, MACTION_DATA },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
@@ -2359,9 +2371,9 @@ const menu_t VapingMenu =
 	9,
 	{
 		{ String_Preheat, &PreheatMenu, 0, MACTION_SUBMENU },
-		{ String_Modes, &ModesMenu, 0, MACTION_SUBMENU },
-		{ String_Algo, &AlgoMenu, 0, MACTION_SUBMENU },
 		{ String_Curve, &CurveMenu, 0, MACTION_SUBMENU },
+                { String_Algo, &AlgoMenu, 0, MACTION_SUBMENU },
+                { String_Modes, &ModesMenu, 0, MACTION_SUBMENU },
 		{ String_Prot, 0, 0, 0 },
 		{ String_Vaped, 0, 0, 0 },
 		{ String_mlkJ, 0, 0, 0 },

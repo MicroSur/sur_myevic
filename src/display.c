@@ -312,7 +312,7 @@ __myevic__ void DrawHLineDots( const int x1, const int y, const int x2, const in
 {
 	int inc = ( x1 < x2 ) * 2 - 1;
 
-	for ( int x = x1 ; x != x2 + inc ; x += 2 * inc )
+	for ( int x = x1 ; x <= x2 + 2*inc ; x += 2 * inc )
 	{
 		DrawPoint( x, y, color );
 	}
@@ -339,7 +339,13 @@ __myevic__ void DrawFillRect( const int x1, const int y1,const  int x2, const in
 		DrawHLine( x1, y, x2, color );
 	}
 }
-
+__myevic__ void DrawFillRectLines( const int x1, const int y1,const  int x2, const int y2, const int color)
+{
+	for ( int y = y1 ; y <= y2 ; ++y )
+	{
+		DrawHLineDots( x1, y, x2, color );
+	}
+}
 
 //=========================================================================
 //----- (0000579C) --------------------------------------------------------

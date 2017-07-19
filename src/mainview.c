@@ -309,7 +309,7 @@ __myevic__ void DrawAPTLine( int line )
 				DrawString( String_mld, 0, line+2 );
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
 			}
-                        DrawImage( 56, line+2, 0xCD ); //flask
+                        DrawImage( 57, line+2, 0xCD ); //flask
 			break;
 		}
 
@@ -430,7 +430,7 @@ __myevic__ void DrawAPTLine3( int line )
 				DrawString( String_mld, 0, line+2 );
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
 			}
-                        DrawImage( 56, line+2, 0xCD ); //flask
+                        DrawImage( 57, line+2, 0xCD ); //flask
 			break;
 		}
 
@@ -495,12 +495,27 @@ __myevic__ void DrawAPTLine3( int line )
 __myevic__ void ShowFireDuration( int line )
 {
 	int x;
+	DrawFillRect( 0, line, 63, line+9, 1 );
+	DrawFillRect( 1, line+1, 62, line+8, 0 );
+	x = ( FireDuration > dfProtec / 2 ) ? 5 : 38;
+	DrawValue( x, line+1, FireDuration, 1, 0xB, 0 );
+	DrawImage( x + 15 + 6 * ( FireDuration > 99 ), line+1, 0x94 );
+	InvertRect( 1, line+1, 3 + 59 * FireDuration / dfProtec, line+8 );   
+/*
+	//DrawFillRect( 0, line, 63, line+15, 1 );
+	DrawFillRect( 0, line, 63, line+10, 0 );
+	x = ( FireDuration > dfProtec / 2 ) ? 5 : 38;
+	DrawValue( x, line+1, FireDuration, 1, 0xB, 0 );
+	DrawImage( x + 15 + 6 * ( FireDuration > 99 ), line+1, 0x94 );
+	InvertRect( 2, line, 2 + 59 * FireDuration / dfProtec, line+9 );        
+
 	DrawFillRect( 0, line, 63, line+15, 1 );
 	DrawFillRect( 1, line+1, 62, line+14, 0 );
 	x = ( FireDuration > dfProtec / 2 ) ? 5 : 38;
 	DrawValue( x, line+4, FireDuration, 1, 0xB, 0 );
 	DrawImage( x + 15 + 6 * ( FireDuration > 99 ), line+4, 0x94 );
 	InvertRect( 2, line+2, 2 + 59 * FireDuration / dfProtec, line+13 );
+*/
 }
 
 
@@ -521,7 +536,7 @@ __myevic__ void DrawInfoLines()
 		return;
 	}
 
-	if ( Screen == 2 )
+	if ( Screen == 2 ) //firing
 	{
 		switch ( dfMode )
 		{
@@ -537,13 +552,18 @@ __myevic__ void DrawInfoLines()
 				{
 					DrawPwrLine( AtoPower( AtoVolts ), 46 ); //52 );
 				}
+                                ShowFireDuration( 0 );
 				break;
 			case 4:
+                                DrawVoltsLine( dfVWVolts, 46 ); 
+				ShowFireDuration( 0 ); //43 );
+				break;
 			case 5:
 			{
-				ShowFireDuration( 43 ); //49 );
+                                DrawVoltsLine( BypassVolts, 46 );
+				ShowFireDuration( 0 ); //43 );
 				break;
-			}
+			}                      
 			default:
 				break;
 		}
@@ -810,7 +830,7 @@ __myevic__ void ShowMainView()
 			DrawBFLine( v17 );
 			DrawHLine( 25, v17, 40, 0 );
 			DrawHLine( 25, v17 + 1, 40, 0 );
-			DrawString( String_BF_s, 29, v17 - 3 );
+			DrawString( String_BF_s, 27, v17 - 3 );
 		}
 
 		if ( !ShowWeakBatFlag )
@@ -839,8 +859,10 @@ __myevic__ void ShowMainView()
 			}
 			else
 			{
-				DrawValue( 10, 110, FireDuration, 1, 0x29, 2 );
-				DrawImage( 40, 110, 0xB7 );
+                                ShowBattery();
+                                ShowFireDuration( 0 ); 
+				//DrawValue( 10, 110, FireDuration, 1, 0x29, 2 );
+				//DrawImage( 40, 110, 0xB7 );
 			}
 		}
 	}

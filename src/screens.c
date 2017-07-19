@@ -17,7 +17,8 @@ uint8_t		Screen;
 uint16_t	ScreenDuration;
 uint16_t	ScreenRefreshTimer;
 
-const uint8_t ScrSaveTimes[8] = { 1, 2, 5, 10, 15, 20, 30, 0 };
+//ScrSaveTimes 3 first in sec
+const uint8_t ScrSaveTimes[8] = { 5, 15, 30, 1, 5, 15, 30, 0 }; //{ 1, 2, 5, 10, 15, 20, 30, 0 };
 const uint8_t ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
 
 uint8_t		EditItemIndex;
@@ -375,7 +376,14 @@ __myevic__ void DrawScreen()
 
 __myevic__ uint16_t GetScreenProtection()
 {
-	return ( 60 * ScrSaveTimes[dfScreenProt] );
+    if ( dfScreenProt < 3 ) 
+    {
+        return ( ScrSaveTimes[dfScreenProt] );
+    }
+    else
+    {
+        return ( 60 * ScrSaveTimes[dfScreenProt] );
+    }
 }
 
 __myevic__ uint16_t GetMainScreenDuration()
@@ -576,7 +584,7 @@ __myevic__ void ShowBattery()
 			}
 			else if ( BatteryTenth )
 			{
-				DrawFillRect( 32, 118, (25 * BatteryTenth / 10 + 31), 124, 1 );
+				DrawFillRectLines( 32, 118, (25 * BatteryTenth / 10 + 31), 124, 1 );
 			}
 		}
 		else
@@ -588,7 +596,7 @@ __myevic__ void ShowBattery()
 			}
 			else if ( BatteryTenth )
 			{
-				DrawFillRect( 10, 118, (4 * BatteryTenth + 9), 124, 1 );
+				DrawFillRectLines( 10, 118, (4 * BatteryTenth + 9), 124, 1 );
 			}
 		}
 	}
@@ -634,11 +642,11 @@ __myevic__ void ShowBatCharging()
 		{
 			if ( dfStatus.battpc )
 			{
-				DrawFillRect( 32, 118, (25 * BatAnimLevel / 10 + 31), 124, 1 );
+				DrawFillRectLines( 32, 118, (25 * BatAnimLevel / 10 + 31), 124, 1 );
 			}
 			else
 			{
-				DrawFillRect( 10, 118, (4 * BatAnimLevel + 9), 124, 1 );
+				DrawFillRectLines( 10, 118, (4 * BatAnimLevel + 9), 124, 1 );
 			}
 		}
 	}
@@ -1074,8 +1082,8 @@ __myevic__ void ShowPowerCurve()
 		}
 
 		DrawVLine(	10 + dfPwrCurve[i].power / 4,
-					27 + 2 * t1 / 5,
-					27 + 2 * t2 / 5,
+					27 + 2 * t1, // / 5,
+					27 + 2 * t2, // / 5,
 					1 );
 
 		if (( t2 > t ) && ( j < 0 ))
@@ -1085,9 +1093,9 @@ __myevic__ void ShowPowerCurve()
 			if ( t == t1 )
 			{
 				DrawFillRect(	10,
-								27 + 2 * t1 / 5,
+								27 + 2 * t1, // / 5,
 								10 + dfPwrCurve[i].power / 4,
-								28 + 2 * t1 / 5,
+								28 + 2 * t1, // / 5,
 								1 );
 			}
 		}
@@ -1095,7 +1103,7 @@ __myevic__ void ShowPowerCurve()
 
 	if ( !gFlags.edit_value || gFlags.draw_edited_item )
 	{
-		DrawImage( 6, 23 + EditItemIndex * 5 , 0xD4 ); //2
+		DrawImage( 6, 23 + EditItemIndex *2, 0xD4 ); //2
 	}
 
 	DrawImage( 12, 3, 0xAF );

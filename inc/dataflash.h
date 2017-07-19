@@ -171,10 +171,10 @@ typedef struct dfParams
 /* 00C0 */	uint16_t	ClkRatio;
 /* 00C2 */	uint16_t	VVRatio;
 /* 00C4 */	uint8_t		PHDelay;
-/* 00C5 */	uint8_t		Clicks[3];
-/* 00C8 */	uint8_t		DimTimeout;
-/* 00C9 */	uint8_t		BatteryModel;
-/* 00CA */	int8_t		UnusedCA[3];
+/* 00C5 */	uint8_t		Clicks[4];
+/* 00C9 */	uint8_t		DimTimeout;
+/* 00CA */	uint8_t		BatteryModel;
+/* 00CB */	int8_t		UnusedCA[2];
 /* 00CD */	uint8_t		PreheatTime;
 /* 00CE */	uint16_t	PreheatPwr;
 /* 00D0 */	uint16_t	AtoPreheatPwr;

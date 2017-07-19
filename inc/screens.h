@@ -226,6 +226,7 @@ extern const uint8_t String_WakeMP[];
 extern const uint8_t String_2[];
 extern const uint8_t String_3[];
 extern const uint8_t String_4[];
+extern const uint8_t String_5[];
 extern const uint8_t String_OnOff[];
 extern const uint8_t String_ModePlus[];
 extern const uint8_t String_PPwr[];

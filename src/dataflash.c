@@ -460,7 +460,7 @@ __myevic__ void ResetDataFlash()
 //	dfStealthOn = 0;
 	dfTempCoefsNI = 201;
 	ResetCustomBattery();
-	ResetPowerCurve();
+//	ResetPowerCurve();
 	dfTempCoefsTI = 101;
 	dfLEDColor = 25 << 10;
 //	dfStatus.off = 0;
@@ -509,6 +509,7 @@ __myevic__ void ResetDataFlash()
 	dfClick[0] = CLICK_ACTION_EDIT;
 	dfClick[1] = CLICK_ACTION_ON_OFF;
 	dfClick[2] = CLICK_ACTION_TETRIS;
+        dfClick[3] = CLICK_ACTION_ON_OFF;
 	dfDimTimeout = 20; //see dfScrMainTime
 //	dfBatteryModel = 0;
 	dfPreheatPwr = 300;
@@ -610,8 +611,8 @@ __myevic__ void DFCheckValuesValidity()
 		dfTempCoefsNI = 201;
 		dfTempCoefsTI = 101;
 
-		ResetCustomBattery();
-		ResetPowerCurve();
+		//ResetCustomBattery();
+		//ResetPowerCurve();
 	}
 	else
 	{
@@ -624,9 +625,9 @@ __myevic__ void DFCheckValuesValidity()
 
 		for ( i = 0 ; i < PWR_CURVE_PTS ; ++i )
 		{
-			if (( dfPwrCurve[i].time > 250 || dfPwrCurve[i].power > 200 )
-			||	( i == 0 && dfPwrCurve[i].time != 0 )
-			||	( i != 0 && dfPwrCurve[i].time <= dfPwrCurve[i-1].time ))
+			if (( dfPwrCurve[i].time > 250 || dfPwrCurve[i].power > 200 ) )
+			//||	( i == 0 && dfPwrCurve[i].time != 0 )
+			//||	( i != 0 && dfPwrCurve[i].time <= dfPwrCurve[i-1].time ))
 			{
 				ResetPowerCurve();
 				break;

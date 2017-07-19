@@ -961,7 +961,7 @@ __myevic__ void Main()
 				BatteryCharge();
 			}
 
-			if (( gFlags.anim3d ) && ( Screen == 1 ) && ( !EditModeTimer ) && !HideLogo )
+			if (( gFlags.anim3d ) && ( Screen == 1 ) && ( dfMode != 6 ) && ( !EditModeTimer ) && !HideLogo )
 			{
 				anim3d( 0 );
 			}

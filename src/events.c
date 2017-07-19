@@ -361,6 +361,7 @@ __myevic__ void GetUserInput()
 				case 2:
 				case 3:
 				case 4:
+                                case 5:
 					switch ( dfClick[FireClickCount-2] )
 					{
 						default:
@@ -412,9 +413,11 @@ __myevic__ void GetUserInput()
 					}
 					break;
 
+/*
 				case 5:
 					Event = 17;	// Switch On/Off
 					break;
+*/
 
 				case 6:
 					//Event = 17;	// Switch Back
@@ -617,7 +620,7 @@ __myevic__ void GetUserInput()
 	}
 	else if ( KeyPressTime == 300 )
 	{
-		if ( UserInputs == 5 )
+		if ( UserInputs == 5 ) // Fire + Right button very LONG
 		{
 			Event = EVENT_POWER_CURVE;
 		}
