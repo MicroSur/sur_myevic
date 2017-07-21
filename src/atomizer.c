@@ -434,7 +434,7 @@ __myevic__ void ReadAtoCurrent()
 	unsigned int adcAtoVolts;
 	unsigned int arez;
 	unsigned int current1, current2;
-	int s;
+	//int s;
 
 	if ( gFlags.firing || gFlags.probing_ato )
 	{
@@ -487,7 +487,7 @@ __myevic__ void ReadAtoCurrent()
 			&& TargetVolts >= 100	// 1.00V
 		)
 		{
-			s = 2;
+			//s = 2;
 		}
 	//	Definitely useless.
 	//	else if ( ( current1 >= 255 || current2 >= 255 ) && !ISMODEBY(dfMode) )
@@ -511,6 +511,7 @@ __myevic__ void ReadAtoCurrent()
 
 		StopFire();
 
+/*
 		myprintf(	"\n"
 					" Short %d! u32ADValue_Res_temp(%d) u32ADValue_CurVol_temp(%d)"
 					" g_u16DetRes_I(%d.%d) u16Res(%d) g_u32Set_OutVol(%d).\n",
@@ -521,6 +522,7 @@ __myevic__ void ReadAtoCurrent()
 					AtoCurrent % 10,
 					arez,
 					TargetVolts	);
+*/
 	}
 }
 

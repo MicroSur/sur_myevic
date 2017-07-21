@@ -84,7 +84,7 @@ typedef struct
 /* 08000000 */	unsigned int dfmt2:1;       //lsls 0x04
 /* 10000000 */	unsigned int pcurve:1;      //lsls 0x03
 /* 20000000 */  unsigned int offmodclock:1; //lsls 0x02 29
-                                            //lsls 0x01
+/* 40000000 */  unsigned int fireflip:1;   //lsls 0x01
                                             //lsls 0
 // Do not exceed 32 bits;
 // if you may do so, create another bitfield.

@@ -735,7 +735,7 @@ __myevic__ void usbdEP2Handler()
 __myevic__ uint32_t hidResetParamCmd( CMD_T *pCmd )
 {
 	uint8_t p;
-	myprintf("Reset param\n");
+	//myprintf("Reset param\n");
 	p = dfProfile;
 	ResetDataFlash();
 	dfProfile = p;
@@ -748,7 +748,7 @@ __myevic__ uint32_t hidResetParamCmd( CMD_T *pCmd )
 //----- (00002C38) --------------------------------------------------------
 __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
 {
-	myprintf("Reset system command\n");
+	//myprintf("Reset system command\n");
 
 	if ( UpdateDFTimer ) UpdateDataFlash();
 	if ( UpdatePTTimer ) UpdatePTCounters();
@@ -803,7 +803,7 @@ __myevic__ uint32_t hidGetInfoCmd( CMD_T *pCmd )
 	u32StartAddr = pCmd->u32Arg1;
 	u32ParamLen = pCmd->u32Arg2;
 
-	myprintf( "Get Info command - Start Addr: %d    Param Len: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
+	//myprintf( "Get Info command - Start Addr: %d    Param Len: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
 
 	if ( u32ParamLen )
 	{
@@ -844,7 +844,7 @@ __myevic__ uint32_t hidGetInfoCmd( CMD_T *pCmd )
 //----- (00002678) --------------------------------------------------------
 __myevic__ uint32_t hidBootLogoCmd( CMD_T *pCmd )
 {
-	myprintf( "Set Boot Logo command - Start page: %d\t\tLen: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
+	//myprintf( "Set Boot Logo command - Start page: %d\t\tLen: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
 	MemClear( hidData, FMC_FLASH_PAGE_SIZE );
 	hidDataIndex = 0;
 	pCmd->u32Signature = 0;
@@ -855,7 +855,7 @@ __myevic__ uint32_t hidBootLogoCmd( CMD_T *pCmd )
 //----- (000026D8) --------------------------------------------------------
 __myevic__ uint32_t hidSetParamCmd( CMD_T *pCmd )
 {
-	myprintf( "Set Param command - Start Addr: %d    Param Len: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
+	//myprintf( "Set Param command - Start Addr: %d    Param Len: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
 	hidDataIndex = 0;
 	return 0;
 }
@@ -868,7 +868,7 @@ __myevic__ uint32_t hidGetProfile( CMD_T *pCmd )
 {
 	uint32_t u32ProfileNum;
 
-	myprintf( "Get Profile command - Profile: %d\n", pCmd->u32Arg1 );
+	//myprintf( "Get Profile command - Profile: %d\n", pCmd->u32Arg1 );
 
 	u32ProfileNum = pCmd->u32Arg1;
 
@@ -883,7 +883,7 @@ __myevic__ uint32_t hidGetProfile( CMD_T *pCmd )
 	{
 		if ( u32ProfileNum > DATAFLASH_PROFILES_MAX )
 		{
-			myprintf( "Invalid profile #.\n" );
+			//myprintf( "Invalid profile #.\n" );
 			return 1;
 		}
 
@@ -910,7 +910,7 @@ __myevic__ uint32_t hidGetProfile( CMD_T *pCmd )
 //-------------------------------------------------------------------------
 __myevic__ uint32_t hidSetProfile( CMD_T *pCmd )
 {
-	myprintf( "Set Profile command - Profile: %d\n", pCmd->u32Arg1 );
+	//myprintf( "Set Profile command - Profile: %d\n", pCmd->u32Arg1 );
 	hidDataIndex = 0;
 	return 0;
 }
@@ -1001,7 +1001,7 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 //----- (0000272C) --------------------------------------------------------
 __myevic__ uint32_t hidLDUpdateCmd( CMD_T *pCmd )
 {
-	myprintf( "Update LDROM command - Start page: %d\t\tLen: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
+	//myprintf( "Update LDROM command - Start page: %d\t\tLen: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
 	MemClear( hidData, FMC_FLASH_PAGE_SIZE );
 	hidDataIndex = 0;
 	pCmd->u32Signature = 0;
@@ -1018,7 +1018,7 @@ __myevic__ uint32_t hidFMCReadCmd( CMD_T *pCmd )
 	u32StartAddr = pCmd->u32Arg1;
 	u32ParamLen  = pCmd->u32Arg2;
 
-	myprintf( "FMC Read command - Start Addr: %d    Param Len: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
+	//myprintf( "FMC Read command - Start Addr: %d    Param Len: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
 
 	if ( ! u32ParamLen % EP2_MAX_PKT_SIZE )
 	{
@@ -1062,7 +1062,7 @@ __myevic__ uint32_t hidScreenshot( CMD_T *pCmd )
 	u32StartAddr = pCmd->u32Arg1;
 	u32ParamLen = pCmd->u32Arg2;
 
-	myprintf( "Screenshot command - Start Addr: %d    Param Len: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
+	//myprintf( "Screenshot command - Start Addr: %d    Param Len: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
 
 	if ( u32ParamLen )
 	{

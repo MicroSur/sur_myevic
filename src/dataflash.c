@@ -333,7 +333,9 @@ __myevic__ void SetProductID()
 			break;
 		}
 	}
-
+        
+        gFlags.FireNotFlipped = !ScrFlip;
+        
 	FMC_DISABLE_ISP();
 	SYS_LockReg();
 
@@ -466,6 +468,7 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.off = 0;
 //	dfStatus.keylock = 0;
 	dfStatus.flipped = ScrFlip;
+        dfStatus.fireflip = 0;
 	dfStatus.nologo = 1;
 //	dfStatus.clock = 0;
 //	dfStatus.vcom = 0;
@@ -479,8 +482,7 @@ __myevic__ void ResetDataFlash()
 //        dfStatus.battv = 0;
 //	dfStatus.phpct = 0;
 	dfStatus.wakeonpm = 1;
-//	dfStatus.font = 0;
-//	dfStatus.nfe = 0;
+	dfStatus.nfe = 0;
 //	dfRezSS = 0;
 //	dfRezLockedSS = 0;
 //	dfRezTCR = 0;
@@ -1145,7 +1147,7 @@ __myevic__ void InitDataFlash()
 	}
 	else
 	{
-		myprintf( "Data Flash Re-Initialization\n" );
+		//myprintf( "Data Flash Re-Initialization\n" );
 		ResetDataFlash();
 	}
 

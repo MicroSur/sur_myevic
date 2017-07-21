@@ -1597,12 +1597,7 @@ const mbitdesc_t InvBitDesc =
 	String_Off,
 	String_On
 };
-const mbitdesc_t InvBitDesc_Inv =
-{
-	0, 0,
-	String_On,
-	String_Off
-};
+
 const menu_t GameMenu =
 {
 	String_Game,
@@ -1934,6 +1929,14 @@ const menu_t LedMenu =
 	}
 };
 
+const mdata_t FireFlip =
+{
+	&dfStatus,
+	&BitDesc,
+	MITYPE_BIT,
+	30
+};
+
 const menu_t MiscsMenu =
 {
 	String_Miscs,
@@ -1943,12 +1946,13 @@ const menu_t MiscsMenu =
 	0,
 	0,
 	0,
-	4,
+	5,
 	{
 		{ String_Game, &GameMenu, 0, MACTION_SUBMENU },
                 { String_Tetris, &GameTtMenu, 0, MACTION_SUBMENU },                        
 		{ String_Led, &LedMenu, 0, MACTION_SUBMENU },
 		//{ String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
+                { String_FiFlip, &FireFlip, 0, MACTION_DATA },         
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -1978,7 +1982,7 @@ const mdata_t OffModClock =
 const mdata_t OnModClock =
 {
 	&dfStatus,
-	&InvBitDesc_Inv,
+	&BitDesc,
 	MITYPE_BIT,
 	4
 };

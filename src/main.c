@@ -1025,7 +1025,15 @@ __myevic__ void Main()
 			LEDTimerTick();
 
 			if ( gFlags.firing )
-			{
+                        {                                                                              
+                                if ( dfStatus.fireflip && gFlags.FireNotFlipped && FireDuration > 2 )
+                                {
+                                    gFlags.FireNotFlipped = 0;
+                                    dfStatus.flipped ^= 1;
+                                    InitDisplay();
+                                    gFlags.refresh_display = 1;
+                                }
+  
 				++FireDuration;
 
 				if ( gFlags.monitoring )
@@ -1033,7 +1041,14 @@ __myevic__ void Main()
 					Monitor();
 				}
 			}
-
+                        else if  ( dfStatus.fireflip && !gFlags.FireNotFlipped && Screen == 1 )
+                        {
+                                    gFlags.FireNotFlipped = 1;
+                                    dfStatus.flipped ^= 1;
+                                    InitDisplay();  
+                                    gFlags.refresh_display = 1;                           
+                        }
+                        
 			if ( ShowWeakBatFlag )
 				--ShowWeakBatFlag;
 

@@ -162,7 +162,7 @@ __myevic__ void EventHandler()
 	int v22;
 	int v23;
 	int tempf;
-
+        
 	if ( Event == 0 )
 		return;
 
@@ -174,7 +174,7 @@ __myevic__ void EventHandler()
 
 	if ( CustomEvents() )
 		return;
-
+        
 	switch ( LastEvent )
 	{
 
@@ -187,6 +187,7 @@ __myevic__ void EventHandler()
                                 DrawDigitClock( 80 );
                                 DrawClock( 0 );   
                                 DisplayRefresh();
+                                KeyPressTime |= 0x8000;
                             }
                         return;                       
 			}
@@ -203,11 +204,11 @@ __myevic__ void EventHandler()
 			}
 
 			if ( gFlags.firing )
-			{
+			{                            
 				KeyPressTime |= 0x8000;
 				return;
 			}
-
+                                               
 			if ( BatteryStatus == 2 )
 			{
 				Screen = 56; // Check Battery
@@ -568,9 +569,10 @@ __myevic__ void EventHandler()
 			}
 
 		//	myprintf( "StartFire\n" );
-
+                           
 			gFlags.firing = 1;
 			FireDuration = 0;
+                        gFlags.FireNotFlipped = 1;
 
 			if ( BattProbeCount == 1 ) BattProbeCount = 2;
 

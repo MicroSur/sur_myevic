@@ -307,7 +307,7 @@ __myevic__ void VCOM_ClassRequest( uint8_t *token )
 
 			default:
 			{
-				myprintf( "CLASS GET RQ 0x%02X IF %d\n", token[1], token[4] );
+				//myprintf( "CLASS GET RQ 0x%02X IF %d\n", token[1], token[4] );
 				/* Setup error, stall the device */
 				USBD_SetStall( EP0 );
 				USBD_SetStall( EP1 );
@@ -326,7 +326,7 @@ __myevic__ void VCOM_ClassRequest( uint8_t *token )
 				{ /* VCOM-1 */
 					gCtrlSignal = token[3];
 					gCtrlSignal = ( gCtrlSignal << 8 ) | token[2];
-					myprintf( "RTS=%d  DTR=%d\n", (gCtrlSignal >> 1) & 1, gCtrlSignal & 1 );
+					//myprintf( "RTS=%d  DTR=%d\n", (gCtrlSignal >> 1) & 1, gCtrlSignal & 1 );
 					if ( !(gCtrlSignal & 1) )
 					{
 						gFlags.monitoring = 0;
@@ -352,7 +352,7 @@ __myevic__ void VCOM_ClassRequest( uint8_t *token )
 
 			default:
 			{
-				myprintf( "CLASS SET RQ 0x%02X IF %d\n", token[1], token[4] );
+				//myprintf( "CLASS SET RQ 0x%02X IF %d\n", token[1], token[4] );
 				// Stall
 				/* Setup error, stall the device */
 				USBD_SetStall( EP0 );

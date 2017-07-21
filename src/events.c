@@ -657,7 +657,7 @@ __myevic__ void GetUserInput()
 __myevic__ int EvtFire()
 {
 	int vret = 0;
-
+                    
 	switch ( Screen )
 	{
 		case 101:
@@ -1205,7 +1205,7 @@ __myevic__ int CustomEvents()
 
 	switch ( LastEvent )
 	{
-		case   1:	// Fire button
+		case   1:	// Fire button                           
 			vret = EvtFire();
 			break;
 

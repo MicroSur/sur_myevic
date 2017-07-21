@@ -118,7 +118,7 @@ typedef struct
 /* 00400000 */	int decrease_voltage:1;         //lsls 9
 /* 00800000 */	int check_mode:1;               //lsls 8
 
-/* 01000000 */	int unused24:1;                 //lsls 7
+/* 01000000 */	int FireNotFlipped:1;           //lsls 7      bit 24
 /* 02000000 */	int unused25:1;                 //lsls 6
 /* 04000000 */	int limit_ato_temp:1;           //lsls 5
 /* 08000000 */	int new_rez_ti:1;               //lsls 4
