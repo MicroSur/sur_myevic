@@ -1708,6 +1708,7 @@ __myevic__ void ReadBoardTemp()
 		}
 	}
 
+        BoardTemp += dfBoardTempCorr;
 	BTempSampleCnt = 0;
 	BTempSample = 0;
 }

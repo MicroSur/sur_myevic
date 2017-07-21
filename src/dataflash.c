@@ -505,6 +505,7 @@ __myevic__ void ResetDataFlash()
 	dfClkRatio = RTC_DEF_CLK_RATIO;
 	dfVVRatio = VVEL_DEF_RATIO;
         dfPuffsOff = PUFFS_OFF_DEF;
+        dfHideLogo = 3;
 //	dfPreheatTime = 0;
 	dfClick[0] = CLICK_ACTION_EDIT;
 	dfClick[1] = CLICK_ACTION_ON_OFF;

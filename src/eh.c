@@ -839,7 +839,15 @@ __myevic__ void EventHandler()
 			gFlags.refresh_display = 1;
 			gFlags.draw_edited_item = 1;
 			return;
-
+                        
+		case 20:	// Show Info
+			if ( dfStatus.off )
+				return;
+			gFlags.refresh_display = 1;
+			Screen = 100;
+			ScreenDuration = 5;
+			return;
+                        
 		case 18:	// Flip display
 			if ( !dfStatus.off )
 				return;

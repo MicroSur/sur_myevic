@@ -14,7 +14,7 @@ __myevic__ void ModeChange()
 
 	switch ( dfMode )
 	{
-		case 0:
+		case 0: // Temp Ni
 			if ( dfTCRP[dfMode] == 0 )
 			{
 				dfTempAlgo = 1;
@@ -33,7 +33,7 @@ __myevic__ void ModeChange()
 			}
 			break;
 
-		case 1:
+		case 1: // Temp Ti
 			if ( dfTCRP[dfMode] == 0 )
 			{
 				dfTempAlgo = 2;
@@ -52,7 +52,7 @@ __myevic__ void ModeChange()
 			}
 			break;
 
-		case 2:
+		case 2:  // Temp SS
 			if ( dfTCRP[dfMode] == 0 )
 			{
 				dfTempAlgo = 3;
@@ -71,7 +71,7 @@ __myevic__ void ModeChange()
 			}
 			break;
 
-		case 3:
+		case 3:  //TCR
 			dfTempAlgo = 4;
 			if ( dfRezTCR )
 			{

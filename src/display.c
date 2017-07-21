@@ -727,4 +727,7 @@ __myevic__ void DisplaySetFont()
 	}
 */
 }
-
+__myevic__ void DrawPixel (int x, int y, int color)
+{
+	DrawPoint( x, y, color );
+}

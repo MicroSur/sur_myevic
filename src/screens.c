@@ -280,7 +280,7 @@ __myevic__ void DrawScreen()
 		case  22: // Atomizer Low
 		case  24: // Battery Low
 		case  25: // Battery Low Lock
-		case  50: // FW Version
+		//case  50: // FW Version
 			break;
 
 		case  23: // 10s Protection
@@ -327,6 +327,7 @@ __myevic__ void DrawScreen()
 			UpdateDataFlash();
 			// NOBREAK
 		case   1: // Main view
+                case  50: // FW Version
 		case  37: // Board Temp
 		case  54: // Battery Voltage
 		case 100: // Infos page

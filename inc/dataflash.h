@@ -189,6 +189,8 @@ typedef struct dfParams
 /* 00EA */	uint8_t		TTSpeed;
 /* 00EB */	uint8_t		APT3;
 /* 00EC */	uint8_t		PuffsOff;
+/* 00ED */	uint8_t		HideLogo;
+/* 00EE */	int8_t		BoardTempCorr;
 
 }
 dfParams_t;
@@ -379,6 +381,8 @@ extern dfStruct_t DataFlash;
 #define dfMillis		DFP(Millis)
 #define dfProfile		DFP(Profile)
 #define dfPuffsOff  		DFP(PuffsOff)
+#define dfHideLogo  		DFP(HideLogo)
+#define dfBoardTempCorr 	DFP(BoardTempCorr)
 
 #define dfFWVersion		DFI(FWVersion)
 #define dffmcCID        DFI(fmcCID)

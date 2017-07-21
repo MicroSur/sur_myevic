@@ -419,13 +419,16 @@ __myevic__ void GetUserInput()
 					break;
 */
 
-				case 6:
-					//Event = 17;	// Switch Back
-					FireClicksEvent = 31;	// board temp screen from off state
+				case 7:
+					FireClicksEvent = 31;	// board temp screen from on state
 					break;
 
-				case 7:
-					Event = 29;	// firmware version screen from off state
+				case 6:                               
+					FireClicksEvent = 29;	// firmware version screen from on state
+					break;
+                                        
+                                case 8:                                    
+					FireClicksEvent = 20;	// Info screen
 					break;
 			}
 		}

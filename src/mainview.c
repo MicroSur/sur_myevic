@@ -24,7 +24,7 @@ __myevic__ void MainView()
 	{
 		if ( Screen != 1 || !PD3 || !PD2 || !PE0 )
 		{
-			HideLogo = 3;
+			HideLogo = dfHideLogo;
 		}
 		Screen = 1;
 		ScreenDuration = GetMainScreenDuration();
@@ -496,6 +496,10 @@ __myevic__ void ShowFireDuration( int line )
 {
 	int x;
 	DrawFillRect( 0, line, 63, line+9, 1 );
+        DrawPixel( 0, 0, 0 );
+        DrawPixel( 63, 0, 0 );
+        DrawPixel( 0, line+9, 0 );
+        DrawPixel( 63, line+9, 0 );
 	DrawFillRect( 1, line+1, 62, line+8, 0 );
 	x = ( FireDuration > dfProtec / 2 ) ? 5 : 38;
 	DrawValue( x, line+1, FireDuration, 1, 0xB, 0 );

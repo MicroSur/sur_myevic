@@ -551,16 +551,19 @@ __myevic__ void IFMenuOnClick()
 			dfStatus.wakeonpm ^= 1;
 			break;
 
-		//case 3:	// Font
-		//	dfStatus.font ^= 1;
-		//	DisplaySetFont();
-		//	break;
-
 		case 4:	// Temp
 			dfIsCelsius ^= 1;
+                        dfBoardTempCorr = 0;
+                        
 			if ( dfIsCelsius )
 			{
 				dfTemp = FarenheitToC( dfTemp );
+                                if ( !dfStatus.onedegree )
+                                {
+                                int rem = dfTemp % 5;
+				dfTemp -= rem;
+				if ( rem >= 3 ) dfTemp += 5;
+                                }
 				if ( dfTemp < 100 ) dfTemp = 100;
 				if ( dfTemp > 315 ) dfTemp = 315;
 			}
@@ -814,6 +817,8 @@ __myevic__ void BVOMenuIDraw( int it, int line, int sel )
 
 __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 {
+    int t;
+    
 	if ( it >= CurrentMenu->nitems - 1 )
 		return;
 
@@ -879,6 +884,15 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 			else
 				DrawString( String_OFF, 40, line+2 );
 			break;
+                        
+                case 9:	// mod Temp
+                        t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+			DrawValueRight( 52, line+2, t, 0, 0x0B, t>99?3:2 );
+			DrawImage( 53, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			if ( gFlags.edit_value && sel )
+				InvertRect( 0, line, 63, line+12 );
+			break; 
+                        
 		default:
 			break;
 	}
@@ -940,8 +954,10 @@ __myevic__ void ExpertMenuOnClick()
 		case 8:	// PCT
 			dfStatus.nfe ^= 1;
 			break;
-                        
-                case 9:	// Back
+                case 9: //boart temp corr
+                        gFlags.edit_value ^= 1;
+                        break;
+                case 10:	// Back
 			UpdateDataFlash();
 			break;
 	}
@@ -967,6 +983,18 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					}
 					vret = 1;
 					break;
+                                        
+                                case 9: //board temp corr
+                                        if ( ++BoardTemp > 99 )
+                                        {
+                                            BoardTemp = 99;
+                                        }
+                                        else
+                                        {
+                                        ++dfBoardTempCorr;    
+                                        }
+                                    	vret = 1;
+					break;
 			}
 			break;
 
@@ -982,6 +1010,18 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					}
 					vret = 1;
 					break;
+                                        
+                                case 9: //board temp corr
+                                        if ( --BoardTemp > 99 )
+                                        {
+                                            BoardTemp = 0;
+                                        }
+                                        else
+                                        {
+                                        --dfBoardTempCorr;    
+                                        }
+                                    	vret = 1;
+					break;                                        
 			}
 			break;
 
@@ -1000,6 +1040,11 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					SetBatteryModel();
 					vret = 1;
 					break;
+				case 9:	// board temp corr
+					dfBoardTempCorr = 0;
+                                        ReadBoardTemp();
+					vret = 1;
+					break;                                        
 			}
 			break;
 	}
@@ -1009,8 +1054,9 @@ __myevic__ int ExpertMenuOnEvent( int event )
 		byte_200000B3 = 2;
 		AtoProbeCount = 0;
 		AtoRezMilli = 0;
-
+                
 		dfShuntRez = AtoShuntRez;
+                
 		UpdateDFTimer = 50;
 		gFlags.refresh_display = 1;
 	}
@@ -2050,7 +2096,7 @@ const menu_t ExpertMenu =
 	0,
 	ExpertMenuOnClick+1,
 	ExpertMenuOnEvent+1,
-	10,
+	11,
 	{
                 { String_BVO, &BVOMenu, 0, MACTION_SUBMENU },
                 { String_X32, 0, 0, 0 },
@@ -2060,7 +2106,8 @@ const menu_t ExpertMenu =
                 { String_BAT, 0, 0, 0 },        
 		{ String_USB, 0, 0, 0 },
 		{ String_DBG, 0, 0, 0 },
-		{ String_PCT, 0, 0, 0 },		
+		{ String_PCT, 0, 0, 0 },
+                { String_Temp, 0, 0, 0 },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2108,7 +2155,25 @@ const mdata_t LogoWhereData =
 	MITYPE_BIT,
 	23
 };
-
+const mvaluedesc_t HideLogoDesc =
+{
+	40, 57,
+	0, 0,
+	0, 15,
+	0,
+	0,
+	0x94,
+	0x0B,
+	1,
+	16, 3
+};
+const mdata_t HideLogoData =
+{
+	&dfHideLogo,
+	&HideLogoDesc,
+	MITYPE_BYTE,
+	0
+};
 const menu_t LogoMenu =
 {
 	String_Logo,
@@ -2118,12 +2183,13 @@ const menu_t LogoMenu =
 	0,
 	0,
 	0,
-	5,
+	6,
 	{
 	        { String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
                 { String_Clock, &OnModClock, 0, MACTION_DATA },  
                 { String_Logo, &LogoShowData, 0, MACTION_DATA },
 		{ String_Where, &LogoWhereData, 0, MACTION_DATA },
+                { String_Hide, &HideLogoData, 0, MACTION_DATA },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

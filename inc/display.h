@@ -77,7 +77,7 @@ extern void DrawStringCentered( const uint8_t s[], int y );
 extern void DrawStringRight( const uint8_t s[], int x, int y );
 extern void DrawLine( int x1, int y1, int x2, int y2, int color, int thick );
 extern void DrawCircle( int xc, int yc, int r, int color, int fill );
-
+extern void DrawPixel(int x, int y, int color);
 
 extern void SSD1306_Init();
 extern void SSD1306_WriteBytes( const int isData, const uint8_t data[], const int len );
