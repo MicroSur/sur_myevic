@@ -9,13 +9,11 @@ Main menu screen
 
 If you continue holding Fire and Right (+) buttons after entering menus, after two seconds, you'll enter the Profile selection screen (see the **Profile** section for more informations about configuration profiles).  
 
+-----
+
+← Previous Page: [Profiles](profiles_en.md) --  Next Page: [Main Screen](mainscr_en.md)→
 
 
-
-
-Next Page: [Main Screen](mainscr_en.md)
-
-Previous Page: [Profiles](profiles_en.md)
 
 
 
