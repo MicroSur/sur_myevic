@@ -1,12 +1,12 @@
-* Vaping  
+### Vaping  
  
     ![Vaping menu](https://www.dropbox.com/s/5nafopmyhl6m8as/vaping2.png?dl=1)  
 
-    * __Preheat__
+* __Preheat__
     
-        ![TCR Set Menu](https://www.dropbox.com/s/d1ncqa9heec6grx/preheat1.png?dl=1)
+![TCR Set Menu](https://www.dropbox.com/s/d1ncqa9heec6grx/preheat1.png?dl=1)
         
-        __Coil preheat function.__  
+   __Coil preheat function.__  
         
         *This function can only be active in "POWER" and "SMART" modes; it is ignored in all other modes.*  
         Set at which power ( **Pwr** ) and how long ( **Time** ) you want the coil to be preheated when you fire; after this delay, the atomizer will be powered by your regular setting. Set the **Time** to zero to switch preheating off.  
