@@ -22,3 +22,7 @@
 * Battery layout:
 
     In Edit mode (Triple click by default), the battery layout can be chosen between regular battery display, battery percentage, and battery voltage.  
+
+-----
+
+← Previous Page: [Menus](menus_en.md) --  Next Page: [Screen Menu](screen_en.md)→
