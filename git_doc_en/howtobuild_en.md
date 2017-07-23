@@ -1,4 +1,4 @@
-### Build:
+### Build
 Follow [evic-sdk::Readme](https://github.com/ReservedField/evic-sdk/blob/master/README.md) instructions to:
 
   * Setup the environment
