@@ -3,6 +3,7 @@
 
 //=========================================================================
 
+extern uint8_t	ContrastNum;
 extern uint8_t	FireClickCount;
 extern uint8_t	FireClickTimer;
 extern int8_t	UserInputs;

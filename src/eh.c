@@ -573,7 +573,7 @@ __myevic__ void EventHandler()
 			gFlags.firing = 1;
 			FireDuration = 0;
                         gFlags.FireNotFlipped = 1;
-
+        
 			if ( BattProbeCount == 1 ) BattProbeCount = 2;
 
 			switch ( dfTempAlgo )

@@ -83,7 +83,14 @@ __myevic__ void DrawScreen()
 				}
 				break;
 
-			case  5: // Black w/ Battery
+			case  5: // charge screen
+                            
+                                if ( gFlags.MainContrast )
+                                {
+                                    DisplaySetContrast( dfContrast2 );
+                                    gFlags.MainContrast = 0;
+                                }
+ 
 				ShowBatCharging();
 				break;
 
@@ -160,6 +167,13 @@ __myevic__ void DrawScreen()
 				break;
 
 			case 60: // Screen Saver
+                            
+                                if ( gFlags.MainContrast )
+                                {
+                                    DisplaySetContrast( dfContrast2 );
+                                    gFlags.MainContrast = 0;
+                                }
+ 
 				ShowScreenSaver();
 				break;
 
@@ -219,7 +233,8 @@ __myevic__ void DrawScreen()
 	else if ( gFlags.fading )
 	{
 		FadeOutTimer = 0;
-		DisplaySetContrast( dfContrast );
+		//DisplaySetContrast( dfContrast );
+                gFlags.MainContrast = 0; //need for unterrupt fading
 		gFlags.fading = 0;
 	}
 
@@ -239,7 +254,7 @@ __myevic__ void DrawScreen()
 	if ( ScreenDuration && --ScreenDuration )
 		return;
 
-	switch ( Screen )
+	switch ( Screen ) // exit from screens 
 	{
 		case   0: // Black
 			if ( dfStatus.off )
@@ -325,6 +340,7 @@ __myevic__ void DrawScreen()
 			gFlags.edit_value = 0;
 			LEDOff();
 			UpdateDataFlash();
+                        //DisplaySetContrast( dfContrast );
 			// NOBREAK
 		case   1: // Main view
                 case  50: // FW Version
@@ -456,12 +472,16 @@ __myevic__ void ShowInfos()
 
 __myevic__ void ShowContrast()
 {
-	int pc, nd, x;
+	int pc, nd, x, t;
+        uint8_t dfc;
 
+        dfc = ContrastNum ? dfContrast2 : dfContrast;   
+
+        DrawValueRight( 63, 6, ContrastNum+1, 0, 0x0B, 1 );
 	DrawString( String_Contrast, 4, 6 );
 	DrawHLine( 0, 16, 63, 1 );
 
-	pc = ( ( 100 * dfContrast ) / 255 );
+	pc = ( ( 100 * dfc ) / 255 );
 	nd = ( pc < 100 ? pc < 10 ? 1 : 2 : 3 );
 	x = ( 64 - ( 6 * nd + 9 )) / 2;
 	DrawValue( x, 20, pc, 0, 0x0B, 0 );
@@ -469,15 +489,18 @@ __myevic__ void ShowContrast()
 
 	DrawFillRect( 0, 32, 63, 44, 1 );
 	DrawFillRect( 1, 33, 62, 43, 0 );
-	if ( dfContrast )
+	if ( dfc )
 	{
-		DrawFillRect( 2, 34, 2 + ( ( 59 * dfContrast ) / 255 ), 42, 1 );
+		DrawFillRect( 2, 34, 2 + ( ( 59 * dfc ) / 255 ), 42, 1 );
 	}
 
-	DrawStringCentered( String_Fireto, 57 );
-	DrawStringCentered( String_Exit, 67 );
-
-	DrawLOGO( 0, 80 );
+	DrawStringCentered( String_LongFire, 53 );
+	DrawStringCentered( String_Exit, 64 );
+        
+        t = dfStatus.nologo;
+	dfStatus.nologo = 0;
+        DrawLOGO( 0, 80 );
+        dfStatus.nologo = t;
 }
 
 
@@ -612,7 +635,7 @@ __myevic__ void ShowBatCharging()
 	{
 		return;
 	}
-
+               
 /*
 	switch ( dfScreenSaver )
 	{

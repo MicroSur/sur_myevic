@@ -26,6 +26,8 @@ uint8_t		KeyUpTimer;
 uint16_t	KeyTicks;
 uint16_t	KeyPressTime;
 
+uint8_t		ContrastNum;
+
 //-------------------------------------------------------------------------
 
 //=========================================================================
@@ -393,7 +395,8 @@ __myevic__ void GetUserInput()
 							break;
 
 						case CLICK_ACTION_PROFILE:
-							FireClicksEvent = EVENT_NEXT_PROFILE;	// Cycle profile
+                                                        //sur do not like EVENT_NEXT_PROFILE;
+							FireClicksEvent = EVENT_PROFILE_MENU;	// Cycle profile
 							break;
                                                         
                                                 case CLICK_ACTION_TETRIS:
@@ -661,12 +664,13 @@ __myevic__ int EvtFire()
 	switch ( Screen )
 	{
 		case 101:
-		{
-			UpdateDataFlash();
-			Event = EVENT_PARENT_MENU;
+                        ContrastNum ^= 1;
+                        //if ( ContrastNum ) DisplaySetContrast( dfContrast2 );
+                        //else DisplaySetContrast( dfContrast );
+                        gFlags.refresh_display = 1;
+                        ScreenDuration = 10;
 			vret = 1;
-		}
-		break;
+                        break;
 
 		case 102:
 		{
@@ -795,10 +799,20 @@ __myevic__ int EvtPlusButton()
 
 		case 101:
 		{
-			if ( dfContrast <= 240 ) dfContrast += 15;
+                    if ( ContrastNum )
+                    {
+			if ( dfContrast2 <= 250 ) dfContrast2 += 5;
+			else dfContrast2 = 255;
+                        //DisplaySetContrast( dfContrast2 );                       
+                    }
+                    else
+                    {
+			if ( dfContrast <= 250 ) dfContrast += 5;
 			else dfContrast = 255;
+                        DisplaySetContrast( dfContrast );
+                        //gFlags.MainContrast = 1;
+                    }
 			UpdateDFTimer = 50;
-			DisplaySetContrast( dfContrast );
 			gFlags.refresh_display = 1;
 			ScreenDuration = 10;
 			vret = 1;
@@ -942,15 +956,25 @@ __myevic__ int EvtPlusButton()
 __myevic__ int EvtMinusButton()
 {
 	int vret = 0;
-
+        
 	switch ( Screen )
 	{
 		case 101:
 		{
-			if ( dfContrast >= 15 ) dfContrast -= 15;
-			else dfContrast = 0;
-			UpdateDFTimer = 50;
-			DisplaySetContrast( dfContrast );
+                    if ( ContrastNum )
+                    {
+			if ( dfContrast2 >= 5 ) dfContrast2 -= 5;
+			else dfContrast2 = 0;
+                        //DisplaySetContrast( dfContrast2 );                       
+                    }
+                    else
+                    {
+			if ( dfContrast >= 5 ) dfContrast -= 5;
+			else dfContrast = 0;                       
+                        DisplaySetContrast( dfContrast );
+                        //gFlags.MainContrast = 1;
+                    }
+			UpdateDFTimer = 50;			
 			gFlags.refresh_display = 1;
 			ScreenDuration = 10;
 			vret = 1;
@@ -1119,6 +1143,14 @@ __myevic__ int EvtLongFire()
 
 	switch ( Screen )
 	{
+            	case 101:
+		{
+			//UpdateDataFlash();
+			Event = EVENT_PARENT_MENU;
+			vret = 1;
+		}
+		break;
+                
 		case 102:
 			vret = MenuEvent( LastEvent );
 			break;
@@ -1159,6 +1191,9 @@ __myevic__ int EvtLongFire()
 
 __myevic__ int EvtContrastMenu()
 {
+        ContrastNum = 0;
+       // DisplaySetContrast( dfContrast );
+       // gFlags.refresh_display = 1;
 	SetScreen( 101, 10 );
 	return 1;
 }
@@ -1325,10 +1360,10 @@ __myevic__ int CustomEvents()
 			vret = MenuEvent( LastEvent );
 			break;
 
-		case EVENT_NEXT_PROFILE:
-			LoadProfile( ( dfProfile + 1 ) % DATAFLASH_PROFILES_MAX );
-			ShowProfNum = 30;
-			break;
+//		case EVENT_NEXT_PROFILE:
+//			LoadProfile( ( dfProfile + 1 ) % DATAFLASH_PROFILES_MAX );
+//			ShowProfNum = 30;
+//			break;
 
 		case EVENT_POWER_CURVE:
 			SetScreen( 107, 30 );

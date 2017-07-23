@@ -158,7 +158,7 @@ extern const uint8_t String_LIQ_s[];
 
 // from screens.c
 extern const uint8_t String_Contrast[];
-extern const uint8_t String_Fireto[];
+//extern const uint8_t String_LongFireTo[];
 extern const uint8_t String_Edit[];
 extern const uint8_t String_ClkSpeed[];
 extern const uint8_t String_ClkAdjust[];
@@ -296,7 +296,7 @@ extern const uint8_t String_TC[];
 extern const uint8_t String_PW[];
 extern const uint8_t String_BY[];
 extern const uint8_t String_SM[];
-extern const uint8_t String_ProfPlus[];
+//extern const uint8_t String_ProfPlus[];
 extern const uint8_t String_Curve[];
 extern const uint8_t String_Enable[];
 extern const uint8_t String_Reset[];

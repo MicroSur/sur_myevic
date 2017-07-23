@@ -119,7 +119,7 @@ typedef struct
 /* 00800000 */	int check_mode:1;               //lsls 8
 
 /* 01000000 */	int FireNotFlipped:1;           //lsls 7      bit 24
-/* 02000000 */	int unused25:1;                 //lsls 6
+/* 02000000 */	int MainContrast:1;                 //lsls 6
 /* 04000000 */	int limit_ato_temp:1;           //lsls 5
 /* 08000000 */	int new_rez_ti:1;               //lsls 4
 /* 10000000 */	int new_rez_ni:1;               //lsls 3

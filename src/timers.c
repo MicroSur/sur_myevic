@@ -170,7 +170,8 @@ __myevic__ void TMR3_IRQHandler()
 __myevic__ void TimedItems()
 {
 	static  uint8_t BatAnimTimer = 0;
-
+        uint8_t dfc;
+        
 	if ( !Screen && SleepTimer )
 		--SleepTimer;
 
@@ -267,8 +268,11 @@ __myevic__ void TimedItems()
 	if ( FadeOutTimer )
 	{
 		--FadeOutTimer;
+                
+                if ( Screen == 60 ) dfc = dfContrast2;
+                else dfc = dfContrast; 
 
-		if ( FadeOutTimer < dfContrast )
+		if ( FadeOutTimer < dfc )
 		{
 			DisplaySetContrast( FadeOutTimer );
 		}

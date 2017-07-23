@@ -1639,6 +1639,10 @@ __myevic__ void ReadBoardTemp()
 
 	sample = BTempSample >> 4;
 
+        uint16_t tConst;
+        if ( ISRX23 ) tConst = 5024;
+        else tConst = 5280;
+        
 	if ( ISRX300 )
 	{
 		sample = 2560 * 1000 * sample >> 12;
@@ -1661,7 +1665,7 @@ __myevic__ void ReadBoardTemp()
 	{
 		BoardTemp = 0;
 
-		if ( sample != 4095 && sample > 100 )
+		if ( sample != 4096 && sample > 100 ) //4095
 		{
 			if ( NumBatteries == 1 )
 			{
@@ -1679,7 +1683,7 @@ __myevic__ void ReadBoardTemp()
 			}
 			else
 			{
-				tdr = ( 20000 * sample / ( 5280 - sample ));
+				tdr = ( 20000 * sample / ( tConst - sample ));
 			}
 
 			if ( tdr <= 630 )
@@ -1710,7 +1714,7 @@ __myevic__ void ReadBoardTemp()
 		}
 	}
 
-        BoardTemp += dfBoardTempCorr;
+        if ( BoardTemp) BoardTemp += dfBoardTempCorr;
 	BTempSampleCnt = 0;
 	BTempSample = 0;
 }

@@ -191,6 +191,7 @@ typedef struct dfParams
 /* 00EC */	uint8_t		PuffsOff;
 /* 00ED */	uint8_t		HideLogo;
 /* 00EE */	int8_t		BoardTempCorr;
+/* 00EF */	uint8_t		Contrast2;
 
 }
 dfParams_t;
@@ -363,6 +364,7 @@ extern dfStruct_t DataFlash;
 #define dfTTSpeed		DFP(TTSpeed)
 #define dfBattPC		DFP(BattPC)
 #define dfContrast		DFP(Contrast)
+#define dfContrast2		DFP(Contrast2)
 #define dfModesSel		DFP(ModesSel)
 #define dfClkRatio		DFP(ClkRatio)
 #define dfVVRatio		DFP(VVRatio)

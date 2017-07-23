@@ -401,7 +401,7 @@ __myevic__ void ClicksMenuIDraw( int it, int line, int sel )
 			break;
 
 		case CLICK_ACTION_PROFILE:
-			DrawString( String_ProfPlus, 20, line+2 );
+			DrawString( String_Profile, 20, line+2 );
 			break;
 
 		case CLICK_ACTION_GAME:
@@ -2217,7 +2217,7 @@ const menu_t ScreenMenu =
 	0,
 	7,
 	{
-		{ String_Contrast, 0, EVENT_EDIT_CONTRAST,  },
+		{ String_Contrast, 0, EVENT_EDIT_CONTRAST, 0 },
 		{ String_Protection, &ScreenProtMenu, 0, MACTION_SUBMENU },
 		{ String_Saver, &ScreenSaveMenu, 0, MACTION_SUBMENU },
 		{ String_Logo, &LogoMenu, 0, MACTION_SUBMENU },
@@ -2987,6 +2987,7 @@ __myevic__ int MenuEvent( int event )
 			gFlags.edit_value = 0;
 			LEDOff();
 			UpdateDataFlash();
+                         //               DisplaySetContrast( dfContrast );
 			MainView();
 			vret = 1;
 			break;
@@ -2996,6 +2997,8 @@ __myevic__ int MenuEvent( int event )
 			switch ( Screen )
 			{
 				case 101:
+                                       // DisplaySetContrast( dfContrast );
+                                       // gFlags.refresh_display = 1;
 					CurrentMenu = &ScreenMenu;
 					break;
 

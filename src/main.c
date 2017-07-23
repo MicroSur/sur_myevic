@@ -968,9 +968,10 @@ __myevic__ void Main()
 
 			if ( Screen == 60 )
 			{
+                                if ( gFlags.MainContrast ) DisplaySetContrast( dfContrast2 );
 				AnimateScreenSaver();
 			}
-
+                        
 			if ( gFlags.firing )
 			{
 				if ( gFlags.read_bir && ( FireDuration > 10 ) )
@@ -1023,7 +1024,13 @@ __myevic__ void Main()
 
 			DataFlashUpdateTick();
 			LEDTimerTick();
-
+                                               
+                        if ( !gFlags.MainContrast && Screen != 60 && Screen != 5 )
+			{
+                                DisplaySetContrast( dfContrast );
+                                gFlags.MainContrast = 1;
+                        }
+                        
 			if ( gFlags.firing )
                         {                                                                              
                                 if ( dfStatus.fireflip && gFlags.FireNotFlipped && FireDuration > 2 )
@@ -1141,12 +1148,12 @@ __myevic__ void Main()
 				}
 			}
 		}
-
+                
 		if ( gFlags.tick_1hz )
 		{
 			// 1Hz
 			gFlags.tick_1hz = 0;
-
+                       
 			if ( SplashTimer )
 			{
 				--SplashTimer;
