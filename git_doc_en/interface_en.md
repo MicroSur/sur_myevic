@@ -40,3 +40,7 @@
         * Cycle through configuration profiles
 
     As a security feature, if none of the action are configured to be the "Edit" mode, the firmware will redefine the triple click action to "Edit" at next reset.
+
+-----
+
+← Previous Page: [Clock](clock_en.md) --  Next Page: [Expert](expert_en.md)→
