@@ -9,6 +9,6 @@ The look-and-feel of the myevic firmware is more-or-less identical to the origin
 Many new features and options are made available through the menu system; I strongly encourage you to fully read the present documentation.
 
 
-# Index 
+# Documentation Index 
 
 
