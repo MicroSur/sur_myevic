@@ -12,7 +12,7 @@ Many new features and options are made available through the menu system; I stro
 ## Documentation Index 
    __1.__ [Usage and compatibility](https://github.com/Dil3mm4/sur_myevic/blob/master/git_doc_en/usageandcompatibility_en.md)
    
-   __1.__ [Behvaiour Changes](https://github.com/Dil3mm4/sur_myevic/blob/master/git_doc_en/behaviourchanges_en.md)
+   __2.__ [Behvaiour Changes](https://github.com/Dil3mm4/sur_myevic/blob/master/git_doc_en/behaviourchanges_en.md)
    
    __3.__ [How to build](https://github.com/Dil3mm4/sur_myevic/blob/master/git_doc_en/howtobuild_en.md)
 
@@ -20,7 +20,7 @@ Many new features and options are made available through the menu system; I stro
 
    __5.__ [Menus](https://github.com/Dil3mm4/sur_myevic/blob/master/git_doc_en/menus_en.md)
 
-   5a. [Main Screen](https://github.com/Dil3mm4/sur_myevic/blob/master/git_doc_en/mainscr_en.md)
+ 5a. [Main Screen](https://github.com/Dil3mm4/sur_myevic/blob/master/git_doc_en/mainscr_en.md)
      
    5b. [Screen Menu](https://github.com/Dil3mm4/sur_myevic/blob/master/git_doc_en/screen_en.md)
 
