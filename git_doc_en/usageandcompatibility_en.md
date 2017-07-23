@@ -1,4 +1,4 @@
-### Compatible hardwares:
+### Compatible hardwares
 * Joyetech
   * eVic VTC Mini
   * eVic VTC Dual
