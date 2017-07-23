@@ -11,6 +11,7 @@ Each line display the Profile number, the selected mode and last used resistance
 Empty lines correspond to empty profiles.  
 By selecting an empty profile, the current profile will be duplicated.  
 To duplicate current profile onto an existing profile (thus erasing it), select the target profile and press fire during two seconds. The target profile will be selected with a copy of the current profile.
+
 -----
 
 ← Previous Page: [How To Build](howtobuild_en.md) --  Next Page: [Menus](menuss_en.md)→
