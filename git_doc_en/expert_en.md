@@ -83,4 +83,4 @@ You're supposed to have 18+, after all^^
 
 -----
 
-← Previous Page: [Behaviour Changes](interface_en.md) 
+← Previous Page: [Interface](interface_en.md) 
