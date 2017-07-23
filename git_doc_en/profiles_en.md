@@ -14,4 +14,4 @@ To duplicate current profile onto an existing profile (thus erasing it), select 
 
 -----
 
-← Previous Page: [How To Build](howtobuild_en.md) --  Next Page: [Menus](menuss_en.md)→
+← Previous Page: [How To Build](howtobuild_en.md) --  Next Page: [Menus](menus_en.md)→
