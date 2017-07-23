@@ -81,4 +81,6 @@ You're supposed to have 18+, after all^^
     * On a triple-cell box, B4 is ignored.  
     * On a quad-cell box, I let you guess.  
 
+-----
 
+← Previous Page: [Behaviour Changes](interface_en.md) 
