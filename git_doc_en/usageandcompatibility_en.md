@@ -54,3 +54,7 @@ At the moment, the interface only display one battery icon, percentage or voltag
 The displayed values are those of the battery that is in the *lowest state-of-charge* of the set.  
 A battery set should always be kept in equilibrium and a balance warning is issued if the difference between the lowest and the highest voltage exceeds 0.3 Volts.  
 So as long as you have no warning (a blinking "balance" on the battery icon or an "imbalanced batteries" screen warning), you know that all batteries are within 300mV of the first.
+
+-----
+
+Next Page: [Profiles](behaviourchanges_en.md)→
