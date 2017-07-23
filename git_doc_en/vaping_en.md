@@ -38,8 +38,8 @@
            * Boost: speeds up temperature ramp-up and reduces oscillations, but with the risk of overshooting the target temperature if not configured properly. See the Boost option below.
            * PID: A standard PID algorithm
          
-             There is no "best" algorithm; it will essentialy depend on your setup and on your personnal taste. Test and experiment to see what fits best to you. The device monitor of the [NFirmwareEditor](https://github.com/TBXin/NFirmwareEditor/releases) is a great tool to observe the behavior of the algorithms with different setups and parameters.  
-             More algorithms may be implemented with time. Stay tuned.  
+There is no "best" algorithm; it will essentialy depend on your setup and on your personnal taste. Test and experiment to see what fits best to you. The device monitor of the [NFirmwareEditor](https://github.com/TBXin/NFirmwareEditor/releases) is a great tool to observe the behavior of the algorithms with different setups and parameters.  
+More algorithms may be implemented with time. Stay tuned.  
 
 * __Boost__
     
@@ -78,3 +78,6 @@ Choose the unit in wich the liquid consumption (on the 3rd info line of the main
 
 The speed at wich the liquid is vaporized in function of the energy dissipated by the coil. The value is in milliliters per KiloJoules. The proposed value of 360 is rtaher accurate for a standard 30W factory coil. It may need to be adjusted depending on your setup.  
 
+-----
+
+← Previous Page: [Coils](coils_en.md) --  Next Page: [Clock](clock_en.md)→
