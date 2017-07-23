@@ -50,4 +50,6 @@ Beyond the fact you may find this option fancy and cool-looking, it may have its
             Come back to this menu and set it to "None" to cancel animation.  
             Or reset the box.  
             ![3D cube](http://i345.photobucket.com/albums/p374/ClockSelect/eVic/cube_zpsf9apfiun.png)
+-----
 
+← Previous Page: [Main Screen](mainscr_en.md) --  Next Page: [Coils](coils_en.md)→
