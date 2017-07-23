@@ -42,3 +42,6 @@ When entering the Coils Management menu, the resistance corresponfing to the cur
    * Edit the TCR value.
    * Long fire to restore the default (DEF) behavior if needed.
 
+-----
+
+← Previous Page: [Screen Menu](screen_en.md) --  Next Page: [Vaping Menu](vaping_en.md)→
