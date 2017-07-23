@@ -33,5 +33,6 @@ Some changes has been made to the overall behavior of the firmware from the orig
 
 * Menus:  
   Menus accessed by pressing Fire and Right button have been completely revamped. See below for new menus description.
+-----
 
-
+← Previous Page: [Profiles](usageandcompatibility_en.md) --  Next Page: [Main Screen](howtobuild_en.md)→
