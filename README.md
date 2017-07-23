@@ -12,3 +12,20 @@ Many new features and options are made available through the menu system; I stro
 # Documentation Index 
 
 
+
+
+
+### Thanks to:
+
+    * ReservedField
+    * Bane
+    * TBXin
+    * maelstrom2001
+    * Daveee10
+    * Eugene San
+    * MarkyAD
+    * bluenazgul
+    * Sharky1980
+    * gdb
+    
+    And many others, supporting this project and taking the time to open or help solving issues.
