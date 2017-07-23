@@ -1,4 +1,4 @@
-### Menus:
+### Menus
 Holding Fire and Right (+) buttons 1/5th of a second enters menus.  
 
 * At any time, you may press simultaneously Fire and Right buttons to get out of the menus and return to the main screen.
@@ -9,9 +9,13 @@ Main menu screen
 
 If you continue holding Fire and Right (+) buttons after entering menus, after two seconds, you'll enter the Profile selection screen (see the **Profile** section for more informations about configuration profiles).  
 
-* Screen
-* Coils
-* Vaping  
-* Clock
-* Interface
-* Expert
+
+
+
+
+Next Page: [Main Screen](mainscr_en.md)
+
+Previous Page: [Profiles](profiles_en.md)
+
+
+
