@@ -182,7 +182,7 @@ __myevic__ void EventHandler()
 		{
 			if ( dfStatus.off )
 			{
-                            if( !gFlags.battery_charging && !dfStatus.offmodclock)
+                            if( !gFlags.battery_charging && !dfStatus.offmodclock && Screen == 0 )
                             {
                                 DrawDigitClock( 80 );
                                 DrawClock( 0 );   
@@ -204,7 +204,7 @@ __myevic__ void EventHandler()
 			}
 
 			if ( gFlags.firing )
-			{                            
+			{                   
 				KeyPressTime |= 0x8000;
 				return;
 			}
@@ -572,7 +572,7 @@ __myevic__ void EventHandler()
                            
 			gFlags.firing = 1;
 			FireDuration = 0;
-                        gFlags.FireNotFlipped = 1;
+                        if ( Screen == 1 ) gFlags.FireNotFlipped = 1;
         
 			if ( BattProbeCount == 1 ) BattProbeCount = 2;
 
