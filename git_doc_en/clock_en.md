@@ -44,3 +44,6 @@
       * Using + and - buttons, adjust the time shown on top of the screen to catch up the real time. The number shown in the center of the screen is the clock speed ratio; reasonable values should be around 32~34000.
       * Once you have adjusted the time to the real time, click fire to save the new clock speed ratio. Your clock should now be as accurate as it can. If not, try to repeat the procedure. Accuracy of a few seconds per day can be achieved this way.
   
+-----
+
+← Previous Page: [Vaping](vaping_en.md) --  Next Page: [Interface](interface_en.md)→
