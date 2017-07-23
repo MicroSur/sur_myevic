@@ -47,3 +47,10 @@ OR
 OR  
 
 - Use  [NFirmwareEditor](https://github.com/TBXin/NFirmwareEditor/releases) or the [FWUpdater](https://www.dropbox.com/s/83zd19gu05pl3r6/EvicVTCFont.rar?dl=1) part of the [VTCFont](https://www.dropbox.com/s/83zd19gu05pl3r6/EvicVTCFont.rar?dl=1) package to upload [myevic.bin](https://github.com/ClockSelect/myevic/blob/master/bin/myevic.bin) to your box.
+
+### About Multi-cells boxes
+
+At the moment, the interface only display one battery icon, percentage or voltage, just like there where only a single battery in the box (this may change in the future).  
+The displayed values are those of the battery that is in the *lowest state-of-charge* of the set.  
+A battery set should always be kept in equilibrium and a balance warning is issued if the difference between the lowest and the highest voltage exceeds 0.3 Volts.  
+So as long as you have no warning (a blinking "balance" on the battery icon or an "imbalanced batteries" screen warning), you know that all batteries are within 300mV of the first.
