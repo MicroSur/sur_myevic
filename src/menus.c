@@ -353,6 +353,17 @@ __myevic__ int VapingMenuOnEvent( int event )
 					break;                                         
 			}
 			break;
+                        
+                case EVENT_LONG_FIRE:
+                        switch ( CurrentMenuItem )
+			{                       
+                                case 6: // mL/kJ
+                                        dfVVRatio = VVEL_DEF_RATIO;  
+                                        gFlags.edit_value = 0;
+                                        vret = 1;
+                                        break;      
+                        }  
+                        break;                         
 	}
 
 	if ( vret )
@@ -447,7 +458,7 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 
 		case 6:	// Dial
 			DrawFillRect( 36, line, 63, line+12, 0 );
-			DrawImage( 40, line+2, dfStatus.digclk ? 0x9F : 0x9C );
+			DrawImage( 44, line+2, dfStatus.digclk ? 0x9F : 0x9C );
 			break;
 	}
 }
@@ -604,7 +615,7 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 	{
 		case 0:	// Unit
 			DrawFillRect( 30, line, 63, line+12, 0 );
-			DrawImage( 54, line+2, dfStatus.phpct ? 0xC2 : 0x98 );
+			DrawImage( 45, line+2, dfStatus.phpct ? 0xC2 : 0xB2 );
 			return;
 
 		case 1:	// Power
@@ -623,12 +634,11 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 					p = p / 10;
 					dp = 0;
 				}
-				DrawImage(  4, 102, 0xAB );
-				DrawHLine(  12, 105, 14, 1 );
-				DrawHLine(  12, 108, 14, 1 );
-				DrawValueRight( 37, 102, p, dp, 0x0B, 0 );
-				DrawImage( 39, 102, 0x98 );
-
+				DrawImage(  10, 102, 0xAB );
+                                DrawImage(  18, 102, 0xFB );
+				DrawValueRight( 45, 102, p, dp, 0x0B, 0 );
+				DrawImage( 47, 102, 0x98 );
+                                
 				dp = 0;
 				img = 0xC2;
 			}
@@ -654,7 +664,7 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 
 	if ( v == 0 && it == 2 )
 	{
-		DrawString( String_Off, 37, line+2 );
+		DrawString( String_Off, 45, line+2 );
 	}
 	else
 	{
@@ -671,7 +681,7 @@ __myevic__ void DrawPreheatDelay( int x, int y, int v, uint8_t dp, uint8_t z, ui
 {
 	if ( v == 0 )
 	{
-		DrawString( String_Off, x, y+2 );
+		DrawString( String_Off, x+8, y+2 );
 	}
 	else
 	{
@@ -684,6 +694,16 @@ __myevic__ void DrawPreheatDelay( int x, int y, int v, uint8_t dp, uint8_t z, ui
 __myevic__ int PreheatMEvent( int event )
 {
 	int vret = 0;
+        
+                        if (event == EVENT_LONG_FIRE && CurrentMenuItem == 3 )
+                        { //preheat delay off
+                            dfPHDelay = 0;
+                            UpdateDFTimer = 50;
+                            gFlags.refresh_display = 1;
+                            gFlags.edit_value = 0;
+                            vret = 1;
+                        }
+                                
 	if ( CurrentMenuItem > 2 )
 		return vret;
 
@@ -774,10 +794,11 @@ __myevic__ int PreheatMEvent( int event )
                 case EVENT_LONG_FIRE:
 			if ( CurrentMenuItem == 2 )
                         { //preheat off
-                        dfPreheatTime = 0;
-                        UpdateDFTimer = 50;
-			gFlags.refresh_display = 1;
-			vret = 1;
+                            dfPreheatTime = 0;
+                            UpdateDFTimer = 50;
+                            gFlags.refresh_display = 1;
+                            gFlags.edit_value = 0;
+                            vret = 1;
                         }
                         break;
 	}
@@ -1040,9 +1061,12 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					SetBatteryModel();
 					vret = 1;
 					break;
+                                        
 				case 9:	// board temp corr
 					dfBoardTempCorr = 0;
+                                        gFlags.sample_btemp = 1;
                                         ReadBoardTemp();
+                                        gFlags.edit_value = 0;
 					vret = 1;
 					break;                                        
 			}
@@ -1959,7 +1983,7 @@ const menu_t MiscsMenu =
 
 const mbitdesc_t HmsDesc =
 {
-	36, 40,
+	36, 42,
 	String_HM,
 	String_hms
 };
@@ -2854,7 +2878,7 @@ __myevic__ int MenuDataAction( int event, const mdata_t *data )
 	if ( vret )
 	{
 		UpdateDFTimer = 50;
-		ScreenDuration = 30;
+		ScreenDuration = 15;
 		gFlags.refresh_display = 1;
 	}
 
@@ -2870,7 +2894,7 @@ __myevic__ int MenuEvent( int event )
 
 	if ( CurrentMenu && CurrentMenu->on_event )
 	{
-		ScreenDuration = 30;
+		ScreenDuration = 15;
 		vret = CurrentMenu->on_event( event );
 		if ( vret ) return vret;
 	}
@@ -2900,7 +2924,7 @@ __myevic__ int MenuEvent( int event )
 	{
 		case 1: //fire
 		{
-			ScreenDuration = 30;
+			ScreenDuration = 15; // menu timeout
 			if ( CurrentMenu->on_clickitem ) CurrentMenu->on_clickitem();
 
 			if ( mi->action )
@@ -2941,7 +2965,7 @@ __myevic__ int MenuEvent( int event )
 				CurrentMenuItem = 0;
 			}
                         
-			ScreenDuration = 30;
+			ScreenDuration = 15;
 			gFlags.refresh_display = 1;
 
 			if ( CurrentMenu->on_selectitem ) CurrentMenu->on_selectitem();
@@ -2961,7 +2985,7 @@ __myevic__ int MenuEvent( int event )
 				CurrentMenuItem = CurrentMenu->nitems - 1;
 			}
                         
-			ScreenDuration = 30;
+			ScreenDuration = 15;
 			gFlags.refresh_display = 1;
 
 			if ( CurrentMenu->on_selectitem ) CurrentMenu->on_selectitem();
@@ -2977,7 +3001,7 @@ __myevic__ int MenuEvent( int event )
 		case 39:
 			CurrentMenu = &TCRSetMenu;
 			CurrentMenuItem = 0;
-			SetScreen( 102, 30 );
+			SetScreen( 102, 15 );
 			vret = 1;
 			break;
 
@@ -3031,7 +3055,7 @@ __myevic__ int MenuEvent( int event )
                                 CurrentMenuItem = PrevMenuItem;
                                 PrevMenuItem = 0;
 				if ( CurrentMenu->on_enter ) CurrentMenu->on_enter();
-				SetScreen( 102, 30 );
+				SetScreen( 102, 15 );
 			}
 			else
 			{
@@ -3049,14 +3073,14 @@ __myevic__ int MenuEvent( int event )
 		case EVENT_TOGGLE_TDOM:
 			CurrentMenu = &PreheatMenu;
 			CurrentMenuItem = 1;
-			SetScreen( 102, 30 );
+			SetScreen( 102, 15 );
 			vret = 1;
 			break;
 
 		case EVENT_PROFILE_MENU:
 			CurrentMenu = &ProfileMenu;
 			CurrentMenuItem = dfProfile;
-			SetScreen( 102, 30 );       
+			SetScreen( 102, 15 );       
 			vret = 1;
 			break;
 

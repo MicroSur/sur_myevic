@@ -338,11 +338,11 @@ __myevic__ void SetBatteryModel()
 
 		BatteryMaxAmp = Battery->maxamp * 100;
 	}
-
+        
+        gFlags.read_battery = 1;
 	NewBatteryVoltage();
 	SetBatMaxPower();
-
-	gFlags.read_battery = 1;
+        
 }
 
 
@@ -506,7 +506,7 @@ __myevic__ void NewBatteryVoltage()
 		BatteryPercent = 0;
 	}
 
-	if ( (( SavedBatPercent != BatteryPercent ) && ( ++BatPCCmpCnt >= 3 ))
+	if ( (( SavedBatPercent != BatteryPercent ) && ( ++BatPCCmpCnt >= 2 ))
 		 || gFlags.read_battery )
 	{
 		BatPCCmpCnt = 0;
@@ -826,8 +826,8 @@ __myevic__ void ReadBatteryVoltage()
 		}
 
 		if ( ( NoEventTimer <= 100 )
-			&& (	( SavedBatVoltage > BatteryVoltage && SavedBatVoltage - BatteryVoltage > 3 )
-				||	( BatteryVoltage > SavedBatVoltage && BatteryVoltage - SavedBatVoltage > 3 ) ) )
+			&& (	( SavedBatVoltage > BatteryVoltage && SavedBatVoltage - BatteryVoltage > 1 )
+				||	( BatteryVoltage > SavedBatVoltage && BatteryVoltage - SavedBatVoltage > 1 ) ) )
 		{
 			gFlags.read_bir = 1;
 			SetBatMaxPower();
