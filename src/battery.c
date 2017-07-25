@@ -314,7 +314,7 @@ __myevic__ void SetBatteryModel()
 
 		if ( dfBatteryModel == 0 )
 		{
-			if ( ISCUBOMINI || ISEVICBASIC || ISEGRIPII )
+			if ( ISCUBOMINI || ISEVICBASIC || ISEGRIPII || ISVTWO )
 			{
 				Battery = &BatteryCuboMini;
 			}
