@@ -1972,7 +1972,7 @@ const mdata_t FireFlip =
 const menu_t MiscsMenu =
 {
 	String_Miscs,
-	&ScreenMenu,
+	&MainMenu,
 	0,
 	0,
 	0,
@@ -2193,7 +2193,7 @@ const mdata_t LogoWhereData =
 };
 const mvaluedesc_t HideLogoDesc =
 {
-	40, 57,
+	40, 55,
 	0, 0,
 	0, 15,
 	0,
@@ -2247,14 +2247,14 @@ const menu_t ScreenMenu =
 	0,
 	0,
 	0,
-	7,
+	6,
 	{
 		{ String_Contrast, 0, EVENT_EDIT_CONTRAST, 0 },
 		{ String_Protection, &ScreenProtMenu, 0, MACTION_SUBMENU },
 		{ String_Saver, &ScreenSaveMenu, 0, MACTION_SUBMENU },
 		{ String_Logo, &LogoMenu, 0, MACTION_SUBMENU },
 		{ String_Invert, &ScreenInvData, EVENT_INVERT_SCREEN, MACTION_DATA },
-		{ String_Miscs, &MiscsMenu, 0, MACTION_SUBMENU },
+		//{ String_Miscs, &MiscsMenu, 0, MACTION_SUBMENU },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2515,7 +2515,7 @@ const menu_t MainMenu =
 	0,
 	0,
 	0,
-	7,
+	8,
 	{
 		{ String_Screen, &ScreenMenu, 0, MACTION_SUBMENU },
 		{ String_Coils, &CoilsMenu, 0, MACTION_SUBMENU },
@@ -2523,6 +2523,7 @@ const menu_t MainMenu =
 		{ String_Clock, &ClockMenu, 0, MACTION_SUBMENU },
 		{ String_Interface, &IFMenu, 0, MACTION_SUBMENU },
 		{ String_Expert, &ExpertMenu, 0, MACTION_SUBMENU },
+                { String_Miscs, &MiscsMenu, 0, MACTION_SUBMENU },       
 		{ String_Exit, 0, EVENT_EXIT_MENUS, 0 }
 	}
 };
