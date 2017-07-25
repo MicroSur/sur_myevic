@@ -566,7 +566,7 @@ __myevic__ void fbGame()
 	}
 
 	nd = fbNumDigits( fbScore );
-	fbDrawNumber( 64 - 4 * nd, 4, nd, fbScore);
+	fbDrawNumber( 119 - 4 * nd, 1, nd, fbScore);
 	DisplayRefresh();
 	fbCLSBuf();
 	fbSetTimeoutDelay( 4 );
@@ -595,7 +595,7 @@ __myevic__ void fbCheckFire()
 		}
 		else
 		{
-			fbBirdDisp = -14;
+			fbBirdDisp = -15; //-14;
 		}
 
 		fbSetTimeoutDelay( 10 );
@@ -706,7 +706,7 @@ __myevic__ void fbStartGame()
 	gFlags.user_idle = 1;
 	gFlags.refresh_display = 1;
 	NoEventTimer = 0;
-	SleepTimer = 3000;
+	SleepTimer = 0; //3000;
 	fbInitTimeouts();
 	ClearScreenBuffer();
 	DisplayRefresh();

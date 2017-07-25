@@ -113,6 +113,7 @@ __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
 	const uint8_t *modes[] =
 		{ String_NI, String_TI, String_SS, String_TC, String_PW, String_BY, String_SM };
 
+/*
 	if ( it == dfProfile )
 	{
 		mode = dfMode;
@@ -120,9 +121,10 @@ __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
 	}
 	else
 	{
+*/
 		mode = p->Mode;
 		rez  = p->Resistance;
-	}
+//	}
 
 	if ( mode > 6 )
 		return;
@@ -130,6 +132,9 @@ __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
 	DrawString( modes[mode], 18, line+2 );
 	DrawValue( 34, line+2, rez, 2, 0x0B, 3 );
 	DrawImage( 56, line+2, 0xC0 );
+        
+        DrawStringCentered( String_LongFire, 105 );
+	DrawStringCentered( String_Save, 116 );
 }
 
 
@@ -144,19 +149,22 @@ __myevic__ int ProfileMenuOnEvent( int event )
 			break;
 
 		case 15: // Single Fire
-			if ( CurrentMenuItem != dfProfile )
-			{
-				SaveProfile();
+			//if ( CurrentMenuItem != dfProfile )
+			//{
+				//SaveProfile();
 				LoadProfile( CurrentMenuItem );
-			}
+                                dfProfile = CurrentMenuItem;
+			//}
 			Event = EVENT_EXIT_MENUS;
 			break;
 
 		case EVENT_LONG_FIRE:
 			//if ( CurrentMenuItem != dfProfile )
 			//{
+                    dfProfile = CurrentMenuItem;
 				SaveProfile();
-				dfProfile = CurrentMenuItem;
+                                LoadProfile( CurrentMenuItem );
+				//dfProfile = CurrentMenuItem;
 			//}
 			Event = EVENT_EXIT_MENUS;
 			break;

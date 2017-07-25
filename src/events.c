@@ -507,20 +507,18 @@ __myevic__ void GetUserInput()
 				}
 				else
 				{
+                                    Event = 0;
                                     if ( gFlags.playing_fb)
                                     {
-					gFlags.playing_fb = 0;
-					Event = 0;
+					gFlags.playing_fb = 0;					
 					fbInitTimeouts();
-					MainView();
                                     }
-                                    if ( gFlags.playing_tt)
+                                    else if ( gFlags.playing_tt)
                                     {
 					gFlags.playing_tt = 0;
-					Event = 0;
 					ttInitTimeouts();
-					MainView();
                                     }
+                                    MainView();
 
 				}                                
 			}
