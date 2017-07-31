@@ -338,9 +338,9 @@ __myevic__ void EventHandler()
 						(
 							(	(dfRezNI - dfRezNI / 20 <= NewRez || dfRezNI - 1 <= NewRez)
 							&&	(dfRezNI + dfRezNI / 20 >= NewRez || dfRezNI + 1 >= NewRez))
-						||
-							(	dfRezLockedNI
-							&&	(dfRezNI - dfRezNI / 10 <= NewRez || dfRezNI - 4 <= NewRez))
+						//||
+						//	(	dfRezLockedNI
+						//	&&	(dfRezNI - dfRezNI / 10 <= NewRez || dfRezNI - 4 <= NewRez))
 						)
 						{
 							dfResistance = dfRezNI;
@@ -397,9 +397,9 @@ __myevic__ void EventHandler()
 						(
 							(	(dfRezTI - dfRezTI / 20 <= NewRez || dfRezTI - 1 <= NewRez)
 							&&	(dfRezTI + dfRezTI / 20 >= NewRez || dfRezTI + 1 >= NewRez))
-						||
-							(	dfRezLockedTI
-							&&	(dfRezTI - dfRezTI / 10 <= NewRez || dfRezTI - 4 <= NewRez))
+						//||
+						//	(	dfRezLockedTI
+						//	&&	(dfRezTI - dfRezTI / 10 <= NewRez || dfRezTI - 4 <= NewRez))
 						)
 						{
 							dfResistance = dfRezTI;
@@ -457,9 +457,9 @@ __myevic__ void EventHandler()
 							(
 								(	( dfRezSS - dfRezSS / 20 <= NewRez || dfRezSS - 1 <= NewRez )
 								&&	( dfRezSS + dfRezSS / 20 >= NewRez || dfRezSS + 1 >= NewRez ) )
-							||
-								(	  dfRezLockedSS
-								&&	( dfRezSS - dfRezSS / 10 <= NewRez || dfRezSS - 4 <= NewRez ) )
+							//||
+							//	(	  dfRezLockedSS
+							//	&&	( dfRezSS - dfRezSS / 10 <= NewRez || dfRezSS - 4 <= NewRez ) )
 							)
 							{
 								dfResistance = dfRezSS;
@@ -515,9 +515,9 @@ __myevic__ void EventHandler()
 							(
 								(	( dfRezTCR - dfRezTCR / 20 <= NewRez || dfRezTCR - 1 <= NewRez )
 								&&	( dfRezTCR + dfRezTCR / 20 >= NewRez || dfRezTCR + 1 >= NewRez ) )
-							||
-								(	  dfRezLockedTCR
-								&&	( dfRezTCR - dfRezTCR / 10 <= NewRez || dfRezTCR - 4 <= NewRez ) )
+							//||
+							//	(	  dfRezLockedTCR
+							//	&&	( dfRezTCR - dfRezTCR / 10 <= NewRez || dfRezTCR - 4 <= NewRez ) )
 							)
 							{
 								dfResistance = dfRezTCR;

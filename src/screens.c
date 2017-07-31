@@ -594,7 +594,7 @@ __myevic__ void ShowBattery()
 		}
 		else
 		{
-			DrawImage( 8, 115, 0xC5 );
+			DrawImage( 8, 114, 0xC5 );
 		}
 	}
 	else
@@ -608,19 +608,19 @@ __myevic__ void ShowBattery()
 			}
 			else if ( BatteryTenth )
 			{
-				DrawFillRectLines( 32, 118, (25 * BatteryTenth / 10 + 31), 124, 1 );
+				DrawFillRectLines( 32, 119, (25 * BatteryTenth / 10 + 31), 123, 1 );
 			}
 		}
 		else
 		{
-			DrawImage( 8, 115, 0xC4 );
+			DrawImage( 8, 114, 0xC4 );
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
 			{
 				DrawString( String_BALANCE_s, 10, 117 );
 			}
 			else if ( BatteryTenth )
 			{
-				DrawFillRectLines( 10, 118, (4 * BatteryTenth + 9), 124, 1 );
+				DrawFillRectLines( 10, 119, (4 * BatteryTenth + 9), 123, 1 );
 			}
 		}
 	}
@@ -903,8 +903,8 @@ __myevic__ void Show10sProtec()
 //----- (00007810) --------------------------------------------------------
 __myevic__ void ShowWeakBat()
 {
-	DrawStringCentered( String_Weak, 106 );
-	DrawStringCentered( String_Battery, 118 );
+	DrawStringCentered( String_Weak, 110 );
+	DrawStringCentered( String_Battery, 119 );
 }
 
 

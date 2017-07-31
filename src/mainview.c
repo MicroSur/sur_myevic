@@ -967,7 +967,7 @@ __myevic__ void ShowMainView()
 	}
 	else if ( ShowWeakBatFlag )
 	{
-		DrawFillRect( 0, 107, 63, 127, 0 );
+		DrawFillRect( 0, 108, 63, 127, 0 );
 		ShowWeakBat();
 	}
 }

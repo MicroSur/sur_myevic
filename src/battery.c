@@ -1114,7 +1114,7 @@ __myevic__ int CheckBattery()
 	{
 		if ( !gFlags.limit_power || !gFlags.read_bir )
 		{
-			ShowWeakBatFlag = 2; //5;
+			ShowWeakBatFlag = 5;
 		}
 
 		gFlags.limit_power = 0;
