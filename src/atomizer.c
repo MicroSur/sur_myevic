@@ -1096,10 +1096,12 @@ __myevic__ uint16_t GetVoltsForPower( uint16_t pwr )
 __myevic__ void TweakTargetVoltsVW()
 {
 	unsigned int pwr;
-
+        uint8_t pc = 0;
+        
 	if ( PreheatTimer )
 	{
 		pwr = PreheatPower;
+                pc = 1;
 	}
 	else if ( dfMode == 6 )
 	{
@@ -1121,10 +1123,20 @@ __myevic__ void TweakTargetVoltsVW()
 		if ( p > 100 && PreheatDelay ) p = 100;
 
 		pwr = p * pwr / 100;
+                
+                if ( !PreheatDelay ) pc = 1;
 	}
 
 	pwr = AtoPowerLimit( pwr );
-	TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
+
+        if ( dfStatus.vvlite && !pc )
+        {
+            TargetVolts = dfVWVolts;
+        }
+        else
+        {
+            TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
+        }
 }
 
 
@@ -1756,7 +1768,7 @@ __myevic__ void ResetResistance()
 //-------------------------------------------------------------------------
 
 static filter_t	TempFilter;
-static uint8_t TCBoost;
+//static uint8_t TCBoost;
 
 typedef struct algostage
 {
@@ -1866,7 +1878,7 @@ algostage_t tabStagesSegments[]=
 __myevic__ void InitTCAlgo()
 {
 	AlgoCtl.start = 0;
-	AlgoCtl.boost = TCBoost;
+	AlgoCtl.boost = dfTCBoost;
 	AlgoCtl.ttemp = dfIsCelsius ? dfTemp : FarenheitToC( dfTemp );
 
 	AlgoCtl.counter = 0;
@@ -1874,7 +1886,7 @@ __myevic__ void InitTCAlgo()
 	switch ( dfTCAlgo )
 	{
 		case TCALGO_BOOST:
-			TCBoost = dfTCBoost;
+			//TCBoost = dfTCBoost;
 			AlgoCtl.nstages = sizeof( tabStagesSegments ) / sizeof( algostage_t );
 			AlgoCtl.stages = tabStagesSegments;
 			AlgoCtl.power = dfTCPower;

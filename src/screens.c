@@ -523,7 +523,7 @@ __myevic__ void ShowRTCSpeed()
 	DrawHLine( 0, 16, 63, 1 );
 
 	GetRTC( &rtd );
-	DrawTimeSmall( 12, 20, &rtd, 0x1F );
+	DrawTimeSmall( 10, 25, &rtd, 0x1F );
 
 	if ( gFlags.has_x32 )
 	{

@@ -133,9 +133,9 @@ __myevic__ void DrawTimeSmall( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors 
 
 	if (colors&0x10) DrawValue( x   , y, rtd->u32Hour, 0, 0x0B, 2 );
 	if (colors&0x08) DrawImage( x+12, y, 0xD7 );
-	if (colors&0x04) DrawValue( x+14, y, rtd->u32Minute, 0, 0x0B, 2 );
-	if (colors&0x02) DrawImage( x+26, y, 0xD7 );
-	if (colors&0x01) DrawValue( x+28, y, rtd->u32Second, 0, 0x0B, 2 );
+	if (colors&0x04) DrawValue( x+15, y, rtd->u32Minute, 0, 0x0B, 2 );
+	if (colors&0x02) DrawImage( x+27, y, 0xD7 );
+	if (colors&0x01) DrawValue( x+30, y, rtd->u32Second, 0, 0x0B, 2 );
 }
 
 __myevic__ void DrawTime( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )

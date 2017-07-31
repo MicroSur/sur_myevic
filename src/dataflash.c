@@ -479,6 +479,7 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.keylock = 0;
 	dfStatus.flipped = ScrFlip;
         dfStatus.fireflip = 0;
+        dfStatus.vvlite = 0; //VVolt
 	dfStatus.nologo = 1;
 //	dfStatus.clock = 0;
 //	dfStatus.vcom = 0;
@@ -763,7 +764,7 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfTCAlgo >= TCALGO_MAX )
 		dfTCAlgo = TCALGO_DEF;
 
-	if ( dfTCBoost > 100 )
+	if ( dfTCBoost > 200 )
 		dfTCBoost = 50;
 
 	for ( i = 0 ; i < 3 ; ++i )

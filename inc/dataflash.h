@@ -85,11 +85,18 @@ typedef struct
 /* 10000000 */	unsigned int pcurve:1;      //lsls 0x03
 /* 20000000 */  unsigned int offmodclock:1; //lsls 0x02 29
 /* 40000000 */  unsigned int fireflip:1;   //lsls 0x01
-                                            //lsls 0
+/* 80000000 */  unsigned int vvlite:1;      //lsls 0    31
 // Do not exceed 32 bits;
 // if you may do so, create another bitfield.
 }
 dfStatus_t;
+
+typedef struct
+{
+/* 00000001 */	unsigned int unk:1;         //lsls 0x1F  0-bit
+}
+// Do not exceed 32 bits;
+dfStatus2_t;
 
 typedef struct
 {
@@ -192,7 +199,10 @@ typedef struct dfParams
 /* 00ED */	uint8_t		HideLogo;
 /* 00EE */	int8_t		BoardTempCorr;
 /* 00EF */	uint8_t		Contrast2;
+/* 00F0 */	dfStatus2_t	Status2;
+/* 00F4 */
 
+// stop on FF
 }
 dfParams_t;
 

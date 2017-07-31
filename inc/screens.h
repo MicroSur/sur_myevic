@@ -216,6 +216,7 @@ extern const uint8_t String_Unit[];
 extern const uint8_t String_Main[];
 extern const uint8_t String_Interface[];
 extern const uint8_t String_FiFlip[];
+extern const uint8_t String_VVLite[];
 extern const uint8_t String_1Watt[];
 extern const uint8_t String_1C5F[];
 extern const uint8_t String_Hide[];

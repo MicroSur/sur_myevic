@@ -466,7 +466,7 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 
 		case 6:	// Dial
 			DrawFillRect( 36, line, 63, line+12, 0 );
-			DrawImage( 44, line+2, dfStatus.digclk ? 0x9F : 0x9C );
+			DrawImage( 46, line+2, dfStatus.digclk ? 0x9F : 0x9C ); // D/A
 			break;
 	}
 }
@@ -689,7 +689,7 @@ __myevic__ void DrawPreheatDelay( int x, int y, int v, uint8_t dp, uint8_t z, ui
 {
 	if ( v == 0 )
 	{
-		DrawString( String_Off, x+8, y+2 );
+		DrawString( String_Off, x+6, y+2 );
 	}
 	else
 	{
@@ -999,7 +999,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
 	int vret = 0;
 
 	switch ( event )
-	{
+	{              
 		case 2:	// +
 			if ( !gFlags.edit_value )
 				break;
@@ -1618,14 +1618,14 @@ const menu_t ProfileMenu;
 
 const mbitdesc_t BitDesc =
 {
-	0, 0,
+	0, 46,
 	String_On,
 	String_Off
 };
 
 const mbitdesc_t InvBitDesc =
 {
-	0, 0,
+	0, 46,
 	String_Off,
 	String_On
 };
@@ -1984,7 +1984,7 @@ const menu_t MiscsMenu =
                 { String_Tetris, &GameTtMenu, 0, MACTION_SUBMENU },                        
 		{ String_Led, &LedMenu, 0, MACTION_SUBMENU },
 		//{ String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
-                { String_FiFlip, &FireFlip, 0, MACTION_DATA },         
+                { String_FiFlip, &FireFlip, 0, MACTION_DATA },     
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2302,15 +2302,15 @@ const menu_t IFMenu =
 
 const mvaluedesc_t BoostDesc =
 {
-	34, 53,
+	34, 54,
 	0, 0,
-	0, 100,
+	0, 200,
 	0,
 	0,
 	0xC2,
 	0x0B,
 	1,
-	101, 50
+	201, 50
 };
 
 const mdata_t BoostData =
@@ -2460,7 +2460,13 @@ const menu_t CurveMenu =
 	}
 };
 
-
+const mdata_t VVLite =
+{
+	&dfStatus,
+	&BitDesc,
+	MITYPE_BIT,
+	31
+};
 const menu_t VapingMenu =
 {
 	String_Vaping,
@@ -2470,7 +2476,7 @@ const menu_t VapingMenu =
 	0,
 	VapingMenuOnClick+1,
 	VapingMenuOnEvent+1,
-	9,
+	10,
 	{
 		{ String_Preheat, &PreheatMenu, 0, MACTION_SUBMENU },
 		{ String_Curve, &CurveMenu, 0, MACTION_SUBMENU },
@@ -2479,7 +2485,8 @@ const menu_t VapingMenu =
 		{ String_Prot, 0, 0, 0 },
 		{ String_Vaped, 0, 0, 0 },
 		{ String_mlkJ, 0, 0, 0 },
-                { String_PuffsOff, 0, 0, 0 },        
+                { String_PuffsOff, 0, 0, 0 }, 
+                { String_VVLite, &VVLite, 0, MACTION_DATA },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

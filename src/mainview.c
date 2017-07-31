@@ -167,7 +167,13 @@ __myevic__ void DrawTempLine( int line )
 
 __myevic__ void DrawVoltsLine( int volts, int line )
 {
-	DrawString( String_VOLT_s, 0, line+2 );
+        if ( dfStatus.vvlite && dfMode == 4 )
+        {
+            DrawImage( 0, line+2, 0xF8 );   
+        } else
+        {
+            DrawString( String_VOLT_s, 0, line+2 );
+        }
 	if ( volts > MaxVolts ) volts = MaxVolts;
 	DrawValue( 27, line, volts, 2, 0x1F, 3 );
 	DrawImage( 57, line+2, 0x7D );
@@ -642,6 +648,14 @@ __myevic__ void DrawTemp()
 		DrawValue( 0, 13, dfTemp, 0, 0x48, 3 );
 		DrawImage( 48, 20, dfIsCelsius ? 0xE0 : 0xE1 );
 	}
+        
+        if ( ISMODETC(dfMode) )
+        {
+            if ( dfTCAlgo )
+            {
+               DrawImage( 53, 12, 0x68 ); //A 
+            }
+        }
 }
 
 
@@ -649,14 +663,15 @@ __myevic__ void DrawTemp()
 
 __myevic__ void DrawPower( int pwr )
 {
-	int xp, yp, xc;
-
+	int xp, xc;
+        int yp = 12;
+        
     if ( !dfStatus.onewatt )
     {            
 	if ( pwr < 100 )
 	{
 		xp = 45;
-		yp = 13;
+		//yp = 12;
 
 		DrawValue( 5, 13, pwr, 1, 0x48, 2 );
 		DrawImage( 46, 20, 0xB9 ); //W
@@ -664,7 +679,7 @@ __myevic__ void DrawPower( int pwr )
 	else
 	{
 		xp = 54;
-		yp = 13;
+		//yp = 12;
 
 		if ( pwr < 1000 )
 		{
@@ -684,13 +699,13 @@ __myevic__ void DrawPower( int pwr )
         if ( pwr < 100 )
 	{
 		xp = 33;
-		yp = 13;
+		//yp = 12;
 		DrawValue( 13, 13, pwr / 10, 0, 0x48, 1 );
 		DrawImage( 33, 20, 0xB9 ); //W
 	}
 	else
 	{
-		yp = 13;
+		//yp = 12;
 		if ( pwr < 1000 )
 		{
                     	xp = 47;
@@ -727,6 +742,13 @@ __myevic__ void DrawPower( int pwr )
 			}
 		}
 	}
+        else if ( ISMODETC(dfMode) )
+        {
+            if ( dfTCAlgo )
+            {
+               DrawImage( xp, yp, 0x68 ); //A 
+            }
+        }
 }
 
 

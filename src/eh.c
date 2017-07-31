@@ -670,6 +670,7 @@ __myevic__ void EventHandler()
 				pwr = dfPower;
 			}
 
+                        uint8_t pc = 0;
 			if ( ISMODEVW(dfMode) )
 			{
 				if ( dfStatus.pcurve )
@@ -680,6 +681,7 @@ __myevic__ void EventHandler()
 					{
 						pwr = AtoMaxPower;
 					}
+                                        if ( !PreheatDelay ) pc = 1;
 				}
 				else if ( !PreheatDelay && dfPreheatTime )
 				{
@@ -700,22 +702,29 @@ __myevic__ void EventHandler()
 					}
 
 					pwr = PreheatPower;
+                                        pc = 1;
 				}
 
 
 				gFlags.limit_power = 0;
-/*
- *                              if ( pwr > 300 ) pwr = 300;
+//                              if ( pwr > 300 ) pwr = 300;
 				if ( pwr > BatteryMaxPwr )
 				{
 					gFlags.limit_power = 1;
-					PowerScale = 100 * BatteryMaxPwr / pwr;
+				//	PowerScale = 100 * BatteryMaxPwr / pwr;
 					pwr = BatteryMaxPwr;
+                                        pc = 1;
 				}
-*/
-
-				TargetVolts = GetVoltsForPower( pwr );
-
+                                
+        if ( dfStatus.vvlite && !pc )
+        {
+            TargetVolts = dfVWVolts;
+        }
+        else
+        {
+            TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
+        }
+                                
 				LowBatVolts = ( BatteryVoltage > BatteryCutOff + 100 ) ? 0 : BatteryVoltage;
 			}
 
