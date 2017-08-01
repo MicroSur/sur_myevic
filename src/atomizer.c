@@ -1572,11 +1572,11 @@ __myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez )
 	else if ( AtoRez )
 	{
 		*plock = 1;
-		if ( !dfResistance )
-		{
-			dfResistance = AtoRez;
+		//if ( !dfResistance )
+		//{
+			dfResistance = AtoRezMilli / 10; //AtoRez;
 			RezMillis = AtoMillis;
-		}
+		//}
 		*prez = dfResistance;
 		dfMillis &= ~( 0xf << ( dfMode << 2 ) );
 		dfMillis |= RezMillis << ( dfMode << 2 );
