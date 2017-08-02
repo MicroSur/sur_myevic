@@ -553,7 +553,7 @@ __myevic__ void EventHandler()
 				GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 				PD1 = 0;
 			}
-			else if ( !ISCUBOID && ! ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 )
+			else if ( !ISCUBOID && ! ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR )
 			{
 				GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );
 				PD7 = 0;
@@ -1010,7 +1010,7 @@ __myevic__ void EventHandler()
 			ChargeStatus = 1;
 			if ( NumBatteries > 1 )
 			{
-                            if ( ISPRIMO2 )
+                            if ( ISPRIMO2 || ISPREDATOR )
                             {
                                 USBMaxLoad = 3;
                             } 

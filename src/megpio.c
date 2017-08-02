@@ -41,7 +41,7 @@ __myevic__ void GPD_IRQHandler()
 	{
 		GPIO_CLR_INT_FLAG( PD, GPIO_PIN_PIN0_Msk );
 
-		if ( ISPRESA75W || ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 )
+		if ( ISPRESA75W || ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 		{
 			if ( gFlags.firing || gFlags.probing_ato )
 			{
@@ -108,7 +108,7 @@ __myevic__ void InitGPIO()
 		GPIO_SetMode( PF, GPIO_PIN_PIN0_Msk, GPIO_MODE_OUTPUT );
 	}
 
-        if ( ISPRIMO1 || ISPRIMO2 )
+        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 	{
             //?
             	//SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD1MFP_Msk;
@@ -122,7 +122,7 @@ __myevic__ void InitGPIO()
 	//SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_UART0_TXD;
 	//#endif
 
-	if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPRIMOMINI )
+	if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPRIMOMINI || ISPREDATOR )
 	{
 		SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk|SYS_GPD_MFPL_PD1MFP_Msk);
 		SYS->GPD_MFPL |= SYS_GPD_MFPL_PD0MFP_GPIO|SYS_GPD_MFPL_PD1MFP_GPIO;
@@ -133,7 +133,7 @@ __myevic__ void InitGPIO()
 	// PC2 = PWM0 CH2
 	BBC_Configure( BBC_PWMCH_BOOST, 1 );
 
-	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 )
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 	{
 		PD7 = 0;
 		BBC_Configure( BBC_PWMCH_CHARGER, 0 );
@@ -163,7 +163,7 @@ __myevic__ void InitGPIO()
 		PA2 = 0;
 		GPIO_SetMode( PA, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );
 	}
-        else if ( ISPRIMO1 || ISPRIMO2 )
+        else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
         {
 		PA3 = 0;
 		GPIO_SetMode( PA, GPIO_PIN_PIN3_Msk, GPIO_MODE_OUTPUT );
@@ -199,7 +199,7 @@ __myevic__ void InitGPIO()
 		GPIO_EnableInt( PD, 1, GPIO_INT_RISING );
 		GPIO_ENABLE_DEBOUNCE( PD, GPIO_PIN_PIN1_Msk );
 	}
-	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 )
+	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR )
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 		GPIO_EnableInt( PD, 7, GPIO_INT_RISING );

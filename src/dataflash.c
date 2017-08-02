@@ -60,6 +60,7 @@ const char pid_rxmini	[8]	__PIDATTR__	= { 'W','0','7','3', 1, 0, 0, 0 };
 const char pid_lpb		[8]	__PIDATTR__	= { 'W','0','4','3', 1, 0, 0, 0 };
 const char pid_primo1   [8]	__PIDATTR__	= { 'E','1','8','2', 1, 0, 1, 0 };
 const char pid_primo2   [8]	__PIDATTR__	= { 'E','2','0','3', 1, 0, 1, 0 };
+const char pid_predator [8]	__PIDATTR__	= { 'W','0','7','8', 1, 0, 0, 0 };
 
 #define PID_SCRAMBLE 0x12345678UL
 #define MAKEPID(p) ((((p)[0])|((p)[1]<<8)|((p)[2]<<16)|((p)[3]<<24))^PID_SCRAMBLE)
@@ -88,6 +89,7 @@ const char pid_primo2   [8]	__PIDATTR__	= { 'E','2','0','3', 1, 0, 1, 0 };
 #define PID_LPB			MAKEPID(pid_lpb)
 #define PID_PRIMO1		MAKEPID(pid_primo1)
 #define PID_PRIMO2		MAKEPID(pid_primo2)
+#define PID_PREDATOR		MAKEPID(pid_predator)
 
 #define HWV_VTCMINI		MAKEHWV(pid_vtcmini)
 #define HWV_VTWOMINI	MAKEHWV(pid_vtwomini)
@@ -110,6 +112,7 @@ const char pid_primo2   [8]	__PIDATTR__	= { 'E','2','0','3', 1, 0, 1, 0 };
 #define HWV_LPB			MAKEHWV(pid_lpb)
 #define HWV_PRIMO1		MAKEHWV(pid_primo1)
 #define HWV_PRIMO2		MAKEHWV(pid_primo2)
+#define HWV_PREDATOR		MAKEHWV(pid_predator)
 
 
 //=========================================================================
@@ -209,7 +212,18 @@ __myevic__ void SetProductID()
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
 			break;
-		}                
+		}     
+                else if ( u32Data == PID_PREDATOR )
+		{
+			dfMaxHWVersion = HWV_PREDATOR;
+			DFMagicNumber = 0x11;
+			BoxModel = BOX_PREDATOR;
+			NumBatteries = 2;
+			MaxBatteries = 2;
+                        MaxCurrent = 50;
+			gFlags.pwm_pll = 1;
+			break;
+		}                 
 		else if ( u32Data == PID_EVICAIO )
 		{
 			dfMaxHWVersion = HWV_EVICAIO;
@@ -1118,7 +1132,7 @@ __myevic__ void InitDataFlash()
 		MaxPower = 1500;
 		gFlags.batt_unk = 1;
 	}
-	else if ( ISPRIMO1 || ISPRIMO2 )
+	else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 	{
 		MaxPower = 2500; //2280
 	}        
@@ -1266,7 +1280,7 @@ __myevic__ uint16_t GetShuntRezValue()
 {
 	uint16_t rez;
 
-	if ( ISPRESA75W || ISEVICAIO || ISRXMINI )
+	if ( ISPRESA75W || ISEVICAIO || ISRXMINI || ISPREDATOR )
 	{
 		rez = 100;
 	}
@@ -1349,7 +1363,31 @@ __myevic__ uint16_t GetShuntRezValue()
 	}
 	else if ( ISPRIMO1 )
 	{
-                rez = 108;
+                switch ( dfHWVersion )
+		{
+			case 100:
+			default:
+				rez = 108;
+				break;
+
+			case 101:
+				rez = 111;
+				break;
+		}
+	}
+	else if ( ISPRIMO2 )
+	{
+                switch ( dfHWVersion )
+		{
+			case 100:
+			default:
+				rez = 110;
+				break;
+
+			case 101:
+				rez = 111;
+				break;
+		}
 	}
 	else if ( ISRX23 )
 	{
@@ -1365,7 +1403,7 @@ __myevic__ uint16_t GetShuntRezValue()
 				break;
 		}
 	}
-	else if ( ISRX200S || ISPRIMO2 )
+	else if ( ISRX200S )
 	{
 		rez = 110;
 	}

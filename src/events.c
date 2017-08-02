@@ -272,7 +272,7 @@ __myevic__ void GetUserInput()
 					}
 				}
 			}
-			else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 )
+			else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR )
 			{
 				if ( !PD7 && !gFlags.battery_charging )
 				{

@@ -143,7 +143,7 @@ __myevic__ void InitPWM()
 	BuckDuty = 0;
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
 
-	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 )
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 	{
 		PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_CHARGER, BBC_PWM_FREQ, 0 );
 		PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_CHARGER );
@@ -160,7 +160,7 @@ __myevic__ void InitPWM()
                 {
                         MaxChargerDuty = 288;
                 }
-                else if ( ISPRIMO2 )
+                else if ( ISPRIMO2 || ISPREDATOR )
                 {
                         MaxChargerDuty = 320;
                 }
@@ -316,7 +316,7 @@ __myevic__ void StopFire()
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_INPUT );
 	}
-	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 )
+	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR)
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 	}
@@ -723,7 +723,7 @@ __myevic__ void ReadAtomizer()
 		ADCShuntSum = ( ADCShuntSum1 + ADCShuntSum2 ) ? : 1;
                 
 		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ADCShuntSum );
-                if ( ISPRIMO1 || ISPRIMO2 ) AtoRezMilli /= 2;
+                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR ) AtoRezMilli /= 2;
                 
 		if ( gFlags.firing )
 		{
@@ -1410,7 +1410,7 @@ __myevic__ void ProbeAtomizer()
 {
 	if ( ( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
 	|| ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 ) && ( BatteryStatus == 2 || !PF0 ) )
-        || ( ( ISPRIMO1 || ISPRIMO2 ) && ( BatteryStatus == 2 || !PD1 ) ))
+        || ( ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR ) && ( BatteryStatus == 2 || !PD1 ) ))
         {
 		AtoStatus = 0;     
                 

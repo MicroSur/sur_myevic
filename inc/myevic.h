@@ -61,7 +61,8 @@ enum
 	BOX_RX300,
 	BOX_RXMINI,
         BOX_PRIMO1,
-        BOX_PRIMO2
+        BOX_PRIMO2,
+        BOX_PREDATOR        
                 
 };
 
@@ -85,6 +86,7 @@ enum
 #define ISRXMINI		(BoxModel==BOX_RXMINI)
 #define ISPRIMO1		(BoxModel==BOX_PRIMO1)
 #define ISPRIMO2		(BoxModel==BOX_PRIMO2)
+#define ISPREDATOR		(BoxModel==BOX_PREDATOR)
 
 
 //=========================================================================

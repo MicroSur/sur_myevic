@@ -402,7 +402,7 @@ __myevic__ void DevicesOnOff( int off )
 		SetADCState( 2, 0 );
 		SetADCState( 14, 0 );
 
-		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 )
+		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 		{
 			SetADCState( 3, 0 );
 			SetADCState( 13, 0 );
@@ -453,7 +453,7 @@ __myevic__ void DevicesOnOff( int off )
 			PA3 = 0;
 			PA2 = 0;
 		}
-		if ( ISPRIMO1 || ISPRIMO2 )
+		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 		{
 			PA3 = 0;
 			PA2 = 0;
@@ -464,7 +464,7 @@ __myevic__ void DevicesOnOff( int off )
 			PD1 = 0;
 			GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 		}
-		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 )
+		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR )
 		{
 			GPIO_DisableInt( PD, 7 );
 			PD7 = 0;
@@ -496,7 +496,7 @@ __myevic__ void DevicesOnOff( int off )
 		{
 			PF0 = 0;
 		}
-                else if ( ISPRIMO1 || ISPRIMO2 )
+                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
                 {
                         PD1 = 0;
                 }
@@ -549,7 +549,7 @@ __myevic__ void DevicesOnOff( int off )
 			GPIO_EnableInt( PD, 1, GPIO_INT_RISING );
 			GPIO_ENABLE_DEBOUNCE( PD, GPIO_PIN_PIN1_Msk );
 		}
-		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 )
+		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR )
 		{
 			GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 			GPIO_EnableInt( PD, 7, GPIO_INT_RISING );
@@ -573,7 +573,7 @@ __myevic__ void DevicesOnOff( int off )
 		SetADCState( 2, 1 );
 		SetADCState( 14, 1 );
 
-		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 )
+		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 		{
 			SetADCState( 3, 1 );
 			SetADCState( 13, 1 );
@@ -956,7 +956,7 @@ __myevic__ void Main()
 			{
 				BatteryChargeDual();
 			}
-			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 )
+			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 			{
 				BatteryCharge();
 			}
