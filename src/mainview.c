@@ -195,7 +195,7 @@ __myevic__ void DrawCoilLine( int line )
 	{
 		rez = AtoRezMilli / 10;
 	}
-	else if ( ISMODETC(dfMode) )
+	else //if ( ISMODETC(dfMode) )
 	{
             	if ( byte_200000B3 || !AtoRez )
 		{
@@ -216,10 +216,11 @@ __myevic__ void DrawCoilLine( int line )
 		}
 */
 	}
-	else
-	{
-		rez = AtoRez; // * 10 + AtoMillis;
-	}
+	//else
+	//{
+	//	rez = AtoRez; // * 10 + AtoMillis;
+            
+	//}
 
         DrawValue( 27, line, rez, 2, 0x1F, 3 );
 /*
@@ -532,8 +533,10 @@ __myevic__ void ShowFireDuration( int line )
 //=============================================================================
 __myevic__ void DrawInfoLines()
 {
-	if (( gFlags.debug & 1 ) && ( !gFlags.firing ) && ( !EditModeTimer ))
+	//if (( gFlags.debug & 1 ) && ( !gFlags.firing ) && ( !EditModeTimer ))
+        if (( gFlags.debug & 1 ) && ( !EditModeTimer ))
 	{
+/*
 		uint32_t flags;
 		MemCpy( &flags, (uint8_t*)&gFlags + 4, sizeof( uint32_t ) );
 		DrawHexLong( 0, 52, flags, 1 );
@@ -541,8 +544,22 @@ __myevic__ void DrawInfoLines()
 		MemCpy( &flags, (void*)&gFlags, sizeof( uint32_t ) );
 		DrawHexLong( 0, 71, flags, 1 );
 
-		DrawValue( 0, 90, BatteryIntRez, 0, 0x1F, 0 );
-		DrawValueRight( 64, 90, BatteryMaxPwr / 10, 0, 0x1F, 0 );
+                //BypassVolts BattVoltsTotal MaxVolts AtoMaxVolts
+                unsigned int amps;       
+                amps = 10 * BattVoltsTotal	/ ( 10 * AtoRez + NumBatteries * BatteryIntRez );
+     
+                DrawValue( 0, 46, BypassVolts, 0, 0x1F, 0 );
+		DrawValue( 0, 58, amps, 0, 0x1F, 0 );
+                DrawValue( 0, 70, NumBatteries, 0, 0x1F, 0 );
+                DrawValue( 0, 82, AtoRez, 0, 0x1F, 0 );
+                
+		//DrawValueRight( 64, 90, BatteryMaxPwr / 10, 0, 0x1F, 0 );
+ 
+*/
+
+		DrawValue( 0, 108, Screen, 0, 0x01, 0 );
+		DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
+
 		return;
 	}
 
@@ -785,10 +802,12 @@ __myevic__ void ShowMainView()
 	}
 	else if ( ISMODEBY(dfMode) )
 	{
-		amps = 10 * BattVoltsTotal
-			/ ( 10 * AtoRez + NumBatteries * BatteryIntRez );
-		BypassVolts = AtoRez * amps;
-		if ( BypassVolts > AtoMaxVolts ) BypassVolts = AtoMaxVolts;
+
+		//amps = 10 * BattVoltsTotal / ( 10 * AtoRez + NumBatteries * BatteryIntRez );
+                amps = 1000 * BattVoltsTotal / ( 10 * AtoRez + NumBatteries * BatteryIntRez );
+		BypassVolts = AtoRez * amps / 100;
+                               
+                if ( BypassVolts > AtoMaxVolts ) BypassVolts = AtoMaxVolts;
 		pwr  = ClampPower( BypassVolts, 0 );
 	}
 

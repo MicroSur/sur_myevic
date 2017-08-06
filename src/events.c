@@ -633,10 +633,10 @@ __myevic__ void GetUserInput()
 	{
 		if ( UserInputs == 1 )
 		{
-			if ( KeyPressTime > FIRE_PROTEC_MAX * 10 + 100 )
+			if ( KeyPressTime > dfProtec * 10 + 50 ) //FIRE_PROTEC_MAX * 10 + 100 )
 			{
-				KeyPressTime = FIRE_PROTEC_MAX * 10 + 100;
-				gFlags.user_idle = 1;
+				KeyPressTime = dfProtec * 10 + 50; //FIRE_PROTEC_MAX * 10 + 100;
+				gFlags.user_idle = 1; //to switch mod Off
 			}
 			else if ( gFlags.firing && FireDuration >= dfProtec )
 			{

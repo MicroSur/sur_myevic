@@ -200,8 +200,8 @@ typedef struct dfParams
 /* 00EE */	int8_t		BoardTempCorr;
 /* 00EF */	uint8_t		Contrast2;
 /* 00F0 */	dfStatus2_t	Status2;
-/* 00F4 */
-
+/* 00F4 */      uint8_t         FireScrDuration;
+/* 00F5 */      
 // stop on FF
 }
 dfParams_t;
@@ -395,6 +395,7 @@ extern dfStruct_t DataFlash;
 #define dfPuffsOff  		DFP(PuffsOff)
 #define dfHideLogo  		DFP(HideLogo)
 #define dfBoardTempCorr 	DFP(BoardTempCorr)
+#define dfFireScrDuration       DFP(FireScrDuration)
 
 #define dfFWVersion		DFI(FWVersion)
 #define dffmcCID        DFI(fmcCID)

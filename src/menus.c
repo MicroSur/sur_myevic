@@ -364,7 +364,12 @@ __myevic__ int VapingMenuOnEvent( int event )
                         
                 case EVENT_LONG_FIRE:
                         switch ( CurrentMenuItem )
-			{                       
+			{                    
+                                case 4: //protec
+                                        dfProtec = 10;
+                                        gFlags.edit_value = 0;
+                                        vret = 1;
+                                        break;
                                 case 6: // mL/kJ
                                         dfVVRatio = VVEL_DEF_RATIO;  
                                         gFlags.edit_value = 0;
@@ -382,6 +387,94 @@ __myevic__ int VapingMenuOnEvent( int event )
 
 	return vret;
 }
+
+__myevic__ void ScreenMenuIDraw( int it, int line, int sel )
+{
+	switch ( it )
+	{
+		case 5: //fire scr duration
+			DrawFillRect( 44, line, 63, line+12, 0 );
+			DrawImage( 57, line+2, 0x94 );
+			DrawValueRight( 56, line+2, dfFireScrDuration, 0, 0x0B, 0 );
+			if ( sel && gFlags.edit_value )
+				InvertRect( 0, line, 63, line+12 );
+			break;
+
+	}
+}
+
+__myevic__ void ScreenMenuOnClick()
+{
+	switch ( CurrentMenuItem )
+	{
+		case 5:	//fire scr duration
+			gFlags.edit_value ^= 1;
+			break;     
+	}
+
+	gFlags.refresh_display = 1;
+}
+
+__myevic__ int ScreenMenuOnEvent( int event )
+{
+	int vret = 0;
+
+	if ( !gFlags.edit_value )
+		return vret;
+
+	switch ( event )
+	{
+		case 2:	// Plus
+			switch ( CurrentMenuItem )
+                        {
+				case 5: //fire scr duration
+					if ( ++dfFireScrDuration > 9 )
+					{
+						if ( KeyTicks < 5 ) dfFireScrDuration = 1;
+						else dfFireScrDuration = 9;
+					}
+					vret = 1;
+					break;                                        
+			}
+			break;
+
+		case 3:	// Minus
+			switch ( CurrentMenuItem )
+			{
+				case 5: //fire scr duration
+					if ( --dfFireScrDuration < 1 )
+					{
+						if ( KeyTicks < 5 ) dfFireScrDuration = 9;
+						else dfFireScrDuration = 1;
+					}
+					vret = 1;
+					break;
+
+                                 
+			}
+			break;
+                        
+                case EVENT_LONG_FIRE:
+                        switch ( CurrentMenuItem )
+			{                    
+                                case 5: //fire scr duration
+                                        dfFireScrDuration = 2;
+                                        gFlags.edit_value = 0;
+                                        vret = 1;
+                                        break;      
+                        }  
+                        break;  
+	}
+
+	if ( vret )
+	{
+		UpdateDFTimer = 50;
+		gFlags.refresh_display = 1;
+	}
+
+	return vret;
+}
+
 
 //-----------------------------------------------------------------------------
 
@@ -1688,7 +1781,7 @@ const menu_t ModesMenu =
 
 const mvaluedesc_t PreheatDelayDesc =
 {
-	34, 37,
+	34, 39,
 	3, 2,
 	0, 180,
 	&DrawPreheatDelay+1,
@@ -2243,11 +2336,11 @@ const menu_t ScreenMenu =
 	String_Screen,
 	&MainMenu,
 	0,
+	ScreenMenuIDraw+1,
 	0,
-	0,
-	0,
-	0,
-	6,
+	ScreenMenuOnClick+1,
+	ScreenMenuOnEvent+1,
+	7,
 	{
 		{ String_Contrast, 0, EVENT_EDIT_CONTRAST, 0 },
 		{ String_Protection, &ScreenProtMenu, 0, MACTION_SUBMENU },
@@ -2255,6 +2348,7 @@ const menu_t ScreenMenu =
 		{ String_Logo, &LogoMenu, 0, MACTION_SUBMENU },
 		{ String_Invert, &ScreenInvData, EVENT_INVERT_SCREEN, MACTION_DATA },
 		//{ String_Miscs, &MiscsMenu, 0, MACTION_SUBMENU },
+                { String_FireScrDur, 0, 0, 0 },    
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

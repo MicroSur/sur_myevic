@@ -300,7 +300,7 @@ __myevic__ void EventHandler()
 				else if ( dfMode == 2 ) lock = dfRezLockedSS;
 				else if ( dfMode == 3 ) lock = dfRezLockedTCR;
 
-				if ( !lock || dfMode == 4 || dfMode == 5 || dfMode == 6 )
+                                if ( !lock || dfMode == 4 || dfMode == 5 || dfMode == 6 ) 
 				{
 					dfResistance = AtoRez;
 					RezMillis = AtoMillis;
@@ -612,7 +612,7 @@ __myevic__ void EventHandler()
 			{
 				if ( dfResistance <= 150 )
 				{
-					if ( !gFlags.check_mode )
+					if ( !gFlags.check_mode && !dfStatus.chkmodeoff )
 					{
 						if ( dfRezType != 1 )
 						{
@@ -827,11 +827,11 @@ __myevic__ void EventHandler()
 			StopFire();
 			if ( AtoError )
 				return;
-			if ( FireDuration >= FIRE_PROTEC_MAX )
+			if ( FireDuration >= dfProtec ) //FIRE_PROTEC_MAX )
 			{
 				gFlags.refresh_display = 1;
 				Screen = 23;
-				ScreenDuration = 10;
+				ScreenDuration = 5;
 			}
 			return;
 
@@ -1140,7 +1140,7 @@ __myevic__ void EventHandler()
 						{
 							if ( EditItemIndex == 0 )
 							{
-								EditItemIndex = 4;
+								EditItemIndex = 3; //re-read rez in VW
 							}
 							else
 							{

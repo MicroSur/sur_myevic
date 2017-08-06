@@ -1602,6 +1602,14 @@ __myevic__ void SwitchRezLock()
 		case 3:
 			_SwitchRezLock( &dfRezLockedTCR, &dfRezTCR );
 			break;
+                        
+                case 4: //re-read rez in VW too
+                case 5:
+                        AtoRez = AtoRezMilli / 10;
+                        dfResistance = AtoRez;
+			RezMillis = AtoMillis;
+                        //UpdateDFTimer = 50;
+                        break;
 
 		default:
 			break;

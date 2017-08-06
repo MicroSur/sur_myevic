@@ -549,6 +549,7 @@ __myevic__ void ResetDataFlash()
 //	dfMillis = 0;
 //	dfProfile = 0;
         dfStatus.offmodclock = 0;
+        dfFireScrDuration = 2;
         
 	UpdateDataFlash();
 
@@ -1156,6 +1157,7 @@ __myevic__ void InitDataFlash()
 	MaxTCPower = MaxPower;
 
 
+/*
 	myprintf( "  APROM Version ......................... [%d.%d%d]\n",
 				FWVERSION / 100,
 				FWVERSION / 10 % 10,
@@ -1164,6 +1166,7 @@ __myevic__ void InitDataFlash()
 				dfHWVersion / 100,
 				dfHWVersion / 10 % 10,
 				dfHWVersion % 10 );
+*/
 
 
 	if ( dfMagic == DFMagicNumber && CalcPageCRC( DataFlash.params ) == dfCRC )

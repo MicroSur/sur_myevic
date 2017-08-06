@@ -51,7 +51,7 @@ __myevic__ void DrawScreen()
 	{
 		CurrentFD = FireDuration;
 		//ScreenDuration = ISMODETC(dfMode) ? 1 : 2;
-                ScreenDuration = 2;
+                ScreenDuration = dfFireScrDuration; //2;
 		TenthOfSecs = 0;
 		gFlags.refresh_display = 1;
 	}
@@ -215,8 +215,8 @@ __myevic__ void DrawScreen()
 
 		if ( gFlags.debug & 1 )
 		{
-			DrawValueRight( 64, 120, Screen, 0, 0x01, 0 );
-			DrawValue( 0, 120, ScreenDuration, 0, 0x01, 0 );
+                    DrawValue( 0, 108, Screen, 0, 0x01, 0 );
+                    DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 		}
 
 		DisplayRefresh();
@@ -305,7 +305,7 @@ __myevic__ void DrawScreen()
 				// have been given to a long fire.
 				if ( !PE0 && gFlags.user_idle )
 				{
-					Event = 17;
+					Event = 17; //on-off mod
 				}
 				else
 				{
@@ -893,7 +893,7 @@ __myevic__ void ShowNoAtoFound()
 //----- (000077F4) --------------------------------------------------------
 __myevic__ void Show10sProtec()
 {
-	ShowFireDuration( 49 );
+	ShowFireDuration( 0 );
 	DrawStringCentered( String_LongFire, 88 );
 	DrawStringCentered( String_Protection, 102 );
 }
