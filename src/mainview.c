@@ -925,7 +925,7 @@ __myevic__ void ShowMainView()
 		}
 		else
 		{
-			if ( gFlags.anim3d && !HideLogo )
+			if ( dfStatus2.anim3d && !HideLogo )
 			{
 				anim3d( 1 );
 			}

@@ -104,7 +104,8 @@ __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
 	DrawImage( 4, line+2, 0x0C + it );
 	if ( sel ) InvertRect( 0, line, 13, line+12 );
 
-	if ( p->PCRC == 0xFFFF )
+	//if ( p->PCRC == 0xFFFF )
+        if ( ( it != dfProfile ) && !IsProfileValid( it ) )
 		return;
 
 	uint8_t mode;
@@ -133,6 +134,8 @@ __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
 	DrawValue( 34, line+2, rez, 2, 0x0B, 3 );
 	DrawImage( 56, line+2, 0xC0 );
         
+        if ( it == dfProfile ) InvertRect( 16, line, 63, line+12 );
+        
         DrawStringCentered( String_LongFire, 105 );
 	DrawStringCentered( String_Save, 116 );
 }
@@ -152,21 +155,34 @@ __myevic__ int ProfileMenuOnEvent( int event )
 			//if ( CurrentMenuItem != dfProfile )
 			//{
 				//SaveProfile();
+                        if ( IsProfileValid( CurrentMenuItem ) )
 				LoadProfile( CurrentMenuItem );
-                                dfProfile = CurrentMenuItem;
+                        dfProfile = CurrentMenuItem;
 			//}
 			Event = EVENT_EXIT_MENUS;
 			break;
 
 		case EVENT_LONG_FIRE:
 			//if ( CurrentMenuItem != dfProfile )
-			//{
-                    dfProfile = CurrentMenuItem;
-				SaveProfile();
-                                LoadProfile( CurrentMenuItem );
-				//dfProfile = CurrentMenuItem;
-			//}
-			Event = EVENT_EXIT_MENUS;
+                    
+				if ( !AtoRez && IsProfileValid( CurrentMenuItem ) )
+				{
+                                    EraseProfile( CurrentMenuItem );
+                                    gFlags.refresh_display = 1;
+                                    UpdateDFTimer = 50;
+				}
+                                else {
+                                    dfProfile = CurrentMenuItem;
+                                    SaveProfile();
+                                    //LoadProfile( CurrentMenuItem );   
+                                    UpdateDFTimer = 50;
+                                    
+                                    Event = EVENT_EXIT_MENUS;
+                                }  
+                        
+			//gFlags.refresh_display = 1;
+			//UpdateDFTimer = 50;                        
+			//Event = EVENT_EXIT_MENUS;
 			break;
 
 		default:
@@ -1335,7 +1351,7 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 
 __myevic__ void Object3DOnEnter()
 {
-	if ( gFlags.anim3d )
+	if ( dfStatus2.anim3d )
 		CurrentMenuItem = Object3D;
 	else
 		CurrentMenuItem = 0;
@@ -1343,10 +1359,11 @@ __myevic__ void Object3DOnEnter()
 
 __myevic__ void Object3DOnClick()
 {
-	Object3D = CurrentMenuItem ? : 1;
-	if ( CurrentMenuItem ) gFlags.anim3d = 1;
-	else gFlags.anim3d = 0;
-	//MainView();
+	Object3D = CurrentMenuItem ? : Object3D;
+	if ( CurrentMenuItem ) dfStatus2.anim3d = 1;
+	else dfStatus2.anim3d = 0;
+        
+        UpdateDFTimer = 50;
 }
 
 
@@ -1987,7 +2004,7 @@ const menu_t Object3DMenu =
 	0,
 	Object3DOnClick+1,
 	0,
-	7,
+	9,
 	{
 		{ String_None, 0, EVENT_PARENT_MENU, 0 },
                 { String_Square, 0, EVENT_PARENT_MENU, 0 },
@@ -1995,7 +2012,9 @@ const menu_t Object3DMenu =
 		{ String_Cube, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Octa, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Dodeca, 0, EVENT_PARENT_MENU, 0 },
-		{ String_Isoca, 0, EVENT_PARENT_MENU, 0 }
+		{ String_Isoca, 0, EVENT_PARENT_MENU, 0 },
+                { String_TIE, 0, EVENT_PARENT_MENU, 0 },
+                { String_Quartz, 0, EVENT_PARENT_MENU, 0 }                
 	}
 };
 

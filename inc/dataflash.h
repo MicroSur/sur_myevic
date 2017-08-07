@@ -93,7 +93,7 @@ dfStatus_t;
 
 typedef struct
 {
-/* 00000001 */	unsigned int unk:1;         //lsls 0x1F  0-bit
+/* 00000001 */	unsigned int anim3d:1;         //lsls 0x1F  0-bit
 }
 // Do not exceed 32 bits;
 dfStatus2_t;
@@ -201,7 +201,7 @@ typedef struct dfParams
 /* 00EF */	uint8_t		Contrast2;
 /* 00F0 */	dfStatus2_t	Status2;
 /* 00F4 */      uint8_t         FireScrDuration;
-/* 00F5 */      
+/* 00F5 */      uint8_t         dfObject3D;      
 // stop on FF
 }
 dfParams_t;
@@ -216,6 +216,7 @@ dfParams_t;
 //-------------------------------------------------------------------------
 
 typedef struct
+// 0x100 in dataflash
 {
 /* 0000 */	uint32_t	FWVersion;
 /* 0004 */	uint32_t	LDVersion;
@@ -352,6 +353,7 @@ extern dfStruct_t DataFlash;
 #define dfTempCoefsTI	DFP(TempCoefsTI)
 #define dfLEDColor		DFP(LEDColor)
 #define dfStatus		DFP(Status)
+#define dfStatus2		DFP(Status2)
 #define dfAtoRez		DFP(AtoRez)
 #define dfAtoStatus		DFP(AtoStatus)
 #define dfShuntRez		DFP(ShuntRez)
@@ -375,6 +377,7 @@ extern dfStruct_t DataFlash;
 #define dfBattPC		DFP(BattPC)
 #define dfContrast		DFP(Contrast)
 #define dfContrast2		DFP(Contrast2)
+#define Object3D		DFP(dfObject3D)
 #define dfModesSel		DFP(ModesSel)
 #define dfClkRatio		DFP(ClkRatio)
 #define dfVVRatio		DFP(VVRatio)
@@ -440,6 +443,8 @@ extern uint16_t GetShuntRezValue();
 
 extern void LoadProfile( int p );
 extern void SaveProfile();
+extern void EraseProfile( int p );
+extern int  IsProfileValid( int p );
 extern void ApplyParameters();
 
 extern void ResetPowerCurve();

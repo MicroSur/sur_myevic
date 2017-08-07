@@ -933,6 +933,7 @@ __myevic__ int EvtPlusButton()
 					if ( KeyTicks < 5 ) dfPwrCurve[i].power = 0;
 					else dfPwrCurve[i].power = 200;
 				}
+                                UpdateDFTimer = 50;
 			}
 			else
 			{
@@ -1092,6 +1093,7 @@ __myevic__ int EvtMinusButton()
 					if ( KeyTicks < 5 ) dfPwrCurve[i].power = 200;
 					else dfPwrCurve[i].power = 0;
 				}
+                                UpdateDFTimer = 50;
 			}
 			else
 			{

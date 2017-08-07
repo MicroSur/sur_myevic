@@ -19,7 +19,7 @@ extern uint16_t FilterMedian( filter_t *filter, uint16_t data );
 extern uint16_t FilterTriangle( filter_t *filter, uint16_t data );
 extern uint16_t FilterWMean( filter_t *filter, uint16_t data );
 
-extern uint8_t Object3D;
+//extern uint8_t Object3D;
 extern void anim3d( int );
 extern void Next3DObject();
 extern void Previous3DObject();

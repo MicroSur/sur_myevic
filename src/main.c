@@ -323,7 +323,7 @@ __myevic__ void InitVariables()
 	AtoMaxVolts = MaxVolts;
 	AtoMinPower = 10;
 	AtoMaxPower = MaxPower;
-	Object3D = 1;
+	//Object3D = 1;
 	AtoTemp = 70;
 }
 
@@ -961,7 +961,7 @@ __myevic__ void Main()
 				BatteryCharge();
 			}
 
-			if (( gFlags.anim3d ) && ( Screen == 1 ) && ( dfMode != 6 ) && ( !EditModeTimer ) && !HideLogo )
+			if (( dfStatus2.anim3d ) && ( Screen == 1 ) && ( dfMode != 6 ) && ( !EditModeTimer ) && !HideLogo && !SplashTimer )
 			{
 				anim3d( 0 );
 			}

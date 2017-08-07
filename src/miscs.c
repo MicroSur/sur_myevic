@@ -5,6 +5,8 @@
 #include "miscs.h"
 #include "timers.h"
 
+#include "screens.h"
+
 //=========================================================================
 //----- (00004FB0) --------------------------------------------------------
 __myevic__ void ModeChange()
@@ -312,7 +314,7 @@ const line3d_t cube_lines[] =
 		{ 4, 5 },
 		{ 4, 6 },
 		{ 5, 7 },
-		{ 6, 7 },
+		{ 6, 7 }
 	};
 	
 const obj3d_t cube =
@@ -322,6 +324,122 @@ const obj3d_t cube =
 	12,
 	cube_points,
 	cube_lines
+};
+
+const pt3d_t quartz_points[] = 
+	{
+		{  0,  0,  2 }, 
+		{  0,  1,  1 }, 
+		{  1,  0,  1 }, 
+		{  0, -1,  1 }, 
+		{ -1,  0,  1 }, 
+		{  0,  1,  0 }, 
+		{  1,  0,  0 }, 
+                {  0, -1,  0 }, 
+                { -1,  0,  0 }, 
+		{  0,  0, -1 }  
+	};
+
+const line3d_t quartz_lines[] = 
+	{
+		{ 0, 1 },
+		{ 0, 2 },
+		{ 0, 3 },
+		{ 0, 4 },
+		{ 1, 2 },
+		{ 1, 4 },
+		{ 1, 5 },
+		{ 2, 3 },
+		{ 2, 6 },
+		{ 3, 4 },
+		{ 3, 7 },
+                { 4, 8 },
+                { 5, 6 },
+                { 5, 8 },
+                { 5, 9 },
+                { 6, 7 },
+                { 6, 9 },
+                { 7, 8 },
+                { 7, 9 },
+		{ 8, 9 }
+	};
+	
+const obj3d_t quartz =
+{
+	15, 1,
+	10,
+	20,
+	quartz_points,
+	quartz_lines
+};
+
+const pt3d_t tie_points[] = 
+	{
+{0, 0, 15},
+{0, 0, -15},
+{-15, 0, 0},
+{-27, 25, 15},
+{-27, 25, -15},
+{27, -25, -15},
+{27, 0, -19},
+{27, -25, 15},
+{27, 0, 19},
+{27, 25, -15},
+{27, 25, 15},
+{-27, 0, 0},
+{0, 15, 0},
+{-27, 0, -19},
+{-27, -25, 15},
+{-27, -25, -15},
+{15, 0, 0},
+{-27, 0, 19},
+{0, -15, 0},
+{27, 0, 0}
+	};
+
+const line3d_t tie_lines[] = 
+	{
+{14, 17},
+{17, 3},
+{3, 4},
+{4, 13},
+{13, 15},
+{15, 14},
+{2, 11},
+{10, 9},
+{8, 10},
+{8, 7},
+{7, 5},
+{5, 6},
+{6, 9},
+{2, 1},
+{2, 0},
+{0, 16},
+{16, 1},
+{0, 12},
+{12, 1},
+{0, 18},
+{18, 1},
+{12, 2},
+{12, 16},
+{16, 18},
+{2, 18},
+{4, 14},
+{3, 15},
+{7, 9},
+{5, 10},
+{19, 16},
+{11, 2},
+{2, 12}
+	};
+	
+const obj3d_t tie =
+{
+	8, 11,
+	20,
+	32,
+	tie_points,
+	tie_lines
 };
 
 const pt3d_t tetra_points[] = 
@@ -383,7 +501,7 @@ const pt3d_t octa_points[] =
 		{  0,  0,  1 }, // 2
 		{ -1,  0,  0 }, // 3
 		{  0,  0, -1 }, // 4
-		{  0, -1,  0 }, // 5
+		{  0, -1,  0 }  // 5
 	};
 
 const line3d_t octa_lines[] = 
@@ -399,7 +517,7 @@ const line3d_t octa_lines[] =
 		{ 1, 2 },
 		{ 2, 3 },
 		{ 3, 4 },
-		{ 4, 1 },
+		{ 4, 1 }
 	};
 	
 const obj3d_t octa =
@@ -432,7 +550,7 @@ const pt3d_t dodeca_points[] =
 		{  31,  81,   0 }, // 16
 		{  31, -81,   0 }, // 17
 		{ -31,  81,   0 }, // 18
-		{ -31, -81,   0 }, // 19
+		{ -31, -81,   0 }  // 19
 	};
 
 const line3d_t dodeca_lines[] = 
@@ -491,7 +609,7 @@ const pt3d_t isoca_points[] =
 		{  16,   0,  10 }, //  8
 		{ -16,   0,  10 }, //  9
 		{  16,   0, -10 }, // 10
-		{ -16,   0, -10 }, // 11
+		{ -16,   0, -10 }  // 11
 	};
 
 const line3d_t isoca_lines[] = 
@@ -544,7 +662,9 @@ const obj3d_t const *objects3d[] =
 		&cube,
 		&octa,
 		&dodeca,
-		&isoca
+		&isoca,
+                &tie,   
+                &quartz
 	};
 
 #define N3DOBJECTS (sizeof(objects3d)/sizeof(obj3d_t*))
@@ -553,21 +673,23 @@ typedef int32_t matrix3d_t[3][3];
 
 
 static angles_t angles = { 0, 0, 0 };
-static angles_t speeds = { 3, 5, 1 };
+static angles_t speeds = { 3, 2, 1 }; //{ 3, 5, 1 };
 static matrix3d_t rot_matrix;
-static pt3d_t points[20];
+static pt3d_t points[20]; //biggest one
 
-uint8_t Object3D = 0;
+//uint8_t Object3D = 0;
 
 
 __myevic__ void Next3DObject()
 {
+        if ( Screen == 60 ) DrawFillRect( 0, 0, 63, 127, 0 );
 	if ( ++Object3D > N3DOBJECTS ) Object3D = 1;
 }
 
 
 __myevic__ void Previous3DObject()
 {
+        if ( Screen == 60 ) DrawFillRect( 0, 0, 63, 127, 0 );
 	if ( --Object3D < 1 ) Object3D = N3DOBJECTS;
 }
 
@@ -600,7 +722,13 @@ __myevic__ void rotate_object( pt3d_t *dst, const obj3d_t *src, const matrix3d_t
 {
 	int32_t s, d, x, y, z;
 
-	s = src->scale;
+        if ( Screen == 60 ) //&& Object3D == 7 ) //tie 
+        {
+            s = 2 * src->scale; //16;    
+        } else {
+            s = src->scale;
+        }
+        
 	d = src->scalediv;
 
 	for ( int i = 0 ; i < src->npoints ; ++i )
@@ -628,7 +756,8 @@ __myevic__ void anim3d( int redraw_last )
 {
 	static uint8_t tscaler = 0;
 	const obj3d_t *object;
-
+        uint8_t cY = 75;
+        
 	if (( Object3D > 0 ) && ( Object3D <= N3DOBJECTS ))
 	{
 		object = objects3d[Object3D-1];
@@ -640,7 +769,7 @@ __myevic__ void anim3d( int redraw_last )
 
 	if ( !redraw_last )
 	{
-		if ( ++tscaler < 4 ) return;
+		if ( ++tscaler < 4 ) return; //4 speed
 		tscaler = 0;
 
 		next_angle();
@@ -656,15 +785,21 @@ __myevic__ void anim3d( int redraw_last )
 		}
 	}
 
-	DrawFillRect( 0, 44, 63, 106, 0 );
-
+        if ( Screen == 60 )
+        {
+                cY = 64;
+                DrawFillRect( 0, 0, 63, 127, 0 );
+        } else {
+                DrawFillRect( 0, 44, 63, 106, 0 );
+        }
+        
 	for ( int i = 0 ; i < object->nlines ; ++i )
 	{
 		DrawLine(
 			points[object->lines[i].pt1].x + 32,
-			points[object->lines[i].pt1].y + 75,
+			points[object->lines[i].pt1].y + cY,
 			points[object->lines[i].pt2].x + 32,
-			points[object->lines[i].pt2].y + 75,
+			points[object->lines[i].pt2].y + cY,
 			1,
 			1
 		);
