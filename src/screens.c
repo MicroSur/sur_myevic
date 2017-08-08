@@ -213,15 +213,16 @@ __myevic__ void DrawScreen()
 				break;
 		}
 
-		if ( gFlags.debug & 1 )
-		{
-                    DrawValue( 0, 108, Screen, 0, 0x01, 0 );
-                    DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
-		}
-
 		DisplayRefresh();
 	}
 
+if ( gFlags.debug & 1 )
+{
+        DrawValue( 0, 108, Screen, 0, 0x01, 0 );
+        DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
+        DisplayRefresh();
+}
+        
 	if ( ( Screen == 1 || Screen == 60 ) && ( ScreenDuration <= 4 ) )
 	{
 		if ( !gFlags.fading  )
@@ -582,7 +583,7 @@ __myevic__ void ShowBattery()
 			}
 			else
 			{
-				DrawImage( 8, 115, 0xC4 );
+				DrawImage( 8, 114, 0xC4 );
 			}
 		}
 	}
@@ -657,7 +658,7 @@ __myevic__ void ShowBatCharging()
 	}
 	else
 	{
-		DrawImage( 8, 115, 0xC4 );
+		DrawImage( 8, 114, 0xC4 );
 	}
 
 	if ( BatteryTenth != 10 )
@@ -666,11 +667,11 @@ __myevic__ void ShowBatCharging()
 		{
 			if ( dfStatus.battpc )
 			{
-				DrawFillRectLines( 32, 118, (25 * BatAnimLevel / 10 + 31), 124, 1 );
+				DrawFillRectLines( 32, 119, (25 * BatAnimLevel / 10 + 31), 123, 1 );
 			}
 			else
 			{
-				DrawFillRectLines( 10, 118, (4 * BatAnimLevel + 9), 124, 1 );
+				DrawFillRectLines( 10, 119, (4 * BatAnimLevel + 9), 123, 1 );
 			}
 		}
 	}
@@ -678,11 +679,11 @@ __myevic__ void ShowBatCharging()
 	{
 		if ( dfStatus.battpc )
 		{
-			DrawFillRect( 32, 118, 56, 124, 1 );
+			DrawFillRectLines( 32, 119, 56, 123, 1 );
 		}
 		else
 		{
-			DrawFillRect( 10, 118, 49, 124, 1 );
+			DrawFillRectLines( 10, 119, 49, 123, 1 );
 		}
 	}
 
@@ -710,6 +711,9 @@ __myevic__ void ShowBatCharging()
                 DrawString( String_Charge, 6, 20 );
                 DrawValue(  31, 34, ChargeCurrent / 10, 2, 0x0B, 3 );
                 DrawImage( 52, 34, 0x68 );
+                } else
+                {
+                    DrawString( String_Charge, 6, 0 );    
                 }
         
 	//}

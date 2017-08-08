@@ -127,6 +127,9 @@ __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
 		rez  = p->Resistance;
 //	}
 
+        DrawStringCentered( String_LongFire, 105 );
+	DrawStringCentered( String_Save, 116 );
+        
 	if ( mode > 6 )
 		return;
 
@@ -136,8 +139,6 @@ __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
         
         if ( it == dfProfile ) InvertRect( 16, line, 63, line+12 );
         
-        DrawStringCentered( String_LongFire, 105 );
-	DrawStringCentered( String_Save, 116 );
 }
 
 

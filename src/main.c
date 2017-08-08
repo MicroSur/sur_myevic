@@ -25,13 +25,11 @@ const uint8_t  MaxBoardTemp = 70;
 //=========================================================================
 // Additional initialisations
 //-------------------------------------------------------------------------
+/*
 __myevic__ void CustomStartup()
 {
 
-//-------------------------------------------------------------------------
-// EADC test
-
-	if ( 0 )
+	if ( 0 ) // EADC test
 	{
 		uint32_t s1, s2, s3;
 
@@ -63,10 +61,7 @@ __myevic__ void CustomStartup()
 	}
 
 
-//-------------------------------------------------------------------------
-// Timer test 1
-
-	if ( 0 )
+	if ( 0 ) //Timer test 1
 	{
 		TIMER_Stop( TIMER3 );
 		TIMER_Close( TIMER3 );
@@ -81,11 +76,7 @@ __myevic__ void CustomStartup()
 		TIMER_Start( TIMER3 );
 	}
 
-
-//-------------------------------------------------------------------------
-// Timer test 2
-
-	if ( 0 )
+	if ( 0 ) // Timer test 2
 	{
 		TIMER_Close( TIMER2 );
 		TIMER_Close( TIMER3 );
@@ -132,6 +123,7 @@ __myevic__ void CustomStartup()
 
 	return;
 }
+*/
 
 
 //=========================================================================
@@ -828,7 +820,7 @@ __myevic__ void Main()
 	MainView();
 	SplashTimer = 2;
 
-	CustomStartup();
+	//CustomStartup();
 
 	if ( !PD3 )
 	{

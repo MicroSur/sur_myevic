@@ -724,7 +724,7 @@ __myevic__ void rotate_object( pt3d_t *dst, const obj3d_t *src, const matrix3d_t
 
         if ( Screen == 60 ) //&& Object3D == 7 ) //tie 
         {
-            s = 2 * src->scale; //16;    
+            s = 3 * src->scale / 2;
         } else {
             s = src->scale;
         }
@@ -769,14 +769,14 @@ __myevic__ void anim3d( int redraw_last )
 
 	if ( !redraw_last )
 	{
-		if ( ++tscaler < 4 ) return; //4 speed
-		tscaler = 0;
-
-		next_angle();
-
-		compute_matrix( rot_matrix, &angles );
 		rotate_object( points, object, rot_matrix );
 
+                if ( ++tscaler < 4 ) return; //4 speed
+		tscaler = 0;
+                
+		next_angle();
+		compute_matrix( rot_matrix, &angles );
+                
 		int f = 256;
 		for ( int i = 0 ; i < object->npoints ; ++i )
 		{
@@ -790,7 +790,7 @@ __myevic__ void anim3d( int redraw_last )
                 cY = 64;
                 DrawFillRect( 0, 0, 63, 127, 0 );
         } else {
-                DrawFillRect( 0, 44, 63, 106, 0 );
+                DrawFillRect( 0, 44, 63, 106, 0 );                
         }
         
 	for ( int i = 0 ; i < object->nlines ; ++i )
