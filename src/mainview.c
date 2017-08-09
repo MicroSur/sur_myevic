@@ -374,6 +374,13 @@ __myevic__ void DrawAPTLine( int line )
 			DrawTime( 3, line, &rtd, 0x1F );
 			break;
 		}
+		case 9:	// BatteryIntRez
+		{
+			DrawImage( 0, line+2, 0xFA );
+			DrawValueRight( 55, line, BatteryIntRez, 3, 0x1F, 4 );
+			DrawImage( 56, line+2, 0xC0 );
+			break;
+		}
 	}
 }
 
@@ -495,6 +502,13 @@ __myevic__ void DrawAPTLine3( int line )
 			DrawTime( 3, line, &rtd, 0x1F );
 			break;
 		}
+		case 9:	// BatteryIntRez
+		{
+			DrawImage( 0, line+2, 0xFA );
+			DrawValueRight( 55, line, BatteryIntRez, 3, 0x1F, 4 );
+			DrawImage( 56, line+2, 0xC0 );
+			break;
+		}                
 	}
 }
 
@@ -536,22 +550,30 @@ __myevic__ void DrawInfoLines()
 	//if (( gFlags.debug & 1 ) && ( !gFlags.firing ) && ( !EditModeTimer ))
         if (( gFlags.debug & 1 ) && ( !EditModeTimer ))
 	{
+
+		//uint32_t flags;
+		//MemCpy( &flags, (uint8_t*)&gFlags + 4, sizeof( uint32_t ) );
+		//DrawHexLong( 0, 52, flags, 1 );
+
+		//MemCpy( &flags, (void*)&gFlags, sizeof( uint32_t ) );
+		//DrawHexLong( 0, 71, flags, 1 );
+
+                //BypassVolts BattVoltsTotal MaxVolts AtoMaxVolts AtoVolts
 /*
-		uint32_t flags;
-		MemCpy( &flags, (uint8_t*)&gFlags + 4, sizeof( uint32_t ) );
-		DrawHexLong( 0, 52, flags, 1 );
-
-		MemCpy( &flags, (void*)&gFlags, sizeof( uint32_t ) );
-		DrawHexLong( 0, 71, flags, 1 );
-
-                //BypassVolts BattVoltsTotal MaxVolts AtoMaxVolts
-                unsigned int amps;       
-                amps = 10 * BattVoltsTotal	/ ( 10 * AtoRez + NumBatteries * BatteryIntRez );
+                unsigned int amps;  
+                amps = 1000 * BattVoltsTotal / ( 10 * AtoRez + NumBatteries * BatteryIntRez );
+                //amps = 10 * BattVoltsTotal	/ ( 10 * AtoRez + NumBatteries * BatteryIntRez );
      
                 DrawValue( 0, 46, BypassVolts, 0, 0x1F, 0 );
-		DrawValue( 0, 58, amps, 0, 0x1F, 0 );
-                DrawValue( 0, 70, NumBatteries, 0, 0x1F, 0 );
+		DrawValue( 0, 58, amps / 100, 0, 0x1F, 0 );
+                DrawValue( 0, 70, BattVoltsTotal, 0, 0x1F, 0 );
                 DrawValue( 0, 82, AtoRez, 0, 0x1F, 0 );
+                DrawValue( 0, 94, ClampPower( BypassVolts, 0 ), 0, 0x1F, 0 );
+                
+                DrawValue( 33, 46, AtoMaxVolts, 0, 0x1F, 0 );
+                DrawValue( 33, 58, AtoVolts, 0, 0x1F, 0 );
+                DrawValue( 33, 70, BatteryIntRez, 0, 0x1F, 0 );
+                DrawValue( 33, 82, NumBatteries, 0, 0x1F, 0 );
                 
 		//DrawValueRight( 64, 90, BatteryMaxPwr / 10, 0, 0x1F, 0 );
  
@@ -807,7 +829,7 @@ __myevic__ void ShowMainView()
                 amps = 1000 * BattVoltsTotal / ( 10 * AtoRez + NumBatteries * BatteryIntRez );
 		BypassVolts = AtoRez * amps / 100;
                                
-                if ( BypassVolts > AtoMaxVolts ) BypassVolts = AtoMaxVolts;
+                //if ( BypassVolts > AtoMaxVolts ) BypassVolts = AtoMaxVolts;
 		pwr  = ClampPower( BypassVolts, 0 );
 	}
 

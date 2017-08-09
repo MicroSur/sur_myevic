@@ -80,6 +80,7 @@ extern uint16_t	PreheatPower;
 extern uint16_t	PreheatDelay;
 extern uint32_t	MilliJoules;
 extern uint8_t	RezMillis;
+extern uint16_t	BypassVolts;
 
 extern uint8_t	byte_200000B3;
 extern uint16_t	word_200000B8;

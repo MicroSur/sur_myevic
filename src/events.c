@@ -1114,6 +1114,7 @@ __myevic__ int EvtMinusButton()
 __myevic__ int EvtToggleClock()
 {
 	dfStatus.clock ^= 1;
+        dfStatus2.anim3d = 0;
 	UpdateDFTimer = 50;
 	MainView();
 	return 1;

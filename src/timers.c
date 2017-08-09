@@ -269,7 +269,7 @@ __myevic__ void TimedItems()
 	{
 		--FadeOutTimer;
                 
-                if ( Screen == 60 ) dfc = dfContrast2;
+                if ( Screen == 60 || Screen == 5 ) dfc = dfContrast2;
                 else dfc = dfContrast; 
 
 		if ( FadeOutTimer < dfc )

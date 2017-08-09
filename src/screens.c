@@ -46,6 +46,7 @@ __myevic__ void DrawScreen()
 {
 	static uint8_t	TenthOfSecs = 0;
 	static uint16_t	CurrentFD = 0;
+        static uint8_t scrSaveOnce = 1;
 
 	if ( Screen == 2 && FireDuration && FireDuration != CurrentFD )
 	{
@@ -212,13 +213,14 @@ __myevic__ void DrawScreen()
 			default:
 				break;
 		}
-
+                
 		DisplayRefresh();
 	}
 
 if ( gFlags.debug & 1 )
 {
         DrawValue( 0, 108, Screen, 0, 0x01, 0 );
+        DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
         DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
         DisplayRefresh();
 }
@@ -266,11 +268,13 @@ if ( gFlags.debug & 1 )
 				&&	( !dfStealthOn )
 				&&	( SleepTimer > 0 )
 				&&	( dfScreenSaver > 0 )
-				&&	( GetScreenProtection() > 0 ))
+				&&	( GetScreenProtection() > 0 )
+                                &&	( scrSaveOnce ) )
 				{
 					Screen = 60;
 					ScreenDuration = GetScreenProtection();
 					gFlags.refresh_display = 1;
+                                        scrSaveOnce = 0;
 				}
 			}
 			break;
@@ -291,8 +295,6 @@ if ( gFlags.debug & 1 )
 			break;
 
 		case   5: // Black w/ Battery
-			break;
-
 		case  22: // Atomizer Low
 		case  24: // Battery Low
 		case  25: // Battery Low Lock
@@ -313,6 +315,7 @@ if ( gFlags.debug & 1 )
 					Screen = 0;
 					SleepTimer = 18000;
 					gFlags.refresh_display = 1;
+                                        scrSaveOnce = 1;
 				}
 			}
 			break;
@@ -343,6 +346,7 @@ if ( gFlags.debug & 1 )
 			UpdateDataFlash();
                         //DisplaySetContrast( dfContrast );
 			// NOBREAK
+                        scrSaveOnce = 1;
 		case   1: // Main view
                 case  50: // FW Version
 		case  37: // Board Temp
@@ -363,6 +367,8 @@ if ( gFlags.debug & 1 )
 				SleepTimer = 18000;
 				gFlags.refresh_display = 1;
 			}
+                        
+                        scrSaveOnce = 1;
 			break;
 
 		case  60: // Screen Saver
@@ -378,7 +384,7 @@ if ( gFlags.debug & 1 )
 			else
 			{
 				Screen = 0;
-				SleepTimer = 0;
+				SleepTimer = 18000; //0
 				gFlags.refresh_display = 1;
 			}
 			break;

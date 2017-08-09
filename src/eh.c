@@ -716,21 +716,21 @@ __myevic__ void EventHandler()
                                         pc = 1;
 				}
                                 
-        if ( dfStatus.vvlite && !pc )
-        {
-            TargetVolts = dfVWVolts;
-        }
-        else
-        {
-            TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
-        }
+                                if ( dfStatus.vvlite && !pc )
+                                {
+                                    TargetVolts = dfVWVolts;
+                                }
+                                else
+                                {
+                                    TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
+                                }
                                 
 				LowBatVolts = ( BatteryVoltage > BatteryCutOff + 100 ) ? 0 : BatteryVoltage;
 			}
 
 			if ( ISMODEBY(dfMode) )
 			{
-				TargetVolts = AtoMaxVolts;
+				TargetVolts = BypassVolts; //AtoMaxVolts;
 			}
 
 			SetADCState( 1, 1 );
@@ -1071,17 +1071,17 @@ __myevic__ void EventHandler()
 
 			if ( Screen == 0 || Screen == 60 )
 			{
-				if ( dfStatus.wakeonpm )
-				{
+                                    if ( dfStatus.wakeonpm )
+                                    {
 					MainView();
-				}
-			}
+                                    }         
+			} 
 
 			if ( Screen == 2 )
 			{
 				MainView();
 			}
-
+                     
 			else if ( Screen == 51 )
 			{
 				switch ( dfMode )
@@ -1289,11 +1289,11 @@ __myevic__ void EventHandler()
 							break;
 
                                                 case 4:
-							if ( ++dfAPT3 > 8 ) dfAPT3 = 0;
+							if ( ++dfAPT3 > 9 ) dfAPT3 = 0;
 							break;
                                                         
                                                 case 5: //4:
-							if ( ++dfAPT > 8 ) dfAPT = 0;
+							if ( ++dfAPT > 9 ) dfAPT = 0;
 							break;
 
                                                 case 6: //5:

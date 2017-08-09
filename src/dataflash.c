@@ -592,10 +592,10 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfUIVersion != 2 )
 		dfUIVersion = 2;
 
-	if ( dfAPT > 8 )
+	if ( dfAPT > 9 )
 		dfAPT = 0;
         
-	if ( dfAPT3 > 8 )
+	if ( dfAPT3 > 9 )
 		dfAPT3 = 0;
         
 	if ( dfTempAlgo != 1 && dfTempAlgo != 2 && dfTempAlgo != 3 && dfTempAlgo != 4 )
