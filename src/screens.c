@@ -222,6 +222,8 @@ if ( gFlags.debug & 1 )
         DrawValue( 0, 108, Screen, 0, 0x01, 0 );
         DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
         DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
+        
+        DrawValueRight( 64, 0, UserInputs, 0, 0x01, 3 ); //UserInputs LastInputs
         DisplayRefresh();
 }
         
@@ -356,7 +358,7 @@ if ( gFlags.debug & 1 )
 			{
 				ChargeView();
 
-				if ( dfStealthOn )
+				if ( dfStealthOn || !gFlags.screen_on )
 				{
 					ScreenDuration = 0;
 				}
@@ -376,7 +378,7 @@ if ( gFlags.debug & 1 )
 			{
 				ChargeView();
 
-				if ( dfStealthOn )
+				if ( dfStealthOn || !gFlags.screen_on )
 				{
 					ScreenDuration = 0;
 				}
@@ -612,6 +614,7 @@ __myevic__ void ShowBattery()
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
 			{
 				DrawString( String_BAL_s, 35, 117 );
+                                DrawHLine ( 32, 117, 57, 1 );
 			}
 			else if ( BatteryTenth )
 			{
@@ -624,6 +627,7 @@ __myevic__ void ShowBattery()
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
 			{
 				DrawString( String_BALANCE_s, 10, 117 );
+                                DrawHLine ( 9, 117, 50, 1 );
 			}
 			else if ( BatteryTenth )
 			{
@@ -638,7 +642,7 @@ __myevic__ void ShowBattery()
 //----- (00006764) --------------------------------------------------------
 __myevic__ void ShowBatCharging()
 {
-	if ( dfStealthOn && ScreenDuration == 0 )
+	if ( ( dfStealthOn && ScreenDuration == 0 ) || !gFlags.screen_on )
 	{
 		return;
 	}
@@ -655,7 +659,7 @@ __myevic__ void ShowBatCharging()
 			break;
 	}
 */
-
+  
 	if ( dfStatus.battpc )
 	{
 		DrawValueRight(	18, 118, BatteryPercent, 0, 0x0B, 0 );

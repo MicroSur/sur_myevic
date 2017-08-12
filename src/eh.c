@@ -1064,6 +1064,12 @@ __myevic__ void EventHandler()
 
 		case 3:		// - (minus or left) button
 		{
+                    
+                        if ( Screen == 5 ) //charge scr
+			{
+				gFlags.screen_on = ( gFlags.screen_on == 0 );
+			}
+                                            
 			if ( dfStatus.off )
 			{
 				return;
@@ -1076,7 +1082,7 @@ __myevic__ void EventHandler()
 					MainView();
                                     }         
 			} 
-
+                        
 			if ( Screen == 2 )
 			{
 				MainView();

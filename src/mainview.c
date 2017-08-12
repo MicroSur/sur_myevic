@@ -28,6 +28,7 @@ __myevic__ void MainView()
 		}
 		Screen = 1;
 		ScreenDuration = GetMainScreenDuration();
+                gFlags.screen_on = 1;
 	}
 	else
 	{
@@ -936,8 +937,31 @@ __myevic__ void ShowMainView()
 
 	if ( dfMode != 6 )
 	{
-		DrawHLineDots( 0, 40, 63, 1 ); //main lines
-		DrawHLineDots( 0, 113, 63, 1 );
+            
+            static uint8_t sx = 0; //packman line
+                
+            if ( gFlags.firing || gFlags.battery_charging )
+            {
+                if ( sx % 2 ) 
+                {
+                    DrawHLineDots( sx+9, 41, 63, 1 );
+                    DrawImage( sx, 37, 0xCC );
+                }
+                else 
+                {
+                    DrawHLineDots( sx+8, 41, 63, 1 );
+                    DrawImage( sx, 37, 0xCB );
+                }
+                sx += 3;
+                if ( sx > 57 ) sx = 0;
+            } 
+            else 
+            {
+                sx = 0;
+                DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
+            }
+
+		DrawHLineDots( 0, 113, 63, 1 ); //second h-line
 
 		ShowBattery();
 

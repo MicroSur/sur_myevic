@@ -10,6 +10,9 @@
   * Cuboid
   * Cuboid Mini
   * Cuboid 200
+  * Evic Primo v1 / v2
+  * Evic Primo mini
+
 * Wismec
   * Presa TC75W
   * Presa TC100W
@@ -18,6 +21,8 @@
   * Reuleaux RX2/3
   * Reuleaux RXmini
   * Reuleaux RX300
+  * Predator 228W 
+
 * Others
   * Vaponaute La Petite Box
   

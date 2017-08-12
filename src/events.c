@@ -220,11 +220,11 @@ __myevic__ void GetUserInput()
 			FireClicksEvent = 0;
 		}
 
-		if ( !dfStatus.off || IsMenuScreen() )
-		{
+		//if ( !dfStatus.off || IsMenuScreen() )
+		//{
 			if ( !PD2 ) UserInputs = 2;
 			if ( !PD3 ) UserInputs = 3;
-		}
+		//}
 
 		if ( !PD2 && !PD3 ) UserInputs = 4;
 		if ( !PE0 && !PD2 ) UserInputs = 5;
@@ -435,7 +435,7 @@ __myevic__ void GetUserInput()
 					break;
 			}
 		}
-		else if ( UserInputs == 2 )
+		else if ( UserInputs == 2 ) //right button
 		{
 			if ( Screen == 60 )
 			{
@@ -454,9 +454,9 @@ __myevic__ void GetUserInput()
 			else
 			{
 				Event = 2;	// + button
-			}
+			}                    
 		}
-		else if ( UserInputs == 3 )
+		else if ( UserInputs == 3 ) //left button
 		{
 			if ( Screen == 60 )
 			{
@@ -475,7 +475,7 @@ __myevic__ void GetUserInput()
 			else
 			{
 				Event = 3;	// - button
-			}
+			}                                              
 		}
 	}
 	else if ( KeyPressTime == 20 )
