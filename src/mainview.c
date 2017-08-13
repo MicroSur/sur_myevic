@@ -261,6 +261,8 @@ __myevic__ void DrawCoilLine( int line )
 
 __myevic__ void DrawAPTLine( int line )
 {
+        int b;
+        
 	if ( BLINKITEM(5) )
 		return;
 
@@ -335,7 +337,8 @@ __myevic__ void DrawAPTLine( int line )
 			//DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
                         if (dfAPT == dfAPT3)
                         {
-                            DrawValue( 27, line, gFlags.firing?RTBVolts[1]:BattVolts[1], 2, 0x1F, 3 ); 
+                            b = NumBatteries > 1? 1 : 0;
+                            DrawValue( 27, line, gFlags.firing?RTBVolts[b]:BattVolts[b], 2, 0x1F, 3 ); 
                         }
                         else
                         {
@@ -766,7 +769,7 @@ __myevic__ void DrawPower( int pwr )
 	{
 		if ( dfStatus.pcurve )
 		{
-                    xc = dfPreheatTime ? 6: 0;
+                    xc = dfStatus.preheat ? 6: 0;
                     
 			if ( !PreheatDelay || gFlags.osc_1hz )
 			{
@@ -774,7 +777,7 @@ __myevic__ void DrawPower( int pwr )
 			}
 		}
                 
-		if ( dfPreheatTime )
+		if ( dfStatus.preheat )
 		{
 			if ( !PreheatDelay || gFlags.osc_1hz )
 			{

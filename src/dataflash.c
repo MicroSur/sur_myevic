@@ -533,7 +533,7 @@ __myevic__ void ResetDataFlash()
 	dfVVRatio = VVEL_DEF_RATIO;
         dfPuffsOff = PUFFS_OFF_DEF;
         dfHideLogo = 3;
-//	dfPreheatTime = 0;
+	dfPreheatTime = 10;
 	dfClick[0] = CLICK_ACTION_EDIT;
 	dfClick[1] = CLICK_ACTION_ON_OFF;
 	dfClick[2] = CLICK_ACTION_TETRIS;
@@ -777,7 +777,7 @@ __myevic__ void DFCheckValuesValidity()
 	MemSet( DataFlash.p.UnusedCA, 0, sizeof(DataFlash.p.UnusedCA) );
 
 	if ( dfPreheatTime > 200 )
-		dfPreheatTime = 0;
+		dfPreheatTime = 10;
 
 	if ( dfTCAlgo >= TCALGO_MAX )
 		dfTCAlgo = TCALGO_DEF;
@@ -1493,13 +1493,15 @@ const uint8_t ProfileFilter[32] =
 /* 00D0 */	0b11111111,
 /* 00D8 */	0b11111111,
 /* 00E0 */	0b11100000,
-/* 00E8 */	0b00000000,
+/* 00E8 */	0b00010000,     //EB APT3
 /* 00F0 */	0b00000000,
 /* 00F8 */	0b00000000
 };
 // Saved status bits
-// - Power curve enable state
-const uint32_t StatusFilter = 0b00010000000000000000000000000000;
+// - Power curve enable state 
+// - Preheat ena state
+const uint32_t StatusFilter = 0b00010000000000001000000000000000;
+//const uint32_t StatusFilter2 = 0b00000000000000000000000000000000;
 
 //-------------------------------------------------------------------------
 // Apply newly reloaded parameters

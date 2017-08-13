@@ -683,7 +683,7 @@ __myevic__ void EventHandler()
 					}
                                         if ( !PreheatDelay ) pc = 1;
 				}
-				else if ( !PreheatDelay && dfPreheatTime )
+				else if ( !PreheatDelay && dfStatus.preheat )
 				{
 					PreheatTimer = dfPreheatTime;
 

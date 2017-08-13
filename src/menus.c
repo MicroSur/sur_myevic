@@ -730,13 +730,18 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 	int v, dp, img;
 
 	switch ( it )
-	{
-		case 0:	// Unit
+	{       
+                case 0:
+                        DrawFillRect( 40, line, 63, line+12, 0 );
+                        DrawString( dfStatus.preheat ? String_On : String_Off, 44, line+2 );
+                        return;
+                
+		case 1:	// Unit
 			DrawFillRect( 30, line, 63, line+12, 0 );
 			DrawImage( 45, line+2, dfStatus.phpct ? 0xC2 : 0xB2 );
 			return;
 
-		case 1:	// Power
+		case 2:	// Power
 			v = dfPreheatPwr;
 			if ( dfStatus.phpct )
 			{
@@ -752,10 +757,10 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 					p = p / 10;
 					dp = 0;
 				}
-				DrawImage(  10, 102, 0xAB );
-                                DrawImage(  18, 102, 0xFB );
-				DrawValueRight( 45, 102, p, dp, 0x0B, 0 );
-				DrawImage( 47, 102, 0x98 );
+				DrawImage(  10, 111, 0xAB ); //calc power
+                                DrawImage(  18, 111, 0xFB );
+				DrawValueRight( 45, 111, p, dp, 0x0B, 0 );
+				DrawImage( 47, 111, 0x98 );
                                 
 				dp = 0;
 				img = 0xC2;
@@ -765,13 +770,13 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 				dp = ( v < 1000 ) ? 1 : 0;
 				v  = ( v < 1000 ) ? v : v / 10;
 				img = 0x98;
-			}
+			}                       
 			break;
 
-		case 2:	// Time
+		case 3:	// Time
 			v = dfPreheatTime / 10;
 			dp = 1;
-			img = 0x94;
+			img = 0x94;                                             
 			break;
 
 		default:
@@ -780,16 +785,29 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 
 	DrawFillRect( 30, line, 63, line+12, 0 );
 
+/*
 	if ( v == 0 && it == 2 )
 	{
 		DrawString( String_Off, 45, line+2 );
 	}
 	else
 	{
+
 		DrawValueRight( 52, line+2, v, dp, 0x0B, 0 );
 		DrawImage( 54, line+2, img );
 	}
+ */
 
+        if ( it == 3 )
+        {
+                        DrawValueRight( 54, line+2, v, dp, 0x0B, 0 );
+                        DrawImage( 56, line+2, img );
+        }
+        else {
+                        DrawValueRight( 52, line+2, v, dp, 0x0B, 0 );
+                        DrawImage( 54, line+2, img );
+        }
+        
 	if ( sel && gFlags.edit_value )
 		InvertRect( 0, line, 63, line+12 );
 }
@@ -813,23 +831,28 @@ __myevic__ int PreheatMEvent( int event )
 {
 	int vret = 0;
         
-                        if (event == EVENT_LONG_FIRE && CurrentMenuItem == 3 )
+                        if (event == EVENT_LONG_FIRE && CurrentMenuItem == 4 )
                         { //preheat delay off
                             dfPHDelay = 0;
-                            UpdateDFTimer = 50;
-                            gFlags.refresh_display = 1;
+                            //UpdateDFTimer = 50;
+                            //gFlags.refresh_display = 1;
                             gFlags.edit_value = 0;
                             vret = 1;
                         }
+
                                 
-	if ( CurrentMenuItem > 2 )
+	if ( CurrentMenuItem > 3 )
 		return vret;
 
 	switch ( event )
-	{
+	{                       
 		case 1:	// Fire
-			if ( CurrentMenuItem == 0 )
-			{
+                    if ( CurrentMenuItem == 0 )
+                    {
+                                dfStatus.preheat ^= 1;   
+                    }
+                    else if ( CurrentMenuItem == 1 )
+                    {
 				dfStatus.phpct ^= 1;
 				if ( dfStatus.phpct )
 				{
@@ -843,18 +866,22 @@ __myevic__ int PreheatMEvent( int event )
 					if ( dfPreheatPwr > MaxPower ) dfPreheatPwr = MaxPower;
 					if ( dfPreheatPwr < 10 ) dfPreheatPwr = 10;
 				}
-                                gFlags.edit_value = 1;
-			}
+                                //gFlags.edit_value = 0;
+                    }
+                    else
+                    {
 			gFlags.edit_value ^= 1;
-			UpdateDFTimer = 50;
-			gFlags.refresh_display = 1;
-			vret = 1;
-			break;
+			//UpdateDFTimer = 50;
+			//gFlags.refresh_display = 1;
+                    }
+                    
+                    vret = 1;
+                    break;
 
 		case 2:	// Plus
 			if ( gFlags.edit_value )
 			{
-				if ( CurrentMenuItem == 1 )
+				if ( CurrentMenuItem == 2 )
 				{
 					if ( dfStatus.onewatt )
 					{
@@ -869,13 +896,13 @@ __myevic__ int PreheatMEvent( int event )
 						PowerPlus( &dfPreheatPwr, AtoMinPower, AtoMaxPower );
 					}
 				}
-				else if ( CurrentMenuItem == 2 )
+				else if ( CurrentMenuItem == 3 )
 				{
 					if ( dfPreheatTime < 200 ) dfPreheatTime += 10;
-					else if ( KeyTicks < 5 ) dfPreheatTime = 0;
+					else if ( KeyTicks < 5 ) dfPreheatTime = 10;
 				}
-				UpdateDFTimer = 50;
-				gFlags.refresh_display = 1;
+				//UpdateDFTimer = 50;
+				//gFlags.refresh_display = 1;
 				vret = 1;
 			}
 			break;
@@ -883,7 +910,7 @@ __myevic__ int PreheatMEvent( int event )
 		case 3:	// Minus
 			if ( gFlags.edit_value )
 			{
-				if ( CurrentMenuItem == 1 )
+				if ( CurrentMenuItem == 2 )
 				{
 					if ( dfStatus.onewatt )
 					{
@@ -898,28 +925,34 @@ __myevic__ int PreheatMEvent( int event )
 						PowerMinus( &dfPreheatPwr, AtoMinPower, AtoMaxPower );
 					}
 				}
-				else if ( CurrentMenuItem == 2 )
+				else if ( CurrentMenuItem == 3 )
 				{
-					if ( dfPreheatTime > 0 ) dfPreheatTime -= 10;
+					if ( dfPreheatTime > 20 ) dfPreheatTime -= 10;
 					else if ( KeyTicks < 5 ) dfPreheatTime = 200;
 				}
-				UpdateDFTimer = 50;
-				gFlags.refresh_display = 1;
+				//UpdateDFTimer = 50;
+				//gFlags.refresh_display = 1;
 				vret = 1;
 			}
 			break;
                         
                 case EVENT_LONG_FIRE:
-			if ( CurrentMenuItem == 2 )
+			if ( CurrentMenuItem == 3 )
                         { //preheat off
-                            dfPreheatTime = 0;
-                            UpdateDFTimer = 50;
-                            gFlags.refresh_display = 1;
+                            dfPreheatTime = 10;
+                            //UpdateDFTimer = 50;
+                            //gFlags.refresh_display = 1;
                             gFlags.edit_value = 0;
                             vret = 1;
-                        }
+                        }   
                         break;
 	}
+        
+        if ( vret )
+        {
+                            UpdateDFTimer = 50;
+                            gFlags.refresh_display = 1;                                
+        }
 	return vret;
 }
 
@@ -1827,8 +1860,9 @@ const menu_t PreheatMenu =
 	0,
 	0,
 	PreheatMEvent+1,
-	5,
-	{
+	6,
+	{       
+                { String_Enable, 0, 0, 0 },
 		{ String_Unit, 0, 0, 0 },
 		{ String_Pwr, 0, 0, 0 },
 		{ String_Time, 0, 0, 0 },
@@ -2549,7 +2583,7 @@ const mvaluedesc_t CurveDelayDesc =
 
 const mdata_t CurveDelayData =
 {
-	&dfPHDelay,
+	&dfPHDelay,         //the same delay
 	&CurveDelayDesc,
 	MITYPE_BYTE,
 	0

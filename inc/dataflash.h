@@ -67,7 +67,7 @@ typedef struct
 /* 00001000 */	unsigned int battpc:1;      //lsls 0x13
 /* 00002000 */	unsigned int phpct:1;       //lsls 0x12
 /* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
-/* 00008000 */	unsigned int font:1;        //lsls 0x10
+/* 00008000 */	unsigned int preheat:1;     //lsls 0x10  15 bit
 
 /* 00010000 */	unsigned int nfe:1;         //lsls 0x0F
 /* 00020000 */	unsigned int dfmt1:1;       //lsls 0x0E
