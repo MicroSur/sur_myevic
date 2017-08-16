@@ -306,6 +306,10 @@ extern const uint8_t String_Reset[];
 extern const uint8_t String_Splash[];
 extern const uint8_t String_PuffsOff[];
 extern const uint8_t String_FireScrDur[];
+extern const uint8_t String_Percent[];
+extern const uint8_t String_V[];
+extern const uint8_t String_Flash[];
+extern const uint8_t String_Ok[];
 
 //from display.c
 extern const uint8_t String_Sunday[];

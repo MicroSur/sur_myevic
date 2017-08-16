@@ -364,6 +364,23 @@ __myevic__ uint32_t DrawImage( const int x, const int y, const uint8_t img )
 	}
 }
 
+__myevic__ void DrawImgImgImg( const int x, const int y, const uint8_t img1, const uint8_t img2, const uint8_t img3 )
+{
+	switch ( DisplayModel )
+	{
+		case 0:
+			SSD1306_Image( x, y, img1, 0 );
+                        SSD1306_Image( x + Images[img1 - 1]->width, y, img2, 0 );
+                        SSD1306_Image( x + Images[img2 - 1]->width, y, img3, 0 );
+
+
+		case 1:
+                        SSD1327_Image( x, y, img1, 0 );
+                        SSD1327_Image( x + Images[img1 - 1]->width, y, img2, 0 );
+                        SSD1327_Image( x + Images[img2 - 1]->width, y, img3, 0 );
+	}
+}
+
 //=========================================================================
 //----- (000057B8) --------------------------------------------------------
 __myevic__ uint32_t DrawImageInv( const int x, const int y, const uint8_t img )

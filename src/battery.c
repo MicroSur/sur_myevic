@@ -74,7 +74,7 @@ const Battery_t const myCustom[] =
 			{ 100, 418 }
 		},
 		280,
-		25,
+		20,
 		20
 	}
 };
@@ -1829,7 +1829,7 @@ __myevic__ void LoadCustomBattery()
 
 	CustomBattery.cutoff = dfBattery.cutoff + 250;
 	CustomBattery.maxamp = dfBattery.maxamp;
-	CustomBattery.intrez = 20;
+	CustomBattery.intrez = Battery->intrez; //20;
 }
 
 
@@ -1858,7 +1858,7 @@ __myevic__ int CheckCustomBattery()
 		if ( CustomBattery.V2P[i].percent > 100 )
 			return 0;
 
-		if ( CustomBattery.V2P[i].voltage < 310 || CustomBattery.V2P[i].voltage > 420 )
+		if ( CustomBattery.V2P[i].voltage < 280 || CustomBattery.V2P[i].voltage > 423 )
 			return 0;
 
 		if (( i > 0 ) && ( CustomBattery.V2P[i].percent <= CustomBattery.V2P[i-1].percent ))

@@ -90,6 +90,7 @@ struct menu_s
 const menu_t const *CurrentMenu;
 uint8_t CurrentMenuItem;
 uint8_t PrevMenuItem;
+uint8_t CUSSaved = 0;
 const menu_t LogoMenu;
 
 
@@ -982,6 +983,104 @@ __myevic__ void BVOMenuIDraw( int it, int line, int sel )
 	DrawImage( 55, line+2, 0x7D );
 	if ( gFlags.edit_value && sel )
 		InvertRect( 0, line, 63, line+12 );
+}
+
+__myevic__ void DrawCUS( int x, int y, int v, uint8_t dp, uint8_t z, uint8_t nd )
+{    
+            
+	DrawValue( x, y + 2, v, dp, z, nd ); 
+        
+        if ( CurrentMenuItem > 21 )
+            return;
+        
+        if ( CurrentMenuItem % 2 ) DrawImage( 37, 6, 0xBE ); 
+        else DrawImage( 37, 6, 0xC2 );    
+        
+        DrawValue( 49, 6, (CurrentMenuItem + 2) / 2, 0, 0x0B, 2 );
+        
+}
+
+__myevic__ void CUSMenuIDraw( int it, int line, int sel )
+{
+        //DrawValue( 0, 0, CUSSaved, 0, 0x0B, 2 );
+        //DrawValue( 15, 0, line, 0, 0x0B, 1 );
+        //DrawValue( 30, 0, CurrentMenuItem, 0, 0x0B, 2 );
+    
+	if ( it >= CurrentMenu->nitems - 1 )
+		return;
+
+        if ( it == 0 ) 
+        {
+            DrawFillRect( 30, line, 63, line+12, 0 );
+            DrawImage( 40, line+2, 0x0B );  
+        } 
+        else if ( it == 20 ) 
+        {
+            DrawFillRect( 30, line, 63, line+12, 0 );
+            DrawValue( 40, line+2, 100, 0, 0x0B, 3 );  
+        }        
+        else if ( it == 22 ) 
+        {
+            switch ( CUSSaved )
+            {
+                    default:
+                    case 0:
+                        break;
+                    case 1:
+                        DrawStringInv( String_Ok, 40, line+2 );  
+                        break;
+                    case 2:
+                        DrawStringInv( String_Error, 35, line+2 ); 
+                        break;
+            }  
+            gFlags.refresh_display = 1;
+        }
+}
+
+/*
+__myevic__ void CUSMenuOnClick()
+{
+            	if ( CurrentMenuItem == 22 ) //save 2 DF
+                {
+		    if ( CheckCustomBattery() )
+                    {
+                        SaveCustomBattery ( &CustomBattery );   
+                        CUSSaved = 1;
+                    }
+                    else
+                    { 
+                        CUSSaved = 2;
+                    }
+                }
+}
+*/
+
+__myevic__ int CUSMenuOnEvent( int event )
+{   
+    
+    	switch ( event )
+	{       
+            case 1:
+                if ( CurrentMenuItem == 22 ) //save 2 DF
+                {
+		    if ( CheckCustomBattery() )
+                    {
+                        SaveCustomBattery ( &CustomBattery );   
+                        CUSSaved = 1;
+                    }
+                    else
+                    { 
+                        CUSSaved = 2;  //error
+                    }
+                }
+                break;               
+            case 2:
+            case 3:
+                CUSSaved = 0;  
+                break;
+        }
+        
+        return 0; //no capture
 }
 
 
@@ -2270,6 +2369,211 @@ const menu_t BVOMenu =
 	}
 };
 
+const mvaluedesc_t CUSVoltDesc =
+{
+	30, 40,
+	3, 2,
+	280, 423,
+	&DrawCUS+1,
+	0,
+	0,
+	0x0B,
+	1,
+	424, 0
+};
+const mvaluedesc_t CUSPercDesc =
+{
+	30, 40,
+	2, 0,
+	1, 99,
+	&DrawCUS+1,
+	0,
+	0,
+	0x0B,
+	1,
+	100, 0
+};
+const mdata_t CUS1Voltage =
+{
+	&CustomBattery.V2P[0].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS2Voltage =
+{
+	&CustomBattery.V2P[1].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS3Voltage =
+{
+	&CustomBattery.V2P[2].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS4Voltage =
+{
+	&CustomBattery.V2P[3].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS5Voltage =
+{
+	&CustomBattery.V2P[4].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS6Voltage =
+{
+	&CustomBattery.V2P[5].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS7Voltage =
+{
+	&CustomBattery.V2P[6].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS8Voltage =
+{
+	&CustomBattery.V2P[7].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS9Voltage =
+{
+	&CustomBattery.V2P[8].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS10Voltage =
+{
+	&CustomBattery.V2P[9].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS11Voltage =
+{
+	&CustomBattery.V2P[10].voltage,
+	&CUSVoltDesc,
+	MITYPE_WORD,
+	0
+};
+
+//
+const mdata_t CUS2Percent =
+{
+	&CustomBattery.V2P[1].percent,
+	&CUSPercDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS3Percent =
+{
+	&CustomBattery.V2P[2].percent,
+	&CUSPercDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS4Percent =
+{
+	&CustomBattery.V2P[3].percent,
+	&CUSPercDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS5Percent =
+{
+	&CustomBattery.V2P[4].percent,
+	&CUSPercDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS6Percent =
+{
+	&CustomBattery.V2P[5].percent,
+	&CUSPercDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS7Percent =
+{
+	&CustomBattery.V2P[6].percent,
+	&CUSPercDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS8Percent =
+{
+	&CustomBattery.V2P[7].percent,
+	&CUSPercDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS9Percent =
+{
+	&CustomBattery.V2P[8].percent,
+	&CUSPercDesc,
+	MITYPE_WORD,
+	0
+};
+const mdata_t CUS10Percent =
+{
+	&CustomBattery.V2P[9].percent,
+	&CUSPercDesc,
+	MITYPE_WORD,
+	0
+};
+
+const menu_t CUSMenu =
+{
+	String_CUS,
+	&ExpertMenu,
+	0,
+	CUSMenuIDraw+1,
+	0,
+	0, //CUSMenuOnClick+1,
+	CUSMenuOnEvent+1,
+	24,
+	{
+		{ String_Percent, 0, 0, 0 },	
+                { String_V, &CUS1Voltage, 0, MACTION_DATA },
+		{ String_Percent, &CUS2Percent, 0, MACTION_DATA },
+                { String_V, &CUS2Voltage, 0, MACTION_DATA },        
+                { String_Percent, &CUS3Percent, 0, MACTION_DATA },
+                { String_V, &CUS3Voltage, 0, MACTION_DATA },        
+		{ String_Percent, &CUS4Percent, 0, MACTION_DATA },        
+                { String_V, &CUS4Voltage, 0, MACTION_DATA },                          
+                { String_Percent, &CUS5Percent, 0, MACTION_DATA },        
+                { String_V, &CUS5Voltage, 0, MACTION_DATA },  
+		{ String_Percent, &CUS6Percent, 0, MACTION_DATA },        
+                { String_V, &CUS6Voltage, 0, MACTION_DATA },  
+		{ String_Percent, &CUS7Percent, 0, MACTION_DATA },        
+                { String_V, &CUS7Voltage, 0, MACTION_DATA },  
+		{ String_Percent, &CUS8Percent, 0, MACTION_DATA },        
+                { String_V, &CUS8Voltage, 0, MACTION_DATA },  
+		{ String_Percent, &CUS9Percent, 0, MACTION_DATA },        
+                { String_V, &CUS9Voltage, 0, MACTION_DATA },  
+		{ String_Percent, &CUS10Percent, 0, MACTION_DATA },        
+                { String_V, &CUS10Voltage, 0, MACTION_DATA },  
+		{ String_Percent, 0, 0, 0 },        
+                { String_V, &CUS11Voltage, 0, MACTION_DATA },    
+                { String_Flash, 0, 0, 0 }, 
+                { String_Back, 0, EVENT_PARENT_MENU, 0 }
+	}
+};
+
 const menu_t ExpertMenu =
 {
 	String_Expert,
@@ -2279,7 +2583,7 @@ const menu_t ExpertMenu =
 	0,
 	ExpertMenuOnClick+1,
 	ExpertMenuOnEvent+1,
-	11,
+	12,
 	{
                 { String_BVO, &BVOMenu, 0, MACTION_SUBMENU },
                 { String_X32, 0, 0, 0 },
@@ -2290,7 +2594,8 @@ const menu_t ExpertMenu =
 		{ String_USB, 0, 0, 0 },
 		{ String_DBG, 0, 0, 0 },
 		{ String_PCT, 0, 0, 0 },
-                { String_Temp, 0, 0, 0 },        
+                { String_Temp, 0, 0, 0 },  
+                { String_CUS, &CUSMenu, 0, MACTION_SUBMENU },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -3174,6 +3479,7 @@ __myevic__ int MenuEvent( int event )
 			gFlags.edit_capture_evt = 0;
 			gFlags.edit_value = 0;
 			LEDOff();
+                        if ( !CheckCustomBattery() ) ResetCustomBattery();
 			UpdateDataFlash();
                          //               DisplaySetContrast( dfContrast );
 			MainView();
