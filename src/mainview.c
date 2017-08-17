@@ -307,19 +307,31 @@ __myevic__ void DrawAPTLine( int line )
 			vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
 			vv /= 10;
 			if ( vv > 9999 ) vv = 9999;
-			if ( dfStatus.vapedml )
-			{
+                        
+                        if ( dfStatus2.vapedjoules )
+                        {
+                            vv = ( MilliJoules / 10 ) / 3600;
+                            if ( vv > 9999 ) vv = 9999;
+                            DrawImage( 0, line+2, 0xDE ); //energy
+                            DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
+                            DrawImage( 56, line, 0x67 ); //wh
+                        }                       
+                        else
+                        {
+                            if ( dfStatus.vapedml )
+                            {
 				//DrawString( String_LIQ_s, 0, line+2 );
-				DrawString( String_ml, 0, line+2 );
+				DrawImage( 0, line+2, 0xF9 );
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-			}
-			else
-			{
+                            }
+                            else
+                            {
 				vv = vv * 86400 / ( t ? : 1 );
-				DrawString( String_mld, 0, line+2 );
+				DrawImage( 0, line+2, 0xF3 );
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-			}
-                        DrawImage( 57, line+2, 0xCD ); //flask
+                            }
+                            DrawImage( 57, line+2, 0xCD ); //flask
+                        }
 			break;
 		}
 
@@ -436,19 +448,31 @@ __myevic__ void DrawAPTLine3( int line )
 			vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
 			vv /= 10;
 			if ( vv > 9999 ) vv = 9999;
-			if ( dfStatus.vapedml )
-			{
+                        
+                        if ( dfStatus2.vapedjoules )
+                        {
+                            vv = ( MilliJoules / 10 ) / 3600;
+                            if ( vv > 9999 ) vv = 9999;
+                            DrawImage( 0, line+2, 0xDE ); //energy
+                            DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
+                            DrawImage( 56, line, 0x67 ); //wh
+                        }                       
+                        else
+                        {
+                            if ( dfStatus.vapedml )
+                            {
 				//DrawString( String_LIQ_s, 0, line+2 );
-				DrawString( String_ml, 0, line+2 );
+				DrawImage( 0, line+2, 0xF9 );
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-			}
-			else
-			{
+                            }
+                            else
+                            {
 				vv = vv * 86400 / ( t ? : 1 );
-				DrawString( String_mld, 0, line+2 );
+				DrawImage( 0, line+2, 0xF3 );
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-			}
-                        DrawImage( 57, line+2, 0xCD ); //flask
+                            }
+                            DrawImage( 57, line+2, 0xCD ); //flask
+                        }
 			break;
 		}
 
@@ -562,7 +586,7 @@ __myevic__ void DrawInfoLines()
 		//MemCpy( &flags, (void*)&gFlags, sizeof( uint32_t ) );
 		//DrawHexLong( 0, 71, flags, 1 );
 
-                //BypassVolts BattVoltsTotal MaxVolts AtoMaxVolts AtoVolts
+                //BypassVolts BattVoltsTotal MaxVolts AtoMaxVolts AtoVolts MilliJoules
 /*
                 unsigned int amps;  
                 amps = 1000 * BattVoltsTotal / ( 10 * AtoRez + NumBatteries * BatteryIntRez );
@@ -580,9 +604,9 @@ __myevic__ void DrawInfoLines()
                 DrawValue( 33, 82, NumBatteries, 0, 0x1F, 0 );
                 
 		//DrawValueRight( 64, 90, BatteryMaxPwr / 10, 0, 0x1F, 0 );
- 
+ * 
 */
-
+                                
 		DrawValue( 0, 108, Screen, 0, 0x01, 0 );
 		DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 

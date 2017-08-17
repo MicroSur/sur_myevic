@@ -502,6 +502,7 @@ __myevic__ void ResetDataFlash()
 	dfStatus.x32off = X32Off;
 	dfStatus.onewatt = 1;
         dfStatus.vapedml = 1;
+        dfStatus2.vapedjoules = 0;
 	dfStatus.digclk = 1;
 	dfStatus.battpc = 1;
 //        dfStatus.battv = 0;

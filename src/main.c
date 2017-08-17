@@ -717,6 +717,7 @@ __myevic__ void SleepIfIdle()
 //=========================================================================
 // Monitoring
 //-------------------------------------------------------------------------
+/*
 __myevic__ void Monitor()
 {
 	if ( gFlags.firing )
@@ -789,6 +790,7 @@ __myevic__ void Monitor()
 		}
 	}
 }
+*/
 
 
 //=========================================================================
@@ -1037,10 +1039,10 @@ __myevic__ void Main()
   
 				++FireDuration;
 
-				if ( gFlags.monitoring )
-				{
-					Monitor();
-				}
+				//if ( gFlags.monitoring )
+				//{
+				//	Monitor();
+				//}
 			}
                         else if  ( dfStatus.fireflip && !gFlags.FireNotFlipped && Screen == 1 )
                         {
@@ -1136,10 +1138,10 @@ __myevic__ void Main()
 					ProbeAtomizer();
 				}
 
-				if ( gFlags.monitoring )
-				{
-					Monitor();
-				}
+				//if ( gFlags.monitoring )
+				//{
+				//	Monitor();
+				//}
 			}
 		}
                 

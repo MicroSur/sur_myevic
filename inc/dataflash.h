@@ -30,7 +30,7 @@
 // Those addresses are hardcoded in Joyetech's custom logo utility so
 //  we have to hardcode them here too.
 #define DATAFLASH_LOGO_SIZE			0x200
-#define DATAFLASH_LOGO_1327_BASE	0x19000
+#define DATAFLASH_LOGO_1327_BASE	0x19000 // 102400
 #define DATAFLASH_LOGO_1306_BASE	0x19200
 
 // To read product ID
@@ -94,6 +94,7 @@ dfStatus_t;
 typedef struct
 {
 /* 00000001 */	unsigned int anim3d:1;         //lsls 0x1F  0-bit
+/* 00000002 */	unsigned int vapedjoules:1; 
 }
 // Do not exceed 32 bits;
 dfStatus2_t;

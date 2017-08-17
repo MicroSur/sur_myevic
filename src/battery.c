@@ -12,6 +12,7 @@
 //=========================================================================
 
 // Cuboid Mini / eVic Basic / eGrip II
+/*
 const Battery_t BatteryCuboMini =
 {
 	String_GEN,
@@ -54,6 +55,7 @@ const Battery_t BatteryRXMini =
 	25,
 	20
 };
+*/
 
 const Battery_t const myCustom[] =
 {
@@ -312,6 +314,7 @@ __myevic__ void SetBatteryModel()
 	{
 		Battery = &Batteries[dfBatteryModel];
 
+/*
 		if ( dfBatteryModel == 0 )
 		{
 			if ( ISCUBOMINI || ISEVICBASIC || ISEGRIPII || ISVTWO )
@@ -323,6 +326,7 @@ __myevic__ void SetBatteryModel()
 				Battery = &BatteryRXMini;
 			}
 		}
+*/
 	}
 
 	BatteryCutOff = Battery->cutoff;

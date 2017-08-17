@@ -790,7 +790,7 @@ __myevic__ void anim3d( int redraw_last )
                 cY = 64;
                 DrawFillRect( 0, 0, 63, 127, 0 );
         } else {
-                DrawFillRect( 0, 44, 63, 106, 0 );                
+                DrawFillRect( 0, 45, 63, 106, 0 );                
         }
         
 	for ( int i = 0 ; i < object->nlines ; ++i )

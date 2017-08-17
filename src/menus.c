@@ -254,7 +254,15 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 
 		case 5:	// Vaped
 			DrawFillRect( 39, line, 63, line+12, 0 );
-			DrawString( dfStatus.vapedml ? String_ml : String_mld, 43, line+2 );
+                        if ( dfStatus2.vapedjoules )
+                        {
+                            DrawImage( 43, line+2, 0xDE );   
+                        }
+                        else
+                        {
+                            DrawImage( 43, line+2, dfStatus.vapedml ? 0xF9 : 0xF3 );   
+                            //DrawString( dfStatus.vapedml ? String_ml : String_mld, 43, line+2 );
+                        }
 			break;
 
 		case 6: // mL/kJ
@@ -290,7 +298,22 @@ __myevic__ void VapingMenuOnClick()
 			break;
 
 		case 5:	// Vaped
-			dfStatus.vapedml ^= 1;
+                    
+                        if ( dfStatus.vapedml )
+			{
+				dfStatus.vapedml = 0;
+				dfStatus2.vapedjoules = 1;
+			}
+			else if ( dfStatus2.vapedjoules )
+			{
+				dfStatus2.vapedjoules = 0;
+			}
+			else
+			{
+				dfStatus.vapedml = 1;
+			}
+                        
+			//dfStatus.vapedml ^= 1;
 			UpdateDFTimer = 50;
 			break;
 
