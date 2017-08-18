@@ -7,6 +7,7 @@
 #include "atomizer.h"
 #include "miscs.h"
 #include "timers.h"
+#include "events.h"
 
 //=============================================================================
 
@@ -932,7 +933,7 @@ __myevic__ void ShowMainView()
 		{
 			if ( !( gFlags.firing ) )
 			{
-				if ( !PD2 || !PD3 )
+				if ( !PD2 || !PD3 || KeyUpTimer )
 				{
 					v26 = dfSavedCfgPwr[(int)ConfigIndex];
 					if ( v26 >= 1000 )
@@ -944,8 +945,8 @@ __myevic__ void ShowMainView()
 					{
 						v27 = 1;
 					}
-					DrawValue( 11, 112, v26, v27, 0x1F, 3 );
-					DrawImage( 42, 114, 0xB2 );
+					DrawValue( 11, 116, v26, v27, 0x1F, 3 ); //smart power
+					DrawImage( 42, 118, 0xB2 );
 				}
 				else
 				{

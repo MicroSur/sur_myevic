@@ -223,6 +223,7 @@ if ( gFlags.debug & 1 )
         DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
         DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
         
+        DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 );
         DrawValueRight( 64, 0, UserInputs, 0, 0x01, 3 ); //UserInputs LastInputs
         DisplayRefresh();
 }
