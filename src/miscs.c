@@ -881,7 +881,16 @@ __myevic__ void anim3d( int redraw_last )
                 cY = 64;
                 DrawFillRect( 0, 0, 63, 127, 0 );
         } else {
-                DrawFillRect( 0, 47, 63, 110, 0 );                
+            
+            if ( !dfStatus.nologo && !dfStatus.logomid && GetLogoHeight() > 40 )
+            {
+                    DrawFillRect( 0, 47, 63, 110, 0 );
+            }
+            else    
+            {
+                    DrawFillRect( 0, 46, 63, 110, 0 );  
+            }
+            
         }
         
 	for ( int i = 0 ; i < object->nlines ; ++i )
