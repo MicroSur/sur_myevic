@@ -373,6 +373,88 @@ const obj3d_t quartz =
 	quartz_lines
 };
 
+const pt3d_t spinner_points[] = 
+	{
+{0, 0, 25},
+{0, 0, -25},
+{0, 42, 0},
+{-36, -22, 0},
+{36, -22, 0},
+{-105, -64, 0},
+{-95, -8, 0},
+{-52, -82, 0},
+{0, 123, 0},
+{-42, 88, 0},
+{42, 88, 0},
+{105, -64, 0},
+{95, -8, 0},
+{52, -82, 0},
+{0, 88, 25},
+{0, 88, -25},
+{-72, -44, 25},
+{-72, -44, -25},
+{72, -44, 25},
+{72, -44, -25}
+	};
+
+const line3d_t spinner_lines[] = 
+	{
+{2, 9},
+{9, 8},
+{8, 10},
+{10, 2},
+{6, 5},
+{5, 7},
+{13, 11},
+{11, 12},
+{2, 3},
+{3, 4},
+{4, 2},
+{6, 3},
+{3, 7},
+{4, 13},
+{4, 12},
+{0, 3},
+{0, 4},
+{0, 2},
+{2, 1},
+{4, 1},
+{3, 1},
+{16, 6},
+{16, 3},
+{16, 5},
+{16, 7},
+{3, 17},
+{7, 17},
+{5, 17},
+{17, 6},
+{14, 2},
+{14, 10},
+{14, 8},
+{14, 9},
+{15, 8},
+{15, 9},
+{15, 10},
+{15, 2},
+{4, 18},
+{13, 18},
+{18, 11},
+{18, 12},
+{4, 19},
+{12, 19},
+{13, 19},
+{11, 19},
+	};
+	
+const obj3d_t spinner =
+{
+	8, 33,
+	20,
+	45,
+	spinner_points,
+	spinner_lines
+};
+
 const pt3d_t tie_points[] = 
 	{
 {0, 0, 15},
@@ -589,7 +671,7 @@ const line3d_t dodeca_lines[] =
 
 const obj3d_t dodeca =
 {
-	16, 55,
+	16, 50,
 	20,
 	30,
 	dodeca_points,
@@ -648,7 +730,7 @@ const line3d_t isoca_lines[] =
 
 const obj3d_t isoca =
 {
-	16, 11,
+	16, 10,
 	12,
 	30,
 	isoca_points,
@@ -664,7 +746,8 @@ const obj3d_t const *objects3d[] =
 		&dodeca,
 		&isoca,
                 &tie,   
-                &quartz
+                &quartz,
+                &spinner        
 	};
 
 #define N3DOBJECTS (sizeof(objects3d)/sizeof(obj3d_t*))
@@ -674,6 +757,7 @@ typedef int32_t matrix3d_t[3][3];
 
 static angles_t angles = { 0, 0, 0 };
 static angles_t speeds = { 3, 2, 1 }; //{ 3, 5, 1 };
+static angles_t speeds_spin = { 1, 0, 10 }; //{ 3, 5, 1 };
 static matrix3d_t rot_matrix;
 static pt3d_t points[20]; //biggest one
 
@@ -750,13 +834,18 @@ __myevic__ void next_angle()
 	angles.y += speeds.y; angles.y %= 360;
 	angles.z += speeds.z; angles.z %= 360;
 }
-
+__myevic__ void next_angle_spin()
+{
+	angles.x += speeds_spin.x; angles.x %= 360;
+	angles.y = 0;
+	angles.z += speeds_spin.z; angles.z %= 360;
+}
 
 __myevic__ void anim3d( int redraw_last )
 {
 	static uint8_t tscaler = 0;
 	const obj3d_t *object;
-        uint8_t cY = 75;
+        uint8_t cY = 79; //75;
         
 	if (( Object3D > 0 ) && ( Object3D <= N3DOBJECTS ))
 	{
@@ -774,7 +863,9 @@ __myevic__ void anim3d( int redraw_last )
                 if ( ++tscaler < 4 ) return; //4 speed
 		tscaler = 0;
                 
-		next_angle();
+                if (Object3D == 9) next_angle_spin();
+                else next_angle();
+                
 		compute_matrix( rot_matrix, &angles );
                 
 		int f = 256;
@@ -790,7 +881,7 @@ __myevic__ void anim3d( int redraw_last )
                 cY = 64;
                 DrawFillRect( 0, 0, 63, 127, 0 );
         } else {
-                DrawFillRect( 0, 45, 63, 106, 0 );                
+                DrawFillRect( 0, 47, 63, 110, 0 );                
         }
         
 	for ( int i = 0 ; i < object->nlines ; ++i )

@@ -2161,7 +2161,7 @@ const menu_t Object3DMenu =
 	0,
 	Object3DOnClick+1,
 	0,
-	9,
+	10,
 	{
 		{ String_None, 0, EVENT_PARENT_MENU, 0 },
                 { String_Square, 0, EVENT_PARENT_MENU, 0 },
@@ -2171,7 +2171,8 @@ const menu_t Object3DMenu =
 		{ String_Dodeca, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Isoca, 0, EVENT_PARENT_MENU, 0 },
                 { String_TIE, 0, EVENT_PARENT_MENU, 0 },
-                { String_Quartz, 0, EVENT_PARENT_MENU, 0 }                
+                { String_Quartz, 0, EVENT_PARENT_MENU, 0 },     
+                { String_Spinner, 0, EVENT_PARENT_MENU, 0 }  
 	}
 };
 

@@ -271,6 +271,7 @@ extern const uint8_t String_Isoca[];
 extern const uint8_t String_Square[];
 extern const uint8_t String_TIE[];
 extern const uint8_t String_Quartz[];
+extern const uint8_t String_Spinner[];
 extern const uint8_t String_B1[];
 extern const uint8_t String_B2[];
 extern const uint8_t String_B3[];
