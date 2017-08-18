@@ -1159,8 +1159,8 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 		case 6:	// USB
 			if ( dfStatus.vcom )
 				DrawString( String_COM, 40, line+2 );
-			else if ( dfStatus.storage )
-				DrawString( String_DSK, 40, line+2 );
+			//else if ( dfStatus.storage )
+			//	DrawString( String_DSK, 40, line+2 );
 			else
 				DrawString( String_HID, 40, line+2 );
 			break;
@@ -1224,10 +1224,11 @@ __myevic__ void ExpertMenuOnClick()
 			break;
 
 		case 6:	// USB
+/*
 			if ( dfStatus.vcom )
 			{
 				dfStatus.vcom = 0;
-				dfStatus.storage = 1;
+				//dfStatus.storage = 1;
 			}
 			else if ( dfStatus.storage )
 			{
@@ -1237,6 +1238,8 @@ __myevic__ void ExpertMenuOnClick()
 			{
 				dfStatus.vcom = 1;
 			}
+*/
+                        dfStatus.vcom ^= 1;
 			InitUSB();
 			break;
                     

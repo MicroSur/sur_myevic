@@ -1329,7 +1329,7 @@ __myevic__ int CustomEvents()
 		}
 
 		case EVENT_FORCE_VCOM:
-			dfStatus.storage = 0;
+			//dfStatus.storage = 0;
 			dfStatus.vcom = 1;
 			InitUSB();
 			break;

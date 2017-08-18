@@ -8,14 +8,11 @@ You're supposed to have 18+, after all^^
   * __USB__
 
         Choose between several USB modes:
-     * HID: Normal operation mode - factory setting. Disables any other USB device than HID.
-       HID is always active, even in the two others modes of operation. This feature permits communication between the box and firmware utilities.
+     * HID: Normal operation mode - factory setting.
+       HID is always active. This feature permits communication between the box and firmware utilities.
 
      * COM: A virtual COM interface; mainly used for debugging with a COM terminal such as putty.
        May be usefull if you are developping your own version of the firmware.
-
-     * DSK: A virtual drive to download the firmware file.
-     Connect the box to a PC, and a disk device will appear with a "MYEVIC.BIN" file. This can be read and copied. This file is an encoded firmware file that can be uploaded to another device using evic-usb or the official Joyetech/Wismec firmware tool.
 
   * __DBG__
   

@@ -2,7 +2,7 @@
 #define __MEUSBD_H__
 
 #include "vcom.h"
-#include "storage.h"
+//#include "storage.h"
 
 //=========================================================================
 // Many parts are from Nuvoton sample code

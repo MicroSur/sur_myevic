@@ -57,7 +57,7 @@ typedef struct
 /* 00000008 */	unsigned int nologo:1;      //lsls 0x1C 3-d bit for menu
 /* 00000010 */	unsigned int clock:1;       //lsls 0x1B 4
 /* 00000020 */	unsigned int vcom:1;        //lsls 0x1A
-/* 00000040 */	unsigned int storage:1;     //lsls 0x19
+/* 00000040 */	unsigned int storage:1;     //lsls 0x19 unused
 /* 00000080 */	unsigned int dbgena:1;      //lsls 0x18
 
 /* 00000100 */	unsigned int x32off:1;      //lsls 0x17
