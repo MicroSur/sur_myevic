@@ -933,7 +933,7 @@ __myevic__ void ShowMainView()
 		{
 			if ( !( gFlags.firing ) )
 			{
-				if ( !PD2 || !PD3 || KeyUpTimer )
+				if ( !PD2 || !PD3 || ( KeyUpTimer && !EditModeTimer ) )
 				{
 					v26 = dfSavedCfgPwr[(int)ConfigIndex];
 					if ( v26 >= 1000 )

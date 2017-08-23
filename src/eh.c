@@ -1178,6 +1178,7 @@ __myevic__ void EventHandler()
 
 							dfSavedCfgPwr[ConfigIndex] = spwr;
 							dfVWVolts = GetAtoVWVolts( spwr );
+                                                        dfPower = spwr;
 						}
 					}
 					else if ( dfMode == 4 )
@@ -1351,6 +1352,7 @@ __myevic__ void EventHandler()
 
 								dfSavedCfgPwr[ConfigIndex] = spwr;
 								dfVWVolts = GetAtoVWVolts( spwr );
+                                                                dfPower = spwr;
 							}
 							break;
 

@@ -1365,7 +1365,7 @@ __myevic__ void SetAtoSMARTParams()
 			dfSavedCfgPwr[ConfigIndex] = dfPower;
 		}
 	}
-
+        
 	UpdateDFTimer = 50;
 }
 
@@ -1396,9 +1396,9 @@ __myevic__ void SetAtoLimits()
 
 		dfVWVolts = GetAtoVWVolts(pwr);
 
-		if ( dfMode == 6 )
-			dfPower = ClampPower( dfVWVolts, 1 );
-		else
+		//if ( dfMode == 6 )
+		//	dfPower = ClampPower( dfVWVolts, 1 );
+		//else
 			dfPower = pwr;
 	}
 }
