@@ -1106,6 +1106,217 @@ __myevic__ int CUSMenuOnEvent( int event )
         return 0; //no capture
 }
 
+__myevic__ void MaxMenuIDraw( int it, int line, int sel )
+{  
+        int t;
+    
+	if ( it >= CurrentMenu->nitems - 1 )
+		return;
+
+	DrawFillRect( 30, line, 63, line+12, 0 );
+
+	switch ( it )
+	{
+		case 0:	// W  wv   
+                    if (!dfMaxPower) dfMaxPower = MaxPower;
+                    
+                    if ( dfMaxPower < 1000 )
+                    {
+                    	DrawValueRight( 53, line+2, dfMaxPower, 1, 0x0B, 0 );
+                    } else {
+                        DrawValueRight( 53, line+2, dfMaxPower / 10, 0, 0x0B, 0);  
+                    }
+			DrawImage( 55, line+2, 0x7E );
+                        break;                       
+                    
+		case 1:	// v
+                        if (!dfMaxVolts) dfMaxVolts = MaxVolts;
+                        
+                    	DrawValueRight( 53, line+2, dfMaxVolts, 2, 0x0B, 0 );
+			DrawImage( 55, line+2, 0x7D );
+			break;
+
+		case 2:	// t
+                        t = dfIsCelsius ? dfMaxBoardTemp : CelsiusToF( dfMaxBoardTemp );
+			DrawValueRight( 53, line+2, t, 0, 0x0B, t>99?3:2 );
+			DrawImage( 55, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			break;     
+	                 
+		case 3:	// ch
+                    if ( !dfUSBMaxCharge || !gFlags.soft_charge )
+                    {
+                        DrawImage( 41, line+2 , 0xF6 );
+                    } else {
+                    	DrawValueRight( 53, line+2, dfUSBMaxCharge / 10, 2, 0x0B, 3 );
+			DrawImage( 55, line+2, 0x68 );
+                    }
+			break;
+                        
+		default:
+			break;
+	}
+        
+        if ( gFlags.edit_value && sel )
+	{
+		InvertRect( 0, line, 63, line+12 );
+	}
+}
+
+__myevic__ void MaxMenuOnClick()
+{
+    	if ( CurrentMenuItem > CurrentMenu->nitems - 1 )
+		return;
+        
+        if ( CurrentMenuItem == 3 && !gFlags.soft_charge )
+                return;
+        
+        gFlags.edit_value ^= 1;         
+        gFlags.refresh_display = 1;
+}
+
+__myevic__ int MaxMenuOnEvent( int event )
+{   
+	int vret = 0;
+
+	switch ( event )
+	{              
+		case 2:	// +
+			if ( !gFlags.edit_value ) break;
+                        
+			switch ( CurrentMenuItem )
+			{
+				case 0:	// W
+                                    if ( dfMaxPower + WattsInc > 5000 )
+                                    {
+					dfMaxPower = ( KeyTicks == 0 ) ? 10 : 5000;
+                                    } 
+                                    else
+                                    {
+                                        if ( dfMaxPower < 1000 )
+                                        {
+                                            dfMaxPower += WattsInc;
+                                        } else
+                                        {
+                                            dfMaxPower += 10; 
+                                        }
+                                    
+                                    }
+                                    break;
+                                        
+                                case 1: //v
+                                    
+                                        if ( ++dfMaxVolts > 999 )
+                                        {
+                                            dfMaxVolts = ( KeyTicks == 0 ) ? 50 : 999;
+                                        }
+                                        break;
+                                        
+                                case 2: //board temp 
+                                        if ( ++dfMaxBoardTemp > 99 )
+                                        {
+                                            dfMaxBoardTemp = ( KeyTicks == 0 ) ? 20 : 99;
+                                        }
+                                        break;
+                                        
+                                case 3: //ch
+                                        if ( dfUSBMaxCharge + 10 > 2000 )
+                                        {
+                                            dfUSBMaxCharge = ( KeyTicks == 0 ) ? 100 : 2000;
+                                        } else {
+                                         dfUSBMaxCharge += 10;   
+                                        }
+					break;        
+			}
+                        vret = 1;
+			break;
+
+		case 3:	// -
+			if ( !gFlags.edit_value ) break;
+                        
+			switch ( CurrentMenuItem )
+			{
+				case 0:	// W
+                                    if ( dfMaxPower - WattsInc < 10 )
+                                    {
+					dfMaxPower = ( KeyTicks == 0 ) ? 5000 : 10;
+                                    }
+                                    else
+                                    {
+                                        if ( dfMaxPower < 1000 )
+                                        {
+                                            dfMaxPower -= WattsInc;
+                                        } else
+                                        {
+                                            dfMaxPower -= 10; 
+                                        }
+                                    }
+					break;
+                                        
+                                case 1: //v
+                                        if ( --dfMaxVolts < 50 )
+                                        {
+                                            dfMaxVolts = ( KeyTicks == 0 ) ? 999 : 50;
+                                        }
+					break;  
+                                        
+                                case 2: //board temp
+                                        if ( --dfMaxBoardTemp < 20 )
+                                        {
+                                            dfMaxBoardTemp = ( KeyTicks == 0 ) ? 99 : 20;
+                                        }
+					break;
+                                        
+                                case 3: //ch
+                                        if ( dfUSBMaxCharge - 10 < 100 )
+                                        {
+                                            dfUSBMaxCharge = ( KeyTicks == 0 ) ? 2000 : 100;
+                                        } else {
+                                         dfUSBMaxCharge -= 10;   
+                                        }
+					break;        
+			}
+                        vret = 1;
+			break;
+
+		case EVENT_LONG_FIRE:
+
+			switch ( CurrentMenuItem )
+			{
+				case 0:	// w
+					dfMaxPower = 800;
+					break;
+
+				case 1:	// v
+					dfMaxVolts = 600;
+					break;
+                                        
+				case 2:	// board temp
+					dfMaxBoardTemp = 70;
+					break;   
+                                
+                                case 3:	// charge
+					dfUSBMaxCharge = 1000;
+					break;        
+			}
+                        vret = 1;
+                        gFlags.edit_value = 0;
+			break;
+	}
+
+	if ( vret )
+	{
+            
+        MaxPower = dfMaxPower;
+        MaxTCPower = MaxPower;
+        MaxVolts = dfMaxVolts;
+        SetAtoLimits();
+            
+	UpdateDFTimer = 50;
+	gFlags.refresh_display = 1;
+	}
+
+	return vret;
+}
 
 //-----------------------------------------------------------------------------
 
@@ -2601,6 +2812,25 @@ const menu_t CUSMenu =
 	}
 };
 
+const menu_t MAXMenu =
+{
+	String_MAX_s,
+	&ExpertMenu,
+	0,
+	MaxMenuIDraw+1,
+	0,
+	MaxMenuOnClick+1,
+	MaxMenuOnEvent+1,
+	5,
+	{
+		{ String_PWR_s, 0, 0, 0 },	       
+                { String_VOLT_s, 0, 0, 0 },
+		{ String_TEMP_s, 0, 0, 0 },
+                { String_UCH_s, 0, 0, 0 },        
+                { String_Back, 0, EVENT_PARENT_MENU, 0 }
+	}
+};
+
 const menu_t ExpertMenu =
 {
 	String_Expert,
@@ -2610,7 +2840,7 @@ const menu_t ExpertMenu =
 	0,
 	ExpertMenuOnClick+1,
 	ExpertMenuOnEvent+1,
-	12,
+	13,
 	{
                 { String_BVO, &BVOMenu, 0, MACTION_SUBMENU },
                 { String_X32, 0, 0, 0 },
@@ -2622,7 +2852,8 @@ const menu_t ExpertMenu =
 		{ String_DBG, 0, 0, 0 },
 		{ String_PCT, 0, 0, 0 },
                 { String_Temp, 0, 0, 0 },  
-                { String_CUS, &CUSMenu, 0, MACTION_SUBMENU },        
+                { String_CUS, &CUSMenu, 0, MACTION_SUBMENU },  
+                { String_MAX_s, &MAXMenu, 0, MACTION_SUBMENU },         
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

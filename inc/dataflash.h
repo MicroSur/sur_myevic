@@ -146,7 +146,7 @@ typedef struct dfParams
 /* 001C */	uint16_t	RezNI;
 /* 001E */	uint8_t		RezLockedTI;
 /* 001F */	uint8_t		RezLockedNI;
-/* 0020 */	uint8_t		TiOn;			//	useless
+/* 0020 */	uint8_t		MaxBoardTemp;	
 /* 0021 */	uint8_t		StealthOn;
 /* 0022 */	uint16_t	TempCoefsNI;
 /* 0024 */	dfBattery_t	Battery;
@@ -182,7 +182,7 @@ typedef struct dfParams
 /* 00C5 */	uint8_t		Clicks[4];
 /* 00C9 */	uint8_t		DimTimeout;
 /* 00CA */	uint8_t		BatteryModel;
-/* 00CB */	int8_t		UnusedCA[2];
+/* 00CB */	uint16_t	USBMaxCharge;
 /* 00CD */	uint8_t		PreheatTime;
 /* 00CE */	uint16_t	PreheatPwr;
 /* 00D0 */	uint16_t	AtoPreheatPwr;
@@ -202,7 +202,10 @@ typedef struct dfParams
 /* 00EF */	uint8_t		Contrast2;
 /* 00F0 */	dfStatus2_t	Status2;
 /* 00F4 */      uint8_t         FireScrDuration;
-/* 00F5 */      uint8_t         dfObject3D;      
+/* 00F5 */      uint8_t         dfObject3D;  
+/* 00F6 */      uint16_t        MaxPower; 
+/* 00F8 */      uint16_t        MaxVolts;
+/* 00FA */   
 // stop on FF
 }
 dfParams_t;
@@ -346,7 +349,7 @@ extern dfStruct_t DataFlash;
 #define dfRezNI			DFP(RezNI)
 #define dfRezLockedTI	DFP(RezLockedTI)
 #define dfRezLockedNI	DFP(RezLockedNI)
-#define dfTiOn			DFP(TiOn)
+//#define dfTiOn			DFP(TiOn)
 #define dfStealthOn		DFP(StealthOn)
 #define dfTempCoefsNI	DFP(TempCoefsNI)
 #define dfBattery		DFP(Battery)
@@ -375,7 +378,6 @@ extern dfStruct_t DataFlash;
 #define dfFBSpeed		DFP(FBSpeed)
 #define dfTTBest		DFP(TTBest)
 #define dfTTSpeed		DFP(TTSpeed)
-#define dfBattPC		DFP(BattPC)
 #define dfContrast		DFP(Contrast)
 #define dfContrast2		DFP(Contrast2)
 #define Object3D		DFP(dfObject3D)
@@ -400,6 +402,10 @@ extern dfStruct_t DataFlash;
 #define dfHideLogo  		DFP(HideLogo)
 #define dfBoardTempCorr 	DFP(BoardTempCorr)
 #define dfFireScrDuration       DFP(FireScrDuration)
+#define dfMaxPower              DFP(MaxPower)
+#define dfMaxVolts              DFP(MaxVolts)
+#define dfUSBMaxCharge          DFP(USBMaxCharge)
+#define dfMaxBoardTemp          DFP(MaxBoardTemp)
 
 #define dfFWVersion		DFI(FWVersion)
 #define dffmcCID        DFI(fmcCID)

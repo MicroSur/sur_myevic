@@ -295,6 +295,8 @@ uint8_t		ChargeStep;
 uint32_t        USBVolts;
 uint32_t        ChargeCurrent;
 
+uint32_t GetMaxCharge( const uint16_t ch );
+
 //=========================================================================
 
 __myevic__ int GetNBatteries()
@@ -1180,10 +1182,8 @@ __myevic__ void BatteryChargeDual()
 		if ( gFlags.batt_unk )
 		{
 			gFlags.batt_unk = 0;
-
-			MaxPower = 750;
-			MaxTCPower = 750;
-			SetAtoLimits();
+			//SetMaxPower ( 750 ); //MaxPower = 750; //MaxTCPower= 750;
+			//SetAtoLimits();
 		}
 
 		if ( BatteryStatus != 2 && BatteryStatus != 3 && BatteryStatus != 4 )
@@ -1206,10 +1206,8 @@ __myevic__ void BatteryChargeDual()
 		PC3 = 0;
 
 		gFlags.batt_unk = 1;
-
-		MaxPower = 1500;
-		MaxTCPower = 1500;
-		SetAtoLimits();
+                //SetMaxPower ( 1500 ); //MaxPower = 1500; //MaxTCPower = 1500;
+		//SetAtoLimits();
 
 		if ( BatteryStatus != 2 && BatteryStatus != 3 && BatteryStatus != 4 )
 		{
@@ -1262,7 +1260,7 @@ __myevic__ void BatteryChargeDual()
 				ChargeStatus = 6;
 			}
 		}
-                else if ( BoardTemp >= MaxBoardTemp )
+                else if ( BoardTemp >= dfMaxBoardTemp )
                 {
                     Event = 13;  // Battery charge stop
                     if ( ChargeStatus != 6 )
@@ -1335,7 +1333,7 @@ __myevic__ void BatteryChargeDual()
 					{
 						if ( BatteryVoltage < 290 )
 						{
-							ChargerTarget = 300;
+							ChargerTarget = GetMaxCharge( 300 ); //300;
 							ChargeStatus = 2;
 						}
 						else if ( BattVoltsHighest < 416 )
@@ -1346,11 +1344,11 @@ __myevic__ void BatteryChargeDual()
 								{
 									if ( USBVolts > 420 )
 									{
-										ChargerTarget = 1000;
+										ChargerTarget = GetMaxCharge( 1000 ); //1000;
 									}
 									else
 									{
-										ChargerTarget = 500;
+										ChargerTarget = GetMaxCharge( 500 ); //500;
 										USBMaxLoad = 0;
 									}
 								}
@@ -1359,7 +1357,7 @@ __myevic__ void BatteryChargeDual()
 						}
 						else
 						{
-							ChargerTarget = 400;
+							ChargerTarget = GetMaxCharge( 400 ); //400;
 							ChargeStatus = 4;
 						}
 
@@ -1523,10 +1521,9 @@ __myevic__ void BatteryCharge()
 		NumBatteries = 2;
 		NewBatteryData();
 
-		MaxVolts = 600;
-		MaxPower = 2000;
-		MaxTCPower = 2000;
-		SetAtoLimits();
+		//SetMaxVolts ( 600 ); //MaxVolts = 600;
+                //SetMaxPower( 2000 ); //MaxPower = 2000; //MaxTCPower = 2000;
+		//SetAtoLimits();
 
 		if ( BatteryStatus != 2 && BatteryStatus != 3 && BatteryStatus != 4 )
 		{
@@ -1554,7 +1551,7 @@ __myevic__ void BatteryCharge()
 				ChargeStatus = 6; //no charge
 			}
 		}
-                else if ( BoardTemp >= MaxBoardTemp )
+                else if ( BoardTemp >= dfMaxBoardTemp )
                 {
                     Event = 13;  // Battery charge stop
                     if ( ChargeStatus != 6 )
@@ -1677,7 +1674,7 @@ __myevic__ void BatteryCharge()
 				if ( BatteryVoltage < 290 )
 				{
 					ChargeStatus = 2;
-					ChargerTarget = 300;
+					ChargerTarget = GetMaxCharge( 300 ); //300;
 				}
 				else if ( BattVoltsHighest < 419 ) //416
 				{
@@ -1690,11 +1687,11 @@ __myevic__ void BatteryCharge()
 							if ( USBVolts <= 420 )
 							{
 								USBMaxLoad = 2;
-								ChargerTarget = 1500;
+								ChargerTarget = GetMaxCharge( 1500 ); //1500;
 							}
 							else
 							{
-								ChargerTarget = 2000;
+								ChargerTarget = GetMaxCharge( 2000 ); //2000;
 							}
 						}                                                
 						else if ( USBMaxLoad == 2 )
@@ -1702,11 +1699,11 @@ __myevic__ void BatteryCharge()
 							if ( USBVolts <= 420 )
 							{
 								USBMaxLoad = 1;
-								ChargerTarget = 1000;
+								ChargerTarget = GetMaxCharge( 1000 ); //1000;
 							}
 							else
 							{
-								ChargerTarget = 1500;
+								ChargerTarget = GetMaxCharge( 1500 ); //1500;
 							}
 						}
 						else if ( USBMaxLoad )
@@ -1714,11 +1711,11 @@ __myevic__ void BatteryCharge()
 							if ( USBVolts <= 420 )
 							{
 								USBMaxLoad = 0;
-								ChargerTarget = 500;
+								ChargerTarget = GetMaxCharge( 500 ); //500;
 							}
 							else
 							{
-								ChargerTarget = 1000;
+								ChargerTarget = GetMaxCharge( 1000 ); //1000;
 							}
 						}
 					}
@@ -1726,7 +1723,7 @@ __myevic__ void BatteryCharge()
 				else
 				{
 					ChargeStatus = 4;
-					ChargerTarget = 500; //600
+					ChargerTarget = GetMaxCharge( 500 ); //500; //600
 				}
 
 				BBC_Configure( BBC_PWMCH_CHARGER, 1 );
@@ -1874,4 +1871,45 @@ __myevic__ int CheckCustomBattery()
 	return 1;
 }
 
+__myevic__ void SetMaxPower( const uint16_t p )
+{
+                        if ( !dfMaxPower )
+                        {
+                            MaxPower = (uint32_t)p; 
+                            dfMaxPower = p;
+                        }
+			else
+                        {
+                            MaxPower = (uint32_t)dfMaxPower;    
+                        }
+                        
+                        MaxTCPower = MaxPower;
+}
 
+__myevic__ void SetMaxVolts( const uint16_t v )
+{
+                        if ( !dfMaxVolts )
+                        {
+                            MaxVolts = (uint32_t)v; 
+                            dfMaxVolts = v;
+                        }
+			else
+                        {
+                            MaxVolts = (uint32_t)dfMaxVolts;    
+                        }                        
+}
+
+__myevic__ uint32_t GetMaxCharge( const uint16_t ch )
+{
+    uint32_t c;
+                        if ( !dfUSBMaxCharge || ( dfUSBMaxCharge > ch ) )
+                        {
+                            c = (uint32_t)ch; 
+                        }
+			else
+                        {
+                            c = (uint32_t)dfUSBMaxCharge;    
+                        }   
+                        
+    return c;
+}

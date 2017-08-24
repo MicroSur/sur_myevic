@@ -450,6 +450,57 @@ __myevic__ void ResetPowerCurve()
 	}
 }
 
+__myevic__ void InitSetPowerVoltMax()
+{
+	if ( ISRX300 )
+	{
+		SetMaxVolts ( 990 ); //MaxVolts = 990;
+	}
+	else
+	{
+		SetMaxVolts ( 900 ); //MaxVolts = 900;
+	}
+
+	if ( ISEVICBASIC )
+	{
+		SetMaxPower ( 600 ); //MaxPower = 600;
+	}
+	else if ( ISPRIMOMINI || ISVTWO || ISEGRIPII || ISCUBOMINI || ISRXMINI )
+	{
+		SetMaxPower ( 800 ); //MaxPower = 800;
+	}
+	else if ( ISPRESA100W )
+	{
+		SetMaxPower ( 1000 ); //MaxPower = 1000;
+	}
+	else if ( ISVTCDUAL )
+	{
+		SetMaxPower ( 1500 ); //MaxPower = 1500;
+		gFlags.batt_unk = 1;
+	}
+	else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+	{
+		SetMaxPower ( 2500 ); //MaxPower = 2500; //2280
+	}        
+	else if ( ISCUBOID || ISCUBO200 )
+	{
+		SetMaxPower ( 2000 ); //MaxPower = 2000;
+	}
+	else if ( ISRX200S || ISRX23 )
+	{
+		SetMaxPower ( 2500 ); //MaxPower = 2500;
+	}
+	else if ( ISRX300 )
+	{
+		SetMaxPower ( 4000 ); //MaxPower = 4000;
+	}
+	else
+	{
+		SetMaxPower ( 750 ); //MaxPower = 750;
+	}
+
+	//MaxTCPower = MaxPower;    
+}
 
 //=========================================================================
 //----- (00001C30) --------------------------------------------------------
@@ -482,7 +533,7 @@ __myevic__ void ResetDataFlash()
 //	dfRezNI = 0;
 //	dfRezLockedTI = 0;
 //	dfRezLockedNI = 0;
-	dfTiOn = 1;
+//	dfTiOn = 1;
 //	dfStealthOn = 0;
 	dfTempCoefsNI = 201;
 	ResetCustomBattery();
@@ -520,15 +571,15 @@ __myevic__ void ResetDataFlash()
 	dfTCRM[2] = 110;
 	dfScreenSaver = SSAVER_QIX;
 //	dfTCMode = 0;
-//	dfScreenProt = 0;
+	dfScreenProt = 3; //30s
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
 //	MemClear( dfSavedCfgPwr, sizeof(dfSavedCfgPwr) );
 	dfFBBest = 0;
 	dfFBSpeed = 0;
-//	dfBattPC = 0;
         dfTTBest = 0;
         dfTTSpeed = 2;
 	dfContrast = 45; //17%
+//      dfContrast2 = 0;
 //	dfModesSel = 0;
 	dfClkRatio = RTC_DEF_CLK_RATIO;
 	dfVVRatio = VVEL_DEF_RATIO;
@@ -551,6 +602,13 @@ __myevic__ void ResetDataFlash()
 //	dfProfile = 0;
         dfStatus.offmodclock = 0;
         dfFireScrDuration = 2;
+        Object3D = 7;
+        dfMaxPower = 0;
+        dfMaxVolts = 0;
+        InitSetPowerVoltMax();
+        SetAtoLimits();
+        dfUSBMaxCharge = 2000; 
+        dfMaxBoardTemp = 70;
         
 	UpdateDataFlash();
 
@@ -630,8 +688,7 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfRezLockedNI > 1 )
 		dfRezLockedNI = 0;
 
-	if ( dfTiOn > 1 )
-		dfTiOn = 1;
+//	if ( dfTiOn > 1 ) dfTiOn = 1;
 
 	if ( dfStealthOn > 1 )
 		dfStealthOn = 0;
@@ -703,9 +760,6 @@ __myevic__ void DFCheckValuesValidity()
 			dfTCRM[i] = 120;
 	}
 
-	if ( dfBattPC > 1 )
-		dfBattPC = 0;
-
 	if ( dfFBSpeed > 2 )
 		dfFBSpeed = 0;
 
@@ -775,7 +829,7 @@ __myevic__ void DFCheckValuesValidity()
 			dfPreheatPwr = dfPower;
 	}
 
-	MemSet( DataFlash.p.UnusedCA, 0, sizeof(DataFlash.p.UnusedCA) );
+//	MemSet( DataFlash.p.UnusedCA, 0, sizeof(DataFlash.p.UnusedCA) );
 
 	if ( dfPreheatTime > 200 )
 		dfPreheatTime = 10;
@@ -800,9 +854,14 @@ __myevic__ void DFCheckValuesValidity()
 	}
 
 	for ( i = 0 ; i < 4 ; ++i )
-	if ( dfBVOffset[i] < BVO_MIN || dfBVOffset[i] > BVO_MAX )
+	if ( ( dfBVOffset[i] < BVO_MIN ) || ( dfBVOffset[i] > BVO_MAX ) )
 		dfBVOffset[i] = 0;
 
+        if ( dfMaxBoardTemp > 99 ) dfMaxBoardTemp = 70;
+        if ( dfMaxVolts > 999 ) dfMaxVolts = 999;
+        if ( dfMaxPower > 5000 ) dfMaxVolts = 750;
+        if ( dfUSBMaxCharge > 2000 ) dfUSBMaxCharge = 2000;
+        
 }
 
 
@@ -1112,55 +1171,7 @@ __myevic__ void InitDataFlash()
 
 	dfFWVersion	= FWVERSION;
 
-	if ( ISRX300 )
-	{
-		MaxVolts = 990;
-	}
-	else
-	{
-		MaxVolts = 900;
-	}
-
-	if ( ISEVICBASIC )
-	{
-		MaxPower = 600;
-	}
-	else if ( ISPRIMOMINI || ISVTWO || ISEGRIPII || ISCUBOMINI || ISRXMINI )
-	{
-		MaxPower = 800;
-	}
-	else if ( ISPRESA100W )
-	{
-		MaxPower = 1000;
-	}
-	else if ( ISVTCDUAL )
-	{
-		MaxPower = 1500;
-		gFlags.batt_unk = 1;
-	}
-	else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
-	{
-		MaxPower = 2500; //2280
-	}        
-	else if ( ISCUBOID || ISCUBO200 )
-	{
-		MaxPower = 2000;
-	}
-	else if ( ISRX200S || ISRX23 )
-	{
-		MaxPower = 2500;
-	}
-	else if ( ISRX300 )
-	{
-		MaxPower = 4000;
-	}
-	else
-	{
-		MaxPower = 750;
-	}
-
-	MaxTCPower = MaxPower;
-
+        InitSetPowerVoltMax();
 
 /*
 	myprintf( "  APROM Version ......................... [%d.%d%d]\n",

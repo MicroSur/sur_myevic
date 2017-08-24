@@ -203,7 +203,7 @@ extern const uint8_t String_Expert[];
 extern const uint8_t String_USB[];
 extern const uint8_t String_HID[];
 extern const uint8_t String_COM[];
-extern const uint8_t String_DSK[];
+extern const uint8_t String_UCH_s[];
 extern const uint8_t String_DBG[];
 extern const uint8_t String_X32[];
 extern const uint8_t String_PCT[];

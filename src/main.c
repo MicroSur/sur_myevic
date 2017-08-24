@@ -20,7 +20,7 @@
 
 volatile gFlags_t gFlags;
 uint8_t BoxModel;
-const uint8_t  MaxBoardTemp = 70;
+//const uint8_t  MaxBoardTemp = 70;
 
 //=========================================================================
 // Additional initialisations
@@ -317,6 +317,7 @@ __myevic__ void InitVariables()
 	AtoMaxPower = MaxPower;
 	//Object3D = 1;
 	AtoTemp = 70;
+        if ( !dfMaxBoardTemp ) dfMaxBoardTemp = 70;
         gFlags.screen_on = 1;
         
 }
@@ -943,7 +944,7 @@ __myevic__ void Main()
 			ReadBatteryVoltage();
 			ReadBoardTemp();
 
-			if ( gFlags.firing && BoardTemp >= MaxBoardTemp )
+			if ( gFlags.firing && BoardTemp >= dfMaxBoardTemp )
 			{
 				Overtemp();
 			}
@@ -951,11 +952,17 @@ __myevic__ void Main()
 			if ( ISVTCDUAL )
 			{
 				BatteryChargeDual();
+                                gFlags.soft_charge = 1;
 			}
 			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 			{
 				BatteryCharge();
+                                gFlags.soft_charge = 1;
 			}
+                        else
+                        {
+                            gFlags.soft_charge = 0;
+                        }
 
 			if (( dfStatus2.anim3d ) && ( Screen == 1 ) && ( dfMode != 6 ) && ( !EditModeTimer ) && !HideLogo && !SplashTimer )
 			{

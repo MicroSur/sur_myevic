@@ -26,7 +26,7 @@
 
 //-------------------------------------------------------------------------
 
-#define FWVERSION	331
+#define FWVERSION	777
 
 #define __BUILD1	( __DAY__ + __MONTH__ * 100 + ( __YEAR__ % 100 ) * 10000 )
 
@@ -157,7 +157,8 @@ typedef struct
 /* 00200000 */	int fading:1;
 /* 00400000 */	int led_on:1;
 /* 00800000 */	int splash:1;
-/* 01000000 */	int	playing_tt:1;
+/* 01000000 */	int playing_tt:1;
+/* 02000000 */	int soft_charge:1;
 }
 
 gFlags_t;
@@ -184,7 +185,7 @@ extern void DrawHexLong( int x, int y, int v, int font );
 extern uint32_t sqrtul( uint32_t v );
 extern uint32_t GetFirmwareSize();
 
-extern const uint8_t  MaxBoardTemp;
+//extern const uint8_t  MaxBoardTemp;
 
 //=========================================================================
 #endif /* __MYEVIC_H__ */

@@ -77,6 +77,8 @@ extern void SetBatteryModel();
 extern const uint8_t *GetBatteryName();
 extern void ReadInternalResistance();
 extern void SetBatMaxPower();
+extern void SetMaxPower( const uint16_t p );
+extern void SetMaxVolts( const uint16_t v );
 extern void BatteryChargeDual();
 extern void BatteryCharge();
 extern void SaveCustomBattery( const Battery_t *b );

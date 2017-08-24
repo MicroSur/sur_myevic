@@ -256,7 +256,7 @@ __myevic__ void EventHandler()
 				return;
 			}
 
-			if ( BoardTemp >= MaxBoardTemp )
+			if ( BoardTemp >= dfMaxBoardTemp )
 			{
 				Overtemp();
 				return;
