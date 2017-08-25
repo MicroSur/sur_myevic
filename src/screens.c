@@ -48,7 +48,7 @@ __myevic__ void DrawScreen()
 	static uint16_t	CurrentFD = 0;
         static uint8_t scrSaveOnce = 1;
 
-	if ( Screen == 2 && FireDuration && FireDuration != CurrentFD )
+	if ( !PE0 && Screen == 2 && FireDuration && FireDuration != CurrentFD )
 	{
 		CurrentFD = FireDuration;
 		//ScreenDuration = ISMODETC(dfMode) ? 1 : 2;
@@ -58,7 +58,8 @@ __myevic__ void DrawScreen()
 	}
 	else if ( ScreenRefreshTimer && !--ScreenRefreshTimer )
 	{
-		gFlags.refresh_display = 1;
+		if ( Screen != 2 ) 
+                    gFlags.refresh_display = 1;
 	}
 
 	if ( gFlags.refresh_display )
@@ -552,7 +553,8 @@ __myevic__ void ShowRTCSpeed()
 
 __myevic__ int IsClockOnScreen()
 {
-	return (  ((( Screen == 1 ) || ( Screen == 2 )) && ( ( dfAPT == 8 ) || ( dfAPT3 == 8 ) ) )
+        return (  ( ( Screen == 1 ) && ( ( dfAPT == 8 ) || ( dfAPT3 == 8 ) ) )
+	//return (  ((( Screen == 1 ) || ( Screen == 2 )) && ( ( dfAPT == 8 ) || ( dfAPT3 == 8 ) ) )
 			|| (( Screen == 1 ) && ( dfStatus.clock ))
 			|| (( Screen == 60 ) && ( dfScreenSaver == SSAVER_CLOCK ))
 			||  ( Screen == 103 )

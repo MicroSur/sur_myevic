@@ -414,7 +414,7 @@ __myevic__ void DrawAPTLine3( int line )
 {
 	if ( BLINKITEM(4) )
 		return;
-
+        
 	switch ( dfAPT3 )
 	{
 		default:
@@ -591,6 +591,7 @@ __myevic__ void ShowFireDuration( int line )
 __myevic__ void DrawInfoLines()
 {
 	//if (( gFlags.debug & 1 ) && ( !gFlags.firing ) && ( !EditModeTimer ))
+/*
         if (( gFlags.debug & 1 ) && ( !EditModeTimer ))
 	{
 
@@ -602,12 +603,11 @@ __myevic__ void DrawInfoLines()
 		//DrawHexLong( 0, 71, flags, 1 );
 
                 //BypassVolts BattVoltsTotal MaxVolts AtoMaxVolts AtoVolts MilliJoules
-/*
-                unsigned int amps;  
-                amps = 1000 * BattVoltsTotal / ( 10 * AtoRez + NumBatteries * BatteryIntRez );
-                //amps = 10 * BattVoltsTotal	/ ( 10 * AtoRez + NumBatteries * BatteryIntRez );
- 
-*/    
+
+               // unsigned int amps;  
+               // amps = 1000 * BattVoltsTotal / ( 10 * AtoRez + NumBatteries * BatteryIntRez );
+               // //amps = 10 * BattVoltsTotal	/ ( 10 * AtoRez + NumBatteries * BatteryIntRez );
+     
                 DrawValue( 0, 46, MaxPower, 0, 0x1F, 0 );
 		DrawValue( 0, 58, dfMaxPower, 0, 0x1F, 0 );
                 DrawValue( 0, 70, BattVoltsTotal, 0, 0x1F, 0 );
@@ -621,12 +621,9 @@ __myevic__ void DrawInfoLines()
                 
 		//DrawValueRight( 64, 90, BatteryMaxPwr / 10, 0, 0x1F, 0 );
 
-                                
-		DrawValue( 0, 108, Screen, 0, 0x01, 0 );
-		DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
-
 		return;
 	}
+*/
 
 	if ( Screen == 2 ) //firing
 	{
@@ -644,21 +641,19 @@ __myevic__ void DrawInfoLines()
 				{
 					DrawPwrLine( AtoPower( AtoVolts ), 46 ); //52 );
 				}
-                                ShowFireDuration( 0 );
 				break;
 			case 4:
                                 DrawVoltsLine( dfVWVolts, 46 ); 
-				ShowFireDuration( 0 ); //43 );
 				break;
 			case 5:
 			{
                                 DrawVoltsLine( BypassVolts, 46 );
-				ShowFireDuration( 0 ); //43 );
 				break;
 			}                      
 			default:
 				break;
 		}
+                ShowFireDuration( 0 );        
 	}
 	else
 	{
