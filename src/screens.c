@@ -221,10 +221,13 @@ __myevic__ void DrawScreen()
 if ( gFlags.debug & 1 )
 {
         DrawValue( 0, 108, Screen, 0, 0x01, 0 );
-        DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
-        DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
+        //DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
+        DrawValueRight( 38, 108, NextPreheatTimer, 0, 0x01, 0 );
+        //DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
+        DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
         
-        DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 );
+        //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 );
+        //DrawValue( 0, 0, NextPreheatTimer, 0, 0x01, 0 );
         DrawValueRight( 64, 0, UserInputs, 0, 0x01, 3 ); //UserInputs LastInputs
         DisplayRefresh();
 }

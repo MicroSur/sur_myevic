@@ -683,9 +683,18 @@ __myevic__ void EventHandler()
 					}
                                         if ( !PreheatDelay ) pc = 1;
 				}
-				else if ( !PreheatDelay && dfStatus.preheat )
+				//else if ( !PreheatDelay && dfStatus.preheat )
+                                else if ( dfStatus.preheat )
 				{
+                                    if (dfStatus2.smart_ph && dfPHDelay && NextPreheatTimer )
+                                    {
+                                        PreheatTimer = NextPreheatTimer;
+                                    } 
+                                    else if ( !PreheatDelay )
+                                    {
 					PreheatTimer = dfPreheatTime;
+                                    }
+                                        
 
 					if ( dfStatus.phpct )
 					{

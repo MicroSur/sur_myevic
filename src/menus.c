@@ -781,10 +781,10 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 					p = p / 10;
 					dp = 0;
 				}
-				DrawImage(  10, 111, 0xAB ); //calc power
-                                DrawImage(  18, 111, 0xFB );
-				DrawValueRight( 45, 111, p, dp, 0x0B, 0 );
-				DrawImage( 47, 111, 0x98 );
+				DrawImage(  10, 118, 0xAB ); //calc power
+                                DrawImage(  18, 118, 0xFB );
+				DrawValueRight( 45, 118, p, dp, 0x0B, 0 );
+				DrawImage( 47, 118, 0x98 );
                                 
 				dp = 0;
 				img = 0xC2;
@@ -858,8 +858,8 @@ __myevic__ int PreheatMEvent( int event )
                         if (event == EVENT_LONG_FIRE && CurrentMenuItem == 4 )
                         { //preheat delay off
                             dfPHDelay = 0;
-                            //UpdateDFTimer = 50;
-                            //gFlags.refresh_display = 1;
+                            UpdateDFTimer = 50;
+                            gFlags.refresh_display = 1;
                             gFlags.edit_value = 0;
                             vret = 1;
                         }
@@ -962,7 +962,7 @@ __myevic__ int PreheatMEvent( int event )
                         
                 case EVENT_LONG_FIRE:
 			if ( CurrentMenuItem == 3 )
-                        { //preheat off
+                        { 
                             dfPreheatTime = 10;
                             //UpdateDFTimer = 50;
                             //gFlags.refresh_display = 1;
@@ -2187,6 +2187,14 @@ const mdata_t PreheatDelayData =
 	0
 };
 
+const mdata_t PreheatSmartData =
+{
+	&dfStatus2,
+	&BitDesc,
+	MITYPE_BIT,
+	2
+};
+
 const menu_t PreheatMenu =
 {
 	String_Preheat,
@@ -2196,13 +2204,14 @@ const menu_t PreheatMenu =
 	0,
 	0,
 	PreheatMEvent+1,
-	6,
+	7,
 	{       
                 { String_Enable, 0, 0, 0 },
 		{ String_Unit, 0, 0, 0 },
 		{ String_Pwr, 0, 0, 0 },
 		{ String_Time, 0, 0, 0 },
 		{ String_Delay, &PreheatDelayData, 0, MACTION_DATA },
+                { String_SMART_s, &PreheatSmartData, 0, MACTION_DATA },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

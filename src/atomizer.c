@@ -41,6 +41,7 @@ uint8_t		ConfigIndex;
 uint8_t		PreheatTimer;
 uint16_t	PreheatPower;
 uint16_t	PreheatDelay;
+uint16_t        NextPreheatTimer;
 uint32_t	MilliJoules;
 uint8_t		RezMillis;
 

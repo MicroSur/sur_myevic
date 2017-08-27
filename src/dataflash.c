@@ -1506,14 +1506,15 @@ const uint8_t ProfileFilter[32] =
 /* 00D8 */	0b11111111,
 /* 00E0 */	0b11100000,
 /* 00E8 */	0b00010000,     //EB APT3
-/* 00F0 */	0b00000000,
+/* 00F0 */	0b11110000,
 /* 00F8 */	0b00000000
 };
 // Saved status bits
 // - Power curve enable state 
 // - Preheat ena state
 const uint32_t StatusFilter = 0b00010000000000001000000000000000;
-//const uint32_t StatusFilter2 = 0b00000000000000000000000000000000;
+// - smart Preheat ena state
+const uint32_t StatusFilter2 = 0b00000000000000000000000000000100;
 
 //-------------------------------------------------------------------------
 // Apply newly reloaded parameters
@@ -1536,7 +1537,7 @@ __myevic__ void LoadProfile( int p )
 {
 	uint32_t addr, idx;
 	dfParams_t *params;
-	uint8_t *s, *d;
+	uint8_t *s, *d, *s2, *d2;
 
 	if ( p >= DATAFLASH_PROFILES_MAX )
 		return;
@@ -1549,18 +1550,30 @@ __myevic__ void LoadProfile( int p )
 	{
 		s = (uint8_t*)params;
 		d = (uint8_t*)DataFlash.params;
+		s2 = (uint8_t*)params;
+		d2 = (uint8_t*)DataFlash.params;
                 
 		uint32_t new_status = *(uint32_t*)&s[offsetof(dfParams_t,Status)];
 		uint32_t old_status = *(uint32_t*)&d[offsetof(dfParams_t,Status)];
-
+		uint32_t new_status2 = *(uint32_t*)&s2[offsetof(dfParams_t,Status2)];
+		uint32_t old_status2 = *(uint32_t*)&d2[offsetof(dfParams_t,Status2)];
+                
 		new_status &= StatusFilter;
 		old_status &= ~StatusFilter;
-
+		new_status2 &= StatusFilter2;
+		old_status2 &= ~StatusFilter2;
+                
 		for ( idx = 0 ; idx < DATAFLASH_PARAMS_SIZE ; ++idx )
+                {
 			if ( ProfileFilter[idx/8] & ( 0x80 >> ( idx & 7 ) ) )
+                        {
 				d[idx] = s[idx];
+                                d2[idx] = s2[idx];
+                        }
+                }
 		*(uint32_t*)&d[offsetof(dfParams_t,Status)] = old_status | new_status;
-
+                *(uint32_t*)&d2[offsetof(dfParams_t,Status2)] = old_status2 | new_status2;                
+                                
 		DFCheckValuesValidity();
 		ApplyParameters();
 	}

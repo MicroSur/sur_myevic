@@ -95,6 +95,7 @@ typedef struct
 {
 /* 00000001 */	unsigned int anim3d:1;         //lsls 0x1F  0-bit
 /* 00000002 */	unsigned int vapedjoules:1; 
+/* 00000004 */	unsigned int smart_ph:1;
 }
 // Do not exceed 32 bits;
 dfStatus2_t;

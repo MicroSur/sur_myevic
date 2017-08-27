@@ -25,6 +25,7 @@ uint16_t	AutoPuffTimer;
 uint16_t	FadeOutTimer;
 
 
+
 //=========================================================================
 //----- (00007CD4) --------------------------------------------------------
 __myevic__ void InitTimers()
@@ -280,7 +281,15 @@ __myevic__ void TimedItems()
 
 	if ( PreheatDelay )
 	{
-		--PreheatDelay;
+		if ( --PreheatDelay )
+                {
+                    NextPreheatTimer = (100 - (PreheatDelay / dfPHDelay) ) * dfPreheatTime / 100;
+                }
+                else
+                {
+                    NextPreheatTimer = dfPreheatTime;
+                }
+                
 		if ( ( Screen == 1 ) && !( PreheatDelay % 25 ) )
 		{
 			gFlags.refresh_display = 1;
