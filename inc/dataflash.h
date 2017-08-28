@@ -183,10 +183,11 @@ typedef struct dfParams
 /* 00C5 */	uint8_t		Clicks[4];
 /* 00C9 */	uint8_t		DimTimeout;
 /* 00CA */	uint8_t		BatteryModel;
-/* 00CB */	uint16_t	USBMaxCharge;
-/* 00CD */	uint8_t		PreheatTime;
-/* 00CE */	uint16_t	PreheatPwr;
-/* 00D0 */	uint16_t	AtoPreheatPwr;
+//                                                  CB 00
+/* 00CB */	uint16_t	USBMaxCharge;   //  CC
+/* 00CD */	uint8_t		PreheatTime;    //  CE
+/* 00CE */	uint16_t	PreheatPwr;     //  CF
+/* 00D0 */	uint16_t	AtoPreheatPwr;          // not used
 /* 00D2 */	uint8_t		TCAlgo;
 /* 00D3 */	uint8_t		TCBoost;
 /* 00D4 */	uint16_t	TCRP[3];
@@ -195,17 +196,17 @@ typedef struct dfParams
 /* 00E2 */	uint8_t		Profile;
 /* 00E3 */	int8_t		BVOffset[4];
 /* 00E8 */	uint16_t	TTBest;
-/* 00EA */	uint8_t		TTSpeed;
-/* 00EB */	uint8_t		APT3;
-/* 00EC */	uint8_t		PuffsOff;
-/* 00ED */	uint8_t		HideLogo;
-/* 00EE */	int8_t		BoardTempCorr;
-/* 00EF */	uint8_t		Contrast2;
-/* 00F0 */	dfStatus2_t	Status2;
-/* 00F4 */      uint8_t         FireScrDuration;
-/* 00F5 */      uint8_t         dfObject3D;  
-/* 00F6 */      uint16_t        MaxPower; 
-/* 00F8 */      uint16_t        MaxVolts;
+/* 00EA */	uint8_t		TTSpeed;        //  EC
+/* 00EB */	uint8_t		APT3;           //  ED
+/* 00EC */	uint8_t		PuffsOff;       //  EE
+/* 00ED */	uint8_t		HideLogo;       //  EF
+/* 00EE */	int8_t		BoardTempCorr;  //  F0
+/* 00EF */	uint8_t		Contrast2;      //  F1
+/* 00F0 */	dfStatus2_t	Status2;        //  F4
+/* 00F4 */      uint8_t         FireScrDuration;//  F8
+/* 00F5 */      uint8_t         dfObject3D;     //  F9  
+/* 00F6 */      uint16_t        MaxPower;       //  FA 
+/* 00F8 */      uint16_t        MaxVolts;       //  FC
 /* 00FA */   
 // stop on FF
 }
@@ -392,7 +393,7 @@ extern dfStruct_t DataFlash;
 #define dfBVOffset		DFP(BVOffset)
 #define dfPreheatTime	DFP(PreheatTime)
 #define dfPreheatPwr	DFP(PreheatPwr)
-#define dfAtoPreheatPwr	DFP(AtoPreheatPwr)
+//#define dfAtoPreheatPwr	DFP(AtoPreheatPwr)
 #define dfTCAlgo		DFP(TCAlgo)
 #define dfTCBoost		DFP(TCBoost)
 #define dfTCRP			DFP(TCRP)

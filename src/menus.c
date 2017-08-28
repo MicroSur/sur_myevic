@@ -757,7 +757,7 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 	{       
                 case 0:
                         DrawFillRect( 40, line, 63, line+12, 0 );
-                        DrawString( dfStatus.preheat ? String_On : String_Off, 44, line+2 );
+                        DrawString( dfStatus.preheat ? String_On : String_Off, 46, line+2 );
                         return;
                 
 		case 1:	// Unit
@@ -2168,7 +2168,7 @@ const menu_t ModesMenu =
 
 const mvaluedesc_t PreheatDelayDesc =
 {
-	34, 39,
+	34, 40,
 	3, 2,
 	0, 180,
 	&DrawPreheatDelay+1,
@@ -3127,7 +3127,7 @@ const menu_t AlgoMenu =
 
 const mbitdesc_t CurveEnaDesc =
 {
-	40, 44,
+	40, 46,
 	String_Yes,
 	String_No
 };

@@ -815,7 +815,9 @@ __myevic__ void DrawPower( int pwr )
 		{
 			if ( !PreheatDelay || gFlags.osc_1hz )
 			{
-				DrawImage( xp, yp, 0x77 ); //P
+                            if ( dfStatus2.smart_ph && NextPreheatTimer && ( NextPreheatTimer < dfPreheatTime ) )
+                                DrawImage( xp, yp, 0x7A ); //S
+                            else DrawImage( xp, yp, 0x77 ); //P
 			}
 		}
 	}
