@@ -1372,6 +1372,8 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 
 		case 5:	// BAT profile
 			DrawString( GetBatteryName(), 40, line+2 );
+                        if ( gFlags.edit_value && sel )
+                                InvertRect( 0, line, 63, line+12 );
 			break;
 
 		case 6:	// USB
@@ -1436,10 +1438,11 @@ __myevic__ void ExpertMenuOnClick()
 			break;
                    
 		case 5:	// BAT
-                        //BATTERY_CUSTOM 255
-			if ( ++dfBatteryModel >= GetNBatteries() )
-				dfBatteryModel = 0;
-			SetBatteryModel();
+                //      //BATTERY_CUSTOM 255
+		//	if ( ++dfBatteryModel >= GetNBatteries() )
+		//		dfBatteryModel = 0;
+		//	SetBatteryModel();
+                        gFlags.edit_value ^= 1;
 			break;
 
 		case 6:	// USB
@@ -1491,7 +1494,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
 			if ( !gFlags.edit_value )
 				break;
 			switch ( CurrentMenuItem )
-			{
+			{                                       
 				case 3:	// Shunt Rez
 					if ( ++AtoShuntRez > SHUNT_MAX_VALUE )
 					{
@@ -1500,6 +1503,21 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					vret = 1;
 					break;
                                         
+                                case 5:	// BAT
+                                    if ( dfBatteryModel == BATTERY_CUSTOM )
+                                    {
+                                        dfBatteryModel = 0; 
+                                    }
+                                    else
+                                    {
+                                        ++dfBatteryModel;
+                                    	if ( dfBatteryModel >= GetNBatteries() )  
+                                            dfBatteryModel = BATTERY_CUSTOM;  
+                                    }
+                                    SetBatteryModel();
+                                    vret = 1;
+                                    break;
+                                         
                                 case 9: //board temp corr
                                         if ( ++BoardTemp > 99 )
                                         {
@@ -1527,6 +1545,22 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					vret = 1;
 					break;
                                         
+                                case 5:	// BAT
+                                    if ( dfBatteryModel == 0 )
+                                    {
+                                            dfBatteryModel = BATTERY_CUSTOM; 
+                                    }
+                                    else
+                                    {
+                                        if ( dfBatteryModel == BATTERY_CUSTOM )
+                                            dfBatteryModel = GetNBatteries() - 1;   
+                                        else
+                                            --dfBatteryModel;
+                                    }
+                                    SetBatteryModel();
+                                    vret = 1;
+                                    break;
+                                          
                                 case 9: //board temp corr
                                         if ( --BoardTemp > 99 )
                                         {
