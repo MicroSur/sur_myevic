@@ -724,7 +724,7 @@ __myevic__ void ReadAtomizer()
 		ADCShuntSum = ( ADCShuntSum1 + ADCShuntSum2 ) ? : 1;
                 
 		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ADCShuntSum );
-                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR ) AtoRezMilli /= 2;
+                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE ) AtoRezMilli /= 2;
                 
 		if ( gFlags.firing )
 		{

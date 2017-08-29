@@ -1145,7 +1145,7 @@ __myevic__ void MaxMenuIDraw( int it, int line, int sel )
 		case 3:	// ch
                     if ( !dfUSBMaxCharge || !gFlags.soft_charge )
                     {
-                        DrawImage( 41, line+2 , 0xF6 );
+                        DrawImage( 41, line+2 , 0xF6 ); // N/A
                     } else {
                     	DrawValueRight( 53, line+2, dfUSBMaxCharge / 10, 2, 0x0B, 3 );
 			DrawImage( 55, line+2, 0x68 );
@@ -1357,10 +1357,17 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 			break;                    
 
 		case 4:	// UCH
-			if ( dfStatus.usbchgoff )
+                        if ( !gFlags.soft_charge )
+                        {
+                        DrawImage( 40, line+2 , 0xF6 ); // N/A
+                        }
+                        else
+                        {
+                            if ( dfStatus.usbchgoff )
 				DrawString( String_OFF, 40, line+2 );
-			else
+                            else
 				DrawString( String_ON, 40, line+2 );
+                        }
 			break;                   
 
 		case 5:	// BAT profile
@@ -1424,6 +1431,7 @@ __myevic__ void ExpertMenuOnClick()
 			break;
                     
 		case 4:	// UCH
+                        if ( gFlags.soft_charge )
 			dfStatus.usbchgoff ^= 1;
 			break;
                    

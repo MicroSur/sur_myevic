@@ -57,7 +57,7 @@ extern uint8_t	BattProbeCount;
 
 extern uint8_t	USBMaxLoad;
 extern uint8_t	ChargeStatus;
-extern uint8_t	BatteryStatus;
+extern uint8_t	BatteryStatus; // 0- ok? / 1- ooe / 2- no batt / 3- bad high usb, 4- charge err low output current?
 extern uint8_t	BBBits;
 extern uint8_t	ChargeMode;
 extern uint8_t	ChargeStep;
