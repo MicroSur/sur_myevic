@@ -80,7 +80,7 @@ extern uint8_t	LastEvent;
 #define EVENT_NEXT_PROFILE		119
 #define EVENT_POWER_CURVE		120
 #define EVENT_TETRIS                    121
-
+#define EVENT_SAVER                     122
 
 //==============================================================================
 
@@ -95,6 +95,7 @@ enum
 	CLICK_ACTION_PROFILE,
         CLICK_ACTION_TETRIS,
         CLICK_ACTION_GAME,
+        CLICK_ACTION_SAVER,
 	CLICK_ACTION_MAX
 };
 

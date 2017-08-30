@@ -779,6 +779,7 @@ __myevic__ void EventHandler()
 			ScreenDuration = 10;
 			return;
 
+/*
 		case 31:	// Show board temperature
 			if ( dfStatus.off )
 				return;
@@ -786,6 +787,7 @@ __myevic__ void EventHandler()
 			Screen = 37;
 			ScreenDuration = 5;
 			return;
+*/
 
 		case 30:	// Key lock violation
 			if ( dfStatus.off )
@@ -800,7 +802,7 @@ __myevic__ void EventHandler()
 				return;
 			gFlags.refresh_display = 1;
 			Screen = 50;
-			ScreenDuration = 5;
+			ScreenDuration = 10;
 			return;
 
 		case 28:	// Battery < 3.1V idle or < 2.8V firing
@@ -865,7 +867,7 @@ __myevic__ void EventHandler()
 				return;
 			gFlags.refresh_display = 1;
 			Screen = 100;
-			ScreenDuration = 5;
+			ScreenDuration = 10;
 			return;
                         
 		case 18:	// Flip display

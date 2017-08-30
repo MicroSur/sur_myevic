@@ -44,7 +44,7 @@ extern void ShowMainView();
 extern void ShowBattery();
 extern void ShowBatCharging();
 extern void ShowBattVolts();
-extern void ShowBoardTemp();
+//extern void ShowBoardTemp();
 extern void ShowVersion();
 extern void ShowNewCoil();
 extern void ShowTCRSet();
@@ -311,6 +311,8 @@ extern const uint8_t String_Percent[];
 extern const uint8_t String_V[];
 extern const uint8_t String_Flash[];
 extern const uint8_t String_Ok[];
+extern const uint8_t String_SwapMP[];
+extern const uint8_t String_SME[];
 
 //from display.c
 extern const uint8_t String_Sunday[];

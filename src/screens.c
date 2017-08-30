@@ -132,9 +132,9 @@ __myevic__ void DrawScreen()
 				ShowKeyUnLock();
 				break;
 
-			case 37: // Board Temp
-				ShowBoardTemp();
-				break;
+			//case 37: // Board Temp
+			//	ShowBoardTemp();
+			//	break;
 
 			case 40: // Stealth ON/OFF
 				ShowStealthMode();
@@ -221,10 +221,12 @@ __myevic__ void DrawScreen()
 if ( gFlags.debug & 1 )
 {
         DrawValue( 0, 108, Screen, 0, 0x01, 0 );
+        
+        DrawValue( 20, 108, LastEvent, 0, 0x01, 0 );
         //DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
-        DrawValueRight( 38, 108, NextPreheatTimer, 0, 0x01, 0 );
-        //DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
-        DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
+        //DrawValueRight( 38, 108, NextPreheatTimer, 0, 0x01, 0 );
+        DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
+        //DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
         
         //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 );
         //DrawValue( 0, 0, NextPreheatTimer, 0, 0x01, 0 );
@@ -244,7 +246,7 @@ if ( gFlags.debug & 1 )
 	{
 		FadeOutTimer = 0;
 		//DisplaySetContrast( dfContrast );
-                gFlags.MainContrast = 0; //need for unterrupt fading
+                gFlags.MainContrast = 0; //need for interrupt fading
 		gFlags.fading = 0;
 	}
 
@@ -473,8 +475,10 @@ __myevic__ void ShowInfos()
 
 	// TODO : infos page
 	convert_string1( strbuf, "Ferox" );
-	DrawStringCentered( strbuf, 82 );
-	convert_string1( strbuf, "was" );
+	DrawStringCentered( strbuf, 71 );
+        convert_string1( strbuf, "MicroSur" );
+        DrawStringCentered( strbuf, 82 );
+	convert_string1( strbuf, "were" );
 	DrawStringCentered( strbuf, 92 );
 	convert_string1( strbuf, "here" );
 	DrawStringCentered( strbuf, 102 );
@@ -764,11 +768,13 @@ __myevic__ void ShowBattVolts()
 
 //=========================================================================
 //----- (00006874) --------------------------------------------------------
+/*
 __myevic__ void ShowBoardTemp()
 {
 	DrawStringCentered( String_Temp, 88 );
 	DrawValue( 16, 102, BoardTemp, 0, 0x48, 2 );
 }
+*/
 
 
 //=========================================================================
@@ -777,14 +783,15 @@ __myevic__ void ShowVersion()
 {
 	uint8_t buf[12];
 
-	DrawStringCentered( String_myevic, 32 );
+        DrawStringCentered( String_SME, 13 );
+	DrawStringCentered( String_myevic, 24 );
 
-	DrawStringCentered( String_Build, 55 );
+	DrawStringCentered( String_Build, 47 );
 	Value2Str( buf, __BUILD1, 0, 0x1F, 0 );
-	DrawStringCentered( buf, 69 );
+	DrawStringCentered( buf, 61 );
 
-	DrawStringCentered( String_Version, 88 );
-	DrawValue( 6, 102, FWVERSION, 2, 0x48, 3 );
+	DrawStringCentered( String_Version, 80 );
+	DrawValue( 5, 94, FWVERSION, 2, 0x48, 3 );
 }
 
 

@@ -218,3 +218,5 @@ __string__ String_Percent	[] = { 0xC2, 0 };
 __string__ String_V             [] = { 0xBE, 0 }; 
 __string__ String_Flash         [] = { 0xA1, 0x8D, 0x82, 0x94, 0x89, 0 };
 __string__ String_Ok            [] = { 0xAA, 0x8C, 0 };
+__string__ String_SwapMP        [] = { 0xAE, 0x98, 0x82, 0x91, 0xD5, 0xD4, 0 };
+__string__ String_SME           [] = { 0xAE, 0xA8, 0xA0, 0 };

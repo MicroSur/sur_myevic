@@ -174,11 +174,11 @@ __myevic__ void KeyRepeat()
 
 		if ( !PD2 )
 		{
-			Event = 2;
+			Event = dfStatus2.swap_mp ? 3: 2;
 		}
 		else if ( !PD3 )
 		{
-			Event = 3;
+			Event = dfStatus2.swap_mp ? 2: 3;
 		}
 	}
 }
@@ -406,6 +406,10 @@ __myevic__ void GetUserInput()
                                                 case CLICK_ACTION_GAME:
 							FireClicksEvent = 41;	// Game
 							break;
+                                                        
+                                                case CLICK_ACTION_SAVER:
+							FireClicksEvent = EVENT_SAVER; // tetris
+							break;                                                        
 					}
 					if ( dfStatus.off )
 					{
@@ -422,15 +426,15 @@ __myevic__ void GetUserInput()
 					break;
 */
 
-				case 7:
-					FireClicksEvent = 31;	// board temp screen from on state
-					break;
+				//case 7:
+				//	FireClicksEvent = 31;	// board temp screen from on state
+				//	break;
 
 				case 6:                               
 					FireClicksEvent = 29;	// firmware version screen from on state
 					break;
                                         
-                                case 8:                                    
+                                case 7:                                    
 					FireClicksEvent = 20;	// Info screen
 					break;
 			}
@@ -453,7 +457,7 @@ __myevic__ void GetUserInput()
 			}
 			else
 			{
-				Event = 2;	// + button
+				Event = dfStatus2.swap_mp ? 3: 2;
 			}                    
 		}
 		else if ( UserInputs == 3 ) //left button
@@ -474,7 +478,7 @@ __myevic__ void GetUserInput()
 			}
 			else
 			{
-				Event = 3;	// - button
+				Event = dfStatus2.swap_mp ? 2: 3;
 			}                                              
 		}
 	}
@@ -1385,6 +1389,12 @@ __myevic__ int CustomEvents()
                 case EVENT_TETRIS:
  			ttStartGame();
 			break;
+                        
+                case EVENT_SAVER:
+			Screen = 60;
+			ScreenDuration = GetScreenProtection();
+                        gFlags.refresh_display = 1;
+			break;                        
                         
 		default:
 			vret = 0;

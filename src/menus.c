@@ -154,14 +154,15 @@ __myevic__ int ProfileMenuOnEvent( int event )
 			break;
 
 		case 15: // Single Fire
-			//if ( CurrentMenuItem != dfProfile )
-			//{
-				//SaveProfile();
-                        if ( IsProfileValid( CurrentMenuItem ) )
+			if ( CurrentMenuItem != dfProfile )
+			{
+                            if ( IsProfileValid( CurrentMenuItem ) )
+                            {
 				LoadProfile( CurrentMenuItem );
-                        dfProfile = CurrentMenuItem;
-			//}
-			Event = EVENT_EXIT_MENUS;
+                                dfProfile = CurrentMenuItem;
+                                Event = EVENT_EXIT_MENUS;
+                            }
+                        }
 			break;
 
 		case EVENT_LONG_FIRE:
@@ -564,6 +565,10 @@ __myevic__ void ClicksMenuIDraw( int it, int line, int sel )
 		case CLICK_ACTION_TETRIS:
 			DrawString( String_Tetris, 20, line+2 );
 			break;
+                        
+		case CLICK_ACTION_SAVER:
+			DrawString( String_Saver, 20, line+2 );
+			break;                        
 	}
 }
 
@@ -2409,10 +2414,11 @@ const menu_t CoilsMenu =
 	0,
 	0,
 	0,
-	3,
+	4,
 	{
 		{ String_Manage, &CoilsMgmtMenu, 0, MACTION_SUBMENU },
 		{ String_TCRSet, &TCRSetMenu, 0, MACTION_SUBMENU },
+                { String_Profile, 0, EVENT_PROFILE_MENU, 0 },       
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2503,7 +2509,13 @@ const mdata_t FireFlip =
 	MITYPE_BIT,
 	30
 };
-
+const mdata_t SwapMP =
+{
+	&dfStatus2,
+	&BitDesc,
+	MITYPE_BIT,
+	3
+};
 const menu_t MiscsMenu =
 {
 	String_Miscs,
@@ -2513,13 +2525,14 @@ const menu_t MiscsMenu =
 	0,
 	0,
 	0,
-	5,
+	6,
 	{
 		{ String_Game, &GameMenu, 0, MACTION_SUBMENU },
                 { String_Tetris, &GameTtMenu, 0, MACTION_SUBMENU },                        
 		{ String_Led, &LedMenu, 0, MACTION_SUBMENU },
 		//{ String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
                 { String_FiFlip, &FireFlip, 0, MACTION_DATA },     
+                { String_SwapMP, &SwapMP, 0, MACTION_DATA },                         
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

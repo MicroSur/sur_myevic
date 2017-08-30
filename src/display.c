@@ -493,9 +493,9 @@ __myevic__ uint8_t* Value2Str( uint8_t *str, int v, int dp, uint8_t z, int nd )
 			case 0x29:
 				dot = 0xDF;
 				break;
-			case 0x33:
-				dot = 0xF1;
-				break;
+			//case 0x33:
+			//	dot = 0xF1;
+			//	break;
 			case 0x3D:
 				dot = 0x47;
 				break;
