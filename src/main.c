@@ -1099,7 +1099,7 @@ __myevic__ void Main()
 				(	!dfStatus.off
 					&& Event == 0
 					&& ( AtoProbeCount < 12 )
-					&& ( Screen == 0 || Screen == 1 || Screen == 5 ) )
+					&& ( Screen == 0 || Screen == 1 || Screen == 5 || Screen == 60 ) )
 				{
 					ProbeAtomizer();
 				}
@@ -1140,7 +1140,7 @@ __myevic__ void Main()
 				(	!dfStatus.off
 					&& Event == 0
 					&& ( AtoProbeCount >= 12 )
-					&& ( Screen == 0 || Screen == 1 || Screen == 5 ) )
+					&& ( Screen == 0 || Screen == 1 || Screen == 5 || Screen == 60 ) )
 				{
 					ProbeAtomizer();
 				}

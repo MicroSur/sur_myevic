@@ -688,6 +688,7 @@ __myevic__ void ReadAtomizer()
 
 	if ( TargetVolts )
 	{
+/*
 		if ( !gFlags.firing )
 		{
 			if ( AtoProbeCount == 10 )
@@ -703,6 +704,8 @@ __myevic__ void ReadAtomizer()
 		{
 			NumShuntSamples = 1;
 		}
+*/
+NumShuntSamples = 64;
 
 		ADCAtoSum = 0;
 		ADCShuntSum1 = 0;
@@ -712,12 +715,12 @@ __myevic__ void ReadAtomizer()
 		{
 			if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
 			{
-				CLK_SysTickDelay( 10 );
+				CLK_SysTickDelay( 5 );
 				ADCShuntSum2 += ADC_Read( 15 );
 			}
-			CLK_SysTickDelay( 10 );
+			CLK_SysTickDelay( 5 );
 			ADCShuntSum1 += ADC_Read( 2 );
-			CLK_SysTickDelay( 10 );
+			CLK_SysTickDelay( 5 );
 			ADCAtoSum += ADC_Read( 1 );
 		}
 
@@ -1432,9 +1435,10 @@ __myevic__ void ProbeAtomizer()
 			{
 				gFlags.limit_ato_temp = 1;
 			}
-			TargetVolts = GetVoltsForPower( 50 );
-			if ( !TargetVolts ) TargetVolts = 100;
+			//TargetVolts = GetVoltsForPower( 50 );
+			//if ( !TargetVolts ) TargetVolts = 100;
 		}
+/*
 		else if ( AtoProbeCount == 9 )
 		{
 			TargetVolts = GetVoltsForPower( 100 );
@@ -1449,6 +1453,9 @@ __myevic__ void ProbeAtomizer()
 		}
 
 		if ( TargetVolts > 600 ) TargetVolts = 600;
+*/
+                
+TargetVolts = 100;
 
 		gFlags.probing_ato = 1;
 		AtoWarmUp();
@@ -1502,8 +1509,9 @@ __myevic__ void ProbeAtomizer()
 
 	if ( AtoStatus == 4 )
 	{
-		if ( AtoProbeCount != 11 )
-			return;
+		// 
+                //    if ( AtoProbeCount < 11 ) //if ( AtoProbeCount != 11 )
+		//	return;
 		AtoRez = AtoRezMilli / 10;
 		AtoMillis = AtoRezMilli % 10;
 	}
@@ -1531,7 +1539,7 @@ __myevic__ void ProbeAtomizer()
 		}
 		LastAtoRez = AtoRez;
 		LastAtoMillis = AtoMillis;
-		LastAtoError = AtoError;
+		LastAtoError = AtoError;              
 		SetAtoLimits();
 		gFlags.refresh_display = 1;
 		ScreenDuration = GetMainScreenDuration();
