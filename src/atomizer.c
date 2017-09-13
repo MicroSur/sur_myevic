@@ -715,12 +715,12 @@ NumShuntSamples = 64;
 		{
 			if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
 			{
-				CLK_SysTickDelay( 5 );
+				CLK_SysTickDelay( 10 );
 				ADCShuntSum2 += ADC_Read( 15 );
 			}
-			CLK_SysTickDelay( 5 );
+			CLK_SysTickDelay( 10 );
 			ADCShuntSum1 += ADC_Read( 2 );
-			CLK_SysTickDelay( 5 );
+			CLK_SysTickDelay( 10 );
 			ADCAtoSum += ADC_Read( 1 );
 		}
 
@@ -1429,7 +1429,8 @@ __myevic__ void ProbeAtomizer()
 		}
 		WaitOnTMR2( 2 );
 
-		if (( AtoProbeCount == 8 ) || ( gFlags.firing ))
+/*
+ * 		if (( AtoProbeCount == 8 ) || ( gFlags.firing ))
 		{
 			if ( gFlags.firing )
 			{
@@ -1438,7 +1439,7 @@ __myevic__ void ProbeAtomizer()
 			//TargetVolts = GetVoltsForPower( 50 );
 			//if ( !TargetVolts ) TargetVolts = 100;
 		}
-/*
+
 		else if ( AtoProbeCount == 9 )
 		{
 			TargetVolts = GetVoltsForPower( 100 );
@@ -1454,8 +1455,20 @@ __myevic__ void ProbeAtomizer()
 
 		if ( TargetVolts > 600 ) TargetVolts = 600;
 */
-                
-TargetVolts = 100;
+
+			if ( gFlags.firing )
+			{
+				gFlags.limit_ato_temp = 1;
+			
+			TargetVolts = GetVoltsForPower( 50 );
+			if ( !TargetVolts ) TargetVolts = 200;
+                        }
+                        else {
+                        TargetVolts = 200;     
+                        }
+//TargetVolts = 200;               
+//TargetVolts = GetVoltsForPower( 150 );
+//if ( TargetVolts > 600 ) TargetVolts = 600;
 
 		gFlags.probing_ato = 1;
 		AtoWarmUp();
@@ -1555,7 +1568,13 @@ TargetVolts = 100;
 		{
 			if ( AtoRez )
 			{
+                            //need all for stable coil reset
+                                AtoRez = AtoRezMilli / 10;
+                                AtoMillis = AtoRezMilli % 10;
 				dfResistance = AtoRez;
+                                LastAtoRez = AtoRez;
+                                LastAtoMillis = AtoMillis;
+                
 				RezMillis = AtoMillis;
 				UpdateDFTimer = 50;
 			}
