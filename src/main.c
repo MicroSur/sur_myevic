@@ -1157,6 +1157,8 @@ __myevic__ void Main()
 			// 1Hz
 			gFlags.tick_1hz = 0;
                        
+                        AtoProbeCount = 0;
+                                
 			if ( SplashTimer )
 			{
 				--SplashTimer;

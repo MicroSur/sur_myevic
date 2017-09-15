@@ -688,9 +688,11 @@ __myevic__ void ReadAtomizer()
 
 	if ( TargetVolts )
 	{
-/*
+            
 		if ( !gFlags.firing )
 		{
+                    NumShuntSamples = 50;
+/*
 			if ( AtoProbeCount == 10 )
 			{
 				NumShuntSamples = 50;
@@ -699,13 +701,14 @@ __myevic__ void ReadAtomizer()
 			{
 				NumShuntSamples = 1;
 			}
+*/
 		}
 		else
 		{
 			NumShuntSamples = 1;
 		}
-*/
-NumShuntSamples = 64;
+
+
 
 		ADCAtoSum = 0;
 		ADCShuntSum1 = 0;
@@ -1436,8 +1439,8 @@ __myevic__ void ProbeAtomizer()
 			{
 				gFlags.limit_ato_temp = 1;
 			}
-			//TargetVolts = GetVoltsForPower( 50 );
-			//if ( !TargetVolts ) TargetVolts = 100;
+			TargetVolts = GetVoltsForPower( 50 );
+			if ( !TargetVolts ) TargetVolts = 100;
 		}
 
 		else if ( AtoProbeCount == 9 )
@@ -1461,14 +1464,11 @@ __myevic__ void ProbeAtomizer()
 				gFlags.limit_ato_temp = 1;
 			
 			TargetVolts = GetVoltsForPower( 50 );
-			if ( !TargetVolts ) TargetVolts = 200;
+			if ( !TargetVolts ) TargetVolts = 100;
                         }
                         else {
-                        TargetVolts = 200;     
+                        TargetVolts = 100;     
                         }
-//TargetVolts = 200;               
-//TargetVolts = GetVoltsForPower( 150 );
-//if ( TargetVolts > 600 ) TargetVolts = 600;
 
 		gFlags.probing_ato = 1;
 		AtoWarmUp();

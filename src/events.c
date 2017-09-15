@@ -1274,6 +1274,8 @@ __myevic__ int CustomEvents()
 			break;
 
 		case EVENT_ENTER_MENUS:	// Menus screen
+                        gFlags.MainContrast = 1;
+                        DisplaySetContrast( dfContrast );
 			vret = EvtEnterMenus();
 			break;
 

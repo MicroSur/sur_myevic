@@ -1925,6 +1925,10 @@ __myevic__ void CoilsIDraw( int it, int line, int sel )
 	{
 		InvertRect( 0, line, 63, line+12 );
 	}
+        
+        DrawValue( 17, 117, AtoRez, 2, 0x0B, 3 ); //4: 15 117 
+	DrawImage( 39, 117, 0xC0 ); //4: 43
+                        
 }
 
 __myevic__ void CoilsIClick()
