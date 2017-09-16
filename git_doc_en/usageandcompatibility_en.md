@@ -12,6 +12,7 @@
   * Cuboid 200
   * Evic Primo v1 / v2
   * Evic Primo mini
+  * Evic Primo SE
 
 * Wismec
   * Presa TC75W

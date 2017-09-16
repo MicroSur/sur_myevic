@@ -715,7 +715,7 @@ __myevic__ void ReadAtomizer()
 		ADCShuntSum2 = 0;
 
 		for ( int count = 0 ; count < NumShuntSamples ; ++count )
-		{
+		{                                            
 			if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
 			{
 				CLK_SysTickDelay( 10 );

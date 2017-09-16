@@ -228,9 +228,9 @@ if ( gFlags.debug & 1 )
         DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
         //DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
         
-        //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 );
-        //DrawValue( 0, 0, NextPreheatTimer, 0, 0x01, 0 );
-        DrawValueRight( 64, 0, TargetVolts, 0, 0x01, 3 ); //UserInputs LastInputs TargetVolts
+        //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 ); //KeyUpTimer
+        //DrawValue( 0, 0, AtoProbeCount, 0, 0x01, 2 ); //NextPreheatTimer UserInputs
+        DrawValueRight( 64, 0, LastInputs, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
         DisplayRefresh();
 }
         

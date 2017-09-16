@@ -193,12 +193,12 @@ __myevic__ void DrawCoilLine( int line )
 
 	DrawString( String_COIL_s, 0, line+2 );
 
-	if ( gFlags.firing )
-	{
-		rez = AtoRezMilli / 10;
-	}
-	else //if ( ISMODETC(dfMode) )
-	{
+	//if ( gFlags.firing )
+	//{
+	//	rez = AtoRezMilli / 10;
+	//}
+	//else //if ( ISMODETC(dfMode) )
+	//{
             	if ( byte_200000B3 || !AtoRez )
 		{
 			rez = AtoRez;
@@ -217,7 +217,8 @@ __myevic__ void DrawCoilLine( int line )
 			rez = dfResistance * 10 + RezMillis;
 		}
 */
-	}
+	//}
+        
 	//else
 	//{
 	//	rez = AtoRez; // * 10 + AtoMillis;

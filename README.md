@@ -38,6 +38,7 @@ The documentation is generic and may not be correct for this version.
 -----
 ### Thanks to:
 
+    * ClockSelect
     * ReservedField
     * Bane
     * TBXin
@@ -48,5 +49,8 @@ The documentation is generic and may not be correct for this version.
     * bluenazgul
     * Sharky1980
     * gdb
-    
+    * Dil3mm4 (documentation)
+
     And many others, supporting this project and taking the time to open or help solving issues.
+
+    Donations to buy mods for support by this firmware (for MicroSur): paypal.me/MicroSur

@@ -1099,7 +1099,8 @@ __myevic__ void Main()
 				(	!dfStatus.off
 					&& Event == 0
 					&& ( AtoProbeCount < 12 )
-					&& ( Screen == 0 || Screen == 1 || Screen == 5 || Screen == 60 ) )
+					&& ( Screen == 0 || Screen == 1 || Screen == 5 || Screen == 60 )
+                                )
 				{
 					ProbeAtomizer();
 				}
@@ -1136,6 +1137,7 @@ __myevic__ void Main()
 			}
 			else
 			{
+/*
 				if
 				(	!dfStatus.off
 					&& Event == 0
@@ -1144,6 +1146,7 @@ __myevic__ void Main()
 				{
 					ProbeAtomizer();
 				}
+*/
 
 				//if ( gFlags.monitoring )
 				//{
@@ -1157,7 +1160,7 @@ __myevic__ void Main()
 			// 1Hz
 			gFlags.tick_1hz = 0;
                        
-                        AtoProbeCount = 0;
+                        if ( !gFlags.firing ) AtoProbeCount = 10; //for quick res mesure in idle (lower - better but with fire multiclicks damage)
                                 
 			if ( SplashTimer )
 			{

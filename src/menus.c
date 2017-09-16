@@ -1585,7 +1585,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
 			{
 				case 3:	// Shunt Rez
 					AtoShuntRez = GetShuntRezValue();
-					dfShuntRez = 0;
+					//dfShuntRez = 0;
 					gFlags.edit_value = 0;
 					vret = 1;
 					break;
@@ -1609,11 +1609,13 @@ __myevic__ int ExpertMenuOnEvent( int event )
 
 	if ( vret )
 	{
-		byte_200000B3 = 2;
-		AtoProbeCount = 0;
-		AtoRezMilli = 0;
-                
-		dfShuntRez = AtoShuntRez;
+                if (CurrentMenuItem == 3 )
+                {
+                    byte_200000B3 = 2;
+                    AtoProbeCount = 0;
+                    AtoRezMilli = 0;
+                    dfShuntRez = AtoShuntRez;
+                }
                 
 		UpdateDFTimer = 50;
 		gFlags.refresh_display = 1;
@@ -1926,9 +1928,11 @@ __myevic__ void CoilsIDraw( int it, int line, int sel )
 		InvertRect( 0, line, 63, line+12 );
 	}
         
-        DrawValue( 17, 117, AtoRez, 2, 0x0B, 3 ); //4: 15 117 
-	DrawImage( 39, 117, 0xC0 ); //4: 43
-                        
+        ProbeAtomizer();
+        //DrawValue( 17, 117, AtoRez, 2, 0x0B, 3 );
+	//DrawImage( 39, 117, 0xC0 );
+        DrawValue( 15, 117, AtoRezMilli, 3, 0x0B, 4 ); 
+	DrawImage( 43, 117, 0xC0 );                     
 }
 
 __myevic__ void CoilsIClick()
