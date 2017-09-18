@@ -407,8 +407,9 @@ __myevic__ void DrawAPTLine( int line )
 		case 10: // coil temp
 		{
 			DrawImage( 0, line+2, 0xDB );
+                        if ( !AtoRezMilli ) AtoTemp = 32;
                         int t = dfIsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
-			DrawValueRight( 55, line, t, 0, 0x1F, t>99?3:2 );
+			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
 			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
 		}                
@@ -562,8 +563,9 @@ __myevic__ void DrawAPTLine3( int line )
 		case 10: // coil temp
 		{
 			DrawImage( 0, line+2, 0xDB );
+                        if ( !AtoRezMilli ) AtoTemp = 32;
                         int t = dfIsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
-			DrawValueRight( 55, line, t, 0, 0x1F, t>99?3:2 );
+			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
 			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
 		}                 
