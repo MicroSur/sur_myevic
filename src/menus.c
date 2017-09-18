@@ -10,6 +10,7 @@
 #include "meusbd.h"
 #include "atomizer.h"
 #include "battery.h"
+#include "timers.h"
 
 //=============================================================================
 // MENUS
@@ -1639,6 +1640,120 @@ __myevic__ void ScreenSaveOnSelect()
 	UpdateDFTimer = 50;
 }
 
+//-----------------------------------------------------------------------------
+
+__myevic__ void CoilsMenuIDraw( int it, int line, int sel )
+{
+        int t;
+	if ( it < 3 || it > 4 )
+		return;
+        
+	DrawFillRect( 32, line, 63, line+12, 0 );
+
+	switch ( it )
+	{
+		case 3:	// Cold
+                        t = dfIsCelsius ? dfColdLockTemp : CelsiusToF( (uint16_t)dfColdLockTemp );
+			DrawValueRight( 53, line+2, t, 0, 0x0B, t>99?3:2 );
+			DrawImage( 55, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			break;
+		case 4:	// New
+			DrawValueRight( 53, line+2, dfNewRezPerc, 0, 0x0B, 0 );
+			DrawImage( 55, line+2, 0xC2 );
+			break;
+		default:
+			break;
+	}
+
+	if ( gFlags.edit_value && sel )
+	{
+		InvertRect( 0, line, 63, line+12 );
+	}
+}
+
+
+__myevic__ void CoilsMenuOnClick()
+{
+	switch ( CurrentMenuItem )
+	{
+		case 3:	// Cold
+                case 4: // New
+			gFlags.edit_value ^= 1;
+			break;
+
+		default:
+			break;
+	}
+        gFlags.refresh_display = 1;
+}
+
+
+__myevic__ int CoilsMenuOnEvent( int event )
+{
+	int vret = 0;
+
+	if ( !gFlags.edit_value )
+		return vret;
+
+	switch ( event )
+	{
+		case 2:
+			switch ( CurrentMenuItem )
+			{
+				case 3:	// Cold
+					if ( ++dfColdLockTemp > 40 )
+						dfColdLockTemp = 1;
+					vret = 1;
+					break;
+				case 4:	// New
+					if ( ++dfNewRezPerc > 50 )
+						dfNewRezPerc = 1;
+					vret = 1;
+					break;                                        
+			}
+			break;
+
+		case 3:
+			switch ( CurrentMenuItem )
+			{
+				case 3:	// Cold
+					if ( --dfColdLockTemp < 1 )
+						dfColdLockTemp = 40;
+					vret = 1;
+					break;
+				case 4:	// Cold
+					if ( --dfNewRezPerc < 1 )
+						dfNewRezPerc = 50;
+					vret = 1;
+					break;                                        
+			}
+			break;
+                        
+		case EVENT_LONG_FIRE:
+			switch ( CurrentMenuItem )
+			{
+				case 3:	// Cold
+					dfColdLockTemp = 20;
+                                        gFlags.edit_value = 0;
+					vret = 1;
+					break;
+				case 4:	// Cold
+					dfNewRezPerc = 5;
+                                        gFlags.edit_value = 0;
+					vret = 1;
+					break;                                        
+			}
+			break;                        
+	}
+
+	if ( vret )
+	{
+		UpdateDFTimer = 50;
+		gFlags.refresh_display = 1;
+	}
+
+	return vret;
+}
 
 //-----------------------------------------------------------------------------
 
@@ -1928,11 +2043,17 @@ __myevic__ void CoilsIDraw( int it, int line, int sel )
 		InvertRect( 0, line, 63, line+12 );
 	}
         
-        ProbeAtomizer();
+        while ( AtoStatus == 4 && AtoProbeCount < 12 )
+		{
+                    ProbeAtomizer();
+                    WaitOnTMR2( 10 );
+		}
+        //ProbeAtomizer();
         //DrawValue( 17, 117, AtoRez, 2, 0x0B, 3 );
 	//DrawImage( 39, 117, 0xC0 );
         DrawValue( 15, 117, AtoRezMilli, 3, 0x0B, 4 ); 
-	DrawImage( 43, 117, 0xC0 );                     
+	DrawImage( 43, 117, 0xC0 );  
+        gFlags.refresh_display = 1;
 }
 
 __myevic__ void CoilsIClick()
@@ -2408,7 +2529,7 @@ const menu_t CoilsMgmtMenu =
 		{ String_SS, 0, 0, 0 },
 		{ String_TCR, 0, 0, 0 },
 		{ String_Zero_All, 0, 0, 0 },
-		{ String_Check, 0, 0, 0 },
+		{ String_Check, 0, 0, 0 },                        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2418,15 +2539,17 @@ const menu_t CoilsMenu =
 	String_Coils,
 	&MainMenu,
 	0,
+	CoilsMenuIDraw+1,
 	0,
-	0,
-	0,
-	0,
-	4,
+	CoilsMenuOnClick+1,
+	CoilsMenuOnEvent+1,
+	6,
 	{
 		{ String_Manage, &CoilsMgmtMenu, 0, MACTION_SUBMENU },
 		{ String_TCRSet, &TCRSetMenu, 0, MACTION_SUBMENU },
-                { String_Profile, 0, EVENT_PROFILE_MENU, 0 },       
+                { String_Profile, 0, EVENT_PROFILE_MENU, 0 },  
+                { String_Cold, 0, 0, 0 },
+                { String_New, 0, 0, 0 },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

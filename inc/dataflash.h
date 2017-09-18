@@ -158,7 +158,7 @@ typedef struct dfParams
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad
 /* 0078 */	dfStatus_t	Status;
 /* 007C */	uint16_t	AtoRez;			//	useless
-/* 007E */	uint8_t		AtoStatus;		//	useless
+/* 007E */	uint8_t		NewRezPerc;		//	was AtoStatus
 /* 007F */	uint8_t		ShuntRez;		//	former 1-byte pad
 /* 0080 */	uint16_t	RezSS;
 /* 0082 */	uint8_t		RezLockedSS;
@@ -175,7 +175,7 @@ typedef struct dfParams
 /* 00A6 */	uint16_t	SavedCfgPwr[10];
 /* 00BA */	uint16_t	FBBest;
 /* 00BC */	uint8_t		FBSpeed;
-/* 00BD */	uint8_t		BattPC;			//	unused
+/* 00BD */	uint8_t		ColdLockTemp;
 /* 00BE */	uint8_t		Contrast;
 /* 00BF */	uint8_t		ModesSel;
 /* 00C0 */	uint16_t	ClkRatio;
@@ -362,7 +362,7 @@ extern dfStruct_t DataFlash;
 #define dfStatus		DFP(Status)
 #define dfStatus2		DFP(Status2)
 #define dfAtoRez		DFP(AtoRez)
-#define dfAtoStatus		DFP(AtoStatus)
+#define dfNewRezPerc		DFP(NewRezPerc) //was dfAtoStatus
 #define dfShuntRez		DFP(ShuntRez)
 #define dfRezSS			DFP(RezSS)
 #define dfRezLockedSS	DFP(RezLockedSS)
@@ -381,6 +381,7 @@ extern dfStruct_t DataFlash;
 #define dfFBSpeed		DFP(FBSpeed)
 #define dfTTBest		DFP(TTBest)
 #define dfTTSpeed		DFP(TTSpeed)
+#define dfColdLockTemp		DFP(ColdLockTemp)
 #define dfContrast		DFP(Contrast)
 #define dfContrast2		DFP(Contrast2)
 #define Object3D		DFP(dfObject3D)

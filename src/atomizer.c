@@ -542,20 +542,20 @@ __myevic__ void ReadAtoTemp()
 	{
 		if ( AtoRezMilli <= base_rez )
 		{
-			AtoTemp = 70;
+			AtoTemp = CelsiusToF( (uint16_t)dfColdLockTemp ); //70 F; when cold & no_fire
 		}
 		else if ( dfTempAlgo == 1 )
 		{
-			AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + 140;
+			AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + 140; // Ni  ?140
 		}
 		else if ( dfTempAlgo == 2 )
 		{
-			AtoTemp = 10 * AtoRezMilli * TCR / base_rez - 460;
+			AtoTemp = 10 * AtoRezMilli * TCR / base_rez - 460; // Ti    ?460
 		}
-		else if ( dfTempAlgo == 3 || dfTempAlgo == 4 )
+		else if ( dfTempAlgo == 3 || dfTempAlgo == 4 ) //SS mTCR
 		{
 			t = base_rez * TCR;
-			t = 100000 * ( AtoRezMilli - base_rez ) / t + 20;
+			t = 100000 * ( AtoRezMilli - base_rez ) / t + dfColdLockTemp; //20;
 			AtoTemp = CelsiusToF( t );
 		}
 	}
@@ -791,7 +791,8 @@ __myevic__ void ReadAtomizer()
 					&& (gFlags.firing || AtoProbeCount <= 10) )
 			{
 				AtoStatus = 4;
-				if ( gFlags.firing ) ReadAtoTemp();
+				//if ( gFlags.firing ) 
+                                    ReadAtoTemp();
 			}
 		}
 	}

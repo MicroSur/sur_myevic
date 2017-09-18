@@ -315,11 +315,12 @@ __myevic__ void InitVariables()
 	AtoMaxVolts = MaxVolts;
 	AtoMinPower = 10;
 	AtoMaxPower = MaxPower;
-	//Object3D = 1;
-	AtoTemp = 70;
+	//Object3D = 1;	
         if ( !dfMaxBoardTemp ) dfMaxBoardTemp = 70;
         gFlags.screen_on = 1;
-        
+        if ( !dfColdLockTemp ) dfColdLockTemp = 20;
+        if ( !dfNewRezPerc ) dfNewRezPerc = 5;
+        AtoTemp = CelsiusToF( dfColdLockTemp ); //70;
 }
 
 

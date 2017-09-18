@@ -313,6 +313,8 @@ extern const uint8_t String_Flash[];
 extern const uint8_t String_Ok[];
 extern const uint8_t String_SwapMP[];
 extern const uint8_t String_SME[];
+extern const uint8_t String_Cold[];
+extern const uint8_t String_New[];
 
 //from display.c
 extern const uint8_t String_Sunday[];

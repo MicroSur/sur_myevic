@@ -584,10 +584,12 @@ __myevic__ void ResetDataFlash()
 	dfScreenProt = 3; //30s
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
 //	MemClear( dfSavedCfgPwr, sizeof(dfSavedCfgPwr) );
-	dfFBBest = 0;
-	dfFBSpeed = 0;
-        dfTTBest = 0;
+//	dfFBBest = 0;
+//	dfFBSpeed = 0;
+//      dfTTBest = 0;
         dfTTSpeed = 2;
+        dfColdLockTemp = 20; //cels
+        dfNewRezPerc = 5; //%
 	dfContrast = 45; //17%
 //      dfContrast2 = 0;
 //	dfModesSel = 0;
@@ -661,10 +663,10 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfUIVersion != 2 )
 		dfUIVersion = 2;
 
-	if ( dfAPT > 9 )
+	if ( dfAPT > 10 )
 		dfAPT = 0;
         
-	if ( dfAPT3 > 9 )
+	if ( dfAPT3 > 10 )
 		dfAPT3 = 0;
         
 	if ( dfTempAlgo != 1 && dfTempAlgo != 2 && dfTempAlgo != 3 && dfTempAlgo != 4 )
@@ -872,6 +874,8 @@ __myevic__ void DFCheckValuesValidity()
         if ( dfMaxPower > 5000 ) dfMaxVolts = 750;
         if ( dfUSBMaxCharge > 2000 ) dfUSBMaxCharge = 2000;
         
+        if ( !dfColdLockTemp || dfColdLockTemp > 40 ) dfColdLockTemp = 20;
+        if ( !dfNewRezPerc || dfNewRezPerc > 50 ) dfNewRezPerc = 5;
 }
 
 
@@ -1015,7 +1019,7 @@ __myevic__ void UpdateDataFlash()
 	uint32_t idx;
 
 //	dfAtoRez = AtoRez;
-//	dfAtoStatus = AtoStatus;
+//	dfAtoStatus = AtoStatus; not used in df
 	UpdateDFTimer = 0;
 
 	df = (uint8_t*)&DataFlash.params;
@@ -1195,7 +1199,7 @@ __myevic__ void InitDataFlash()
 */
 
 
-	if ( dfMagic == DFMagicNumber && CalcPageCRC( DataFlash.params ) == dfCRC )
+	if ( ( dfMagic == DFMagicNumber ) && ( CalcPageCRC( DataFlash.params ) == dfCRC ) )
 	{
 		DFCheckValuesValidity();
 	}
@@ -1509,7 +1513,7 @@ const uint8_t ProfileFilter[32] =
 /* 00A0 */	0b00000000,
 /* 00A8 */	0b00000000,
 /* 00B0 */	0b00000000,
-/* 00B8 */	0b00000001,
+/* 00B8 */	0b00000101,
 /* 00C0 */	0b00111000,
 /* 00C8 */	0b00000111,
 /* 00D0 */	0b11111111,
