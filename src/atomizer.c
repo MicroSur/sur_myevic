@@ -1537,7 +1537,7 @@ __myevic__ void ProbeAtomizer()
 	}
 
 	if ( AtoError == LastAtoError
-			&& ( AtoRez + AtoRez / 20 ) >= LastAtoRez
+			&& ( AtoRez + AtoRez / 20 ) >= LastAtoRez // /20
 			&& ( AtoRez - AtoRez / 20 ) <= LastAtoRez )
 	{
 		AtoRez = LastAtoRez;
@@ -1568,14 +1568,8 @@ __myevic__ void ProbeAtomizer()
 		if ( !dfResistance )
 		{
 			if ( AtoRez )
-			{
-                            //need all for stable coil reset
-                                AtoRez = AtoRezMilli / 10;
-                                AtoMillis = AtoRezMilli % 10;
-				dfResistance = AtoRez;
-                                LastAtoRez = AtoRez;
-                                LastAtoMillis = AtoMillis;
-                
+			{                             
+                                dfResistance = AtoRez;
 				RezMillis = AtoMillis;
 				UpdateDFTimer = 50;
 			}
@@ -1797,6 +1791,13 @@ __myevic__ void ResetResistance()
 		ProbeAtomizer();
 		WaitOnTMR2( 10 );
 	}
+                                AtoRez = AtoRezMilli / 10;
+                                AtoMillis = AtoRezMilli % 10;
+                                dfResistance = AtoRez;
+				RezMillis = AtoMillis;
+				
+                                LastAtoRez = AtoRez;
+                                LastAtoMillis = AtoMillis;                              
 }
 
 

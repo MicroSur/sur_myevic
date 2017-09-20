@@ -325,7 +325,7 @@ __myevic__ void EventHandler()
 
 					if (  3 * dfRezNI >= NewRez )
 					{
-						if (	dfRezNI + dfRezNI * dfNewRezPerc / 100 < NewRez
+						if (	dfRezNI + dfRezNI * dfNewRezPerc / 100 < NewRez // dfRezNI / 20
 							&&	dfRezNI + 1 < NewRez
 							&&	!dfRezLockedNI )
 						{
@@ -336,8 +336,8 @@ __myevic__ void EventHandler()
 
 						if
 						(
-							(	(dfRezNI - dfRezNI * dfNewRezPerc / 100 <= NewRez || dfRezNI - 1 <= NewRez)
-							&&	(dfRezNI + dfRezNI * dfNewRezPerc / 100 >= NewRez || dfRezNI + 1 >= NewRez))
+							(	(dfRezNI - dfRezNI * dfNewRezPerc / 100 <= NewRez || dfRezNI - 1 <= NewRez) // dfRezNI / 20
+							&&	(dfRezNI + dfRezNI * dfNewRezPerc / 100 >= NewRez || dfRezNI + 1 >= NewRez)) // dfRezNI / 20
 						//||
 						//	(	dfRezLockedNI
 						//	&&	(dfRezNI - dfRezNI / 10 <= NewRez || dfRezNI - 4 <= NewRez))
@@ -348,7 +348,7 @@ __myevic__ void EventHandler()
 						}
 						else
 						{
-							if ( dfRezNI - dfRezNI * dfNewRezPerc / 100 > NewRez && dfRezNI - 1 > NewRez )
+							if ( dfRezNI - dfRezNI * dfNewRezPerc / 100 > NewRez && dfRezNI - 1 > NewRez ) // dfRezNI / 20
 							{
 								dfResistance = NewRez;
 								RezMillis = NewMillis;
