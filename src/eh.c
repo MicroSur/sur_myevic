@@ -606,7 +606,7 @@ __myevic__ void EventHandler()
 			}
 
 			TargetVolts = 100;
-			PowerScale = 100;
+			//PowerScale = 100;
 
 			if ( ISMODETC(dfMode) )
 			{

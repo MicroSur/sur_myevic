@@ -1007,7 +1007,7 @@ __myevic__ void Main()
 					{
 
 						gFlags.limit_power = 0;
-						PowerScale = 100;
+						//PowerScale = 100;
 					}
 
 				}

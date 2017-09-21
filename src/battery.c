@@ -257,7 +257,7 @@ const Battery_t const Batteries[] =
 //-------------------------------------------------------------------------
 
 uint16_t	LowBatVolts;
-uint32_t	PowerScale;
+//uint32_t	PowerScale;
 uint16_t	BatteryVoltage;
 uint16_t	BattVoltsHighest;
 uint16_t	BattVoltsTotal;
@@ -1107,7 +1107,7 @@ __myevic__ int CheckBattery()
 
 	if ( LowBatVolts
 		&& pwr > BatteryMaxPwr
-		&& PowerScale == 100
+		//&& PowerScale == 100
 		&& bv >= limit_voltage
 		&& 100 * ( bv - limit_voltage ) / ( LowBatVolts - limit_voltage ) < 10
 		)
