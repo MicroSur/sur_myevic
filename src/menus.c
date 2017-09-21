@@ -155,7 +155,9 @@ __myevic__ int ProfileMenuOnEvent( int event )
 			break;
 
 		case 15: // Single Fire
-			if ( CurrentMenuItem != dfProfile )
+			if ( CurrentMenuItem != dfProfile ) 
+                            //need. enter in menu is single click (
+                            //u can not load current profile
 			{
                             if ( IsProfileValid( CurrentMenuItem ) )
                             {

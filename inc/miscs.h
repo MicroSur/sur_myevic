@@ -16,7 +16,7 @@ extern void NextMode();
 
 extern void InitFilter( filter_t *filter );
 extern uint16_t FilterMedian( filter_t *filter, uint16_t data );
-extern uint16_t FilterTriangle( filter_t *filter, uint16_t data );
+//extern uint16_t FilterTriangle( filter_t *filter, uint16_t data ); not used yet
 extern uint16_t FilterWMean( filter_t *filter, uint16_t data );
 
 //extern uint8_t Object3D;
