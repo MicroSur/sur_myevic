@@ -64,7 +64,7 @@ typedef struct
 /* 00000200 */	unsigned int priopwr:1;     //lsls 0x16
 /* 00000400 */	unsigned int onewatt:1;     //lsls 0x15
 /* 00000800 */	unsigned int digclk:1;      //lsls 0x14
-/* 00001000 */	unsigned int battpc:1;      //lsls 0x13
+/* 00001000 */	unsigned int battpc:1;      //lsls 0x13         not used
 /* 00002000 */	unsigned int phpct:1;       //lsls 0x12
 /* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
 /* 00008000 */	unsigned int preheat:1;     //lsls 0x10  15 bit
@@ -74,7 +74,7 @@ typedef struct
 /* 00040000 */	unsigned int invert:1;      //lsls 0x0D
 /* 00080000 */	unsigned int vapedml:1;     //lsls 0x0C
 /* 00100000 */	unsigned int onedegree:1;   //lsls 0x0B
-/* 00200000 */	unsigned int battv:1;       //lsls 0x0A
+/* 00200000 */	unsigned int battv:1;       //lsls 0x0A         not used
 /* 00400000 */	unsigned int lsloff:1;      //lsls 0x09
 /* 00800000 */	unsigned int logomid:1;     //lsls 0x08  23-d bit
 
@@ -157,7 +157,8 @@ typedef struct dfParams
 /* 0074 */	uint16_t	TempCoefsTI;
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad
 /* 0078 */	dfStatus_t	Status;
-/* 007C */	uint16_t	AtoRez;			//	useless
+/* 007C */	uint8_t         BattLine;		//0-big,1-%+small,2-v+small,3-all_small	//was uint16_t	AtoRez;
+/* 007D */	uint8_t         unused7D;               // unused
 /* 007E */	uint8_t		NewRezPerc;		//	was AtoStatus
 /* 007F */	uint8_t		ShuntRez;		//	former 1-byte pad
 /* 0080 */	uint16_t	RezSS;
@@ -361,7 +362,7 @@ extern dfStruct_t DataFlash;
 #define dfLEDColor		DFP(LEDColor)
 #define dfStatus		DFP(Status)
 #define dfStatus2		DFP(Status2)
-#define dfAtoRez		DFP(AtoRez)
+#define dfBattLine		DFP(BattLine)  //was dfAtoRez
 #define dfNewRezPerc		DFP(NewRezPerc) //was dfAtoStatus
 #define dfShuntRez		DFP(ShuntRez)
 #define dfRezSS			DFP(RezSS)

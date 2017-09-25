@@ -45,6 +45,7 @@ extern uint16_t	BatteryMaxPwr;
 extern uint8_t	BatteryPercent;
 extern uint8_t	SavedBatPercent;
 extern uint8_t	BatteryTenth;
+extern uint8_t	BatteryTenthAll[4];
 extern uint8_t	NoEventTimer;
 extern uint8_t	BatReadTimer;
 extern uint8_t	NumBatteries;

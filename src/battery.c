@@ -269,6 +269,7 @@ uint16_t	BatteryMaxPwr;
 uint16_t	SavedBatVoltage;
 uint8_t		BatteryPercent;
 uint8_t		BatteryTenth;
+uint8_t         BatteryTenthAll[4];
 uint8_t		NoEventTimer;
 uint8_t		BatReadTimer;
 uint8_t		NumBatteries;
@@ -506,7 +507,15 @@ __myevic__ void NewBatteryVoltage()
 	static uint8_t BatPCCmpCnt = 0;
      
 	BatteryPercent = BatteryVoltsToPercent( BatteryVoltage );
-
+        
+        for ( int i = 0 ; i < 4 ; ++i )
+	{
+            if ( BatteryStatus == 2 || ( i > NumBatteries - 1 ) )
+                BatteryTenthAll[i] = 0;
+            else
+                BatteryTenthAll[i] = BatteryVoltsToPercent( BattVolts[i] ) / 10;            
+        }
+        
 	if ( BatteryStatus == 2 )
 	{
 		BatteryPercent = 0;

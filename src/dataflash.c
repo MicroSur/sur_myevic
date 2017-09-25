@@ -565,7 +565,8 @@ __myevic__ void ResetDataFlash()
         dfStatus.vapedml = 1;
         dfStatus2.vapedjoules = 0;
 	dfStatus.digclk = 1;
-	dfStatus.battpc = 1;
+//	dfStatus.battpc = 1;
+        dfBattLine = 1;
 //        dfStatus.battv = 0;
 //	dfStatus.phpct = 0;
 	dfStatus.wakeonpm = 1;
@@ -669,6 +670,9 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfAPT3 > 10 )
 		dfAPT3 = 0;
         
+        if ( dfBattLine > 3 )
+		dfBattLine = 1;
+               
 	if ( dfTempAlgo != 1 && dfTempAlgo != 2 && dfTempAlgo != 3 && dfTempAlgo != 4 )
 		dfTempAlgo = 1;
 
@@ -774,7 +778,9 @@ __myevic__ void DFCheckValuesValidity()
 
 	if ( dfFBSpeed > 2 )
 		dfFBSpeed = 0;
-
+	if ( dfTTSpeed > 2 )
+		dfTTSpeed = 2;
+        
 	for ( i = 0 ; i < 10 ; ++i )
 	{
 		v = dfSavedCfgRez[i];
