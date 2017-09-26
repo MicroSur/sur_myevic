@@ -315,6 +315,8 @@ extern const uint8_t String_SwapMP[];
 extern const uint8_t String_SME[];
 extern const uint8_t String_Cold[];
 extern const uint8_t String_New[];
+extern const uint8_t String_AutoFi[];
+extern const uint8_t String_ATime[];
 
 //from display.c
 extern const uint8_t String_Sunday[];

@@ -748,11 +748,13 @@ __myevic__ void EventHandler()
 			{
 				SetADCState( 15, 1 );
 			}
+                        
 			AtoWarmUp();
+                        
 			if ( !gFlags.firing || LastInputs != 1 )
 				StopFire();
 			gFlags.refresh_display = 1;
-			Screen = 2;
+			Screen = 2; //on fire screen
 			ScreenDuration = 1;
 			return;
 		}

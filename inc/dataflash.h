@@ -57,7 +57,7 @@ typedef struct
 /* 00000008 */	unsigned int nologo:1;      //lsls 0x1C 3-d bit for menu
 /* 00000010 */	unsigned int clock:1;       //lsls 0x1B 4
 /* 00000020 */	unsigned int vcom:1;        //lsls 0x1A
-/* 00000040 */	unsigned int storage:1;     //lsls 0x19 unused
+/* 00000040 */	unsigned int autopuff:1;     //lsls 0x19 //was storage
 /* 00000080 */	unsigned int dbgena:1;      //lsls 0x18
 
 /* 00000100 */	unsigned int x32off:1;      //lsls 0x17
@@ -158,7 +158,7 @@ typedef struct dfParams
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad
 /* 0078 */	dfStatus_t	Status;
 /* 007C */	uint8_t         BattLine;		//0-big,1-%+small,2-v+small,3-all_small	//was uint16_t	AtoRez;
-/* 007D */	uint8_t         unused7D;               // unused
+/* 007D */	uint8_t         AutoPuffTimer;
 /* 007E */	uint8_t		NewRezPerc;		//	was AtoStatus
 /* 007F */	uint8_t		ShuntRez;		//	former 1-byte pad
 /* 0080 */	uint16_t	RezSS;
@@ -363,6 +363,7 @@ extern dfStruct_t DataFlash;
 #define dfStatus		DFP(Status)
 #define dfStatus2		DFP(Status2)
 #define dfBattLine		DFP(BattLine)  //was dfAtoRez
+#define dfAutoPuffTimer		DFP(AutoPuffTimer)
 #define dfNewRezPerc		DFP(NewRezPerc) //was dfAtoStatus
 #define dfShuntRez		DFP(ShuntRez)
 #define dfRezSS			DFP(RezSS)

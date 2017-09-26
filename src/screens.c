@@ -48,7 +48,7 @@ __myevic__ void DrawScreen()
 	static uint16_t	CurrentFD = 0;
         static uint8_t scrSaveOnce = 1;
 
-	if ( !PE0 && Screen == 2 && FireDuration && FireDuration != CurrentFD )
+	if ( ( !PE0 || AutoPuffTimer ) && Screen == 2 && FireDuration && FireDuration != CurrentFD )
 	{
 		CurrentFD = FireDuration;
 		//ScreenDuration = ISMODETC(dfMode) ? 1 : 2;
@@ -229,7 +229,7 @@ if ( gFlags.debug & 1 )
         //DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
         
         //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 ); //KeyUpTimer
-        DrawValue( 0, 0, dfTempAlgo, 0, 0x01, 1 ); //NextPreheatTimer UserInputs dfTempAlgo
+        DrawValue( 0, 0, AutoPuffTimer, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
         DrawValueRight( 64, 0, LastInputs, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
         DisplayRefresh();
 }

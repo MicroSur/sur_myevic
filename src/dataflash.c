@@ -559,6 +559,8 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.clock = 0;
 //	dfStatus.vcom = 0;
 //	dfStatus.storage = 0;
+        dfStatus.autopuff = 0;
+        dfAutoPuffTimer = 20;
 //	dfStatus.dbgena = 0;
 	dfStatus.x32off = X32Off;
 	dfStatus.onewatt = 1;
@@ -672,6 +674,9 @@ __myevic__ void DFCheckValuesValidity()
         
         if ( dfBattLine > 3 )
 		dfBattLine = 1;
+        
+        if ( dfAutoPuffTimer > 250 )
+		dfAutoPuffTimer = 20;
                
 	if ( dfTempAlgo != 1 && dfTempAlgo != 2 && dfTempAlgo != 3 && dfTempAlgo != 4 )
 		dfTempAlgo = 1;

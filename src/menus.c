@@ -288,7 +288,15 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
                         }
 			if ( sel && gFlags.edit_value )
 				InvertRect( 0, line, 63, line+12 );
-			break;                
+			break; 
+
+                case 10: //AutoPuffTimer
+                        DrawFillRect( 36, line, 63, line+12, 0 );
+                        DrawImage( 59, line+2, 0x94 );
+                        DrawValueRight( 57, line+2, dfAutoPuffTimer, 1, 0x0B, 0 );
+                	if ( sel && gFlags.edit_value )
+				InvertRect( 0, line, 63, line+12 );    
+                        break;             
 	}
 }
 
@@ -327,7 +335,11 @@ __myevic__ void VapingMenuOnClick()
                         
 		case 7: // puffs off
 			gFlags.edit_value ^= 1;
-			break;                        
+			break;     
+                        
+ 		case 10: // autopufftimers
+			gFlags.edit_value ^= 1;
+			break;                            
 	}
 
 	gFlags.refresh_display = 1;
@@ -371,7 +383,16 @@ __myevic__ int VapingMenuOnEvent( int event )
 						else dfPuffsOff = PUFFS_OFF_MAX;
 					}
 					vret = 1;
-					break;                                        
+					break;
+                                        
+				case 10: // autopufftimers
+					if ( ++dfAutoPuffTimer > 250 )
+					{
+						if ( KeyTicks < 5 ) dfAutoPuffTimer = 10;
+						else dfAutoPuffTimer = 250;
+					}
+					vret = 1;
+					break;                                          
 			}
 			break;
 
@@ -403,7 +424,16 @@ __myevic__ int VapingMenuOnEvent( int event )
 						else dfPuffsOff = PUFFS_OFF_MIN;
 					}
 					vret = 1;
-					break;                                         
+					break;
+                                        
+				case 10: // autopufftimers
+					if ( --dfAutoPuffTimer < 10 )
+					{
+						if ( KeyTicks < 5 ) dfAutoPuffTimer = 250;
+						else dfAutoPuffTimer = 10;
+					}
+					vret = 1;
+					break; 
 			}
 			break;
                         
@@ -411,7 +441,7 @@ __myevic__ int VapingMenuOnEvent( int event )
                         switch ( CurrentMenuItem )
 			{                    
                                 case 4: //protec
-                                        dfProtec = 10;
+                                        dfProtec = 100;
                                         gFlags.edit_value = 0;
                                         vret = 1;
                                         break;
@@ -419,7 +449,17 @@ __myevic__ int VapingMenuOnEvent( int event )
                                         dfVVRatio = VVEL_DEF_RATIO;  
                                         gFlags.edit_value = 0;
                                         vret = 1;
-                                        break;      
+                                        break; 
+                                case 7: //puffs off        
+                                        dfPuffsOff = 13;  
+                                        gFlags.edit_value = 0;
+                                        vret = 1;
+                                        break;  
+                                case 10: //autopufftimers     
+                                        dfAutoPuffTimer = 20;  
+                                        gFlags.edit_value = 0;
+                                        vret = 1;
+                                        break;        
                         }  
                         break;                         
 	}
@@ -3375,6 +3415,13 @@ const mdata_t VVLite =
 	MITYPE_BIT,
 	31
 };
+const mdata_t APuffTime =
+{
+	&dfStatus,
+	&BitDesc,
+	MITYPE_BIT,
+	6
+};
 const menu_t VapingMenu =
 {
 	String_Vaping,
@@ -3384,7 +3431,7 @@ const menu_t VapingMenu =
 	0,
 	VapingMenuOnClick+1,
 	VapingMenuOnEvent+1,
-	10,
+	12,
 	{
 		{ String_Preheat, &PreheatMenu, 0, MACTION_SUBMENU },
 		{ String_Curve, &CurveMenu, 0, MACTION_SUBMENU },
@@ -3394,7 +3441,9 @@ const menu_t VapingMenu =
 		{ String_Vaped, 0, 0, 0 },
 		{ String_mlkJ, 0, 0, 0 },
                 { String_PuffsOff, 0, 0, 0 }, 
-                { String_VVLite, &VVLite, 0, MACTION_DATA },        
+                { String_VVLite, &VVLite, 0, MACTION_DATA }, 
+                { String_AutoFi, &APuffTime, 0, MACTION_DATA },  
+                { String_ATime, 0, 0, MACTION_DATA },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
