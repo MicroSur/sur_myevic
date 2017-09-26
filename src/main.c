@@ -702,6 +702,8 @@ __myevic__ void SleepIfIdle()
 			AtoProbeCount = 0;
 			AtoRezMilli = 0;
                         PuffsOffCount = 0;
+                        NextPreheatTimer = 0;
+                        AutoPuffTimer = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();
 			if (( BatteryVoltage <= BatteryCutOff + 20 ) && !gFlags.usb_attached )
