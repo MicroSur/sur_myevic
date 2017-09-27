@@ -46,7 +46,7 @@ extern const uint8_t	fbColumnTop[];
 extern const uint8_t	fbBird0[];
 extern const uint8_t	fbBird1[];
 extern const uint8_t	fbBird2[];
-extern const uint8_t	fbBirdDead[];
+//extern const uint8_t	fbBirdDead[];
 extern const uint8_t	fbFont[16][16];
 extern const uint8_t	fbFontDigit[10][16];
 //-------------------------------------------------------------------------
@@ -355,7 +355,7 @@ __myevic__ void fbDrawRect( int x1, int y1, int x2, int y2, int color, int fill 
 //----- (00001798) --------------------------------------------------------
 __myevic__ void fbDrawDeadBird( int y )
 {
-	fbDrawSprite( 10, y, 16, 16, fbBirdDead );
+	fbDrawSprite( 10, y, 16, 16, fbBird0 ); //fbBirdDead );
 }
 
 

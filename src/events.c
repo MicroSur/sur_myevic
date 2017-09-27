@@ -217,6 +217,7 @@ __myevic__ void GetUserInput()
 			if ( LastInputs == 1 )
 			{
 				StopFire();
+                                gFlags.refresh_display = 1; //for correct last FireDuration in TC
 			}
 			gFlags.user_idle = 1;
 			LastInputs = -1;

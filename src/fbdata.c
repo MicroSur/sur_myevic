@@ -95,6 +95,7 @@ const uint8_t fbBird2[] ={
     0b00000000, 0b00000000
 };
 
+/*
 const uint8_t fbBirdDead[] ={
     0b00000000, 0b00000011,
     0b10000000, 0b00000100,
@@ -113,6 +114,7 @@ const uint8_t fbBirdDead[] ={
     0b01100000, 0b00001111,
     0b10000000, 0b00000000
 };
+*/
 
 const uint8_t fbFontDigit[10][16] ={
     { 0x00, 0x00, 0x00, 0x18, 0x24, 0x42, 0x42, 0x42, 0x42, 0x42, 0x42, 0x42, 0x24, 0x18, 0x00, 0x00}, //0
