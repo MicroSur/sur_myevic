@@ -203,7 +203,7 @@ __myevic__ void GetUserInput()
                     {
                         if ( FireClickCount > 1 || KeyPressTime > 50 )
                             AutoPuffTimer = 0;
-                        else if ( KeyPressTime >= 20 && !AutoPuffTimer )
+                        else if ( KeyPressTime >= 20 && !AutoPuffTimer && Screen != 102 ) //not in menu...
                             AutoPuffTimer = (uint16_t)dfAutoPuffTimer * 10 - FireDuration * 10;
                     }
                 }
