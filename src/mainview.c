@@ -193,12 +193,12 @@ __myevic__ void DrawCoilLine( int line )
 
 	DrawString( String_COIL_s, 0, line+2 );
 
-	if ( gFlags.firing )
-	{
-		rez = AtoRezMilli / 10;
-	}
-	else //if ( ISMODETC(dfMode) )
-	{
+	//if ( gFlags.firing )
+	//{
+	//	rez = AtoRezMilli / 10;
+	//}
+	//else //if ( ISMODETC(dfMode) )
+	//{
             	if ( byte_200000B3 || !AtoRez )
 		{
 			rez = AtoRez;
@@ -217,7 +217,8 @@ __myevic__ void DrawCoilLine( int line )
 			rez = dfResistance * 10 + RezMillis;
 		}
 */
-	}
+	//}
+        
 	//else
 	//{
 	//	rez = AtoRez; // * 10 + AtoMillis;
@@ -261,9 +262,7 @@ __myevic__ void DrawCoilLine( int line )
 //=============================================================================
 
 __myevic__ void DrawAPTLine( int line )
-{
-        int b;
-        
+{       
 	if ( BLINKITEM(5) )
 		return;
 
@@ -357,7 +356,7 @@ __myevic__ void DrawAPTLine( int line )
 			//DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
                         if (dfAPT == dfAPT3)
                         {
-                            b = NumBatteries > 1? 1 : 0;
+                            int b = NumBatteries > 1? 1 : 0;
                             DrawValue( 27, line, gFlags.firing?RTBVolts[b]:BattVolts[b], 2, 0x1F, 3 ); 
                         }
                         else
@@ -405,6 +404,15 @@ __myevic__ void DrawAPTLine( int line )
 			DrawImage( 56, line+2, 0xC0 );
 			break;
 		}
+		case 10: // coil temp
+		{
+			DrawImage( 0, line+2, 0xDB );
+                        if ( !AtoRezMilli ) AtoTemp = 32;
+                        int t = dfIsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
+			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
+			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			break;
+		}                
 	}
 }
 
@@ -551,7 +559,16 @@ __myevic__ void DrawAPTLine3( int line )
 			DrawValueRight( 55, line, BatteryIntRez, 3, 0x1F, 4 );
 			DrawImage( 56, line+2, 0xC0 );
 			break;
-		}                
+		} 
+		case 10: // coil temp
+		{
+			DrawImage( 0, line+2, 0xDB );
+                        if ( !AtoRezMilli ) AtoTemp = 32;
+                        int t = dfIsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
+			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
+			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			break;
+		}                 
 	}
 }
 

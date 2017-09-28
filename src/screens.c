@@ -48,7 +48,7 @@ __myevic__ void DrawScreen()
 	static uint16_t	CurrentFD = 0;
         static uint8_t scrSaveOnce = 1;
 
-	if ( !PE0 && Screen == 2 && FireDuration && FireDuration != CurrentFD )
+	if ( ( !PE0 || AutoPuffTimer ) && Screen == 2 && FireDuration && FireDuration != CurrentFD )
 	{
 		CurrentFD = FireDuration;
 		//ScreenDuration = ISMODETC(dfMode) ? 1 : 2;
@@ -228,9 +228,9 @@ if ( gFlags.debug & 1 )
         DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
         //DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
         
-        //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 );
-        //DrawValue( 0, 0, NextPreheatTimer, 0, 0x01, 0 );
-        DrawValueRight( 64, 0, UserInputs, 0, 0x01, 3 ); //UserInputs LastInputs
+        //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 ); //KeyUpTimer
+        DrawValue( 0, 0, AutoPuffTimer, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
+        DrawValueRight( 64, 0, LastInputs, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
         DisplayRefresh();
 }
         
@@ -574,64 +574,76 @@ __myevic__ int IsClockOnScreen()
 //----- (000067C8) --------------------------------------------------------
 __myevic__ void ShowBattery()
 {
-	if ( BLINKITEM(6) ) return;
+        int i;	
+        int x0;
+        int y0;
+        int y;
+        
+        if ( BLINKITEM(6) ) return;
 
-	if ( dfStatus.battpc )
-	{
-		if ( dfStatus.battv )
+        if ( dfBattLine == 2 )
 		{
 			uint16_t bv = gFlags.firing ? RTBattVolts : BatteryVoltage;
 			DrawValueRight(	20, 118, bv, 2, 0x0B, 0 );
 			DrawImage( 21, 118, 0x7D );
 		}
-		else
+	else if ( dfBattLine == 1 )
 		{
 			DrawValueRight(	17, 118, BatteryPercent, 0, 0x0B, 0 );
 			DrawImage( 18, 118, 0xC2 );
 		}
-	}
 
 	if ( gFlags.battery_10pc && !gFlags.battery_charging )
 	{
 		if ( gFlags.draw_battery )
 		{
-			if ( dfStatus.battpc )
+			if ( dfBattLine == 1 || dfBattLine == 2 )
 			{
-				DrawImage( 30, 114, 0xE2 );
+				DrawImage( 30, 114, 0xE2 ); //small empty
 			}
-			else
+			else if ( dfBattLine == 0 )
 			{
-				DrawImage( 8, 114, 0xC4 );
+				DrawImage( 8, 114, 0xC4 ); //big empty
 			}
+                        else if ( dfBattLine == 3 )
+                        {
+                                DrawImage( 1, 114, 0xE2 ); //2 small empty
+                                DrawImage( 33, 114, 0xE2 );    
+                        }
 		}
 	}
 	else if ( gFlags.draw_battery_charging && gFlags.battery_charging )
 	{
-		if ( dfStatus.battpc )
+		if ( dfBattLine == 1 || dfBattLine == 2 )
 		{
-			DrawImage( 30, 114, 0xE3 );
+			DrawImage( 30, 114, 0xE3 ); //small charging
 		}
-		else
+		else if ( dfBattLine == 0 )
 		{
-			DrawImage( 8, 114, 0xC5 );
+			DrawImage( 8, 114, 0xC5 ); //big charging
+		}
+                else if ( dfBattLine == 3 )
+		{
+			DrawImage( 1, 114, 0xE3 ); //2 small charging
+                        DrawImage( 33, 114, 0xE3 );
 		}
 	}
 	else
 	{
-		if ( dfStatus.battpc )
+		if ( dfBattLine == 1 || dfBattLine == 2 )
 		{
-			DrawImage( 30, 114, 0xE2 );
+			DrawImage( 30, 114, 0xE2 ); //small empty
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
 			{
 				DrawString( String_BAL_s, 35, 117 );
-                                DrawHLine ( 32, 117, 57, 1 );
+                                DrawHLine ( 32, 117, 57, 1 ); //fill space after drawstring
 			}
 			else if ( BatteryTenth )
 			{
 				DrawFillRectLines( 32, 119, (25 * BatteryTenth / 10 + 31), 123, 1 );
 			}
 		}
-		else
+		else if ( dfBattLine == 0 )
 		{
 			DrawImage( 8, 114, 0xC4 );
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
@@ -644,6 +656,44 @@ __myevic__ void ShowBattery()
 				DrawFillRectLines( 10, 119, (4 * BatteryTenth + 9), 123, 1 );
 			}
 		}
+		else if ( dfBattLine == 3 )
+		{
+                        DrawImage( 1, 114, 0xE2 ); //2 small empty
+                        DrawImage( 33, 114, 0xE2 ); 
+			if ( gFlags.batteries_ooe && gFlags.draw_battery )
+			{
+				DrawString( String_BAL_s, 37, 117 );
+                                DrawHLine ( 34, 117, 59, 1 ); //fill space after drawstring
+			}
+			else 
+			{
+                            for ( i = 0 ; i < NumBatteries ; ++i )
+                            {
+                                if ( i == 0 || i == 1 )
+                                {
+                                    y0 = 118;
+                                    y = 120;
+                                    if ( i == 0 ) x0 = 2;
+                                    else x0 = 34;
+                                }
+                                else
+                                {
+                                    y0 = 122;
+                                    y = 124;
+                                    if ( i == 2 ) x0 = 2;
+                                    else x0 = 34;   
+                                }
+                
+                                if ( BatteryTenthAll[i] )
+                                {
+                                    if ( NumBatteries == 2 )
+                                        DrawFillRectLines( x0+1, y0+1, (25 * BatteryTenthAll[i] / 10 + x0 - 1), 123, 1 );               
+                                    else
+                                        DrawFillRect( x0, y0, (25 * BatteryTenthAll[i] / 10 + x0 - 1), y, 1 );               
+                                }
+                            }				
+			}
+		}                
 	}
 }
 
@@ -670,40 +720,40 @@ __myevic__ void ShowBatCharging()
 	}
 */
   
-	if ( dfStatus.battpc )
+	if ( dfBattLine == 0 )
+	{
+		DrawImage( 8, 114, 0xC4 );
+	}
+	else
 	{
 		DrawValueRight(	18, 118, BatteryPercent, 0, 0x0B, 0 );
 		DrawImage( 19, 118, 0xC2 );
 		DrawImage( 30, 114, 0xE2 );
 	}
-	else
-	{
-		DrawImage( 8, 114, 0xC4 );
-	}
-
+        
 	if ( BatteryTenth != 10 )
 	{
 		if ( BatAnimLevel )
 		{
-			if ( dfStatus.battpc )
-			{
-				DrawFillRectLines( 32, 119, (25 * BatAnimLevel / 10 + 31), 123, 1 );
-			}
-			else
+			if ( dfBattLine == 0 )
 			{
 				DrawFillRectLines( 10, 119, (4 * BatAnimLevel + 9), 123, 1 );
+			}
+                        else
+			{
+				DrawFillRectLines( 32, 119, (25 * BatAnimLevel / 10 + 31), 123, 1 );
 			}
 		}
 	}
 	else if ( gFlags.draw_battery_charging )
 	{
-		if ( dfStatus.battpc )
-		{
-			DrawFillRectLines( 32, 119, 56, 123, 1 );
-		}
-		else
+		if ( dfBattLine == 0 )
 		{
 			DrawFillRectLines( 10, 119, 49, 123, 1 );
+		}
+                else
+		{
+			DrawFillRectLines( 32, 119, 56, 123, 1 );
 		}
 	}
 

@@ -325,7 +325,7 @@ __myevic__ void EventHandler()
 
 					if (  3 * dfRezNI >= NewRez )
 					{
-						if (	dfRezNI + dfRezNI / 20 < NewRez
+						if (	dfRezNI + dfRezNI * dfNewRezPerc / 100 < NewRez // dfRezNI / 20
 							&&	dfRezNI + 1 < NewRez
 							&&	!dfRezLockedNI )
 						{
@@ -336,8 +336,8 @@ __myevic__ void EventHandler()
 
 						if
 						(
-							(	(dfRezNI - dfRezNI / 20 <= NewRez || dfRezNI - 1 <= NewRez)
-							&&	(dfRezNI + dfRezNI / 20 >= NewRez || dfRezNI + 1 >= NewRez))
+							(	(dfRezNI - dfRezNI * dfNewRezPerc / 100 <= NewRez || dfRezNI - 1 <= NewRez) // dfRezNI / 20
+							&&	(dfRezNI + dfRezNI * dfNewRezPerc / 100 >= NewRez || dfRezNI + 1 >= NewRez)) // dfRezNI / 20
 						//||
 						//	(	dfRezLockedNI
 						//	&&	(dfRezNI - dfRezNI / 10 <= NewRez || dfRezNI - 4 <= NewRez))
@@ -348,7 +348,7 @@ __myevic__ void EventHandler()
 						}
 						else
 						{
-							if ( dfRezNI - dfRezNI / 20 > NewRez && dfRezNI - 1 > NewRez )
+							if ( dfRezNI - dfRezNI * dfNewRezPerc / 100 > NewRez && dfRezNI - 1 > NewRez ) // dfRezNI / 20
 							{
 								dfResistance = NewRez;
 								RezMillis = NewMillis;
@@ -384,7 +384,7 @@ __myevic__ void EventHandler()
 
 					if (  2 * dfRezTI >= NewRez )
 					{
-						if (	dfRezTI + dfRezTI / 20 < NewRez
+						if (	dfRezTI + dfRezTI * dfNewRezPerc / 100 < NewRez
 							&&	dfRezTI + 1 < NewRez
 							&&	!dfRezLockedTI )
 						{
@@ -395,8 +395,8 @@ __myevic__ void EventHandler()
 
 						if
 						(
-							(	(dfRezTI - dfRezTI / 20 <= NewRez || dfRezTI - 1 <= NewRez)
-							&&	(dfRezTI + dfRezTI / 20 >= NewRez || dfRezTI + 1 >= NewRez))
+							(	(dfRezTI - dfRezTI * dfNewRezPerc / 100 <= NewRez || dfRezTI - 1 <= NewRez)
+							&&	(dfRezTI + dfRezTI * dfNewRezPerc / 100 >= NewRez || dfRezTI + 1 >= NewRez))
 						//||
 						//	(	dfRezLockedTI
 						//	&&	(dfRezTI - dfRezTI / 10 <= NewRez || dfRezTI - 4 <= NewRez))
@@ -407,7 +407,7 @@ __myevic__ void EventHandler()
 						}
 						else
 						{
-							if ( dfRezTI - dfRezTI / 20 > NewRez && dfRezTI - 1 > NewRez )
+							if ( dfRezTI - dfRezTI * dfNewRezPerc / 100 > NewRez && dfRezTI - 1 > NewRez )
 							{
 								dfResistance = NewRez;
 								RezMillis = NewMillis;
@@ -443,7 +443,7 @@ __myevic__ void EventHandler()
 
 					if ( 3 * dfRezSS >= 2 * NewRez )
 					{
-						if (	dfRezSS + dfRezSS / 20 < NewRez
+						if (	dfRezSS + dfRezSS * dfNewRezPerc / 100 < NewRez
 							&&	dfRezSS + 1 < NewRez
 							&&	!dfRezLockedSS )
 						{
@@ -455,8 +455,8 @@ __myevic__ void EventHandler()
 						{
 							if
 							(
-								(	( dfRezSS - dfRezSS / 20 <= NewRez || dfRezSS - 1 <= NewRez )
-								&&	( dfRezSS + dfRezSS / 20 >= NewRez || dfRezSS + 1 >= NewRez ) )
+								(	( dfRezSS - dfRezSS * dfNewRezPerc / 100 <= NewRez || dfRezSS - 1 <= NewRez )
+								&&	( dfRezSS + dfRezSS * dfNewRezPerc / 100 >= NewRez || dfRezSS + 1 >= NewRez ) )
 							//||
 							//	(	  dfRezLockedSS
 							//	&&	( dfRezSS - dfRezSS / 10 <= NewRez || dfRezSS - 4 <= NewRez ) )
@@ -465,7 +465,7 @@ __myevic__ void EventHandler()
 								dfResistance = dfRezSS;
 								RezMillis = ( dfMillis & 0xf00 ) >> 8;
 							}
-							else if ( dfRezSS - dfRezSS / 20 > NewRez && dfRezSS - 1 > NewRez )
+							else if ( dfRezSS - dfRezSS * dfNewRezPerc / 100 > NewRez && dfRezSS - 1 > NewRez )
 							{
 								dfResistance = NewRez;
 								RezMillis = NewMillis;
@@ -501,7 +501,7 @@ __myevic__ void EventHandler()
 
 					if ( 3 * dfRezTCR >= 2 * NewRez )
 					{
-						if (	dfRezTCR + dfRezTCR / 20 < NewRez
+						if (	dfRezTCR + dfRezTCR * dfNewRezPerc / 100 < NewRez
 							&&	dfRezTCR + 1 < NewRez
 							&&	!dfRezLockedTCR )
 						{
@@ -513,8 +513,8 @@ __myevic__ void EventHandler()
 						{
 							if
 							(
-								(	( dfRezTCR - dfRezTCR / 20 <= NewRez || dfRezTCR - 1 <= NewRez )
-								&&	( dfRezTCR + dfRezTCR / 20 >= NewRez || dfRezTCR + 1 >= NewRez ) )
+								(	( dfRezTCR - dfRezTCR * dfNewRezPerc / 100 <= NewRez || dfRezTCR - 1 <= NewRez )
+								&&	( dfRezTCR + dfRezTCR * dfNewRezPerc / 100 >= NewRez || dfRezTCR + 1 >= NewRez ) )
 							//||
 							//	(	  dfRezLockedTCR
 							//	&&	( dfRezTCR - dfRezTCR / 10 <= NewRez || dfRezTCR - 4 <= NewRez ) )
@@ -523,7 +523,7 @@ __myevic__ void EventHandler()
 								dfResistance = dfRezTCR;
 								RezMillis = ( dfMillis & 0xf000 ) >> 12;
 							}
-							else if ( dfRezTCR - dfRezTCR / 20 > NewRez && dfRezTCR - 1 > NewRez )
+							else if ( dfRezTCR - dfRezTCR * dfNewRezPerc / 100 > NewRez && dfRezTCR - 1 > NewRez )
 							{
 								dfResistance = NewRez;
 								RezMillis = NewMillis;
@@ -553,7 +553,7 @@ __myevic__ void EventHandler()
 				GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 				PD1 = 0;
 			}
-			else if ( !ISCUBOID && ! ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR )
+			else if ( !ISCUBOID && ! ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 )
 			{
 				GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );
 				PD7 = 0;
@@ -606,7 +606,7 @@ __myevic__ void EventHandler()
 			}
 
 			TargetVolts = 100;
-			PowerScale = 100;
+			//PowerScale = 100;
 
 			if ( ISMODETC(dfMode) )
 			{
@@ -748,11 +748,13 @@ __myevic__ void EventHandler()
 			{
 				SetADCState( 15, 1 );
 			}
+                        
 			AtoWarmUp();
+                        
 			if ( !gFlags.firing || LastInputs != 1 )
 				StopFire();
 			gFlags.refresh_display = 1;
-			Screen = 2;
+			Screen = 2; //on fire screen
 			ScreenDuration = 1;
 			return;
 		}
@@ -1021,7 +1023,7 @@ __myevic__ void EventHandler()
 			ChargeStatus = 1;
 			if ( NumBatteries > 1 )
 			{
-                            if ( ISPRIMO2 || ISPREDATOR )
+                            if ( ISPRIMO2 || ISPREDATOR || ISGEN3 )
                             {
                                 USBMaxLoad = 3;
                             } 
@@ -1307,14 +1309,23 @@ __myevic__ void EventHandler()
 							break;
 
                                                 case 4:
-							if ( ++dfAPT3 > 9 ) dfAPT3 = 0;
+							if ( ++dfAPT3 > 10 ) dfAPT3 = 0;
 							break;
                                                         
                                                 case 5: //4:
-							if ( ++dfAPT > 9 ) dfAPT = 0;
+							if ( ++dfAPT > 10 ) dfAPT = 0;
 							break;
 
-                                                case 6: //5:
+                                                case 6: //5:        
+                                                        if ( NumBatteries > 1 )
+                                                        {
+                                                            if ( ++dfBattLine > 3 ) dfBattLine = 0;
+                                                        }
+                                                        else
+                                                        {
+                                                            if ( ++dfBattLine > 2 ) dfBattLine = 0;
+                                                        }
+/*
 							if ( !dfStatus.battpc )
 							{
 								dfStatus.battpc = 1;
@@ -1329,6 +1340,7 @@ __myevic__ void EventHandler()
 								dfStatus.battv = 0;
 								dfStatus.battpc = 0;
 							}
+*/
 							break;
 					}
 

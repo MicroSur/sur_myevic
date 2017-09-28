@@ -57,14 +57,14 @@ typedef struct
 /* 00000008 */	unsigned int nologo:1;      //lsls 0x1C 3-d bit for menu
 /* 00000010 */	unsigned int clock:1;       //lsls 0x1B 4
 /* 00000020 */	unsigned int vcom:1;        //lsls 0x1A
-/* 00000040 */	unsigned int storage:1;     //lsls 0x19 unused
+/* 00000040 */	unsigned int autopuff:1;     //lsls 0x19 //was storage
 /* 00000080 */	unsigned int dbgena:1;      //lsls 0x18
 
 /* 00000100 */	unsigned int x32off:1;      //lsls 0x17
 /* 00000200 */	unsigned int priopwr:1;     //lsls 0x16
 /* 00000400 */	unsigned int onewatt:1;     //lsls 0x15
 /* 00000800 */	unsigned int digclk:1;      //lsls 0x14
-/* 00001000 */	unsigned int battpc:1;      //lsls 0x13
+/* 00001000 */	unsigned int battpc:1;      //lsls 0x13         not used
 /* 00002000 */	unsigned int phpct:1;       //lsls 0x12
 /* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
 /* 00008000 */	unsigned int preheat:1;     //lsls 0x10  15 bit
@@ -74,7 +74,7 @@ typedef struct
 /* 00040000 */	unsigned int invert:1;      //lsls 0x0D
 /* 00080000 */	unsigned int vapedml:1;     //lsls 0x0C
 /* 00100000 */	unsigned int onedegree:1;   //lsls 0x0B
-/* 00200000 */	unsigned int battv:1;       //lsls 0x0A
+/* 00200000 */	unsigned int battv:1;       //lsls 0x0A         not used
 /* 00400000 */	unsigned int lsloff:1;      //lsls 0x09
 /* 00800000 */	unsigned int logomid:1;     //lsls 0x08  23-d bit
 
@@ -157,8 +157,9 @@ typedef struct dfParams
 /* 0074 */	uint16_t	TempCoefsTI;
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad
 /* 0078 */	dfStatus_t	Status;
-/* 007C */	uint16_t	AtoRez;			//	useless
-/* 007E */	uint8_t		AtoStatus;		//	useless
+/* 007C */	uint8_t         BattLine;		//0-big,1-%+small,2-v+small,3-all_small	//was uint16_t	AtoRez;
+/* 007D */	uint8_t         AutoPuffTimer;
+/* 007E */	uint8_t		NewRezPerc;		//	was AtoStatus
 /* 007F */	uint8_t		ShuntRez;		//	former 1-byte pad
 /* 0080 */	uint16_t	RezSS;
 /* 0082 */	uint8_t		RezLockedSS;
@@ -175,7 +176,7 @@ typedef struct dfParams
 /* 00A6 */	uint16_t	SavedCfgPwr[10];
 /* 00BA */	uint16_t	FBBest;
 /* 00BC */	uint8_t		FBSpeed;
-/* 00BD */	uint8_t		BattPC;			//	unused
+/* 00BD */	uint8_t		ColdLockTemp;
 /* 00BE */	uint8_t		Contrast;
 /* 00BF */	uint8_t		ModesSel;
 /* 00C0 */	uint16_t	ClkRatio;
@@ -361,8 +362,9 @@ extern dfStruct_t DataFlash;
 #define dfLEDColor		DFP(LEDColor)
 #define dfStatus		DFP(Status)
 #define dfStatus2		DFP(Status2)
-#define dfAtoRez		DFP(AtoRez)
-#define dfAtoStatus		DFP(AtoStatus)
+#define dfBattLine		DFP(BattLine)  //was dfAtoRez
+#define dfAutoPuffTimer		DFP(AutoPuffTimer)
+#define dfNewRezPerc		DFP(NewRezPerc) //was dfAtoStatus
 #define dfShuntRez		DFP(ShuntRez)
 #define dfRezSS			DFP(RezSS)
 #define dfRezLockedSS	DFP(RezLockedSS)
@@ -381,6 +383,7 @@ extern dfStruct_t DataFlash;
 #define dfFBSpeed		DFP(FBSpeed)
 #define dfTTBest		DFP(TTBest)
 #define dfTTSpeed		DFP(TTSpeed)
+#define dfColdLockTemp		DFP(ColdLockTemp)
 #define dfContrast		DFP(Contrast)
 #define dfContrast2		DFP(Contrast2)
 #define Object3D		DFP(dfObject3D)

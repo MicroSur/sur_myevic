@@ -35,7 +35,7 @@ extern uint16_t RTBattVolts;
 extern uint16_t	RTBVolts[4];
 extern uint16_t	RTBVTotal;
 extern uint16_t LowBatVolts;
-extern uint32_t	PowerScale;
+//extern uint32_t	PowerScale; // no auto power down
 extern uint16_t	BatteryVoltage;
 extern uint16_t	BattVoltsTotal;
 extern uint16_t	BattVolts[4];
@@ -45,6 +45,7 @@ extern uint16_t	BatteryMaxPwr;
 extern uint8_t	BatteryPercent;
 extern uint8_t	SavedBatPercent;
 extern uint8_t	BatteryTenth;
+extern uint8_t	BatteryTenthAll[4];
 extern uint8_t	NoEventTimer;
 extern uint8_t	BatReadTimer;
 extern uint8_t	NumBatteries;

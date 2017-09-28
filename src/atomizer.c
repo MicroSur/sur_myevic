@@ -144,7 +144,7 @@ __myevic__ void InitPWM()
 	BuckDuty = 0;
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
 
-	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
 	{
 		PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_CHARGER, BBC_PWM_FREQ, 0 );
 		PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_CHARGER );
@@ -164,6 +164,10 @@ __myevic__ void InitPWM()
                 else if ( ISPRIMO2 || ISPREDATOR )
                 {
                         MaxChargerDuty = 320;
+                }
+                else if ( ISGEN3 )
+                {
+                        MaxChargerDuty = 360;
                 }
 		else
 		{
@@ -317,7 +321,7 @@ __myevic__ void StopFire()
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_INPUT );
 	}
-	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR)
+	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 )
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 	}
@@ -542,20 +546,20 @@ __myevic__ void ReadAtoTemp()
 	{
 		if ( AtoRezMilli <= base_rez )
 		{
-			AtoTemp = 70;
+			AtoTemp = CelsiusToF( (uint16_t)dfColdLockTemp ); //70 F; when cold & no_fire
 		}
 		else if ( dfTempAlgo == 1 )
 		{
-			AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + 140;
+			AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + 140; // Ni  ?140
 		}
 		else if ( dfTempAlgo == 2 )
 		{
-			AtoTemp = 10 * AtoRezMilli * TCR / base_rez - 460;
+			AtoTemp = 10 * AtoRezMilli * TCR / base_rez - 460; // Ti    ?460
 		}
-		else if ( dfTempAlgo == 3 || dfTempAlgo == 4 )
+		else if ( dfTempAlgo == 3 || dfTempAlgo == 4 ) //SS mTCR
 		{
 			t = base_rez * TCR;
-			t = 100000 * ( AtoRezMilli - base_rez ) / t + 20;
+			t = 100000 * ( AtoRezMilli - base_rez ) / t + dfColdLockTemp; //20;
 			AtoTemp = CelsiusToF( t );
 		}
 	}
@@ -688,8 +692,11 @@ __myevic__ void ReadAtomizer()
 
 	if ( TargetVolts )
 	{
+            
 		if ( !gFlags.firing )
 		{
+                    NumShuntSamples = 50;
+/*
 			if ( AtoProbeCount == 10 )
 			{
 				NumShuntSamples = 50;
@@ -698,18 +705,21 @@ __myevic__ void ReadAtomizer()
 			{
 				NumShuntSamples = 1;
 			}
+*/
 		}
 		else
 		{
 			NumShuntSamples = 1;
 		}
 
+
+
 		ADCAtoSum = 0;
 		ADCShuntSum1 = 0;
 		ADCShuntSum2 = 0;
 
 		for ( int count = 0 ; count < NumShuntSamples ; ++count )
-		{
+		{                                            
 			if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
 			{
 				CLK_SysTickDelay( 10 );
@@ -724,7 +734,7 @@ __myevic__ void ReadAtomizer()
 		ADCShuntSum = ( ADCShuntSum1 + ADCShuntSum2 ) ? : 1;
                 
 		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ADCShuntSum );
-                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE ) AtoRezMilli /= 2;
+                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 ) AtoRezMilli /= 2;
                 
 		if ( gFlags.firing )
 		{
@@ -785,7 +795,8 @@ __myevic__ void ReadAtomizer()
 					&& (gFlags.firing || AtoProbeCount <= 10) )
 			{
 				AtoStatus = 4;
-				if ( gFlags.firing ) ReadAtoTemp();
+				//if ( gFlags.firing ) 
+                                    ReadAtoTemp();
 			}
 		}
 	}
@@ -1410,7 +1421,7 @@ __myevic__ void SetAtoLimits()
 __myevic__ void ProbeAtomizer()
 {
 	if ( ( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
-	|| ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 ) && ( BatteryStatus == 2 || !PF0 ) )
+	|| ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 ) && ( BatteryStatus == 2 || !PF0 ) )
         || ( ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR ) && ( BatteryStatus == 2 || !PD1 ) ))
         {
 		AtoStatus = 0;     
@@ -1426,7 +1437,8 @@ __myevic__ void ProbeAtomizer()
 		}
 		WaitOnTMR2( 2 );
 
-		if (( AtoProbeCount == 8 ) || ( gFlags.firing ))
+/*
+ * 		if (( AtoProbeCount == 8 ) || ( gFlags.firing ))
 		{
 			if ( gFlags.firing )
 			{
@@ -1435,6 +1447,7 @@ __myevic__ void ProbeAtomizer()
 			TargetVolts = GetVoltsForPower( 50 );
 			if ( !TargetVolts ) TargetVolts = 100;
 		}
+
 		else if ( AtoProbeCount == 9 )
 		{
 			TargetVolts = GetVoltsForPower( 100 );
@@ -1449,6 +1462,18 @@ __myevic__ void ProbeAtomizer()
 		}
 
 		if ( TargetVolts > 600 ) TargetVolts = 600;
+*/
+
+			if ( gFlags.firing )
+			{
+				gFlags.limit_ato_temp = 1;
+			
+			TargetVolts = GetVoltsForPower( 50 );
+			if ( !TargetVolts ) TargetVolts = 100;
+                        }
+                        else {
+                        TargetVolts = 100;     
+                        }
 
 		gFlags.probing_ato = 1;
 		AtoWarmUp();
@@ -1502,8 +1527,9 @@ __myevic__ void ProbeAtomizer()
 
 	if ( AtoStatus == 4 )
 	{
-		if ( AtoProbeCount != 11 )
-			return;
+		// 
+                //    if ( AtoProbeCount < 11 ) //if ( AtoProbeCount != 11 )
+		//	return;
 		AtoRez = AtoRezMilli / 10;
 		AtoMillis = AtoRezMilli % 10;
 	}
@@ -1515,7 +1541,7 @@ __myevic__ void ProbeAtomizer()
 	}
 
 	if ( AtoError == LastAtoError
-			&& ( AtoRez + AtoRez / 20 ) >= LastAtoRez
+			&& ( AtoRez + AtoRez / 20 ) >= LastAtoRez // /20
 			&& ( AtoRez - AtoRez / 20 ) <= LastAtoRez )
 	{
 		AtoRez = LastAtoRez;
@@ -1531,7 +1557,7 @@ __myevic__ void ProbeAtomizer()
 		}
 		LastAtoRez = AtoRez;
 		LastAtoMillis = AtoMillis;
-		LastAtoError = AtoError;
+		LastAtoError = AtoError;              
 		SetAtoLimits();
 		gFlags.refresh_display = 1;
 		ScreenDuration = GetMainScreenDuration();
@@ -1546,8 +1572,8 @@ __myevic__ void ProbeAtomizer()
 		if ( !dfResistance )
 		{
 			if ( AtoRez )
-			{
-				dfResistance = AtoRez;
+			{                             
+                                dfResistance = AtoRez;
 				RezMillis = AtoMillis;
 				UpdateDFTimer = 50;
 			}
@@ -1769,6 +1795,13 @@ __myevic__ void ResetResistance()
 		ProbeAtomizer();
 		WaitOnTMR2( 10 );
 	}
+                                AtoRez = AtoRezMilli / 10;
+                                AtoMillis = AtoRezMilli % 10;
+                                dfResistance = AtoRez;
+				RezMillis = AtoMillis;
+				
+                                LastAtoRez = AtoRez;
+                                LastAtoMillis = AtoMillis;                              
 }
 
 

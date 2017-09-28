@@ -231,9 +231,9 @@ __myevic__ void InitHardware()
 
 	SYS_LockReg();
 
-	#if (ENABLE_UART)
-	InitUART0();
-	#endif
+	//#if (ENABLE_UART)
+	//InitUART0();
+	//#endif
 
 	InitGPIO();
 
@@ -315,11 +315,12 @@ __myevic__ void InitVariables()
 	AtoMaxVolts = MaxVolts;
 	AtoMinPower = 10;
 	AtoMaxPower = MaxPower;
-	//Object3D = 1;
-	AtoTemp = 70;
+	//Object3D = 1;	
         if ( !dfMaxBoardTemp ) dfMaxBoardTemp = 70;
         gFlags.screen_on = 1;
-        
+        if ( !dfColdLockTemp ) dfColdLockTemp = 20;
+        if ( !dfNewRezPerc ) dfNewRezPerc = 5;
+        AtoTemp = CelsiusToF( dfColdLockTemp ); //70;
 }
 
 
@@ -397,7 +398,7 @@ __myevic__ void DevicesOnOff( int off )
 		SetADCState( 2, 0 );
 		SetADCState( 14, 0 );
 
-		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
 		{
 			SetADCState( 3, 0 );
 			SetADCState( 13, 0 );
@@ -448,18 +449,25 @@ __myevic__ void DevicesOnOff( int off )
 			PA3 = 0;
 			PA2 = 0;
 		}
-		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+		else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 		{
 			PA3 = 0;
 			PA2 = 0;
 		}
+                else if ( ISGEN3 )
+                {
+                	PF5 = 0;
+			PA3 = 0;
+			PA2 = 0;    
+                }
+                
 		if ( ISVTCDUAL )
 		{
 			GPIO_DisableInt( PD, 1 );
 			PD1 = 0;
 			GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 		}
-		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR )
+		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 )
 		{
 			GPIO_DisableInt( PD, 7 );
 			PD7 = 0;
@@ -493,6 +501,11 @@ __myevic__ void DevicesOnOff( int off )
 		}
                 else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
                 {
+                        PD1 = 0;
+                }
+                else if ( ISGEN3 )
+                {
+                        PF0 = 0;
                         PD1 = 0;
                 }
                 
@@ -544,7 +557,7 @@ __myevic__ void DevicesOnOff( int off )
 			GPIO_EnableInt( PD, 1, GPIO_INT_RISING );
 			GPIO_ENABLE_DEBOUNCE( PD, GPIO_PIN_PIN1_Msk );
 		}
-		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR )
+		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 )
 		{
 			GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 			GPIO_EnableInt( PD, 7, GPIO_INT_RISING );
@@ -568,7 +581,7 @@ __myevic__ void DevicesOnOff( int off )
 		SetADCState( 2, 1 );
 		SetADCState( 14, 1 );
 
-		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
 		{
 			SetADCState( 3, 1 );
 			SetADCState( 13, 1 );
@@ -701,6 +714,8 @@ __myevic__ void SleepIfIdle()
 			AtoProbeCount = 0;
 			AtoRezMilli = 0;
                         PuffsOffCount = 0;
+                        NextPreheatTimer = 0;
+                        AutoPuffTimer = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();
 			if (( BatteryVoltage <= BatteryCutOff + 20 ) && !gFlags.usb_attached )
@@ -954,7 +969,7 @@ __myevic__ void Main()
 				BatteryChargeDual();
                                 gFlags.soft_charge = 1;
 			}
-			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
 			{
 				BatteryCharge();
                                 gFlags.soft_charge = 1;
@@ -1006,7 +1021,7 @@ __myevic__ void Main()
 					{
 
 						gFlags.limit_power = 0;
-						PowerScale = 100;
+						//PowerScale = 100;
 					}
 
 				}
@@ -1099,7 +1114,8 @@ __myevic__ void Main()
 				(	!dfStatus.off
 					&& Event == 0
 					&& ( AtoProbeCount < 12 )
-					&& ( Screen == 0 || Screen == 1 || Screen == 5 ) )
+					&& ( Screen == 0 || Screen == 1 || Screen == 5 || Screen == 60 )
+                                )
 				{
 					ProbeAtomizer();
 				}
@@ -1136,14 +1152,16 @@ __myevic__ void Main()
 			}
 			else
 			{
+/*
 				if
 				(	!dfStatus.off
 					&& Event == 0
 					&& ( AtoProbeCount >= 12 )
-					&& ( Screen == 0 || Screen == 1 || Screen == 5 ) )
+					&& ( Screen == 0 || Screen == 1 || Screen == 5 || Screen == 60 ) )
 				{
 					ProbeAtomizer();
 				}
+*/
 
 				//if ( gFlags.monitoring )
 				//{
@@ -1157,6 +1175,8 @@ __myevic__ void Main()
 			// 1Hz
 			gFlags.tick_1hz = 0;
                        
+                        if ( !gFlags.firing ) AtoProbeCount = 10; //for quick res mesure in idle (lower - better but with fire multiclicks damage)
+                                
 			if ( SplashTimer )
 			{
 				--SplashTimer;

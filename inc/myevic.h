@@ -63,7 +63,8 @@ enum
         BOX_PRIMO1,
         BOX_PRIMO2,
         BOX_PREDATOR,    
-        BOX_PRIMOSE                        
+        BOX_PRIMOSE,   
+        BOX_GEN3        
 };
 
 #define ISVTCMINI		(BoxModel==BOX_VTCMINI)
@@ -88,6 +89,7 @@ enum
 #define ISPRIMO2		(BoxModel==BOX_PRIMO2)
 #define ISPREDATOR		(BoxModel==BOX_PREDATOR)
 #define ISPRIMOSE		(BoxModel==BOX_PRIMOSE)
+#define ISGEN3                  (BoxModel==BOX_GEN3)
 
 //=========================================================================
 // Global flags bitfield

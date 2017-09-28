@@ -171,6 +171,7 @@ __myevic__ uint16_t FilterMedian( filter_t *filter, uint16_t data )
 	return filter->data[filter->order[FILTER_SIZE / 2]];
 }
 
+/* not used yet
 __myevic__ uint16_t FilterTriangle( filter_t *filter, uint16_t data )
 {
 	const char coefs[FILTER_SIZE] = { 1, 2, 3, 2, 1 };
@@ -195,6 +196,7 @@ __myevic__ uint16_t FilterTriangle( filter_t *filter, uint16_t data )
 
 	return ( data / 9 );
 }
+*/
 
 __myevic__ uint16_t FilterWMean( filter_t *filter, uint16_t data )
 {

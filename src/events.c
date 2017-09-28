@@ -193,10 +193,20 @@ __myevic__ void GetUserInput()
 
 	if ( ( !PE0 || AutoPuffTimer ) && PD2 && PD3 )
 	{
-		if ( !PE0 ) AutoPuffTimer = 0;
-
-		if (( LastInputs == 5 ) || ( LastInputs == 6 ))
-			return;
+            
+            	if (( LastInputs == 5 ) || ( LastInputs == 6 ))
+                    return; // f+rb / f+lb
+                        
+		if ( !PE0 ) //AutoPuffTimer = 0; //fb pressed
+                { 
+                    if ( dfStatus.autopuff && dfAutoPuffTimer )
+                    {
+                        if ( FireClickCount > 1 || KeyPressTime > 50 )
+                            AutoPuffTimer = 0;
+                        else if ( KeyPressTime >= 20 && !AutoPuffTimer )
+                            AutoPuffTimer = (uint16_t)dfAutoPuffTimer * 10 - FireDuration * 10;
+                    }
+                }
 
 		UserInputs = 1;
 	}
@@ -207,6 +217,7 @@ __myevic__ void GetUserInput()
 			if ( LastInputs == 1 )
 			{
 				StopFire();
+                                gFlags.refresh_display = 1; //for correct last FireDuration in TC
 			}
 			gFlags.user_idle = 1;
 			LastInputs = -1;
@@ -272,7 +283,7 @@ __myevic__ void GetUserInput()
 					}
 				}
 			}
-			else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR )
+			else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 )
 			{
 				if ( !PD7 && !gFlags.battery_charging )
 				{
@@ -353,11 +364,14 @@ __myevic__ void GetUserInput()
 			{
 				case 1:
 					FireClicksEvent = 15;	// single click
-
+                                       
 					if ( Screen != 1 || !EditModeTimer || ( EditItemIndex != 4 && EditItemIndex != 5 ) )
 					{
 						Event = 1;	// fire
-					}
+					}           
+                                        
+                                       // if (AutoPuffTimer ) Event = EVENT_AUTO_PUFF;
+                                                                
 					break;
 
 				case 2:
@@ -1274,6 +1288,8 @@ __myevic__ int CustomEvents()
 			break;
 
 		case EVENT_ENTER_MENUS:	// Menus screen
+                        gFlags.MainContrast = 1;
+                        DisplaySetContrast( dfContrast );
 			vret = EvtEnterMenus();
 			break;
 
@@ -1340,7 +1356,9 @@ __myevic__ int CustomEvents()
 
 		case EVENT_AUTO_PUFF:
 			if ( AutoPuffTimer > 0 )
-				MainView();
+                        {
+			//	MainView();
+                        }
 			else
 				StopFire();
 			break;

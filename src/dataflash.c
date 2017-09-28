@@ -62,6 +62,7 @@ const char pid_lpb		[8]	__PIDATTR__	= { 'W','0','4','3', 1, 0, 0, 0 };
 const char pid_primo1   [8]	__PIDATTR__	= { 'E','1','8','2', 1, 0, 1, 0 };
 const char pid_primo2   [8]	__PIDATTR__	= { 'E','2','0','3', 1, 0, 1, 0 };
 const char pid_predator [8]	__PIDATTR__	= { 'W','0','7','8', 1, 0, 0, 0 };
+const char pid_gen3     [8]	__PIDATTR__	= { 'W','0','9','1', 1, 0, 0, 0 };
 
 #define PID_SCRAMBLE 0x12345678UL
 #define MAKEPID(p) ((((p)[0])|((p)[1]<<8)|((p)[2]<<16)|((p)[3]<<24))^PID_SCRAMBLE)
@@ -92,6 +93,7 @@ const char pid_predator [8]	__PIDATTR__	= { 'W','0','7','8', 1, 0, 0, 0 };
 #define PID_PRIMO1		MAKEPID(pid_primo1)
 #define PID_PRIMO2		MAKEPID(pid_primo2)
 #define PID_PREDATOR		MAKEPID(pid_predator)
+#define PID_GEN3		MAKEPID(pid_gen3)
 
 #define HWV_VTCMINI		MAKEHWV(pid_vtcmini)
 #define HWV_VTWOMINI	MAKEHWV(pid_vtwomini)
@@ -116,6 +118,7 @@ const char pid_predator [8]	__PIDATTR__	= { 'W','0','7','8', 1, 0, 0, 0 };
 #define HWV_PRIMO1		MAKEHWV(pid_primo1)
 #define HWV_PRIMO2		MAKEHWV(pid_primo2)
 #define HWV_PREDATOR		MAKEHWV(pid_predator)
+#define HWV_GEN3		MAKEHWV(pid_gen3)
 
 
 //=========================================================================
@@ -233,7 +236,18 @@ __myevic__ void SetProductID()
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
 			break;
-		}                 
+		}         
+                else if ( u32Data == PID_GEN3 )
+		{
+			dfMaxHWVersion = HWV_GEN3;
+			DFMagicNumber = 0x14;
+			BoxModel = BOX_GEN3;
+			NumBatteries = 3;
+			MaxBatteries = 3;
+                        MaxCurrent = 50;
+			gFlags.pwm_pll = 1;
+			break;
+		}                
 		else if ( u32Data == PID_EVICAIO )
 		{
 			dfMaxHWVersion = HWV_EVICAIO;
@@ -500,6 +514,10 @@ __myevic__ void InitSetPowerVoltMax()
 	{
 		SetMaxPower ( 2500 ); //MaxPower = 2500;
 	}
+        else if ( ISGEN3 )
+        {
+                SetMaxPower ( 3000 );
+        }
 	else if ( ISRX300 )
 	{
 		SetMaxPower ( 4000 ); //MaxPower = 4000;
@@ -559,13 +577,16 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.clock = 0;
 //	dfStatus.vcom = 0;
 //	dfStatus.storage = 0;
+        dfStatus.autopuff = 0;
+        dfAutoPuffTimer = 20;
 //	dfStatus.dbgena = 0;
 	dfStatus.x32off = X32Off;
 	dfStatus.onewatt = 1;
         dfStatus.vapedml = 1;
         dfStatus2.vapedjoules = 0;
 	dfStatus.digclk = 1;
-	dfStatus.battpc = 1;
+//	dfStatus.battpc = 1;
+        dfBattLine = 1;
 //        dfStatus.battv = 0;
 //	dfStatus.phpct = 0;
 	dfStatus.wakeonpm = 1;
@@ -584,10 +605,12 @@ __myevic__ void ResetDataFlash()
 	dfScreenProt = 3; //30s
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
 //	MemClear( dfSavedCfgPwr, sizeof(dfSavedCfgPwr) );
-	dfFBBest = 0;
-	dfFBSpeed = 0;
-        dfTTBest = 0;
+//	dfFBBest = 0;
+//	dfFBSpeed = 0;
+//      dfTTBest = 0;
         dfTTSpeed = 2;
+        dfColdLockTemp = 20; //cels
+        dfNewRezPerc = 5; //%
 	dfContrast = 45; //17%
 //      dfContrast2 = 0;
 //	dfModesSel = 0;
@@ -661,12 +684,18 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfUIVersion != 2 )
 		dfUIVersion = 2;
 
-	if ( dfAPT > 9 )
+	if ( dfAPT > 10 )
 		dfAPT = 0;
         
-	if ( dfAPT3 > 9 )
+	if ( dfAPT3 > 10 )
 		dfAPT3 = 0;
         
+        if ( dfBattLine > 3 )
+		dfBattLine = 1;
+        
+        if ( dfAutoPuffTimer > 250 )
+		dfAutoPuffTimer = 20;
+               
 	if ( dfTempAlgo != 1 && dfTempAlgo != 2 && dfTempAlgo != 3 && dfTempAlgo != 4 )
 		dfTempAlgo = 1;
 
@@ -772,7 +801,9 @@ __myevic__ void DFCheckValuesValidity()
 
 	if ( dfFBSpeed > 2 )
 		dfFBSpeed = 0;
-
+	if ( dfTTSpeed > 2 )
+		dfTTSpeed = 2;
+        
 	for ( i = 0 ; i < 10 ; ++i )
 	{
 		v = dfSavedCfgRez[i];
@@ -872,6 +903,8 @@ __myevic__ void DFCheckValuesValidity()
         if ( dfMaxPower > 5000 ) dfMaxVolts = 750;
         if ( dfUSBMaxCharge > 2000 ) dfUSBMaxCharge = 2000;
         
+        if ( !dfColdLockTemp || dfColdLockTemp > 40 ) dfColdLockTemp = 20;
+        if ( !dfNewRezPerc || dfNewRezPerc > 50 ) dfNewRezPerc = 5;
 }
 
 
@@ -1015,7 +1048,7 @@ __myevic__ void UpdateDataFlash()
 	uint32_t idx;
 
 //	dfAtoRez = AtoRez;
-//	dfAtoStatus = AtoStatus;
+//	dfAtoStatus = AtoStatus; not used in df
 	UpdateDFTimer = 0;
 
 	df = (uint8_t*)&DataFlash.params;
@@ -1195,7 +1228,7 @@ __myevic__ void InitDataFlash()
 */
 
 
-	if ( dfMagic == DFMagicNumber && CalcPageCRC( DataFlash.params ) == dfCRC )
+	if ( ( dfMagic == DFMagicNumber ) && ( CalcPageCRC( DataFlash.params ) == dfCRC ) )
 	{
 		DFCheckValuesValidity();
 	}
@@ -1440,6 +1473,10 @@ __myevic__ uint16_t GetShuntRezValue()
 	{
 		rez = 106;
 	}
+        else if ( ISGEN3 )
+        {
+                rez = 95;
+        }
 	else
 	{
 		switch ( dfHWVersion )
@@ -1509,7 +1546,7 @@ const uint8_t ProfileFilter[32] =
 /* 00A0 */	0b00000000,
 /* 00A8 */	0b00000000,
 /* 00B0 */	0b00000000,
-/* 00B8 */	0b00000001,
+/* 00B8 */	0b00000101,
 /* 00C0 */	0b00111000,
 /* 00C8 */	0b00000111,
 /* 00D0 */	0b11111111,
