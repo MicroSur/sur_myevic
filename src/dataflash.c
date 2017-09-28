@@ -62,6 +62,7 @@ const char pid_lpb		[8]	__PIDATTR__	= { 'W','0','4','3', 1, 0, 0, 0 };
 const char pid_primo1   [8]	__PIDATTR__	= { 'E','1','8','2', 1, 0, 1, 0 };
 const char pid_primo2   [8]	__PIDATTR__	= { 'E','2','0','3', 1, 0, 1, 0 };
 const char pid_predator [8]	__PIDATTR__	= { 'W','0','7','8', 1, 0, 0, 0 };
+const char pid_gen3     [8]	__PIDATTR__	= { 'W','0','9','1', 1, 0, 0, 0 };
 
 #define PID_SCRAMBLE 0x12345678UL
 #define MAKEPID(p) ((((p)[0])|((p)[1]<<8)|((p)[2]<<16)|((p)[3]<<24))^PID_SCRAMBLE)
@@ -92,6 +93,7 @@ const char pid_predator [8]	__PIDATTR__	= { 'W','0','7','8', 1, 0, 0, 0 };
 #define PID_PRIMO1		MAKEPID(pid_primo1)
 #define PID_PRIMO2		MAKEPID(pid_primo2)
 #define PID_PREDATOR		MAKEPID(pid_predator)
+#define PID_GEN3		MAKEPID(pid_gen3)
 
 #define HWV_VTCMINI		MAKEHWV(pid_vtcmini)
 #define HWV_VTWOMINI	MAKEHWV(pid_vtwomini)
@@ -116,6 +118,7 @@ const char pid_predator [8]	__PIDATTR__	= { 'W','0','7','8', 1, 0, 0, 0 };
 #define HWV_PRIMO1		MAKEHWV(pid_primo1)
 #define HWV_PRIMO2		MAKEHWV(pid_primo2)
 #define HWV_PREDATOR		MAKEHWV(pid_predator)
+#define HWV_GEN3		MAKEHWV(pid_gen3)
 
 
 //=========================================================================
@@ -233,7 +236,18 @@ __myevic__ void SetProductID()
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
 			break;
-		}                 
+		}         
+                else if ( u32Data == PID_GEN3 )
+		{
+			dfMaxHWVersion = HWV_GEN3;
+			DFMagicNumber = 0x14;
+			BoxModel = BOX_GEN3;
+			NumBatteries = 3;
+			MaxBatteries = 3;
+                        MaxCurrent = 50;
+			gFlags.pwm_pll = 1;
+			break;
+		}                
 		else if ( u32Data == PID_EVICAIO )
 		{
 			dfMaxHWVersion = HWV_EVICAIO;
@@ -500,6 +514,10 @@ __myevic__ void InitSetPowerVoltMax()
 	{
 		SetMaxPower ( 2500 ); //MaxPower = 2500;
 	}
+        else if ( ISGEN3 )
+        {
+                SetMaxPower ( 3000 );
+        }
 	else if ( ISRX300 )
 	{
 		SetMaxPower ( 4000 ); //MaxPower = 4000;
@@ -1455,6 +1473,10 @@ __myevic__ uint16_t GetShuntRezValue()
 	{
 		rez = 106;
 	}
+        else if ( ISGEN3 )
+        {
+                rez = 95;
+        }
 	else
 	{
 		switch ( dfHWVersion )

@@ -41,7 +41,7 @@ __myevic__ void GPD_IRQHandler()
 	{
 		GPIO_CLR_INT_FLAG( PD, GPIO_PIN_PIN0_Msk );
 
-		if ( ISPRESA75W || ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+		if ( ISPRESA75W || ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
 		{
 			if ( gFlags.firing || gFlags.probing_ato )
 			{
@@ -99,20 +99,16 @@ __myevic__ void InitGPIO()
 		PA3 = 0;
 		GPIO_SetMode( PA, GPIO_PIN_PIN3_Msk, GPIO_MODE_OUTPUT );
 	}
-
-	if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+	else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 )
 	{
+                //multi-function pins
 		SYS->GPF_MFPL &= ~SYS_GPF_MFPL_PF0MFP_Msk;
 		SYS->GPF_MFPL |= SYS_GPF_MFPL_PF0MFP_GPIO;
 		PF0 = 0;
 		GPIO_SetMode( PF, GPIO_PIN_PIN0_Msk, GPIO_MODE_OUTPUT );
 	}
-
-        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+        else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 	{
-            //?
-            	//SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD1MFP_Msk;
-		//SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_GPIO;
 		PD1 = 0;
 		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 	}
@@ -122,24 +118,32 @@ __myevic__ void InitGPIO()
 	//SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_UART0_TXD;
 	//#endif
 
-	if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPRIMOMINI || ISPREDATOR || ISPRIMOSE )
+	if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPRIMOMINI || ISPREDATOR || ISPRIMOSE || ISGEN3 )
 	{
 		SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk|SYS_GPD_MFPL_PD1MFP_Msk);
 		SYS->GPD_MFPL |= SYS_GPD_MFPL_PD0MFP_GPIO|SYS_GPD_MFPL_PD1MFP_GPIO;
 	}
-
+//? what is in RX23: SYS->GPD_MFPL : ORR.W   R0, R0, #0x30 : 
+        
 	// PC0 = PWM0 CH0
 	BBC_Configure( BBC_PWMCH_BUCK, 1 );
 	// PC2 = PWM0 CH2
 	BBC_Configure( BBC_PWMCH_BOOST, 1 );
 
-	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
 	{
 		PD7 = 0;
 		BBC_Configure( BBC_PWMCH_CHARGER, 0 );
 		PD7 = 0;
 	}
 
+        if ( ISGEN3 )
+	{
+		PD1 = 0;
+		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
+                PD1 = 0;
+	}
+        
 	// BUTTONS
 	GPIO_SetMode( PE, GPIO_PIN_PIN0_Msk, GPIO_MODE_INPUT );
 	GPIO_SetMode( PD, GPIO_PIN_PIN2_Msk, GPIO_MODE_INPUT );
@@ -150,27 +154,31 @@ __myevic__ void InitGPIO()
 		PF2 = 1;
 		GPIO_SetMode( PF, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );
 	}
-	else if ( ISRX300 )
+	else if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
 	{
+            if ( ISRX300 )
+            {
 		SYS->GPF_MFPL &= ~(SYS_GPF_MFPL_PF5MFP_Msk|SYS_GPF_MFPL_PF6MFP_Msk);
 		SYS->GPF_MFPL |= SYS_GPF_MFPL_PF5MFP_GPIO|SYS_GPF_MFPL_PF6MFP_GPIO;
 		PF5 = 0;
 		GPIO_SetMode( PF, GPIO_PIN_PIN5_Msk, GPIO_MODE_OUTPUT );
 		PF6 = 0;
 		GPIO_SetMode( PF, GPIO_PIN_PIN6_Msk, GPIO_MODE_OUTPUT );
-		PA3 = 0;
-		GPIO_SetMode( PA, GPIO_PIN_PIN3_Msk, GPIO_MODE_OUTPUT );
-		PA2 = 0;
-		GPIO_SetMode( PA, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );
+            }
+            else if ( ISGEN3 )
+            {
+                SYS->GPF_MFPL &= ~SYS_GPF_MFPL_PF5MFP_Msk;
+		SYS->GPF_MFPL |= SYS_GPF_MFPL_PF5MFP_GPIO;
+		PF5 = 0;
+		GPIO_SetMode( PF, GPIO_PIN_PIN5_Msk, GPIO_MODE_OUTPUT );   
+            }
+            
+            PA3 = 0;
+            GPIO_SetMode( PA, GPIO_PIN_PIN3_Msk, GPIO_MODE_OUTPUT );
+            PA2 = 0;
+            GPIO_SetMode( PA, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );
 	}
-        else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
-        {
-		PA3 = 0;
-		GPIO_SetMode( PA, GPIO_PIN_PIN3_Msk, GPIO_MODE_OUTPUT );
-		PA2 = 0;
-		GPIO_SetMode( PA, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );            
-        }
-
+        
 	// BUCK/BOOST CONVERTER CONTROL LINES
 	PC1 = 0;
 	GPIO_SetMode( PC, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
@@ -199,7 +207,7 @@ __myevic__ void InitGPIO()
 		GPIO_EnableInt( PD, 1, GPIO_INT_RISING );
 		GPIO_ENABLE_DEBOUNCE( PD, GPIO_PIN_PIN1_Msk );
 	}
-	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR )
+	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 )
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 		GPIO_EnableInt( PD, 7, GPIO_INT_RISING );
@@ -221,20 +229,34 @@ __myevic__ void InitGPIO()
 		GPIO_SetMode( PB, GPIO_PIN_PIN3_Msk|GPIO_PIN_PIN4_Msk|GPIO_PIN_PIN5_Msk, GPIO_MODE_OUTPUT );
 	}
 
-	if ( ISCUBO200 || ISRX200S || ISRX23 )
+	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 )
 	{
 		SYS->GPF_MFPL &= ~SYS_GPF_MFPL_PF1MFP_Msk;
 		SYS->GPF_MFPL |= SYS_GPF_MFPL_PF1MFP_GPIO;
-		PF1 = 1;
-		GPIO_SetMode( PF, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
+                
+                if ( ISRX300 )
+                {
+                    PD1 = 1;
+                    GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
+                }
+                else if ( ISGEN3 )
+                {
+                    PB7 = 1;
+                    GPIO_SetMode( PB, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );    
+                }
+                else
+                {
+                    PF1 = 1;
+                    GPIO_SetMode( PF, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );    
+                }
 	}
-	else if ( ISRX300 )
-	{
-		SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD1MFP_Msk;
-		SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_GPIO;
-		PD1 = 1;
-		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
-	}
+	//else if ( ISRX300 )
+	//{
+	//	SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD1MFP_Msk;
+	//	SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_GPIO;
+	//	PD1 = 1;
+	//	GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
+	//}
 	else
 	{
 		// ? (What is PB.7?)
