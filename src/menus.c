@@ -277,7 +277,7 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 			break;
                         
 		case 7: // puffs off mod
-                        DrawFillRect( 44, line, 63, line+12, 0 );
+                        DrawFillRect( 40, line, 63, line+12, 0 );
                         if ( dfPuffsOff ) 
                         {
                             DrawValueRight( 61, line+2, dfPuffsOff, 0, 0x0B, 0 );
@@ -3591,15 +3591,15 @@ __myevic__ void DrawMenu()
 	DrawString( CurrentMenu->caption, 4, 6 );
 	DrawHLine( 0, 16, 63, 1 );
 
-	if (( CurrentMenu->nitems > 7 ) && ( CurrentMenuItem > 3 ))
+	if (( CurrentMenu->nitems > 8 ) && ( CurrentMenuItem > 3 ))
 	{
 		if ( CurrentMenuItem > CurrentMenu->nitems-4 )
 		{
-			firstitem = CurrentMenu->nitems - 7;
+			firstitem = CurrentMenu->nitems - 8;
 		}
 		else
 		{
-			firstitem = CurrentMenuItem - 3;
+			firstitem = CurrentMenuItem - 4;
 		}
 	}
 	else
@@ -3607,7 +3607,7 @@ __myevic__ void DrawMenu()
 		firstitem = 0;
 	}
 
-	for ( int i = 0; i < 7; ++i )
+	for ( int i = 0; i < 8; ++i )
 	{
 		if ( firstitem + i >= CurrentMenu->nitems ) break;
 
@@ -3620,11 +3620,11 @@ __myevic__ void DrawMenu()
 			if ( CurrentMenuItem == firstitem + i )
 			{
 				DrawFillRect( 0, line, 63, line + 12, 1 );
-				DrawStringInv( mi->caption, 4, line + 2 );
+				DrawStringInv( mi->caption, 2, line + 2 );
 			}
 			else
 			{
-				DrawString( mi->caption, 4, line + 2 );
+				DrawString( mi->caption, 2, line + 2 );
 			}
 		}
 
