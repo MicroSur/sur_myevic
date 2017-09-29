@@ -113,6 +113,7 @@ __myevic__ void InitGPIO()
 		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 	}
         
+        //in RX23: SYS->GPD_MFPL : ORR.W   R0, R0, #0x30
 	// PD1 = Data transmitter output pin for UART0
 	//#if (ENABLE_UART)
 	//SYS->GPD_MFPL |= SYS_GPD_MFPL_PD1MFP_UART0_TXD;
@@ -123,7 +124,6 @@ __myevic__ void InitGPIO()
 		SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk|SYS_GPD_MFPL_PD1MFP_Msk);
 		SYS->GPD_MFPL |= SYS_GPD_MFPL_PD0MFP_GPIO|SYS_GPD_MFPL_PD1MFP_GPIO;
 	}
-//? what is in RX23: SYS->GPD_MFPL : ORR.W   R0, R0, #0x30 : 
         
 	// PC0 = PWM0 CH0
 	BBC_Configure( BBC_PWMCH_BUCK, 1 );

@@ -201,9 +201,9 @@ __myevic__ void GetUserInput()
                 { 
                     if ( dfStatus.autopuff && dfAutoPuffTimer )
                     {
-                        if ( FireClickCount > 1 || KeyPressTime > 50 )
+                        if ( FireClickCount > 1 || KeyPressTime > 80 )
                             AutoPuffTimer = 0;
-                        else if ( KeyPressTime >= 20 && !AutoPuffTimer && Screen != 102 ) //not in menu...
+                        else if ( KeyPressTime >= 20 && !AutoPuffTimer && Screen == 2 ) //on fire screen...
                             AutoPuffTimer = (uint16_t)dfAutoPuffTimer * 10 - FireDuration * 10;
                     }
                 }

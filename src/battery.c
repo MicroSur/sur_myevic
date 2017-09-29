@@ -771,7 +771,9 @@ __myevic__ void ReadBatteryVoltage()
                 
 			VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
 			VbatSample3 =   3 * ( VbatSample3 >> 4 ) >> 3;
-
+                        
+                        if ( ISGEN3 && VbatSample3 ) VbatSample3 += 4;
+                        
 			BattVolts[0] = VbatSample1;
 
 			if ( VbatSample2 <= VbatSample1 + 20 )
@@ -787,7 +789,6 @@ __myevic__ void ReadBatteryVoltage()
 			else
                         {
 				BattVolts[2] = VbatSample3 - BattVolts[0] - BattVolts[1];
-                                if ( ISGEN3 ) BattVolts[2] += 4;
                         }
                         
 			if ( BattVolts[0] )
