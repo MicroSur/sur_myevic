@@ -113,7 +113,7 @@ __myevic__ void SetPWMClock()
 
 	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
 	{
-		MaxDuty = 95 * PWMCycles / 100;
+		MaxDuty = 95 * PWMCycles / 100; //for RegulateDualBuck
 	}
 
 	CLK_EnableModuleClock( PWM0_MODULE );
