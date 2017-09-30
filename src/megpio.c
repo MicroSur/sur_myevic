@@ -41,13 +41,13 @@ __myevic__ void GPD_IRQHandler()
 	{
 		GPIO_CLR_INT_FLAG( PD, GPIO_PIN_PIN0_Msk );
 
-		if ( ISPRESA75W || ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
+		if ( ISPRESA75W || ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
 		{
 			if ( gFlags.firing || gFlags.probing_ato )
 			{
 				if ( Event != 28 )
 				{
-					Event = 28;
+					Event = 28; //low battery
 					StopFire();
 				}
 			}

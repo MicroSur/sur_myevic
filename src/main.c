@@ -396,7 +396,11 @@ __myevic__ void DevicesOnOff( int off )
 		EADC_Close( EADC );
 		SetADCState( 1, 0 );
 		SetADCState( 2, 0 );
-		SetADCState( 14, 0 );
+                
+                if ( ISRX300 )
+                    SetADCState( 17, 0 );
+                else
+                    SetADCState( 14, 0 );
 
 		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
 		{
@@ -579,7 +583,11 @@ __myevic__ void DevicesOnOff( int off )
 
 		SetADCState( 1, 1 );
 		SetADCState( 2, 1 );
-		SetADCState( 14, 1 );
+                
+                if ( ISRX300 )
+                    SetADCState( 17, 1 );
+                else
+                    SetADCState( 14, 1 );
 
 		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
 		{
