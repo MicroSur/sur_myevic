@@ -687,7 +687,7 @@ __myevic__ void ShowBattery()
                                 if ( BatteryTenthAll[i] )
                                 {
                                     if ( NumBatteries == 2 )
-                                        DrawFillRectLines( x0+1, y0+1, (25 * BatteryTenthAll[i] / 10 + x0 - 1), 123, 1 );               
+                                        DrawFillRectLines( x0+1, y0+1, (25 * BatteryTenthAll[i] / 10 + x0), 123, 1 );               
                                     else
                                         DrawFillRect( x0, y0, (25 * BatteryTenthAll[i] / 10 + x0 - 1), y, 1 );               
                                 }
