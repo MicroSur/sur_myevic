@@ -14,7 +14,7 @@ extern uint16_t	ScreenRefreshTimer;
 extern uint8_t	HideLogo;
 extern uint8_t	ShowWeakBatFlag;
 extern uint8_t	BatAnimLevel;
-extern uint8_t	ShowProfNum;
+//extern uint8_t	ShowProfNum;
 extern uint8_t	SplashTimer;
 
 extern uint8_t	EditItemIndex;

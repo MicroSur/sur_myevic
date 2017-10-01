@@ -187,7 +187,7 @@ __myevic__ void EventHandler()
                                 DrawDigitClock( 80 );
                                 DrawClock( 0 );   
                                 DisplayRefresh();
-                                KeyPressTime |= 0x8000;
+                                //KeyPressTime |= 0x8000; //bad for start clicks
                             }
                         return;                       
 			}

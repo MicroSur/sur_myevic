@@ -13,7 +13,7 @@
 
 uint16_t	BypassVolts;
 uint8_t		HideLogo;
-uint8_t		ShowProfNum;
+//uint8_t		ShowProfNum;
 uint8_t		SplashTimer;
 
 
@@ -994,7 +994,7 @@ __myevic__ void ShowMainView()
 	if ( dfMode != 6 )
 	{
             
-            static uint8_t sx = 0; //packman line
+            static uint8_t sx = 0; //pacman line
                 
             if ( gFlags.firing || gFlags.battery_charging )
             {
@@ -1080,13 +1080,15 @@ __myevic__ void ShowMainView()
 		}
         }
         
-	if ( ShowProfNum )
-	{
-		DrawFillRect( 0, 108, 63, 127, 0 );
-		DrawString( String_Profile, 12, 114 );
-		DrawImage( 47, 114, dfProfile + 0x0C );
-	}
-	else if ( ShowWeakBatFlag )
+//	if ( ShowProfNum )
+//	{
+//		DrawFillRect( 0, 108, 63, 127, 0 );
+//		DrawString( String_Profile, 12, 114 );
+//		DrawImage( 47, 114, dfProfile + 0x0C );
+//	}
+//	else 
+        
+        if ( ShowWeakBatFlag )
 	{
 		DrawFillRect( 0, 108, 63, 127, 0 );
 		ShowWeakBat();

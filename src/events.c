@@ -189,6 +189,8 @@ __myevic__ void KeyRepeat()
 // Called at 100Hz
 __myevic__ void GetUserInput()
 {
+        static uint8_t	apuff = 0;
+        
 	UserInputs = 14;
 
 	if ( ( !PE0 || AutoPuffTimer ) && PD2 && PD3 )
@@ -202,13 +204,19 @@ __myevic__ void GetUserInput()
                     if ( dfStatus.autopuff && dfAutoPuffTimer )
                     {
                         if ( FireClickCount > 1 || KeyPressTime > 80 )
+                        {
                             AutoPuffTimer = 0;
+                            apuff = 0;
+                        }
                         else if ( KeyPressTime >= 20 && !AutoPuffTimer && Screen == 2 ) //on fire screen...
+                        {
                             AutoPuffTimer = (uint16_t)dfAutoPuffTimer * 10 - FireDuration * 10;
+                            apuff = 1;
+                        }
                     }
                 }
-
-		UserInputs = 1;
+                
+		UserInputs = 1;                             
 	}
 	else
 	{
@@ -216,8 +224,15 @@ __myevic__ void GetUserInput()
 		{
 			if ( LastInputs == 1 )
 			{
-				StopFire();
-                                gFlags.refresh_display = 1; //for correct last FireDuration in TC
+				StopFire();                            
+                                //gFlags.refresh_display = 1; //bad idea // for correct last FireDuration in TC
+                                if ( apuff )
+                                {
+                                    apuff = 0;
+                                    FireDuration = (uint16_t)dfAutoPuffTimer;
+                                    ShowFireDuration( 0 );
+                                    DisplayRefresh();   
+                                }
 			}
 			gFlags.user_idle = 1;
 			LastInputs = -1;
