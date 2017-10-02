@@ -111,7 +111,7 @@ __myevic__ void SetPWMClock()
 #define MaxBuck  MaxDuty
 #define MinBoost MaxDuty
 
-	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
+	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 )
 	{
 		MaxDuty = 95 * PWMCycles / 100; //for RegulateDualBuck
 	}
@@ -874,7 +874,7 @@ __myevic__ void RegulateBuckBoost()
 	AtoVoltsADC = ADC_Read( 1 );
 	AtoVolts = ( 1109 * AtoVoltsADC ) >> 12;
 
-	if ( ISCUBO200|| ISRX200S || ISRX23 || ISRX300 )
+	if ( ISCUBO200|| ISRX200S || ISRX23 || ISRX300 || ISGEN3 )
 	{
 		RegulateDualBuck();
 		return;

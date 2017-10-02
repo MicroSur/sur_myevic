@@ -843,7 +843,9 @@ __myevic__ void Main()
 
 	gFlags.sample_btemp = 1;
 	ReadBoardTemp();
-
+        
+        //if ( ISGEN3 ) WaitOnTMR2( 1500 );
+        
 	InitDisplay();
 	MainView();
 	SplashTimer = 2;
