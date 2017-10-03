@@ -412,7 +412,14 @@ __myevic__ void DrawAPTLine( int line )
 			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
 			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
-		}                
+		}     
+                case 11: // batts total
+		{
+			DrawString( String_BATT_s, 0, line+2 );
+                        DrawValueRight( 55, line+2, gFlags.firing?RTBVTotal:BattVoltsTotal, 2, 0x0B, 4 ); 
+                        DrawImage( 57, line+2, 0x7D );
+			break;
+		} 
 	}
 }
 
@@ -568,7 +575,14 @@ __myevic__ void DrawAPTLine3( int line )
 			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
 			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
-		}                 
+		}
+                case 11: // batts total
+		{
+			DrawString( String_BATT_s, 0, line+2 );
+                        DrawValueRight( 55, line+2, gFlags.firing?RTBVTotal:BattVoltsTotal, 2, 0x0B, 4 ); 
+                        DrawImage( 57, line+2, 0x7D );
+			break;
+		} 
 	}
 }
 

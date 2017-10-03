@@ -687,7 +687,7 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfAPT > 10 )
 		dfAPT = 0;
         
-	if ( dfAPT3 > 10 )
+	if ( dfAPT3 > 11 )
 		dfAPT3 = 0;
         
         if ( dfBattLine > 3 )

@@ -439,8 +439,14 @@ __myevic__ void ReadAtoCurrent()
 	unsigned int adcAtoVolts;
 	unsigned int arez;
 	unsigned int current1, current2;
+        int c;
 	//int s;
 
+        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 )
+            c = 11;
+        else
+            c = 12;
+        
 	if ( gFlags.firing || gFlags.probing_ato )
 	{
 		if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
@@ -477,7 +483,7 @@ __myevic__ void ReadAtoCurrent()
 		else
 		{
 			// Shunt current, in 10th of an Amp
-			current1 = ( ( 10 * 2560 * adcShunt1 ) >> 12 ) / AtoShuntRez;
+			current1 = ( ( 10 * 2560 * adcShunt1 ) >> c ) / AtoShuntRez;
 			current2 = 0;
 
 			AtoCurrent = current1;

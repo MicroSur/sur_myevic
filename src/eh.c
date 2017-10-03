@@ -1309,11 +1309,11 @@ __myevic__ void EventHandler()
 							break;
 
                                                 case 4:
-							if ( ++dfAPT3 > 10 ) dfAPT3 = 0;
+							if ( ++dfAPT3 > 11 ) dfAPT3 = 0;
 							break;
                                                         
                                                 case 5: //4:
-							if ( ++dfAPT > 10 ) dfAPT = 0;
+							if ( ++dfAPT > 11 ) dfAPT = 0;
 							break;
 
                                                 case 6: //5:        
