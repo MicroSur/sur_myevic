@@ -590,7 +590,7 @@ __myevic__ void ResetDataFlash()
 //        dfStatus.battv = 0;
 //	dfStatus.phpct = 0;
 	dfStatus.wakeonpm = 1;
-	dfStatus.nfe = 0;
+//	dfStatus.nfe = 0;
 //	dfRezSS = 0;
 //	dfRezLockedSS = 0;
 //	dfRezTCR = 0;

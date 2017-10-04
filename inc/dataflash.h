@@ -38,7 +38,7 @@
 #define LDROM_SIZE 0x1000
 
 // NFE Magic Number
-#define DATAFLASH_NFE_MAGIC	0xFE
+//#define DATAFLASH_NFE_MAGIC	0xFE
 
 
 //=========================================================================
@@ -69,7 +69,7 @@ typedef struct
 /* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
 /* 00008000 */	unsigned int preheat:1;     //lsls 0x10  15 bit
 
-/* 00010000 */	unsigned int nfe:1;         //lsls 0x0F
+/* 00010000 */	unsigned int nfe:1;         //lsls 0x0F not used
 /* 00020000 */	unsigned int dfmt1:1;       //lsls 0x0E
 /* 00040000 */	unsigned int invert:1;      //lsls 0x0D
 /* 00080000 */	unsigned int vapedml:1;     //lsls 0x0C

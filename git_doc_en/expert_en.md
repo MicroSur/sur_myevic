@@ -32,13 +32,6 @@ You're supposed to have 18+, after all^^
     On boxes where the Real-Time Clock is emulated (like the VTC-Mini), by setting the Light Sleep mode "ON", the box continues to drive the Real-Time Clock with the external 12.000MHz Crystal instead of the internal LIRC oscillator when entering sleep mode. This makes the Clock far more accurate and eliminates the need for the Clock Speed ratio, at the cost of a greater battery consumption (estimated less than 50 mAh/day).  
     Using this setting, Clock accuracy is identical to those of real RTC boxes.
 
-  * __PCT__
- 
-    *Warning: You can't use Joyetech's firmware updater while this option is "ON". It may aloso cause issues with third-party firmware management systems.*  
-    Enables or disables partial compatibility with the [NFirmwareEditor 5.x](https://github.com/TBXin/NFirmwareEditor/releases) myEvic Configuration Editor.  
-    This option is disabled by default; set it to "ON" if you plan to use developpement features of the NFE. You'll have access to Monitoring, Screenshot, COM terminal, and Custom Battery Profile editor.  
-    Since compatibility is only partial at the moment, editing parameters other than Battery Profile will have no effect.  
- 
   * __SHR__
   
     Shunt Resistance (in mΩ). (real resistance in Ohm now)
@@ -59,9 +52,7 @@ You're supposed to have 18+, after all^^
     You can specify your battery brand and model among several ones: 25R, 30Q, HG2, HE4, VTC4, VTC5 and VTC6. "GEN" is the generic battery used by default and should be used for any other model of battery or for built-in battery.  
 
     Custom Battery:  
-    By pressing the Fire button during two seconds while editing this option, the battery model changes to "CUS" (Custom Battery). The box will use the user-defined battery discharge curve and settings. Those informations can be edited using [NFirwareEditor](https://github.com/TBXin/NFirmwareEditor/releases) discharge profile editor (see [NFirwareEditor](https://github.com/TBXin/NFirmwareEditor/releases) documentation for more information).  
-    *The NFE compatibility mode must be set to ON in the expert menu for NFE to recognize the box as compatible.*
-
+    By pressing the Fire button during two seconds while editing this option, the battery model changes to "CUS" (Custom Battery). The box will use the user-defined battery discharge curve and settings.
     At the moment, battery model information is used by the firmware to compute a more accurate state-of-charge than the generic setting, and to avoid battery stress by limiting max Amp draw. Max Amps by battery model is based on Mooch's stress tests and are fairly reliable.  
 
     *On boxes with built-in battery (AIO, Basic, eGrip II, Cuboid Mini), this option should be kept on the "GEN" setting unless you've taken your box apart and manualy replaced the internal battery pack by something else.*  

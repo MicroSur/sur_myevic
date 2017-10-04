@@ -1440,14 +1440,14 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 				DrawString( String_OFF, 40, line+2 );
 			break;
 
-		case 8:	// PC Tools
-			if ( dfStatus.nfe )
-				DrawString( String_ON, 40, line+2 );
-			else
-				DrawString( String_OFF, 40, line+2 );
-			break;
+		//case 8:	// PC Tools
+		//	if ( dfStatus.nfe )
+		//		DrawString( String_ON, 40, line+2 );
+		//	else
+		//		DrawString( String_OFF, 40, line+2 );
+		//	break;
                         
-                case 9:	// mod Temp
+                case 8:	// mod Temp
                         t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 			DrawValueRight( 52, line+2, t, 0, 0x0B, t>99?3:2 );
 			DrawImage( 53, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
@@ -1518,13 +1518,13 @@ __myevic__ void ExpertMenuOnClick()
 			if ( ! dfStatus.dbgena ) gFlags.debug = 0;
 			break;
                     
-		case 8:	// PCT
-			dfStatus.nfe ^= 1;
-			break;
-                case 9: //boart temp corr
+		//case 8:	// PCT
+		//	dfStatus.nfe ^= 1;
+		//	break;
+                case 8: //boart temp corr
                         gFlags.edit_value ^= 1;
                         break;
-                case 10:	// Back
+                case 11:	// Back
 			UpdateDataFlash();
 			break;
 	}
@@ -1566,7 +1566,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
                                     vret = 1;
                                     break;
                                          
-                                case 9: //board temp corr
+                                case 8: //board temp corr
                                         if ( ++BoardTemp > 99 )
                                         {
                                             BoardTemp = 99;
@@ -1609,7 +1609,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
                                     vret = 1;
                                     break;
                                           
-                                case 9: //board temp corr
+                                case 8: //board temp corr
                                         if ( --BoardTemp > 99 )
                                         {
                                             BoardTemp = 0;
@@ -1639,7 +1639,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					vret = 1;
 					break;
                                         
-				case 9:	// board temp corr
+				case 8:	// board temp corr
 					dfBoardTempCorr = 0;
                                         gFlags.sample_btemp = 1;
                                         ReadBoardTemp();
@@ -3077,7 +3077,7 @@ const menu_t ExpertMenu =
 	0,
 	ExpertMenuOnClick+1,
 	ExpertMenuOnEvent+1,
-	13,
+	12,
 	{
                 { String_BVO, &BVOMenu, 0, MACTION_SUBMENU },
                 { String_X32, 0, 0, 0 },
@@ -3087,7 +3087,7 @@ const menu_t ExpertMenu =
                 { String_BAT, 0, 0, 0 },        
 		{ String_USB, 0, 0, 0 },
 		{ String_DBG, 0, 0, 0 },
-		{ String_PCT, 0, 0, 0 },
+		//{ String_PCT, 0, 0, 0 },
                 { String_Temp, 0, 0, 0 },  
                 { String_CUS, &CUSMenu, 0, MACTION_SUBMENU },  
                 { String_MAX_s, &MAXMenu, 0, MACTION_SUBMENU },         

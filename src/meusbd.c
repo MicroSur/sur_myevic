@@ -818,6 +818,7 @@ __myevic__ uint32_t hidGetInfoCmd( CMD_T *pCmd )
 
 		dfStruct_t * df = (dfStruct_t*)hidData;
 
+/*
 		if ( dfStatus.nfe )
 		{
 			df->p.Magic = DATAFLASH_NFE_MAGIC;
@@ -832,6 +833,7 @@ __myevic__ uint32_t hidGetInfoCmd( CMD_T *pCmd )
 			o = offsetof( dfStruct_t, p ) + 0xCA;	// NFE Custom Battery offset
 			MemCpy( &hidData[o], &CustomBattery.V2P, 48 );
 		}
+*/
 
 		df->Checksum = Checksum( (uint8_t *)df->params, FMC_FLASH_PAGE_SIZE - 4 );
 
@@ -1324,6 +1326,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 						DFCheckValuesValidity();
 						UpdateDataFlash();
 					}
+/*
 					else
 					{
 						//myprintf( "Incompatible parameters format.\n" );
@@ -1352,6 +1355,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 							UpdateDataFlash();
 						}
 					}
+*/
 
 					if ( df->i.Year >= 2000 && df->i.Year <= 2099 )
 					{
