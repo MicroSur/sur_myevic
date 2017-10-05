@@ -328,6 +328,9 @@ extern const uint8_t String_Friday[];
 extern const uint8_t String_Saturday[];
 extern const uint8_t String_Survival[];
 
+extern const uint8_t String_NewZC[];
+extern const uint8_t String_ZeroCnts[];
+
 //==============================================================================
 
 #endif

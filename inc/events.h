@@ -109,7 +109,8 @@ extern S_RTC_TIME_DATA_T SetTimeRTD;
 extern void KeyRepeat();
 extern void GetUserInput();
 extern void EventHandler();
-
+extern void ResetVapedCounter();
+extern void ResetAllCounters();
 extern int CustomEvents();
 
 extern void PowerPlus( uint16_t *pwr, uint16_t min, uint16_t max );

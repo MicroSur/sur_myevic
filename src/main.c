@@ -840,7 +840,7 @@ __myevic__ void Main()
 
 	gFlags.sample_vbat = 1;
 	ReadBatteryVoltage();
-
+        
 	gFlags.sample_btemp = 1;
 	ReadBoardTemp();
         
@@ -858,7 +858,7 @@ __myevic__ void Main()
 		while ( !PD3 )
 			;
 	}
-
+       
 	while ( 1 )
 	{
 		while ( gFlags.playing_fb )
@@ -1110,7 +1110,7 @@ __myevic__ void Main()
 			{
 				InitRTC();
 			}
-
+                              
 			if ( gFlags.firing )
 			{
 				if ( TargetVolts == 0 )
@@ -1153,6 +1153,13 @@ __myevic__ void Main()
 
 			gFlags.osc_1hz ^= 1;
 
+                        if ( !gFlags.nbcr && dfStatus.nbrc && gFlags.rtcinit && ( BatteryVoltage > dfBattVolt + 10 )) 
+                        {
+                                gFlags.nbcr = 1;
+                                dfBattVolt = BatteryVoltage;
+                                ResetAllCounters();     
+                        }
+ 
 			if ( gFlags.firing )
 			{
 				if ( ISMODETC(dfMode) )

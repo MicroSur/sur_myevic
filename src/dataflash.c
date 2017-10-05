@@ -642,6 +642,8 @@ __myevic__ void ResetDataFlash()
         SetAtoLimits();
         dfUSBMaxCharge = 2000; 
         dfMaxBoardTemp = 70;
+        dfBattVolt = 420;
+        dfStatus.nbrc = 0;        
         
 	UpdateDataFlash();
 
@@ -905,6 +907,8 @@ __myevic__ void DFCheckValuesValidity()
         
         if ( !dfColdLockTemp || dfColdLockTemp > 40 ) dfColdLockTemp = 20;
         if ( !dfNewRezPerc || dfNewRezPerc > 50 ) dfNewRezPerc = 5;
+        
+        if ( dfBattVolt < 250 || dfBattVolt > 430 ) dfBattVolt = 420 ;
 }
 
 

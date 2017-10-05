@@ -135,7 +135,7 @@ typedef struct
 
 /* 00000001 */	int edit_value:1;
 /* 00000002 */	int new_rez_tcr:1;
-/* 00000004 */	int unused34:1;
+/* 00000004 */	int nbcr:1;
 /* 00000008 */	int bad_cell:1;
 /* 00000010 */	int edit_capture_evt:1;
 /* 00000020 */	int osc_1hz:1;

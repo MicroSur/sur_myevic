@@ -2286,6 +2286,13 @@ __myevic__ int LedMenuEvent( int event )
 	return 0;
 }
 
+__myevic__ void MiscMenuOnClick()
+{
+	if ( CurrentMenuItem == 6 )
+	{
+		ResetAllCounters();
+	}
+}
 
 //-----------------------------------------------------------------------------
 
@@ -2689,6 +2696,13 @@ const mdata_t SwapMP =
 	MITYPE_BIT,
 	3
 };
+const mdata_t NBZC =
+{
+	&dfStatus,
+	&BitDesc,
+	MITYPE_BIT,
+	12
+};        
 const menu_t MiscsMenu =
 {
 	String_Miscs,
@@ -2696,16 +2710,18 @@ const menu_t MiscsMenu =
 	0,
 	0,
 	0,
+	MiscMenuOnClick+1,
 	0,
-	0,
-	6,
+	8,
 	{
 		{ String_Game, &GameMenu, 0, MACTION_SUBMENU },
                 { String_Tetris, &GameTtMenu, 0, MACTION_SUBMENU },                        
 		{ String_Led, &LedMenu, 0, MACTION_SUBMENU },
 		//{ String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
                 { String_FiFlip, &FireFlip, 0, MACTION_DATA },     
-                { String_SwapMP, &SwapMP, 0, MACTION_DATA },                         
+                { String_SwapMP, &SwapMP, 0, MACTION_DATA },  
+                { String_NewZC, &NBZC, 0, MACTION_DATA },
+                { String_ZeroCnts, 0, EVENT_EXIT_MENUS, 0 },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

@@ -527,11 +527,13 @@ __myevic__ void NewBatteryVoltage()
 		BatPCCmpCnt = 0;
 		SavedBatVoltage = BatteryVoltage;
 		SavedBatPercent = BatteryPercent;
-
+                                
 		if ( ( BatteryVoltage > Battery->V2P[0].voltage ) && ( Screen == 1 ) )
 		{
 			gFlags.refresh_display = 1;
 		}
+                
+                if ( ( BatteryVoltage > 255 ) && ( dfBattVolt > BatteryVoltage ) ) dfBattVolt = BatteryVoltage;
 	}
 	else
 	{

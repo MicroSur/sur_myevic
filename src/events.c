@@ -1264,6 +1264,23 @@ __myevic__ int EvtSetDate()
 	return 1;
 }
 
+__myevic__ void ResetVapedCounter()
+{
+    time_t t;
+    RTCGetEpoch( &t );
+    t = t - ( t% 86400 );
+    MilliJoules = 0;
+    RTCWriteRegister( RTCSPARE_VV_BASE, t ); 
+}
+__myevic__ void ResetAllCounters()
+{
+    dfTimeCount = 0;
+    dfPuffCount = 0;
+    UpdatePTTimer = 80;
+    ResetVapedCounter();
+    UpdateDFTimer = 50;
+}
+
 //-------------------------------------------------------------------------
 
 __myevic__ int CustomEvents()
@@ -1352,14 +1369,10 @@ __myevic__ int CustomEvents()
 
 		case EVENT_RESET_VVEL:
 		{
-			time_t t;
-			RTCGetEpoch( &t );
-			t = t - ( t% 86400 );
-			MilliJoules = 0;
-			RTCWriteRegister( RTCSPARE_VV_BASE, t );
-			EditModeTimer = 1000;
+                        ResetVapedCounter();
+                        EditModeTimer = 1000;
 			gFlags.refresh_display = 1;
-			gFlags.draw_edited_item = 1;
+			gFlags.draw_edited_item = 1;  
 			break;
 		}
 

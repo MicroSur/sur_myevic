@@ -64,7 +64,7 @@ typedef struct
 /* 00000200 */	unsigned int priopwr:1;     //lsls 0x16
 /* 00000400 */	unsigned int onewatt:1;     //lsls 0x15
 /* 00000800 */	unsigned int digclk:1;      //lsls 0x14
-/* 00001000 */	unsigned int battpc:1;      //lsls 0x13         not used
+/* 00001000 */	unsigned int nbrc:1;      //lsls 0x13        new battery reset counters
 /* 00002000 */	unsigned int phpct:1;       //lsls 0x12
 /* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
 /* 00008000 */	unsigned int preheat:1;     //lsls 0x10  15 bit
@@ -189,7 +189,7 @@ typedef struct dfParams
 /* 00CB */	uint16_t	USBMaxCharge;   //  CC
 /* 00CD */	uint8_t		PreheatTime;    //  CE
 /* 00CE */	uint16_t	PreheatPwr;     //  CF
-/* 00D0 */	uint16_t	AtoPreheatPwr;          // not used
+/* 00D0 */	uint16_t	BattVolt;
 /* 00D2 */	uint8_t		TCAlgo;
 /* 00D3 */	uint8_t		TCBoost;
 /* 00D4 */	uint16_t	TCRP[3];
@@ -397,7 +397,7 @@ extern dfStruct_t DataFlash;
 #define dfBVOffset		DFP(BVOffset)
 #define dfPreheatTime	DFP(PreheatTime)
 #define dfPreheatPwr	DFP(PreheatPwr)
-//#define dfAtoPreheatPwr	DFP(AtoPreheatPwr)
+#define dfBattVolt	DFP(BattVolt)
 #define dfTCAlgo		DFP(TCAlgo)
 #define dfTCBoost		DFP(TCBoost)
 #define dfTCRP			DFP(TCRP)
