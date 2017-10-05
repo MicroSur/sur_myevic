@@ -684,7 +684,7 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfUIVersion != 2 )
 		dfUIVersion = 2;
 
-	if ( dfAPT > 10 )
+	if ( dfAPT > 11 )
 		dfAPT = 0;
         
 	if ( dfAPT3 > 11 )
