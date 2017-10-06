@@ -554,7 +554,7 @@ __myevic__ void ResetDataFlash()
 	dfTempAlgo = 1;
 	dfTemp = 210;
 //	dfResistance = 0;
-	dfUIVersion = 2;
+//	dfUIVersion = 2;
 	dfAPT = 6;
 	dfAPT3 = 5;
 //	dfRezTI = 0;
@@ -563,10 +563,8 @@ __myevic__ void ResetDataFlash()
 //	dfRezLockedNI = 0;
 //	dfTiOn = 1;
 //	dfStealthOn = 0;
-	dfTempCoefsNI = 201;
-	ResetCustomBattery();
-//	ResetPowerCurve();
-	dfTempCoefsTI = 101;
+//	dfTempCoefsNI = 201;
+//	dfTempCoefsTI = 101;
 	dfLEDColor = 25 << 10;
 //	dfStatus.off = 0;
 //	dfStatus.keylock = 0;
@@ -638,18 +636,23 @@ __myevic__ void ResetDataFlash()
         Object3D = 7;
         dfMaxPower = 0;
         dfMaxVolts = 0;
+        
         InitSetPowerVoltMax();
         SetAtoLimits();
+        
         dfUSBMaxCharge = 2000; 
         dfMaxBoardTemp = 70;
         dfBattVolt = 420;
         dfStatus.nbrc = 0;        
         
+//	ResetCustomBattery();
+//	ResetPowerCurve();
+        
 	UpdateDataFlash();
 
-	dfPuffCount = 0;
-	dfTimeCount = 0;
-	UpdatePTCounters();
+	//dfPuffCount = 0;
+	//dfTimeCount = 0;
+	//UpdatePTCounters();
 
 	AtoShuntRez = GetShuntRezValue();
 }
@@ -683,8 +686,8 @@ __myevic__ void DFCheckValuesValidity()
 		UpdatePTCounters();
 	}
 
-	if ( dfUIVersion != 2 )
-		dfUIVersion = 2;
+	//if ( dfUIVersion != 2 )
+	//	dfUIVersion = 2;
 
 	if ( dfAPT > 11 )
 		dfAPT = 0;
@@ -706,7 +709,8 @@ __myevic__ void DFCheckValuesValidity()
 		dfIsCelsius = 1;
 		dfTemp = 200;
 	}
-	else if ( dfIsCelsius )
+	
+        if ( dfIsCelsius )
 	{
 		if ( dfTemp < 100 || dfTemp > 315 )
 			dfTemp = 200;
@@ -731,19 +735,19 @@ __myevic__ void DFCheckValuesValidity()
 
 //	if ( dfTiOn > 1 ) dfTiOn = 1;
 
-	if ( dfStealthOn > 1 )
+	if ( dfStealthOn > 2 )
 		dfStealthOn = 0;
 
-	if (( dfTempCoefsNI <= 200 ) || ( dfTempCoefsTI <= 100 ))
-	{
-		dfTempCoefsNI = 201;
-		dfTempCoefsTI = 101;
+	//if (( dfTempCoefsNI <= 200 ) || ( dfTempCoefsTI <= 100 ))
+	//{
+	//	dfTempCoefsNI = 201;
+	//	dfTempCoefsTI = 101;
 
 		//ResetCustomBattery();
 		//ResetPowerCurve();
-	}
-	else
-	{
+	//}
+	//else
+	//{
 		LoadCustomBattery();
 
 		if ( !CheckCustomBattery() )
@@ -764,11 +768,11 @@ __myevic__ void DFCheckValuesValidity()
 				break;
 			}
 		}
-	}
+	//}
 
 	MemSet( DataFlash.p.Unused4E, 0, sizeof(DataFlash.p.Unused4E) );
 
-	if ( dfShuntRez < SHUNT_MIN_VALUE || dfShuntRez > SHUNT_MAX_VALUE )
+	if ( dfShuntRez < SHUNT_MIN_VALUE || dfShuntRez > SHUNT_MAX_VALUE ) //75 150
 		dfShuntRez = 0;
 
 	if ( dfRezSS > 150 )
@@ -777,7 +781,7 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfRezLockedSS > 1 )
 		dfRezLockedSS = 0;
 
-	if ( dfScrMainTime > 5 )
+	if ( dfScrMainTime > 5 )    //constant table index
 		dfScrMainTime = 0;
 
 	if ( dfRezTCR > 150 )
@@ -789,7 +793,7 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfRezLockedTCR > 1 )
 		dfRezLockedTCR = 0;
 
-	if ( dfScreenProt > 7 )
+	if ( dfScreenProt > 7 )     //constant table index
 		dfScreenProt = 0;
 
 	if ( dfTCRIndex > 2 )
@@ -908,7 +912,7 @@ __myevic__ void DFCheckValuesValidity()
         if ( !dfColdLockTemp || dfColdLockTemp > 40 ) dfColdLockTemp = 20;
         if ( !dfNewRezPerc || dfNewRezPerc > 50 ) dfNewRezPerc = 5;
         
-        if ( dfBattVolt < 250 || dfBattVolt > 430 ) dfBattVolt = 420 ;
+        if ( dfBattVolt < 250 || dfBattVolt > 420 ) dfBattVolt = 420 ;
 }
 
 
@@ -1248,7 +1252,7 @@ __myevic__ void InitDataFlash()
 	}
 
 	dfStatus.off = 0;
-	dfUIVersion = 2;
+	//dfUIVersion = 2;
 
 	MemCpy( ParamsBackup, DataFlash.params, DATAFLASH_PARAMS_SIZE );
 

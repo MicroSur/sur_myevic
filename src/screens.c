@@ -79,10 +79,20 @@ __myevic__ void DrawScreen()
 				break;
 
 			case  2: // Firing
-				if ( !dfStealthOn )
+
+				if ( !dfStealthOn && !gFlags.MainContrast )
 				{
-					ShowMainView();
-				}
+                                        DisplaySetContrast( dfContrast );
+                                        gFlags.MainContrast = 1;
+                                }
+                                else if ( dfStealthOn == 2 && gFlags.MainContrast )
+                                {
+                                        DisplaySetContrast( dfContrast2 );
+                                        gFlags.MainContrast = 0;
+                                }
+                                                                    
+                                if ( dfStealthOn != 1 ) ShowMainView();
+
 				break;
 
 			case  5: // charge screen
@@ -179,9 +189,9 @@ __myevic__ void DrawScreen()
 				ShowScreenSaver();
 				break;
 
-			case 100:
-				ShowInfos();
-				break;
+			//case 100:
+			//	ShowInfos();
+			//	break;
 
 			case 101:
 				ShowContrast();
@@ -276,7 +286,7 @@ if ( gFlags.debug & 1 )
 			else
 			{
 				if (( !gFlags.firing )
-				&&	( !dfStealthOn )
+				&&	( dfStealthOn != 1 )
 				&&	( SleepTimer > 0 )
 				&&	( dfScreenSaver > 0 )
 				&&	( GetScreenProtection() > 0 )
@@ -293,7 +303,7 @@ if ( gFlags.debug & 1 )
 		case   2: // Firing
 		case  28: // Key Lock
 		case  40: // Stealth ON/OFF
-			if ( dfStealthOn )
+			if ( dfStealthOn == 1)
 			{
 				Screen = 0;
 				SleepTimer = 18000;
@@ -367,7 +377,7 @@ if ( gFlags.debug & 1 )
 			{
 				ChargeView();
 
-				if ( dfStealthOn || !gFlags.screen_on )
+				if ( dfStealthOn == 1 || !gFlags.screen_on )
 				{
 					ScreenDuration = 0;
 				}
@@ -387,7 +397,7 @@ if ( gFlags.debug & 1 )
 			{
 				ChargeView();
 
-				if ( dfStealthOn || !gFlags.screen_on )
+				if ( dfStealthOn == 1 || !gFlags.screen_on )
 				{
 					ScreenDuration = 0;
 				}
@@ -471,6 +481,7 @@ __myevic__ void ChargeView()
 
 //=========================================================================
 
+/*
 __myevic__ void ShowInfos()
 {
 	uint8_t strbuf[20];
@@ -487,6 +498,7 @@ __myevic__ void ShowInfos()
 
 	return;
 }
+*/
 
 //=========================================================================
 
@@ -704,7 +716,7 @@ __myevic__ void ShowBattery()
 //----- (00006764) --------------------------------------------------------
 __myevic__ void ShowBatCharging()
 {
-	if ( ( dfStealthOn && ScreenDuration == 0 ) || !gFlags.screen_on )
+	if ( ( dfStealthOn == 1 && ScreenDuration == 0 ) || !gFlags.screen_on )
 	{
 		return;
 	}
@@ -890,7 +902,13 @@ __myevic__ void ShowNewCoil()
 __myevic__ void ShowStealthMode()
 {
 	DrawStringCentered( String_Stealth, 88 );
-	DrawStringCentered( dfStealthOn ? String_ON : String_OFF, 102 );
+        //DrawStringCentered( dfStealthOn ? String_ON : String_OFF, 102 );
+        if ( !dfStealthOn )
+            DrawStringCentered( String_OFF, 102 );
+        else if ( dfStealthOn == 1 )
+            DrawStringCentered( String_ON, 102 );
+        else
+            DrawStringCentered( String_Contrast, 102 );
 }
 
 
@@ -1079,7 +1097,7 @@ __myevic__ void AnimateScreenSaver()
 //=========================================================================
 __myevic__ void ShowSetTime()
 {
-	DrawString( String_SetTime, 4, 6 );
+	DrawString( String_Time, 4, 6 );
 	DrawHLine( 0, 16, 63, 1 );
 
 	DrawTime( 6, 46, &SetTimeRTD, 0x1F & ~( 1 << ( EditItemIndex << 1 ) ) );
@@ -1105,7 +1123,7 @@ __myevic__ void ShowSetDate()
 
 	GetRTC( &rtd );
 
-	DrawString( String_SetDate, 4, 6 );
+	DrawString( String_Date, 4, 6 );
 	DrawHLine( 0, 16, 63, 1 );
 
 	DrawTime( 6, 46, &rtd, 0x1F );

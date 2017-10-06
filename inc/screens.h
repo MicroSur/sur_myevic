@@ -89,7 +89,7 @@ extern int IsClockOnScreen();
 extern int IsMenuScreen();
 extern int SplashExists();
 
-
+extern int convert_string1( uint8_t *strbuf, const char *s );
 //==============================================================================
 // Strings
 
@@ -178,13 +178,13 @@ extern const uint8_t String_BAL_s[];
 // from menus.c
 extern const uint8_t String_Menus[];
 extern const uint8_t String_Modes[];
-extern const uint8_t String_TEMP_NI_s[];
-extern const uint8_t String_TEMP_TI_s[];
-extern const uint8_t String_TEMP_SS_s[];
-extern const uint8_t String_TCR_s[];
-extern const uint8_t String_POWER_s[];
-extern const uint8_t String_BYPASS_s[]; 
-extern const uint8_t String_SMART_s[];
+//extern const uint8_t String_TEMP_NI_s[];
+//extern const uint8_t String_TEMP_TI_s[];
+//extern const uint8_t String_TEMP_SS_s[];
+//extern const uint8_t String_TCR_s[];
+//extern const uint8_t String_POWER_s[];
+//extern const uint8_t String_BYPASS_s[]; 
+//extern const uint8_t String_SMART_s[];
 extern const uint8_t String_Coils[];
 extern const uint8_t String_Zero_All[];
 extern const uint8_t String_Miscs[];
@@ -221,8 +221,8 @@ extern const uint8_t String_1Watt[];
 extern const uint8_t String_1C5F[];
 extern const uint8_t String_Hide[];
 extern const uint8_t String_Date[];
-extern const uint8_t String_SetTime[];
-extern const uint8_t String_SetDate[];
+//extern const uint8_t String_SetTime[];
+//extern const uint8_t String_SetDate[];
 extern const uint8_t String_WakeMP[];
 extern const uint8_t String_2[];
 extern const uint8_t String_3[];

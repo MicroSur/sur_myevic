@@ -996,7 +996,11 @@ __myevic__ void Main()
 
 			if ( Screen == 60 )
 			{
-                                if ( gFlags.MainContrast ) DisplaySetContrast( dfContrast2 );
+                                if ( gFlags.MainContrast ) 
+                                {
+                                    DisplaySetContrast( dfContrast2 );
+                                    gFlags.MainContrast = 0;
+                                }
 				AnimateScreenSaver();
 			}
                         
@@ -1053,7 +1057,7 @@ __myevic__ void Main()
 			DataFlashUpdateTick();
 			LEDTimerTick();
                                                
-                        if ( !gFlags.MainContrast && Screen != 60 && Screen != 5 )
+                        if ( !gFlags.MainContrast && Screen != 60 && Screen != 5 && !gFlags.firing ) //&& Screen != 2)
 			{
                                 DisplaySetContrast( dfContrast );
                                 gFlags.MainContrast = 1;
@@ -1150,7 +1154,7 @@ __myevic__ void Main()
 		{
 			// 2Hz
 			gFlags.tick_2hz = 0;
-
+                        
 			gFlags.osc_1hz ^= 1;
 
                         if ( !gFlags.nbcr && dfStatus.nbrc && gFlags.rtcinit && ( BatteryVoltage > dfBattVolt + 10 )) 

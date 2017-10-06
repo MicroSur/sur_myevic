@@ -727,10 +727,10 @@ void CheckButtons() {
 
 void ttStartScreen() {
 
-    const uint8_t strVaping[] = {0x7D, 0x68, 0x77, 0x70, 0x75, 0x6E, 0x00};
-    const uint8_t strTetris[] = {0xAF, 0xA0, 0xAF, 0xAD, 0xA4, 0xAE, 0x00};
-    const uint8_t strBestScore[] = {0x69, 0x6C, 0x7A, 0x7B, 0x00};
-    const uint8_t strLastScore[] = {0x8D, 0x82, 0x94, 0x95, 0x00};
+    //const uint8_t strVaping[] = {0x7D, 0x68, 0x77, 0x70, 0x75, 0x6E, 0x00};
+    //const uint8_t strTetris[] = {0xAF, 0xA0, 0xAF, 0xAD, 0xA4, 0xAE, 0x00};
+    //const uint8_t strBestScore[] = {0x69, 0x6C, 0x7A, 0x7B, 0x00};
+    //const uint8_t strLastScore[] = {0x8D, 0x82, 0x94, 0x95, 0x00};
 
     ttSetTimeoutDelay(10);
     if (!PE0 && (PD2 && PD3)) {
@@ -786,11 +786,16 @@ void ttStartScreen() {
                 ttAnimStep = 1;
         }
 
-        DrawString(strVaping, 12, ttTetrisLine + 20);
-        DrawString(strTetris, 12, ttTetrisLine + 30);
-
-        DrawString(strBestScore, 4, 60);
-        DrawString(strLastScore, 4, 70);
+        DrawString(String_Vaping, 12, ttTetrisLine + 20);
+        DrawString(String_Tetris, 12, ttTetrisLine + 30);
+        
+        uint8_t strbuf[5];
+        convert_string1( strbuf, "Best" );
+        DrawString(strbuf, 4, 60);
+        convert_string1( strbuf, "Last" );
+        DrawString(strbuf, 4, 70);
+        //DrawString(strBestScore, 4, 60);
+        //DrawString(strLastScore, 4, 70);
         DrawValue(29, 61, dfTTBest, 0, 1, 5);
         DrawValue(29, 71, ttScore, 0, 1, 5);
         

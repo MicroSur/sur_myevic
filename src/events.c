@@ -463,9 +463,9 @@ __myevic__ void GetUserInput()
 					FireClicksEvent = 29;	// firmware version screen from on state
 					break;
                                         
-                                case 7:                                    
-					FireClicksEvent = 20;	// Info screen
-					break;
+                                //case 7:                                    
+				//	FireClicksEvent = 20;	// Info screen
+				//	break;
 			}
 		}
 		else if ( UserInputs == 2 ) //right button

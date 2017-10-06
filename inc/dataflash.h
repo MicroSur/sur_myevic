@@ -140,21 +140,21 @@ typedef struct dfParams
 /* 0010 */	uint16_t	TCPower;
 /* 0012 */	uint16_t	VWVolts;
 /* 0014 */	uint8_t		APT;
-/* 0015 */	uint8_t		RezType;
-/* 0016 */	uint8_t		TempAlgo;
-/* 0017 */	uint8_t		IsCelsius;
+/* 0015 */	uint8_t		RezType;            // 1 2 may be in dfStatus bit
+/* 0016 */	uint8_t		TempAlgo;               // 1ni 2ti 3ss   4tcr for ni ti ss
+/* 0017 */	uint8_t		IsCelsius;          // may be in dfStatus bit
 /* 0018 */	uint16_t	Resistance;
 /* 001A */	uint16_t	RezTI;
 /* 001C */	uint16_t	RezNI;
 /* 001E */	uint8_t		RezLockedTI;
 /* 001F */	uint8_t		RezLockedNI;
 /* 0020 */	uint8_t		MaxBoardTemp;	
-/* 0021 */	uint8_t		StealthOn;
-/* 0022 */	uint16_t	TempCoefsNI;
+/* 0021 */	uint8_t		StealthOn;              // 0 1 2
+/* 0022 */	uint16_t	TempCoefsNI;            // not used
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS];
 /* 004E */	uint8_t		Unused4E[38];
-/* 0074 */	uint16_t	TempCoefsTI;
+/* 0074 */	uint16_t	TempCoefsTI;            // not used
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad
 /* 0078 */	dfStatus_t	Status;
 /* 007C */	uint8_t         BattLine;		//0-big,1-%+small,2-v+small,3-all_small	//was uint16_t	AtoRez;
@@ -185,7 +185,7 @@ typedef struct dfParams
 /* 00C5 */	uint8_t		Clicks[4];
 /* 00C9 */	uint8_t		DimTimeout;
 /* 00CA */	uint8_t		BatteryModel;
-//                                                  CB 00
+//   ?? DataFlash.p.UnusedCA[3]                 CB 00
 /* 00CB */	uint16_t	USBMaxCharge;   //  CC
 /* 00CD */	uint8_t		PreheatTime;    //  CE
 /* 00CE */	uint16_t	PreheatPwr;     //  CF
@@ -355,10 +355,10 @@ extern dfStruct_t DataFlash;
 #define dfRezLockedNI	DFP(RezLockedNI)
 //#define dfTiOn			DFP(TiOn)
 #define dfStealthOn		DFP(StealthOn)
-#define dfTempCoefsNI	DFP(TempCoefsNI)
+//#define dfTempCoefsNI	DFP(TempCoefsNI)
 #define dfBattery		DFP(Battery)
 #define dfPwrCurve		DFP(PwrCurve)
-#define dfTempCoefsTI	DFP(TempCoefsTI)
+//#define dfTempCoefsTI	DFP(TempCoefsTI)
 #define dfLEDColor		DFP(LEDColor)
 #define dfStatus		DFP(Status)
 #define dfStatus2		DFP(Status2)

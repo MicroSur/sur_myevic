@@ -33,7 +33,7 @@ __myevic__ void MainView()
 	}
 	else
 	{
-		if ( gFlags.battery_charging && !dfStealthOn )
+		if ( gFlags.battery_charging && dfStealthOn != 1 )
 		{
 			ChargeView();
 		}

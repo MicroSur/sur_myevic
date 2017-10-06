@@ -2380,13 +2380,13 @@ const menu_t ModesMenu =
 	0,
 	8,
 	{
-		{ String_TEMP_NI_s, 0, 0, 0 },
-		{ String_TEMP_TI_s, 0, 0, 0 },
-		{ String_TEMP_SS_s, 0, 0, 0 },
-		{ String_TCR_s, 0, 0, 0 },
-		{ String_POWER_s, 0, 0, 0 },
-		{ String_BYPASS_s, 0, 0, 0 },
-		{ String_SMART_s, 0, 0, 0 },
+		{ String_NI, 0, 0, 0 },
+		{ String_TI, 0, 0, 0 },
+		{ String_SS, 0, 0, 0 },
+		{ String_TC, 0, 0, 0 },
+		{ String_PW, 0, 0, 0 },
+		{ String_BY, 0, 0, 0 },
+		{ String_SM, 0, 0, 0 },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2436,7 +2436,7 @@ const menu_t PreheatMenu =
 		{ String_Pwr, 0, 0, 0 },
 		{ String_Time, 0, 0, 0 },
 		{ String_Delay, &PreheatDelayData, 0, MACTION_DATA },
-                { String_SMART_s, &PreheatSmartData, 0, MACTION_DATA },        
+                { String_SMART, &PreheatSmartData, 0, MACTION_DATA },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2766,8 +2766,8 @@ const menu_t ClockMenu =
 	0,
 	10,
 	{
-		{ String_SetTime, 0, 0, 0 },
-		{ String_SetDate, 0, 0, 0 },
+		{ String_Time, 0, 0, 0 },
+		{ String_Date, 0, 0, 0 },
 		{ String_ClkAdjust, 0, EVENT_CLK_ADJUST, 0 },
 		{ String_ClkSpeed, 0, EVENT_CLK_SPEED, 0 },
 		{ String_Fmt, 0, 0, 0 },

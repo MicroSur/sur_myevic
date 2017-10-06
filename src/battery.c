@@ -533,6 +533,8 @@ __myevic__ void NewBatteryVoltage()
 			gFlags.refresh_display = 1;
 		}
                 
+                //!gFlags.firing && 
+                //for auto zero counters
                 if ( ( BatteryVoltage > 255 ) && ( dfBattVolt > BatteryVoltage ) ) dfBattVolt = BatteryVoltage;
 	}
 	else
