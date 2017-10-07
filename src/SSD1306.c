@@ -16,7 +16,12 @@ __myevic__ void SSD1306_Refresh()
 	{
 		DisplaySendCommand( 0xB0 + l );
 		DisplaySendCommand( 0 );
-		DisplaySendCommand( ( dfStatus.flipped ) ? 0x12 : 0x10 );
+		//DisplaySendCommand( ( dfStatus.flipped ) ? 0x12 : 0x10 );
+                if ( dfStatus.flipped )
+                    DisplaySendCommand ( 0x12 );
+                else
+                    DisplaySendCommand ( 0x10 );
+                
 		DisplaySendData( sb, 0x40 );
 		sb += 0x40;
 	}

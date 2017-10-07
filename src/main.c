@@ -1156,8 +1156,8 @@ __myevic__ void Main()
 			gFlags.tick_2hz = 0;
                         
 			gFlags.osc_1hz ^= 1;
-
-                        if ( !gFlags.nbcr && dfStatus.nbrc && gFlags.rtcinit && ( BatteryVoltage > dfBattVolt + 10 )) 
+//
+                        if ( !gFlags.battery_charging && !gFlags.nbcr && dfStatus.nbrc && gFlags.rtcinit && ( BatteryVoltage > 250 ) &&  ( BatteryVoltage > dfBattVolt + 20 )) 
                         {
                                 gFlags.nbcr = 1;
                                 dfBattVolt = BatteryVoltage;

@@ -88,7 +88,12 @@ __myevic__ void InitDisplay()
 			DrawPoint = SSD1327_Plot+1;
 			break;
 	}
-	DisplaySetContrast( dfContrast );
+        
+        if ( gFlags.MainContrast )
+            DisplaySetContrast( dfContrast );
+        else
+            DisplaySetContrast( dfContrast2 );
+        
 	DisplaySetInverse( dfStatus.invert );
 	DisplaySetFont();
 
