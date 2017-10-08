@@ -964,6 +964,8 @@ __myevic__ void EventHandler()
 			gFlags.battery_charging = 1;
 			gFlags.refresh_display = 1;
 			BatAnimLevel = BatteryTenth;
+                        gFlags.nbcr = 0;
+                        
 			if ( !IsMenuScreen() )
 			{
 				if ( BatteryStatus == 1 )

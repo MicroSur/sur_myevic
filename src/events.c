@@ -1177,7 +1177,7 @@ __myevic__ int EvtLongFire()
 
 	switch ( Screen )
 	{
-            	case 101:
+            	case 101: //contrast
 		{
 			//UpdateDataFlash();
 			Event = EVENT_PARENT_MENU;
@@ -1185,11 +1185,11 @@ __myevic__ int EvtLongFire()
 		}
 		break;
                 
-		case 102:
+		case 102: //menus
 			vret = MenuEvent( LastEvent );
 			break;
 
-		case 106:
+		case 106: //SetDate
 		{
 			S_RTC_TIME_DATA_T rtd;
 
@@ -1200,10 +1200,11 @@ __myevic__ int EvtLongFire()
 			// NOBREAK
 		}
 
-		case 105:
+		case 105: //SetTime
 			SetRTC( &SetTimeRTD );
 			EditModeTimer = 0;
-			MainView();
+			//MainView();
+                        Event = EVENT_PARENT_MENU;
 			vret = 1;
 			break;
 
@@ -1383,12 +1384,13 @@ __myevic__ int CustomEvents()
 			break;
 
 		case EVENT_AUTO_PUFF:
-			if ( AutoPuffTimer > 0 )
-                        {
-			//	MainView();
-                        }
-			else
-				StopFire();
+			//if ( AutoPuffTimer > 0 )
+                        //{
+			////	MainView();
+                        //}
+			//else
+			if ( !AutoPuffTimer )
+                            StopFire();
 			break;
 
 		case EVENT_CLK_ADJUST:
