@@ -269,17 +269,17 @@ __myevic__ void ClampAtoVolts()
 
 //=========================================================================
 //----- (00001274) --------------------------------------------------------
-__myevic__ uint16_t GetAtoVWVolts( uint16_t pwr )
+__myevic__ uint16_t GetAtoVWVolts( uint16_t pwr, uint16_t r  )
 {
 	uint16_t volts; // r0@9
 
-	if ( AtoError || !AtoRez )
+	if ( AtoError || !r ) //AtoRez
 	{
 		volts = 330;
 	}
 	else
 	{
-		volts = sqrtul( 10 * pwr * AtoRez );
+		volts = sqrtul( 10 * pwr * r ); //AtoRez
 
 		ClampAtoVolts();
 
@@ -636,7 +636,7 @@ __myevic__ void CheckMode()
 		if ( dfPower > 200 )
 		{
 			dfPower = 200;
-			dfVWVolts = GetAtoVWVolts( 200 );
+			dfVWVolts = GetAtoVWVolts( 200, AtoRez );
 		}
 
 		if ( !gFlags.new_rez_ni  )
@@ -747,6 +747,8 @@ __myevic__ void ReadAtomizer()
 			uint32_t pwr = AtoCurrent * AtoCurrent * AtoRezMilli / 100000;
 			MilliJoules += pwr;
 		}
+                
+//myprintf( "%d(%d,%d,%d)\n", AtoRezMilli, ADCAtoSum, ADCShuntSum1, ADCShuntSum2 );
 
 		if ( AtoRezMilli >= 5 )
 		{
@@ -1149,7 +1151,8 @@ __myevic__ void TweakTargetVoltsVW()
 
         if ( dfStatus.vvlite && !pc )
         {
-            TargetVolts = dfVWVolts;
+            if ( !dfVVLockedVolt ) dfVVLockedVolt = dfVWVolts;
+            TargetVolts = dfVVLockedVolt;
         }
         else
         {
@@ -1412,7 +1415,8 @@ __myevic__ void SetAtoLimits()
 		if ( pwr < AtoMinPower ) pwr = AtoMinPower;
 		if ( pwr > AtoMaxPower ) pwr = AtoMaxPower;
 
-		dfVWVolts = GetAtoVWVolts(pwr);
+		dfVWVolts = GetAtoVWVolts( pwr, AtoRez );
+                dfVVLockedVolt = GetAtoVWVolts( pwr, dfResistance );
 
 		//if ( dfMode == 6 )
 		//	dfPower = ClampPower( dfVWVolts, 1 );
@@ -1430,8 +1434,9 @@ __myevic__ void ProbeAtomizer()
 	|| ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 ) && ( BatteryStatus == 2 || !PF0 ) )
         || ( ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR ) && ( BatteryStatus == 2 || !PD1 ) ))
         {
-		AtoStatus = 0;     
+		AtoStatus = 0;   
                 
+//myprintf( "AtoStatus1=%d PF0=%d PD1=%d BatteryStatus=%d\n", AtoStatus, PF0, PD1, BatteryStatus );                
 	}
 	else
 	{
@@ -1524,7 +1529,7 @@ __myevic__ void ProbeAtomizer()
 			break;
 	}
 
-	//myprintf( "Probe: %2d. ARM=%d AS=%d\n", AtoProbeCount, AtoRezMilli, AtoStatus );
+//	myprintf( "Probe: %2d. ARM=%d AS=%d\n", AtoProbeCount, AtoRezMilli, AtoStatus );
 
 	if ( AtoProbeCount < 12 )
 	{
@@ -1636,12 +1641,13 @@ __myevic__ void SwitchRezLock()
 			_SwitchRezLock( &dfRezLockedTCR, &dfRezTCR );
 			break;
                         
-                case 4: //re-read rez in VW too
-                case 5:
+                case 4: //pwr re-read rez in VW too
+                case 5: //bypass
                         AtoRez = AtoRezMilli / 10;
                         dfResistance = AtoRez;
+                        dfVVLockedVolt = dfVWVolts;
 			RezMillis = AtoMillis;
-                        //UpdateDFTimer = 50;
+                        UpdateDFTimer = 50;
                         break;
 
 		default:
@@ -1985,6 +1991,7 @@ __myevic__ void InitTCAlgo()
 
 __myevic__ void CheckModeSeg()
 {
+    //for TC
 	unsigned int pwr;
 	unsigned int volts;
 

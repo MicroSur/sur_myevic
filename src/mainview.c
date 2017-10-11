@@ -674,7 +674,11 @@ __myevic__ void DrawInfoLines()
 				}
 				break;
 			case 4:
-                                DrawVoltsLine( dfVWVolts, 46 ); 
+                                if ( dfStatus.vvlite )
+                                    DrawVoltsLine( dfVVLockedVolt, 46 );
+                                else
+                                    DrawVoltsLine( dfVWVolts, 46 );
+                                
 				break;
 			case 5:
 			{
@@ -704,7 +708,11 @@ __myevic__ void DrawInfoLines()
 				}
 				break;
 			case 4:
-				DrawVoltsLine( dfVWVolts, 46 ); //52 );
+                                if ( dfStatus.vvlite )
+                                    DrawVoltsLine( dfVVLockedVolt, 46 );
+                                else
+                                    DrawVoltsLine( dfVWVolts, 46 );
+                            
 				break;
 			case 5:
 				DrawVoltsLine( BypassVolts, 46 ); //52 );

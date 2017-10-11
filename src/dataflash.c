@@ -246,6 +246,8 @@ __myevic__ void SetProductID()
 			MaxBatteries = 3;
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
+                        ScrFlip = 1;
+                        X32Off = 1;
 			break;
 		}                
 		else if ( u32Data == PID_EVICAIO )

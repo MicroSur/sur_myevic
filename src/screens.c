@@ -228,23 +228,24 @@ __myevic__ void DrawScreen()
 		DisplayRefresh();
 	}
 
-/*
+
 if ( gFlags.debug & 1 )
 {
-        DrawValue( 0, 108, Screen, 0, 0x01, 0 );
+//        DrawValue( 0, 108, Screen, 0, 0x01, 0 );
         
-        DrawValue( 20, 108, LastEvent, 0, 0x01, 0 );
+//        DrawValue( 20, 108, LastEvent, 0, 0x01, 0 );
         //DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
         //DrawValueRight( 38, 108, NextPreheatTimer, 0, 0x01, 0 );
-        DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
+//        DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
         //DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
         
         //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 ); //KeyUpTimer
-        DrawValue( 0, 0, dfBattVolt, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
-        DrawValueRight( 64, 0, BatteryVoltage, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
+        //dfResistance = AtoRez
+        DrawValue( 0, 0, dfResistance, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
+        DrawValueRight( 64, 0, AtoRez, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
         DisplayRefresh();
 }
-*/
+
         
 	if ( ( Screen == 1 || Screen == 60 ) && ( ScreenDuration <= 4 ) )
 	{

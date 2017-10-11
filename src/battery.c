@@ -1292,7 +1292,7 @@ __myevic__ void BatteryChargeDual()
 
 	if ( gFlags.usb_attached )
 	{
-		if ( dfStatus.usbchgoff )
+		if ( dfStatus.usbchgoff || dfStatus.usbchghotoff )
 		{
 			if ( ChargeStatus != 5 && ChargeStatus != 6 )
 			{
@@ -1300,12 +1300,13 @@ __myevic__ void BatteryChargeDual()
 				ChargeStatus = 6;
 			}
 		}
-                else if ( BoardTemp >= dfMaxBoardTemp )
+                else if ( BoardTemp > dfMaxBoardTemp )
                 {
                     Event = 13;  // Battery charge stop
                     if ( ChargeStatus != 6 )
                     {
-			ChargeStatus = 6; //no charge      
+			ChargeStatus = 6; //no charge   
+                        dfStatus.usbchghotoff = 1;
                         gFlags.refresh_display = 1;
 			Screen = 29;	// overtemp
 			ScreenDuration = 3;                      
@@ -1581,9 +1582,11 @@ __myevic__ void BatteryCharge()
 		PF0 = 0;
 	}
 
+//myprintf( "BatStat=%d \n", BatteryStatus);
+        
 	if ( gFlags.usb_attached )
 	{
-		if ( dfStatus.usbchgoff )
+		if ( dfStatus.usbchgoff || dfStatus.usbchghotoff )
 		{
 			if ( ChargeStatus != 5 && ChargeStatus != 6 )
 			{
@@ -1591,12 +1594,13 @@ __myevic__ void BatteryCharge()
 				ChargeStatus = 6; //no charge
 			}
 		}
-                else if ( BoardTemp >= dfMaxBoardTemp )
+                else if ( BoardTemp > dfMaxBoardTemp )
                 {
                     Event = 13;  // Battery charge stop
                     if ( ChargeStatus != 6 )
                     {
-			ChargeStatus = 6; //no charge      
+			ChargeStatus = 6; //no charge  
+                        dfStatus.usbchghotoff = 1;
                         gFlags.refresh_display = 1;
 			Screen = 29;	// overtemp
 			ScreenDuration = 3;                      

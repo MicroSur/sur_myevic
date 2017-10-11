@@ -74,7 +74,7 @@ typedef struct
 /* 00040000 */	unsigned int invert:1;      //lsls 0x0D
 /* 00080000 */	unsigned int vapedml:1;     //lsls 0x0C
 /* 00100000 */	unsigned int onedegree:1;   //lsls 0x0B
-/* 00200000 */	unsigned int battv:1;       //lsls 0x0A         not used
+/* 00200000 */	unsigned int usbchghotoff:1;       //lsls 0x0A
 /* 00400000 */	unsigned int lsloff:1;      //lsls 0x09
 /* 00800000 */	unsigned int logomid:1;     //lsls 0x08  23-d bit
 
@@ -150,7 +150,7 @@ typedef struct dfParams
 /* 001F */	uint8_t		RezLockedNI;
 /* 0020 */	uint8_t		MaxBoardTemp;	
 /* 0021 */	uint8_t		StealthOn;              // 0 1 2
-/* 0022 */	uint16_t	TempCoefsNI;            // not used
+/* 0022 */	uint16_t	VVLockedVolt;            // for vvlite: cold rez locked volt
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS];
 /* 004E */	uint8_t		Unused4E[38];
@@ -355,7 +355,7 @@ extern dfStruct_t DataFlash;
 #define dfRezLockedNI	DFP(RezLockedNI)
 //#define dfTiOn			DFP(TiOn)
 #define dfStealthOn		DFP(StealthOn)
-//#define dfTempCoefsNI	DFP(TempCoefsNI)
+#define dfVVLockedVolt	DFP(VVLockedVolt)
 #define dfBattery		DFP(Battery)
 #define dfPwrCurve		DFP(PwrCurve)
 //#define dfTempCoefsTI	DFP(TempCoefsTI)

@@ -622,7 +622,7 @@ __myevic__ void EventHandler()
 							// 10W - 40W on full temp range
 							int p  = 100 + ( 3 * ( tempf - 200 ) / 4 );
 
-							TargetVolts = GetAtoVWVolts( p );
+							TargetVolts = GetAtoVWVolts( p, AtoRez );
 						}
 						else
 						{
@@ -727,7 +727,8 @@ __myevic__ void EventHandler()
                                 
                                 if ( dfStatus.vvlite && !pc )
                                 {
-                                    TargetVolts = dfVWVolts;
+                                    if ( !dfVVLockedVolt ) dfVVLockedVolt = dfVWVolts;
+                                    TargetVolts = dfVVLockedVolt;
                                 }
                                 else
                                 {
@@ -1000,6 +1001,7 @@ __myevic__ void EventHandler()
 			}
 			gFlags.usb_attached = 0;
 			gFlags.battery_charging = 0;
+                        dfStatus.usbchghotoff = 0;
 			gFlags.monitoring = 0;
 			if ( Screen == 5 )
 			{
@@ -1195,14 +1197,15 @@ __myevic__ void EventHandler()
 							if ( spwr < AtoMinPower ) spwr = AtoMinPower;
 
 							dfSavedCfgPwr[ConfigIndex] = spwr;
-							dfVWVolts = GetAtoVWVolts( spwr );
+							dfVWVolts = GetAtoVWVolts( spwr, AtoRez );
                                                         dfPower = spwr;
 						}
 					}
 					else if ( dfMode == 4 )
 					{
 						PowerMinus( &dfPower, AtoMinPower, AtoMaxPower );
-						dfVWVolts = GetAtoVWVolts( dfPower );
+						dfVWVolts = GetAtoVWVolts( dfPower, AtoRez );
+                                                dfVVLockedVolt = GetAtoVWVolts( dfPower, dfResistance );
 						if ( ConfigIndex < 10 && !AtoError && AtoRez )
 						{
 							dfSavedCfgPwr[ConfigIndex] = dfPower;
@@ -1363,7 +1366,8 @@ __myevic__ void EventHandler()
 
 						case 4:
 							PowerPlus( &dfPower, AtoMinPower, AtoMaxPower );
-							dfVWVolts = GetAtoVWVolts( dfPower );
+							dfVWVolts = GetAtoVWVolts( dfPower, AtoRez );
+                                                        dfVVLockedVolt = GetAtoVWVolts( dfPower, dfResistance );
 							if ( ConfigIndex < 10 && !AtoError && AtoRez )
 							{
 								dfSavedCfgPwr[ConfigIndex] = dfPower;
@@ -1379,7 +1383,7 @@ __myevic__ void EventHandler()
 								if ( spwr > AtoMaxPower ) spwr = AtoMaxPower;
 
 								dfSavedCfgPwr[ConfigIndex] = spwr;
-								dfVWVolts = GetAtoVWVolts( spwr );
+								dfVWVolts = GetAtoVWVolts( spwr, AtoRez );
                                                                 dfPower = spwr;
 							}
 							break;

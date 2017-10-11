@@ -107,7 +107,7 @@ extern uint16_t ClampPower( uint16_t pwr, int clampmax );
 extern uint16_t AtoPowerLimit( uint16_t pwr );
 extern uint16_t AtoPower( uint16_t volts );
 extern uint16_t GetVoltsForPower( uint16_t pwr );
-extern uint16_t GetAtoVWVolts( uint16_t pwr );
+extern uint16_t GetAtoVWVolts( uint16_t pwr, uint16_t r );
 extern void ClampAtoPowers();
 extern void ClampAtoVolts();
 extern void SetMinMaxPower();
