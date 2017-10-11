@@ -11,8 +11,8 @@
 //----- (00004FB0) --------------------------------------------------------
 __myevic__ void ModeChange()
 {
-	dfResistance = AtoRez;
-	RezMillis = AtoMillis;
+	//dfResistance = AtoRez; //in 4
+	//RezMillis = AtoMillis;
 
 	switch ( dfMode )
 	{
@@ -86,6 +86,8 @@ __myevic__ void ModeChange()
 			break;
 
 		default:
+                    	dfResistance = AtoRez;
+                        RezMillis = AtoMillis;
 			break;
 	}
 

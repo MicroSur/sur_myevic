@@ -1543,6 +1543,8 @@ __myevic__ void ProbeAtomizer()
 		//	return;
 		AtoRez = AtoRezMilli / 10;
 		AtoMillis = AtoRezMilli % 10;
+                
+                if ( dfResistance > AtoRez ) dfResistance = AtoRez; // goes down to cold
 	}
 	else
 	{
@@ -1551,6 +1553,7 @@ __myevic__ void ProbeAtomizer()
 		if ( AtoStatus == 0 ) AtoProbeCount = 0;
 	}
 
+/*
 	if ( AtoError == LastAtoError
 			&& ( AtoRez + AtoRez / 20 ) >= LastAtoRez // /20
 			&& ( AtoRez - AtoRez / 20 ) <= LastAtoRez )
@@ -1558,6 +1561,7 @@ __myevic__ void ProbeAtomizer()
 		AtoRez = LastAtoRez;
 		AtoMillis = LastAtoMillis;
 	}
+*/
 
 	if ( AtoRez != LastAtoRez
 			|| AtoError != LastAtoError )
@@ -1645,7 +1649,11 @@ __myevic__ void SwitchRezLock()
                 case 5: //bypass
                         AtoRez = AtoRezMilli / 10;
                         dfResistance = AtoRez;
+                        
+                        dfVWVolts = GetAtoVWVolts( dfPower, AtoRez );
                         dfVVLockedVolt = dfVWVolts;
+                        
+                        //dfVVLockedVolt = dfVWVolts;
 			RezMillis = AtoMillis;
                         UpdateDFTimer = 50;
                         break;
