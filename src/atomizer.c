@@ -77,9 +77,14 @@ uint16_t	SavedBoost;
 // Temperature coefficients tables
 //-------------------------------------------------------------------------
 
+//const uint8_t TempCoefsNI[] =
+//		{	10, 20, 35, 60, 80, 110, 120, 130, 140, 150, 160,
+//			170, 170, 170, 170, 170, 170, 170, 170, 170, 170	};
+
+//new table and Ni_0 = 68 '20C
 const uint8_t TempCoefsNI[] =
-		{	10, 20, 35, 60, 80, 110, 120, 130, 140, 150, 160,
-			170, 170, 170, 170, 170, 170, 170, 170, 170, 170	};
+		{	10, 16, 33, 48, 66, 82, 98, 120, 133, 150, 160, 180,
+			190, 210, 220, 240, 250, 255, 255, 255, 255             };
 
 const uint8_t TempCoefsTI[] =
 		{	53, 53, 53, 53, 53, 53, 53, 53, 53, 53, 54,
@@ -556,11 +561,11 @@ __myevic__ void ReadAtoTemp()
 		}
 		else if ( dfTempAlgo == 1 )
 		{
-			AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + 140; // Ni  ?140
+			AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + 68; // Ni +140
 		}
 		else if ( dfTempAlgo == 2 )
 		{
-			AtoTemp = 10 * AtoRezMilli * TCR / base_rez - 460; // Ti    ?460
+			AtoTemp = 10 * AtoRezMilli * TCR / base_rez - 460; // Ti
 		}
 		else if ( dfTempAlgo == 3 || dfTempAlgo == 4 ) //SS mTCR
 		{
@@ -1562,7 +1567,14 @@ __myevic__ void ProbeAtomizer()
 		AtoMillis = LastAtoMillis;
 	}
 */
-
+	if ( AtoError == LastAtoError
+			&& ( AtoRez > LastAtoRez )
+			&& ( AtoRez <= ( LastAtoRez + 3 ) ) )
+	{
+		AtoRez = LastAtoRez;
+		AtoMillis = LastAtoMillis;
+	}
+        
 	if ( AtoRez != LastAtoRez
 			|| AtoError != LastAtoError )
 	{
@@ -1575,7 +1587,7 @@ __myevic__ void ProbeAtomizer()
 		LastAtoError = AtoError;              
 		SetAtoLimits();
 		gFlags.refresh_display = 1;
-		ScreenDuration = GetMainScreenDuration();
+		//ScreenDuration = GetMainScreenDuration();
 	}
 
 	if ( byte_200000B3 )

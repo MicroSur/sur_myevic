@@ -557,7 +557,7 @@ __myevic__ void GetUserInput()
 			}
 		}
 	}
-        else if ( KeyPressTime == 120 )
+        else if ( KeyPressTime == 100 )
         {
 		if ( UserInputs == 5 )
 		{
@@ -582,7 +582,21 @@ __myevic__ void GetUserInput()
 			{
 				Event = 6;	// stealth on/off
 			}
-		}            
+		}   
+		else if ( UserInputs == 4 )
+		{
+			if ( !EditModeTimer )
+			{
+				if ( dfStatus.off )
+				{
+					Event = 18;	// flip display
+				}
+				else
+				{
+					Event = 4;	// key (un)lock
+				}
+			}
+		}                
         }
 	else if ( KeyPressTime == 200 )
 	{
@@ -615,6 +629,7 @@ __myevic__ void GetUserInput()
                     }
                     
 		}
+/*
 		else if ( UserInputs == 4 )
 		{
 			if ( !EditModeTimer )
@@ -629,6 +644,7 @@ __myevic__ void GetUserInput()
 				}
 			}
 		}
+*/
 /*
 		else if ( UserInputs == 5 )
 		{

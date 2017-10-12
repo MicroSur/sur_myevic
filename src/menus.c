@@ -1858,9 +1858,9 @@ __myevic__ void ScreenProtMenuOnClick()
 			gFlags.refresh_display = 1;
 			break;
 
-		case 2:
-			UpdateDataFlash();
-			break;
+		//case 2:
+		//	UpdateDataFlash();
+		//	break;
 
 		default:
 			break;

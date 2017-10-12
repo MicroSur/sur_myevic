@@ -597,6 +597,7 @@ __myevic__ void ResetDataFlash()
 //	dfRezLockedTCR = 0;
 //	dfTCRIndex = 0;
 	dfScrMainTime = 5; //ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
+        dfDimTimeout = 20; //see dfScrMainTime
 	dfTCRM[0] = 90;
 	dfTCRM[1] = 100;
 	dfTCRM[2] = 110;
@@ -623,7 +624,6 @@ __myevic__ void ResetDataFlash()
 	dfClick[1] = CLICK_ACTION_ON_OFF;
 	dfClick[2] = CLICK_ACTION_TETRIS;
         dfClick[3] = CLICK_ACTION_ON_OFF;
-	dfDimTimeout = 20; //see dfScrMainTime
 //	dfBatteryModel = 0;
 	dfPreheatPwr = 300;
 	dfTCAlgo = TCALGO_DEF;
