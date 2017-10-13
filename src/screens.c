@@ -240,8 +240,8 @@ if ( gFlags.debug & 1 )
         //DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
         
         //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 ); //KeyUpTimer
-        //dfResistance = AtoRez
-        DrawValue( 0, 0, dfResistance, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
+        //dfResistance AtoRez dfTempAlgo
+        DrawValue( 0, 0, dfTempAlgo, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
         DrawValueRight( 64, 0, AtoRez, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
         DisplayRefresh();
 }

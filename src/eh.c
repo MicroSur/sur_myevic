@@ -591,7 +591,7 @@ __myevic__ void EventHandler()
 					break;
 
 				case 4:
-					if ( dfMode == 3 )
+					if ( dfMode == 3 || dfMode == 4 || dfMode == 5 ) //for power & bypass too
 					{
 						TCR = dfTCRM[dfTCRIndex];
 					}
