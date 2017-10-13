@@ -32,10 +32,8 @@ int tetrisScreen[14][24] = {
 
 uint8_t ttTetrisLine = 14;
 uint8_t ttAnimStep = 0;
-//uint8_t ttAnimTimer = 0;
 uint16_t ttScore;
 int levellineCount = 0;
-//uint8_t score = 0;
 uint8_t ttTimeoutMask = 0;
 uint8_t ttCurrentTimeout = 0;
 uint8_t ttUsedTimeouts = 0;
@@ -50,9 +48,7 @@ uint8_t ttKeyDown = 0;
 uint8_t ttFireDown = 0;
 uint8_t ttLongFireDown = 0;
 uint16_t ttKeyTick = 0;
-//uint16_t ttKeyPressTime = 0;
 uint8_t pause = 0;
-uint8_t ScrFlip;
 int bto;
 uint8_t FastMove = 0; //for score
 uint8_t noShift = 1;
@@ -668,7 +664,7 @@ void CheckButtons() {
         if (pause) return;
 
         if (!PD2) {
-            if (ScrFlip) movePieceLeft();
+            if ( !ScrFlip && dfStatus.flipped ) movePieceLeft();
             else movePieceRight();
             noShift = 0;
             ttKeyDown = 1;
@@ -677,7 +673,7 @@ void CheckButtons() {
             return;
 
         } else if (!PD3) {
-            if (ScrFlip) movePieceRight();
+            if ( !ScrFlip && dfStatus.flipped ) movePieceRight();
             else movePieceLeft();
             noShift = 0;
             ttKeyDown = 1;
@@ -861,7 +857,6 @@ void ttStartGame() {
         bto = 3;
     }
 
-    ScrFlip = dfStatus.flipped;
     gFlags.playing_tt = 1;
     Screen = 0;
     gFlags.user_idle = 1; //0

@@ -583,7 +583,7 @@ __myevic__ void GetUserInput()
 				Event = 6;	// stealth on/off
 			}
 		}   
-		else if ( UserInputs == 4 )
+		else if ( UserInputs == 4 ) //left + right
 		{
 			if ( !EditModeTimer )
 			{

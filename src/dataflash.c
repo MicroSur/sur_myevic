@@ -384,7 +384,7 @@ __myevic__ void SetProductID()
 		}
 	}
         
-        gFlags.FireNotFlipped = !ScrFlip;
+        //gFlags.FireNotFlipped = 1; //!ScrFlip;
         
 	FMC_DISABLE_ISP();
 	SYS_LockReg();

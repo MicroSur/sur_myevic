@@ -442,6 +442,8 @@ extern uint8_t	UpdateDFTimer;
 extern uint8_t	UpdatePTTimer;
 extern uint8_t	DFMagicNumber;
 
+extern uint8_t	ScrFlip;
+
 //=========================================================================
 // Functions
 

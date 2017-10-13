@@ -317,6 +317,8 @@ __myevic__ void InitVariables()
 	AtoMaxPower = MaxPower;
 	//Object3D = 1;	
         if ( !dfMaxBoardTemp ) dfMaxBoardTemp = 70;
+        
+        gFlags.FireNotFlipped = 1;
         gFlags.screen_on = 1;
         if ( !dfColdLockTemp ) dfColdLockTemp = 20;
         if ( !dfNewRezPerc ) dfNewRezPerc = 5;
