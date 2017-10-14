@@ -1557,7 +1557,7 @@ __myevic__ void BatteryCharge()
 			}
 		}
 	}
-	else if ( ISRX23 && BattVolts[0] >= 250 && BattVolts[1] >= 250 && BattVolts[2] < 20 )
+	else if ( ( ISRX23 || ISGEN3 ) && BattVolts[0] >= 250 && BattVolts[1] >= 250 && BattVolts[2] < 20 )
 	{
 		NumBatteries = 2;
 		NewBatteryData();
@@ -1568,7 +1568,10 @@ __myevic__ void BatteryCharge()
 
 		if ( BatteryStatus != 2 && BatteryStatus != 3 && BatteryStatus != 4 )
 		{
-			PF1 = 1;
+                    if ( ISRX23 )
+                        PF1 = 1;
+                    else if ( ISGEN3 )
+                        PB7 = 1;
 		}
 	}
         else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
