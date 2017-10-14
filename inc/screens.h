@@ -20,7 +20,7 @@ extern uint8_t	SplashTimer;
 extern uint8_t	EditItemIndex;
 extern uint16_t	EditModeTimer;
 
-extern const uint8_t ScrSaveTimes[8];
+extern const uint8_t ScrSaveTimes[9];
 extern const uint8_t ScrMainTimes[6];
 
 extern void DrawClock();

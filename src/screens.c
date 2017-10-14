@@ -18,7 +18,7 @@ uint16_t	ScreenDuration;
 uint16_t	ScreenRefreshTimer;
 
 //ScrSaveTimes 3 first in sec
-const uint8_t ScrSaveTimes[8] = { 5, 15, 30, 1, 5, 15, 30, 0 }; //{ 1, 2, 5, 10, 15, 20, 30, 0 };
+const uint8_t ScrSaveTimes[9] = { 5, 15, 30, 1, 5, 15, 30, 0, 255 }; //{ 1, 2, 5, 10, 15, 20, 30, 0 };
 const uint8_t ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
 
 uint8_t		EditItemIndex;
@@ -405,8 +405,16 @@ if ( gFlags.debug & 1 )
 			}
 			else
 			{
+                            if (ScrSaveTimes[dfScreenProt] == 255 )
+                            {
+                                Screen = 60;
+				ScreenDuration = GetScreenProtection();
+                            }
+                            else
+                            {
 				Screen = 0;
 				SleepTimer = 18000; //0
+                            }
 				gFlags.refresh_display = 1;
 			}
 			break;
@@ -424,11 +432,11 @@ __myevic__ uint16_t GetScreenProtection()
 {
     if ( dfScreenProt < 3 ) 
     {
-        return ( ScrSaveTimes[dfScreenProt] );
+        return ( ScrSaveTimes[dfScreenProt] ); //in sec
     }
     else
     {
-        return ( 60 * ScrSaveTimes[dfScreenProt] );
+        return ( 60 * ScrSaveTimes[dfScreenProt] );  //in min
     }
 }
 

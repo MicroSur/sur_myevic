@@ -795,8 +795,8 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfRezLockedTCR > 1 )
 		dfRezLockedTCR = 0;
 
-	if ( dfScreenProt > 7 )     //constant table index
-		dfScreenProt = 0;
+	if ( dfScreenProt > 8 )     //constant table index
+		dfScreenProt = 1;   //15s
 
 	if ( dfTCRIndex > 2 )
 		dfTCRIndex = 0;

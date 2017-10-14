@@ -1813,7 +1813,7 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 	{
 		case 0:	// Saver
 			v = ScrSaveTimes[dfScreenProt];
-			if ( v )
+			if ( v && v < 255 )
 			{
 				DrawValueRight( 53, line+2, v, 0, 0x0B, 0 );
                                 if ( dfScreenProt < 3 ) 
@@ -1825,9 +1825,13 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
                                     DrawImage( 55, line+2, 0x8E );
                                 }
 			}
+                        else if ( v == 255 )
+                        {
+                                DrawString( String_On, 44, line+2 );
+                        }
 			else
 			{
-				DrawString( String_Off, 42, line+2 );
+				DrawString( String_Off, 44, line+2 );
 			}
 			break;
 
@@ -1881,7 +1885,7 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 			switch ( CurrentMenuItem )
 			{
 				case 0:	// Saver
-					if ( ++dfScreenProt > 7 )
+					if ( ++dfScreenProt > 8 )
 						dfScreenProt = 0;
 					vret = 1;
 					break;
@@ -1900,7 +1904,7 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 			{
 				case 0:	// Saver
 					if ( !dfScreenProt-- )
-						dfScreenProt = 7;
+						dfScreenProt = 8;
 					vret = 1;
 					break;
 
