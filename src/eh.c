@@ -182,11 +182,19 @@ __myevic__ void EventHandler()
 		{
 			if ( dfStatus.off )
 			{
-                            if( !gFlags.battery_charging && !dfStatus.offmodclock && Screen == 0 )
+                            if ( Screen == 60 )
                             {
-                                DrawDigitClock( 80 );
-                                DrawClock( 0 );   
-                                DisplayRefresh();
+                                Screen = 0;
+				SleepTimer = 0;
+                                gFlags.refresh_display = 1;
+                            }
+                            else if( !gFlags.battery_charging && !dfStatus.offmodclock && Screen == 0 )
+                            {
+                                Screen = 60;
+                                ScreenDuration = 10; //GetScreenProtection();
+                                //DrawDigitClock( 80 );
+                                //DrawClock( 0 );   
+                                //DisplayRefresh();
                                 //KeyPressTime |= 0x8000; //bad for start clicks
                             }
                         return;                       

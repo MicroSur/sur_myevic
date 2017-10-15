@@ -862,11 +862,14 @@ __myevic__ void Main()
 	}
        
 	while ( 1 )
-	{
-		while ( gFlags.playing_fb )
+	{            
+            	while ( gFlags.playing_fb || gFlags.playing_tt )
 		{
-			// Flappy Bird game loop
-			fbCallTimeouts();
+                        if ( gFlags.playing_fb )
+                                fbCallTimeouts();
+                        else
+                                ttCallTimeouts();
+                            
 			if ( gFlags.tick_100hz )
 			{
 				// 100Hz
@@ -877,29 +880,6 @@ __myevic__ void Main()
 				GetUserInput();
 				//if ( !PE0 )
 				//	SleepTimer = 3000;
-			}
-			if ( gFlags.tick_10hz )
-			{
-				// 10Hz
-				gFlags.tick_10hz = 0;
-				DataFlashUpdateTick();
-			}
-		}
-                
-		while ( gFlags.playing_tt )
-		{
-			// Tetris game loop
-			ttCallTimeouts();
-			if ( gFlags.tick_100hz )
-			{
-				// 100Hz
-				gFlags.tick_100hz = 0;
-				ResetWatchDog();
-				TimedItems();
-				//SleepIfIdle();
-				GetUserInput();
-				//if ( !PE0 )
-					SleepTimer = 3000;
 			}
 			if ( gFlags.tick_10hz )
 			{

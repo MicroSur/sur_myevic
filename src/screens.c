@@ -405,7 +405,8 @@ if ( gFlags.debug & 1 )
 			}
 			else
 			{
-                            if (ScrSaveTimes[dfScreenProt] == 255 )
+                            if ( ScrSaveTimes[dfScreenProt] == 255 )
+                        //    if ( dfStatus.off )
                             {
                                 Screen = 60;
 				ScreenDuration = GetScreenProtection();
@@ -1030,6 +1031,13 @@ __myevic__ void ShowRTCAdjust()
 //=========================================================================
 __myevic__ void ShowScreenSaver()
 {
+        if ( dfStatus.off )
+        {
+                DrawDigitClock( 80 );
+                DrawClock( 0 );
+                return;
+        }
+
 	switch ( dfScreenSaver )
 	{
 		case SSAVER_CLOCK:
@@ -1076,13 +1084,21 @@ __myevic__ void ShowScreenSaver()
 
 		default:
 			break;
-	}
+        }
 }
 
 
 //=========================================================================
 __myevic__ void AnimateScreenSaver()
 {
+        if ( dfStatus.off )
+        {
+                DrawDigitClock( 80 );
+                DrawClock( 0 );
+                gFlags.refresh_display = 1;
+                return;
+        }
+            
 	switch ( dfScreenSaver )
 	{
 		case SSAVER_3D:

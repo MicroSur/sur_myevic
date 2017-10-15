@@ -86,10 +86,13 @@ const uint8_t TempCoefsNI[] =
 		{	10, 16, 33, 48, 66, 82, 98, 120, 133, 150, 160, 180,
 			190, 210, 220, 240, 250, 255, 255, 255, 255             };
 
-const uint8_t TempCoefsTI[] =
-		{	53, 53, 53, 53, 53, 53, 53, 53, 53, 53, 54,
-			55, 55, 55, 55, 56, 56, 56, 56, 56, 56		};
+//const uint8_t TempCoefsTI[] =
+//		{	53, 53, 53, 53, 53, 53, 53, 53, 53, 53, 54,
+//			55, 55, 55, 55, 56, 56, 56, 56, 56, 56		};
 
+const uint8_t TempCoefsTI[] =
+		{	10, 10, 20, 30, 41, 51, 61, 71, 81, 91, 103,
+			114, 124, 134, 144, 155, 165, 175, 185, 195, 205	};
 
 //=========================================================================
 __myevic__ void SetPWMClock()
@@ -557,16 +560,19 @@ __myevic__ void ReadAtoTemp()
 	{
 		if ( AtoRezMilli <= base_rez )
 		{
-			AtoTemp = CelsiusToF( (uint16_t)dfColdLockTemp ); //70 F; when cold & no_fire
+			AtoTemp = CelsiusToF( dfColdLockTemp ); //70 F; when cold & no_fire
 		}
-		else if ( dfTempAlgo == 1 )
+		else if ( dfTempAlgo == 1 || dfTempAlgo == 2 )
 		{
-			AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + 68; // Ni +140
+                        //new tables need for TCR calc
+			AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + CelsiusToF( dfColdLockTemp ); // 68 Ni +140
 		}
-		else if ( dfTempAlgo == 2 )
-		{
-			AtoTemp = 10 * AtoRezMilli * TCR / base_rez - 460; // Ti
-		}
+		//else if ( dfTempAlgo == 2 )
+		//{
+                //        //new table need for TCR calc
+                //        AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + CelsiusToF( dfColdLockTemp );
+		//	//AtoTemp = 10 * AtoRezMilli * TCR / base_rez - 460; // Ti
+		//}
 		else if ( dfTempAlgo == 3 || dfTempAlgo == 4 ) //SS mTCR
 		{
 			t = base_rez * TCR;
@@ -1549,7 +1555,10 @@ __myevic__ void ProbeAtomizer()
 		AtoRez = AtoRezMilli / 10;
 		AtoMillis = AtoRezMilli % 10;
                 
-                if ( dfResistance > AtoRez ) dfResistance = AtoRez; // goes down to cold
+                if ( !ISMODETC(dfMode) )
+                {
+                    if ( dfResistance > AtoRez ) dfResistance = AtoRez; // goes down to cold
+                }
 	}
 	else
 	{
