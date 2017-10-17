@@ -5,8 +5,8 @@
 
 extern void InitGPIO();
 
-extern void InitUART0();
-extern void UART0_Cout( uint8_t c );
+//extern void InitUART0();
+//extern void UART0_Cout( uint8_t c );
 
 
 

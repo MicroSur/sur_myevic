@@ -16,7 +16,7 @@
 
 #define BBC_PWM_FREQ	150000
 
-#define ENABLE_UART		0
+//#define ENABLE_UART		0
 
 //-------------------------------------------------------------------------
 

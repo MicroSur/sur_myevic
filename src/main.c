@@ -153,10 +153,10 @@ void InitDevices()
 	CLK_SetCoreClock( CPU_FREQ );
 
 	// UART0 CLK = HXT/1
-	#if (ENABLE_UART)
-	CLK_EnableModuleClock( UART0_MODULE );
-	CLK_SetModuleClock( UART0_MODULE, CLK_CLKSEL1_UARTSEL_HXT, CLK_CLKDIV0_UART( 1 ) );
-	#endif
+	//#if (ENABLE_UART)
+	//CLK_EnableModuleClock( UART0_MODULE );
+	//CLK_SetModuleClock( UART0_MODULE, CLK_CLKSEL1_UARTSEL_HXT, CLK_CLKDIV0_UART( 1 ) );
+	//#endif
 
 	// USB CLK = PLL/3 (48MHz)
 	CLK_EnableModuleClock( USBD_MODULE );
@@ -627,9 +627,9 @@ __myevic__ void LightSleep()
 	CLK_DisableModuleClock( PWM0_MODULE );
 	CLK_DisableModuleClock( SPI0_MODULE );
 	CLK_DisableModuleClock( CRC_MODULE );
-	#if (ENABLE_UART)
-	CLK_DisableModuleClock( UART0_MODULE );
-	#endif
+	//#if (ENABLE_UART)
+	//CLK_DisableModuleClock( UART0_MODULE );
+	//#endif
 
 	gFlags.wake_up = 0;
 
@@ -650,9 +650,9 @@ __myevic__ void LightSleep()
 	SystemCoreClockUpdate();
 
 	// Wake up Modules
-	#if (ENABLE_UART)
-	CLK_EnableModuleClock( UART0_MODULE );
-	#endif
+	//#if (ENABLE_UART)
+	//CLK_EnableModuleClock( UART0_MODULE );
+	//#endif
 	CLK_EnableModuleClock( PWM0_MODULE );
 	CLK_EnableModuleClock( SPI0_MODULE );
 	CLK_EnableModuleClock( CRC_MODULE );
@@ -663,9 +663,9 @@ __myevic__ void LightSleep()
 //----- (00005D14) --------------------------------------------------------
 __myevic__ void FlushAndSleep()
 {
-	#if (ENABLE_UART)
-		UART_WAIT_TX_EMPTY( UART0 );
-	#endif
+	//#if (ENABLE_UART)
+	//	UART_WAIT_TX_EMPTY( UART0 );
+	//#endif
 
 	if ( !gFlags.light_sleep )
 	{
@@ -704,6 +704,9 @@ void GoToSleep()
 	WDT_Open( WDT_TIMEOUT_2POW14, WDT_RESET_DELAY_18CLK, TRUE, FALSE );
 	SYS_LockReg();
 	gFlags.refresh_battery = 1;
+        
+        if ( dfStatus.invert ) gFlags.inverse = 1;
+        
 	DevicesOnOff( 0 );
 	RTCWakeUp();
 	InitDisplay();
