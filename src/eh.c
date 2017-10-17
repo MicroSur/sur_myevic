@@ -1015,8 +1015,9 @@ __myevic__ void EventHandler()
 			{
 				if ( dfStatus.off || dfStealthOn == 1 )
 				{
+                                    	Screen = 0;
 					gFlags.refresh_display = 1;
-					Screen = 0;
+                                        
 					if ( dfStatus.off )
 						SleepTimer = 0;
 					else
@@ -1093,9 +1094,11 @@ __myevic__ void EventHandler()
 		case 3:		// - (minus or left) button
 		{
                     
-                        if ( Screen == 5 ) //charge scr
+                        if ( Screen == 5 && dfStealthOn != 1) //charge scr on off
 			{
-				gFlags.screen_on = ( gFlags.screen_on == 0 );
+				gFlags.screen_on = ( gFlags.screen_on == 0 );                                
+                                ScreenDuration = 0;                               
+                                gFlags.refresh_display = 1;
 			}
                                             
 			if ( dfStatus.off )

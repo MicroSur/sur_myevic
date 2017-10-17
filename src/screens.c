@@ -229,22 +229,23 @@ __myevic__ void DrawScreen()
 	}
 
 
+/*
 if ( gFlags.debug & 1 )
 {
-//        DrawValue( 0, 108, Screen, 0, 0x01, 0 );
-        
+DrawValue( 0, 108, Screen, 0, 0x01, 0 );
 //        DrawValue( 20, 108, LastEvent, 0, 0x01, 0 );
         //DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
-        //DrawValueRight( 38, 108, NextPreheatTimer, 0, 0x01, 0 );
-//        DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
+DrawValueRight( 38, 108, gFlags.inverse, 0, 0x01, 0 );
+DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
         //DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
         
         //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 ); //KeyUpTimer
         //dfResistance AtoRez dfTempAlgo
-        DrawValue( 0, 0, dfTempAlgo, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
-        DrawValueRight( 64, 0, AtoRez, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
+//        DrawValue( 0, 0, dfTempAlgo, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
+//        DrawValueRight( 64, 0, AtoRez, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
         DisplayRefresh();
 }
+*/
 
         
 	if ( ( Screen == 1 || Screen == 60 ) && ( ScreenDuration <= 4 ) )
@@ -279,7 +280,7 @@ if ( gFlags.debug & 1 )
 	if ( ScreenDuration && --ScreenDuration )
 		return;
 
-	switch ( Screen ) // exit from screens 
+	switch ( Screen ) //                EXIT from screens 
 	{
 		case   0: // Black
 			if ( dfStatus.off )
@@ -486,6 +487,7 @@ __myevic__ void ChargeView()
 	Screen = 5;
 	gFlags.refresh_display = 1;
 	ScreenDuration = 5;
+        gFlags.screen_on = 1; //if ( dfStealthOn != 1 )
 }
 
 

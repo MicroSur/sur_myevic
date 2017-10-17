@@ -976,14 +976,15 @@ __myevic__ void Main()
 				anim3d( 0 );
 			}
 
-			if ( Screen == 60 )
+			if ( Screen == 60 || Screen == 0 )
 			{
                                 if ( gFlags.MainContrast ) 
                                 {
                                     DisplaySetContrast( dfContrast2 );
                                     gFlags.MainContrast = 0;
                                 }
-				AnimateScreenSaver();
+				if ( Screen == 60 ) 
+                                    AnimateScreenSaver();
 			}
                         
 			if ( gFlags.firing )
@@ -1039,12 +1040,46 @@ __myevic__ void Main()
 			DataFlashUpdateTick();
 			LEDTimerTick();
                                                
-                        if ( !gFlags.MainContrast && Screen != 60 && Screen != 5 && !gFlags.firing ) //&& Screen != 2)
+                        if ( !gFlags.MainContrast && Screen != 60 && Screen != 5 && Screen != 0 && !gFlags.firing ) //&& Screen != 2)
 			{
                                 DisplaySetContrast( dfContrast );
                                 gFlags.MainContrast = 1;
                         }
                         
+                        if (dfStatus.invert )
+                        {
+                            
+                            int st = (dfStealthOn == 1) || !gFlags.screen_on; //|| ScreenDuration == 0 ;
+                        
+//myprintf( "st=%d dfSt=%d scrOn=%d Scr=%d inv=%d dur=%d\n",
+//			st, dfStealthOn, gFlags.screen_on, Screen, gFlags.inverse, ScreenDuration );
+
+                        
+                            if  
+                                ( 
+                                    Screen == 0 
+                                    || ( Screen == 5 && st && !ScreenDuration ) 
+                                    || ( Screen == 2 && st )
+                                ) 
+                            {
+                                if ( gFlags.inverse )
+                                {
+                                    gFlags.refresh_display = 1;
+                                    DisplaySetInverse( 0 );
+                                    gFlags.inverse = 0;
+                                }
+                            }
+                            else
+                            {
+                                if ( !gFlags.inverse )
+                                {
+                                    gFlags.refresh_display = 1;
+                                    DisplaySetInverse( 1 );
+                                    gFlags.inverse = 1;
+                                }
+                            }
+                        }
+                      
 			if ( gFlags.firing )
                         {                                                                              
                                 if ( dfStatus.fireflip && gFlags.FireNotFlipped && FireDuration > 2 )
@@ -1110,7 +1145,7 @@ __myevic__ void Main()
 				(	!dfStatus.off
 					&& Event == 0
 					&& ( AtoProbeCount < 12 )
-					&& ( Screen == 0 || Screen == 1 || Screen == 5 || Screen == 60 )
+					&& ( Screen == 0 || Screen == 1 || Screen == 2 || Screen == 5 || Screen == 60 )
                                 )
 				{
 					ProbeAtomizer();
@@ -1153,8 +1188,8 @@ __myevic__ void Main()
 					DrawScreen();
 				}
 			}
-			else
-			{
+			//else
+			//{
 /*
 				if
 				(	!dfStatus.off
@@ -1170,7 +1205,7 @@ __myevic__ void Main()
 				//{
 				//	Monitor();
 				//}
-			}
+			//}
 		}
                 
 		if ( gFlags.tick_1hz )

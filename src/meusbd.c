@@ -958,10 +958,10 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 			mondata->BatteryVoltage[i] = RTBVolts[i] - 275;
 		}
 
-		if ( ISMODETC(dfMode) )
-		{
+		//if ( ISMODETC(dfMode) )
+		//{
 			mondata->Temperature = temp;
-		}
+		//}
 
 		mondata->OutputVoltage = AtoVolts;
 		mondata->OutputCurrent = AtoCurrent * 10;
@@ -973,11 +973,11 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 			mondata->BatteryVoltage[i] = BattVolts[i] - 275;
 		}
 
-		if ( ISMODETC(dfMode) )
-		{
+		//if ( ISMODETC(dfMode) )
+		//{
 			ReadAtoTemp();
 			mondata->Temperature = temp;
-		}
+		//}
 	}
 
 	if ( ISMODETC(dfMode) )

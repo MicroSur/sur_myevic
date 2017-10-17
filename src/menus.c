@@ -1688,7 +1688,7 @@ __myevic__ void ScreenSaveOnSelect()
 __myevic__ void CoilsMenuIDraw( int it, int line, int sel )
 {
         int t;
-	if ( it < 3 || it > 4 )
+	if ( it < 3 || it > 5 )
 		return;
         
 	DrawFillRect( 32, line, 63, line+12, 0 );
@@ -1704,6 +1704,14 @@ __myevic__ void CoilsMenuIDraw( int it, int line, int sel )
 			DrawValueRight( 53, line+2, dfNewRezPerc, 0, 0x0B, 0 );
 			DrawImage( 55, line+2, 0xC2 );
 			break;
+		case 5:	// Check
+		{
+			const uint8_t *s;
+			DrawFillRect( 36, line, 63, line+12, 0 );
+			s = ( dfStatus.chkmodeoff ) ? String_No : String_Yes;
+			DrawString( s, 41, line+2 );
+			break;
+		}                        
 		default:
 			break;
 	}
@@ -1723,7 +1731,12 @@ __myevic__ void CoilsMenuOnClick()
                 case 4: // New
 			gFlags.edit_value ^= 1;
 			break;
-
+		case 5:	// Check
+			//if ( ISMODETC(dfMode) )
+			//{
+				dfStatus.chkmodeoff ^= 1;
+			//}
+			break;
 		default:
 			break;
 	}
@@ -2074,15 +2087,6 @@ __myevic__ void CoilsIDraw( int it, int line, int sel )
 			CoilsSelectRez( CurrentMenuItem );
 			break;
 		} 
-
-		case 5:	// Check
-		{
-			const uint8_t *s;
-			DrawFillRect( 36, line, 63, line+12, 0 );
-			s = ( dfStatus.chkmodeoff ) ? String_No : String_Yes;
-			DrawString( s, 44, line+2 );
-			break;
-		}
 	}
 
 	if ( gFlags.edit_value && sel )
@@ -2124,14 +2128,8 @@ __myevic__ void CoilsIClick()
 				SwitchRezLock();
 			}
 			break;
-
-		case 5:	// Check
-			//if ( ISMODETC(dfMode) )
-			//{
-				dfStatus.chkmodeoff ^= 1;
-			//}
-			break;
 	}
+        
 	if ( CurrentMenuItem == CurrentMenu->nitems - 1 )
 	{
 		UpdateDataFlash();
@@ -2576,14 +2574,13 @@ const menu_t CoilsMgmtMenu =
 	CoilsISelect+1,
 	CoilsIClick+1,
 	CoilsMEvent+1,
-	7,
+	6,
 	{
 		{ String_NI, 0, 0, 0 },
 		{ String_TI, 0, 0, 0 },
 		{ String_SS, 0, 0, 0 },
 		{ String_TCR, 0, 0, 0 },
-		{ String_Zero_All, 0, 0, 0 },
-		{ String_Check, 0, 0, 0 },                        
+		{ String_Zero_All, 0, 0, 0 },                       
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -2597,13 +2594,14 @@ const menu_t CoilsMenu =
 	0,
 	CoilsMenuOnClick+1,
 	CoilsMenuOnEvent+1,
-	6,
+	7,
 	{
 		{ String_Manage, &CoilsMgmtMenu, 0, MACTION_SUBMENU },
 		{ String_TCRSet, &TCRSetMenu, 0, MACTION_SUBMENU },
                 { String_Profile, 0, EVENT_PROFILE_MENU, 0 },  
                 { String_Cold, 0, 0, 0 },
                 { String_New, 0, 0, 0 },
+		{ String_Check, 0, 0, 0 },                         
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

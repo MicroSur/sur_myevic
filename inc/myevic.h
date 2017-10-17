@@ -161,6 +161,7 @@ typedef struct
 /* 00800000 */	int splash:1;
 /* 01000000 */	int playing_tt:1;
 /* 02000000 */	int soft_charge:1;
+/* 04000000 */	int inverse:1;
 }
 
 gFlags_t;

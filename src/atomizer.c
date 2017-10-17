@@ -1490,11 +1490,12 @@ __myevic__ void ProbeAtomizer()
 			{
 				gFlags.limit_ato_temp = 1;
 			
-			TargetVolts = GetVoltsForPower( 50 );
-			if ( !TargetVolts ) TargetVolts = 100;
+                                TargetVolts = GetVoltsForPower( 50 );                               
+                                if ( !TargetVolts )  TargetVolts = 100;
                         }
-                        else {
-                        TargetVolts = 100;     
+                        else 
+                        {
+                                TargetVolts = 100;     
                         }
 
 		gFlags.probing_ato = 1;
@@ -1595,7 +1596,7 @@ __myevic__ void ProbeAtomizer()
 		LastAtoMillis = AtoMillis;
 		LastAtoError = AtoError;              
 		SetAtoLimits();
-		gFlags.refresh_display = 1;
+		if ( Screen != 2 || gFlags.firing ) gFlags.refresh_display = 1; //no refresh while scr2 delay
 		//ScreenDuration = GetMainScreenDuration();
 	}
 
