@@ -1393,11 +1393,13 @@ __myevic__ int CustomEvents()
 			break;
 		}
 
+/*
 		case EVENT_FORCE_VCOM:
 			//dfStatus.storage = 0;
 			dfStatus.vcom = 1;
 			InitUSB();
 			break;
+*/
 
 		case EVENT_AUTO_PUFF:
 			//if ( AutoPuffTimer > 0 )

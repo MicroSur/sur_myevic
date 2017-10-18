@@ -541,24 +541,24 @@ __myevic__ void InitUSB()
 
 /* HID Commands */
 #define HID_CMD_NONE		0x00
-#define HID_CMD_GETINFO		0x35
-#define HID_CMD_LDUPDATE	0x3C
-#define HID_CMD_FORCE_VCOM	0x42
-#define HID_CMD_MONITORING	0x43
+#define HID_CMD_GETINFO		0x35    //read df
+//#define HID_CMD_LDUPDATE	0x3C
+//#define HID_CMD_FORCE_VCOM	0x42
+//#define HID_CMD_MONITORING	0x43
 #define HID_CMD_AUTO_PUFF	0x44
-#define HID_CMD_SETPARAMS	0x53
-#define HID_CMD_READCONFIG	0x60
-#define HID_CMD_WRITECONFIG	0x61
+#define HID_CMD_SETPARAMS	0x53    //write df
+//#define HID_CMD_READCONFIG	0x60
+//#define HID_CMD_WRITECONFIG	0x61
 #define HID_CMD_SETDATETIME	0x64
 #define HID_CMD_GETMONDATA	0x66
-#define HID_CMD_GETPROFILE	0x70
-#define HID_CMD_SETPROFILE	0x71
-#define HID_CMD_RESETPARAMS	0x7C
+//#define HID_CMD_GETPROFILE	0x70
+//#define HID_CMD_SETPROFILE	0x71
+#define HID_CMD_RESETPARAMS	0x7C    //reset df
 #define HID_CMD_SETLOGO		0xA5
-#define HID_CMD_RESET		0xB4
-#define HID_CMD_FMCREAD		0xC0
+#define HID_CMD_RESET		0xB4    //restart mod
+//#define HID_CMD_FMCREAD		0xC0
 #define HID_CMD_SCREENSHOT	0xC1
-#define HID_CMD_APUPDATE	0xC3
+#define HID_CMD_APUPDATE	0xC3    //write data
 
 #define HID_CONFIG_LENGTH	0x400
 #define HID_CONFIG_FORMAT	0x03
@@ -655,7 +655,7 @@ __myevic__ void hidSetInReport()
 	{
 		case HID_CMD_GETINFO:
 		case HID_CMD_SCREENSHOT:
-		case HID_CMD_GETPROFILE:
+		//case HID_CMD_GETPROFILE:
 		{
 			if ( hidDataIndex )
 			{
@@ -674,6 +674,7 @@ __myevic__ void hidSetInReport()
 			break;
 		}
 
+/*
 		case HID_CMD_FMCREAD:
 		{
 			if ( !hidDataIndex )
@@ -716,6 +717,7 @@ __myevic__ void hidSetInReport()
 			}
 			break;
 		}
+*/
 
 		default:
 			cmd = HID_CMD_NONE;
@@ -868,6 +870,7 @@ __myevic__ uint32_t hidSetParamCmd( CMD_T *pCmd )
 //-------------------------------------------------------------------------
 // Read Configuration
 //-------------------------------------------------------------------------
+/*
 __myevic__ uint32_t hidGetProfile( CMD_T *pCmd )
 {
 	uint32_t u32ProfileNum;
@@ -907,6 +910,7 @@ __myevic__ uint32_t hidGetProfile( CMD_T *pCmd )
 
 	return 0;
 }
+*/
 
 
 //-------------------------------------------------------------------------
@@ -1003,6 +1007,7 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 
 
 //----- (0000272C) --------------------------------------------------------
+/*
 __myevic__ uint32_t hidLDUpdateCmd( CMD_T *pCmd )
 {
 	//myprintf( "Update LDROM command - Start page: %d\t\tLen: %d\n", pCmd->u32Arg1, pCmd->u32Arg2 );
@@ -1011,9 +1016,11 @@ __myevic__ uint32_t hidLDUpdateCmd( CMD_T *pCmd )
 	pCmd->u32Signature = 0;
 	return 0;
 }
+*/
 
 
 //----- (000025B8) --------------------------------------------------------
+/*
 __myevic__ uint32_t hidFMCReadCmd( CMD_T *pCmd )
 {
 	uint32_t u32StartAddr;
@@ -1055,6 +1062,7 @@ __myevic__ uint32_t hidFMCReadCmd( CMD_T *pCmd )
 
 	return 0;
 }
+*/
 
 
 //-------------------------------------------------------------------------
@@ -1118,11 +1126,13 @@ int32_t hidProcessCommand( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 			hidGetInfoCmd( &hidCmd );
 			break;
 		}
+/*
 		case HID_CMD_LDUPDATE:
 		{
 			hidLDUpdateCmd( &hidCmd );
 			break;
 		}
+*/
 		case HID_CMD_SETPARAMS:
 		{
 			hidSetParamCmd( &hidCmd );
@@ -1138,16 +1148,19 @@ int32_t hidProcessCommand( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 			hidGetMonData( &hidCmd );
 			break;
 		}
+/*
 		case HID_CMD_GETPROFILE:
 		{
 			hidGetProfile( &hidCmd );
 			break;
 		}
+
 		case HID_CMD_SETPROFILE:
 		{
 			hidSetProfile( &hidCmd );
 			break;
 		}
+ */
 		case HID_CMD_SETLOGO:
 		{
 			hidBootLogoCmd( &hidCmd );
@@ -1158,16 +1171,19 @@ int32_t hidProcessCommand( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 			hidResetSysCmd( &hidCmd );
 			break;
 		}
+/*
 		case HID_CMD_FMCREAD :
 		{
 			hidFMCReadCmd( &hidCmd );
 			break;
 		}
+*/
 		case HID_CMD_SCREENSHOT:
 		{
 			hidScreenshot( &hidCmd );
 			break;
 		}
+/*
 		case HID_CMD_FORCE_VCOM:
 		{
 			Event = EVENT_FORCE_VCOM;
@@ -1178,6 +1194,7 @@ int32_t hidProcessCommand( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 			gFlags.monitoring = hidCmd.u32Arg1 ? 1 : 0;
 			break;
 		}
+*/
 		case HID_CMD_AUTO_PUFF:
 		{
 			if ( hidCmd.u32Arg1 < 10 )
@@ -1218,6 +1235,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 	switch ( hidCmd.u8Cmd )
 	{
+/*
 		case HID_CMD_SETPROFILE:
 		{
 			USBD_MemCopy( hidDataPtr, pu8Buffer, EP3_MAX_PKT_SIZE );
@@ -1283,6 +1301,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 			break;
 		}
+*/
 
 		case HID_CMD_SETPARAMS:
 		{
@@ -1435,6 +1454,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 			break;
 		}
 
+/*
 		case HID_CMD_LDUPDATE:
 		{
 			USBD_MemCopy( hidDataPtr, pu8Buffer, EP3_MAX_PKT_SIZE );
@@ -1481,6 +1501,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 			break;
 		}
+*/
 
 		case HID_CMD_SETDATETIME:
 		{
