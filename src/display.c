@@ -369,6 +369,22 @@ __myevic__ uint32_t DrawImage( const int x, const int y, const uint8_t img )
 	}
 }
 
+__myevic__ uint32_t DrawImageRight( const int x, const int y, const uint8_t img )
+{
+	switch ( DisplayModel )
+	{
+		case 0:
+			return SSD1306_Image( x - Images[img - 1]->width, y, img, 0 );
+
+		case 1:
+			return SSD1327_Image( x - Images[img - 1]->width, y, img, 0 );
+
+		default:
+			return 0;
+	}
+}
+
+/*
 __myevic__ void DrawImgImgImg( const int x, const int y, const uint8_t img1, const uint8_t img2, const uint8_t img3 )
 {
 	switch ( DisplayModel )
@@ -385,6 +401,7 @@ __myevic__ void DrawImgImgImg( const int x, const int y, const uint8_t img1, con
                         SSD1327_Image( x + Images[img2 - 1]->width, y, img3, 0 );
 	}
 }
+*/
 
 //=========================================================================
 //----- (000057B8) --------------------------------------------------------

@@ -280,7 +280,7 @@ __myevic__ void DrawAPTLine( int line )
 			DrawString( String_AMP_s, 0, line+2 );
 			DrawValue( 27, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 3 );                        
                     }
-			DrawImage( 56, line+2, 0x9C );
+			DrawImage( 57, line+2, 0x9C );
 			break;
 		}
 
@@ -444,7 +444,7 @@ __myevic__ void DrawAPTLine3( int line )
 			DrawString( String_AMP_s, 0, line+2 );
 			DrawValue( 27, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 3 );                        
                     }
-			DrawImage( 56, line+2, 0x9C );
+			DrawImage( 57, line+2, 0x9C );
 			break;
 		}
 

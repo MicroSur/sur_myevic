@@ -23,6 +23,7 @@ typedef struct mbitdesc_s mbitdesc_t;
 typedef struct mvaluedesc_s mvaluedesc_t;
 
 enum {
+        MACTION_0,
 	MACTION_SUBMENU,
 	MACTION_DATA
 };
@@ -94,6 +95,19 @@ uint8_t PrevMenuItem;
 uint8_t CUSSaved = 0;
 const menu_t LogoMenu;
 
+const mbitdesc_t BitDesc =
+{
+	0, 63, //46
+	String_On,
+	String_Off
+};
+
+const mbitdesc_t InvBitDesc =
+{
+	0, 63,
+	String_Off,
+	String_On
+};
 
 //-----------------------------------------------------------------------------
 __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
@@ -211,19 +225,19 @@ __myevic__ void AlgoMenuIDraw( int it, int line, int sel )
 			{
 				case TCALGO_JOY:
 				default:
-					DrawStringRight( String_Off, 64, line + 2 );
+					DrawStringRight( String_Off, 63, line + 2 );
 					break;
 
 				case TCALGO_SWEET:
-					DrawStringRight( String_Sweet, 64, line + 2 );
+					DrawStringRight( String_Sweet, 63, line + 2 );
 					break;
 
 				case TCALGO_BOOST:
-					DrawStringRight( String_Boost, 64, line + 2 );
+					DrawStringRight( String_Boost, 63, line + 2 );
 					break;
 
 				case TCALGO_PID:
-					DrawStringRight( String_PID, 64, line + 2 );
+					DrawStringRight( String_PID, 63, line + 2 );
 					break;
 			}
 			break;
@@ -250,8 +264,8 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 	{
 		case 4:	// Protec
 			DrawFillRect( 34, line, 63, line+12, 0 );
-			DrawImage( 58, line+2, 0x94 );
-			DrawValueRight( 56, line+2, dfProtec, 1, 0x0B, 0 );
+			DrawImageRight( 63, line+2, 0x94 );
+			DrawValueRight( 57, line+2, dfProtec, 1, 0x0B, 0 );
 			if ( sel && gFlags.edit_value )
 				InvertRect( 0, line, 63, line+12 );
 			break;
@@ -260,18 +274,18 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 			DrawFillRect( 39, line, 63, line+12, 0 );
                         if ( dfStatus2.vapedjoules )
                         {
-                            DrawImage( 43, line+2, 0xDE );   
+                            DrawImageRight( 63, line+2, 0xDE );   
                         }
                         else
                         {
-                            DrawImage( 43, line+2, dfStatus.vapedml ? 0xF9 : 0xF3 );   
+                            DrawImageRight( 63, line+2, dfStatus.vapedml ? 0xF9 : 0xF3 );   
                             //DrawString( dfStatus.vapedml ? String_ml : String_mld, 43, line+2 );
                         }
 			break;
 
 		case 6: // mL/kJ
 			DrawFillRect( 37, line, 63, line+12, 0 );
-			DrawValueRight( 61, line+2, dfVVRatio, 0, 0x0B, 0 );
+			DrawValueRight( 63, line+2, dfVVRatio, 0, 0x0B, 0 );
 			if ( sel && gFlags.edit_value )
 				InvertRect( 0, line, 63, line+12 );
 			break;
@@ -280,11 +294,11 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
                         DrawFillRect( 40, line, 63, line+12, 0 );
                         if ( dfPuffsOff ) 
                         {
-                            DrawValueRight( 61, line+2, dfPuffsOff, 0, 0x0B, 0 );
+                            DrawValueRight( 63, line+2, dfPuffsOff, 0, 0x0B, 0 );
                         }
                         else 
                         {
-                            DrawString( String_Off, 46, line+2 );
+                            DrawStringRight( String_Off, 63, line+2 );
                         }
 			if ( sel && gFlags.edit_value )
 				InvertRect( 0, line, 63, line+12 );
@@ -292,7 +306,7 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 
                 case 10: //AutoPuffTimer
                         DrawFillRect( 36, line, 63, line+12, 0 );
-                        DrawImage( 59, line+2, 0x94 );
+                        DrawImageRight( 63, line+2, 0x94 );
                         DrawValueRight( 57, line+2, dfAutoPuffTimer, 1, 0x0B, 0 );
                 	if ( sel && gFlags.edit_value )
 				InvertRect( 0, line, 63, line+12 );    
@@ -479,8 +493,8 @@ __myevic__ void ScreenMenuIDraw( int it, int line, int sel )
 	{
 		case 5: //fire scr duration
 			DrawFillRect( 44, line, 63, line+12, 0 );
-			DrawImage( 57, line+2, 0x94 );
-			DrawValueRight( 56, line+2, dfFireScrDuration, 0, 0x0B, 0 );
+			DrawImage( 58, line+2, 0x94 );
+			DrawValueRight( 57, line+2, dfFireScrDuration, 0, 0x0B, 0 );
 			if ( sel && gFlags.edit_value )
 				InvertRect( 0, line, 63, line+12 );
 			break;
@@ -574,43 +588,43 @@ __myevic__ void ClicksMenuIDraw( int it, int line, int sel )
 	{
 		default:
 		case CLICK_ACTION_NONE:
-			DrawString( String_None, 20, line+2 );
+			DrawString( String_None, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_EDIT:
-			DrawString( String_Edit, 20, line+2 );
+			DrawString( String_Edit, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_CLOCK:
-			DrawString( String_Clock, 20, line+2 );
+			DrawString( String_Clock, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_TDOM:
-			DrawString( String_PPwr, 20, line+2 );
+			DrawString( String_PPwr, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_NEXT_MODE:
-			DrawString( String_ModePlus, 20, line+2 );
+			DrawString( String_ModePlus, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_ON_OFF:
-			DrawString( String_OnOff, 20, line+2 );
+			DrawString( String_OnOff, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_PROFILE:
-			DrawString( String_Profile, 20, line+2 );
+			DrawString( String_Profile, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_GAME:
-			DrawString( String_Game, 20, line+2 );
+			DrawString( String_Game, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_TETRIS:
-			DrawString( String_Tetris, 20, line+2 );
+			DrawString( String_Tetris, 26, line+2 );
 			break;
                         
 		case CLICK_ACTION_SAVER:
-			DrawString( String_Saver, 20, line+2 );
+			DrawString( String_Saver, 26, line+2 );
 			break;                        
 	}
 }
@@ -642,13 +656,13 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 			int f = dfStatus.dfmt1 | ( dfStatus.dfmt2 << 1 );
 			const uint8_t *s = strings[f];
 			DrawFillRect( 28, line, 63, line+12, 0 );
-			DrawString( s, 32, line+2 );
+			DrawStringRight( s, 63, line+2 );
 			break;
 		}
 
 		case 6:	// Dial
 			DrawFillRect( 36, line, 63, line+12, 0 );
-			DrawImage( 46, line+2, dfStatus.digclk ? 0x9F : 0x9C ); // D/A
+			DrawImageRight( 63, line+2, dfStatus.digclk ? 0x9F : 0x9C ); // D/A
 			break;
 	}
 }
@@ -690,31 +704,35 @@ __myevic__ void ClockMenuOnClick()
 
 __myevic__ void IFMenuIDraw( int it, int line, int sel )
 {
-	if ( it > CurrentMenu->nitems - 2 )
+    //Interface
+    
+	//if ( it > CurrentMenu->nitems - 2 )
+	//	return;
+	if ( it < 1 || it > CurrentMenu->nitems - 2 )
 		return;
-
+        
 	DrawFillRect( 40, line, 63, line+12, 0 );
 
 	switch ( it )
 	{
 		case 1:	// 1Watt
-			DrawString( dfStatus.onewatt ? String_On : String_Off, 44, line+2 );
+			DrawStringRight( dfStatus.onewatt ? String_On : String_Off, 63, line+2 );
 			break;
 
 		case 2:	// 1C5F
-			DrawString( dfStatus.onedegree ? String_On : String_Off, 44, line+2 );
+			DrawStringRight( dfStatus.onedegree ? String_On : String_Off, 63, line+2 );
 			break;
 
 		case 3:	// Wake -+
-			DrawString( dfStatus.wakeonpm ? String_On : String_Off, 44, line+2 );
+			DrawStringRight( dfStatus.wakeonpm ? String_On : String_Off, 63, line+2 );
 			break;
 
 		case 4:	// Temp
-			DrawImage( 44, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			DrawImageRight( 63, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
 
 		case 5:	// TDom
-			DrawString( dfStatus.priopwr ? String_On : String_Off, 44, line+2 );
+			DrawStringRight( dfStatus.priopwr ? String_On : String_Off, 63, line+2 );
 			break;
 
 		default:
@@ -805,12 +823,12 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 	{       
                 case 0:
                         DrawFillRect( 40, line, 63, line+12, 0 );
-                        DrawString( dfStatus.preheat ? String_On : String_Off, 46, line+2 );
+                        DrawStringRight( dfStatus.preheat ? String_On : String_Off, 63, line+2 );
                         return;
                 
 		case 1:	// Unit
 			DrawFillRect( 30, line, 63, line+12, 0 );
-			DrawImage( 45, line+2, dfStatus.phpct ? 0xC2 : 0xB2 );
+			DrawImageRight( 63, line+2, dfStatus.phpct ? 0xC2 : 0xB2 );
 			return;
 
 		case 2:	// Power
@@ -870,15 +888,15 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 	}
  */
 
-        if ( it == 3 )
-        {
+       // if ( it == 3 )
+       // {
                         DrawValueRight( 54, line+2, v, dp, 0x0B, 0 );
-                        DrawImage( 56, line+2, img );
-        }
-        else {
-                        DrawValueRight( 52, line+2, v, dp, 0x0B, 0 );
-                        DrawImage( 54, line+2, img );
-        }
+                        DrawImageRight( 63, line+2, img );
+       // }
+       // else {
+       //                 DrawValueRight( 52, line+2, v, dp, 0x0B, 0 );
+       //                 DrawImage( 54, line+2, img );
+       // }
         
 	if ( sel && gFlags.edit_value )
 		InvertRect( 0, line, 63, line+12 );
@@ -889,11 +907,11 @@ __myevic__ void DrawPreheatDelay( int x, int y, int v, uint8_t dp, uint8_t z, ui
 {
 	if ( v == 0 )
 	{
-		DrawString( String_Off, x+6, y+2 );
+		DrawStringRight( String_Off, 63, y+2 );
 	}
 	else
 	{
-		DrawValue( x+1, y+2, v / 60, 0, 0x0B, 1 );
+		DrawValue( x, y+2, v / 60, 0, 0x0B, 1 ); //x+1
 		DrawImage( x+6, y+2, 0xD7 );
 		DrawValue( x+9, y+2, v % 60, 0, 0x0B, 2 );
 	}
@@ -1174,29 +1192,29 @@ __myevic__ void MaxMenuIDraw( int it, int line, int sel )
                     } else {
                         DrawValueRight( 53, line+2, dfMaxPower / 10, 0, 0x0B, 0);  
                     }
-			DrawImage( 55, line+2, 0x7E );
+			DrawImageRight( 63, line+2, 0x7E );
                         break;                       
                     
 		case 1:	// v
                         if (!dfMaxVolts) dfMaxVolts = MaxVolts;
                         
                     	DrawValueRight( 53, line+2, dfMaxVolts, 2, 0x0B, 0 );
-			DrawImage( 55, line+2, 0x7D );
+			DrawImageRight( 63, line+2, 0x7D );
 			break;
 
 		case 2:	// t
                         t = dfIsCelsius ? dfMaxBoardTemp : CelsiusToF( dfMaxBoardTemp );
 			DrawValueRight( 53, line+2, t, 0, 0x0B, t>99?3:2 );
-			DrawImage( 55, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			DrawImageRight( 63, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;     
 	                 
 		case 3:	// ch
                     if ( !dfUSBMaxCharge || !gFlags.soft_charge )
                     {
-                        DrawImage( 41, line+2 , 0xF6 ); // N/A
+                        DrawImageRight( 63, line+2 , 0xF6 ); // N/A
                     } else {
                     	DrawValueRight( 53, line+2, dfUSBMaxCharge / 10, 2, 0x0B, 3 );
-			DrawImage( 55, line+2, 0x68 );
+			DrawImageRight( 63, line+2, 0x68 );
                     }
 			break;
                         
@@ -1372,34 +1390,38 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 {
     int t;
     
-	if ( it >= CurrentMenu->nitems - 1 )
+	//if ( it >= CurrentMenu->nitems - 1 )
+	//	return;
+	if ( it < 1 || it > 8 )
 		return;
-
+    
 	DrawFillRect( 32, line, 63, line+12, 0 );
 
 	switch ( it )
 	{
-		case 0:	// BVO                      
-                        break;
+	//	case 0:	// BVO   
+        //        case 9: //cus
+        //        case 10: //max
+        //                break;
                         
 		case 1:	// X32
 			if ( dfStatus.x32off )
-				DrawString( String_OFF, 40, line+2 );
+				DrawStringRight( String_OFF, 63, line+2 );
 			else
-				DrawString( String_ON, 40, line+2 );
+				DrawStringRight( String_ON, 63, line+2 );
 			break;
                     
 		case 2:	// LSL
 			if ( dfStatus.lsloff )
-				DrawString( String_OFF, 40, line+2 );
+				DrawStringRight( String_OFF, 63, line+2 );
 			else
-				DrawString( String_ON, 40, line+2 );
+				DrawStringRight( String_ON, 63, line+2 );
 			break;
 
 		case 3:	// SHR
 			//DrawValue( 40, line+2, AtoShuntRez, 0, 0x0B, 3 );
                         ProbeAtomizer();
-                        DrawValue( 35, line+2, AtoRezMilli , 3, 0x0B, 4 );
+                        DrawValueRight( 63, line+2, AtoRezMilli, 3, 0x0B, 4 );
 			if ( gFlags.edit_value && sel )
 				InvertRect( 0, line, 63, line+12 );
 			break;                    
@@ -1407,37 +1429,37 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 		case 4:	// UCH
                         if ( !gFlags.soft_charge )
                         {
-                        DrawImage( 40, line+2 , 0xF6 ); // N/A
+                        DrawImageRight( 63, line+2 , 0xF6 ); // N/A
                         }
                         else
                         {
                             if ( dfStatus.usbchgoff )
-				DrawString( String_OFF, 40, line+2 );
+				DrawStringRight( String_OFF, 63, line+2 );
                             else
-				DrawString( String_ON, 40, line+2 );
+				DrawStringRight( String_ON, 63, line+2 );
                         }
 			break;                   
 
 		case 5:	// BAT profile
-			DrawString( GetBatteryName(), 40, line+2 );
+			DrawStringRight( GetBatteryName(), 63, line+2 );
                         if ( gFlags.edit_value && sel )
                                 InvertRect( 0, line, 63, line+12 );
 			break;
 
 		case 6:	// USB
 			if ( dfStatus.vcom )
-				DrawString( String_COM, 40, line+2 );
+				DrawStringRight( String_COM, 63, line+2 );
 			//else if ( dfStatus.storage )
 			//	DrawString( String_DSK, 40, line+2 );
 			else
-				DrawString( String_HID, 40, line+2 );
+				DrawStringRight( String_HID, 63, line+2 );
 			break;
 
 		case 7:	// DBG
 			if ( dfStatus.dbgena )
-				DrawString( String_ON, 40, line+2 );
+				DrawStringRight( String_ON, 63, line+2 );
 			else
-				DrawString( String_OFF, 40, line+2 );
+				DrawStringRight( String_OFF, 63, line+2 );
 			break;
 
 		//case 8:	// PC Tools
@@ -1449,8 +1471,8 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
                         
                 case 8:	// mod Temp
                         t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
-			DrawValueRight( 52, line+2, t, 0, 0x0B, t>99?3:2 );
-			DrawImage( 53, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			DrawValueRight( 54, line+2, t, 0, 0x0B, 0 ); //t>99?3:2
+			DrawImageRight( 63, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			if ( gFlags.edit_value && sel )
 				InvertRect( 0, line, 63, line+12 );
 			break; 
@@ -1464,8 +1486,8 @@ __myevic__ void ExpertMenuOnClick()
 {
 	switch ( CurrentMenuItem )
 	{
-		case 0:	// BVO
-			break;
+		//case 0:	// BVO
+		//	break;
                     
 		case 1:	// X32
 			dfStatus.x32off ^= 1;
@@ -1697,19 +1719,20 @@ __myevic__ void CoilsMenuIDraw( int it, int line, int sel )
 	{
 		case 3:	// Cold
                         t = dfIsCelsius ? dfColdLockTemp : CelsiusToF( (uint16_t)dfColdLockTemp );
-			DrawValueRight( 53, line+2, t, 0, 0x0B, t>99?3:2 );
-			DrawImage( 55, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			DrawValueRight( 52, line+2, t, 0, 0x0B, 0 ); //t>99?3:2
+                        DrawImageRight( 63, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			//DrawImage( 55, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
 		case 4:	// New
-			DrawValueRight( 53, line+2, dfNewRezPerc, 0, 0x0B, 0 );
-			DrawImage( 55, line+2, 0xC2 );
+			DrawValueRight( 52, line+2, dfNewRezPerc, 0, 0x0B, 0 );
+			DrawImageRight( 63, line+2, 0xC2 );
 			break;
 		case 5:	// Check
 		{
 			const uint8_t *s;
 			DrawFillRect( 36, line, 63, line+12, 0 );
 			s = ( dfStatus.chkmodeoff ) ? String_No : String_Yes;
-			DrawString( s, 41, line+2 );
+			DrawStringRight( s, 63, line+2 );
 			break;
 		}                        
 		default:
@@ -2068,6 +2091,7 @@ __myevic__ void CoilsMEnter()
 
 __myevic__ void CoilsIDraw( int it, int line, int sel )
 {
+    //manage
 	switch ( it )
 	{
 		case 0:
@@ -2324,20 +2348,6 @@ const menu_t ProfileMenu;
 
 //-----------------------------------------------------------------------------
 
-const mbitdesc_t BitDesc =
-{
-	0, 46,
-	String_On,
-	String_Off
-};
-
-const mbitdesc_t InvBitDesc =
-{
-	0, 46,
-	String_Off,
-	String_On
-};
-
 const menu_t GameMenu =
 {
 	String_Game,
@@ -2396,7 +2406,7 @@ const menu_t ModesMenu =
 
 const mvaluedesc_t PreheatDelayDesc =
 {
-	34, 40,
+	34, 42,
 	3, 2,
 	0, 180,
 	&DrawPreheatDelay+1,
@@ -2598,7 +2608,7 @@ const menu_t CoilsMenu =
 	{
 		{ String_Manage, &CoilsMgmtMenu, 0, MACTION_SUBMENU },
 		{ String_TCRSet, &TCRSetMenu, 0, MACTION_SUBMENU },
-                { String_Profile, 0, EVENT_PROFILE_MENU, 0 },  
+                { String_Profile, 0, EVENT_PROFILE_MENU, MACTION_SUBMENU },  //0
                 { String_Cold, 0, 0, 0 },
                 { String_New, 0, 0, 0 },
 		{ String_Check, 0, 0, 0 },                         
@@ -2731,7 +2741,7 @@ const menu_t MiscsMenu =
 
 const mbitdesc_t HmsDesc =
 {
-	36, 42,
+	36, 63,
 	String_HM,
 	String_hms
 };
@@ -2769,10 +2779,10 @@ const menu_t ClockMenu =
 	0,
 	10,
 	{
-		{ String_Time, 0, 0, 0 },
-		{ String_Date, 0, 0, 0 },
-		{ String_ClkAdjust, 0, EVENT_CLK_ADJUST, 0 },
-		{ String_ClkSpeed, 0, EVENT_CLK_SPEED, 0 },
+		{ String_Time, 0, 0, MACTION_SUBMENU }, //0
+		{ String_Date, 0, 0, MACTION_SUBMENU }, //0
+		{ String_ClkAdjust, 0, EVENT_CLK_ADJUST, MACTION_SUBMENU }, //0
+		{ String_ClkSpeed, 0, EVENT_CLK_SPEED, MACTION_SUBMENU }, //0
 		{ String_Fmt, 0, 0, 0 },
 		{ String_Size, &ClkSizeData, 0, MACTION_DATA },
 		{ String_Dial, 0, 0, 0 },               
@@ -3215,7 +3225,7 @@ const menu_t ScreenMenu =
 	ScreenMenuOnEvent+1,
 	7,
 	{
-		{ String_Contrast, 0, EVENT_EDIT_CONTRAST, 0 },
+		{ String_Contrast, 0, EVENT_EDIT_CONTRAST, MACTION_SUBMENU }, //0
 		{ String_Protection, &ScreenProtMenu, 0, MACTION_SUBMENU },
 		{ String_Saver, &ScreenSaveMenu, 0, MACTION_SUBMENU },
 		{ String_Logo, &LogoMenu, 0, MACTION_SUBMENU },
@@ -3269,7 +3279,7 @@ const menu_t IFMenu =
 
 const mvaluedesc_t BoostDesc =
 {
-	34, 54,
+	34, 52,
 	0, 0,
 	0, 200,
 	0,
@@ -3290,7 +3300,7 @@ const mdata_t BoostData =
 
 const mvaluedesc_t PIDPDesc =
 {
-	24, 60,
+	24, 63,
 	0, 0,
 	PID_P_MIN, PID_P_MAX,
 	0,
@@ -3311,7 +3321,7 @@ const mdata_t PIDPData =
 
 const mvaluedesc_t PIDIDesc =
 {
-	24, 60,
+	24, 63,
 	0, 0,
 	PID_I_MIN, PID_I_MAX,
 	0,
@@ -3332,7 +3342,7 @@ const mdata_t PIDIData =
 
 const mvaluedesc_t PIDDDesc =
 {
-	24, 60,
+	24, 63,
 	0, 0,
 	PID_D_MIN, PID_D_MAX,
 	0,
@@ -3374,7 +3384,7 @@ const menu_t AlgoMenu =
 
 const mbitdesc_t CurveEnaDesc =
 {
-	40, 46,
+	40, 63,
 	String_Yes,
 	String_No
 };
@@ -3387,9 +3397,10 @@ const mdata_t CurveEnaData =
 	28
 };
 
+/*
 const mvaluedesc_t CurveDelayDesc =
 {
-	36, 40,
+	36, 42,
 	3, 2,
 	0, 180,
 	&DrawPreheatDelay+1,
@@ -3407,6 +3418,7 @@ const mdata_t CurveDelayData =
 	MITYPE_BYTE,
 	0
 };
+*/
 
 const menu_t CurveMenu =
 {
@@ -3420,9 +3432,9 @@ const menu_t CurveMenu =
 	5,
 	{
 		{ String_Enable, &CurveEnaData, 0, MACTION_DATA },
-                { String_Edit, 0, EVENT_POWER_CURVE, 0 },
-		{ String_Reset, 0, EVENT_POWER_CURVE, 0 },		
-		{ String_Delay, &CurveDelayData, 0, MACTION_DATA },
+                { String_Edit, 0, EVENT_POWER_CURVE, MACTION_SUBMENU }, //0
+		{ String_Reset, 0, EVENT_POWER_CURVE, MACTION_SUBMENU }, //0		
+		{ String_Delay, &PreheatDelayData, 0, MACTION_DATA }, //CurveDelayData
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -3531,12 +3543,12 @@ __myevic__ void DrawMenuData( int line, int sel, const mdata_t *data )
 			if ( !desc )
 			{
 				DrawFillRect( 40, line, 63, line + 12, 0 );
-				DrawString( b ? String_On : String_Off, 44, line+2 );
+				DrawStringRight( b ? String_On : String_Off, 63, line+2 ); //44
 			}
 			else
 			{
 				DrawFillRect( desc->div ? : 40, line, 63, line + 12, 0 );
-				DrawString( b ? desc->on : desc->off, desc->pos ? : 44, line+2 );
+				DrawStringRight( b ? desc->on : desc->off, desc->pos ? : 63, line+2 );
 			}
 			break;
 		}
@@ -3566,13 +3578,14 @@ __myevic__ void DrawMenuData( int line, int sel, const mdata_t *data )
 			else
 			{
 				DrawValueRight( desc->posr, line + 2, v, desc->dp, desc->z, desc-> nd );
-				if ( desc->unit_s )
+				//if ( desc->unit_s ) // not used 
+				//{
+				//	DrawStringRight( desc->unit_s, 63, line + 2 ); //desc->posr + 1
+				//}
+				//else 
+                                if ( desc->unit_c )
 				{
-					DrawString( desc->unit_s, desc->posr + 1, line + 2 );
-				}
-				else if ( desc->unit_c )
-				{
-					DrawImage( desc->posr + 1, line + 2, desc->unit_c );
+					DrawImageRight( 63, line + 2, desc->unit_c );
 				}
 			}
 
@@ -3607,7 +3620,7 @@ __myevic__ void DrawMenu()
 
 	if ( CurrentMenuItem >= CurrentMenu->nitems ) CurrentMenuItem = 0;
 
-	DrawString( CurrentMenu->caption, 4, 6 );
+	DrawString( CurrentMenu->caption, 4, 5 );
 	DrawHLine( 0, 16, 63, 1 );
 
 	if (( CurrentMenu->nitems > 8 ) && ( CurrentMenuItem > 3 ))
@@ -3639,11 +3652,15 @@ __myevic__ void DrawMenu()
 			if ( CurrentMenuItem == firstitem + i )
 			{
 				DrawFillRect( 0, line, 63, line + 12, 1 );
-				DrawStringInv( mi->caption, 2, line + 2 );
+                                DrawStringInv( mi->caption, 2, line + 2 );
+                                if ( mi->action_type == MACTION_SUBMENU )
+                                    DrawImageInv( 58, line+2, 0xD4 );
 			}
 			else
 			{
 				DrawString( mi->caption, 2, line + 2 );
+                                if ( mi->action_type == MACTION_SUBMENU )
+                                    DrawImage( 58, line+2, 0xD4 );
 			}
 		}
 
@@ -3966,7 +3983,7 @@ __myevic__ int MenuEvent( int event )
 
 		}	break;
 
-		case 3:
+		case 3: //minus
 		{
 			if ( CurrentMenuItem )
 			{
