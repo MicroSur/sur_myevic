@@ -720,7 +720,7 @@ __myevic__ void SleepIfIdle()
 	if ( !gFlags.firing && !NoEventTimer )
 	{
 		if ( ( Screen == 0 ) && ( SleepTimer == 0 ) && ( gFlags.user_idle ) )
-		{
+		{                  
 			GoToSleep();
 
 			byte_200000B3 = 2;
@@ -881,8 +881,21 @@ __myevic__ void Main()
 				TimedItems();
 				//SleepIfIdle();
 				GetUserInput();
-				//if ( !PE0 )
-				//	SleepTimer = 3000;
+                                if ( !SleepTimer )
+                                {
+                                    if ( gFlags.playing_fb )
+                                    {
+                                        gFlags.playing_fb = 0;
+					fbInitTimeouts();
+                                    }
+                                    else
+                                    {
+                                        gFlags.playing_tt = 0;
+					ttInitTimeouts();
+                                    }   
+                                }
+                                if ( !PE0 || !PD2 || !PD3 )
+                                    SleepTimer = 3000; //30 sec
 			}
 			if ( gFlags.tick_10hz )
 			{

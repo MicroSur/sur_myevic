@@ -546,8 +546,12 @@ void CompletedLines() {
         AmountScored += FastMove; // fast drop count + noTouch + noRotate
         FastMove = 0;
         AmountScored *= level;
-
-        ttScore += AmountScored;
+        
+        if ( ( ttScore + AmountScored ) >> 8 < 255  )
+            ttScore += AmountScored;
+        else
+            gameOver = 2;
+        
         setScore(ttScore, 1);
 
         //update level line count & level
@@ -557,8 +561,13 @@ void CompletedLines() {
             levellineCount = 0;
             //do level up affect
         }
-        if (dfTTSpeed != 2) {
-            if (level > 10) gameOver = 1;
+        if (dfTTSpeed != 2) 
+        {
+            if (level > 10) gameOver = 2;
+        }
+        else
+        {
+            if (level > 99) gameOver = 2;
         }
         setLevel(level, 1);
 
@@ -771,7 +780,7 @@ void ttStartScreen() {
 
     } else {
 
-        DrawFillRect(0, 18, 63, 84, 0); //erase
+        DrawFillRect(0, 18, 63, 108, 0); //erase
 
         if (ttAnimStep) {
             if (++ttTetrisLine == 16)
@@ -802,6 +811,13 @@ void ttStartScreen() {
                 case 2:	DrawStringCentered(String_Survival, 95); break;
 	}
         
+        if ( gameOver == 2 )
+        {
+            uint8_t strbuf[4];
+            convert_string1( strbuf, "WIN" );
+            DrawStringCentered(strbuf, 84);  
+        }
+        
         DrawTTCup();
         DisplayRefresh();
         ttSetTimeoutDelay(10);
@@ -811,7 +827,11 @@ void ttStartScreen() {
 
 void ttGame() {
 
-    if (pause) return;
+    if (pause) 
+    {
+        SleepTimer = 3000;
+        return;
+    }
 
     if (gameOver) {
         //ttCLSBuf();
@@ -863,7 +883,7 @@ void ttStartGame() {
     gFlags.refresh_display = 1;
 
     NoEventTimer = 0;
-    SleepTimer = 0;
+    SleepTimer = 3000; //30 sec for first time
 
     ttInitTimeouts();
     ClearScreenBuffer();

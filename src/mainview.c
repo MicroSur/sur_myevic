@@ -261,12 +261,18 @@ __myevic__ void DrawCoilLine( int line )
 
 //=============================================================================
 
-__myevic__ void DrawAPTLine( int line )
+__myevic__ void DrawAPTLines()
 {       
-	if ( BLINKITEM(5) )
-		return;
-
-	switch ( dfAPT )
+    // APT - line 4, APT3 - line 3
+    for ( int i = 0 ; i < 2 ; ++i )
+    {       
+	if ( ( i == 0 && BLINKITEM(5) ) || ( i == 1 && BLINKITEM(4) ) )
+		continue;
+        
+        uint8_t a = i? dfAPT3 : dfAPT;
+        int line = i? 80 : 97; 
+         
+	switch ( a )
 	{
 		default:
 		case 0:	// Current
@@ -356,8 +362,15 @@ __myevic__ void DrawAPTLine( int line )
 			//DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
                         if (dfAPT == dfAPT3)
                         {
-                            int b = NumBatteries > 1? 1 : 0;
-                            DrawValue( 27, line, gFlags.firing?RTBVolts[b]:BattVolts[b], 2, 0x1F, 3 ); 
+                            if ( i == 0 )
+                            {
+                                int b = NumBatteries > 1? 1 : 0;
+                                DrawValue( 27, line, gFlags.firing?RTBVolts[b]:BattVolts[b], 2, 0x1F, 3 ); 
+                            }
+                            else
+                            {
+                                DrawValue( 27, line, gFlags.firing?RTBVolts[0]:BattVolts[0], 2, 0x1F, 3 );     
+                            }
                         }
                         else
                         {
@@ -421,169 +434,7 @@ __myevic__ void DrawAPTLine( int line )
 			break;
 		} 
 	}
-}
-
-//=============================================================================
-
-__myevic__ void DrawAPTLine3( int line )
-{
-	if ( BLINKITEM(4) )
-		return;
-        
-	switch ( dfAPT3 )
-	{
-		default:
-		case 0:	// Current
-		{
-                    if ( gFlags.battery_charging )
-                    {
-                    	DrawString( gFlags.firing ? String_AMP_s : String_UCH_s, 0, line+2 );
-                        if ( gFlags.firing ) DrawValue( 27, line, AtoCurrent, 1, 0x1F, 3 );    
-                        else DrawValue( 27, line, ChargeCurrent / 10, 2, 0x1F, 3 ); 
-                    } else {
-			DrawString( String_AMP_s, 0, line+2 );
-			DrawValue( 27, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 3 );                        
-                    }
-			DrawImage( 57, line+2, 0x9C );
-			break;
-		}
-
-		case 1:	// Puff counter
-		{
-			DrawString( String_PUFF_s, 0, line+2 );
-			DrawValueRight( 24+8*5, line, dfPuffCount, 0, 0x1F, 0 );
-			break;
-		}
-
-		case 2:	// Time counter
-		{
-		//	DrawString( String_TIME_s, 0, line+2 );
-		//	DrawValue( 24, line, dfTimeCount / 10, 0, 0x1F, 5 );
-			DrawString( String_PUFF_s, 0, line+2 );
-			DrawValueRight( 34, line+2, dfTimeCount / 36000, 0, 0x0B, 0 );
-			DrawImage( 34, line+2, 0xD7 );
-			DrawValue( 37, line+2, dfTimeCount / 600 % 60, 0, 0x0B, 2 );
-			DrawImage( 49, line+2, 0xD7 );
-			DrawValue( 52, line+2, dfTimeCount / 10 % 60, 0, 0x0B, 2 );
-			break;
-		}
-
-		case 3:	// Vape Velocity
-		{
-			uint32_t vv, t;
-			// Elasped seconds since last VV reset
-			t = RTCGetEpoch( 0 );
-			t -= RTCReadRegister( RTCSPARE_VV_BASE );
-
-			vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
-			vv /= 10;
-			if ( vv > 9999 ) vv = 9999;
-                        
-                        if ( dfStatus2.vapedjoules )
-                        {
-                            vv = ( MilliJoules / 10 ) / 3600;
-                            if ( vv > 9999 ) vv = 9999;
-                            DrawImage( 0, line+2, 0xDE ); //energy
-                            DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-                            DrawImage( 56, line, 0x67 ); //wh
-                        }                       
-                        else
-                        {
-                            if ( dfStatus.vapedml )
-                            {
-				//DrawString( String_LIQ_s, 0, line+2 );
-				DrawImage( 0, line+2, 0xF9 );
-				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-                            }
-                            else
-                            {
-				vv = vv * 86400 / ( t ? : 1 );
-				DrawImage( 0, line+2, 0xF3 );
-				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-                            }
-                            DrawImage( 57, line+2, 0xCD ); //flask
-                        }
-			break;
-		}
-
-		case 4:	// Atomizer voltage
-		{
-			DrawString( String_VOUT_s, 0, line+2 );
-			DrawValue( 27, line, gFlags.firing?AtoVolts:0, 2, 0x1F, 3 );
-			DrawImage( 57, line+2, 0x7D );
-			break;
-		}
-
-		case 5:	// Battery voltage
-		{
-			DrawString( String_BATT_s, 0, line+2 );
-			//DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
-                        if (dfAPT3 == dfAPT)
-                        {
-                            DrawValue( 27, line, gFlags.firing?RTBVolts[0]:BattVolts[0], 2, 0x1F, 3 ); 
-                        }
-                        else
-                        {
-                            DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );   
-                        }
-			DrawImage( 57, line+2, 0x7D );
-			break;
-		}
-
-		case 6:	// Board temperature
-		{
-			DrawString( String_BOARD_s, 0, line+2 );
-
-			int t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
-
-			DrawValue( t>99?31:39, line, t, 0, 0x1F, t>99?3:2 );
-			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
-			break;
-		}
-
-		case 7:	// Real-time atomizer resistance
-		{
-			int rez = AtoError ? 0 : AtoRezMilli;
-			//int nd = ( rez < 1000 ) ? 3 : 4;
-			DrawString( String_RES_s, 0, line+2 );
-			DrawValueRight( 55, line, rez, 3, 0x1F, 4 );
-			DrawImage( 56, line+2, 0xC0 );
-			// Refresh every second
-			ScreenRefreshTimer = 10;
-			break;
-		}
-
-		case 8:	// Real-time clock
-		{
-			S_RTC_TIME_DATA_T rtd;
-			GetRTC( &rtd );
-			DrawTime( 3, line, &rtd, 0x1F );
-			break;
-		}
-		case 9:	// BatteryIntRez
-		{
-			DrawImage( 0, line+2, 0xFA );
-			DrawValueRight( 55, line, BatteryIntRez, 3, 0x1F, 4 );
-			DrawImage( 56, line+2, 0xC0 );
-			break;
-		} 
-		case 10: // coil temp
-		{
-			DrawImage( 0, line+2, 0xDB );
-                        if ( !AtoRezMilli ) AtoTemp = 32;
-                        int t = dfIsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
-			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
-			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
-			break;
-		}
-                case 11: // batts total
-		{
-			DrawString( String_BATT_s, 0, line+2 );
-                        DrawValueRight( 55, line+2, gFlags.firing?RTBVTotal:BattVoltsTotal, 2, 0x0B, 4 ); 
-                        DrawImage( 57, line+2, 0x7D );
-			break;
-		} 
-	}
+    }
 }
 
 //=============================================================================
@@ -722,9 +573,8 @@ __myevic__ void DrawInfoLines()
 		}
 	}
 
-	DrawCoilLine( 63 ); //71 );
-        DrawAPTLine3( 80 );
-	DrawAPTLine( 97 ); //90 );
+	DrawCoilLine( 63 );
+        DrawAPTLines();;
 }
 
 

@@ -706,7 +706,7 @@ __myevic__ void fbStartGame()
 	gFlags.user_idle = 1;
 	gFlags.refresh_display = 1;
 	NoEventTimer = 0;
-	SleepTimer = 0; //3000;
+	SleepTimer = 3000;
 	fbInitTimeouts();
 	ClearScreenBuffer();
 	DisplayRefresh();
