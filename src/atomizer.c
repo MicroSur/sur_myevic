@@ -526,7 +526,7 @@ __myevic__ void ReadAtoCurrent()
 
 		AtoStatus = 1;
 
-		if ( gFlags.firing ) Event = 25;
+		if ( gFlags.firing ) Event = 70; //25;
 
 		StopFire();
 
@@ -771,7 +771,7 @@ __myevic__ void ReadAtomizer()
 				if ( gFlags.firing )
 				{
 					StopFire();
-					Event = 25;
+					Event = 25; //short
 				}
 				return;
 			}
@@ -781,7 +781,7 @@ __myevic__ void ReadAtomizer()
 				AtoStatus = 2;
 				if ( gFlags.firing )
 				{
-					Event = 27;
+					Event = 27; //low
 				}
 				return;
 			}
@@ -791,7 +791,7 @@ __myevic__ void ReadAtomizer()
 				AtoRezMilli = 0;
 				if ( gFlags.firing )
 				{
-					Event = 26;
+					Event = 26; //no ato
 				}
 				return;
 			}
@@ -804,7 +804,7 @@ __myevic__ void ReadAtomizer()
 			if ( gFlags.firing && AtoRezMilli / 10 <= AtoRez >> 2 )
 			{
 				StopFire();
-				Event = 25;
+				Event = 71; //25;  check contact
 				//myprintf( "RL_GND2 %d\n", AtoRezMilli );
 				return;
 			}

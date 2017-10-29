@@ -52,6 +52,8 @@ extern void ShowStealthMode();
 extern void ShowDevTooHot();
 extern void ShowAtoLow();
 extern void ShowAtoShort();
+extern void ShowAtoShortCurrent();
+extern void ShowAtoShortBad();
 extern void ShowBatLow();
 extern void ShowBatLowLock();
 extern void ShowKeyLock();

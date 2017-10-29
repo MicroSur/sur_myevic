@@ -1723,7 +1723,7 @@ __myevic__ void BatteryCharge()
 					ChargeStatus = 2;
 					ChargerTarget = GetMaxCharge( 300 ); //300;
 				}
-				else if ( BattVoltsHighest < 419 ) //416
+				else if ( BattVoltsHighest < 420 ) //max current here //416
 				{
 					if ( ChargeStatus != 4 )
 					{
@@ -1770,7 +1770,10 @@ __myevic__ void BatteryCharge()
 				else
 				{
 					ChargeStatus = 4;
-					ChargerTarget = GetMaxCharge( 500 ); //500; //600
+                                        if ( BattVoltsHighest < 421 ) //416
+                                            ChargerTarget = GetMaxCharge( 600 ); //500; //600
+                                        else
+                                            ChargerTarget = GetMaxCharge( 300 ); //300 - 600 while around 421
 				}
 
 				BBC_Configure( BBC_PWMCH_CHARGER, 1 );

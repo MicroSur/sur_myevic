@@ -906,7 +906,7 @@ __myevic__ void DFCheckValuesValidity()
 	if ( ( dfBVOffset[i] < BVO_MIN ) || ( dfBVOffset[i] > BVO_MAX ) )
 		dfBVOffset[i] = 0;
 
-        if ( dfMaxBoardTemp > 99 ) dfMaxBoardTemp = 70;
+        if ( dfMaxBoardTemp > 99 || dfMaxBoardTemp < 20 ) dfMaxBoardTemp = 70;
         if ( dfMaxVolts > 999 ) dfMaxVolts = 999;
         if ( dfMaxPower > 5000 ) dfMaxVolts = 750;
         if ( dfUSBMaxCharge > 2000 ) dfUSBMaxCharge = 2000;

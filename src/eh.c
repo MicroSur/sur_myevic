@@ -279,7 +279,7 @@ __myevic__ void EventHandler()
 			switch ( AtoStatus )
 			{
 				case 1:
-					Event = 25;
+					Event = 25; //short
 					break;
 				case 2:
 					Event = 27;
@@ -294,7 +294,10 @@ __myevic__ void EventHandler()
 			}
 
 			if ( AtoError )
-				return;
+                        {
+                            return;
+                        }
+				
 
 			if ( byte_200000B3 == 1 )
 			{
@@ -844,7 +847,19 @@ __myevic__ void EventHandler()
 			Screen = 21;
 			ScreenDuration = 2;
 			return;
-
+                        
+		case 70:	// Atomizer short current
+			gFlags.refresh_display = 1;
+			Screen = 70;
+			ScreenDuration = 2;
+			return;
+                        
+                case 71:	// Atomizer short Bad contact
+			gFlags.refresh_display = 1;
+			Screen = 71;
+			ScreenDuration = 2;
+			return;
+                        
 		case 24:	// 10s Fire protection
 			StopFire();
 			if ( AtoError )

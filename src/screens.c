@@ -113,8 +113,16 @@ __myevic__ void DrawScreen()
 			case 21: // Atomizer Short
 				ShowAtoShort();
 				break;
-
-				case 22: // Atomizer Low
+                                
+                        case 70: // Atomizer Short Current
+				ShowAtoShortCurrent();
+				break;
+                                
+                        case 71: // Atomizer Short Bad
+				ShowAtoShortBad();
+				break;
+                                
+			case 22: // Atomizer Low
 				ShowAtoLow();
 				break;
 
@@ -352,6 +360,8 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 		case  56: // Check Battery
 		case  57: // Check USB Adapter
 		case  58: // Charge Error
+                case  70: // Atomizer Short current error
+                case  71: // Atomizer Short contacts check
 			MainView();
 			break;
 
@@ -948,6 +958,18 @@ __myevic__ void ShowAtoShort()
 {
 	DrawStringCentered( String_Atomizer, 88 );
 	DrawStringCentered( String_Short, 102 );
+}
+__myevic__ void ShowAtoShortCurrent()
+{
+    //from read ato current 70
+	DrawStringCentered( String_Atomizer, 88 );
+	DrawStringCentered( String_Error, 102 );
+}
+__myevic__ void ShowAtoShortBad()
+{
+    //bad contacts 71
+        DrawStringCentered( String_Check, 88 );
+	DrawStringCentered( String_Atomizer, 102 );
 }
 
 

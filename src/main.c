@@ -316,7 +316,7 @@ __myevic__ void InitVariables()
 	AtoMinPower = 10;
 	AtoMaxPower = MaxPower;
 	//Object3D = 1;	
-        if ( !dfMaxBoardTemp ) dfMaxBoardTemp = 70;
+        //if ( !dfMaxBoardTemp ) dfMaxBoardTemp = 70;
         
         gFlags.FireNotFlipped = 1;
         gFlags.screen_on = 1;
@@ -1204,7 +1204,23 @@ __myevic__ void Main()
 					DrawScreen();
 				}
 			}
-			//else
+			else
+                        {
+                            //if ( AtoError == 2 ) 
+                            if 
+                                ( 
+                                ( AtoStatus == 1 || AtoStatus == 2 ) //short low
+                                && !dfStatus.off
+                                && Event == 0
+                                && AtoProbeCount >= 12
+                                )
+                            {
+                                AtoStatus = 4;
+                                ProbeAtomizer();
+                                //ReadAtomizer();
+                            }
+
+                        }
 			//{
 /*
 				if
