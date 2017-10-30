@@ -662,7 +662,11 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 
 		case 6:	// Dial
 			DrawFillRect( 36, line, 63, line+12, 0 );
-			DrawImageRight( 63, line+2, dfStatus.digclk ? 0x9F : 0x9C ); // D/A
+			//DrawImageRight( 63, line+2, dfStatus.digclk ? 0x9F : 0x9C ); // D/A
+                        
+                        const uint8_t strings[3] = { 0x9C, 0x9F, 0xA8 }; //A D M
+			int f = dfStatus.digclk | ( dfStatus2.digclk2 << 1 );
+                        DrawImageRight( 63, line+2, strings[f] ); 
 			break;
 	}
 }
@@ -692,10 +696,17 @@ __myevic__ void ClockMenuOnClick()
 		}
 
 		case 6:	// Dial
-			dfStatus.digclk ^= 1;
+			//dfStatus.digclk ^= 1;
+                {    
+                    	int f = dfStatus.digclk | ( dfStatus2.digclk2 << 1 );
+			if ( ++f > 2 ) f = 0;
+			dfStatus.digclk = f & 1;
+			dfStatus2.digclk2 = f >> 1;
+                        
 			UpdateDFTimer = 50;
 			gFlags.refresh_display = 1;
 			break;
+                }
 	}
 }
 
@@ -1849,32 +1860,32 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 	{
 		case 0:	// Saver
 			v = ScrSaveTimes[dfScreenProt];
-			if ( v && v < 255 )
+			if ( v ) //&& v < 255 )
 			{
-				DrawValueRight( 53, line+2, v, 0, 0x0B, 0 );
+				DrawValueRight( 54, line+2, v, 0, 0x0B, 0 );
                                 if ( dfScreenProt < 3 ) 
                                 { //sec
-                                    DrawImage( 55, line+2, 0x94 );
+                                    DrawImageRight( 63, line+2, 0x94 );
                                 }
 				else 
                                 { //min
-                                    DrawImage( 55, line+2, 0x8E );
+                                    DrawImageRight( 63, line+2, 0x8E );
                                 }
 			}
-                        else if ( v == 255 )
-                        {
-                                DrawString( String_On, 44, line+2 );
-                        }
+                        //else if ( v == 255 )
+                        //{
+                        //        DrawString( String_On, 44, line+2 );
+                        //}
 			else
 			{
-				DrawString( String_Off, 44, line+2 );
+				DrawStringRight( String_Off, 63, line+2 );
 			}
 			break;
 
 		case 1:	// Main
 			v = ScrMainTimes[dfScrMainTime];
-			DrawValueRight( 53, line+2, v, 0, 0x0B, 0 );
-			DrawImage( 55, line+2, 0x94 );
+			DrawValueRight( 54, line+2, v, 0, 0x0B, 0 );
+			DrawImageRight( 63, line+2, 0x94 );
 			break;
 
 		default:
@@ -1921,7 +1932,7 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 			switch ( CurrentMenuItem )
 			{
 				case 0:	// Saver
-					if ( ++dfScreenProt > 8 )
+					if ( ++dfScreenProt > 7 )
 						dfScreenProt = 0;
 					vret = 1;
 					break;
@@ -1940,7 +1951,7 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 			{
 				case 0:	// Saver
 					if ( !dfScreenProt-- )
-						dfScreenProt = 8;
+						dfScreenProt = 7;
 					vret = 1;
 					break;
 

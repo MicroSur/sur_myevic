@@ -585,6 +585,7 @@ __myevic__ void ResetDataFlash()
         dfStatus.vapedml = 1;
         dfStatus2.vapedjoules = 0;
 	dfStatus.digclk = 1;
+        dfStatus2.digclk2 = 0; //00 01 10
 //	dfStatus.battpc = 1;
         dfBattLine = 1;
 //        dfStatus.battv = 0;
@@ -795,7 +796,7 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfRezLockedTCR > 1 )
 		dfRezLockedTCR = 0;
 
-	if ( dfScreenProt > 8 )     //constant table index
+	if ( dfScreenProt > 7 )     //constant table index
 		dfScreenProt = 1;   //15s
 
 	if ( dfTCRIndex > 2 )

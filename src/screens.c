@@ -18,7 +18,7 @@ uint16_t	ScreenDuration;
 uint16_t	ScreenRefreshTimer;
 
 //ScrSaveTimes 3 first in sec
-const uint8_t ScrSaveTimes[9] = { 5, 15, 30, 1, 5, 15, 30, 0, 255 }; //{ 1, 2, 5, 10, 15, 20, 30, 0 };
+const uint8_t ScrSaveTimes[8] = { 5, 15, 30, 1, 5, 15, 30, 0 }; //, 255 }; //{ 1, 2, 5, 10, 15, 20, 30, 0 };
 const uint8_t ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
 
 uint8_t		EditItemIndex;
@@ -416,17 +416,17 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 			}
 			else
 			{
-                            if ( ScrSaveTimes[dfScreenProt] == 255 )
-                        //    if ( dfStatus.off )
-                            {
-                                Screen = 60;
-				ScreenDuration = GetScreenProtection();
-                            }
-                            else
-                            {
+                            //if ( ScrSaveTimes[dfScreenProt] == 255 )
+                                    //    if ( dfStatus.off )
+                            //{
+                            //    Screen = 60;
+				//ScreenDuration = GetScreenProtection();
+                            //}
+                            //else
+                            //{
 				Screen = 0;
 				SleepTimer = 18000; //0
-                            }
+                            //}
 				gFlags.refresh_display = 1;
 			}
 			break;
@@ -577,17 +577,18 @@ __myevic__ void ShowRTCSpeed()
 	DrawHLine( 0, 16, 63, 1 );
 
 	GetRTC( &rtd );
-	DrawTimeSmall( 10, 25, &rtd, 0x1F );
+	//DrawTimeSmall( 10, 25, &rtd, 0x1F );
+        DrawTime( 3, 25, &rtd, 0x1F );
 
 	if ( gFlags.has_x32 )
 	{
-		DrawString( String_X32, 11, 40 );
-		DrawString( String_ON, 37, 40 );
+		DrawString( String_X32, 11, 48 );
+		DrawString( String_ON, 37, 48 );
 	}
 	else
 	{
 		cs = RTCGetClockSpeed();
-		DrawValue( 12, 40, cs, 0, 0x1F, 5 );
+		DrawValue( 12, 48, cs, 0, 0x1F, 5 );
 	}
 }
 
@@ -1048,7 +1049,7 @@ __myevic__ void ShowRTCAdjust()
 	DrawHLine( 0, 16, 63, 1 );
 
 	GetRTC( &rtd );
-	DrawTime( 5, 40, &rtd, 0x1F );
+	DrawTime( 3, 40, &rtd, 0x1F );
 }
 
 
@@ -1057,7 +1058,7 @@ __myevic__ void ShowScreenSaver()
 {
         if ( dfStatus.off )
         {
-                DrawDigitClock( 80 );
+                DrawDigitClock( 82 );
                 DrawClock( 0 );
                 return;
         }
@@ -1066,18 +1067,8 @@ __myevic__ void ShowScreenSaver()
 	{
 		case SSAVER_CLOCK:
                         
-                        DrawDigitClock( 80 );
+                        DrawDigitClock( 82 );
                         DrawClock( 0 );           
-/*
-			if ( dfStatus.digclk )
-			{
-				DrawDigitClock( 40 );
-			}
-			else
-			{
-				DrawClock( 25 );
-			}
-*/
 			break;
 
 		case SSAVER_3D:
@@ -1117,7 +1108,7 @@ __myevic__ void AnimateScreenSaver()
 {
         if ( dfStatus.off )
         {
-                DrawDigitClock( 80 );
+                DrawDigitClock( 82 );
                 DrawClock( 0 );
                 gFlags.refresh_display = 1;
                 return;
@@ -1149,7 +1140,7 @@ __myevic__ void ShowSetTime()
 	DrawString( String_Time, 4, 6 );
 	DrawHLine( 0, 16, 63, 1 );
 
-	DrawTime( 6, 46, &SetTimeRTD, 0x1F & ~( 1 << ( EditItemIndex << 1 ) ) );
+	DrawTime( 3, 46, &SetTimeRTD, 0x1F & ~( 1 << ( EditItemIndex << 1 ) ) );
 	DrawDate( 4, 64, &SetTimeRTD, 0x1F );
 }
 
@@ -1175,7 +1166,7 @@ __myevic__ void ShowSetDate()
 	DrawString( String_Date, 4, 6 );
 	DrawHLine( 0, 16, 63, 1 );
 
-	DrawTime( 6, 46, &rtd, 0x1F );
+	DrawTime( 3, 46, &rtd, 0x1F );
 	DrawDate( 4, 64, &SetTimeRTD, col );
 }
 

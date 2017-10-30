@@ -97,6 +97,7 @@ typedef struct
 /* 00000002 */	unsigned int vapedjoules:1; 
 /* 00000004 */	unsigned int smart_ph:1;
 /* 00000008 */	unsigned int swap_mp:1;
+/* 00000010 */	unsigned int digclk2:1;
 }
 // Do not exceed 32 bits;
 dfStatus2_t;

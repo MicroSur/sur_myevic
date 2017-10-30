@@ -586,7 +586,7 @@ __myevic__ void NewBatteryData()
 
 
 //=========================================================================
-// RX300 Charge Balancing (maybe)
+// Charge Balancing 
 //-------------------------------------------------------------------------
 __myevic__ void ChargeBalance()
 {

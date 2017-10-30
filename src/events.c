@@ -260,7 +260,7 @@ __myevic__ void GetUserInput()
 		{
 			if ( !gFlags.usb_attached )
 			{
-				UserInputs = 10;
+				UserInputs = 10; // USB cable attach
 				BattProbeCount = 0;
 
 				if ( dfStatus.off && FireClickCount == 1 )
@@ -273,7 +273,7 @@ __myevic__ void GetUserInput()
 		{
 			if ( gFlags.usb_attached )
 			{
-				UserInputs = 11;
+				UserInputs = 11; // USB cable detach
 			}
 		}
 
@@ -304,13 +304,13 @@ __myevic__ void GetUserInput()
 				{
 					if ( !BattProbeCount || BattProbeCount >= 50 )
 					{
-						UserInputs = 12;
+						UserInputs = 12; //start hard charge 
 						BattProbeCount = 0;
 					}
 				}
 				else if ( PD7 && gFlags.battery_charging )
 				{
-					UserInputs = 13;
+					UserInputs = 13; //stop hard charge
 					BattProbeCount = 1;
 				}
 			}

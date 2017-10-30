@@ -905,9 +905,9 @@ __myevic__ void ShowMainView()
 			}
 			else if ( dfStatus.clock && !HideLogo )
 			{                                 
-				if ( dfStatus.digclk )
+				if ( dfStatus.digclk || dfStatus2.digclk2 )
 				{
-					DrawDigitClock( 60 );
+					DrawDigitClock( 62 ); //60
 				}
 				else
 				{	
@@ -915,7 +915,6 @@ __myevic__ void ShowMainView()
 					DrawClock( 54 );                         
 				}       
 			}
-			
                         else if ( !dfStatus.nologo && dfStatus.logomid && !HideLogo )
 			{
                                int h = GetLogoHeight();
@@ -924,7 +923,7 @@ __myevic__ void ShowMainView()
                                 {
                                     if ( h > 40 ) 
                                     {
-                                        DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                                        //DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
                                         DrawLOGO( 0, 50 );
                                     }
                                     else 
@@ -945,7 +944,10 @@ __myevic__ void ShowMainView()
 
                         if ( h )
                         {
-                            if ( h > 40 ) DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                            if ( h > 40 && !( dfStatus2.anim3d || dfStatus.clock ) ) 
+                            {                                
+                                DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                            }
                             
                             DrawLOGO( 0, 0 );
                         }
@@ -994,25 +996,44 @@ __myevic__ void DrawDigitClock( int line )
 {
 	S_RTC_TIME_DATA_T rtd;
 	GetRTC( &rtd );
-
+        int y;
+        int x = 0;
+        
+        int h = rtd.u32Hour;
+        if ( dfStatus2.digclk2 )
+        { 
+            h = h >= 13 ? h - 12 : (h < 1 ? h + 12 : h); //24 -> 12
+        }
+        
+        if ( h < 10 ) x = 3;
+        
 	if ( dfStatus.timebig )
 	{
 		//DrawValue( 4, line-3, rtd.u32Hour, 0, 0x29, 2 );
 		//DrawValue( 32, line-3, rtd.u32Minute, 0, 0x29, 2 );
-                DrawValue( 4, line-9, rtd.u32Hour, 0, 0x3D, 2 );
-		DrawValue( 36, line-9, rtd.u32Minute, 0, 0x3D, 2 );
+                DrawValueRight( 26 - x, line-10, h, 0, 0x3D, 0 ); //2
+		DrawValue( 36 - x, line-10, rtd.u32Minute, 0, 0x3D, 2 );
             
 		if ( !( rtd.u32Second & 1 ) )
 		{
-                        DrawImage( 31, line, 0xD8 );
+                        DrawImage( 31 - x, line-1, 0xD8 ); // :
 			//DrawImage( 28, line-5, 0xDF );
 			//DrawImage( 28, line-13, 0xDF );
 		}
-		DrawDate( 4, line+18, &rtd, 0x1F );
+		//DrawDate( 4, line+18, &rtd, 0x1F );
+                y = 18;
 	}
 	else
-	{
-		DrawTime( 3, line,    &rtd, 0x1F );
-		DrawDate( 4, line+16, &rtd, 0x1F );
+	{ // small
+	 DrawValueRight( 19 - x, line, h, 0, 0x1F, 0 ); //2
+	 DrawImage( 20 - x, line, 0xDD );
+	 DrawValue( 24 - x, line, rtd.u32Minute, 0, 0x1F, 2 );
+	 DrawImage( 41 - x, line, 0xDD );
+	 DrawValue( 45 - x, line, rtd.u32Second, 0, 0x1F, 2 );
+                
+		//DrawTime( 3, line, &rtd, 0x1F );
+		//DrawDate( 4, line+16, &rtd, 0x1F );
+                y = 16;
 	}
+        DrawDate( 4, line+y, &rtd, 0x1F ); //and DOW
 }

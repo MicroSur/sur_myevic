@@ -132,6 +132,7 @@ __myevic__ void DisplaySetInverse( const uint8_t i )
 
 //=========================================================================
 
+/*
 __myevic__ void DrawTimeSmall( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 {
 	if ( gFlags.draw_edited_item ) colors = 0x1F;
@@ -142,6 +143,7 @@ __myevic__ void DrawTimeSmall( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors 
 	if (colors&0x02) DrawImage( x+27, y, 0xD7 );
 	if (colors&0x01) DrawValue( x+30, y, rtd->u32Second, 0, 0x0B, 2 );
 }
+*/
 
 __myevic__ void DrawTime( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 {
@@ -173,9 +175,16 @@ __myevic__ uint8_t dayofweek(uint32_t d, uint32_t m, uint32_t y) {
 
 __myevic__ void DrawDate( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 { 
+    	//uint8_t separator;
+	//uint8_t	dayoffset;
+	//uint8_t	monthoffset;
+	//uint8_t	yearoffset;
+	//uint8_t sep1offset;
+	//uint8_t sep2offset;
+        
 	const datefmt_t format[] =
 	{
-		{ 0xC1,  0, 16, 32, 12, 28 },
+		{ 0xC1,  0, 16, 32, 13, 29 },
 		{ 0xD6, 16,  0, 32, 12, 28 },
 		{ 0xD6,  0, 16, 32, 12, 28 },
 		{ 0xD9, 44, 28,  0, 24, 40 }
@@ -193,6 +202,12 @@ __myevic__ void DrawDate( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
         
         y += 13;
             //switch ( rtd->u32DayOfWeek )
+        
+        const uint8_t *WEEKS[] = { String_Sunday, String_Monday, String_Tuesday, 
+                            String_Wednesday, String_Thursday, String_Friday, 
+                            String_Saturday};
+        DrawStringCentered( WEEKS[dayofweek ( rtd->u32Day, rtd->u32Month, rtd->u32Year )], y );        
+/*
         switch ( dayofweek ( rtd->u32Day, rtd->u32Month, rtd->u32Year ) )
 	{
 		case 0:
@@ -217,6 +232,7 @@ __myevic__ void DrawDate( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 			DrawStringCentered( String_Saturday, y );
 			break;
 	}       
+*/
 }
 
 
