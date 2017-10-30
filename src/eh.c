@@ -1213,18 +1213,18 @@ __myevic__ void EventHandler()
 					{
 						dfStatus.priopwr ? PowerMinus( &dfTCPower, 10, MaxTCPower ) : TempMinus();
 					}
-					else if ( dfMode == 6 )
+					else if ( dfMode == 6 ) // -
 					{
 						if ( ConfigIndex < 10 )
 						{
 							spwr = dfSavedCfgPwr[ConfigIndex];
-							spwr -= spwr % 10;
-							spwr -= 10;
+							spwr -= spwr % WattsInc; //10;
+							spwr -= WattsInc; //10;
 							if ( spwr < AtoMinPower ) spwr = AtoMinPower;
 
 							dfSavedCfgPwr[ConfigIndex] = spwr;
 							dfVWVolts = GetAtoVWVolts( spwr, AtoRez );
-                                                        dfPower = spwr;
+                                                        //dfPower = spwr;
 						}
 					}
 					else if ( dfMode == 4 )
@@ -1232,10 +1232,10 @@ __myevic__ void EventHandler()
 						PowerMinus( &dfPower, AtoMinPower, AtoMaxPower );
 						dfVWVolts = GetAtoVWVolts( dfPower, AtoRez );
                                                 dfVVLockedVolt = GetAtoVWVolts( dfPower, dfResistance );
-						if ( ConfigIndex < 10 && !AtoError && AtoRez )
-						{
-							dfSavedCfgPwr[ConfigIndex] = dfPower;
-						}
+						//if ( ConfigIndex < 10 && !AtoError && AtoRez )
+						//{
+						//	dfSavedCfgPwr[ConfigIndex] = dfPower;
+						//}
 					}
 				}
 
@@ -1394,23 +1394,23 @@ __myevic__ void EventHandler()
 							PowerPlus( &dfPower, AtoMinPower, AtoMaxPower );
 							dfVWVolts = GetAtoVWVolts( dfPower, AtoRez );
                                                         dfVVLockedVolt = GetAtoVWVolts( dfPower, dfResistance );
-							if ( ConfigIndex < 10 && !AtoError && AtoRez )
-							{
-								dfSavedCfgPwr[ConfigIndex] = dfPower;
-							}
+							//if ( ConfigIndex < 10 && !AtoError && AtoRez )
+							//{
+							//	dfSavedCfgPwr[ConfigIndex] = dfPower;
+							//}
 							break;
 
-						case 6:
+						case 6: // +
 							if ( ConfigIndex < 10 && !AtoError && AtoRez )
 							{
 								spwr = dfSavedCfgPwr[ConfigIndex];
-								spwr -= spwr % 10;
-								spwr += 10;
+								spwr -= spwr % WattsInc; //10;
+								spwr += WattsInc; //10;
 								if ( spwr > AtoMaxPower ) spwr = AtoMaxPower;
 
 								dfSavedCfgPwr[ConfigIndex] = spwr;
 								dfVWVolts = GetAtoVWVolts( spwr, AtoRez );
-                                                                dfPower = spwr;
+                                                                //dfPower = spwr;
 							}
 							break;
 

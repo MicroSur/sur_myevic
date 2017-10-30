@@ -731,8 +731,9 @@ __myevic__ void ShowMainView()
 	unsigned int v17; // r8@98
 	unsigned int v19; // r3@99
 	unsigned int v20; // r1@99
-	unsigned int v26; // r2@168
-	int v27; // r3@169
+        
+	unsigned int sm_p; // r2@168
+	int sm_dt; // r3@169
 
 	if ( !gFlags.firing )
 	{
@@ -790,13 +791,15 @@ __myevic__ void ShowMainView()
 
 	if ( dfMode == 6 )
 	{
-		DrawString( String_MAX_s, 23, 15 );
-		DrawString( String_MIN_s, 23, 97 );
-		DrawHLine( 0, 18, 21, 1 );
-		DrawHLine( 43, 18, 63, 1 );
-		DrawHLine( 0, 100, 21, 1 );
-		DrawHLine( 43, 100, 63, 1 );
-
+		//DrawString( String_MAX_s, 23, 15 );
+		//DrawString( String_MIN_s, 23, 97 );
+		//DrawHLine( 0, 18, 21, 1 );
+		//DrawHLine( 43, 18, 63, 1 );
+		//DrawHLine( 0, 100, 21, 1 );
+		//DrawHLine( 43, 100, 63, 1 );
+                DrawHLineDots( 0, 14, 63, 1 );
+                DrawHLineDots( 0, 95, 63, 1 );
+            
 		v15 = SearchSMARTRez( dfSavedCfgRez[(int)ConfigIndex] );
 		if ( v15 > 3 )
 		{
@@ -804,48 +807,67 @@ __myevic__ void ShowMainView()
 				  dfSavedCfgPwr[(int)ConfigIndex] / ( MaxPower / 15 ) > i;
 				  ++i )
 			{
-				DrawFillRect( 0, 94 - 5*i, 63, 95 - 5*i, 1 );
+				DrawFillRect( 0, 89 - 5*i, 62, 90 - 5*i, 1 ); //94 95
 			}
-			if ( !i ) DrawBFLine( 94 );
+			if ( !i ) DrawBFLine( 89 ); //94
 		}
 		else
 		{
 			v20 = SMARTPowers[ 2 * v15 + 1 ] / (MaxPower / 15);
-			v17 = 99 - 5 * v20;
+			v17 = 94 - 5 * v20; //99
 			for ( j = 0; ; ++j )
 			{
 				v19 = dfSavedCfgPwr[(int)ConfigIndex] / (MaxPower / 15);
 				if ( v19 <= j )
 					break;
 				if ( v19 >= v20 && v20 - 1 <= j )
-					DrawBFLine( 94 - 5*j );
+					DrawBFLine( 89 - 5*j ); //94
 				else
-					DrawFillRect( 0, 94 - 5*j, 63, 95 - 5*j, 1 );
+					DrawFillRect( 0, 89 - 5*j, 62, 90 - 5*j, 1 ); //94 95
 			}
-			if ( !j ) DrawBFLine(94);
+			if ( !j ) DrawBFLine(89); //94
 			DrawBFLine( v17 );
-			DrawHLine( 25, v17, 40, 0 );
-			DrawHLine( 25, v17 + 1, 40, 0 );
+			DrawHLine( 25, v17, 39, 0 ); //40
+			DrawHLine( 25, v17 + 1, 39, 0 ); //40
 			DrawString( String_BF_s, 27, v17 - 3 );
 		}
 
 		if ( !ShowWeakBatFlag )
 		{
+                        if ( gFlags.firing )
+                            ShowFireDuration( 0 );
+                        
+                        sm_p = dfSavedCfgPwr[(int)ConfigIndex];
+			if ( sm_p >= 1000 )
+			{
+                                sm_p /= 10;
+                                sm_dt = 0;
+			}
+			else
+			{
+                                sm_dt = 1;
+			}
+                        
+                        DrawValue( 13, 101, sm_p, sm_dt, 0x1F, 3 ); //smart power
+			DrawImage( 44, 103, 0xB2 ); // W
+                        
+                        ShowBattery();
+/*
 			if ( !( gFlags.firing ) )
 			{
 				if ( !PD2 || !PD3 || ( KeyUpTimer && !EditModeTimer ) )
 				{
-					v26 = dfSavedCfgPwr[(int)ConfigIndex];
-					if ( v26 >= 1000 )
+					sm_p = dfSavedCfgPwr[(int)ConfigIndex];
+					if ( sm_p >= 1000 )
 					{
-						v26 /= 10;
-						v27 = 0;
+						sm_p /= 10;
+						sm_dt = 0;
 					}
 					else
 					{
-						v27 = 1;
+						sm_dt = 1;
 					}
-					DrawValue( 11, 116, v26, v27, 0x1F, 3 ); //smart power
+					DrawValue( 11, 116, sm_p, sm_dt, 0x1F, 3 ); //smart power
 					DrawImage( 42, 118, 0xB2 );
 				}
 				else
@@ -860,6 +882,7 @@ __myevic__ void ShowMainView()
 				//DrawValue( 10, 110, FireDuration, 1, 0x29, 2 );
 				//DrawImage( 40, 110, 0xB7 );
 			}
+*/
 		}
 	}
 

@@ -1342,16 +1342,18 @@ __myevic__ void SetAtoSMARTParams()
 				j = SearchSMARTRez( r );
 				dfSavedCfgPwr[i] = SMARTPowers[ j << 1 ];
 			}
-			else
-			{
-				dfSavedCfgPwr[i] = dfPower;
-			}
+			//else
+			//{
+			//	dfSavedCfgPwr[i] = dfPower;
+			//}
 		}
+/*
 		if ( dfMode == 4 )
 		{
 			dfPower = dfSavedCfgPwr[i];
 			RoundPowers();
 		}
+*/
 		if ( dfSavedCfgRez[9] )
 		{
 			// Most recently used at end of list
@@ -1392,10 +1394,10 @@ __myevic__ void SetAtoSMARTParams()
 		{
 			dfSavedCfgPwr[ConfigIndex] = SMARTPowers[ SearchSMARTRez( AtoRez ) << 1 ];
 		}
-		else
-		{
-			dfSavedCfgPwr[ConfigIndex] = dfPower;
-		}
+		//else
+		//{
+		//	dfSavedCfgPwr[ConfigIndex] = dfPower;
+		//}
 	}
         
 	UpdateDFTimer = 50;
@@ -1429,10 +1431,14 @@ __myevic__ void SetAtoLimits()
 		dfVWVolts = GetAtoVWVolts( pwr, AtoRez );
                 dfVVLockedVolt = GetAtoVWVolts( pwr, dfResistance );
 
-		//if ( dfMode == 6 )
-		//	dfPower = ClampPower( dfVWVolts, 1 );
-		//else
+		if ( dfMode == 6 )
+			//dfPower = ClampPower( dfVWVolts, 1 );
+                        //dfSavedCfgPwr[ConfigIndex] = ClampPower( dfVWVolts, 1 );
+                        dfSavedCfgPwr[ConfigIndex] = pwr;
+		else
 			dfPower = pwr;
+                        //dfPower = ClampPower( dfVWVolts, 1 );
+                        
 	}
 }
 
