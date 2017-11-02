@@ -58,7 +58,7 @@ typedef struct
 /* 00000010 */	unsigned int clock:1;       //lsls 0x1B 4
 /* 00000020 */	unsigned int vcom:1;        //lsls 0x1A
 /* 00000040 */	unsigned int autopuff:1;     //lsls 0x19 //was storage
-/* 00000080 */	unsigned int dbgena:1;      //lsls 0x18
+/* 00000080 */	unsigned int dbgena:1;      //lsls 0x18                     //not used
 
 /* 00000100 */	unsigned int x32off:1;      //lsls 0x17
 /* 00000200 */	unsigned int priopwr:1;     //lsls 0x16

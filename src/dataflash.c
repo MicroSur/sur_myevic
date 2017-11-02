@@ -579,7 +579,7 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.storage = 0;
         dfStatus.autopuff = 0;
         dfAutoPuffTimer = 20;
-//	dfStatus.dbgena = 0;
+//	dfStatus.dbgena = 0;  //not used
 	dfStatus.x32off = X32Off;
 	dfStatus.onewatt = 1;
         dfStatus.vapedml = 1;

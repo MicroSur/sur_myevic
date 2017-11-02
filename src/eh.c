@@ -190,7 +190,7 @@ __myevic__ void EventHandler()
                             }
                             else if( !gFlags.battery_charging && !dfStatus.offmodclock && Screen == 0 )
                             {
-                                Screen = 60;
+                                Screen = 60; //show ss clock when off
                                 ScreenDuration = 10; //GetScreenProtection();
                                 //DrawDigitClock( 80 );
                                 //DrawClock( 0 );   

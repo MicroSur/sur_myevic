@@ -142,11 +142,11 @@ typedef struct
 /* 00000040 */	int unused38:1;
 /* 00000080 */	int batt_unk:1;
 
-/* 00000100 */	int	tick_1hz:1;
-/* 00000200 */	int	playing_fb:1;
+/* 00000100 */	int tick_1hz:1;
+/* 00000200 */	int playing_fb:1;
 /* 00000400 */	int has_x32:1;
-/* 00000800 */	int unused43:1;
-/* 00001000 */	int debug:1;
+/* 00000800 */	int unused43:1;     //not used
+/* 00001000 */	int debug:1;        //not used
 /* 00002000 */	int noclock:1;
 /* 00004000 */	int read_bir:1;
 /* 00008000 */	int monitoring:1;

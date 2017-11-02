@@ -992,7 +992,8 @@ __myevic__ void Main()
 				anim3d( 0 );
 			}
 
-			if ( Screen == 60 || Screen == 0 )
+			if ( ( Screen == 60 || Screen == 0 ) && !dfStatus.off ) 
+                            //!dfStatus.off = main contrast in off state and fire click (clock)
 			{
                                 if ( gFlags.MainContrast ) 
                                 {

@@ -59,7 +59,7 @@ extern uint8_t	LastEvent;
 // Events 100+ are custom events not existing in the OFW
 
 #define EVENT_TOGGLE_CLOCK		100
-#define EVENT_DEBUG_MODE		101
+//#define EVENT_DEBUG_MODE		101
 #define EVENT_EDIT_CONTRAST		102
 #define EVENT_ENTER_MENUS		103
 #define EVENT_LONG_FIRE			104

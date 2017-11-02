@@ -188,12 +188,19 @@ __myevic__ void DrawScreen()
 
 			case 60: // Screen Saver
                             
+                            if ( dfStatus.off )
+                            {
+                                    DisplaySetContrast( dfContrast ); //main contrast in off state fire clock 
+                                    gFlags.MainContrast = 1;
+                            }
+                            else
+                            {
                                 if ( gFlags.MainContrast )
                                 {
                                     DisplaySetContrast( dfContrast2 );
                                     gFlags.MainContrast = 0;
                                 }
- 
+                            }
 				ShowScreenSaver();
 				break;
 
@@ -237,9 +244,10 @@ __myevic__ void DrawScreen()
 	}
 
 
+
+//if ( gFlags.debug & 1 )
+        
 /*
-if ( gFlags.debug & 1 )
-{
 DrawValue( 0, 108, Screen, 0, 0x01, 0 );
 //        DrawValue( 20, 108, LastEvent, 0, 0x01, 0 );
         //DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
@@ -252,7 +260,6 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 //        DrawValue( 0, 0, dfTempAlgo, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
 //        DrawValueRight( 64, 0, AtoRez, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
         DisplayRefresh();
-}
 */
 
         

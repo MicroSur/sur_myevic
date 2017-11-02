@@ -398,10 +398,10 @@ __myevic__ void GetUserInput()
 						default:
 							break;
 
-						case CLICK_ACTION_NONE:
-							if ( FireClickCount == 4 )
-								FireClicksEvent = EVENT_DEBUG_MODE;	// debug mode
-							break;
+						//case CLICK_ACTION_NONE:
+						//	if ( FireClickCount == 4 )
+						//		FireClicksEvent = EVENT_DEBUG_MODE;	// debug mode
+						//	break;
 
 						case CLICK_ACTION_EDIT:
 							FireClicksEvent = 16;	// edit mode
@@ -1171,6 +1171,7 @@ __myevic__ int EvtToggleClock()
 
 //-------------------------------------------------------------------------
 
+/*
 __myevic__ int EvtDebugMode()
 {
 	if ( dfStatus.dbgena )
@@ -1184,6 +1185,7 @@ __myevic__ int EvtDebugMode()
 	gFlags.refresh_display = 1;
 	return 1;
 }
+*/
 
 //-------------------------------------------------------------------------
 
@@ -1342,9 +1344,9 @@ __myevic__ int CustomEvents()
 			vret = EvtEnterMenus();
 			break;
 
-		case EVENT_DEBUG_MODE:
-			vret = EvtDebugMode();
-			break;
+		//case EVENT_DEBUG_MODE:
+		//	vret = EvtDebugMode();
+		//	break;
 
 		case EVENT_LONG_FIRE:
 			vret = EvtLongFire();
