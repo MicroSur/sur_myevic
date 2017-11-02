@@ -407,7 +407,8 @@ __myevic__ void DrawAPTLines()
 		{
 			S_RTC_TIME_DATA_T rtd;
 			GetRTC( &rtd );
-			DrawTime( 3, line, &rtd, 0x1F );
+			//DrawTime( 3, line, &rtd, 0x1F );
+                        DrawDigitClock( line, 1 );
 			break;
 		}
 		case 9:	// BatteryIntRez
@@ -928,12 +929,12 @@ __myevic__ void ShowMainView()
 			}
 			else if ( dfStatus.clock && !HideLogo )
 			{                                 
-				if ( dfStatus.digclk || dfStatus2.digclk2 )
+				if ( dfStatus.digclk != dfStatus2.digclk2 ) //D 01  M 10 
 				{
-					DrawDigitClock( 62 ); //60
+					DrawDigitClock( 62, 0 ); //60
 				}
 				else
-				{	
+				{	//00 11 AD aM
                                         DrawFillRect( 0, 44, 63, 127, 0 );
 					DrawClock( 54 );                         
 				}       
@@ -998,6 +999,7 @@ __myevic__ void ShowMainView()
 //-------------------------------------------------------------------------
 __myevic__ void DrawClock( int line )
 {
+    // circle
 	S_RTC_TIME_DATA_T rtd;
 	GetRTC( &rtd );
 
@@ -1015,7 +1017,7 @@ __myevic__ void DrawClock( int line )
 	DrawLine( 32, c, 32 + (( sine( s ) * 23 ) >> 16 ), c - (( cosine( s ) * 23 ) >> 16 ), 1, 1 );
 }
 
-__myevic__ void DrawDigitClock( int line )
+__myevic__ void DrawDigitClock( int line, int infoline )
 {
 	S_RTC_TIME_DATA_T rtd;
 	GetRTC( &rtd );
@@ -1030,7 +1032,19 @@ __myevic__ void DrawDigitClock( int line )
         
         if ( h < 10 ) x = 3;
         
-	if ( dfStatus.timebig )
+        if ( !dfStatus.timebig || infoline )
+	{ // small
+	 DrawValueRight( 19 - x, line, h, 0, 0x1F, 0 ); //2
+	 DrawImage( 20 - x, line, 0xDD );
+	 DrawValue( 24 - x, line, rtd.u32Minute, 0, 0x1F, 2 );
+	 DrawImage( 41 - x, line, 0xDD );
+	 DrawValue( 45 - x, line, rtd.u32Second, 0, 0x1F, 2 );
+                
+		//DrawTime( 3, line, &rtd, 0x1F );
+		//DrawDate( 4, line+16, &rtd, 0x1F );
+                y = 16;
+	}
+        else
 	{
 		//DrawValue( 4, line-3, rtd.u32Hour, 0, 0x29, 2 );
 		//DrawValue( 32, line-3, rtd.u32Minute, 0, 0x29, 2 );
@@ -1046,17 +1060,7 @@ __myevic__ void DrawDigitClock( int line )
 		//DrawDate( 4, line+18, &rtd, 0x1F );
                 y = 18;
 	}
-	else
-	{ // small
-	 DrawValueRight( 19 - x, line, h, 0, 0x1F, 0 ); //2
-	 DrawImage( 20 - x, line, 0xDD );
-	 DrawValue( 24 - x, line, rtd.u32Minute, 0, 0x1F, 2 );
-	 DrawImage( 41 - x, line, 0xDD );
-	 DrawValue( 45 - x, line, rtd.u32Second, 0, 0x1F, 2 );
-                
-		//DrawTime( 3, line, &rtd, 0x1F );
-		//DrawDate( 4, line+16, &rtd, 0x1F );
-                y = 16;
-	}
-        DrawDate( 4, line+y, &rtd, 0x1F ); //and DOW
+        
+        if ( !infoline )
+                DrawDate( 4, line+y, &rtd, 0x1F ); //and DOW
 }

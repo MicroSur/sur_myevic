@@ -147,6 +147,7 @@ __myevic__ void DrawTimeSmall( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors 
 
 __myevic__ void DrawTime( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 {
+    //24h only
 	if ( gFlags.draw_edited_item ) colors = 0x1F;
 
 	if (colors&0x10) DrawValue( x   , y, rtd->u32Hour, 0, 0x1F, 2 );

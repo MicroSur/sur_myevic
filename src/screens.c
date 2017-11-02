@@ -1058,8 +1058,9 @@ __myevic__ void ShowScreenSaver()
 {
         if ( dfStatus.off )
         {
-                DrawDigitClock( 82 );
+                DrawDigitClock( 82, 0 );
                 DrawClock( 0 );
+                gFlags.refresh_display = 1;
                 return;
         }
 
@@ -1067,7 +1068,7 @@ __myevic__ void ShowScreenSaver()
 	{
 		case SSAVER_CLOCK:
                         
-                        DrawDigitClock( 82 );
+                        DrawDigitClock( 82, 0 );
                         DrawClock( 0 );           
 			break;
 
@@ -1106,13 +1107,15 @@ __myevic__ void ShowScreenSaver()
 //=========================================================================
 __myevic__ void AnimateScreenSaver()
 {
+/*
         if ( dfStatus.off )
         {
-                DrawDigitClock( 82 );
+                DrawDigitClock( 82, 0 );
                 DrawClock( 0 );
                 gFlags.refresh_display = 1;
                 return;
         }
+*/
             
 	switch ( dfScreenSaver )
 	{

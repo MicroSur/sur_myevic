@@ -24,7 +24,7 @@ extern const uint8_t ScrSaveTimes[8];
 extern const uint8_t ScrMainTimes[6];
 
 extern void DrawClock();
-extern void DrawDigitClock();
+extern void DrawDigitClock(int line, int infoline);
 
 enum {
 	SSAVER_NONE = 0,

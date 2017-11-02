@@ -664,7 +664,7 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 			DrawFillRect( 36, line, 63, line+12, 0 );
 			//DrawImageRight( 63, line+2, dfStatus.digclk ? 0x9F : 0x9C ); // D/A
                         
-                        const uint8_t strings[3] = { 0x9C, 0x9F, 0xA8 }; //A D M
+                        const uint8_t strings[4] = { 0x9C, 0x9F, 0xA8, 0x68 }; //A D M a
 			int f = dfStatus.digclk | ( dfStatus2.digclk2 << 1 );
                         DrawImageRight( 63, line+2, strings[f] ); 
 			break;
@@ -699,7 +699,7 @@ __myevic__ void ClockMenuOnClick()
 			//dfStatus.digclk ^= 1;
                 {    
                     	int f = dfStatus.digclk | ( dfStatus2.digclk2 << 1 );
-			if ( ++f > 2 ) f = 0;
+			if ( ++f > 3 ) f = 0;
 			dfStatus.digclk = f & 1;
 			dfStatus2.digclk2 = f >> 1;
                         
