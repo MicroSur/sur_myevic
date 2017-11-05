@@ -942,7 +942,7 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 //		myprintf( "Invalid parameters\n" );
 		return 1;
 	}
-
+       
 	HIDMonData_t *mondata = (HIDMonData_t*)hidData;
 
 	MemSet( mondata, 0, u32ParamLen );
@@ -986,7 +986,7 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
         
 	for ( int i = 0 ; i < NumBatteries ; ++i )
 	{
-		mondata->BatteryVoltage[i] = RTBVolts[i] - 275;
+		mondata->BatteryVoltage[i] = ( gFlags.firing ? RTBVolts[i] : BattVolts[i] ) - 275;
 	}
         
         mondata->Temperature = temp;
@@ -1126,6 +1126,8 @@ int32_t hidProcessCommand( uint8_t *pu8Buffer, uint32_t u32BufferLen )
     if( u32sum != hidCmd.u32Checksum )
         return -1;
 
+    SleepTimer = 3000; //no sleep while data
+    
     switch( hidCmd.u8Cmd )
     {
 		case HID_CMD_GETINFO:
