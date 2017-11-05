@@ -1108,7 +1108,8 @@ __myevic__ void Main()
                                 }
   
 				++FireDuration;
-
+                                if ( dfStatus.pcurve ) ++CurveRepeatTimerDuration;
+                                        
 				//if ( gFlags.monitoring )
 				//{
 				//	Monitor();

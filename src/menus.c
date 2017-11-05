@@ -1028,7 +1028,7 @@ __myevic__ int PreheatMEvent( int event )
 				}
 				else if ( CurrentMenuItem == 3 )
 				{
-					if ( dfPreheatTime > 20 ) dfPreheatTime -= 10;
+					if ( dfPreheatTime >= 20 ) dfPreheatTime -= 10;
 					else if ( KeyTicks < 5 ) dfPreheatTime = 200;
 				}
 				//UpdateDFTimer = 50;
@@ -2344,6 +2344,117 @@ __myevic__ void CurveMenuOnClick()
 	}
 }
 
+__myevic__ void CurveMenuIDraw( int it, int line, int sel )
+{
+	//if ( it != 4 ) return;
+        
+	int v, dp, img;
+
+	switch ( it )
+	{       
+		case 4:	// Time
+			v = dfCurveRepeatTimer;
+			dp = 1;
+			img = 0x94;                                             
+			break;
+
+		default:
+			return;
+	}
+
+	DrawFillRect( 38, line, 63, line+12, 0 );
+        
+        if ( v == 0 )
+        {
+            DrawStringRight( String_Off, 63, line+2 );
+        }
+        else
+        {
+            DrawValueRight( 56, line+2, v, dp, 0x0B, 0 );
+            DrawImageRight( 63, line+2, img );
+        }
+        
+	if ( sel && gFlags.edit_value )
+		InvertRect( 0, line, 63, line+12 );
+}
+
+__myevic__ int CurveMenuOnEvent( int event )
+{
+
+	int vret = 0;
+/*
+        
+                        if (event == EVENT_LONG_FIRE && CurrentMenuItem == 4 )
+                        { //preheat delay off
+                            dfPHDelay = 0;
+                            UpdateDFTimer = 50;
+                            gFlags.refresh_display = 1;
+                            gFlags.edit_value = 0;
+                            vret = 1;
+                        }
+*/                             
+	if ( CurrentMenuItem != 4 )
+		return vret;  //no capture others events
+
+	switch ( event )
+	{                       
+		case 1:	// Fire
+                    if ( CurrentMenuItem == 4 )
+                    {
+			gFlags.edit_value ^= 1;
+			//UpdateDFTimer = 50;
+			//gFlags.refresh_display = 1;
+                    }
+                    vret = 1;
+                    break;
+
+		case 2:	// Plus
+			if ( gFlags.edit_value )
+			{
+                                if ( CurrentMenuItem == 4 )
+				{
+					if ( dfCurveRepeatTimer < 50 ) dfCurveRepeatTimer += 1;
+					else if ( KeyTicks < 5 ) dfCurveRepeatTimer = 0;
+				}
+				//UpdateDFTimer = 50;
+				//gFlags.refresh_display = 1;
+				vret = 1;
+			}
+			break;
+
+		case 3:	// Minus
+			if ( gFlags.edit_value )
+			{
+                                if ( CurrentMenuItem == 4 )
+				{
+					if ( dfCurveRepeatTimer > 0 ) dfCurveRepeatTimer -= 1;
+					else if ( KeyTicks < 5 ) dfCurveRepeatTimer = 50;
+				}
+				//UpdateDFTimer = 50;
+				//gFlags.refresh_display = 1;
+				vret = 1;
+			}
+			break;
+                        
+                case EVENT_LONG_FIRE:
+			if ( CurrentMenuItem == 4 )
+                        { 
+                            dfCurveRepeatTimer = 0;
+                            //UpdateDFTimer = 50;
+                            //gFlags.refresh_display = 1;
+                            gFlags.edit_value = 0;
+                            vret = 1;
+                        }   
+                        break;
+	}
+        
+        if ( vret )
+        {
+                UpdateDFTimer = 50;
+                gFlags.refresh_display = 1;                                
+        }
+	return vret;
+}
 
 //-----------------------------------------------------------------------------
 // Forward declarations for parent menu pointers
@@ -3439,16 +3550,17 @@ const menu_t CurveMenu =
 	String_Curve,
 	&VapingMenu,
 	0,
-	0,
+	CurveMenuIDraw+1,
 	0,
 	CurveMenuOnClick+1,
-	0,
-	5,
+	CurveMenuOnEvent+1,
+	6,
 	{
 		{ String_Enable, &CurveEnaData, 0, MACTION_DATA },
                 { String_Edit, 0, EVENT_POWER_CURVE, MACTION_SUBMENU }, //0
 		{ String_Reset, 0, EVENT_POWER_CURVE, MACTION_SUBMENU }, //0		
 		{ String_Delay, &PreheatDelayData, 0, MACTION_DATA }, //CurveDelayData
+                { String_Repeat, 0, 0, 0 },                        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

@@ -957,14 +957,14 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 
 	if ( gFlags.firing )
 	{
-		for ( int i = 0 ; i < NumBatteries ; ++i )
-		{
-			mondata->BatteryVoltage[i] = RTBVolts[i] - 275;
-		}
+		//for ( int i = 0 ; i < NumBatteries ; ++i )
+		//{
+		//	mondata->BatteryVoltage[i] = RTBVolts[i] - 275;
+		//}
 
 		//if ( ISMODETC(dfMode) )
 		//{
-			mondata->Temperature = temp;
+		//	mondata->Temperature = temp;
 		//}
 
 		mondata->OutputVoltage = AtoVolts;
@@ -972,18 +972,25 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 	}
 	else
 	{
-		for ( int i = 0 ; i < NumBatteries ; ++i )
-		{
-			mondata->BatteryVoltage[i] = BattVolts[i] - 275;
-		}
+		//for ( int i = 0 ; i < NumBatteries ; ++i )
+		//{
+		//	mondata->BatteryVoltage[i] = BattVolts[i] - 275;
+		//}
 
 		//if ( ISMODETC(dfMode) )
 		//{
 			ReadAtoTemp();
-			mondata->Temperature = temp;
+		//	mondata->Temperature = temp;
 		//}
 	}
-
+        
+	for ( int i = 0 ; i < NumBatteries ; ++i )
+	{
+		mondata->BatteryVoltage[i] = RTBVolts[i] - 275;
+	}
+        
+        mondata->Temperature = temp;
+        
 	if ( ISMODETC(dfMode) )
 	{
 		mondata->PowerSet = dfTCPower;

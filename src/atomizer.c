@@ -27,6 +27,7 @@ uint32_t	MaxVolts;
 uint32_t	MaxPower;
 uint32_t	MaxCurrent;
 uint16_t	FireDuration;
+uint8_t         CurveRepeatTimerDuration;
 uint16_t	AtoTemp;
 uint16_t	AtoCurrent;
 uint16_t	AtoRez;
@@ -1146,8 +1147,13 @@ __myevic__ void TweakTargetVoltsVW()
 	if ( dfStatus.pcurve )
 	{
 		int t;
+                
+                if ( dfCurveRepeatTimer && CurveRepeatTimerDuration > dfCurveRepeatTimer ) //10 = 1sec
+                    CurveRepeatTimerDuration = 0;
+                        
 		for ( t = 0 ; t < PWR_CURVE_PTS-1 ; ++t )
-			if (( dfPwrCurve[t+1].time > FireDuration ) || ( dfPwrCurve[t+1].time == 0 ))
+			//if (( dfPwrCurve[t+1].time > FireDuration ) || ( dfPwrCurve[t+1].time == 0 ))
+                        if (( dfPwrCurve[t+1].time > CurveRepeatTimerDuration ) || ( dfPwrCurve[t+1].time == 0 ))
 				break;
 
 		int p = dfPwrCurve[t].power;

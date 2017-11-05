@@ -119,7 +119,7 @@ typedef struct
 }
 dfBattery_t;
 
-#define PWR_CURVE_PTS	10
+#define PWR_CURVE_PTS	20 //10
 
 typedef struct
 {
@@ -154,8 +154,10 @@ typedef struct dfParams
 /* 0022 */	uint16_t	VVLockedVolt;            // for vvlite: cold rez locked volt
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS];
-/* 004E */	uint8_t		Unused4E[38];
-/* 0074 */	uint16_t	TempCoefsTI;            // not used
+/* 004E */	//uint8_t		Unused4E[38];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 0062 */	uint8_t		Unused4E[18];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 0074 */	uint8_t         CurveRepeatTimer;            // 0.1s = 1 1s = 10...    was TempCoefsTi
+/* 0075 */	uint8_t         Unused75;  
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad
 /* 0078 */	dfStatus_t	Status;
 /* 007C */	uint8_t         BattLine;		//0-big,1-%+small,2-v+small,3-all_small	//was uint16_t	AtoRez;
@@ -210,7 +212,7 @@ typedef struct dfParams
 /* 00F5 */      uint8_t         dfObject3D;     //  F9  
 /* 00F6 */      uint16_t        MaxPower;       //  FA 
 /* 00F8 */      uint16_t        MaxVolts;       //  FC
-/* 00FA */   
+/* 00FA */
 // stop on FF
 }
 dfParams_t;
@@ -359,7 +361,7 @@ extern dfStruct_t DataFlash;
 #define dfVVLockedVolt	DFP(VVLockedVolt)
 #define dfBattery		DFP(Battery)
 #define dfPwrCurve		DFP(PwrCurve)
-//#define dfTempCoefsTI	DFP(TempCoefsTI)
+#define dfCurveRepeatTimer	DFP(CurveRepeatTimer)
 #define dfLEDColor		DFP(LEDColor)
 #define dfStatus		DFP(Status)
 #define dfStatus2		DFP(Status2)
