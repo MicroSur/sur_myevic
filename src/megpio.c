@@ -94,7 +94,7 @@ __myevic__ void GPF_IRQHandler()
 //----- (00002384) --------------------------------------------------------
 __myevic__ void InitGPIO()
 {
-	if ( ISVTCDUAL )
+	if ( ISVTCDUAL ) //rx2 2700
 	{
 		PA3 = 0;
 		GPIO_SetMode( PA, GPIO_PIN_PIN3_Msk, GPIO_MODE_OUTPUT );
@@ -156,7 +156,7 @@ __myevic__ void InitGPIO()
 	}
 	else if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
 	{
-            if ( ISRX300 )
+            if ( ISRX300 ) //rx2 2700
             {
 		SYS->GPF_MFPL &= ~(SYS_GPF_MFPL_PF5MFP_Msk|SYS_GPF_MFPL_PF6MFP_Msk);
 		SYS->GPF_MFPL |= SYS_GPF_MFPL_PF5MFP_GPIO|SYS_GPF_MFPL_PF6MFP_GPIO;
@@ -257,7 +257,7 @@ __myevic__ void InitGPIO()
 	//	PD1 = 1;
 	//	GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 	//}
-	else
+	else // if ( !ISRX2 )
 	{
 		// ? (What is PB.7?)
 		PB7 = 1;

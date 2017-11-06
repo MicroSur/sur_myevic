@@ -514,6 +514,7 @@ __myevic__ void DevicesOnOff( int off )
                         PF0 = 0;
                         PD1 = 0;
                 }
+                //pf2
                 
 		SYS_UnlockReg();
 		SYS->USBPHY &= ~SYS_USBPHY_LDO33EN_Msk;
@@ -578,6 +579,7 @@ __myevic__ void DevicesOnOff( int off )
 		{
 			PD1 = 1;
 		}
+                //pa3 = 1
 		else
 		{
 			PB7 = 1;

@@ -774,6 +774,8 @@ __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
                 {
                         PD1 = 0;
                 }
+                //pf2=0
+                
 		else	// if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 gen3 )
 				// (currently useless, restore if needed)
 		{

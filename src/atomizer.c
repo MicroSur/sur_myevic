@@ -451,8 +451,8 @@ __myevic__ void ReadAtoCurrent()
         int c;
 	//int s;
 
-        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 )
-            c = 11;
+        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 ) //rx2
+            c = 11; //lsrs B
         else
             c = 12;
         
