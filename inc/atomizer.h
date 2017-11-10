@@ -84,7 +84,7 @@ extern uint32_t	MilliJoules;
 extern uint8_t	RezMillis;
 extern uint16_t	BypassVolts;
 
-extern uint8_t	byte_200000B3;
+extern uint8_t	Set_NewRez_dfRez;
 extern uint16_t	word_200000B8;
 extern uint16_t	word_200000BA;
 extern uint16_t	word_200000BC;

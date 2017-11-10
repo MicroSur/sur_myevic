@@ -216,7 +216,7 @@ __myevic__ void GetUserInput()
                     }
                 }
                 
-		UserInputs = 1;                             
+		UserInputs = 1;  
 	}
 	else
 	{
@@ -394,6 +394,7 @@ __myevic__ void GetUserInput()
 				case 4:
                                 case 5:
 					switch ( dfClick[FireClickCount-2] )
+                                        //switch ( gFlags.asleep ? dfClick[FireClickCount-3] : dfClick[FireClickCount-2] )
 					{
 						default:
 							break;

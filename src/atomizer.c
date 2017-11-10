@@ -46,7 +46,7 @@ uint16_t        NextPreheatTimer;
 uint32_t	MilliJoules;
 uint8_t		RezMillis;
 
-uint8_t		byte_200000B3;
+uint8_t		Set_NewRez_dfRez;
 uint16_t	word_200000B8;
 uint16_t	word_200000BA;
 uint16_t	word_200000BC;
@@ -1602,7 +1602,7 @@ __myevic__ void ProbeAtomizer()
 	{
 		if ( !LastAtoRez )
 		{
-			byte_200000B3 = 1;
+			Set_NewRez_dfRez = 1;
 		}
 		LastAtoRez = AtoRez;
 		LastAtoMillis = AtoMillis;
@@ -1612,11 +1612,11 @@ __myevic__ void ProbeAtomizer()
 		//ScreenDuration = GetMainScreenDuration();
 	}
 
-	if ( byte_200000B3 )
+	if ( Set_NewRez_dfRez )
 	{
-		if ( byte_200000B3 == 2 )
+		if ( Set_NewRez_dfRez == 2 )
 		{
-			byte_200000B3 = 1;
+			Set_NewRez_dfRez = 1;
 		}
 		if ( !dfResistance )
 		{
@@ -1840,7 +1840,7 @@ __myevic__ void ResetResistance()
 	dfResistance = 0;
 	AtoRezMilli = 0;
 	AtoRez = 0;
-	byte_200000B3 = 2;
+	Set_NewRez_dfRez = 2;
 	AtoProbeCount = 0;
 	AtoStatus = 4;
 

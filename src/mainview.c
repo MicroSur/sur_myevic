@@ -30,6 +30,7 @@ __myevic__ void MainView()
 		Screen = 1;
 		ScreenDuration = GetMainScreenDuration();
                 gFlags.screen_on = 1;
+                //gFlags.asleep = 0;
 	}
 	else
 	{
@@ -199,7 +200,7 @@ __myevic__ void DrawCoilLine( int line )
 	//}
 	//else //if ( ISMODETC(dfMode) )
 	//{
-            	if ( byte_200000B3 || !AtoRez )
+            	if ( Set_NewRez_dfRez || !AtoRez )
 		{
 			rez = AtoRez;
 		}

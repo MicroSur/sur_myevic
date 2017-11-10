@@ -1690,7 +1690,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
 	{
                 if (CurrentMenuItem == 3 )
                 {
-                    byte_200000B3 = 2;
+                    Set_NewRez_dfRez = 2;
                     AtoProbeCount = 0;
                     AtoRezMilli = 0;
                     dfShuntRez = AtoShuntRez;

@@ -304,7 +304,7 @@ __myevic__ void InitVariables()
 	LEDGetColor();
 	KeyPressTime |= 0x8000;
 	LastInputs |= 0x80;
-	byte_200000B3 = 1;
+	Set_NewRez_dfRez = 1;
 	gFlags.draw_edited_item = 1;
 	gFlags.refresh_battery = 1;
 	gFlags.read_battery = 1;
@@ -708,10 +708,12 @@ void GoToSleep()
 	gFlags.refresh_battery = 1;
         
         if ( dfStatus.invert ) gFlags.inverse = 1;
-        
+                                        
 	DevicesOnOff( 0 );
 	RTCWakeUp();
 	InitDisplay();
+        
+        //if ( !dfStatus.off ) gFlags.asleep = 1;
 }
 
 
@@ -725,7 +727,7 @@ __myevic__ void SleepIfIdle()
 		{                  
 			GoToSleep();
 
-			byte_200000B3 = 2;
+			Set_NewRez_dfRez = 2;
 			AtoProbeCount = 0;
 			AtoRezMilli = 0;
                         PuffsOffCount = 0;

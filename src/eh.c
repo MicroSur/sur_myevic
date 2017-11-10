@@ -299,14 +299,14 @@ __myevic__ void EventHandler()
                         }
 				
 
-			if ( byte_200000B3 == 1 )
+			if ( Set_NewRez_dfRez == 1 )
 			{
-				byte_200000B3 = 0;
+				Set_NewRez_dfRez = 0;
 				NewRez = AtoRez;
 				NewMillis = AtoMillis;
 
 				uint8_t lock = 0;
-				if 		( dfMode == 0 ) lock = dfRezLockedNI;
+				if 	( dfMode == 0 ) lock = dfRezLockedNI;
 				else if ( dfMode == 1 ) lock = dfRezLockedTI;
 				else if ( dfMode == 2 ) lock = dfRezLockedSS;
 				else if ( dfMode == 3 ) lock = dfRezLockedTCR;
@@ -1241,13 +1241,13 @@ __myevic__ void EventHandler()
 					}
 				}
 
-	            MainView();
-	            if ( KeyTicks >= 5 )
-	            {
+                                MainView();
+                                if ( KeyTicks >= 5 )
+                                {
 					gFlags.draw_edited_item = 1;
-	                DrawScreen();
-	            }
-	            UpdateDFTimer = 50;
+                                        DrawScreen();
+                                }
+                                UpdateDFTimer = 50;
 			}
 
 			break;
@@ -1423,13 +1423,13 @@ __myevic__ void EventHandler()
 
 				}
 
-	            MainView();
-	            if ( KeyTicks >= 5 )
-	            {
+                                MainView();
+                                if ( KeyTicks >= 5 )
+                                {
 					gFlags.draw_edited_item = 1;
-	                DrawScreen();
-	            }
-	            UpdateDFTimer = 50;
+                                        DrawScreen();
+                                }
+                                UpdateDFTimer = 50;
 			}
 
 			break;
