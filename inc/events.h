@@ -81,6 +81,7 @@ extern uint8_t	LastEvent;
 #define EVENT_POWER_CURVE		120
 #define EVENT_TETRIS                    121
 #define EVENT_SAVER                     122
+#define EVENT_SET_JOULES		123
 
 //==============================================================================
 

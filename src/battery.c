@@ -362,8 +362,13 @@ __myevic__ const uint8_t *GetBatteryName()
 //=========================================================================
 __myevic__ uint32_t ReadBatterySample( int nbat )
 {
-	uint32_t sample;
+// in asm - ReadBatteryVoltage
+    
+	uint32_t sample; // call 3 2 0 1
 
+        //      s1 s2 s3 s4
+        //rx23  18 0  4
+        //primo  4 0
 	if ( nbat < MaxBatteries )
 	{
 		if ( nbat == 0 )
@@ -372,13 +377,13 @@ __myevic__ uint32_t ReadBatterySample( int nbat )
 			{
 				sample = ADC_Read( 0 );
 			}
-			else if ( ISVTCDUAL || ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+			else if ( ISVTCDUAL || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 )
 			{
 				sample = ADC_Read( 4 );
 			}
 			else
 			{
-				sample = ADC_Read( 18 );
+				sample = ADC_Read( 18 ); //ISINVOKE ISSINP80
 			}
 		}
 		else if ( nbat == 1 )
@@ -535,7 +540,10 @@ __myevic__ void NewBatteryVoltage()
                 
                 //!gFlags.firing && 
                 //for auto zero counters
-                if ( ( BatteryVoltage > 255 ) && ( dfBattVolt > BatteryVoltage ) ) dfBattVolt = BatteryVoltage;
+                // gFlags.nbcr  dfStatus.nbrc
+                //if ( dfStatus.nbrc ) 
+                //if ( ( BatteryVoltage > 255 ) && ( dfBattVolt > BatteryVoltage ) ) dfBattVolt = BatteryVoltage;
+                if ( BatteryVoltage > 255 ) dfBattVolt = BatteryVoltage;
 	}
 	else
 	{
@@ -611,17 +619,21 @@ __myevic__ void ChargeBalance()
 		}
 		else if ( gFlags.battery_charging )
 		{
-                    if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+                    if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                     {
-			PA3 = ( BBBits & 1 ) != 0;
-			PA2 = ( BBBits & 2 ) != 0;
+			PA3 = ( BBBits & 1 ) != 0;              // 480C
+			PA2 = ( BBBits & 2 ) != 0;              // 4808
                     }    
-                    else if ( ISRX300 )    
+                    else if ( ISRX300 || ISRX2 )    
                     {        
-                        PF5 = ( BBBits & 1 ) != 0;
-			PF6 = ( BBBits & 2 ) != 0;
-			PA3 = ( BBBits & 4 ) != 0;
-			PA2 = ( BBBits & 8 ) != 0;
+                        PF5 = ( BBBits & 1 ) != 0;              // 4954
+			PF6 = ( BBBits & 2 ) != 0;              // 4958
+                        
+                        if ( ISRX300 )
+                        {
+                            PA3 = ( BBBits & 4 ) != 0;
+                            PA2 = ( BBBits & 8 ) != 0;
+                        }
                     }    
                     else if ( ISGEN3 )    
                     {        
@@ -634,17 +646,21 @@ __myevic__ void ChargeBalance()
 
 	if ( !gFlags.usb_attached || !gFlags.battery_charging || ChBalTimer <= 50 )
 	{
-	        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+	        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                 {
                     PA3 = 0;
                     PA2 = 0;
                 }
-                else if ( ISRX300 )
+                else if ( ISRX300 || ISRX2 )
                 {
                     PF5 = 0;
                     PF6 = 0;
-                    PA3 = 0;
-                    PA2 = 0;
+                    
+                    if ( ISRX300 )
+                    {                    
+                        PA3 = 0;
+                        PA2 = 0;
+                    }
                 }
                 else if ( ISGEN3 )    
                 {        
@@ -683,10 +699,16 @@ __myevic__ void ReadBatteryVoltage()
 
 		gFlags.sample_vbat = 0;
 
-		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 )
 		{
                         VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
-			if ( VbatSample2 ) VbatSample2 += 4;
+			if ( VbatSample2 ) 
+                        {
+                            if ( ISRX2 ) 
+                                VbatSample2 += 3;
+                            else
+                                VbatSample2 += 4;
+                        }
                         
                         VbatSample1 = ( VbatSample1 >> 7 ) + 2;  
 			BattVolts[0] = VbatSample1;
@@ -694,16 +716,35 @@ __myevic__ void ReadBatteryVoltage()
 			if ( VbatSample2 > VbatSample1 )
 			{
 				BattVolts[1] = VbatSample2 - VbatSample1;
-				NumBatteries = 2;
+				//NumBatteries = 2;
 			}
 			else
 			{
-				BatteryVoltage = 0;
-				BattVolts[0] = 0;
+				//BatteryVoltage = 0;
+				//BattVolts[0] = 0;
 				BattVolts[1] = 0;
-				NumBatteries = 0;
+				//NumBatteries = 0;
 			}      
 		}
+                else if ( ISINVOKE )
+                {
+                        VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
+                        if ( VbatSample2 > 5 )
+                            VbatSample2 -= 5;
+                        
+                        BattVolts[0] = VbatSample2;
+                        
+                        VbatSample1 = ( VbatSample1 >> 7 ) + 1;
+                        
+			if ( VbatSample2 > VbatSample1 )
+			{
+				BattVolts[1] = VbatSample2 - VbatSample1;
+			}
+			else
+			{
+				BattVolts[1] = 0;
+			}                              
+                }
 		else if ( ISVTCDUAL )
 		{
 			VbatSample1 = ( VbatSample1 >> 7 ) + 2;
@@ -835,6 +876,8 @@ __myevic__ void ReadBatteryVoltage()
 		}
 		else
 		{
+                        //ISSINP80
+                    
 			VbatSample1 >>= 7;
 			BattVolts[0] = VbatSample1;
 		}
@@ -861,7 +904,7 @@ __myevic__ void ReadBatteryVoltage()
 
 		NewBatteryData();
                 
-		if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
+		if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE )
 		{
 			ChargeBalance();
 		}
@@ -943,12 +986,35 @@ __myevic__ int CheckBattery()
 				RTBVTotal = bv;
 			}
 		}
-                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+                else if ( ISINVOKE )
+                {
+                        bv = ( ReadBatterySample( 0 ) >> 3 ) + 1;
+                        bs = 139 * ReadBatterySample( 1 ) / 624;
+                        bv2 = ( bs <= bv ) ? 0 : ( bs - bv );
+                        
+                        bv  += dfBVOffset[1];
+			bv2 += dfBVOffset[2];
+
+			RTBVolts[0] = bv;
+			RTBVolts[1] = bv2;
+
+			RTBVTotal = bv + bv2;
+
+			if ( bv2 < bv ) bv = bv2;
+                }
+                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 )
                 {
                     
 			bvtot = 139 * ReadBatterySample( 1 ) / 624;
-			if ( bvtot ) bvtot += 4;
-
+                        
+			if ( bvtot ) 
+                        {
+                                if ( ISRX2 ) 
+                                    bvtot += 3;
+                                else
+                                    bvtot += 4;                       
+                        }
+                        
 			bv = ( ReadBatterySample( 0 ) >> 3 ) + 2;
                                 
                         if ( bvtot <= bv )
@@ -1130,7 +1196,7 @@ __myevic__ int CheckBattery()
 	if ( i == 3 )
 	{
 		StopFire();
-		Event = 28;
+		Event = 28;  //Battery < 3.1V idle or < 2.8V firing
 		return 1;
 	}
 
@@ -1164,7 +1230,7 @@ __myevic__ int CheckBattery()
 		}
 
 		gFlags.limit_power = 0;
-		gFlags.decrease_voltage = 0; //1;
+		//gFlags.decrease_voltage = 0; //1;
 
 /*
 		if ( ISMODEVW(dfMode) && ( PowerScale > 5 ))
@@ -1173,17 +1239,19 @@ __myevic__ int CheckBattery()
 		}
 */
 	}
+/*
 	else
 	{
 		gFlags.decrease_voltage = 0;
 
-/*
+
 		if (( PowerScale < 100 ) && ( bv > limit_voltage ))
 		{
 			++PowerScale;
 		}
-*/
+
 	}
+*/
 	return 0;
 }
 
@@ -1489,10 +1557,18 @@ __myevic__ void BatteryCharge()
 	{
 		ChargeCurrent = 135 * ADCChargeCurrent / 360;
 	}
-        else if ( ISPRIMO2 || ISPREDATOR || ISGEN3 )
+        else if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE )
         {
+            if ( ISINVOKE )
+            {
+                ChargeCurrent = 185 * ADCChargeCurrent / 320;
+            }
+            else 
+            {
                 ChargeCurrent = 885 * ADCChargeCurrent / 1576;
-                tmpChargeCurrent = 1800;
+            }
+            
+            tmpChargeCurrent = 1800;
         }
 	else
 	{
@@ -1510,9 +1586,13 @@ __myevic__ void BatteryCharge()
 	if ( gFlags.bad_cell )
 	{
 		BatteryStatus = 2; // Check Battery
-                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                 {
                     PD1 = 0;
+                }
+                else if ( ISRX2 )
+                {
+                    PF2 = 0;
                 }
                 else 
                 {
@@ -1524,10 +1604,14 @@ __myevic__ void BatteryCharge()
 		if ( gFlags.usb_attached && USBVolts > 580 )
 		{
 			BatteryStatus = 3; // Check USB Adapter
-			if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+			if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                         {
                             PD1 = 0;
                         }
+                        else if ( ISRX2 )
+                        {
+                            PF2 = 0;
+                        }                        
                         else 
                         {
                             PF0 = 0;
@@ -1546,9 +1630,13 @@ __myevic__ void BatteryCharge()
 					BatteryStatus = 0;
 				}
 
-				if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+				if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                                 {
                                     PD1 = 1;
+                                }
+                                else if ( ISRX2 )
+                                {
+                                    PF2 = 1;
                                 }
                                 else 
                                 {
@@ -1574,11 +1662,16 @@ __myevic__ void BatteryCharge()
                         PB7 = 1;
 		}
 	}
-        else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+        else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
         {
                 BatteryStatus = 2;
 		PD1 = 0;
         }
+        else if ( ISRX2 )
+        {
+                BatteryStatus = 2;
+                PF2 = 0;
+        }        
 	else
 	{
 		BatteryStatus = 2;
@@ -1797,9 +1890,13 @@ __myevic__ void BatteryCharge()
 							if ( ChargeCurrent < 180 )
 							{
 								BatteryStatus = 4;
-								if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+								if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                                                                 {
                                                                     PD1 = 0;
+                                                                }
+                                                                else if ( ISRX2 )
+                                                                {
+                                                                    PF2 = 0;
                                                                 }
                                                                 else 
                                                                 {

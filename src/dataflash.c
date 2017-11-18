@@ -42,8 +42,8 @@ uint16_t	fmcCntrsIndex;
 const char pid_vtcmini	[8]	__PIDATTR__	= { 'E','0','5','2', 1, 1, 1, 0 };
 const char pid_vtwomini	[8]	__PIDATTR__	= { 'E','1','1','5', 1, 0, 1, 0 };
 const char pid_primomini[8]	__PIDATTR__	= { 'E','1','9','6', 1, 0, 0, 0 };
-const char pid_primose[8]	__PIDATTR__	= { 'E','2','3','5', 1, 0, 0, 0 };
-const char pid_vtwo		[8]	__PIDATTR__	= { 'E','0','4','3', 1, 0, 1, 0 };
+const char pid_primose  [8]	__PIDATTR__	= { 'E','2','3','5', 1, 0, 0, 0 };
+const char pid_vtwo     [8]	__PIDATTR__	= { 'E','0','4','3', 1, 0, 1, 0 };
 const char pid_evicaio	[8]	__PIDATTR__	= { 'E','0','9','2', 1, 0, 1, 0 };
 const char pid_egripii	[8]	__PIDATTR__	= { 'E','0','8','3', 1, 0, 0, 0 };
 const char pid_cubomini	[8]	__PIDATTR__	= { 'E','0','5','6', 1, 0, 2, 0 };
@@ -55,14 +55,18 @@ const char pid_vtcdual	[8]	__PIDATTR__	= { 'E','0','7','9', 1, 0, 1, 0 };
 const char pid_cuboid	[8]	__PIDATTR__	= { 'E','0','6','0', 1, 0, 2, 0 };
 const char pid_cubo200	[8]	__PIDATTR__	= { 'E','1','6','6', 1, 0, 0, 0 };
 const char pid_rx200s	[8]	__PIDATTR__	= { 'W','0','3','3', 1, 0, 0, 0 };
-const char pid_rx23		[8]	__PIDATTR__	= { 'W','0','1','8', 1, 0, 2, 0 };
+const char pid_rx23     [8]	__PIDATTR__	= { 'W','0','1','8', 1, 0, 2, 0 };
 const char pid_rx300	[8]	__PIDATTR__	= { 'W','0','6','9', 1, 0, 0, 0 };
 const char pid_rxmini	[8]	__PIDATTR__	= { 'W','0','7','3', 1, 0, 0, 0 };
-const char pid_lpb		[8]	__PIDATTR__	= { 'W','0','4','3', 1, 0, 0, 0 };
+const char pid_lpb      [8]	__PIDATTR__	= { 'W','0','4','3', 1, 0, 0, 0 };
 const char pid_primo1   [8]	__PIDATTR__	= { 'E','1','8','2', 1, 0, 1, 0 };
 const char pid_primo2   [8]	__PIDATTR__	= { 'E','2','0','3', 1, 0, 1, 0 };
 const char pid_predator [8]	__PIDATTR__	= { 'W','0','7','8', 1, 0, 0, 0 };
 const char pid_gen3     [8]	__PIDATTR__	= { 'W','0','9','1', 1, 0, 0, 0 };
+const char pid_sinp80   [8]	__PIDATTR__	= { 'J','0','0','1', 1, 0, 0, 0 };
+const char pid_sinfj200 [8]	__PIDATTR__	= { 'J','0','0','9', 1, 0, 0, 0 };
+const char pid_rx2      [8]	__PIDATTR__	= { 'J','0','1','2', 1, 0, 0, 0 };
+const char pid_invoke   [8]	__PIDATTR__	= { 'M','0','9','5', 1, 0, 0, 0 };
 
 #define PID_SCRAMBLE 0x12345678UL
 #define MAKEPID(p) ((((p)[0])|((p)[1]<<8)|((p)[2]<<16)|((p)[3]<<24))^PID_SCRAMBLE)
@@ -70,55 +74,63 @@ const char pid_gen3     [8]	__PIDATTR__	= { 'W','0','9','1', 1, 0, 0, 0 };
 
 #define HWV2INT(v) (((v)&0xff)*100+(((v)>>8)&0xff)*10+(((v)>>16)&0xff))
 
-#define PID_VTCMINI		MAKEPID(pid_vtcmini)
-#define PID_VTWOMINI	MAKEPID(pid_vtwomini)
+#define PID_VTCMINI	MAKEPID(pid_vtcmini)
+#define PID_VTWOMINI    MAKEPID(pid_vtwomini)
 #define PID_PRIMOMINI	MAKEPID(pid_primomini)
 #define PID_PRIMOSE	MAKEPID(pid_primose)
-#define PID_VTWO		MAKEPID(pid_vtwo)
-#define PID_EVICAIO		MAKEPID(pid_evicaio)
-#define PID_EGRIPII		MAKEPID(pid_egripii)
+#define PID_VTWO	MAKEPID(pid_vtwo)
+#define PID_EVICAIO	MAKEPID(pid_evicaio)
+#define PID_EGRIPII	MAKEPID(pid_egripii)
 #define PID_CUBOMINI	MAKEPID(pid_cubomini)
 #define PID_EVICBASIC	MAKEPID(pid_evicbasic)
 #define PID_PRESA75W	MAKEPID(pid_presa75w)
 #define PID_PRESA100W	MAKEPID(pid_presa100w)
-#define PID_WRX75TC		MAKEPID(pid_wrx75tc)
-#define PID_VTCDUAL		MAKEPID(pid_vtcdual)
-#define PID_CUBOID		MAKEPID(pid_cuboid)
-#define PID_CUBO200		MAKEPID(pid_cubo200)
-#define PID_RX200S		MAKEPID(pid_rx200s)
-#define PID_RX23		MAKEPID(pid_rx23)
-#define PID_RX300		MAKEPID(pid_rx300)
-#define PID_RXMINI		MAKEPID(pid_rxmini)
-#define PID_LPB			MAKEPID(pid_lpb)
-#define PID_PRIMO1		MAKEPID(pid_primo1)
-#define PID_PRIMO2		MAKEPID(pid_primo2)
-#define PID_PREDATOR		MAKEPID(pid_predator)
-#define PID_GEN3		MAKEPID(pid_gen3)
+#define PID_WRX75TC	MAKEPID(pid_wrx75tc)
+#define PID_VTCDUAL	MAKEPID(pid_vtcdual)
+#define PID_CUBOID	MAKEPID(pid_cuboid)
+#define PID_CUBO200	MAKEPID(pid_cubo200)
+#define PID_RX200S	MAKEPID(pid_rx200s)
+#define PID_RX23	MAKEPID(pid_rx23)
+#define PID_RX300	MAKEPID(pid_rx300)
+#define PID_RXMINI	MAKEPID(pid_rxmini)
+#define PID_LPB		MAKEPID(pid_lpb)
+#define PID_PRIMO1	MAKEPID(pid_primo1)
+#define PID_PRIMO2	MAKEPID(pid_primo2)
+#define PID_PREDATOR	MAKEPID(pid_predator)
+#define PID_GEN3	MAKEPID(pid_gen3)
+#define PID_SINP80	MAKEPID(pid_sinp80)
+#define PID_SINFJ200	MAKEPID(pid_sinfj200)
+#define PID_RX2         MAKEPID(pid_rx2)
+#define PID_INVOKE      MAKEPID(pid_invoke)
 
-#define HWV_VTCMINI		MAKEHWV(pid_vtcmini)
+#define HWV_VTCMINI	MAKEHWV(pid_vtcmini)
 #define HWV_VTWOMINI	MAKEHWV(pid_vtwomini)
 #define HWV_PRIMOMINI	MAKEHWV(pid_primomini)
 #define HWV_PRIMOSE	MAKEHWV(pid_primose)
-#define HWV_VTWO		MAKEHWV(pid_vtwo)
-#define HWV_EVICAIO		MAKEHWV(pid_evicaio)
-#define HWV_EGRIPII		MAKEHWV(pid_egripii)
+#define HWV_VTWO	MAKEHWV(pid_vtwo)
+#define HWV_EVICAIO	MAKEHWV(pid_evicaio)
+#define HWV_EGRIPII	MAKEHWV(pid_egripii)
 #define HWV_CUBOMINI	MAKEHWV(pid_cubomini)
 #define HWV_EVICBASIC	MAKEHWV(pid_evicbasic)
 #define HWV_PRESA75W	MAKEHWV(pid_presa75w)
 #define HWV_PRESA100W	MAKEHWV(pid_presa100w)
-#define HWV_WRX75TC		MAKEHWV(pid_wrx75tc)
-#define HWV_VTCDUAL		MAKEHWV(pid_vtcdual)
-#define HWV_CUBOID		MAKEHWV(pid_cuboid)
-#define HWV_CUBO200		MAKEHWV(pid_cubo200)
-#define HWV_RX200S		MAKEHWV(pid_rx200s)
-#define HWV_RX23		MAKEHWV(pid_rx23)
-#define HWV_RX300		MAKEHWV(pid_rx300)
-#define HWV_RXMINI		MAKEHWV(pid_rxmini)
-#define HWV_LPB			MAKEHWV(pid_lpb)
-#define HWV_PRIMO1		MAKEHWV(pid_primo1)
-#define HWV_PRIMO2		MAKEHWV(pid_primo2)
-#define HWV_PREDATOR		MAKEHWV(pid_predator)
-#define HWV_GEN3		MAKEHWV(pid_gen3)
+#define HWV_WRX75TC	MAKEHWV(pid_wrx75tc)
+#define HWV_VTCDUAL	MAKEHWV(pid_vtcdual)
+#define HWV_CUBOID	MAKEHWV(pid_cuboid)
+#define HWV_CUBO200	MAKEHWV(pid_cubo200)
+#define HWV_RX200S	MAKEHWV(pid_rx200s)
+#define HWV_RX23	MAKEHWV(pid_rx23)
+#define HWV_RX300	MAKEHWV(pid_rx300)
+#define HWV_RXMINI	MAKEHWV(pid_rxmini)
+#define HWV_LPB		MAKEHWV(pid_lpb)
+#define HWV_PRIMO1	MAKEHWV(pid_primo1)
+#define HWV_PRIMO2	MAKEHWV(pid_primo2)
+#define HWV_PREDATOR	MAKEHWV(pid_predator)
+#define HWV_GEN3	MAKEHWV(pid_gen3)
+#define HWV_SINP80	MAKEHWV(pid_sinp80)
+#define HWV_SINFJ200	MAKEHWV(pid_sinfj200)
+#define HWV_RX2         MAKEHWV(pid_rx2)
+#define HWV_INVOKE      MAKEHWV(pid_invoke)
 
 
 //=========================================================================
@@ -244,6 +256,54 @@ __myevic__ void SetProductID()
 			BoxModel = BOX_GEN3;
 			NumBatteries = 3;
 			MaxBatteries = 3;
+                        MaxCurrent = 50;
+			gFlags.pwm_pll = 1;
+                        ScrFlip = 1;
+                        X32Off = 1;
+			break;
+		}
+                else if ( u32Data == PID_SINP80 )
+		{
+			dfMaxHWVersion = HWV_SINP80;
+			DFMagicNumber = 0x11;
+			BoxModel = BOX_SINP80;
+                        ScrFlip = 1;
+                        X32Off = 1;
+			break;
+		}
+                else if ( u32Data == PID_SINFJ200 )
+		{
+			dfMaxHWVersion = HWV_SINFJ200;
+			DFMagicNumber = 0x13;
+			BoxModel = BOX_SINFJ200;
+			NumBatteries = 2;
+			MaxBatteries = 2;
+                        MaxCurrent = 50;
+			gFlags.pwm_pll = 1;
+                        ScrFlip = 1;
+                        X32Off = 1;
+			break;
+		}
+                else if ( u32Data == PID_RX2 )
+		{
+			dfMaxHWVersion = HWV_RX2;
+			DFMagicNumber = 0x12;
+			BoxModel = BOX_RX2;
+			NumBatteries = 2;
+			MaxBatteries = 2;
+                        MaxCurrent = 50;
+			gFlags.pwm_pll = 1;
+                        ScrFlip = 1;
+                        X32Off = 1;
+			break;
+		}
+                else if ( u32Data == PID_INVOKE )
+		{
+			dfMaxHWVersion = HWV_INVOKE;
+			DFMagicNumber = 0x10;
+			BoxModel = BOX_INVOKE;
+			NumBatteries = 2;
+			MaxBatteries = 2;
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
                         ScrFlip = 1;
@@ -482,6 +542,8 @@ __myevic__ void InitSetPowerVoltMax()
 	{
 		SetMaxVolts ( 990 ); //MaxVolts = 990;
 	}
+        else if ( ISINVOKE )
+                SetMaxVolts ( 800 );
 	else
 	{
 		SetMaxVolts ( 900 ); //MaxVolts = 900;
@@ -491,7 +553,7 @@ __myevic__ void InitSetPowerVoltMax()
 	{
 		SetMaxPower ( 600 ); //MaxPower = 600;
 	}
-	else if ( ISPRIMOSE || ISPRIMOMINI || ISVTWO || ISEGRIPII || ISCUBOMINI || ISRXMINI )
+	else if ( ISPRIMOSE || ISPRIMOMINI || ISVTWO || ISEGRIPII || ISCUBOMINI || ISRXMINI || ISSINP80 )
 	{
 		SetMaxPower ( 800 ); //MaxPower = 800;
 	}
@@ -504,17 +566,13 @@ __myevic__ void InitSetPowerVoltMax()
 		SetMaxPower ( 1500 ); //MaxPower = 1500;
 		gFlags.batt_unk = 1;
 	}
-	else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+	else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX200S || ISRX23 )
 	{
 		SetMaxPower ( 2500 ); //MaxPower = 2500; //2280
 	}        
-	else if ( ISCUBOID || ISCUBO200 )
+	else if ( ISCUBOID || ISCUBO200 || ISINVOKE || ISSINFJ200 || ISRX2 )
 	{
 		SetMaxPower ( 2000 ); //MaxPower = 2000;
-	}
-	else if ( ISRX200S || ISRX23 )
-	{
-		SetMaxPower ( 2500 ); //MaxPower = 2500;
 	}
         else if ( ISGEN3 )
         {
@@ -1353,10 +1411,18 @@ __myevic__ uint16_t GetShuntRezValue()
 {
 	uint16_t rez;
 
-	if ( ISPRESA75W || ISEVICAIO || ISRXMINI || ISPREDATOR )
+	if ( ISPRESA75W || ISEVICAIO || ISRXMINI || ISPREDATOR || ISSINP80 )
 	{
 		rez = 100;
 	}
+        else if ( ISRX2 )
+        {
+                rez = 103;
+        }
+        else if ( ISINVOKE )
+        {
+                rez = 97;            
+        }
 	else if ( ISPRESA100W )
 	{
 		rez = 92;

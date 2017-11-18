@@ -335,13 +335,13 @@ __myevic__ void DrawAPTLines()
                             if ( dfStatus.vapedml )
                             {
 				//DrawString( String_LIQ_s, 0, line+2 );
-				DrawImage( 0, line+2, 0xF9 );
+				DrawImage( 0, line+2, 0xF9 ); //ml
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
                             }
                             else
                             {
 				vv = vv * 86400 / ( t ? : 1 );
-				DrawImage( 0, line+2, 0xF3 );
+				DrawImage( 0, line+2, 0xF3 ); //mld
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
                             }
                             DrawImage( 57, line+2, 0xCD ); //flask

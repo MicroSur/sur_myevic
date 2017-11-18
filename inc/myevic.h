@@ -26,7 +26,7 @@
 
 //-------------------------------------------------------------------------
 
-#define FWVERSION	555
+#define FWVERSION	556
 
 #define __BUILD1	( __DAY__ + __MONTH__ * 100 + ( __YEAR__ % 100 ) * 10000 )
 
@@ -64,7 +64,11 @@ enum
         BOX_PRIMO2,
         BOX_PREDATOR,    
         BOX_PRIMOSE,   
-        BOX_GEN3        
+        BOX_GEN3,
+        BOX_RX2,
+        BOX_SINP80,
+        BOX_SINFJ200,
+        BOX_INVOKE
 };
 
 #define ISVTCMINI		(BoxModel==BOX_VTCMINI)
@@ -90,6 +94,10 @@ enum
 #define ISPREDATOR		(BoxModel==BOX_PREDATOR)
 #define ISPRIMOSE		(BoxModel==BOX_PRIMOSE)
 #define ISGEN3                  (BoxModel==BOX_GEN3)
+#define ISRX2                   (BoxModel==BOX_RX2)
+#define ISSINP80                (BoxModel==BOX_SINP80)
+#define ISSINFJ200              (BoxModel==BOX_SINFJ200)
+#define ISINVOKE                (BoxModel==BOX_INVOKE)
 
 //=========================================================================
 // Global flags bitfield

@@ -298,7 +298,7 @@ __myevic__ void GetUserInput()
 					}
 				}
 			}
-			else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 )
+			else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISRX2 && !ISINVOKE )
 			{
 				if ( !PD7 && !gFlags.battery_charging )
 				{
@@ -399,10 +399,10 @@ __myevic__ void GetUserInput()
 						default:
 							break;
 
-						//case CLICK_ACTION_NONE:
+						case CLICK_ACTION_NONE:
 						//	if ( FireClickCount == 4 )
 						//		FireClicksEvent = EVENT_DEBUG_MODE;	// debug mode
-						//	break;
+							break;
 
 						case CLICK_ACTION_EDIT:
 							FireClicksEvent = 16;	// edit mode
@@ -450,19 +450,21 @@ __myevic__ void GetUserInput()
 					}
 					break;
 
-/*
-				case 5:
-					Event = 17;	// Switch On/Off
-					break;
-*/
+                                default:
+                                        FireClicksEvent = 17; //not Event
+                                        break;
+                                            
+				//case 5:
+				//	Event = 17;	// Switch On/Off
+				//	break;
 
 				//case 7:
 				//	FireClicksEvent = 31;	// board temp screen from on state
 				//	break;
 
-				case 6:                               
-					FireClicksEvent = 29;	// firmware version screen from on state
-					break;
+				//case 6:                               
+				//	FireClicksEvent = 29;	// firmware version screen from on state
+				//	break;
                                         
                                 //case 7:                                    
 				//	FireClicksEvent = 20;	// Info screen
@@ -720,7 +722,7 @@ __myevic__ int EvtFire()
 			vret = 1;
                         break;
 
-		case 102:
+		case 102:    
 		{
 			vret = MenuEvent( LastEvent );
 		}
@@ -768,6 +770,16 @@ __myevic__ int EvtFire()
 			}
 			vret = 1;
 		}
+                break;
+                
+                case EVENT_SET_JOULES: //scr = event
+                {    
+                	EditModeTimer = 0;
+			//MainView();
+                        //CurrentMenuItem = 6;
+                        Event = EVENT_PARENT_MENU;
+                        vret = 1;
+                }    
 	}
 
 	return vret;
@@ -794,8 +806,10 @@ __myevic__ int EvtSingleFire()
 		case 105:
 		case 106:
 		case 107:
+                case 50:     // FW Version
+                case EVENT_SET_JOULES:    
 		{
-			vret = 1;
+			vret = 1; // prevents immediate call of mainview
 		}
 		break;
 
@@ -992,9 +1006,24 @@ __myevic__ int EvtPlusButton()
 			}
 			EditModeTimer = 3000;
 			gFlags.refresh_display = 1;
-			vret = 1;
-			break;
+			vret = 1;	
 		}
+                break;
+                
+                case EVENT_SET_JOULES: // scr = event
+		{                    
+                    	if ( ++dfVVRatio > VVEL_MAX_RATIO )
+			{
+				if ( KeyTicks < 5 ) dfVVRatio = VVEL_MIN_RATIO;
+				else dfVVRatio = VVEL_MAX_RATIO;
+			}
+                        UpdateDFTimer = 50;
+                        //EditModeTimer = 3000;
+                        ScreenDuration = 60;
+			gFlags.refresh_display = 1;
+			vret = 1;
+		}
+                break;
 	}
 
 	return vret;
@@ -1152,8 +1181,23 @@ __myevic__ int EvtMinusButton()
 			EditModeTimer = 3000;
 			gFlags.refresh_display = 1;
 			vret = 1;
-			break;
 		}
+                break;
+                
+                case EVENT_SET_JOULES: //scr = event
+		{                    
+                        if ( --dfVVRatio < VVEL_MIN_RATIO  )
+                        {
+				if ( KeyTicks < 5 ) dfVVRatio = VVEL_MAX_RATIO;
+				else dfVVRatio = VVEL_MIN_RATIO;
+                        }
+                        UpdateDFTimer = 50;
+                        //EditModeTimer = 3000;
+                        ScreenDuration = 60;
+			gFlags.refresh_display = 1;
+			vret = 1;
+		}
+                break;                
 	}
 
 	return vret;
@@ -1218,7 +1262,6 @@ __myevic__ int EvtLongFire()
 			SetTimeRTD.u32Second = rtd.u32Second;
 			// NOBREAK
 		}
-
 		case 105: //SetTime
 			SetRTC( &SetTimeRTD );
 			EditModeTimer = 0;
@@ -1235,7 +1278,19 @@ __myevic__ int EvtLongFire()
 			gFlags.edit_value = 0;
 			gFlags.refresh_display = 1;
 			vret = 1;
+                        break;
 		}
+                
+/*
+		case EVENT_SET_JOULES:
+                        dfVVRatio = VVEL_DEF_RATIO;  
+                        //        gFlags.edit_value = 0;
+			//EditModeTimer = 0;
+			//MainView();
+                        //Event = EVENT_PARENT_MENU;
+			vret = 1;
+			break;                
+*/
 	}
 
 	return vret;
@@ -1266,6 +1321,23 @@ __myevic__ int EvtEnterMenus()
 
 S_RTC_TIME_DATA_T SetTimeRTD;
 
+/*
+__myevic__ int EvtSet( int what )
+{
+    	switch ( what )
+	{
+            	case 0: //EvtSetTime
+                    case 1: //EvtSetDate
+                        case 2: //EvtSetJoules
+		{
+	GetRTC( &SetTimeRTD );
+	SetScreen( 105, 60 );
+	EditItemIndex = 2;
+	EditModeTimer = 6000;
+	return 1;
+}
+*/
+
 __myevic__ int EvtSetTime()
 {
 	GetRTC( &SetTimeRTD );
@@ -1281,6 +1353,14 @@ __myevic__ int EvtSetDate()
 	SetScreen( 106, 60 );
 	EditItemIndex = 2;
 	EditModeTimer = 6000;
+	return 1;
+}
+
+__myevic__ int EvtSetJoules()
+{
+	SetScreen( EVENT_SET_JOULES, 60 ); //scr 123
+	//EditItemIndex = 0;
+	//EditModeTimer = 6000;
 	return 1;
 }
 
@@ -1364,7 +1444,11 @@ __myevic__ int CustomEvents()
 		case EVENT_SET_TIME:
 			vret = EvtSetTime();
 			break;
-
+                        
+		case EVENT_SET_JOULES:
+			vret = EvtSetJoules();
+			break;
+                        
 		case EVENT_SET_DATE:
 			vret = EvtSetDate();
 			break;
@@ -1463,8 +1547,8 @@ __myevic__ int CustomEvents()
 			Screen = 60;
 			ScreenDuration = GetScreenProtection();
                         gFlags.refresh_display = 1;
-			break;                        
-                        
+			break;   
+                                               
 		default:
 			vret = 0;
 			break;

@@ -120,7 +120,7 @@ __myevic__ void SetPWMClock()
 #define MaxBuck  MaxDuty
 #define MinBoost MaxDuty
 
-	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 )
+	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 || ISINVOKE )
 	{
 		MaxDuty = 95 * PWMCycles / 100; //for RegulateDualBuck
 	}
@@ -153,7 +153,7 @@ __myevic__ void InitPWM()
 	BuckDuty = 0;
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
 
-	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE )
 	{
 		PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_CHARGER, BBC_PWM_FREQ, 0 );
 		PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_CHARGER );
@@ -174,7 +174,7 @@ __myevic__ void InitPWM()
                 {
                         MaxChargerDuty = 320;
                 }
-                else if ( ISGEN3 )
+                else if ( ISGEN3 || ISRX2 || ISINVOKE )
                 {
                         MaxChargerDuty = 360;
                 }
@@ -323,37 +323,47 @@ __myevic__ void StopFire()
 
 //	register const uint32_t lr __asm__("lr");
 //	uint32_t caller;
-
 //	caller = lr;
 
 	if ( ISVTCDUAL )
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_INPUT );
 	}
-	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 )
+	else if (   !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && 
+                    !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && 
+                    !ISGEN3 && !ISINVOKE && !ISRX2 )
 	{
-		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
+		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );  // 0x400040C0 0x80 0
+                // ISEGRIPII ISEVICAIO ISSINP80 
 	}
 
-	PC1 = 0;
-	if ( !ISVTCDUAL ) PC3 = 0;
-
+	PC1 = 0;                                    // 40004884
+        
+        if ( !ISVTCDUAL && !ISINVOKE )
+        {
+        PC3 = 0;                                // 4000488C
+        }
+        
 	BuckDuty = 0;
-	PC0 = 0;
-	BBC_Configure( BBC_PWMCH_BUCK, 0 );
+	PC0 = 0;                                    // 40004880
+	BBC_Configure( BBC_PWMCH_BUCK, 0 );         // 0 0
 
+        if ( !ISINVOKE )
+        {
 	BoostDuty = 0;
-	PC2 = 0;
-	BBC_Configure( BBC_PWMCH_BOOST, 0 );
-
+	PC2 = 0;                                    // 40004888
+	BBC_Configure( BBC_PWMCH_BOOST, 0 );        // 2 0
+        }
+        
 	SetADCState( 1, 0 );
 	SetADCState( 2, 0 );
+        
 	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
 	{
 		SetADCState( 15, 0 );
 	}
 
-	if ( ISEGRIPII || ISEVICAIO )
+	if ( ISEGRIPII || ISEVICAIO || ISSINP80 )
 	{
 		LEDTimer = 30;
 	}
@@ -363,7 +373,8 @@ __myevic__ void StopFire()
 		gFlags.firing = 0;
 
 		RTCWriteRegister( RTCSPARE_VV_MJOULES, MilliJoules );
-
+                dfJoules = MilliJoules;
+                
 		if (( FireDuration * 10 >= dfPreheatTime )
 		||  ( dfStatus.pcurve && FireDuration > 10 ))
 		{
@@ -451,7 +462,7 @@ __myevic__ void ReadAtoCurrent()
         int c;
 	//int s;
 
-        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 ) //rx2
+        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 || ISRX2 || ISINVOKE || ISSINP80 )
             c = 11; //lsrs B
         else
             c = 12;
@@ -730,8 +741,6 @@ __myevic__ void ReadAtomizer()
 			NumShuntSamples = 1;
 		}
 
-
-
 		ADCAtoSum = 0;
 		ADCShuntSum1 = 0;
 		ADCShuntSum2 = 0;
@@ -752,7 +761,12 @@ __myevic__ void ReadAtomizer()
 		ADCShuntSum = ( ADCShuntSum1 + ADCShuntSum2 ) ? : 1;
                 
 		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ADCShuntSum );
-                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 ) AtoRezMilli /= 2;
+                
+                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 ||
+                     ISRX2 || ISSINP80 || ISINVOKE )  
+                {
+                    AtoRezMilli >>= 1; //AtoRezMilli /= 2;
+                }
                 
 		if ( gFlags.firing )
 		{
@@ -1199,11 +1213,12 @@ __myevic__ void TweakTargetVoltsJT()
 
 		temp = ( dfIsCelsius == 1 ) ? CelsiusToF( dfTemp ) : dfTemp;
 
-		if ( gFlags.decrease_voltage )
-		{
-			if ( TargetVolts ) --TargetVolts;
-		}
-		else if ( AtoTemp < temp )
+		//if ( gFlags.decrease_voltage )
+		//{
+		//	if ( TargetVolts ) --TargetVolts;
+		//}
+		//else 
+                if ( AtoTemp < temp )
 		{
 			++TargetVolts;
 			gFlags.limit_ato_temp = 0;
@@ -1453,15 +1468,18 @@ __myevic__ void SetAtoLimits()
 //----- (00006038) --------------------------------------------------------
 __myevic__ void ProbeAtomizer()
 {
-	if ( ( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
-	|| ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 ) && ( BatteryStatus == 2 || !PF0 ) )
-        || ( ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR ) && ( BatteryStatus == 2 || !PD1 ) ))
+	if ( 
+               ( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
+            || ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 ) && ( BatteryStatus == 2 || !PF0 ) )
+            || ( ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE ) && ( BatteryStatus == 2 || !PD1 ) )
+            || ( ( ISRX2 ) && ( BatteryStatus == 2 || !PF2 ) )                
+            )
         {
-		AtoStatus = 0;   
+		AtoStatus = 0;   //no ato (no batt || !pin)
                 
 //myprintf( "AtoStatus1=%d PF0=%d PD1=%d BatteryStatus=%d\n", AtoStatus, PF0, PD1, BatteryStatus );                
 	}
-	else
+	else //ISSINP80
 	{
 		SetADCState( 1, 1 );
 		SetADCState( 2, 1 );
@@ -1519,7 +1537,11 @@ __myevic__ void ProbeAtomizer()
 		if ( !gFlags.firing )
 		{
 			PC1 = 0;
-			if ( !ISVTCDUAL ) PC3 = 0;
+			if ( !ISVTCDUAL && !ISINVOKE )
+                        {
+                        PC3 = 0;
+                        }
+                        
 			SetADCState( 1, 0 );
 			SetADCState( 2, 0 );
 			if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 )
@@ -1780,7 +1802,7 @@ __myevic__ void ReadBoardTemp()
 				{
 					v = 320;
 				}
-				tdr = ( 20000 * sample / ( 16 * v - sample ));
+				tdr = ( 20000 * sample / ( 16 * v - sample )); // why?
 			}
 			else
 			{
@@ -2090,15 +2112,16 @@ __myevic__ void TweakTargetVoltsSegments()
 		AlgoCtl.stage->tests = 0;
 	}
 
-	if ( gFlags.decrease_voltage )
-	{
-		if ( TargetVolts )
-		{
-			AlgoCtl.mvolts -= 10;
-			TargetVolts = AlgoCtl.mvolts / 10;
-		}
-	}
-	else if ( AlgoCtl.atemp < AlgoCtl.ttemp )
+	//if ( gFlags.decrease_voltage )
+	//{
+	//	if ( TargetVolts )
+	//	{
+	//		AlgoCtl.mvolts -= 10;
+	//		TargetVolts = AlgoCtl.mvolts / 10;
+	//	}
+	//}
+	//else 
+        if ( AlgoCtl.atemp < AlgoCtl.ttemp )
 	{
 		AlgoCtl.mvolts += AlgoCtl.stage->inc;
 		TargetVolts = AlgoCtl.mvolts / 10;
@@ -2158,15 +2181,15 @@ __myevic__ void TweakTargetVoltsPID()
 
 	if ( volts < 50 ) volts = 50;
 
-	if ( gFlags.decrease_voltage )
-	{
-		if ( volts < TargetVolts ) TargetVolts = volts;
-		else if ( TargetVolts ) --TargetVolts;
-	}
-	else
-	{
+	//if ( gFlags.decrease_voltage )
+	//{
+	//	if ( volts < TargetVolts ) TargetVolts = volts;
+	//	else if ( TargetVolts ) --TargetVolts;
+	//}
+	//else
+	//{
 		TargetVolts = volts;
-	}
+	//}
 }
 
 

@@ -757,9 +757,10 @@ __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
 	if ( UpdateDFTimer ) UpdateDataFlash();
 	if ( UpdatePTTimer ) UpdatePTCounters();
 
-	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 )
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
+                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 )
 	{
-		PD7 = 0;
+		PD7 = 0;                                            //48DC
 		BBC_Configure( BBC_PWMCH_CHARGER, 0 );
 		PD7 = 0;
 		ChargerDuty = 0;
@@ -770,12 +771,14 @@ __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
 			PC3 = 0;
 			PA2 = 0;
 		}
-                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR )
+                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                 {
-                        PD1 = 0;
+                        PD1 = 0;                                    //48C4
                 }
-                //pf2=0
-                
+                else if ( ISRX2 )
+                {
+                        PF2 = 0;                                    //4948
+                }
 		else	// if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 gen3 )
 				// (currently useless, restore if needed)
 		{

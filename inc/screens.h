@@ -68,6 +68,7 @@ extern void ShowRTCSpeed();
 extern void ShowRTCAdjust();
 extern void ShowScreenSaver();
 extern void ShowSetTime();
+extern void ShowSetJoules();
 extern void ShowSetDate();
 extern void ShowCheckBattery();
 extern void ShowCheckUSB();
@@ -174,8 +175,8 @@ extern const uint8_t String_Charge[];
 extern const uint8_t String_Error[];
 extern const uint8_t String_Imbalanced[];
 extern const uint8_t String_Batteries[];
-extern const uint8_t String_BALANCE_s[];
-extern const uint8_t String_BAL_s[];
+//extern const uint8_t String_BALANCE_s[];
+//extern const uint8_t String_BAL_s[];
 
 // from menus.c
 extern const uint8_t String_Menus[];

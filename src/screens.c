@@ -235,7 +235,11 @@ __myevic__ void DrawScreen()
 			case 107:
 				ShowPowerCurve();
 				break;
-			
+                                
+                        case EVENT_SET_JOULES: //scr = event
+				ShowSetJoules();
+				break;        
+                                                               
 			default:
 				break;
 		}
@@ -379,6 +383,7 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 		case 105: // Set Time
 		case 106: // Set Date
 		case 107: // Power Curve
+                case EVENT_SET_JOULES:    
 			EditModeTimer = 0;
 			gFlags.edit_capture_evt = 0;
 			gFlags.edit_value = 0;
@@ -410,7 +415,7 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
                         
                         scrSaveOnce = 1;
 			break;
-
+    
 		case  60: // Screen Saver
 			if ( gFlags.battery_charging )
 			{
@@ -676,11 +681,12 @@ __myevic__ void ShowBattery()
 	{
 		if ( dfBattLine == 1 || dfBattLine == 2 )
 		{
-			DrawImage( 30, 114, 0xE2 ); //small empty
+			DrawImage( 30, 114, 0xE2 ); // 1 small empty
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
 			{
-				DrawString( String_BAL_s, 35, 117 );
-                                DrawHLine ( 32, 117, 57, 1 ); //fill space after drawstring
+				//DrawString( String_BAL_s, 35, 117 );
+                                DrawImage( 37, 117, 0xC6 );
+                                //DrawHLine ( 32, 117, 57, 1 ); //fill space after drawstring
 			}
 			else if ( BatteryTenth )
 			{
@@ -692,8 +698,9 @@ __myevic__ void ShowBattery()
 			DrawImage( 8, 114, 0xC4 );
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
 			{
-				DrawString( String_BALANCE_s, 10, 117 );
-                                DrawHLine ( 9, 117, 50, 1 );
+				//DrawString( String_BALANCE_s, 10, 117 );
+                                DrawImage( 23, 117, 0xC6 );
+                                //DrawHLine ( 9, 117, 50, 1 );
 			}
 			else if ( BatteryTenth )
 			{
@@ -706,8 +713,9 @@ __myevic__ void ShowBattery()
                         DrawImage( 33, 114, 0xE2 ); 
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
 			{
-				DrawString( String_BAL_s, 37, 117 );
-                                DrawHLine ( 34, 117, 59, 1 ); //fill space after drawstring
+				//DrawString( String_BAL_s, 37, 117 );
+                                DrawImage( 40, 117, 0xC6 );
+                                //DrawHLine ( 34, 117, 59, 1 ); //fill space after drawstring
 			}
 			else 
 			{
@@ -1143,6 +1151,40 @@ __myevic__ void AnimateScreenSaver()
 	}
 }
 
+//=========================================================================
+__myevic__ void ShowSetJoules()
+{
+        uint32_t vv, t;
+        
+	DrawString( String_mlkJ, 4, 6 );
+	DrawHLine( 0, 16, 63, 1 );
+        
+        DrawValueRight( 45, 24, dfVVRatio, 0, 0x1F, 0 );
+
+        vv = ( MilliJoules / 10 ) / 3600;
+        if ( vv > 9999 ) vv = 9999;                        
+        DrawImage( 2, 75, 0xDE ); //energy
+        DrawValueRight( 52, 73, vv, 2, 0x1F, 0 );
+        DrawImageRight( 62, 73, 0x67 ); //wh
+   
+   	vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
+	vv /= 10;
+	if ( vv > 9999 ) vv = 9999;
+        DrawImage( 2, 43, 0xF9 ); //ml
+        DrawValueRight( 52, 41, vv, 2, 0x1F, 0 );
+        DrawImageRight( 61, 43, 0xCD ); //flask
+
+        // Elasped seconds since last VV reset
+        t = RTCGetEpoch( 0 );
+        t -= RTCReadRegister( RTCSPARE_VV_BASE );
+        vv = vv * 86400 / ( t ? : 1 );
+        DrawImage( 2, 59, 0xF3 ); //mld
+        DrawValueRight( 52, 57, vv, 2, 0x1F, 0 );
+        DrawImageRight( 61, 59, 0xCD ); //flask
+
+        //DrawStringCentered( String_Fire, 53 );
+	//DrawStringCentered( String_Exit, 64 );
+}
 
 //=========================================================================
 __myevic__ void ShowSetTime()
@@ -1152,6 +1194,9 @@ __myevic__ void ShowSetTime()
 
 	DrawTime( 3, 46, &SetTimeRTD, 0x1F & ~( 1 << ( EditItemIndex << 1 ) ) );
 	DrawDate( 4, 64, &SetTimeRTD, 0x1F );
+        
+        DrawStringCentered( String_LongFire, 103 );
+	DrawStringCentered( String_Save, 114 );
 }
 
 
@@ -1178,6 +1223,9 @@ __myevic__ void ShowSetDate()
 
 	DrawTime( 3, 46, &rtd, 0x1F );
 	DrawDate( 4, 64, &SetTimeRTD, col );
+        
+        DrawStringCentered( String_LongFire, 103 );
+	DrawStringCentered( String_Save, 114 );
 }
 
 
