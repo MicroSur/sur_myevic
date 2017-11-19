@@ -150,7 +150,7 @@ typedef struct dfParams
 /* 001E */	uint8_t		RezLockedTI;
 /* 001F */	uint8_t		RezLockedNI;
 /* 0020 */	uint8_t		MaxBoardTemp;	
-/* 0021 */	uint8_t		StealthOn;              // 0 1 2
+/* 0021 */	uint8_t		StealthOn;              // 0 1 2 (off on contrast)
 /* 0022 */	uint16_t	VVLockedVolt;            // for vvlite: cold rez locked volt
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS];

@@ -230,8 +230,11 @@ __myevic__ void GetUserInput()
                                 {
                                     apuff = 0;
                                     FireDuration = (uint16_t)dfAutoPuffTimer;
-                                    ShowFireDuration( 0 );
-                                    DisplayRefresh();   
+                                    if ( dfStealthOn != 1 )
+                                    {
+                                        ShowFireDuration( 0 );
+                                        DisplayRefresh();   
+                                    }
                                 }
 			}
 			gFlags.user_idle = 1;

@@ -1,4 +1,7 @@
-## **myevic**
+## **SME (sur_myevic)**
+
+#### [Документация по русски](https://github.com/MicroSur/sur_myevic/blob/master/README_ru.md)
+
 This is fork of myevic Custom Firmware from ClockSelect https://github.com/ClockSelect/myevic/blob/master/src
 
 #### Based on:
@@ -13,7 +16,7 @@ The documentation is generic and may not be correct for this version.
 ## Documentation Index 
    __1.__ [Usage and compatibility](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/usageandcompatibility_en.md)
    
-   __2.__ [Behvaiour Changes](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/behaviourchanges_en.md)
+   __2.__ [Behaviour Changes](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/behaviourchanges_en.md)
    
    __3.__ [How to build](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/howtobuild_en.md)
 
