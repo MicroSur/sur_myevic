@@ -407,7 +407,7 @@ __myevic__ void DevicesOnOff( int off )
                     SetADCState( 14, 0 ); //ISSINP80
 
 		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || 
-                        ISPRIMO2 || ISPREDATOR || ISGEN3 || ISSINP80 || ISINVOKE )
+                        ISPRIMO2 || ISPREDATOR || ISGEN3 || ISSINP80 || ISINVOKE || ISRX2 )
 		{
                         if ( !ISSINP80 )
                         {
@@ -767,7 +767,11 @@ __myevic__ void SleepIfIdle()
 				dfStatus.off = 1;
 				Screen = 0;
 			}
+                        
 			gFlags.sample_btemp = 1;
+                        
+                        if ( ISSINFJ200 )
+                            gFlags.sample_atemp = 1;
 		}
 		NoEventTimer = 200;
 	}
@@ -881,6 +885,12 @@ __myevic__ void Main()
         
 	gFlags.sample_btemp = 1;
 	ReadBoardTemp();
+        
+        if ( ISSINFJ200 )
+        {
+                gFlags.sample_atemp = 1;
+                ReadAkkuTemp();
+        }
         
         //if ( ISGEN3 ) WaitOnTMR2( 1500 );
         
@@ -999,6 +1009,10 @@ __myevic__ void Main()
 			SleepIfIdle();
 			ReadBatteryVoltage();
 			ReadBoardTemp();
+                        if ( ISSINFJ200 )
+                        {
+                                ReadAkkuTemp();
+                        }
 
 			if ( gFlags.firing && BoardTemp >= dfMaxBoardTemp )
 			{

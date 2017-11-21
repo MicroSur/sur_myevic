@@ -293,7 +293,7 @@ __myevic__ void SetProductID()
 			MaxBatteries = 2;
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
-                        ScrFlip = 1;
+                        //ScrFlip = 1;
                         X32Off = 1;
 			break;
 		}

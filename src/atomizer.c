@@ -38,6 +38,7 @@ uint8_t		AtoShuntRez;
 uint8_t		AtoError;		// 0,1,2,3 = Ok,Open/Large,Short,Low
 uint8_t		AtoStatus;		// 0,1,2,3,4 = Open,Short,Low,Large,Ok
 uint8_t		BoardTemp;
+uint8_t		AkkuTemp;
 uint8_t		ConfigIndex;
 uint8_t		PreheatTimer;
 uint16_t	PreheatPower;
@@ -135,6 +136,16 @@ __myevic__ void SetPWMClock()
 //----- (00005C4C) --------------------------------------------------------
 __myevic__ void InitPWM()
 {
+        //#define PWM0                 ((PWM_T *)   PWM0_BASE)
+        //#define PWM0_BASE            (APBPERIPH_BASE + 0x18000)
+        //#define APBPERIPH_BASE       (PERIPH_BASE + 0x00040000)
+        //#define PERIPH_BASE          (0x40000000UL)  /*!< (Peripheral) Base Address */
+        //PWM0 0x40058000
+        //PWM1 0x40059000 
+        //#define BBC_PWMCH_BUCK		0
+        //#define BBC_PWMCH_BOOST		2
+        //#define BBC_PWM_FREQ                  150000
+    
 	PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_BUCK, BBC_PWM_FREQ, 0 );
 	PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_BOOST, BBC_PWM_FREQ, 0 );
 
@@ -153,7 +164,8 @@ __myevic__ void InitPWM()
 	BuckDuty = 0;
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
 
-	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE )
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
+                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE )
 	{
 		PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_CHARGER, BBC_PWM_FREQ, 0 );
 		PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_CHARGER );
@@ -923,7 +935,9 @@ __myevic__ void RegulateBuckBoost()
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
-					if ( !ISVTCDUAL ) PC3 = 1;
+                                        
+					if ( !ISVTCDUAL ) 
+                                            PC3 = 1;
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = MaxBuck;
@@ -954,7 +968,9 @@ __myevic__ void RegulateBuckBoost()
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
-					if ( !ISVTCDUAL ) PC3 = 1;
+                                        
+					if ( !ISVTCDUAL ) 
+                                            PC3 = 1;
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = ( BBCMode == 0 ) ? MinBuck : MaxBuck;
@@ -1001,7 +1017,9 @@ __myevic__ void RegulateBuckBoost()
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
-					if ( !ISVTCDUAL ) PC3 = 1;
+                                        
+					if ( !ISVTCDUAL ) 
+                                            PC3 = 1;
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = MaxBuck;
@@ -1725,7 +1743,7 @@ __myevic__ void SwitchRezLock()
 const uint32_t BoardTempTable[] =
 	{	34800, 26670, 20620, 16070, 12630, 10000,
 		7976, 6407, 5182, 4218, 3455, 2847, 2360,
-		1967, 1648, 1388, 1175, 999, 853, 732, 630	};
+		1967, 1648, 1388, 1175, 999, 853, 732, 630	}; //21
 
 
 //=========================================================================
@@ -1763,8 +1781,11 @@ __myevic__ void ReadBoardTemp()
 	sample = BTempSample >> 4;
 
         uint16_t tConst;
-        if ( ISRX23 ) tConst = 5024;
-        else tConst = 5280;
+        
+        if ( ISRX23 ) 
+            tConst = 5024;
+        else 
+            tConst = 5280;
         
 	if ( ISRX300 )
 	{
@@ -1842,6 +1863,79 @@ __myevic__ void ReadBoardTemp()
 	BTempSample = 0;
 }
 
+const uint32_t AkkuTempTable[] =
+	{	641800, 494500, 383000, 299400, 236000, 187500,
+		150000, 120500, 97460, 79250, 64800, 53270, 44070,
+		36640, 30610, 25700, 21650 }; //17
+
+//=========================================================================
+__myevic__ void ReadAkkuTemp()
+{
+	unsigned int sample;
+	unsigned int tdr;
+	int v3;
+	int v4;
+	int v6;
+	int v7;
+
+	static uint32_t ATempSample;
+	static uint8_t	ATempSampleCnt;
+
+
+	while ( ATempSampleCnt++ < 16 )
+	{
+		ATempSample += ADC_Read( 4 );
+
+		if ( !gFlags.sample_atemp )
+			return;
+	}
+
+	gFlags.sample_atemp = 0;
+
+	sample = ATempSample >> 4;
+
+        uint16_t tConst;
+        
+        tConst = 5280;
+        
+        AkkuTemp = 0;
+
+	if ( sample < 4095 && sample > 0 )
+	{
+			tdr = ( 200000 * sample / ( tConst - sample ));
+
+			if ( tdr <= 21650 )
+			{
+				AkkuTemp = 70; //99;
+			}
+			else if ( tdr < 641800 )
+			{
+				for ( v3 = 1 ; v3 < 16 ; ++v3 )
+				{
+					if ( AkkuTempTable[v3] <= tdr )
+						break;
+				}
+
+				v4 = AkkuTempTable[v3];
+				v6 = (( 10 * AkkuTempTable[v3 - 1] - 10 * v4 ) / 5 );
+				v7 = 0;
+                                
+				do
+				{
+					if ( v6 * v7 + 10 * v4 <= 10 * tdr && (v7 + 1) * v6 + 10 * v4 > 10 * tdr )
+						break;
+					++v7;
+				}
+				while ( v7 < 5 );
+
+				AkkuTemp = 5 * v3 - v7;
+			}
+	}
+
+        //if ( AkkuTemp) AkkuTemp += dfAkkuTempCorr;
+	ATempSampleCnt = 0;
+	ATempSample = 0;
+}
 
 //=========================================================================
 //----- (00006004) --------------------------------------------------------

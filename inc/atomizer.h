@@ -126,6 +126,7 @@ extern void ReadAtomizer();
 extern void GetTempCoef( const uint8_t tc[] );
 extern void CheckMode();
 extern void ReadBoardTemp();
+extern void ReadAkkuTemp();
 extern void Overtemp();
 extern void ResetResistance();
 

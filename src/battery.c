@@ -1906,7 +1906,7 @@ __myevic__ void BatteryCharge()
 							}
 						}
 						//else if ( ChargeCurrent < 1507 )
-                                                else if ( ADCChargeCurrent < 4020 )
+                                                else if ( ADCChargeCurrent < 4020 ) //&& pf2 != 0 rx2
 						{
 							++ChargerDuty;
 						}
