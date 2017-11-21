@@ -61,12 +61,16 @@ __myevic__ void InitEADC()
 						  SYS_GPB_MFPL_PB4MFP_EADC_CH4 | SYS_GPB_MFPL_PB5MFP_EADC_CH13 |
 						  SYS_GPB_MFPL_PB6MFP_EADC_CH14);
 
-                if ( ISGEN3 || ISRX2 )
+                if ( ISGEN3 || ISRX2 || ISSINFJ200 )
+                {
                     // Disable PB.0 - PB.7 digital input paths to avoid leakage currents
                     GPIO_DISABLE_DIGITAL_PATH( PB, 0xFF );    
+                }
                 else //ISINVOKE 
+                {
                     // Disable PB.0 - PB.6 digital input paths to avoid leakage currents
                     GPIO_DISABLE_DIGITAL_PATH( PB, 0x7F );
+                }
 	}
 }
 

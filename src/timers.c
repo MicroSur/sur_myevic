@@ -182,7 +182,7 @@ __myevic__ void TimedItems()
 			++BattProbeCount;
 	}
 	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 
-                && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISINVOKE && !ISRX2 )
+                && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISINVOKE && !ISRX2 && !ISSINFJ200 )
 	{
 		if ( !PD7 && ( BattProbeCount >= 2 ) && ( BattProbeCount < 50 ) )
 			++BattProbeCount;

@@ -383,7 +383,7 @@ __myevic__ uint32_t ReadBatterySample( int nbat )
 			}
 			else
 			{
-				sample = ADC_Read( 18 ); //ISINVOKE ISSINP80
+				sample = ADC_Read( 18 ); //ISINVOKE ISSINP80 ISSINFJ200
 			}
 		}
 		else if ( nbat == 1 )
@@ -624,7 +624,7 @@ __myevic__ void ChargeBalance()
 			PA3 = ( BBBits & 1 ) != 0;              // 480C
 			PA2 = ( BBBits & 2 ) != 0;              // 4808
                     }    
-                    else if ( ISRX300 || ISRX2 )    
+                    else if ( ISRX300 || ISRX2 || ISSINFJ200 )    
                     {        
                         PF5 = ( BBBits & 1 ) != 0;              // 4954
 			PF6 = ( BBBits & 2 ) != 0;              // 4958
@@ -651,7 +651,7 @@ __myevic__ void ChargeBalance()
                     PA3 = 0;
                     PA2 = 0;
                 }
-                else if ( ISRX300 || ISRX2 )
+                else if ( ISRX300 || ISRX2 || ISSINFJ200 )
                 {
                     PF5 = 0;
                     PF6 = 0;
@@ -699,18 +699,22 @@ __myevic__ void ReadBatteryVoltage()
 
 		gFlags.sample_vbat = 0;
 
-		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 )
+		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 )
 		{
                         VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
 			if ( VbatSample2 ) 
                         {
-                            if ( ISRX2 ) 
+                            if ( ISRX2 || ISSINFJ200 ) 
                                 VbatSample2 += 3;
                             else
                                 VbatSample2 += 4;
                         }
                         
-                        VbatSample1 = ( VbatSample1 >> 7 ) + 2;  
+                        VbatSample1 = ( VbatSample1 >> 7 );
+                                
+                        if ( !ISSINFJ200 ) 
+                            VbatSample1 += 2;  
+                        
 			BattVolts[0] = VbatSample1;
 
 			if ( VbatSample2 > VbatSample1 )
@@ -1002,21 +1006,24 @@ __myevic__ int CheckBattery()
 
 			if ( bv2 < bv ) bv = bv2;
                 }
-                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 )
+                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 )
                 {
                     
 			bvtot = 139 * ReadBatterySample( 1 ) / 624;
                         
 			if ( bvtot ) 
                         {
-                                if ( ISRX2 ) 
+                                if ( ISRX2 || ISSINFJ200 ) 
                                     bvtot += 3;
                                 else
                                     bvtot += 4;                       
                         }
                         
-			bv = ( ReadBatterySample( 0 ) >> 3 ) + 2;
-                                
+			bv = ( ReadBatterySample( 0 ) >> 3 );
+                        
+                        if ( !ISSINFJ200 )
+                            bv += 2;
+                                                        
                         if ( bvtot <= bv )
 				bv2 = 0;
 			else

@@ -1025,7 +1025,7 @@ __myevic__ void Main()
                                 gFlags.soft_charge = 1;
 			}
 			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
-                                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE )
+                                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 )
 			{
 				BatteryCharge();
                                 gFlags.soft_charge = 1;

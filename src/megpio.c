@@ -27,13 +27,13 @@ __myevic__ void GPD_IRQHandler()
 	{
 		GPIO_CLR_INT_FLAG( PD, GPIO_PIN_PIN1_Msk );
 
-		if ( gFlags.usb_attached && ( NumBatteries == 1 ) && ( BatteryVoltage >= 414 ) )
+		if ( gFlags.usb_attached && ( NumBatteries == 1 ) && ( BatteryVoltage >= 414 ) ) //414
 		{
 			BattProbeCount = 1;
 
 			if ( gFlags.battery_charging )
 			{
-				Event = 13;
+				Event = 13; //Battery charge stop
 			}
 		}
 	}

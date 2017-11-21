@@ -1,31 +1,48 @@
-### Main Screen
-* Double-click:
+### Основной экран
 
-    A double fire click switches between standard view and clock screen.  
-    The clock screen is close to the one viewed on the VTwo box; just better, imo.  
-    See below the Clock menu to know how to configure clock.
+* При парении, время затяжки показывается бегущей шкалой в самой верхней части экрана.
 
-    ![](http://i345.photobucket.com/albums/p374/ClockSelect/mainscreen_zpsuoh0cthd.png) ![](http://i345.photobucket.com/albums/p374/ClockSelect/mainscreen3_zpsfunjeoct.png)
+* Третья и четвертая инфо-линии (клоны, с различным выбором показаний):
 
-* Third info line:
-
-    The third info line of the main screen, used to display amps,  puffs or time counters now have a few more options:
-    - Atomizer voltage
-    - Battery voltage
-    - Board temperature
-    - Real-time clock
-    - Real-time atomizer resistance
-    - Estimate of vape velocity in ml or ml/day *(experimental)*
+    В стоковой прошивке была возможность выбрать, что показывать в нижней (третьей) инфо-линии: ток атомайзера, время затяжек или их количество.
+    В прошивке SME этот выбор шире, добавлено:
+    - Количество выпаренной жидкости. 
+      В меню Парения можно сделать выбор, что показывать в этой строке: 
+      - Количество выпаренной жидкости в мл
+      - Количество выпаренной жидкости в мл за сутки (требует работу часов реального времени)
+      - Энергию, затраченную на парение
+    - Реальное напряжение, подаваемое на атомайзер.
+    - Реальное напряжение на самом разряженном аккуме. Если в третьей и четвертой инфо-линиях выбраны эти показания, то будут показаны напряжения 1-го и 2-го аккумов (для 2+ батарейных модов).
+    - Температура платы. 
+    - Реальное сопротивление до третьего знака.
+    - Цифровые часы.
+    - Внутреннее расчетное сопротивление всех батарей в сумме. 
+    - Температура койла.
+    - Общее напряжение всех батарей.
 
         ![](http://i345.photobucket.com/albums/p374/ClockSelect/eVic/mainscreen2_zpsclbvvdah.png)
 
-* Battery layout:
+Сброс конкретных счетчиков можно произвести как обычно, долгим нажатием кнопки Пуск, пока мигает строка, или выполнить общий сброс всех счетчиков в меню Разное.
 
-    In Edit mode (Triple click by default), the battery layout can be chosen between regular battery display, battery percentage, and battery voltage.  
+* Строка батарей:
 
+    В режиме редактирования можно выбрать следующие показания в последней строке на экране:
+    - Напряжение самого разряженного аккума и иконку батарейки со шкалой заряда.
+    - Ту же иконку и процент заряда числом.
+    - Большую иконку с батарейкой, как в стоке.
+    - Иконки по количеству батарей в моде, 2, 3, 4.
+
+* Дополнительные сведения:
+
+    Прошивка SME не занижает мощность при низком заряде батарей.
+
+    Расширены сообщения при проблеме с сопротивлением атомайзера:
+    - Atomizer Short - недопустимо низкое сопротивление.
+    - Atomizer Error - превышение максимального тока на атомайзер.
+    - Check Atomizer - слишком резкое изменение сопротивления.
+
+    Если превышено время отсечки парения, мод прекратит подавать мощность, предупредит и затем выключится, если кнопка Пуск будет еще нажата.
+ 
 -----
 
-← Previous Page: [Menus](menus_en.md) --  Next Page: [Screen Menu](screen_en.md)→
-
-
-ошибки атомайзера
+← Предыдущая страница: [Новые возможности](behaviourchanges_ru.md) --  Next Page: [Профили](profiles_ru.md)→

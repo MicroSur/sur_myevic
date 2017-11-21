@@ -1411,7 +1411,7 @@ __myevic__ uint16_t GetShuntRezValue()
 {
 	uint16_t rez;
 
-	if ( ISPRESA75W || ISEVICAIO || ISRXMINI || ISPREDATOR || ISSINP80 )
+	if ( ISPRESA75W || ISEVICAIO || ISRXMINI || ISPREDATOR || ISSINP80 || ISSINFJ200 )
 	{
 		rez = 100;
 	}

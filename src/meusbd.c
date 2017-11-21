@@ -758,10 +758,10 @@ __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
 	if ( UpdatePTTimer ) UpdatePTCounters();
 
 	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
-                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 )
+                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 )
 	{
 		PD7 = 0;                                            //48DC
-		BBC_Configure( BBC_PWMCH_CHARGER, 0 );
+		BBC_Configure( BBC_PWMCH_CHARGER, 0 );              // 5 0
 		PD7 = 0;
 		ChargerDuty = 0;
 
@@ -779,7 +779,8 @@ __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
                 {
                         PF2 = 0;                                    //4948
                 }
-		else	// if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 gen3 )
+		else if ( !ISSINFJ200 )
+                    // if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 gen3 )
 				// (currently useless, restore if needed)
 		{
 			PF0 = 0;
