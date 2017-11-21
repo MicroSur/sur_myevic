@@ -9,6 +9,7 @@
 #include "myrtc.h"
 #include "miscs.h"
 #include "atomizer.h"
+#include "display.h"
 
 //=========================================================================
 
@@ -412,6 +413,13 @@ __myevic__ void StopFire()
                         {
                             PuffsOffCount = 0;
                             dfStatus.off = 1;
+                            if ( !gFlags.FireNotFlipped )
+                            {
+                                    gFlags.FireNotFlipped = 1;
+                                    dfStatus.flipped ^= 1;
+                                    InitDisplay();
+                            }
+                            
                             gFlags.refresh_display = 1;
                             LEDOff();
                             if ( gFlags.battery_charging )

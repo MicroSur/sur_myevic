@@ -192,11 +192,12 @@ __myevic__ void EventHandler()
                             {
                                 Screen = 60; //show ss clock when off
                                 ScreenDuration = 10; //GetScreenProtection();
+                                gFlags.refresh_display = 1; //need
                                 //DrawDigitClock( 80 );
                                 //DrawClock( 0 );   
                                 //DisplayRefresh();
                                 //KeyPressTime |= 0x8000; //bad for start clicks
-                            }
+                            }                           
                         return;                       
 			}
 
