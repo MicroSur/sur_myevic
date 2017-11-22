@@ -797,6 +797,7 @@ __myevic__ void ReadAtomizer()
 				CLK_SysTickDelay( 10 );
 				ADCShuntSum2 += ADC_Read( 15 );
 			}
+                        
 			CLK_SysTickDelay( 10 );
 			ADCShuntSum1 += ADC_Read( 2 );
 			CLK_SysTickDelay( 10 );
@@ -1529,7 +1530,7 @@ __myevic__ void ProbeAtomizer()
         {
 		AtoStatus = 0;   //no ato (no batt || !pin)
                 
-//myprintf( "AtoStatus1=%d PF0=%d PD1=%d BatteryStatus=%d\n", AtoStatus, PF0, PD1, BatteryStatus );                
+//myprintf("PF0=%d PD1=%d PF2=%d BatteryStatus=%d\n", PF0, PD1, PF2, BatteryStatus );
 	}
 	else //ISSINP80
 	{
@@ -1607,6 +1608,8 @@ __myevic__ void ProbeAtomizer()
 		}
 	}
 
+//myprintf("AtoStatus=%d\n", AtoStatus);
+        
         //AtoStatus;	0,1,2,3,4 = Open,Short,Low,Large,Ok
         //AtoError;     0,1,2,3 = Ok,Open/Large,Short,Low
 	switch ( AtoStatus )

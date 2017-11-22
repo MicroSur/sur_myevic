@@ -176,8 +176,8 @@ __myevic__ void InitGPIO()
                 PB7 = 0;
 		GPIO_SetMode( PB, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );    // PB #0x80 1
                 
-                PC1 = 0;
-                GPIO_SetMode( PC, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );    // PC 2 1
+                //PC1 = 0;
+                //GPIO_SetMode( PC, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );    // PC 2 1
         }    
         
 	// BUTTONS
@@ -223,12 +223,9 @@ __myevic__ void InitGPIO()
 	}
         
 	// BUCK/BOOST CONVERTER CONTROL LINES
-        if ( !ISRX2 && !ISSINFJ200 )
-        {
-            PC1 = 0;                                                                // 0x40004884
-            GPIO_SetMode( PC, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );                // 0x40004080 2 1
-        }
-        
+        PC1 = 0;                                                                // 0x40004884
+        GPIO_SetMode( PC, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );                // 0x40004080 2 1
+
         if ( !ISINVOKE )
         {
             PC3 = 0;                                                                // 0x4000488C
