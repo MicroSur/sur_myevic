@@ -908,7 +908,8 @@ __myevic__ void ReadBatteryVoltage()
 
 		NewBatteryData();
                 
-		if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE )
+		if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 
+                        || ISINVOKE || ISSINFJ200 )
 		{
 			ChargeBalance();
 		}
@@ -1550,7 +1551,9 @@ __myevic__ void BatteryChargeDual()
 __myevic__ void BatteryCharge()
 {
 	//uint32_t USBVolts, ChargeCurrent;
-
+    
+if (ISSINFJ200) return;
+    
 	static uint32_t ChargerTarget = 0;
 	static uint32_t ChargerTempo = 0;
 	static uint8_t	EOCTempo = 0;

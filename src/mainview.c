@@ -384,8 +384,17 @@ __myevic__ void DrawAPTLines()
 		case 6:	// Board temperature
 		{
 			DrawString( String_BOARD_s, 0, line+2 );
-
-			int t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+                        
+                        int t;
+                        
+                        if ( ISSINFJ200 )
+                        {
+                            t = dfIsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
+                        }
+                        else
+                        {
+                            t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+                        }
 
 			DrawValue( t>99?31:39, line, t, 0, 0x1F, t>99?3:2 );
 			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );

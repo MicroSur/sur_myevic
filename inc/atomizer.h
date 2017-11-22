@@ -75,6 +75,7 @@ extern uint8_t	AtoShuntRez;
 extern uint8_t	AtoError;
 extern uint8_t	AtoStatus;
 extern uint8_t	BoardTemp;
+extern uint8_t	AkkuTemp;
 extern uint8_t	ConfigIndex;
 extern uint8_t	PreheatTimer;
 extern uint16_t	PreheatPower;

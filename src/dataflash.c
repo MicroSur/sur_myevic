@@ -595,14 +595,18 @@ __myevic__ void InitSetPowerVoltMax()
 __myevic__ void ResetDataFlash()
 {
 	int hwv;
-
+        uint8_t		tmpBVOffset[4];
+        MemCpy(tmpBVOffset, dfBVOffset, 4); // I dnt remember
 	hwv = dfHWVersion;
+        
 	MemClear( DataFlash.params, DATAFLASH_PARAMS_SIZE );
-	dfHWVersion = hwv;
-
+	
 	// Parameters whose reset value is zero are commented out
 	// since we start by clearing the memory.
-
+        
+        dfHWVersion = hwv;
+        MemCpy(dfBVOffset, tmpBVOffset, 4);
+        
 	dfMagic = DFMagicNumber;
 	dfMode = 4;
 	dfProtec = FIRE_PROTEC_DEF;
@@ -629,21 +633,21 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.off = 0;
 //	dfStatus.keylock = 0;
 	dfStatus.flipped = ScrFlip;
-        dfStatus.fireflip = 0;
-        dfStatus.vvlite = 0; //VVolt
+    //    dfStatus.fireflip = 0;
+    //    dfStatus.vvlite = 0; //VVolt
 	dfStatus.nologo = 1;
 //	dfStatus.clock = 0;
 //	dfStatus.vcom = 0;
 //	dfStatus.storage = 0;
-        dfStatus.autopuff = 0;
+    //    dfStatus.autopuff = 0;
         dfAutoPuffTimer = 20;
 //	dfStatus.dbgena = 0;  //not used
 	dfStatus.x32off = X32Off;
 	dfStatus.onewatt = 1;
         dfStatus.vapedml = 1;
-        dfStatus2.vapedjoules = 0;
+    //    dfStatus2.vapedjoules = 0;
 	dfStatus.digclk = 1;
-        dfStatus2.digclk2 = 0; //00 01 10
+    //    dfStatus2.digclk2 = 0; //00 01 10
 //	dfStatus.battpc = 1;
         dfBattLine = 1;
 //        dfStatus.battv = 0;
@@ -692,11 +696,11 @@ __myevic__ void ResetDataFlash()
 	dfPID.D = PID_D_DEF;
 //	dfMillis = 0;
 //	dfProfile = 0;
-        dfStatus.offmodclock = 0;
+    //    dfStatus.offmodclock = 0;
         dfFireScrDuration = 2;
         Object3D = 7;
-        dfMaxPower = 0;
-        dfMaxVolts = 0;
+    //    dfMaxPower = 0;
+    //    dfMaxVolts = 0;
         
         InitSetPowerVoltMax();
         SetAtoLimits();
@@ -704,7 +708,7 @@ __myevic__ void ResetDataFlash()
         dfUSBMaxCharge = 2000; 
         dfMaxBoardTemp = 70;
         dfBattVolt = 420;
-        dfStatus.nbrc = 0;        
+    //    dfStatus.nbrc = 0;        
         
 //	ResetCustomBattery();
 //	ResetPowerCurve();

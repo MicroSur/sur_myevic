@@ -918,7 +918,7 @@ __myevic__ void EventHandler()
 			if ( dfStatus.off )
 			{
 				gFlags.sample_vbat = 1;
-				ReadBatteryVoltage();
+				ReadBatteryVoltage();                                                                
 				if ( ( BatteryVoltage > BatteryCutOff + 20 ) || gFlags.usb_attached )
 				{
 					dfStatus.off = 0;

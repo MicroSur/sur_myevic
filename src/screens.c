@@ -73,8 +73,8 @@ __myevic__ void DrawScreen()
 				break;
 
 			case  1: // Main view
-			case  3: // Main view (?)
-			case  4: // (unused?)
+			//case  3: // Main view (?)
+			//case  4: // (unused?)
 				ShowMainView();
 				break;
 

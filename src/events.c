@@ -592,7 +592,7 @@ __myevic__ void GetUserInput()
 		}   
 		else if ( UserInputs == 4 ) //left + right
 		{
-			if ( !EditModeTimer )
+			if ( !EditModeTimer && !IsMenuScreen() ) //!IsMenuScreen() for no key lock in menu
 			{
 				if ( dfStatus.off )
 				{

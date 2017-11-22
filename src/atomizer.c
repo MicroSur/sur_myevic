@@ -159,6 +159,19 @@ __myevic__ void InitPWM()
 	PWM_Start( PWM0, 1 << BBC_PWMCH_BUCK );
 	PWM_Start( PWM0, 1 << BBC_PWMCH_BOOST );
 
+/**
+ * @brief This macro set the comparator of the selected channel
+ * @param[in] pwm The pointer of the specified PWM module
+ * @param[in] u32ChannelNum PWM channel number. Valid values are between 0~5
+ * @param[in] u32CMR Comparator of specified channel. Valid values are between 0~0xFFFF
+ * @return None
+ * @details This macro is used to set the comparator of specified channel.
+ * @note This new setting will take effect on next PWM period.
+ * \hideinitializer
+
+#define PWM_SET_CMR(pwm, u32ChannelNum, u32CMR) ((pwm)->CMPDAT[(u32ChannelNum)]= (u32CMR))
+**/
+        
 	BoostDuty = 0;
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
 
@@ -202,6 +215,9 @@ __myevic__ void InitPWM()
                 PWM_ConfigOutputChannel( PWM1, 4, 4800, 0 );
                 PWM_EnableOutput( PWM1, 16 );
                 PWM_Start( PWM1, 16 );
+                // xduty = 0;
+                PWM_SET_CMR( PWM1, 4, 0 );
+                
         }
         
         
