@@ -1037,7 +1037,9 @@ __myevic__ void Main()
                                 ReadAkkuTemp();
                         }
 
-			if ( gFlags.firing && BoardTemp >= dfMaxBoardTemp )
+			if ( gFlags.firing && ( BoardTemp > dfMaxBoardTemp
+                            || ( ISSINFJ200 && AkkuTemp > dfMaxBoardTemp ) ) 
+                                )
 			{
 				Overtemp();
 			}
