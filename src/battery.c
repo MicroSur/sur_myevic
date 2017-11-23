@@ -1263,7 +1263,14 @@ __myevic__ int CheckBattery()
 	return 0;
 }
 
-
+//-------------------------------------------------------------------------
+__myevic__ void BatteryPinsSetDual()
+{
+		PA3 = 0;
+		PA2 = 0;
+		PF2 = 0;
+		PC3 = 0;
+}
 //=========================================================================
 // Battery Charging (VTC Dual)
 //-------------------------------------------------------------------------
@@ -1284,11 +1291,11 @@ __myevic__ void BatteryChargeDual()
 	if (( NumBatteries == 0 ) || (( NumBatteries == 2 ) && ( BatteryVoltage < 250u )) )
 	{
 		BatteryStatus = 2;
-
-		PA3 = 0;
-		PA2 = 0;
-		PF2 = 0;
-		PC3 = 0;
+                BatteryPinsSetDual();
+		//PA3 = 0;
+		//PA2 = 0;
+		//PF2 = 0;
+		//PC3 = 0;
 	}
 	else if ( NumBatteries == 1 )
 	{
@@ -1335,11 +1342,11 @@ __myevic__ void BatteryChargeDual()
 	else if ( gFlags.usb_attached &&  USBVolts > 580 )
 	{
 		BatteryStatus = 3;
-
-		PA3 = 0;
-		PC3 = 0;
-		PA2 = 0;
-		PF2 = 0;
+                BatteryPinsSetDual();
+		//PA3 = 0;
+		//PC3 = 0;
+		//PA2 = 0;
+		//PF2 = 0;
 
 		if ( ChargeStatus != 6 )
 		{
@@ -1502,11 +1509,11 @@ __myevic__ void BatteryChargeDual()
 									else
 									{
 										BatteryStatus = 4;
-
-										PA3 = 0;
-										PC3 = 0;
-										PA2 = 0;
-										PF2 = 0;
+                                                                                BatteryPinsSetDual();
+										//PA3 = 0;
+										//PC3 = 0;
+										//PA2 = 0;
+										//PF2 = 0;
 									}
 								}
 								else if ( ChargeCurrent < 1005 )
@@ -1544,15 +1551,29 @@ __myevic__ void BatteryChargeDual()
 	ChargerDuty = 0;
 }
 
+//-------------------------------------------------------------------------
+__myevic__ void BatteryPinsSet( int lh )
+{
+    if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
+    {
+            PD1 = lh;
+    }
+    else if ( ISRX2 )
+    {
+            PF2 = lh;
+    }
+    else if ( !ISSINFJ200 )
+    {
+            PF0 = lh;
+    }
+}
 
 //=========================================================================
 // Battery Charging (Cuboid|RX200S|RX2/3)
 //-------------------------------------------------------------------------
 __myevic__ void BatteryCharge()
 {
-	//uint32_t USBVolts, ChargeCurrent;
-    
-if (ISSINFJ200) return;
+	//uint32_t USBVolts, ChargeCurrent;    
     
 	static uint32_t ChargerTarget = 0;
 	static uint32_t ChargerTempo = 0;
@@ -1567,7 +1588,7 @@ if (ISSINFJ200) return;
 	{
 		ChargeCurrent = 135 * ADCChargeCurrent / 360;
 	}
-        else if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE )
+        else if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 )
         {
             if ( ISINVOKE )
             {
@@ -1596,6 +1617,9 @@ if (ISSINFJ200) return;
 	if ( gFlags.bad_cell )
 	{
 		BatteryStatus = 2; // Check Battery
+                
+                BatteryPinsSet (0);
+/*
                 if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                 {
                     PD1 = 0;
@@ -1608,12 +1632,16 @@ if (ISSINFJ200) return;
                 {
                     PF0 = 0;
                 }
+*/
 	}
 	else if ( BatteryVoltage >= 250 )
 	{
 		if ( gFlags.usb_attached && USBVolts > 580 )
 		{
 			BatteryStatus = 3; // Check USB Adapter
+                        
+                        BatteryPinsSet (0);
+/*
 			if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                         {
                             PD1 = 0;
@@ -1626,6 +1654,7 @@ if (ISSINFJ200) return;
                         {
                             PF0 = 0;
                         }
+*/
 		}
 		else
 		{
@@ -1640,6 +1669,8 @@ if (ISSINFJ200) return;
 					BatteryStatus = 0;
 				}
 
+                                BatteryPinsSet (1);              
+/*
 				if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                                 {
                                     PD1 = 1;
@@ -1652,6 +1683,7 @@ if (ISSINFJ200) return;
                                 {
                                     PF0 = 1;
                                 }                               
+*/
 			}
 		}
 	}
@@ -1671,21 +1703,26 @@ if (ISSINFJ200) return;
                     else if ( ISGEN3 )
                         PB7 = 1;
 		}
-	}
-        else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
-        {
-                BatteryStatus = 2;
-		PD1 = 0;
-        }
-        else if ( ISRX2 )
-        {
-                BatteryStatus = 2;
-                PF2 = 0;
-        }        
+	}      
 	else
 	{
-		BatteryStatus = 2;
+            BatteryStatus = 2;
+            
+            BatteryPinsSet (0);
+/*
+            if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
+            {
+                PD1 = 0;
+            }
+            else if ( ISRX2 )
+            {
+                PF2 = 0;
+            }
+            else
+            {
 		PF0 = 0;
+            }
+*/
 	}
 
 //myprintf( "BatStat=%d \n", BatteryStatus);
@@ -1700,7 +1737,8 @@ if (ISSINFJ200) return;
 				ChargeStatus = 6; //no charge
 			}
 		}
-                else if ( BoardTemp > dfMaxBoardTemp )
+                else if ( ( BoardTemp > dfMaxBoardTemp ) 
+                        || ( ISSINFJ200 && ( AkkuTemp > dfMaxBoardTemp ) ) )
                 {
                     Event = 13;  // Battery charge stop
                     if ( ChargeStatus != 6 )
@@ -1900,6 +1938,9 @@ if (ISSINFJ200) return;
 							if ( ChargeCurrent < 180 )
 							{
 								BatteryStatus = 4;
+                                                                
+                                                                BatteryPinsSet (0);         
+/*
 								if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
                                                                 {
                                                                     PD1 = 0;
@@ -1912,6 +1953,7 @@ if (ISSINFJ200) return;
                                                                 {
                                                                     PF0 = 0;
                                                                 }
+*/
                                                                 
 							}
 						}

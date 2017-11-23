@@ -175,9 +175,6 @@ __myevic__ void InitGPIO()
                 
                 PB7 = 0;
 		GPIO_SetMode( PB, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );    // PB #0x80 1
-                
-                //PC1 = 0;
-                //GPIO_SetMode( PC, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );    // PC 2 1
         }    
         
 	// BUTTONS

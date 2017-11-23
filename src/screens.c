@@ -839,8 +839,15 @@ __myevic__ void ShowBatCharging()
                 }
         
 	//}
-
-	int t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+        int t;
+        if ( ISSINFJ200 )
+        {
+                t = dfIsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
+                DrawValueRight( 52, 90, t, 0, 0x0B, 0 );
+                DrawImage( 54, 90, dfIsCelsius ? 0xC9 : 0xC8 );
+        }
+                        
+	t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 
 	DrawValueRight( 52, 104, t, 0, 0x0B, 0 );
 	DrawImage( 54, 104, dfIsCelsius ? 0xC9 : 0xC8 );
