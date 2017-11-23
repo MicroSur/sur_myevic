@@ -210,6 +210,7 @@ __myevic__ void InitPWM()
 		}
 	}
         
+/*
         if ( ISSINFJ200 )
         {
                 PWM_ConfigOutputChannel( PWM1, 4, 4800, 0 );
@@ -219,6 +220,7 @@ __myevic__ void InitPWM()
                 PWM_SET_CMR( PWM1, 4, 0 );
                 
         }
+*/
         
         
 }
@@ -1937,7 +1939,7 @@ __myevic__ void ReadAkkuTemp()
         
         AkkuTemp = 0;
 
-	if ( sample < 4095 && sample > 0 )
+	if ( sample < 4095 && sample > 100 )
 	{
 			tdr = ( 200000 * sample / ( tConst - sample ));
 
@@ -1981,7 +1983,7 @@ __myevic__ void Overtemp()
 	StopFire();
 	gFlags.refresh_display = 1;
 	Screen = 29;
-	ScreenDuration = 2;
+	ScreenDuration = 5;
 	KeyPressTime |= 0x8000;
 }
 

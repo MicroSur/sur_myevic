@@ -963,6 +963,21 @@ __myevic__ void ShowDevTooHot()
 {
 	DrawStringCentered( String_Device, 88 );
 	DrawStringCentered( String_TooHot, 102 );
+        
+/*
+        int t;
+        if ( ISSINFJ200 )
+        {
+                t = dfIsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
+                DrawValueRight( 52, 0, t, 0, 0x0B, 0 );
+                DrawImage( 54, 0, dfIsCelsius ? 0xC9 : 0xC8 );
+        }
+                        
+	t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+
+	DrawValueRight( 52, 14, t, 0, 0x0B, 0 );
+	DrawImage( 54, 14, dfIsCelsius ? 0xC9 : 0xC8 );
+*/
 }
 
 
