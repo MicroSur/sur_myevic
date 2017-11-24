@@ -987,7 +987,7 @@ __myevic__ void ShowMainView()
                                 DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
                             }
                             
-                            DrawLOGO( 0, 0 );
+                            DrawLOGO( 0, 10 ); //x y
                         }
 		}
         }

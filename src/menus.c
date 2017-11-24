@@ -1484,9 +1484,13 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
                         
                 case 7:	// mod Temp
                     if ( AkkuTempFlag )
+                    {
                         t = dfIsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
+                    }
                     else
+                    {
                         t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+                    }
                         
 			DrawValueRight( 54, line+2, t, 0, 0x0B, 0 ); //t>99?3:2
 			DrawImageRight( 63, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
