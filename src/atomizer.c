@@ -1971,7 +1971,7 @@ __myevic__ void ReadAkkuTemp()
 			}
 	}
 
-        //if ( AkkuTemp) AkkuTemp += dfAkkuTempCorr;
+        if ( AkkuTemp) AkkuTemp += dfAkkuTempCorr;
 	ATempSampleCnt = 0;
 	ATempSample = 0;
 }

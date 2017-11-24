@@ -1738,7 +1738,7 @@ __myevic__ void BatteryCharge()
 			}
 		}
                 else if ( ( BoardTemp > dfMaxBoardTemp ) 
-                        || ( ISSINFJ200 && ( AkkuTemp > dfMaxBoardTemp ) ) )
+                        || ( ISSINFJ200 && ( AkkuTemp > 70 ) ) )
                 {
                     Event = 13;  // Battery charge stop
                     if ( ChargeStatus != 6 )

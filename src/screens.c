@@ -1358,6 +1358,7 @@ __myevic__ void ShowPowerCurve()
 
 
 //=========================================================================
+/*
 __myevic__ int SplashExists()
 {
 	int i, h, l;
@@ -1373,17 +1374,18 @@ __myevic__ int SplashExists()
 
 	return ( ( l && i < l ) ? 1 : 0 );
 }
+*/
 
 
 __myevic__ void ShowSplash()
 {
-	if ( gFlags.splash )
-	{
+	//if ( gFlags.splash )
+	//{
 		DrawImage( 0, 0, 0xFF );
 		ScreenDuration = 3;
-	}
-	else
-	{
-		MainView();
-	}
+	//}
+	//else
+	//{
+	//	MainView();
+	//}
 }

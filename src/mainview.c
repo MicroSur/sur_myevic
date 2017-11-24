@@ -383,9 +383,21 @@ __myevic__ void DrawAPTLines()
 
 		case 6:	// Board temperature
 		{
-			DrawString( String_BOARD_s, 0, line+2 );
-                        
+
+                                      
                         int t;
+                        if ( ISSINFJ200 )
+                        {
+                            DrawString( String_TEMP_s, 0, line+2 );
+                            t = dfIsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
+                            DrawValueRight( 37, line+3, t, 0, 0x01, 0 );
+                            //DrawImage( 54, 90, dfIsCelsius ? 0xC9 : 0xC8 );
+                        }
+                        else
+                        {
+                            DrawString( String_BOARD_s, 0, line+2 );    
+                        }
+                        
                         t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 			DrawValue( t>99?31:39, line, t, 0, 0x1F, t>99?3:2 );
 			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
@@ -739,7 +751,8 @@ __myevic__ void ShowMainView()
 
 	if ( !gFlags.firing )
 	{
-		if ( gFlags.splash && SplashTimer )
+		//if ( gFlags.splash && SplashTimer )
+                if ( SplashTimer )                    
 		{
 			ShowSplash();
 			return;

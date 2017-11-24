@@ -94,10 +94,9 @@ __myevic__ void InitDisplay()
         else
             DisplaySetContrast( dfContrast2 );
         
-	DisplaySetInverse( dfStatus.invert );
-	DisplaySetFont();
-
-	gFlags.splash = SplashExists();
+	DisplaySetInverse( dfStatus.invert );        
+        Images = font0_1306; //DisplaySetFont();        
+	//gFlags.splash = SplashExists();
 }
 
 //=========================================================================
@@ -770,19 +769,21 @@ __myevic__ void Screen2Bitmap( uint8_t *pu8Bitmap )
 //=========================================================================
 // Set the font
 //-------------------------------------------------------------------------
+/*
 __myevic__ void DisplaySetFont()
 {
 	//if ( dfStatus.font )
 	//{
 		Images = font0_1306;
-/*
-	}
-	else
-	{
-		Images = font1_1306;
-	}
-*/
+
+//	}
+//	else
+//	{
+//		Images = font1_1306;
+//	}
 }
+*/
+
 __myevic__ void DrawPixel (int x, int y, int color)
 {
 	DrawPoint( x, y, color );

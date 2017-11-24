@@ -899,7 +899,7 @@ __myevic__ void Main()
 	InitHardware();
 
 	myprintf( "\n\nJoyetech APROM\n" );
-	myprintf( "CPU @ %dHz(PLL@ %dHz)\n", SystemCoreClock, PllClock );
+	//myprintf( "CPU @ %dHz(PLL@ %dHz)\n", SystemCoreClock, PllClock );
 
 	SetBatteryModel();
 
@@ -1038,7 +1038,7 @@ __myevic__ void Main()
                         }
 
 			if ( gFlags.firing && ( BoardTemp > dfMaxBoardTemp
-                            || ( ISSINFJ200 && AkkuTemp > dfMaxBoardTemp ) ) 
+                            || ( ISSINFJ200 && AkkuTemp > 70 ) ) 
                                 )
 			{
 				Overtemp();

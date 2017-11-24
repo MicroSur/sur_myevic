@@ -90,7 +90,7 @@ extern void ChargeView();
 extern void AnimateScreenSaver();
 extern int IsClockOnScreen();
 extern int IsMenuScreen();
-extern int SplashExists();
+//extern int SplashExists();
 
 extern int convert_string1( uint8_t *strbuf, const char *s );
 //==============================================================================

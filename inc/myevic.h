@@ -166,7 +166,7 @@ typedef struct
 /* 00100000 */	int wake_up:1;
 /* 00200000 */	int fading:1;
 /* 00400000 */	int led_on:1;
-/* 00800000 */	int splash:1;
+/* 00800000 */	int splash:1;       //not used (splash exists)
 /* 01000000 */	int playing_tt:1;
 /* 02000000 */	int soft_charge:1;
 /* 04000000 */	int inverse:1;

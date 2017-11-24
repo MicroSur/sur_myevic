@@ -93,6 +93,7 @@ const menu_t const *CurrentMenu;
 uint8_t CurrentMenuItem;
 uint8_t PrevMenuItem;
 uint8_t CUSSaved = 0;
+uint8_t AkkuTempFlag = 0;
 const menu_t LogoMenu;
 
 const mbitdesc_t BitDesc =
@@ -320,6 +321,8 @@ __myevic__ void VapingMenuOnClick()
 	switch ( CurrentMenuItem )
 	{
 		case 4:	// Protec
+		case 7: // puffs off
+                case 10: // autopufftimers
 			gFlags.edit_value ^= 1;
 			break;
 
@@ -346,16 +349,8 @@ __myevic__ void VapingMenuOnClick()
 		//case 6: // mL/kJ
 		//	gFlags.edit_value ^= 1;
                 //        Event = EVENT_SET_JOULES;
-		//	break;
-                        
-		case 7: // puffs off
-			gFlags.edit_value ^= 1;
-			break;     
-                        
- 		case 10: // autopufftimers
-			gFlags.edit_value ^= 1;
-			break;                            
-	}
+		//	break;     
+        }
 
 	gFlags.refresh_display = 1;
 }
@@ -785,6 +780,7 @@ __myevic__ void IFMenuOnClick()
 		case 4:	// Temp
 			dfIsCelsius ^= 1;
                         dfBoardTempCorr = 0;
+                        dfAkkuTempCorr = 0;
                         
 			if ( dfIsCelsius )
 			{
@@ -813,9 +809,9 @@ __myevic__ void IFMenuOnClick()
 			dfStatus.priopwr ^= 1;
 			break;
 
-		default: // Exit
-			UpdateDataFlash();
-			return;
+		//default: // Exit
+		//	UpdateDataFlash();
+		//	return;
 	}
 
 	UpdateDFTimer = 50;
@@ -902,8 +898,10 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 
        // if ( it == 3 )
        // {
-                        DrawValueRight( 54, line+2, v, dp, 0x0B, 0 );
-                        DrawImageRight( 63, line+2, img );
+        
+        DrawValueRight( 54, line+2, v, dp, 0x0B, 0 );
+        DrawImageRight( 63, line+2, img );
+        
        // }
        // else {
        //                 DrawValueRight( 52, line+2, v, dp, 0x0B, 0 );
@@ -1082,6 +1080,7 @@ __myevic__ void BVOMenuIDraw( int it, int line, int sel )
 	DrawImage( 26, line+2, ( dfBVOffset[it] >= 0 ) ? 0xFC : 0xFD );
 	DrawValue( 34, line+2, bvo, 2, 0x0B, 3 );
 	DrawImage( 55, line+2, 0x7D );
+        
 	if ( gFlags.edit_value && sel )
 		InvertRect( 0, line, 63, line+12 );
 }
@@ -1384,13 +1383,13 @@ __myevic__ int MaxMenuOnEvent( int event )
 	if ( vret )
 	{
             
-        MaxPower = dfMaxPower;
-        MaxTCPower = MaxPower;
-        MaxVolts = dfMaxVolts;
-        SetAtoLimits();
+            MaxPower = dfMaxPower;
+            MaxTCPower = dfMaxPower;
+            MaxVolts = dfMaxVolts;
+            SetAtoLimits();
             
-	UpdateDFTimer = 50;
-	gFlags.refresh_display = 1;
+            UpdateDFTimer = 50;
+            gFlags.refresh_display = 1;
 	}
 
 	return vret;
@@ -1484,7 +1483,11 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 		//	break;
                         
                 case 7:	// mod Temp
+                    if ( AkkuTempFlag )
+                        t = dfIsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
+                    else
                         t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+                        
 			DrawValueRight( 54, line+2, t, 0, 0x0B, 0 ); //t>99?3:2
 			DrawImageRight( 63, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			if ( gFlags.edit_value && sel )
@@ -1518,7 +1521,7 @@ __myevic__ void ExpertMenuOnClick()
                     
 		case 4:	// UCH
                         if ( gFlags.soft_charge )
-			dfStatus.usbchgoff ^= 1;
+                            dfStatus.usbchgoff ^= 1;
 			break;
                    
 		case 5:	// BAT
@@ -1528,7 +1531,7 @@ __myevic__ void ExpertMenuOnClick()
 		//	SetBatteryModel();
                         gFlags.edit_value ^= 1;
 			break;
-
+                        
 		case 6:	// USB
 /*
 			if ( dfStatus.vcom )
@@ -1557,9 +1560,20 @@ __myevic__ void ExpertMenuOnClick()
 		//case 8:	// PCT
 		//	dfStatus.nfe ^= 1;
 		//	break;
+                        
                 case 7: //boart temp corr
+                    
+                    if ( ISSINFJ200 && !AkkuTempFlag && gFlags.edit_value )
+                    {
+                        AkkuTempFlag = 1;
+                    }
+                    else
+                    { 
                         gFlags.edit_value ^= 1;
+                        AkkuTempFlag = 0;
+                    }   
                         break;
+                        
                 //case 10:	// Back
 		//	UpdateDataFlash();
 		//	break;
@@ -1603,6 +1617,19 @@ __myevic__ int ExpertMenuOnEvent( int event )
                                     break;
                                          
                                 case 7: //board temp corr
+                                    if ( AkkuTempFlag )
+                                    {
+                                        if ( ++AkkuTemp > 70 )
+                                        {
+                                            AkkuTemp = 70;
+                                        }
+                                        else
+                                        {
+                                        ++dfAkkuTempCorr;    
+                                        }                                        
+                                    }
+                                    else
+                                    {
                                         if ( ++BoardTemp > 99 )
                                         {
                                             BoardTemp = 99;
@@ -1611,8 +1638,9 @@ __myevic__ int ExpertMenuOnEvent( int event )
                                         {
                                         ++dfBoardTempCorr;    
                                         }
-                                    	vret = 1;
-					break;
+                                    }
+                                    vret = 1;
+                                    break;
 			}
 			break;
 
@@ -1646,6 +1674,19 @@ __myevic__ int ExpertMenuOnEvent( int event )
                                     break;
                                           
                                 case 7: //board temp corr
+                                    if ( AkkuTempFlag )
+                                    {
+                                        if ( --AkkuTemp > 70 )
+                                        {
+                                            AkkuTemp = 0;
+                                        }
+                                        else
+                                        {
+                                        --dfAkkuTempCorr;    
+                                        }                                        
+                                    }
+                                    else
+                                    {
                                         if ( --BoardTemp > 99 )
                                         {
                                             BoardTemp = 0;
@@ -1654,8 +1695,9 @@ __myevic__ int ExpertMenuOnEvent( int event )
                                         {
                                         --dfBoardTempCorr;    
                                         }
-                                    	vret = 1;
-					break;                                        
+                                    }
+                                    vret = 1;
+                                    break;                                        
 			}
 			break;
 
@@ -1677,12 +1719,20 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					break;
                                         
 				case 7:	// board temp corr
-					dfBoardTempCorr = 0;
+                                        if ( AkkuTempFlag )
+                                        {
+                                            dfAkkuTempCorr = 0;
+                                            gFlags.sample_atemp = 1;
+                                            ReadAkkuTemp();
+                                        }
+                                        
+                                        dfBoardTempCorr = 0;
                                         gFlags.sample_btemp = 1;
                                         ReadBoardTemp();
                                         gFlags.edit_value = 0;
-					vret = 1;
-					break;                                        
+                                        AkkuTempFlag = 0;
+                                        vret = 1;
+                                        break;                                        
 			}
 			break;
 	}

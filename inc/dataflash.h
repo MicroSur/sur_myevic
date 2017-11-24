@@ -158,7 +158,7 @@ typedef struct dfParams
 /* 0062 */	uint8_t		Unused4E[14];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
 /* 0070 */      uint32_t	Joules;
 /* 0074 */	uint8_t         CurveRepeatTimer;            // 0.1s = 1 1s = 10...    was TempCoefsTi
-/* 0075 */	uint8_t         Unused75;  
+/* 0075 */	int8_t          AkkuTempCorr;  
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad
 /* 0078 */	dfStatus_t	Status;
 /* 007C */	uint8_t         BattLine;		//0-big,1-%+small,2-v+small,3-all_small	//was uint16_t	AtoRez;
@@ -412,6 +412,7 @@ extern dfStruct_t DataFlash;
 #define dfPuffsOff  		DFP(PuffsOff)
 #define dfHideLogo  		DFP(HideLogo)
 #define dfBoardTempCorr 	DFP(BoardTempCorr)
+#define dfAkkuTempCorr          DFP(AkkuTempCorr)
 #define dfFireScrDuration       DFP(FireScrDuration)
 #define dfMaxPower              DFP(MaxPower)
 #define dfMaxVolts              DFP(MaxVolts)

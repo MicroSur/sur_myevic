@@ -48,7 +48,7 @@ extern void DisplaySetInverse( const uint8_t i );
 extern void ClearScreenBuffer();
 extern void DisplayRefresh();
 extern void Screen2Bitmap( uint8_t *pu8Bitmap );
-extern void DisplaySetFont();
+//extern void DisplaySetFont();
 
 extern int GetImageWidth( const uint8_t imgnum );
 extern int GetStringWidth( const uint8_t str[] );
