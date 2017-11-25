@@ -69,7 +69,7 @@ typedef struct
 /* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
 /* 00008000 */	unsigned int preheat:1;     //lsls 0x10  15 bit
 
-/* 00010000 */	unsigned int nfe:1;         //lsls 0x0F not used
+/* 00010000 */	unsigned int sme:1;         //lsls 0x0F was nfe
 /* 00020000 */	unsigned int dfmt1:1;       //lsls 0x0E
 /* 00040000 */	unsigned int invert:1;      //lsls 0x0D
 /* 00080000 */	unsigned int vapedml:1;     //lsls 0x0C
@@ -132,7 +132,7 @@ typedef struct dfParams
 {
 /* 0000 */	uint32_t	PCRC;
 /* 0004 */	uint32_t	HWVersion;
-/* 0008 */	uint8_t		Magic;
+/* 0008 */	uint8_t		Magic;                  // = DFMagicNumber;
 /* 0009 */	uint8_t		BootFlag;
 /* 000A */	uint8_t		Mode;
 /* 000B */	uint8_t		Protec;			//	former 1-byte pad
@@ -141,9 +141,9 @@ typedef struct dfParams
 /* 0010 */	uint16_t	TCPower;
 /* 0012 */	uint16_t	VWVolts;
 /* 0014 */	uint8_t		APT;
-/* 0015 */	uint8_t		RezType;            // 1 2 may be in dfStatus bit
+/* 0015 */	uint8_t		RezType;                // 1 2 may be in dfStatus bit
 /* 0016 */	uint8_t		TempAlgo;               // 1ni 2ti 3ss   4tcr for ni ti ss
-/* 0017 */	uint8_t		IsCelsius;          // may be in dfStatus bit
+/* 0017 */	uint8_t		IsCelsius;   // may be in dfStatus bit
 /* 0018 */	uint16_t	Resistance;
 /* 001A */	uint16_t	RezTI;
 /* 001C */	uint16_t	RezNI;
@@ -151,7 +151,7 @@ typedef struct dfParams
 /* 001F */	uint8_t		RezLockedNI;
 /* 0020 */	uint8_t		MaxBoardTemp;	
 /* 0021 */	uint8_t		StealthOn;              // 0 1 2 (off on contrast)
-/* 0022 */	uint16_t	VVLockedVolt;            // for vvlite: cold rez locked volt
+/* 0022 */	uint16_t	VVLockedVolt;           // for vvlite: cold rez locked volt
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS];
 /* 004E */	//uint8_t		Unused4E[38];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts

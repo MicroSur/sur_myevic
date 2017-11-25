@@ -1723,13 +1723,11 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					break;
                                         
 				case 7:	// board temp corr
-                                        if ( AkkuTempFlag )
-                                        {
-                                            dfAkkuTempCorr = 0;
-                                            gFlags.sample_atemp = 1;
-                                            ReadAkkuTemp();
-                                        }
-                                        
+                                    
+                                        dfAkkuTempCorr = 0;
+                                        gFlags.sample_atemp = 1;
+                                        ReadAkkuTemp();
+
                                         dfBoardTempCorr = 0;
                                         gFlags.sample_btemp = 1;
                                         ReadBoardTemp();

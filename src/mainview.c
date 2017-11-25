@@ -982,12 +982,18 @@ __myevic__ void ShowMainView()
 
                         if ( h )
                         {
-                            if ( h > 40 && !( dfStatus2.anim3d || dfStatus.clock ) ) 
-                            {                                
-                                DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                            if ( h > 40 )
+                            {
+                                if ( !( dfStatus2.anim3d || dfStatus.clock ) )
+                                {
+                                    DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                                }
+                                DrawLOGO( 0, 10 ); //x y
                             }
-                            
-                            DrawLOGO( 0, 10 ); //x y
+                            else
+                            {
+                                DrawLOGO( 0, 0 ); //x y
+                            }
                         }
 		}
         }
