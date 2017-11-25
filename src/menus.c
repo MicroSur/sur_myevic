@@ -795,8 +795,11 @@ __myevic__ void IFMenuOnClick()
 				dfTemp -= rem;
 				if ( rem >= 3 ) dfTemp += 5;
                                 }
-				if ( dfTemp < 100 ) dfTemp = 100;
-				if ( dfTemp > 315 ) dfTemp = 315;
+				//if ( dfTemp < 100 ) dfTemp = 100;
+				//if ( dfTemp > 315 ) dfTemp = 315;
+                                if ( dfTemp < 5 ) dfTemp = 5;
+				if ( dfTemp > 995 ) dfTemp = 995;
+                                
 			}
 			else
 			{
@@ -804,8 +807,11 @@ __myevic__ void IFMenuOnClick()
 				int rem = dfTemp % 5;
 				dfTemp -= rem;
 				if ( rem >= 3 ) dfTemp += 5;
-				if ( dfTemp < 200 ) dfTemp = 200;
-				if ( dfTemp > 600 ) dfTemp = 600;
+				//if ( dfTemp < 200 ) dfTemp = 200;
+				//if ( dfTemp > 600 ) dfTemp = 600;
+      				if ( dfTemp < 35 ) dfTemp = 35;
+				if ( dfTemp > 995 ) dfTemp = 995;
+
 			}
 			break;
 

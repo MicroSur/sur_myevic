@@ -772,17 +772,19 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfIsCelsius > 1 )
 	{
 		dfIsCelsius = 1;
-		dfTemp = 200;
+		//dfTemp = 200;
 	}
 	
         if ( dfIsCelsius )
 	{
-		if ( dfTemp < 100 || dfTemp > 315 )
+		//if ( dfTemp < 100 || dfTemp > 315 )
+                if ( dfTemp < 1 || dfTemp > 999 )
 			dfTemp = 200;
 	}
 	else
 	{
-		if ( dfTemp < 200 || dfTemp > 600 )
+		//if ( dfTemp < 200 || dfTemp > 600 )
+                if ( dfTemp < 32 || dfTemp > 999 )
 			dfTemp = 450;
 	}
 

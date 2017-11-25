@@ -113,17 +113,24 @@ __myevic__ void TempPlus()
 	if ( dfIsCelsius )
 	{
 		dfTemp += dfStatus.onedegree ? 1 : 5;
-		if ( dfTemp > 315 )
+                        //if ( !dfStatus.onedegree )
+                        // {
+			//dfTemp -= dfTemp % 5;
+                        //}
+                                
+		if ( dfTemp > 995 ) //315
 		{
-			dfTemp = ( KeyTicks < 5 ) ? 100 : 315;
+			//dfTemp = ( KeyTicks < 5 ) ? 100 : 315;
+                        dfTemp = ( KeyTicks < 5 ) ? 5 : 995;
 		}
 	}
 	else
 	{
 		dfTemp += dfStatus.onedegree ? 5 : 10;
-		if ( dfTemp > 600 )
+		if ( dfTemp > 995 ) //600
 		{
-			dfTemp = ( KeyTicks < 5 ) ? 200 : 600;
+			//dfTemp = ( KeyTicks < 5 ) ? 200 : 600;
+                        dfTemp = ( KeyTicks < 5 ) ? 35 : 995;
 		}
 	}
 }
@@ -136,17 +143,19 @@ __myevic__ void TempMinus()
 	if ( dfIsCelsius )
 	{
 		dfTemp -= dfStatus.onedegree ? 1 : 5;
-		if ( dfTemp < 100 )
+		if ( dfTemp < 5 ) //100
 		{
-			dfTemp = ( KeyTicks < 5 ) ? 315 : 100;
+			//dfTemp = ( KeyTicks < 5 ) ? 315 : 100;
+                        dfTemp = ( KeyTicks < 5 ) ? 995 : 5;
 		}
 	}
 	else
 	{
 		dfTemp -= dfStatus.onedegree ? 5 : 10;
-		if ( dfTemp < 200 )
+		if ( dfTemp < 35 ) //200
 		{
-			dfTemp = ( KeyTicks < 5 ) ? 600 : 200;
+			//dfTemp = ( KeyTicks < 5 ) ? 600 : 200;
+                        dfTemp = ( KeyTicks < 5 ) ? 995 : 35;
 		}
 	}
 }
