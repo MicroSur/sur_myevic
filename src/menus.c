@@ -741,7 +741,11 @@ __myevic__ void IFMenuIDraw( int it, int line, int sel )
 		case 5:	// TDom
 			DrawStringRight( dfStatus.priopwr ? String_On : String_Off, 63, line+2 );
 			break;
-
+                        
+		case 6:	// UI
+			DrawValueRight( 63, line+2, dfUIVersion + 1, 0, 0x0B, 0 );
+			break;
+                        
 		default:
 			break;
 	}
@@ -808,7 +812,12 @@ __myevic__ void IFMenuOnClick()
 		case 5:	// TDom
 			dfStatus.priopwr ^= 1;
 			break;
-
+                        
+		case 6:	// UI
+			if ( ++dfUIVersion > 1 )
+                            dfUIVersion = 0;
+			break;
+                        
 		//default: // Exit
 		//	UpdateDataFlash();
 		//	return;
@@ -3454,7 +3463,7 @@ const menu_t IFMenu =
 	0,
 	IFMenuOnClick+1,
 	0,
-	7,
+	8,
 	{
                 { String_Clicks, &ClicksMenu, 0, MACTION_SUBMENU },
 		{ String_1Watt, 0, 0, 0 },
@@ -3462,6 +3471,7 @@ const menu_t IFMenu =
 		{ String_WakeMP, 0, 0, 0 },
 		{ String_Temp, 0, 0, 0 },
 		{ String_PPwr, 0, 0, 0 },
+                { String_UI, 0, 0, 0 },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

@@ -167,7 +167,7 @@ typedef struct dfParams
 /* 007F */	uint8_t		ShuntRez;		//	former 1-byte pad
 /* 0080 */	uint16_t	RezSS;
 /* 0082 */	uint8_t		RezLockedSS;
-/* 0083 */	uint8_t		UIVersion;		//	useless
+/* 0083 */	uint8_t		UIVersion;
 /* 0084 */	uint8_t		TCRIndex;
 /* 0085 */	uint8_t		ScrMainTime;	//	former 1-byte pad
 /* 0086 */	uint16_t	TCRM[3];

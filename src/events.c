@@ -608,30 +608,32 @@ __myevic__ void GetUserInput()
 	else if ( KeyPressTime == 200 )
 	{
 		if ( UserInputs == 1 ){
-                    if (( Screen == 1 ) && ( EditModeTimer > 0 )){   
-			if ( EditItemIndex == 4 ) //3-d info line
-			{
+                    if (( Screen == 1 ) && ( EditModeTimer > 0 ))
+                    {
+                        if ( EditItemIndex == 4 ) //3-d info line
+                        {
 				EditModeTimer = 1000;
 				if ( dfAPT3 == 1 )
 					Event = 22;	// puff reset
-				if ( dfAPT3 == 2 )
+				else if ( dfAPT3 == 2 )
 					Event = 23;	// time reset
-				if ( dfAPT3 == 3 )
+				else if ( dfAPT3 == 3 )
 					Event = EVENT_RESET_VVEL;	// vvel reset
-			}
-                        else if ( EditItemIndex == 5 ) 
+                        }
+                        else if ( EditItemIndex == 5 )
                         {
-                                EditModeTimer = 1000;
+                            EditModeTimer = 1000;
 				if ( dfAPT == 1 )
 					Event = 22;	// puff reset
-				if ( dfAPT == 2 )
+                                else if ( dfAPT == 2 )
 					Event = 23;	// time reset
-				if ( dfAPT == 3 )
-					Event = EVENT_RESET_VVEL;	// vvel reset        
-                        }
+				else if ( dfAPT == 3 )
+					Event = EVENT_RESET_VVEL;	// vvel reset
+                            }
 			
-                    }else{
-
+                    }
+                    else
+                    {
 				Event = EVENT_LONG_FIRE;
                     }
                     
@@ -1004,7 +1006,7 @@ __myevic__ int EvtPlusButton()
                                 UpdateDFTimer = 50;
 			}
 			else
-			{
+			{                           
 				++EditItemIndex;
 				EditItemIndex %= 50;
 			}

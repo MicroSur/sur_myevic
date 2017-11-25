@@ -1195,6 +1195,7 @@ __myevic__ void EventHandler()
 							}
 						}
 						else
+// change info lines for edit
 						{
 							if ( EditItemIndex == 0 )
 							{
@@ -1202,6 +1203,10 @@ __myevic__ void EventHandler()
 							}
 							else
 							{
+                                                                if ( dfUIVersion == 1 && EditItemIndex == 3 )
+                                                                {
+                                                                    ++EditItemIndex; //skip one info line
+                                                                }
 								if ( ++EditItemIndex > 6 )
 									EditItemIndex = 0;
 							}
@@ -1209,6 +1214,10 @@ __myevic__ void EventHandler()
 					}
 					else
 					{
+                                                if ( dfUIVersion == 1 && EditItemIndex == 3 )
+                                                {
+                                                        ++EditItemIndex; //skip 3-d info line
+                                                }
 						if ( ++EditItemIndex > 6 )
 							EditItemIndex = 0;
 					}

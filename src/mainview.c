@@ -114,26 +114,43 @@ __myevic__ void DrawPwrLine( int pwr, int line )
 {
 	if ( BLINKITEM(2) && PD2 && PD3 )
 		return;
+        
+        int fset, x, y, yoff;
+        fset = 0x1F;
+        y = line;
+        x = 55;
+        yoff = 2;
+        
+        if ( dfUIVersion == 1 )
+        {
+            fset = 0x29;
+            y += 3;
+            x = 63;
+            yoff = 8;
+        }
+        
+        DrawString( String_PWR_s, 0, y+yoff );
 
-    DrawString( String_PWR_s, 0, line+2 );
-
-	if ( pwr < 1000 )
+	if ( pwr < 1000 ) // < 100 w
 	{
-		DrawValueRight( 55, line, pwr, 1, 0x1F, 0 );
-		DrawImage( 56, line+2, 0x98 );
+		DrawValueRight( x, y, pwr, 1, fset, 0 );
+		//DrawImage( x+1, y+yoff, 0x98 );
 	}
-	else
+	else // > 99 w
 	{
-		if ( EditModeTimer && ( EditItemIndex == 2 ) && ( !PD2 || !PD3 ) && !dfStatus.onewatt )
-		{
-			DrawValueRight( 64, line, pwr, 1, 0x1F, 0 );
-		}
-		else
-		{
-			DrawValueRight( 55, line, pwr / 10, 0, 0x1F, 3 );
-			DrawImage( 56, line+2, 0x98 );
-		}
+		//if ( EditModeTimer && ( EditItemIndex == 2 ) && ( !PD2 || !PD3 ) && !dfStatus.onewatt )
+		//{
+		//	DrawValueRight( 64, line, pwr, 1, 0x1F, 0 ); //100.0
+		//}
+		//else
+		//{
+			DrawValueRight( x, y, pwr / 10, 0, fset, 3 ); //100
+			//DrawImage( x+1, y+yoff, 0x98 );
+		//}
 	}
+        
+        if ( dfUIVersion == 0 ) 
+            DrawImage( x+1, y+yoff, 0x98 );
 }
 
 
@@ -144,25 +161,40 @@ __myevic__ void DrawTempLine( int line )
 	if ( BLINKITEM(2) && PD2 && PD3 )
 		return;
 
-    DrawString( String_TEMP_s, 0, line+2 );
+        int fset, x, y, yoff;
+        fset = 0x1F;
+        y = line;
+        x = 55;
+        yoff = 2;
+        
+        if ( dfUIVersion == 1 )
+        {
+            fset = 0x29;
+            y += 3;
+            x = 63;
+            yoff = 8;
+        }
+        
+        DrawString( String_TEMP_s, 0, y+yoff );
 
-	DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
-
-	if ( Screen == 2 )
+	if ( Screen == 2 ) //fire
 	{
 		if ( dfIsCelsius )
 		{
-			DrawValue( 31, line, FarenheitToC( AtoTemp ), 0, 0x1F, 3 );
+			DrawValueRight( x, y, FarenheitToC( AtoTemp ), 0, fset, 3 );
 		}
 		else
 		{
-			DrawValue( 31, line, AtoTemp, 0, 0x1F, 3 );
+			DrawValueRight( x, y, AtoTemp, 0, fset, 3 );
 		}
 	}
 	else
 	{
-		DrawValue( 31, line, dfTemp, 0, 0x1F, 3 );
+		DrawValueRight( x, y, dfTemp, 0, fset, 3 );
 	}
+               
+        if ( dfUIVersion == 0 )
+            DrawImage( x+1, y+yoff, dfIsCelsius ? 0xC9 : 0xC8 );
 }
 
 
@@ -170,16 +202,33 @@ __myevic__ void DrawTempLine( int line )
 
 __myevic__ void DrawVoltsLine( int volts, int line )
 {
+        int fset, x, y, yoff;
+        fset = 0x1F;
+        y = line;
+        x = 55;
+        yoff = 2;
+        
+        if ( dfUIVersion == 1 )
+        {
+            fset = 0x29;
+            y += 3;
+            x = 63;
+            yoff = 8;
+        }
+        
         if ( dfStatus.vvlite && dfMode == 4 )
         {
-            DrawImage( 0, line+2, 0xF8 );   
-        } else
+            DrawImage( 0, y+yoff, 0xF8 );   
+        } 
+        else
         {
-            DrawString( String_VOLT_s, 0, line+2 );
+            DrawString( String_VOLT_s, 0, y+yoff );
         }
 	// for real bypass if ( volts > MaxVolts ) volts = MaxVolts;
-	DrawValue( 27, line, volts, 2, 0x1F, 3 );
-	DrawImage( 57, line+2, 0x7D );
+	DrawValueRight( x, y, volts, 2, fset, 3 );
+        
+        if ( !dfIsCelsius )
+            DrawImage( x+1, y+yoff, 0x7D );
 }
 
 
@@ -192,14 +241,22 @@ __myevic__ void DrawCoilLine( int line )
 	if ( BLINKITEM(3) )
 		return;
 
-	DrawString( String_COIL_s, 0, line+2 );
+        int fset, x, y, yoff;
+        fset = 0x1F;
+        y = line;
+        x = 55;
+        yoff = 2;
+        
+        if ( dfUIVersion == 1 )
+        {
+            fset = 0x29;
+            y += 10;
+            x = 63;
+            yoff = 8;
+        }
+        
+                DrawString( String_COIL_s, 0, y+yoff );
 
-	//if ( gFlags.firing )
-	//{
-	//	rez = AtoRezMilli / 10;
-	//}
-	//else //if ( ISMODETC(dfMode) )
-	//{
             	if ( Set_NewRez_dfRez || !AtoRez )
 		{
 			rez = AtoRez;
@@ -208,54 +265,39 @@ __myevic__ void DrawCoilLine( int line )
 		{
 			rez = dfResistance;
 		}
-/*
-		if ( byte_200000B3 || !AtoRez )
-		{
-			rez = AtoRez * 10 + AtoMillis;
-		}
-		else
-		{
-			rez = dfResistance * 10 + RezMillis;
-		}
-*/
-	//}
-        
-	//else
-	//{
-	//	rez = AtoRez; // * 10 + AtoMillis;
-            
-	//}
 
-        DrawValue( 27, line, rez, 2, 0x1F, 3 );
-/*
-	if ( rez < 1000 )
-		DrawValueRight( 55, line, rez, 3, 0x1F, 3 );
-	else
-		DrawValueRight( 55, line, rez / 10, 2, 0x1F, 3 );
-*/
+        DrawValueRight( x, y, rez, 2, fset, 3 );
 
 	if     ((( dfMode == 0 ) && ( dfRezLockedNI ))
 	||	(( dfMode == 1 ) && ( dfRezLockedTI ))
 	||	(( dfMode == 2 ) && ( dfRezLockedSS ))
 	||	(( dfMode == 3 ) && ( dfRezLockedTCR )))
 	{
-		DrawImage( 56, line+2, 0xC3 );
+            if ( dfUIVersion == 1 )
+            {
+                DrawImage( 9, y+yoff, 0xC3 ); //lock
+            }
+            else
+            {    
+		DrawImage( x+1, y+yoff, 0xC3 ); //lock
+            }
 	}
 	else
 	{
-		DrawImage( 56, line+2, 0xC0 );
+            if ( dfUIVersion == 0 )
+		DrawImage( x+1, y+yoff, 0xC0 );
 	}
 
 	if ( rez )
-	{
+	{ //blink if res not for this mode
 		if (   ( ISMODETC(dfMode) && ( rez > 150 ) )
 			|| ( ISMODEVW(dfMode) && ( rez < 5 ) ) )
 		{
 			if ( gFlags.osc_1hz )
 			{
-				DrawFillRect( 26, line-1, 63, line+10, 2 );
+				DrawFillRect( 23, y-1, 63, y+yoff+8, 2 );
 			}
-			ScreenRefreshTimer = 5;
+			ScreenRefreshTimer = 5; //blink 5 times
 		}
 	}
 }
@@ -264,8 +306,14 @@ __myevic__ void DrawCoilLine( int line )
 
 __myevic__ void DrawAPTLines()
 {       
-    // APT - line 4, APT3 - line 3
-    for ( int i = 0 ; i < 2 ; ++i )
+    // APT - line 4, APT3 - line 3 (i)=1
+    int count;
+    if ( dfUIVersion == 1 )
+        count = 1;
+    else
+        count = 2;
+    
+    for ( int i = 0 ; i < count ; ++i )
     {       
 	if ( ( i == 0 && BLINKITEM(5) ) || ( i == 1 && BLINKITEM(4) ) )
 		continue;

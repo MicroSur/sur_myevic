@@ -751,8 +751,8 @@ __myevic__ void DFCheckValuesValidity()
 		UpdatePTCounters();
 	}
 
-	//if ( dfUIVersion != 2 )
-	//	dfUIVersion = 2;
+	if ( dfUIVersion > 1 )
+		dfUIVersion = 0;
 
 	if ( dfAPT > 11 )
 		dfAPT = 0;
