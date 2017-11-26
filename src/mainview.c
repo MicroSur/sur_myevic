@@ -227,7 +227,7 @@ __myevic__ void DrawVoltsLine( int volts, int line )
 	// for real bypass if ( volts > MaxVolts ) volts = MaxVolts;
 	DrawValueRight( x, y, volts, 2, fset, 3 );
         
-        if ( !dfIsCelsius )
+        if ( dfUIVersion == 0 )
             DrawImage( x+1, y+yoff, 0x7D );
 }
 
@@ -275,7 +275,7 @@ __myevic__ void DrawCoilLine( int line )
 	{
             if ( dfUIVersion == 1 )
             {
-                DrawImage( 9, y+yoff, 0xC3 ); //lock
+                DrawImage( 0, y+yoff, 0xC3 ); //lock 9
             }
             else
             {    

@@ -1213,7 +1213,7 @@ __myevic__ int CheckBattery()
 	if ( !( gFlags.firing )
 		|| ( !ISMODEVW(dfMode) && ( !ISMODETC(dfMode) || gFlags.check_mode ) ) )
 	{
-		gFlags.decrease_voltage = 0;
+		//gFlags.decrease_voltage = 0;
 		return 0;
 	}
 

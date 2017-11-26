@@ -2098,7 +2098,7 @@ algostage_t tabStagesSweet[]=
 
 int condBoostEnd()
 {
-	return (( AlgoCtl.atemp > AlgoCtl.ttemp * AlgoCtl.boost / 100 ) || gFlags.decrease_voltage );
+	return ( AlgoCtl.atemp > AlgoCtl.ttemp * AlgoCtl.boost / 100 ) ; //|| gFlags.decrease_voltage );
 }
 
 int condNearCross1()

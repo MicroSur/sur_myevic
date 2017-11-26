@@ -636,6 +636,8 @@ __myevic__ void EventHandler()
 
 			if ( ISMODETC(dfMode) )
 			{
+                                InitTCAlgo(); //put here for vtwo mini bug
+                            
 				if ( dfResistance <= 150 )
 				{
 					if ( !gFlags.check_mode && !dfStatus.chkmodeoff )
@@ -682,10 +684,10 @@ __myevic__ void EventHandler()
 					return;
 				}
 			}
-			else
-			{
-				InitTCAlgo();
-			}
+			//else
+			//{
+			//	InitTCAlgo(); // went upstairs
+			//}
 
 			if ( dfMode == 6 )
 			{
