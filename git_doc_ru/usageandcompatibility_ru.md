@@ -1,4 +1,5 @@
-### Compatible hardwares
+### Поддерживаемые бокс-моды
+
 * Joyetech
   * eVic VTC Mini
   * eVic VTC Dual
@@ -22,46 +23,34 @@
   * Reuleaux RX2/3
   * Reuleaux RXmini
   * Reuleaux RX300
-  * Predator (SINUOUS) 228W 
+  * Sinuous (Predator) 228W
   * Reuleaux RX Gen3
+  * RX2 20700
+  * Sinuous P80
+  * Sinuous FJ200 (not full)
 
-* Others
+ * Eleaf
+  * Invoke ?
+
+* Другиепроизводители
   * Vaponaute La Petite Box
   
-### Usage:
+### Прошить:
 
-The binary firmware file is included in the **bin/** subdirectory of the project.  
-If you are only interested in installing and using the firmware, download it here : [bin/myevic](https://github.com/ClockSelect/myevic/blob/master/bin/myevic.bin)
-  
-Once you've downloaded the firmware binary, you may:
+Файл прошивки находится в папке bin проекта.
+Файл myevic.bin - для прошивки в мод с помощью любой существующей программы для прошивки.
+Файл myevic_enc.bin - расшифрованный, в основном для изучения программистами. Он так же может быть прошит апдейтером FWUpdater.
 
-- Use the manufacturer's firmware updater to upload [myevic.bin](https://github.com/ClockSelect/myevic/blob/master/bin/myevic.bin) like you would with a usual firmware update from Joyetech or Wismec:
-  - Download the firmware updater package from the manufacturer [Wismec](http://www.wismec.com/software/) or [Joyetech](http://www.joyetech.com/mvr-software/), depending of the brand and model of your box. Be sure to pick the right software for the right box brand and model.
-  - Unzip the update package and launch the UpdateFirmware.exe (Joyetech) or UpdateWismec.exe (Wismec) found in the package.
-  - Plug your box into your PC via USB  
-    Be sure you use a data-capable USB cable. Some cheap cables coming with some boxes only ensures box charging. If unsure, use the cable that came with your box. Once done, the updater window should show the model and version of your box.
-  - Click the "Update" button; a file selection dialog will open. Select the "myevic.bin" file.
-  - Wait for the update process to complete.  
-    If something goes wrong, retry to update. Update fails sometimes; this shouldn't be a concern.
-  - Enjoy.  
-  
-OR  
+Полезно знать! 
+Что никаких сведений, что кто то убил мод прошивкой, Нет.
+Если что-то не так, то:
+- надо вытащить аккумулятор, скрутить атом, зажать "+", вставить USB, отпустить "+".
+Программа прошивки определит аппарат (с прошивкой 0.00) с возможностью обновления.
+Возможно потребуется перегрузить ПК (на случай, если подвисло само USB компьютера).
+Поменяйте кабель USB.
+На модах со встроенным аккумом, вместо вытаскивания оного, нажимают кнопку ресет (смотриме мануал по вашему бокс-моду).
 
-- For linux/Cygwin users, use evic-usb to upload [myevic.bin](https://github.com/ClockSelect/myevic/blob/master/bin/myevic.bin) to your box, using command line:
-
-    ```evic-usb upload myevic.bin```
-
-OR  
-
-- Use  [NFirmwareEditor](https://github.com/TBXin/NFirmwareEditor/releases) or the [FWUpdater](https://www.dropbox.com/s/83zd19gu05pl3r6/EvicVTCFont.rar?dl=1) part of the [VTCFont](https://www.dropbox.com/s/83zd19gu05pl3r6/EvicVTCFont.rar?dl=1) package to upload [myevic.bin](https://github.com/ClockSelect/myevic/blob/master/bin/myevic.bin) to your box.
-
-### About Multi-cells boxes
-
-At the moment, the interface only display one battery icon, percentage or voltage, just like there where only a single battery in the box (this may change in the future).  
-The displayed values are those of the battery that is in the *lowest state-of-charge* of the set.  
-A battery set should always be kept in equilibrium and a balance warning is issued if the difference between the lowest and the highest voltage exceeds 0.3 Volts.  
-So as long as you have no warning (a blinking "balance" on the battery icon or an "imbalanced batteries" screen warning), you know that all batteries are within 300mV of the first.
-
+Если программа-прошивальщик не срабатывает и жалуется на неверную версию железа ( HW version ) - исправьте её с помощью соответствующей кнопки в FWUpdater.
 -----
 
-Next Page: [Profiles](behaviourchanges_en.md)→
+Следующая страница: [Новые возможности](behaviourchanges_ru.md)→

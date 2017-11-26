@@ -22,7 +22,14 @@
   * Reuleaux RX2/3
   * Reuleaux RXmini
   * Reuleaux RX300
-  * Predator 228W 
+  * Sinuous (Predator) 228W
+  * Reuleaux RX Gen3
+  * RX2 20700
+  * Sinuous P80
+  * Sinuous FJ200 (not full)
+
+ * Eleaf
+  * Invoke ?
 
 * Others
   * Vaponaute La Petite Box
@@ -30,11 +37,11 @@
 ### Usage:
 
 The binary firmware file is included in the **bin/** subdirectory of the project.  
-If you are only interested in installing and using the firmware, download it here : [bin/myevic](https://github.com/ClockSelect/myevic/blob/master/bin/myevic.bin)
+If you are only interested in installing and using the firmware, download it here : [bin/myevic](https://github.com/MicroSur/sur_myevic/blob/master/bin/myevic.bin)
   
 Once you've downloaded the firmware binary, you may:
 
-- Use the manufacturer's firmware updater to upload [myevic.bin](https://github.com/ClockSelect/myevic/blob/master/bin/myevic.bin) like you would with a usual firmware update from Joyetech or Wismec:
+- Use the manufacturer's firmware updater to upload  like you would with a usual firmware update from Joyetech or Wismec:
   - Download the firmware updater package from the manufacturer [Wismec](http://www.wismec.com/software/) or [Joyetech](http://www.joyetech.com/mvr-software/), depending of the brand and model of your box. Be sure to pick the right software for the right box brand and model.
   - Unzip the update package and launch the UpdateFirmware.exe (Joyetech) or UpdateWismec.exe (Wismec) found in the package.
   - Plug your box into your PC via USB  
@@ -46,13 +53,13 @@ Once you've downloaded the firmware binary, you may:
   
 OR  
 
-- For linux/Cygwin users, use evic-usb to upload [myevic.bin](https://github.com/ClockSelect/myevic/blob/master/bin/myevic.bin) to your box, using command line:
+- For linux/Cygwin users, use evic-usb to upload [myevic.bin](https://github.com/MicroSur/sur_myevic/blob/master/bin/myevic.bin) to your box, using command line:
 
     ```evic-usb upload myevic.bin```
 
 OR  
 
-- Use  [NFirmwareEditor](https://github.com/TBXin/NFirmwareEditor/releases) or the [FWUpdater](https://www.dropbox.com/s/83zd19gu05pl3r6/EvicVTCFont.rar?dl=1) part of the [VTCFont](https://www.dropbox.com/s/83zd19gu05pl3r6/EvicVTCFont.rar?dl=1) package to upload [myevic.bin](https://github.com/ClockSelect/myevic/blob/master/bin/myevic.bin) to your box.
+- Use [FWUpdater](https://www.dropbox.com/s/83zd19gu05pl3r6/EvicVTCFont.rar?dl=1) part of the [VTCFont](https://www.dropbox.com/s/83zd19gu05pl3r6/EvicVTCFont.rar?dl=1) package to upload [myevic.bin](https://github.com/MicroSur/sur_myevic/blob/master/bin/myevic.bin) to your box.
 
 ### About Multi-cells boxes
 
