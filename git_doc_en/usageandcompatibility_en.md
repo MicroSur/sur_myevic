@@ -59,7 +59,7 @@ OR
 
 OR  
 
-- Use [FWUpdater](https://www.dropbox.com/s/83zd19gu05pl3r6/EvicVTCFont.rar?dl=1) part of the [VTCFont](https://www.dropbox.com/s/83zd19gu05pl3r6/EvicVTCFont.rar?dl=1) package to upload [myevic.bin](https://github.com/MicroSur/sur_myevic/blob/master/bin/myevic.bin) to your box.
+- Use FWUpdater part of the [VTCFont](https://www.dropbox.com/s/qbymcwthnahmles/VTCFont.rar?dl=1) package to upload [myevic.bin](https://github.com/MicroSur/sur_myevic/blob/master/bin/myevic.bin) to your box.
 
 ### About Multi-cells boxes
 
