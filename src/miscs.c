@@ -1075,29 +1075,51 @@ __myevic__ void LEDGetColor()
 __myevic__ void LEDSetColor()
 {
 	dfLEDColor = ( LEDRed << 10 ) | ( LEDGreen << 5 ) | LEDBlue;
+        if ( ISEGRIPII || ISEVICAIO || ISSINFJ200 ) 
+        {
+            gFlags.led_on = 1;
+            //LEDTimer = 0;
+        }
 }
 
-__myevic__ void LEDWhite()
-{
-	LEDBlue = 25;
-	LEDGreen = 25;
-	LEDRed = 25;
-}
+//__myevic__ void LEDWhite()
+//{
+//	LEDBlue = 25;
+//	LEDGreen = 25;
+//	LEDRed = 25;
+//}
 
 __myevic__ void LEDOff()
 {
-	gFlags.led_on = 0;
+    gFlags.led_on = 0;
+    
+    if ( ISSINFJ200 )
+    {
+        PB7 = 0;
+    }
+    else //if ( ISEGRIPII || ISEVICAIO )
+    {
 	PB->DOUT &= ~0x38;
+    }
 }
 
 // LED PWM
 // Called by Timer 1 @ 5kHz
 __myevic__ void LEDControl()
 {
-	uint32_t phase = TMR1Counter % 25;
+    uint32_t phase = TMR1Counter % 25;
+    
+    if ( ISSINFJ200 )
+    {
+        //GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT ); 
+        PB7 = ( phase < LEDGreen ); //1;
+    }
+    else //if ( ISEGRIPII || ISEVICAIO )
+    {	
 	PB3 = ( phase < LEDBlue );
 	PB4 = ( phase < LEDRed );
 	PB5 = ( phase < LEDGreen );
+    }
 }
 
 __myevic__ void LEDTimerTick()

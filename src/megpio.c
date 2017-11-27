@@ -173,7 +173,7 @@ __myevic__ void InitGPIO()
 		BBC_Configure( 4, 0 );                          // 4 0
                 PA1 = 1;
                 
-                PB7 = 0;
+                PB7 = 0; // LED
 		GPIO_SetMode( PB, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );    // PB #0x80 1
         }    
         

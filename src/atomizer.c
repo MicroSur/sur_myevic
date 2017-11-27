@@ -402,7 +402,7 @@ __myevic__ void StopFire()
 		SetADCState( 15, 0 );
 	}
 
-	if ( ISEGRIPII || ISEVICAIO || ISSINP80 )
+	if ( ISEGRIPII || ISEVICAIO || ISSINFJ200 ) // || ISSINP80
 	{
 		LEDTimer = 30;
 	}
