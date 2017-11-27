@@ -1,8 +1,8 @@
-## **SME (sur_myevic)**
+## **SME ( sur_myevic )**
 
-#### [Документация по русски](https://github.com/MicroSur/sur_myevic/blob/master/README_ru.md)
+#### [Документация на русском (в процессе...)](https://github.com/MicroSur/sur_myevic/blob/master/README_ru.md)
 
-This is fork of myevic Custom Firmware from ClockSelect https://github.com/ClockSelect/myevic/blob/master/src
+SME is fork of myevic Custom Firmware from [ClockSelect](https://github.com/ClockSelect/myevic/blob/master/src)
 
 #### Based on:
 *Original VTC Mini 3.03 firmware*
@@ -11,7 +11,7 @@ This is fork of myevic Custom Firmware from ClockSelect https://github.com/Clock
 The look-and-feel of the myevic firmware is more-or-less identical to the original firmware, so you shouldn't be lost.  
 Many new features and options are made available through the menu system; I strongly encourage you to fully read the present documentation.
 
-The documentation is generic and may not be correct for this version.
+The documentation is generic and may not be correct for SME version!
 
 ## Documentation Index 
    __1.__ [Usage and compatibility](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/usageandcompatibility_en.md)

@@ -1,4 +1,4 @@
-### Profiles
+### Меню профилей ( Profiles )
 
 You can switch between five different configuration profiles.  
 A Profile stores all data relevant to vaping configuration; that is, vaping mode, coils resistance, preheat and algo settings, etc. Interface, display or others non vape-related settings are not reloaded when switching profiles.
@@ -14,4 +14,4 @@ To duplicate current profile onto an existing profile (thus erasing it), select 
 
 -----
 
-← Previous Page: [How To Build](howtobuild_en.md) --  Next Page: [Menus](menus_en.md)→
+← Предыдущая страница: [Основной экран](mainscr_ru.md) --  Следующая страница: [Меню ](menus_ru.md)→

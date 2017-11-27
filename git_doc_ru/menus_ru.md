@@ -1,19 +1,20 @@
-### Menus
-Holding Fire and Right (+) buttons 1/5th of a second enters menus.  
+### Меню ( Menu )
 
-* At any time, you may press simultaneously Fire and Right buttons to get out of the menus and return to the main screen.
-* When navigating in sub-menus, you may press simultaneously Left and Right buttons to return to the parent (upper level) menu.
-дефолтные парамерты долгое нажатие Пуск
+* Меню вызывается коротким удержанием кнопок Пуск и плюс одновременно.  
+* Выход из меню в любое время - теми же кнопками. Это так же выход из игр. 
+* Удерживая одновременно кнопки плюс и минус - попадаем в верхнее меню, из которого пришли.
+* На некоторых числовых параметрах работает долгое удержание кнопки Пуск - произойдет сброс данного параметра по умолчанию.
+* На экранах корректировки времени и даты - выход по кнопке Пуск для сохранения изменений.
+* На экранах может быть указан способ выхода - длительное нажатие Пуск ( Long Fire Exit/Save )
 
     ![](http://i345.photobucket.com/albums/p374/ClockSelect/menus_zpsb8gftzok.png)  
 Main menu screen
 
-
-If you continue holding Fire and Right (+) buttons after entering menus, after two seconds, you'll enter the Profile selection screen (see the **Profile** section for more informations about configuration profiles).  
+Если продолжить удерживать (Пуск +) после попадания в меню - произойдет вызов экрана профилей, затем экран редактирования кривой нагрева.
 
 -----
 
-← Previous Page: [Profiles](profiles_en.md) --  Next Page: [Main Screen](mainscr_en.md)→
+← Предыдущая страница: [Профили](profiles_ru.md) --  Следующая страница: [Меню экрана ](screen_ru.md)→
 
 
 

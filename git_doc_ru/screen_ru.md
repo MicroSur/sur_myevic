@@ -1,4 +1,4 @@
-### Screen 
+### Меню экрана ( Screen  )
    ![](http://i345.photobucket.com/albums/p374/ClockSelect/eVic/screenmenu_zpsph9b8ono.png)
 
 #### Screen management menu:
@@ -52,4 +52,4 @@ Beyond the fact you may find this option fancy and cool-looking, it may have its
             ![3D cube](http://i345.photobucket.com/albums/p374/ClockSelect/eVic/cube_zpsf9apfiun.png)
 -----
 
-← Previous Page: [Main Screen](mainscr_en.md) --  Next Page: [Coils](coils_en.md)→
+← Предыдущая страница: [Меню](menus_ru.md) --  Следующая страница: [Меню спиралей ](coils_ru.md)→

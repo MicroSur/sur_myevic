@@ -80,4 +80,4 @@ The speed at wich the liquid is vaporized in function of the energy dissipated b
 
 -----
 
-← Previous Page: [Coils](coils_en.md) --  Next Page: [Clock](clock_en.md)→
+← Предыдущая страница: [Меню спиралей](coils_ru.md) --  Следующая страница: [Меню часы ](clock_ru.md)→
