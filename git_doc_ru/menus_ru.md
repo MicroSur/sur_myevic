@@ -7,8 +7,7 @@
 * На экранах корректировки времени и даты - выход по кнопке Пуск для сохранения изменений.
 * На экранах может быть указан способ выхода - длительное нажатие Пуск ( Long Fire Exit/Save )
 
-    ![](http://i345.photobucket.com/albums/p374/ClockSelect/menus_zpsb8gftzok.png)  
-Main menu screen
+![Main menu](http://i345.photobucket.com/albums/p374/ClockSelect/menus_zpsb8gftzok.png)  
 
 Если продолжить удерживать (Пуск +) после попадания в меню - произойдет вызов экрана профилей, затем экран редактирования кривой нагрева.
 

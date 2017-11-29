@@ -1,16 +1,16 @@
 ### Меню профилей ( Profiles )
 
-You can switch between five different configuration profiles.  
-A Profile stores all data relevant to vaping configuration; that is, vaping mode, coils resistance, preheat and algo settings, etc. Interface, display or others non vape-related settings are not reloaded when switching profiles.
+Возможно сохранять настройки парения в отдельных профилях и применять их по желанию.  
+Сохраняются всё, что связано с парением: режим парения, сопротивление койла, настройки преднагрева и алгоритм ТК итп.  
+Возможно сохранение положение некоторых элементов интерфейса.
 
-To access the Profile selection screen, press and hold the Fire and (+) buttons for two seconds. On the Profile selection screen, select the profile and click Fire to activate it.  
+Доступ к окну профилей из меню спиралей ( Coils ), долгим удержанием кнопок плюс и Пуск или по настраиваемым кликам.  
+Для активации другого профиля, выберите его ( кнопками +- ) и коротко нажмите Пуск.
   
-![Profile Screen](https://www.dropbox.com/s/b4y1afx3vbmrgdp/profile.png?dl=1)
+![Profile](https://www.dropbox.com/s/b4y1afx3vbmrgdp/profile.png?dl=1)
 
-Each line display the Profile number, the selected mode and last used resistance.  
-Empty lines correspond to empty profiles.  
-By selecting an empty profile, the current profile will be duplicated.  
-To duplicate current profile onto an existing profile (thus erasing it), select the target profile and press fire during two seconds. The target profile will be selected with a copy of the current profile.
+В пустые линии или поверх выбранного профиля можно записать текущий профиль длинным нажатием на Пуск.  
+Стереть профиль можно так же, но перед этим нужно снять атомайзер.
 
 -----
 

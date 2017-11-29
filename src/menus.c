@@ -3487,13 +3487,13 @@ const mvaluedesc_t BoostDesc =
 {
 	34, 52,
 	0, 0,
-	0, 200,
+	0, 100,
 	0,
 	0,
 	0xC2,
 	0x0B,
 	1,
-	201, 50
+	101, 50
 };
 
 const mdata_t BoostData =

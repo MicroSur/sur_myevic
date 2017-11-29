@@ -951,7 +951,7 @@ __myevic__ void DFCheckValuesValidity()
 	if ( dfTCAlgo >= TCALGO_MAX )
 		dfTCAlgo = TCALGO_DEF;
 
-	if ( dfTCBoost > 200 )
+	if ( dfTCBoost > 100 )
 		dfTCBoost = 50;
 
 	for ( i = 0 ; i < 3 ; ++i )

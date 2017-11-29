@@ -1,82 +1,120 @@
-### Vaping  
- 
+### Меню парения ( Vaping )
  
  ![Vaping menu](https://www.dropbox.com/s/5nafopmyhl6m8as/vaping2.png?dl=1)  
 
-* __Preheat__
+* __Preheat ( предварительный нагрев )__
     
- ![TCR Set Menu](https://www.dropbox.com/s/d1ncqa9heec6grx/preheat1.png?dl=1)
+ ![pr](https://www.dropbox.com/s/d1ncqa9heec6grx/preheat1.png?dl=1)
         
-   __Coil preheat function.__  
+    *Может работать в режимах вариватта ( POWER ) и смарта ( SMART ), в других игнорируется*  
+    *Это меню показывается по установленным кликам кнопки Пуск, если на клики выбрано действие (PPwr) -  Приоритет мощности.*
+
+    -Enable - Включить / выключить преднагрев.
+
+    -Возможно установить мощность ( Pwr ) и время ( Time ). На это время будет подаваться указанная мощность при затяжке.  
+    После этого будет подаваться основная мощность.
         
- *This function can only be active in "POWER" and "SMART" modes; it is ignored in all other modes.*  
-        Set at which power ( **Pwr** ) and how long ( **Time** ) you want the coil to be preheated when you fire; after this delay, the atomizer will be powered by your regular setting. Set the **Time** to zero to switch preheating off.  
-        The **Unit** may be absolute Watts or percents of the main power setting.   
-        The **Delay** allows to configure a dead time after fire, during which the preheating function will be disabled. This dead time goes from zero (Off) to 3 minutes. The delay runs from the end of fire. Use this feature if you use high inertia (heavy) builds to prevent over-heating when chain-vaping. The **Delay** also apply on power curves, preventing power to fire over 100% of the preset power within the given time.  
-        A small **P** icon will appear on the main screen next to the the power setting to remind you the preheat function is enabled ("POWER" mode only). A blinking **P** indicates the dead time period.  
-        *If you configured a "PPwr" action in the multi-clicks configuration (see **Interface** menu), this action will pop-up this menu when in "POWER" or "SMART" mode.*  
+    -Unit - менять мощность преднагрева в Ваттах или процентах от основной.   
 
-   * __Modes__
+    -Delay - время задержки для следующего преднагрева, до 3-х минут. Пока тикает это время, прехит не включается.  
+    Это время является общим и для меню Кривых парения.
 
-        ![](http://i345.photobucket.com/albums/p374/ClockSelect/eVic/modes_zpslphwvqhh.png)
+    -Используется для разогрева тяжелых холодных намоток.  
+    Если включено, то на основном экране режима POWER у показателя мощности появится значок "P".  
+    Пока идет время задержки, значок мигает.
+  
 
- Configure used/useless modes.  
-         Click on each menu item to set 'Y' or 'N' if you want to see any given mode proposed while cycling between modes in menu mode.  
-         Typically, you'll set "SMART" mode to 'N'. Typically.
+* __Curve ( Кривые нагрева )__
 
-   * __Algo__
+    *Может работать в режимах вариватт ( POWER ) и смарт ( SMART ), в других игнорируется*  
+    Имеет приоритет выше, чем у преднагрева.  
+    Значок "C" будет показан на экране в режиме мощности ( POWER ). Значок мигает во время задержки перед новым использованием (Delay).
+    Каждый профиль может иметь одну настроенную кривую нагрева.
+  
+    - Enable: включить / выключить использование кривой.
+    - Reset: сброс кривой. Сделайте это до первого редактирования. Мощность на всем протяжении установится на 100% (нет эффекта при работе).
+    - Edit: окно редактирования кривой.  
+            Кнопками (+-) выбрать время, нажать Пуск, кнопками выбрать мощность, которая будет установлена после этого времени во время затяжки.  
+            Мощность меняется 0 - 200% от основной. 20 точек регулировки, максимальная длительность кривой - 5 секунд.
+    - Delay: время задержки перед повторным использованием данной функции, параметр, общий с прехитом.
+    - Repeat: время, после которого кривая нагрева зацикливается сначала.
+
+* __Algo ( Алгоритмы ТК )__
     
-*Temperature Control only*  
-         TC Algorithms submenu  
+*Только для режимов термоконтроля*  
 
 ![Algo submenu](https://www.dropbox.com/s/ecy9oqapftnfwh3/algo.png?dl=1)  
 
-* Algo  
-         Choose betwen several algorithms for temperature control.
-           * Off: use the default standard agorithm from stock firmware.
-           * Sweet: much like the default, but smoothes out oscillations in regulation phase.
-           * Boost: speeds up temperature ramp-up and reduces oscillations, but with the risk of overshooting the target temperature if not configured properly. See the Boost option below.
-           * PID: A standard PID algorithm
+    Algo - несколько алгоритмов на выбор, переключение по кнопке Пуск:
+    - Off: используется алгоритм из официальной прошивки.
+    - Sweet: более легкий старт.
+    - Boost: резкий старт.
+    - PID: Пропорционально-интегрально-дифференцирующий (ПИД) регулятор с редактированием всех параметров.
          
-There is no "best" algorithm; it will essentialy depend on your setup and on your personnal taste. Test and experiment to see what fits best to you. The device monitor of the [NFirmwareEditor](https://github.com/TBXin/NFirmwareEditor/releases) is a great tool to observe the behavior of the algorithms with different setups and parameters.  
-More algorithms may be implemented with time. Stay tuned.  
+    Нет лучшего алгоритма, настраивайте и проверяйте, программа-монитор в помощь.  
 
-* __Boost__
-    
- A parameter controling the Boost algorithm (see above).  
-        Set the limit, in percentage of the target temperature, at wich the Boost algorithm will stop speeding up the temperature ramp-up phase. The more the value, the faster the ramp-up time, but with a higher risk of overshooting the target temperature. High values are best with heavy resistances such as clapton builds, lower are prefered with light resistances such as single high gauge wire. Also, choosing the right power/wattage setup (not too high nor too low) will help prevent overshooting while keeping a fast ramp-up. You'll have to experiment to see what fits the best for your setup and personal taste.  
-        A long fire resets the parameter to its default value.
+    Boost - регулировка для алгоритма быстрого старта.  
+            Устанавливает предел температуры в процентах от основной, после достижения которой прекратится резкий нагрев.  
+            Чем больше значение, тем быстрее разогрев до заданной температуры, но есть риск выхода за пределы установки. уменьшите максимум мощности ТК, чтобы это предотвратить.  
+            Стоит устанавливать выше для тяжелых намоток и меньше для простых.
 
-* __P, I, D__
+* __P, I, D ( регулировка ПИД )__
       
- The 3 parameters controlling the Proportional, Integral and Derivative part of the PID algorithm. You should familiarize yourself with the PID algorithm before playing with those parameters. Many papers exist over the internet on the subject.  
-        A long fire resets the parameter to its default value.  
-        Default values are (600,850,0). They are general-purpose values that should work in most cases, but may not be perfect and need to be tuned for any particular setup.  
-        Algorithm is implemented in its independant form.  
-        Sample time (50Hz) is scaled to one for parameters uniformity.  
-        Units: **P** is expressed in mW/°C, **I** in mW/°C/s, **D** in mW.s/°C.
+    Долгое нажатие Пуск вернет настройки каждого пункта в исходное.  
+    Пропорциональная часть (Proportional), по умолчанию 600.  
+    Интегральная часть (Integral), 850.  
+    Дифференциальная часть (Derivative), 0.  
 
-* __Curve__
+    Как это работает - расскажет гугл.
+    Значения по умолчанию служат, чтобы подходить большинству пользователей, но для частных случаев требуется корректировка.  
+    Единицы измерения: **P** mW/°C, **I** mW/°C/s, **D** mW.s/°C.
 
- *POWER/SMART mode only.*        
-        Enable, Reset and/or Edit the atomizer power curve.  
-        When power curve is enabled, it take precedence over preheating; a little "C" next to the power setting on main screen indicates the power curve is enabled.  
-        The values of the power curve are percentages (from 0 to 200%) of the main power setting. The whole power curve will thus scale with the main power setting. The default power curve (after reset) is a flat 100% curve, so will have no sensible effect.  
-        The **Delay** setting prevents the power curve to apply a power above 100% during some time after the end of the last puff. See the **Vaping>Preheat** menu documentation for more informations.  
-        You may have one different power curve per configuration profile.  
+* __Modes ( Пропуск режимов )__
 
-* __Prot.__
+        ![](http://i345.photobucket.com/albums/p374/ClockSelect/eVic/modes_zpslphwvqhh.png)
 
- Set the long fire protection time. Default is 10.0s.  
-        Admissible values are 2.0s to 15.0s.
+    Если напротив режима стоит **N** - данный режим не показывается при прокрутке режимов на главном экране.  
+    Например можно отключить показ режима Байпас в много-батарейных модах. А кому то не нужен Смарт.  
+    Активный режим **A** нельзя исключить (должен быть хотя бы один).  
 
-* __Vaped__
+* __Prot. ( Отсечка затяжки )__
 
-Choose the unit in wich the liquid consumption (on the 3rd info line of the main screen) is dislayed. You can choose between raw total ml, or consumption speed in ml/day. You must have setup the date and time of the RTC for the ml/d to behave correctly.
+    Установка максимального времени затяжки, после которого она прекращается с предупреждением.  
+    Если продолжать удерживать кнопку Пуск - мод выключится, думая, что это случайное нажатие, например в сумке.  
+    А вообще всегда выключайте мод кликами. По умолчанию 3 или 5 кликов.
+    Регулировка от 2 до 25 секунд, по умолчанию 10. Лучше настройте под ваш стиль.
+    
+* __Vaped ( Количество выпаренного )__
 
-* __ml/kJ__
+    Выберите, что будет показываться в информационной строке на главном экране:  
+    - выпарено всего, в мл.
+    - выпарено за день, в мл. Требуется настройка даты и времени и сброс данного счетчика. Удобно это делать по кнопке программы FWUpdater.
+    - затраченная энергия, в Ватт-час.
 
-The speed at wich the liquid is vaporized in function of the energy dissipated by the coil. The value is in milliliters per KiloJoules. The proposed value of 360 is rtaher accurate for a standard 30W factory coil. It may need to be adjusted depending on your setup.  
+    Для подсчета выпаренного в миллилитрах требуется подстроить коэффициент ml/kJ.  
+    По умолчанию, соответствует парению около 30-ти Ватт. Для сигаретной тяги хороший результат был при 295.
+    * __ml/kJ__ вызывает окно корректировки, где наглядно показаны текущие значения.
+
+* __PuffOff ( выключение по затяжкам )__
+
+    Выбор количества затяжек перед выключением мода. Регулируйте свои перепары, чтобы не получить передоз. Хорошее значение - 13.  
+    Off - выключение работы функции.
+   
+* __VVLite ( легкий варивольт )__
+
+    При включении этой функции мод превращается в варивольт.  
+    Отдельного окна для режима нет ( поэтому легкий ), все делается в режиме мощности ( POWER ). Иконка напряжения на экране измениться.  
+    Как обычно, выставляете мощность для парения, но напряжение при затяжке меняться не будет.  
+    
+* __AutoFi ( Автофаер )__
+
+    Режим автоматического "огня", без удерживания кнопки Пуск все время.
+    Запуск - чуть дольше нажать на кнопку Пуск, затем отпустить. Мод продолжит подавать мощность заданное в пункте ( ATime ) время.  
+    Off - выключение работы функции.
+
+* __ATime ( время автофаера )__
+
+    Настройка времени для автоматического парения ( AutoFi ).
 
 -----
 
