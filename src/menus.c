@@ -2981,7 +2981,7 @@ const menu_t ClockMenu =
 	0,
 	ClockMenuOnClick+1,
 	0,
-	10,
+	9,
 	{
 		{ String_Time, 0, EVENT_SET_TIME, MACTION_SUBMENU }, //0
 		{ String_Date, 0, EVENT_SET_DATE, MACTION_SUBMENU }, //0
@@ -2991,7 +2991,7 @@ const menu_t ClockMenu =
 		{ String_Size, &ClkSizeData, 0, MACTION_DATA },
 		{ String_Dial, 0, 0, 0 },               
                 { String_OFF, &OffModClock, 0, MACTION_DATA },    
-                { String_ON, &OnModClock, 0, MACTION_DATA },         
+                //{ String_ON, &OnModClock, 0, MACTION_DATA },         
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
