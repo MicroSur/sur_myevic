@@ -17,11 +17,11 @@
 ![view](https://i.imgur.com/8ZwD1un.png) ![view](https://i.imgur.com/FJa7gB0.png) ![view](https://i.imgur.com/ElUy9hJ.png) ![view](https://i.imgur.com/rJFsnQ1.png) ![view](https://i.imgur.com/INfbmW7.png) ![view](https://i.imgur.com/9FhWR2m.png) 
 
 ## Содержание
-   __1.__ [ Поддерживаемые устройства и установка прошивки](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/usageandcompatibility_ru.md)
-   __2.__ [ Дополнительные возможности](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/behaviourchanges_ru.md)
-   __3.__ [ Основной экран](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/mainscr_ru.md)
-   __4.__ [ Профили](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/profiles_ru.md)
-   __5.__ [ Меню](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/menus_ru.md)
+   __1.__ [ Поддерживаемые устройства и установка прошивки](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/usageandcompatibility_ru.md)  
+   __2.__ [ Дополнительные возможности](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/behaviourchanges_ru.md)  
+   __3.__ [ Основной экран](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/mainscr_ru.md)  
+   __4.__ [ Профили](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/profiles_ru.md)  
+   __5.__ [ Меню](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/menus_ru.md)  
    - [Меню Экрана](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/screen_ru.md)
    - [Меню Спиралей](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/coils_ru.md)
    - [Меню Парения](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/vaping_ru.md)
