@@ -954,7 +954,7 @@ __myevic__ void ShowMainView()
             
             static uint8_t sx = 0; //pacman line
                 
-            if ( gFlags.firing || gFlags.battery_charging )
+            if ( ( gFlags.firing || gFlags.battery_charging ) && dfStatus.nologo )
             {
                 if ( sx % 2 ) 
                 {
