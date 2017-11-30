@@ -1,6 +1,6 @@
 ## **SME ( sur_myevic )**
 
-#### [Документация на русском (в процессе...)](https://github.com/MicroSur/sur_myevic/blob/master/README_ru.md)
+#### [Документация на русском](https://github.com/MicroSur/sur_myevic/blob/master/README_ru.md)
 
 SME is fork of myevic Custom Firmware from [ClockSelect](https://github.com/ClockSelect/myevic/blob/master/src)
 
