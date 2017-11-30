@@ -1001,7 +1001,7 @@ __myevic__ void ShowMainView()
 					DrawClock( 54 );                         
 				}       
 			}
-                        else if ( !dfStatus.nologo && dfStatus.logomid && !HideLogo )
+                        else if ( !dfStatus.nologo && dfStatus.logomid && !HideLogo ) //mid logo
 			{
                                int h = GetLogoHeight();
 
@@ -1009,7 +1009,6 @@ __myevic__ void ShowMainView()
                                 {
                                     if ( h > 40 ) 
                                     {
-                                        //DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
                                         DrawLOGO( 0, 50 );
                                     }
                                     else 
@@ -1034,7 +1033,14 @@ __myevic__ void ShowMainView()
                             {
                                 if ( !( dfStatus2.anim3d || dfStatus.clock ) )
                                 {
-                                    DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                                    if ( dfUIVersion == 0 )
+                                    {
+                                        DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                                    }
+                                    else
+                                    {
+                                        DrawFillRect( 0, 45, 63, 66, 0 );   //erase 1-st info line
+                                    }
                                 }
                                 DrawLOGO( 0, 10 ); //x y
                             }
