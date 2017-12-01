@@ -98,7 +98,7 @@ const menu_t LogoMenu;
 
 const mbitdesc_t BitDesc =
 {
-	0, 63, //46
+	0, 63,
 	String_On,
 	String_Off
 };
@@ -1432,16 +1432,16 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
                         
 		case 1:	// X32
 			if ( dfStatus.x32off )
-				DrawStringRight( String_OFF, 63, line+2 );
+				DrawStringRight( String_Off, 63, line+2 );
 			else
-				DrawStringRight( String_ON, 63, line+2 );
+				DrawStringRight( String_On, 63, line+2 );
 			break;
                     
 		case 2:	// LSL
 			if ( dfStatus.lsloff )
-				DrawStringRight( String_OFF, 63, line+2 );
+				DrawStringRight( String_Off, 63, line+2 );
 			else
-				DrawStringRight( String_ON, 63, line+2 );
+				DrawStringRight( String_On, 63, line+2 );
 			break;
 
 		case 3:	// SHR
@@ -1460,9 +1460,9 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
                         else
                         {
                             if ( dfStatus.usbchgoff )
-				DrawStringRight( String_OFF, 63, line+2 );
+				DrawStringRight( String_Off, 63, line+2 );
                             else
-				DrawStringRight( String_ON, 63, line+2 );
+				DrawStringRight( String_On, 63, line+2 );
                         }
 			break;                   
 
@@ -1812,7 +1812,7 @@ __myevic__ void CoilsMenuIDraw( int it, int line, int sel )
 		{
 			const uint8_t *s;
 			DrawFillRect( 36, line, 63, line+12, 0 );
-			s = ( dfStatus.chkmodeoff ) ? String_No : String_Yes;
+			s = ( dfStatus.chkmodeoff ) ? String_Off : String_On; //String_No : String_Yes;
 			DrawStringRight( s, 63, line+2 );
 			break;
 		}                        
@@ -2990,7 +2990,7 @@ const menu_t ClockMenu =
 		{ String_Fmt, 0, 0, 0 },
 		{ String_Size, &ClkSizeData, 0, MACTION_DATA },
 		{ String_Dial, 0, 0, 0 },               
-                { String_OFF, &OffModClock, 0, MACTION_DATA },    
+                { String_OffMod, &OffModClock, 0, MACTION_DATA },    
                 //{ String_ON, &OnModClock, 0, MACTION_DATA },         
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
@@ -3591,8 +3591,8 @@ const menu_t AlgoMenu =
 const mbitdesc_t CurveEnaDesc =
 {
 	40, 63,
-	String_Yes,
-	String_No
+	String_On, //Yes,
+	String_Off //No
 };
 
 const mdata_t CurveEnaData =
@@ -3639,7 +3639,7 @@ const menu_t CurveMenu =
 	{
 		{ String_Enable, &CurveEnaData, 0, MACTION_DATA },
                 { String_Edit, 0, EVENT_POWER_CURVE, MACTION_SUBMENU }, //0
-		{ String_Reset, 0, EVENT_POWER_CURVE, MACTION_SUBMENU }, //0		
+		{ String_Reset, 0, EVENT_POWER_CURVE, 0 }, //0		
 		{ String_Delay, &PreheatDelayData, 0, MACTION_DATA }, //CurveDelayData
                 { String_Repeat, 0, 0, 0 },                        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }

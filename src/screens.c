@@ -595,7 +595,7 @@ __myevic__ void ShowRTCSpeed()
 	if ( gFlags.has_x32 )
 	{
 		DrawString( String_X32, 11, 48 );
-		DrawString( String_ON, 37, 48 );
+		DrawString( String_On, 37, 48 );
 	}
 	else
 	{
@@ -949,9 +949,9 @@ __myevic__ void ShowStealthMode()
 	DrawStringCentered( String_Stealth, 88 );
         //DrawStringCentered( dfStealthOn ? String_ON : String_OFF, 102 );
         if ( !dfStealthOn )
-            DrawStringCentered( String_OFF, 102 );
+            DrawStringCentered( String_Off, 102 );
         else if ( dfStealthOn == 1 )
-            DrawStringCentered( String_ON, 102 );
+            DrawStringCentered( String_On, 102 );
         else
             DrawStringCentered( String_Contrast, 102 );
 }
