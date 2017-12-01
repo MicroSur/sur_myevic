@@ -1,10 +1,10 @@
 ### Меню интерфейса ( Interface )
 
-![Interface menu](http://i345.photobucket.com/albums/p374/ClockSelect/eVic/interface_zpshqw8kg89.png)
+![Interface menu](https://i.imgur.com/KjdiPU8.png)
 
   * __Clicks ( клики на кнопку Пуск )__
   
-    ![Clicks Menu](http://i345.photobucket.com/albums/p374/ClockSelect/clicks_zpsoqy6ngvh.png)
+    ![Clicks Menu](https://i.imgur.com/POyz0Jy.png)
         
     Меню для реакции мода на определенное пользователем количество быстрых кликов на кнопку Пуск.  
     Если ни одна их кнопок не определена для функции редактирования главного экрана, она автоматически присвоится трём кликам после сброса прошивки.  
