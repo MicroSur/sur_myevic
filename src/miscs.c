@@ -1097,7 +1097,7 @@ __myevic__ void LEDOff()
     {
         PB7 = 0;
     }
-    else //if ( ISEGRIPII || ISEVICAIO )
+    else if ( ISEGRIPII || ISEVICAIO )
     {
 	PB->DOUT &= ~0x38;
     }

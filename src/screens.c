@@ -91,7 +91,7 @@ __myevic__ void DrawScreen()
                                         gFlags.MainContrast = 0;
                                 }
                                                                     
-                                if ( dfStealthOn != 1 ) ShowMainView();
+                                if ( dfStealthOn != 1 || ShowWeakBatFlag ) ShowMainView();
 
 				break;
 
@@ -327,7 +327,7 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 			if ( dfStealthOn == 1)
 			{
 				Screen = 0;
-				SleepTimer = 18000;
+				SleepTimer = dfDimOffTimeout * 100; //18000;
 				gFlags.refresh_display = 1;
 			}
 			else
@@ -355,7 +355,7 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 				else
 				{
 					Screen = 0;
-					SleepTimer = 18000;
+					SleepTimer = dfDimOffTimeout * 100; //18000;
 					gFlags.refresh_display = 1;
                                         scrSaveOnce = 1;
 				}
@@ -387,7 +387,7 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 			EditModeTimer = 0;
 			gFlags.edit_capture_evt = 0;
 			gFlags.edit_value = 0;
-			LEDOff();
+			//LEDOff();
 			UpdateDataFlash();
                         //DisplaySetContrast( dfContrast );
 			// NOBREAK
@@ -409,7 +409,7 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 			else
 			{
 				Screen = 0;
-				SleepTimer = 18000;
+				SleepTimer = dfDimOffTimeout * 100; //18000;
 				gFlags.refresh_display = 1;
 			}
                         
@@ -437,7 +437,7 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
                             //else
                             //{
 				Screen = 0;
-				SleepTimer = 18000; //0
+				SleepTimer = dfDimOffTimeout * 100; //18000;
                             //}
 				gFlags.refresh_display = 1;
 			}
@@ -949,7 +949,7 @@ __myevic__ void ShowStealthMode()
 	DrawStringCentered( String_Stealth, 88 );
         //DrawStringCentered( dfStealthOn ? String_ON : String_OFF, 102 );
         if ( !dfStealthOn )
-            DrawStringCentered( String_Off, 102 );
+            DrawStringCentered( String_OFF, 102 );
         else if ( dfStealthOn == 1 )
             DrawStringCentered( String_On, 102 );
         else

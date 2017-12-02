@@ -661,6 +661,8 @@ __myevic__ void ResetDataFlash()
 //	dfTCRIndex = 0;
 	dfScrMainTime = 5; //ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
         dfDimTimeout = 20; //see dfScrMainTime
+//      dfDimOffMode = 0;
+        dfDimOffTimeout = 180;       
 	dfTCRM[0] = 90;
 	dfTCRM[1] = 100;
 	dfTCRM[2] = 110;
@@ -1621,7 +1623,7 @@ const uint8_t ProfileFilter[32] =
 /* 0060 */	0b00000000,
 /* 0068 */	0b00000000,
 /* 0070 */	0b00001011,
-/* 0078 */	0b11110000,
+/* 0078 */	0b11110000,     //status
 /* 0080 */	0b11111011,
 /* 0088 */	0b11111110,
 /* 0090 */	0b10000000,
@@ -1637,14 +1639,14 @@ const uint8_t ProfileFilter[32] =
 /* 00E0 */	0b11100000,
 /* 00E8 */	0b00000100,     // APT3
 /* 00F0 */	0b00001111,     // status2
-/* 00F8 */	0b00000000
+/* 00F8 */	0b00111100      // max v w
 };
 // Saved status bits
-// - Power curve enable state 
-// - Preheat ena state
-const uint32_t StatusFilter = 0b00010000000000001000000000000000;
-// - smart Preheat ena state
-const uint32_t StatusFilter2 = 0b00000000000000000000000000000100;
+//                                 3         2         1          
+//                               21098765432109876543210987654321
+const uint32_t  StatusFilter = 0b11010000000111001000011000000000;
+//                                                           8421
+const uint32_t StatusFilter2 = 0b00000000000000000000000000000110;
 
 //-------------------------------------------------------------------------
 // Apply newly reloaded parameters

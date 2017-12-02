@@ -404,7 +404,7 @@ __myevic__ void StopFire()
 
 	if ( ISEGRIPII || ISEVICAIO || ISSINFJ200 ) // || ISSINP80
 	{
-		LEDTimer = 30;
+		LEDTimer = 20; //dfFireScrDuration * 10
 	}
 
 	if ( gFlags.firing )
@@ -439,7 +439,7 @@ __myevic__ void StopFire()
                             }
                             
                             gFlags.refresh_display = 1;
-                            LEDOff();
+                            //LEDOff();
                             if ( gFlags.battery_charging )
                             {
 				ChargeView();

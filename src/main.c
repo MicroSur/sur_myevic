@@ -787,11 +787,18 @@ __myevic__ void SleepIfIdle()
                         AutoPuffTimer = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();
-			if (( BatteryVoltage <= BatteryCutOff + 20 ) && !gFlags.usb_attached )
+                        
+			if ( dfDimOffMode == 1 || ( ( BatteryVoltage <= BatteryCutOff + 20 ) && !gFlags.usb_attached ) )
 			{
 				dfStatus.off = 1;
-				Screen = 0;
+				//Screen = 0;
+                                //LEDOff(); ?
+                                
 			}
+                        else if ( dfDimOffMode == 2 && !dfStatus.off )
+                        {
+                                dfStatus.keylock = 1;
+                        }
                         
 			gFlags.sample_btemp = 1;
                         

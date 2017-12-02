@@ -1921,10 +1921,10 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 {
 	int v;
 
-	if ( it > 1 )
+	if ( it > 2 )
 		return;
 
-	DrawFillRect( 38, line, 63, line+12, 0 );
+	DrawFillRect( 34, line, 63, line+12, 0 );
 
 	switch ( it )
 	{
@@ -1957,7 +1957,20 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 			DrawValueRight( 54, line+2, v, 0, 0x0B, 0 );
 			DrawImageRight( 63, line+2, 0x94 );
 			break;
-
+                        
+		case 2:	// ModOff mode
+                    
+                        if ( dfDimOffMode == 2 )
+                        {
+                            DrawStringRight( String_Lock, 63, line+2 );
+                        }
+                        else
+                        {
+                            DrawStringRight( dfDimOffMode ? String_OFF : String_Sleep, 63, line+2 );
+                        }
+                    
+			break;
+                        
 		default:
 			break;
 	}
@@ -1976,16 +1989,18 @@ __myevic__ void ScreenProtMenuOnClick()
 		case 0:	// Saver
 		case 1:	// Main
 			gFlags.edit_value ^= 1;
-			gFlags.refresh_display = 1;
 			break;
-
-		//case 2:
-		//	UpdateDataFlash();
-		//	break;
-
+		case 2:
+                    if ( ++dfDimOffMode > 2 )
+                    {
+                        dfDimOffMode = 0;
+                    }                   
+			break;
 		default:
 			break;
 	}
+        
+        gFlags.refresh_display = 1;
 }
 
 
@@ -2611,7 +2626,7 @@ const mvaluedesc_t PreheatDelayDesc =
 {
 	34, 42,
 	3, 2,
-	0, 180,
+	0, 180, // 0 - 3:00
 	&DrawPreheatDelay+1,
 	0,
 	0,
@@ -2996,6 +3011,14 @@ const menu_t ClockMenu =
 	}
 };
 
+const mdata_t DimOffDelayData =
+{
+	&dfDimOffTimeout,
+	&PreheatDelayDesc,
+	MITYPE_BYTE,
+	0
+};
+
 const menu_t ScreenProtMenu =
 {
 	String_Screen,
@@ -3005,10 +3028,12 @@ const menu_t ScreenProtMenu =
 	0,
 	ScreenProtMenuOnClick+1,
 	ScreenProtMenuOnEvent+1,
-	3,
+	5,
 	{
 		{ String_Saver, 0, 0, 0 },
 		{ String_Main, 0, 0, 0 },
+                { String_Mode, 0, 0, 0 },                        
+                { String_Sleep, &DimOffDelayData, 0, MACTION_DATA }, 
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -4225,7 +4250,7 @@ __myevic__ int MenuEvent( int event )
 			EditModeTimer = 0;
 			gFlags.edit_capture_evt = 0;
 			gFlags.edit_value = 0;
-			LEDOff();
+			//LEDOff();
                         if ( !CheckCustomBattery() ) ResetCustomBattery();
 			UpdateDataFlash();
                          //               DisplaySetContrast( dfContrast );
@@ -4288,7 +4313,7 @@ __myevic__ int MenuEvent( int event )
 			EditModeTimer = 0;
 			gFlags.edit_capture_evt = 0;
 			gFlags.edit_value = 0;
-			LEDOff();
+			//LEDOff();
 			vret = 1;
 			break;
 		}

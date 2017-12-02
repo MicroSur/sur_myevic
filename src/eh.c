@@ -942,7 +942,7 @@ __myevic__ void EventHandler()
 			{
 				dfStatus.off = 1;
 				gFlags.refresh_display = 1;
-				LEDOff();
+				//LEDOff();
 				if ( gFlags.battery_charging )
 				{
 					ChargeView();
@@ -997,7 +997,7 @@ __myevic__ void EventHandler()
 				if ( dfStatus.off )
 					SleepTimer = 0;
 				else
-					SleepTimer = 18000;
+					SleepTimer = dfDimOffTimeout * 100; //18000;
 			}
 			return;
 
@@ -1053,7 +1053,7 @@ __myevic__ void EventHandler()
 					if ( dfStatus.off )
 						SleepTimer = 0;
 					else
-						SleepTimer = 18000;
+						SleepTimer = dfDimOffTimeout * 100; //18000;
 				}
 				else
 				{

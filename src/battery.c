@@ -510,6 +510,7 @@ __myevic__ void NewBatteryVoltage()
 {
 	static uint8_t SavedBatPercent = 0;
 	static uint8_t BatPCCmpCnt = 0;
+        static uint8_t BatSmplCnt = 0;
      
 	BatteryPercent = BatteryVoltsToPercent( BatteryVoltage );
         
@@ -526,7 +527,7 @@ __myevic__ void NewBatteryVoltage()
 		BatteryPercent = 0;
 	}
 
-	if ( (( SavedBatPercent != BatteryPercent ) && ( ++BatPCCmpCnt >= 2 ))
+	if ( (( SavedBatPercent != BatteryPercent ) && ( ++BatPCCmpCnt > 2 )) //2
 		 || gFlags.read_battery )
 	{
 		BatPCCmpCnt = 0;
@@ -543,7 +544,13 @@ __myevic__ void NewBatteryVoltage()
                 // gFlags.nbcr  dfStatus.nbrc
                 //if ( dfStatus.nbrc ) 
                 //if ( ( BatteryVoltage > 255 ) && ( dfBattVolt > BatteryVoltage ) ) dfBattVolt = BatteryVoltage;
-                if ( BatteryVoltage > 255 ) dfBattVolt = BatteryVoltage;
+                if ( BatteryVoltage > 280 && ( ( ++BatSmplCnt > 2 && dfBattVolt > BatteryVoltage ) || !dfStatus.nbrc ) ) 
+                //if ( BatteryVoltage > 280 && ( ( dfBattVolt > BatteryVoltage ) || !dfStatus.nbrc ) ) 
+                {
+                    dfBattVolt = BatteryVoltage;
+                    BatSmplCnt = 0;
+                    // DrawValue( 33, 46, AtoMaxVolts, 0, 0x1F, 0 ); //dbg
+                }
 	}
 	else
 	{

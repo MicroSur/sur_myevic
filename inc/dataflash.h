@@ -213,7 +213,8 @@ typedef struct dfParams
 /* 00F5 */      uint8_t         dfObject3D;     //  F9  
 /* 00F6 */      uint16_t        MaxPower;       //  FA 
 /* 00F8 */      uint16_t        MaxVolts;       //  FC
-/* 00FA */
+                uint8_t         DimOffTimeout;  //  FE      0-255 0-4:15  ( x \ 60 & ":" & (x Mod 60) )
+                uint8_t         DimOffMode;     //        0 normal sleep, 1 - mod off, 2? - lock
 // stop on FF
 }
 dfParams_t;
@@ -418,6 +419,9 @@ extern dfStruct_t DataFlash;
 #define dfMaxVolts              DFP(MaxVolts)
 #define dfUSBMaxCharge          DFP(USBMaxCharge)
 #define dfMaxBoardTemp          DFP(MaxBoardTemp)
+#define dfDimOffTimeout         DFP(DimOffTimeout)
+#define dfDimOffMode            DFP(DimOffMode)
+
 
 #define dfFWVersion		DFI(FWVersion)
 #define dffmcCID        DFI(fmcCID)

@@ -569,6 +569,18 @@ __myevic__ void DrawInfoLines()
 	}
 */
 
+/*
+                DrawValue( 0, 46, LastEvent, 0, 0x1F, 0 );
+		DrawValue( 0, 58, dfDimOffTimeout, 0, 0x1F, 0 );
+        //        DrawValue( 0, 70, gFlags.nbcr ? 1 : 0, 0, 0x1F, 0 );
+                //DrawValue( 0, 82, gFlags.rtcinit ? 1 : 0, 0, 0x1F, 0 );
+                //DrawValue( 0, 94, dfStatus.nbrc ? 1 : 0, 0, 0x1F, 0 );
+
+        
+    return;
+*/
+
+    
 	if ( Screen == 2 ) //firing
 	{
 		switch ( dfMode )
