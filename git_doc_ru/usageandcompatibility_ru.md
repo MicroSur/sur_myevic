@@ -29,17 +29,17 @@
   * Sinuous P80
   * Sinuous FJ200 (not full)
 
- * Eleaf
-  	* Invoke ?
+* Eleaf
+  * Invoke ?
 
 * Другие производители
-  	* Vaponaute La Petite Box
+  * Vaponaute La Petite Box
   
 ### Прошить:
 
 Файл прошивки находится в папке bin проекта.  
-Файл myevic.bin - для прошивки в мод с помощью любой существующей программы для прошивки.  
-Файл myevic_enc.bin - расшифрованный, в основном для изучения программистами. Он так же может быть прошит апдейтером FWUpdater.
+Файл myevic.bin - для прошивки в мод с помощью **любой** существующей программы для прошивки.  
+Файл myevic_enc.bin - расшифрованный, в основном для изучения программистами. Он так же может быть прошит моим апдейтером [FWUpdater](https://www.dropbox.com/s/qbymcwthnahmles/VTCFont.rar?dl=1).
 
 ### Полезно знать!
 
@@ -57,6 +57,8 @@
 
 Мой [редактор и прошивальщик для Windows тут](https://www.dropbox.com/s/qbymcwthnahmles/VTCFont.rar?dl=1)  
 [Тема на форуме](http://www.ecigtalk.ru/forum/f16/t101158.html)
+
+![fwupdater](https://i.imgur.com/SOMc7C9.png)
 
 -----
 
