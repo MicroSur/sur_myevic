@@ -741,11 +741,11 @@ __myevic__ void ReadBatteryVoltage()
                 {
                         VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
                         if ( VbatSample2 > 5 )
-                            VbatSample2 -= 5;
-                        
-                        BattVolts[0] = VbatSample2;
+                            VbatSample2 -= 5;                        
                         
                         VbatSample1 = ( VbatSample1 >> 7 ) + 1;
+                        
+                        BattVolts[0] = VbatSample1;
                         
 			if ( VbatSample2 > VbatSample1 )
 			{
