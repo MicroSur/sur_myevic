@@ -1107,15 +1107,13 @@ __myevic__ void Main()
 					}
 
 					if ( pwr > BatteryMaxPwr )
-/*
 					{
+                                                pwr = BatteryMaxPwr;
 						gFlags.limit_power = 1;
-						PowerScale = 100 * BatteryMaxPwr / pwr;
+						//PowerScale = 100 * BatteryMaxPwr / pwr;
 					}
 					else
- */
 					{
-
 						gFlags.limit_power = 0;
 						//PowerScale = 100;
 					}

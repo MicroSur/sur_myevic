@@ -77,7 +77,7 @@ const Battery_t const myCustom[] =
 		},
 		280,
 		20,
-		20
+		25
 	}
 };
 
@@ -305,6 +305,15 @@ __myevic__ int GetNBatteries()
 	return NBATTERIES;
 }
 
+/*
+__myevic__ uint16_t GetMaxBattAmps()
+{
+    if ( !dfBattMaxAmps )
+        dfBattMaxAmps = Battery->maxamp;
+
+    return dfBattMaxAmps;
+}
+*/
 
 __myevic__ void SetBatteryModel()
 {
@@ -343,8 +352,12 @@ __myevic__ void SetBatteryModel()
 			BatteryIntRez = Battery->intrez;
 		}
 
-		BatteryMaxAmp = Battery->maxamp * 100;
+		//BatteryMaxAmp = Battery->maxamp * 100;
+                //BatteryMaxAmp = GetMaxBattAmps() * 100;
 	}
+        
+        //BatteryMaxAmp = GetMaxBattAmps() * 100;
+        BatteryMaxAmp = Battery->maxamp * 100;
         
         gFlags.read_battery = 1;
 	NewBatteryVoltage();
@@ -2009,6 +2022,7 @@ __myevic__ void SaveCustomBattery( const Battery_t *b )
 
 	dfBattery.cutoff = b->cutoff - 250;
 	dfBattery.maxamp = b->maxamp;
+        //dfBattery.maxamp = BatteryMaxAmp / 100; //( dfBattMaxAmps? : Battery->maxamp )
 
 	UpdateDFTimer = 1;
 }

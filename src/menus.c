@@ -1244,6 +1244,12 @@ __myevic__ void MaxMenuIDraw( int it, int line, int sel )
                     }
 			break;
                         
+		//case 4:	// bat amps
+                //    
+                //        DrawValueRight( 53, line+2, dfBattMaxAmps, 0, 0x0B, 0 );
+		//	DrawImageRight( 63, line+2, 0x68 );
+		//	break;
+                        
 		default:
 			break;
 	}
@@ -1317,7 +1323,18 @@ __myevic__ int MaxMenuOnEvent( int event )
                                         } else {
                                          dfUSBMaxCharge += 10;   
                                         }
-					break;        
+					break;
+                                        
+                                //case 4: //max amps
+                                //        if ( dfBattMaxAmps + 1 > 50 )
+                                //        {
+                                //            dfBattMaxAmps = ( KeyTicks == 0 ) ? 1 : 50;
+                                //        } 
+                                //        else 
+                                //        {
+                                //            ++dfBattMaxAmps;   
+                                //        }
+				//	break;                                         
 			}
                         vret = 1;
 			break;
@@ -1365,7 +1382,18 @@ __myevic__ int MaxMenuOnEvent( int event )
                                         } else {
                                          dfUSBMaxCharge -= 10;   
                                         }
-					break;        
+					break;    
+
+                                //case 4: //max amps
+                                //        if ( dfBattMaxAmps - 1 < 1 )
+                                //        {
+                                //            dfBattMaxAmps = ( KeyTicks == 0 ) ? 50 : 1;
+                                //        } 
+                                //        else 
+                                //        {
+                                //            --dfBattMaxAmps;   
+                                //        }
+				//	break;                                         
 			}
                         vret = 1;
 			break;
@@ -1388,7 +1416,11 @@ __myevic__ int MaxMenuOnEvent( int event )
                                 
                                 case 3:	// charge
 					dfUSBMaxCharge = 1000;
-					break;        
+					break;  
+                                        
+                                //case 4:	// max amps
+				//	dfBattMaxAmps = 20;
+				//	break;                                          
 			}
                         vret = 1;
                         gFlags.edit_value = 0;
@@ -1402,6 +1434,8 @@ __myevic__ int MaxMenuOnEvent( int event )
             MaxTCPower = dfMaxPower;
             MaxVolts = dfMaxVolts;
             SetAtoLimits();
+            
+            //SetBatteryModel();
             
             UpdateDFTimer = 50;
             gFlags.refresh_display = 1;
@@ -3321,7 +3355,8 @@ const menu_t MAXMenu =
 		{ String_PWR_s, 0, 0, 0 },	       
                 { String_VOLT_s, 0, 0, 0 },
 		{ String_TEMP_s, 0, 0, 0 },
-                { String_UCH_s, 0, 0, 0 },        
+                { String_UCH_s, 0, 0, 0 },
+                //{ String_BATT_s, 0, 0, 0 },                        
                 { String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

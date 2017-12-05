@@ -41,6 +41,7 @@ extern uint16_t	BattVoltsTotal;
 extern uint16_t	BattVolts[4];
 extern uint16_t	BatteryCutOff;
 extern uint16_t	BatteryIntRez;
+extern uint16_t	BatteryMaxAmp;
 extern uint16_t	BatteryMaxPwr;
 extern uint8_t	BatteryPercent;
 extern uint8_t	SavedBatPercent;
