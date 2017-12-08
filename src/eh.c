@@ -1043,6 +1043,7 @@ __myevic__ void EventHandler()
 			gFlags.battery_charging = 0;
                         dfStatus.usbchghotoff = 0;
 			gFlags.monitoring = 0;
+                        gFlags.refresh_display = 1;
 			if ( Screen == 5 )
 			{
 				if ( dfStatus.off || dfStealthOn == 1 )

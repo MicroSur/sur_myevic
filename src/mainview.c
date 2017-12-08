@@ -1035,7 +1035,8 @@ __myevic__ void ShowMainView()
 		if (( Screen == 1 ) && !HideLogo && !dfStatus.nologo && !dfStatus.logomid)
 		{
 			int h = GetLogoHeight();
-
+                        int y = 0;
+                        
                         if ( h )
                         {
                             if ( h > 40 )
@@ -1045,13 +1046,15 @@ __myevic__ void ShowMainView()
                                     if ( dfUIVersion == 0 )
                                     {
                                         DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                                        y += 10;
                                     }
                                     else
                                     {
-                                        DrawFillRect( 0, 45, 63, 66, 0 );   //erase 1-st info line
+                                        DrawFillRect( 0, 10, 63, 66, 0 );   //erase space
+                                        y += 15;
                                     }
                                 }
-                                DrawLOGO( 0, 10 ); //x y
+                                DrawLOGO( 0, y ); //x y
                             }
                             else
                             {

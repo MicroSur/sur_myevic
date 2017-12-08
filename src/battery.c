@@ -127,7 +127,7 @@ const Battery_t const Batteries[] =
 
 	// LG HG2
 	{
-		String_HG2,
+		String_LGH,//String_HG2,
 		{
 			{   0, 312 },
 			{   4, 326 },
@@ -143,10 +143,11 @@ const Battery_t const Batteries[] =
 		},
 		280,
 		20,
-		20
+		25
 	},
 
 	// LG HE4
+/*
 	{
 		String_HE4,
 		{
@@ -166,6 +167,7 @@ const Battery_t const Batteries[] =
 		20,
 		25
 	},
+*/
 
 	// Samsung 30Q
 	{
@@ -189,6 +191,7 @@ const Battery_t const Batteries[] =
 	},
 
 	// Sony VTC4
+/*
 	{
 		String_VT4,
 		{
@@ -208,10 +211,11 @@ const Battery_t const Batteries[] =
 		20,
 		30
 	},
+*/
 
 	// Sony VTC5
 	{
-		String_VT5,
+		String_SVT, //String_VT5,
 		{
 			{   0, 305 },
 			{   1, 310 },
@@ -231,6 +235,7 @@ const Battery_t const Batteries[] =
 	},
 
 	// Sony VTC6
+/*
 	{
 		String_VT6,
 		{
@@ -250,6 +255,7 @@ const Battery_t const Batteries[] =
 		20,
 		25
 	}
+*/
 };
 
 #define NBATTERIES (sizeof(Batteries)/sizeof(Battery_t))
@@ -1368,14 +1374,16 @@ __myevic__ void BatteryChargeDual()
 		//PA2 = 0;
 		//PF2 = 0;
 
+/* //later
 		if ( ChargeStatus != 6 )
 		{
 			gFlags.refresh_display = 1;
 			Screen = 57;
 			ScreenDuration = 2;
-		}
+  		}
 
 		ChargeStatus = 6;
+ */
 	}
 	else if ( BatteryStatus != 4 )
 	{
@@ -1634,7 +1642,7 @@ __myevic__ void BatteryCharge()
 	//	ChargeMode, ChargeStatus, BatteryStatus,
 	//	PD1, ChargerDuty, EOCTempo );
 
-	if ( gFlags.bad_cell )
+	if ( gFlags.bad_cell ) //for ( ISRX200S || ISRX23 || ISGEN3 )
 	{
 		BatteryStatus = 2; // Check Battery
                 

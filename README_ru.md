@@ -2,17 +2,19 @@
 
 #### [English documentation (OLD!)](https://github.com/MicroSur/sur_myevic/blob/master/README.md)
 
-Прошивка SME является продолжением работы уважаемого [ClockSelect](https://github.com/ClockSelect/myevic/blob/master/src)
+Прошивка SME является продолжением ( изменением и дополнением ) работы уважаемого [ClockSelect](https://github.com/ClockSelect/myevic/blob/master/src)
 
 #### Основана на:
-*Оригинальной прошивке мода VTC Mini версии 3.03 от 31.05.2016*
+*Оригинальной прошивке мода VTC Mini версии 3.03 от 31.05.2016. Переведенной на язык высокого уровня господином ClockSelect* 👌
 
 #### Основные возможности:
 Вид на экране в основном соответствует оригинальной прошивке тех времён, но более функционален.  
-Прошивкой поддерживается множество модов компаний Джойтек-Висмек-Илиф и схожих по железу. Привычное управление.  
+Прошивкой поддерживается множество бокс - модов компаний Джойтек-Висмек-Илиф и схожих им по железу.  
+Привычное управление, плавный переход на лучшие возможности.  
 Продвинутое меню позволяет произвести многочисленные настройки батарейного блока прямо на моде.  
 
-Русская документация **SME** является самой полной и постоянно обновляется.
+Русская документация по универсальной прошивке **SME** является самой полной.  
+Крайнее обновление 09.12.2017
 
 ![view](https://i.imgur.com/8ZwD1un.png) ![view](https://i.imgur.com/FJa7gB0.png) ![view](https://i.imgur.com/ElUy9hJ.png) ![view](https://i.imgur.com/rJFsnQ1.png) ![view](https://i.imgur.com/INfbmW7.png) ![view](https://i.imgur.com/9FhWR2m.png) 
 
@@ -20,22 +22,22 @@
    __1.__ [ Поддерживаемые устройства и установка прошивки](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/usageandcompatibility_ru.md)  
    __2.__ [ Дополнительные возможности](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/behaviourchanges_ru.md)  
    __3.__ [ Основной экран](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/mainscr_ru.md)  
-   __4.__ [ Профили](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/profiles_ru.md)  
+   __4.__ [ Профили ( Profiles )](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/profiles_ru.md)  
    __5.__ [ Меню](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/menus_ru.md)  
-   - [Меню Экрана](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/screen_ru.md)
-   - [Меню Спиралей](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/coils_ru.md)
-   - [Меню Парения](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/vaping_ru.md)
-   - [Меню Часов](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/clock_ru.md)
-   - [Меню Интерфейса](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/interface_ru.md)
-   - [Меню Эксперт](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/expert_ru.md)
-   - [Меню Разное](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/misc_ru.md)  
+   - [Меню Экрана ( Screen )](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/screen_ru.md)
+   - [Меню Спиралей ( Coils )](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/coils_ru.md)
+   - [Меню Парения ( Vaping )](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/vaping_ru.md)
+   - [Меню Часов ( Clock )](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/clock_ru.md)
+   - [Меню Интерфейса ( Interface )](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/interface_ru.md)
+   - [Меню Эксперт ( Expert )](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/expert_ru.md)
+   - [Меню Разное ( Misc )](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/misc_ru.md)  
 
    __6.__ [ Как скомпилировать исходник](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_ru/howtobuild_ru.md)
 
 -----
 ### Благодарности:
 
-    * ClockSelect
+    * ClockSelect ( Ferox )
     * ReservedField
     * Bane
     * TBXin

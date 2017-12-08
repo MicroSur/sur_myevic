@@ -1154,27 +1154,28 @@ __myevic__ void Main()
                         
                             if  
                                 ( 
-                                    Screen == 0 
-                                    || ( Screen == 5 && st && !ScreenDuration ) 
+                                       ( Screen == 0 || Screen == 5 )
+                                    || ( st && !ScreenDuration ) // || ( Screen == 5 && st && !ScreenDuration ) 
                                     || ( Screen == 2 && st )
-                                ) 
-                            {
-                                if ( gFlags.inverse )
+
+                                ) // no inverse
                                 {
-                                    gFlags.refresh_display = 1;
-                                    DisplaySetInverse( 0 );
-                                    gFlags.inverse = 0;
+                                    if ( gFlags.inverse )
+                                    {
+                                        gFlags.refresh_display = 1;
+                                        DisplaySetInverse( 0 );
+                                        gFlags.inverse = 0;
+                                    }
                                 }
-                            }
                             else
-                            {
-                                if ( !gFlags.inverse )
                                 {
-                                    gFlags.refresh_display = 1;
-                                    DisplaySetInverse( 1 );
-                                    gFlags.inverse = 1;
+                                    if ( !gFlags.inverse )
+                                    {
+                                        gFlags.refresh_display = 1;
+                                        DisplaySetInverse( 1 );
+                                        gFlags.inverse = 1;
+                                    }
                                 }
-                            }
                         }
                       
 			if ( gFlags.firing )

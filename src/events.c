@@ -1215,6 +1215,7 @@ __myevic__ int EvtToggleClock()
 {
 	dfStatus.clock ^= 1;
         dfStatus2.anim3d = 0;
+        HideLogo = 0;
 	UpdateDFTimer = 50;
 	MainView();
 	return 1;

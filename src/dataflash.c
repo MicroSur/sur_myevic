@@ -543,7 +543,9 @@ __myevic__ void InitSetPowerVoltMax()
 		SetMaxVolts ( 990 ); //MaxVolts = 990;
 	}
         else if ( ISINVOKE )
+        {
                 SetMaxVolts ( 800 );
+        }
 	else
 	{
 		SetMaxVolts ( 900 ); //MaxVolts = 900;
@@ -610,13 +612,13 @@ __myevic__ void ResetDataFlash()
 	dfMagic = DFMagicNumber;
 	dfMode = 4;
 	dfProtec = FIRE_PROTEC_DEF;
-	dfVWVolts = 330;
+	dfVWVolts = 300;
 	dfPower = 200;
 	dfTCPower = 300;
 	dfIsCelsius = 1;
 	dfRezType = 1;
 	dfTempAlgo = 1;
-	dfTemp = 210;
+	dfTemp = 200;
 //	dfResistance = 0;
 //	dfUIVersion = 2;
 	dfAPT = 6;
@@ -728,8 +730,11 @@ __myevic__ void ResetDataFlash()
 //=========================================================================
 
 __myevic__ void DFCheckValuesValidity()
-{
+{   
+/*
 	int i,v;
+
+        //dfDimOffTimeout
 
 	if ( dfMode >= 7 )
 		dfMode = 4;
@@ -801,8 +806,6 @@ __myevic__ void DFCheckValuesValidity()
 
 	if ( dfRezLockedNI > 1 )
 		dfRezLockedNI = 0;
-
-//	if ( dfTiOn > 1 ) dfTiOn = 1;
 
 	if ( dfStealthOn > 2 )
 		dfStealthOn = 0;
@@ -982,6 +985,7 @@ __myevic__ void DFCheckValuesValidity()
         if ( !dfNewRezPerc || dfNewRezPerc > 50 ) dfNewRezPerc = 5;
         
         if ( dfBattVolt < 250 || dfBattVolt > 420 ) dfBattVolt = 420 ;
+*/
 }
 
 

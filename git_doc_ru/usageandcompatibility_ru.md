@@ -27,10 +27,10 @@
   * Reuleaux RX Gen3
   * RX2 20700
   * Sinuous P80
-  * Sinuous FJ200 (not full)
+  * Sinuous FJ200 (без поддержки заряда, если на аккуме меньше 2.5 Вольт )
 
 * Eleaf
-  * Invoke ?
+  * Invoke
 
 * Другие производители
   * Vaponaute La Petite Box
