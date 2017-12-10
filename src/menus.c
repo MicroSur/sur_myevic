@@ -2829,7 +2829,7 @@ const menu_t TCRSetMenu =
 
 const menu_t CoilsMgmtMenu =
 {
-	String_Coils,
+	String_Manage,
 	&CoilsMenu,
 	CoilsMEnter+1,
 	CoilsIDraw+1,

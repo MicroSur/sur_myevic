@@ -1075,7 +1075,7 @@ __myevic__ void LEDGetColor()
 __myevic__ void LEDSetColor()
 {
 	dfLEDColor = ( LEDRed << 10 ) | ( LEDGreen << 5 ) | LEDBlue;
-        if ( ISEGRIPII || ISEVICAIO || ISSINFJ200 ) 
+        if ( ISEGRIPII || ISEVICAIO || ISSINFJ200 || ISSINP80 ) 
         {
             gFlags.led_on = 1;
             //LEDTimer = 0;
@@ -1101,6 +1101,10 @@ __myevic__ void LEDOff()
     {
 	PB->DOUT &= ~0x38;
     }
+    else if ( ISSINP80 )
+    {
+	PD->DOUT &= ~0x3;
+    }
 }
 
 // LED PWM
@@ -1114,11 +1118,16 @@ __myevic__ void LEDControl()
         //GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT ); 
         PB7 = ( phase < LEDGreen ); //1;
     }
-    else //if ( ISEGRIPII || ISEVICAIO )
+    else if ( ISEGRIPII || ISEVICAIO )
     {	
 	PB3 = ( phase < LEDBlue );
 	PB4 = ( phase < LEDRed );
 	PB5 = ( phase < LEDGreen );
+    }
+    else if ( ISSINP80 )
+    {
+	PD0 = 0;
+        PD1 = 1;
     }
 }
 
