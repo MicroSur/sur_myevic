@@ -2462,6 +2462,33 @@ __myevic__ void MiscMenuOnClick()
 	
 }
 
+__myevic__ int MiscMenuOnEvent( int event )
+{
+	int vret = 0;
+                            
+	if ( CurrentMenuItem != 7 )
+		return vret;  //no capture others events
+
+	switch ( event )
+	{                       
+                case EVENT_LONG_FIRE:
+			if ( CurrentMenuItem == 7 ) //reset dataflash
+                        { 
+                        	ResetDataFlash();
+                                vret = 1;
+                                Event = EVENT_EXIT_MENUS;
+                        }   
+                        break;
+	}
+        
+        //if ( vret )
+        //{
+        //        //UpdateDFTimer = 50;
+        //        gFlags.refresh_display = 1;                                
+        //}
+	return vret;
+}
+
 //-----------------------------------------------------------------------------
 
 __myevic__ void CurveMenuOnClick()
@@ -2976,8 +3003,8 @@ const menu_t MiscsMenu =
 	0,
 	0,
 	MiscMenuOnClick+1,
-	0,
-	8,
+	MiscMenuOnEvent+1,
+	9,
 	{
 		{ String_Game, &GameMenu, 0, MACTION_SUBMENU },
                 { String_Tetris, &GameTtMenu, 0, MACTION_SUBMENU },                        
@@ -2987,7 +3014,8 @@ const menu_t MiscsMenu =
                 { String_SwapMP, &SwapMP, 0, MACTION_DATA },  
                 { String_NewZC, &NBZC, 0, MACTION_DATA },
                 { String_ZeroCnts, 0, EVENT_EXIT_MENUS, 0 },
-                { String_Version, 0, 29, 0 },                        
+                { String_Version, 0, 29, 0 },
+                { String_Reset, 0, 0, 0 },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
