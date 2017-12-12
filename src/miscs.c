@@ -1099,11 +1099,11 @@ __myevic__ void LEDOff()
     }
     else if ( ISEGRIPII || ISEVICAIO )
     {
-	PB->DOUT &= ~0x38;
+	PB->DOUT &= ~(7<<3); //~0x38; //low
     }
     else if ( ISSINP80 )
     {
-	PD->DOUT &= ~0x3;
+	PD->DOUT &= ~3;
     }
 }
 
@@ -1125,9 +1125,28 @@ __myevic__ void LEDControl()
 	PB5 = ( phase < LEDGreen );
     }
     else if ( ISSINP80 )
-    {
-	PD0 = 0;
-        PD1 = 1;
+    { 
+        // LEDBlue = Yellow
+        // green 0 1; 
+	//PD0 = 0;
+        //PD1 = 1;
+        
+        if ( LEDRed ) //R
+        {
+            PD->DOUT |= 3; //PD0 = 1; PD1 = 1; 
+        }
+        else if ( LEDGreen ) //G
+        {
+             PD0 = 0; PD1 = 1;
+        }
+        else if ( LEDBlue ) //Y
+        {
+             PD0 = 1; PD1 = 0;
+        }
+        else //off
+        {
+            PD->DOUT &= ~3;
+        }               
     }
 }
 

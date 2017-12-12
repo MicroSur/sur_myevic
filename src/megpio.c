@@ -311,7 +311,7 @@ __myevic__ void InitGPIO()
 	}
         else if ( ISSINP80 )
         {
-                PD0 = 0;      // LED? R G B Off                                                 // 0x400048C0
+                PD0 = 0;      // LED? R G(01) Y Off                                                 // 0x400048C0
                 PD1 = 0;                                                                        // 0x400048C4
                 GPIO_SetMode( PD, GPIO_PIN_PIN0_Msk|GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );      // 0x400040C0 3 1
         }
