@@ -1127,21 +1127,19 @@ __myevic__ void LEDControl()
     else if ( ISSINP80 )
     { 
         // LEDBlue = Yellow
-        // green 0 1; 
-	//PD0 = 0;
-        //PD1 = 1;
+        // green 0 1; red 1 0;
         
         if ( LEDRed ) //R
         {
-            PD->DOUT |= 3; //PD0 = 1; PD1 = 1; 
+            PD0 = 1; PD1 = 0;
         }
         else if ( LEDGreen ) //G
         {
-             PD0 = 0; PD1 = 1;
+            PD0 = 0; PD1 = 1;
         }
         else if ( LEDBlue ) //Y
         {
-             PD0 = 1; PD1 = 0;
+            PD->DOUT |= 3; //PD0 = 1; PD1 = 1;
         }
         else //off
         {
