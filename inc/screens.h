@@ -22,6 +22,7 @@ extern uint16_t	EditModeTimer;
 
 extern const uint8_t ScrSaveTimes[8];
 extern const uint8_t ScrMainTimes[6];
+extern const uint8_t ScrChargeTimes[4];
 
 extern void DrawClock();
 extern void DrawDigitClock(int line, int infoline);

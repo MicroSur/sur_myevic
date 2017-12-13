@@ -927,6 +927,7 @@ __myevic__ void EventHandler()
 		case 17:	// Switch On/Off
 			if ( gFlags.firing )
 				return;
+                        
 			if ( dfStatus.off )
 			{
 				gFlags.sample_vbat = 1;
@@ -938,7 +939,7 @@ __myevic__ void EventHandler()
 					SplashTimer = 2;
 				}
 			}
-			else
+			else //on
 			{
 				dfStatus.off = 1;
 				gFlags.refresh_display = 1;
@@ -1130,7 +1131,7 @@ __myevic__ void EventHandler()
                         if ( Screen == 5 && dfStealthOn != 1) //charge scr on off
 			{
 				gFlags.screen_on = ( gFlags.screen_on == 0 );                                
-                                ScreenDuration = 0;                               
+                                ScreenDuration = ScrChargeTimes[dfScrChargeTime]; //ScreenDuration = 0;                               
                                 gFlags.refresh_display = 1;
 			}
                                             

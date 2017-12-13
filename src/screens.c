@@ -20,6 +20,7 @@ uint16_t	ScreenRefreshTimer;
 //ScrSaveTimes 3 first in sec
 const uint8_t ScrSaveTimes[8] = { 5, 15, 30, 1, 5, 15, 30, 0 }; //, 255 }; //{ 1, 2, 5, 10, 15, 20, 30, 0 };
 const uint8_t ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
+const uint8_t ScrChargeTimes[4] = { 0, 10, 30, 60 };
 
 uint8_t		EditItemIndex;
 uint16_t	EditModeTimer;
@@ -250,21 +251,21 @@ __myevic__ void DrawScreen()
 
 
 //if ( gFlags.debug & 1 )
+
+//DrawValue( 0, 108, Screen, 0, 0x01, 0 );
+//DrawValue( 20, 108, LastEvent, 0, 0x01, 0 );
+//DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
+//DrawValueRight( 38, 108, gFlags.inverse, 0, 0x01, 0 );
+//DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
+//DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
         
-/*
-DrawValue( 0, 108, Screen, 0, 0x01, 0 );
-//        DrawValue( 20, 108, LastEvent, 0, 0x01, 0 );
-        //DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
-DrawValueRight( 38, 108, gFlags.inverse, 0, 0x01, 0 );
-DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
-        //DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
-        
-        //DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 ); //KeyUpTimer
-        //dfResistance AtoRez dfTempAlgo
-//        DrawValue( 0, 0, dfTempAlgo, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
-//        DrawValueRight( 64, 0, AtoRez, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
-        DisplayRefresh();
-*/
+//DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 ); //KeyUpTimer
+//dfResistance AtoRez dfTempAlgo
+//DrawValue( 0, 0, dfTempAlgo, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
+//DrawValueRight( 64, 0, AtoRez, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
+
+//DisplayRefresh();
+
 
         
 	if ( ( Screen == 1 || Screen == 60 ) && ( ScreenDuration <= 4 ) )
@@ -336,7 +337,14 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 			}
 			break;
 
-		case   5: // Black w/ Battery
+		case   5: // charge screen
+                        if ( ScrChargeTimes[dfScrChargeTime] )
+                        {
+                            gFlags.screen_on = 0;
+                        }
+                    
+                    	break;
+                        
 		case  22: // Atomizer Low
 		case  24: // Battery Low
 		case  25: // Battery Low Lock
@@ -390,33 +398,16 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 			//LEDOff();
 			UpdateDataFlash();
                         //DisplaySetContrast( dfContrast );
-			// NOBREAK
-                        scrSaveOnce = 1;
+                        //scrSaveOnce = 1;
+			//NOBREAK
 		case   1: // Main view
                 case  50: // FW Version
 		case  37: // Board Temp
 		case  54: // Battery Voltage
 		case 100: // Infos page
-			if ( gFlags.battery_charging )
-			{
-				ChargeView();
-
-				if ( dfStealthOn == 1 || !gFlags.screen_on )
-				{
-					ScreenDuration = 0;
-				}
-			}
-			else
-			{
-				Screen = 0;
-				SleepTimer = dfDimOffTimeout * 100; //18000;
-				gFlags.refresh_display = 1;
-			}
-                        
                         scrSaveOnce = 1;
-			break;
-    
-		case  60: // Screen Saver
+                        //NOBREAK
+                case  60: // Screen Saver    
 			if ( gFlags.battery_charging )
 			{
 				ChargeView();
@@ -428,20 +419,12 @@ DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
 			}
 			else
 			{
-                            //if ( ScrSaveTimes[dfScreenProt] == 255 )
-                                    //    if ( dfStatus.off )
-                            //{
-                            //    Screen = 60;
-				//ScreenDuration = GetScreenProtection();
-                            //}
-                            //else
-                            //{
 				Screen = 0;
 				SleepTimer = dfDimOffTimeout * 100; //18000;
-                            //}
 				gFlags.refresh_display = 1;
 			}
-			break;
+                         
+			break;  
 
 		default:
 			break;
@@ -512,7 +495,7 @@ __myevic__ void ChargeView()
 {
 	Screen = 5;
 	gFlags.refresh_display = 1;
-	ScreenDuration = 5;
+	ScreenDuration = ScrChargeTimes[dfScrChargeTime]; //5;
         gFlags.screen_on = 1; //if ( dfStealthOn != 1 )
 }
 

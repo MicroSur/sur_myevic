@@ -690,7 +690,7 @@ __myevic__ void ResetDataFlash()
 	dfScrMainTime = 5; //ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
         dfDimTimeout = 20; //see dfScrMainTime
 //      dfDimOffMode = 0;
-        dfDimOffTimeout = 180;       
+        dfDimOffTimeout = 180;  //sleep timeout     
 	dfTCRM[0] = 90;
 	dfTCRM[1] = 100;
 	dfTCRM[2] = 110;

@@ -156,7 +156,7 @@ typedef struct dfParams
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS];
 /* 004E */	//uint8_t		Unused4E[38];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
 /* 0062 */	uint8_t		Unused4E[13];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
-/* 006F */	uint8_t		BattMaxAmps;        // not used yet
+/* 006F */	uint8_t		ScrChargeTime;
 /* 0070 */      uint32_t	Joules;
 /* 0074 */	uint8_t         CurveRepeatTimer;            // 0.1s = 1 1s = 10...    was TempCoefsTi
 /* 0075 */	int8_t          AkkuTempCorr;  
@@ -174,7 +174,7 @@ typedef struct dfParams
 /* 0086 */	uint16_t	TCRM[3];
 /* 008C */	uint16_t	RezTCR;
 /* 008E */	uint8_t		RezLockedTCR;
-/* 008F */	uint8_t		ScreenSaver;	//	former LED color
+/* 008F */	uint8_t		ScreenSaver;
 /* 0090 */	uint8_t		TCMode;
 /* 0091 */	uint8_t		ScreenProt;		//	former 1-byte pad
 /* 0092 */	uint16_t	SavedCfgRez[10];
@@ -364,7 +364,7 @@ extern dfStruct_t DataFlash;
 #define dfVVLockedVolt	DFP(VVLockedVolt)
 #define dfBattery		DFP(Battery)
 #define dfPwrCurve		DFP(PwrCurve)
-#define dfBattMaxAmps		DFP(BattMaxAmps)
+#define dfScrChargeTime		DFP(ScrChargeTime)
 #define dfJoules		DFP(Joules)
 #define dfCurveRepeatTimer	DFP(CurveRepeatTimer)
 #define dfLEDColor		DFP(LEDColor)

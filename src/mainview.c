@@ -32,7 +32,7 @@ __myevic__ void MainView()
                 gFlags.screen_on = 1;
                 //gFlags.asleep = 0;
 	}
-	else
+	else // dfStatus.off
 	{
 		if ( gFlags.battery_charging && dfStealthOn != 1 )
 		{

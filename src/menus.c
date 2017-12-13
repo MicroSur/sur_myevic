@@ -1955,10 +1955,10 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 {
 	int v;
 
-	if ( it > 2 )
+	if ( it > 3 )
 		return;
 
-	DrawFillRect( 34, line, 63, line+12, 0 );
+	DrawFillRect( it == 2? 39 : 34, line, 63, line+12, 0 );
 
 	switch ( it )
 	{
@@ -1985,14 +1985,27 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 				DrawStringRight( String_Off, 63, line+2 );
 			}
 			break;
-
+                                     
 		case 1:	// Main
 			v = ScrMainTimes[dfScrMainTime];
 			DrawValueRight( 54, line+2, v, 0, 0x0B, 0 );
 			DrawImageRight( 63, line+2, 0x94 );
 			break;
                         
-		case 2:	// ModOff mode
+		case 2:	// charge
+			v = ScrChargeTimes[dfScrChargeTime];
+			if ( v )
+			{
+				DrawValueRight( 54, line+2, v, 0, 0x0B, 0 );
+                                DrawImageRight( 63, line+2, 0x94 ); //S
+			}
+			else
+			{
+				DrawStringRight( String_Off, 63, line+2 );
+			}
+			break;
+               
+		case 3:	// ModOff mode
                     
                         if ( dfDimOffMode == 2 )
                         {
@@ -2022,9 +2035,10 @@ __myevic__ void ScreenProtMenuOnClick()
 	{
 		case 0:	// Saver
 		case 1:	// Main
+		case 2:	// Charge                  
 			gFlags.edit_value ^= 1;
 			break;
-		case 2:
+		case 3:
                     if ( ++dfDimOffMode > 2 )
                     {
                         dfDimOffMode = 0;
@@ -2062,6 +2076,12 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 					dfDimTimeout = ScrMainTimes[dfScrMainTime];
 					vret = 1;
 					break;
+                                        
+				case 2:	// Charge
+					if ( ++dfScrChargeTime > 3 )
+						dfScrChargeTime = 0;
+					vret = 1;
+					break;                                        
 			}
 			break;
 
@@ -2080,6 +2100,12 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 					dfDimTimeout = ScrMainTimes[dfScrMainTime];
 					vret = 1;
 					break;
+                                        
+				case 2:	// Charge
+					if ( !dfScrChargeTime-- )
+						dfScrChargeTime = 3;
+					vret = 1;
+					break;                                        
 			}
 			break;
 	}
@@ -3090,10 +3116,11 @@ const menu_t ScreenProtMenu =
 	0,
 	ScreenProtMenuOnClick+1,
 	ScreenProtMenuOnEvent+1,
-	5,
+	6,
 	{
 		{ String_Saver, 0, 0, 0 },
 		{ String_Main, 0, 0, 0 },
+                { String_Charge, 0, 0, 0 },        
                 { String_Mode, 0, 0, 0 },                        
                 { String_Sleep, &DimOffDelayData, 0, MACTION_DATA }, 
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
