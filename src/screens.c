@@ -492,7 +492,11 @@ __myevic__ int convert_string1( uint8_t *strbuf, const char *s )
 		{
 			strbuf[i++] = c - 'a' + 0x82;
 		}
-		else
+		else if ( c == '/' )
+		{
+			strbuf[i++] = c - '/' + 0xD6;
+		}
+		else                    
 		{
 			strbuf[i++] = 0xBC;
 		}
@@ -895,12 +899,17 @@ __myevic__ void ShowVersion()
         DrawStringCentered( String_SME, 13 );
 	DrawStringCentered( String_myevic, 24 );
 
-	DrawStringCentered( String_Build, 47 );
+	DrawStringCentered( String_Build, 44 );
 	Value2Str( buf, __BUILD1, 0, 0x1F, 0 );
-	DrawStringCentered( buf, 61 );
+	DrawStringCentered( buf, 58 );
 
-	DrawStringCentered( String_Version, 80 );
-	DrawValue( 5, 94, FWVERSION, 2, 0x48, 3 );
+	DrawStringCentered( String_Version, 78 );
+	DrawValue( 11, 92, FWVERSION, 2, 0x29, 3 ); //0x48
+        
+        uint8_t strbuf[20];
+        convert_string1( strbuf, BoxName );
+        DrawStringCentered( strbuf, 118 );
+
 }
 
 
@@ -1132,7 +1141,8 @@ __myevic__ void ShowScreenSaver()
 			break;
 
 		case SSAVER_SPLASH:
-			DrawImage( 0, 0, 0xFF );
+			//DrawImage( 0, 0, 0xFF );
+                        ShowSplash();
 			break;
 
 		default:
@@ -1382,7 +1392,12 @@ __myevic__ void ShowSplash()
 	//if ( gFlags.splash )
 	//{
 		DrawImage( 0, 0, 0xFF );
-		ScreenDuration = 3;
+		//ScreenDuration = 3;
+                
+        uint8_t strbuf[20];
+        convert_string1( strbuf, BoxName );
+        DrawStringCentered( strbuf, 115 );
+        
 	//}
 	//else
 	//{

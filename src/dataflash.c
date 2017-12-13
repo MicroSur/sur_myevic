@@ -26,6 +26,7 @@ uint8_t		UpdatePTTimer;
 uint8_t		DFMagicNumber;
 uint8_t		X32Off;
 uint8_t		ScrFlip;
+char            *BoxName;
 
 
 //-------------------------------------------------------------------------
@@ -72,7 +73,7 @@ const char pid_invoke   [8]	__PIDATTR__	= { 'M','0','9','5', 1, 0, 0, 0 };
 #define MAKEPID(p) ((((p)[0])|((p)[1]<<8)|((p)[2]<<16)|((p)[3]<<24))^PID_SCRAMBLE)
 #define MAKEHWV(p) (((p)[4])|((p)[5]<<8)|((p)[6]<<16)|((p)[7]<<24))
 
-#define HWV2INT(v) (((v)&0xff)*100+(((v)>>8)&0xff)*10+(((v)>>16)&0xff))
+//#define HWV2INT(v) (((v)&0xff)*100+(((v)>>8)&0xff)*10+(((v)>>16)&0xff))
 
 #define PID_VTCMINI	MAKEPID(pid_vtcmini)
 #define PID_VTWOMINI    MAKEPID(pid_vtwomini)
@@ -169,6 +170,8 @@ __myevic__ void SetProductID()
 	{
 		u32Data = FMC_Read( LDROM_BASE + offset );
 		u32Data ^= PID_SCRAMBLE;
+                
+                //MemCpy( BoxID, pid_invoke, 4 );
 
 		if ( u32Data == PID_VTCMINI )
 		{
@@ -176,6 +179,7 @@ __myevic__ void SetProductID()
 			DFMagicNumber = 0x36;
 			BoxModel = BOX_VTCMINI;
 			X32Off = 1;
+                        BoxName = "VTC mini";
 			break;
 		}
 		else if ( u32Data == PID_VTWOMINI )
@@ -183,6 +187,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_VTWOMINI;
 			DFMagicNumber = 0x10;
 			BoxModel = BOX_VTWOMINI;
+                        BoxName = "VTwo mini";
 			break;
 		}
 		else if ( u32Data == PID_PRIMOMINI )
@@ -190,6 +195,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_PRIMOMINI;
 			DFMagicNumber = 0x11;
 			BoxModel = BOX_PRIMOMINI;
+                        BoxName = "Primo mini";
 			break;
 		}  
 		else if ( u32Data == PID_PRIMOSE )
@@ -197,6 +203,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_PRIMOSE;
 			DFMagicNumber = 0x10;
 			BoxModel = BOX_PRIMOSE;
+                        BoxName = "Primo SE";
 			break;
 		}                
 		else if ( u32Data == PID_VTWO )
@@ -214,6 +221,7 @@ __myevic__ void SetProductID()
 			NumBatteries = 0;
 			MaxBatteries = 2;
 			gFlags.pwm_pll = 1;
+                        BoxName = "VTC Dual";
 			break;
 		}
                 else if ( u32Data == PID_PRIMO1 )
@@ -225,6 +233,7 @@ __myevic__ void SetProductID()
 			MaxBatteries = 2;
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
+                        BoxName = "Primo 1";
 			break;
 		}
                 else if ( u32Data == PID_PRIMO2 )
@@ -236,6 +245,7 @@ __myevic__ void SetProductID()
 			MaxBatteries = 2;
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
+                        BoxName = "Primo 2";
 			break;
 		}     
                 else if ( u32Data == PID_PREDATOR )
@@ -247,6 +257,7 @@ __myevic__ void SetProductID()
 			MaxBatteries = 2;
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
+                        BoxName = "P228";
 			break;
 		}         
                 else if ( u32Data == PID_GEN3 )
@@ -260,6 +271,7 @@ __myevic__ void SetProductID()
 			gFlags.pwm_pll = 1;
                         ScrFlip = 1;
                         X32Off = 1;
+                        BoxName = "RX GEN3";
 			break;
 		}
                 else if ( u32Data == PID_SINP80 )
@@ -269,6 +281,7 @@ __myevic__ void SetProductID()
 			BoxModel = BOX_SINP80;
                         ScrFlip = 1;
                         X32Off = 1;
+                        BoxName = "P80";
 			break;
 		}
                 else if ( u32Data == PID_SINFJ200 )
@@ -282,6 +295,7 @@ __myevic__ void SetProductID()
 			gFlags.pwm_pll = 1;
                         ScrFlip = 1;
                         X32Off = 1;
+                        BoxName = "FJ200";
 			break;
 		}
                 else if ( u32Data == PID_RX2 )
@@ -295,6 +309,7 @@ __myevic__ void SetProductID()
 			gFlags.pwm_pll = 1;
                         //ScrFlip = 1;
                         X32Off = 1;
+                        BoxName = "RX2";
 			break;
 		}
                 else if ( u32Data == PID_INVOKE )
@@ -308,6 +323,7 @@ __myevic__ void SetProductID()
 			gFlags.pwm_pll = 1;
                         //ScrFlip = 1; //noflip
                         X32Off = 1;
+                        BoxName = "Invoke";
 			break;
 		}                
 		else if ( u32Data == PID_EVICAIO )
@@ -316,6 +332,7 @@ __myevic__ void SetProductID()
 			DFMagicNumber = 0x50;
 			BoxModel = BOX_EVICAIO;
 			ScrFlip = 1;
+                        BoxName = "AIO";                        
 			break;
 		}
 		else if ( u32Data == PID_EGRIPII )
@@ -332,6 +349,7 @@ __myevic__ void SetProductID()
 			BoxModel = BOX_CUBOMINI;
 			ScrFlip = 1;
 			X32Off = 1;
+                        BoxName = "Cub mini";                        
 			break;
 		}
 		else if ( u32Data == PID_CUBOID )
@@ -344,6 +362,7 @@ __myevic__ void SetProductID()
 			gFlags.pwm_pll = 1;
 			ScrFlip = 1;
 			X32Off = 1;
+                        BoxName = "Cuboid";                        
 			break;
 		}
 		else if ( u32Data == PID_CUBO200 )
@@ -356,6 +375,7 @@ __myevic__ void SetProductID()
 			MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
 			X32Off = 1;
+                        BoxName = "Cub 200";
 			break;
 		}
 		else if ( u32Data == PID_EVICBASIC )
@@ -364,6 +384,7 @@ __myevic__ void SetProductID()
 			DFMagicNumber = 0x13;
 			BoxModel = BOX_EVICBASIC;
 			ScrFlip = 1;
+                        BoxName = "Basic";                        
 			break;
 		}
 		else if ( u32Data == PID_PRESA75W )
@@ -372,6 +393,7 @@ __myevic__ void SetProductID()
 			DFMagicNumber = 0x30;
 			BoxModel = BOX_PRESA75W;
 			X32Off = 1;
+                        BoxName = "Presa 75";                        
 			break;
 		}
 		else if ( u32Data == PID_PRESA100W )
@@ -400,6 +422,7 @@ __myevic__ void SetProductID()
 		}
 		else if ( u32Data == PID_LPB )
 		{
+                        //Vaponaute La Petite Box
 			dfMaxHWVersion = HWV_LPB;
 			DFMagicNumber = 0x31;
 			BoxModel = BOX_PRESA75W;	// Act as Presa 75W
@@ -416,6 +439,7 @@ __myevic__ void SetProductID()
 			MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
 			X32Off = 1;
+                        BoxName = "RX200S";                        
 			break;
 		}
 		else if ( u32Data == PID_RX23 )
@@ -428,6 +452,7 @@ __myevic__ void SetProductID()
 			MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
 			X32Off = 1;
+                        BoxName = "RX2/3";
 			break;
 		}
 		else if ( u32Data == PID_RX300 )
@@ -440,6 +465,7 @@ __myevic__ void SetProductID()
 			MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
 			X32Off = 1;
+                        BoxName = "RX300";
 			break;
 		}
 	}
