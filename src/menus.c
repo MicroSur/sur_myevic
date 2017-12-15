@@ -1955,10 +1955,10 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 {
 	int v;
 
-	if ( it > 3 )
+	if ( it > 4 )
 		return;
 
-	DrawFillRect( it == 2? 39 : 34, line, 63, line+12, 0 );
+	DrawFillRect( ( ( it == 2 ) || ( it == 3 ) )? 39 : 34, line, 63, line+12, 0 );
 
 	switch ( it )
 	{
@@ -1966,7 +1966,7 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 			v = ScrSaveTimes[dfScreenProt];
 			if ( v ) //&& v < 255 )
 			{
-				DrawValueRight( 54, line+2, v, 0, 0x0B, 0 );
+				DrawValueRight( 54, line+2, v, 0, 0x0B, 0 ); //54 - char m > s
                                 if ( dfScreenProt < 3 ) 
                                 { //sec
                                     DrawImageRight( 63, line+2, 0x94 );
@@ -2004,8 +2004,22 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 				DrawStringRight( String_Off, 63, line+2 );
 			}
 			break;
-               
-		case 3:	// ModOff mode
+                        
+		case 3:	// stealth
+                    
+			v = dfStealthPuffsCnt;
+			if ( v )
+			{
+				DrawValueRight( 54, line+2, v, 0, 0x0B, 0 );
+                                DrawImageRight( 63, line+2, 0x91 ); //p uff
+			}
+			else
+			{
+				DrawStringRight( String_Off, 63, line+2 );
+			}
+			break;
+                        
+		case 4:	// ModOff mode
                     
                         if ( dfDimOffMode == 2 )
                         {
@@ -2035,15 +2049,20 @@ __myevic__ void ScreenProtMenuOnClick()
 	{
 		case 0:	// Saver
 		case 1:	// Main
-		case 2:	// Charge                  
+		case 2:	// Charge  
+                case 3: //stealth
+                    
 			gFlags.edit_value ^= 1;
-			break;
-		case 3:
-                    if ( ++dfDimOffMode > 2 )
-                    {
-                        dfDimOffMode = 0;
-                    }                   
-			break;
+			break;                                             
+                        
+		case 4:
+                    
+                        if ( ++dfDimOffMode > 2 )
+                        {
+                            dfDimOffMode = 0;
+                        }                   
+                        break;
+                    
 		default:
 			break;
 	}
@@ -2061,18 +2080,20 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 
 	switch ( event )
 	{
-		case 2:
+		case 2: // +
 			switch ( CurrentMenuItem )
 			{
 				case 0:	// Saver
 					if ( ++dfScreenProt > 7 )
 						dfScreenProt = 0;
+                                        
 					vret = 1;
 					break;
 
 				case 1:	// Main
 					if ( ++dfScrMainTime > 5 )
 						dfScrMainTime = 0;
+                                        
 					dfDimTimeout = ScrMainTimes[dfScrMainTime];
 					vret = 1;
 					break;
@@ -2080,12 +2101,20 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 				case 2:	// Charge
 					if ( ++dfScrChargeTime > 3 )
 						dfScrChargeTime = 0;
+                                        
 					vret = 1;
-					break;                                        
+					break;
+                                        
+				case 3:	// stealth
+					if ( ++dfStealthPuffsCnt > 20 )
+						dfStealthPuffsCnt = 0;
+                                        
+					vret = 1;
+					break;                                         
 			}
 			break;
 
-		case 3:
+		case 3: // -
 			switch ( CurrentMenuItem )
 			{
 				case 0:	// Saver
@@ -2104,6 +2133,12 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 				case 2:	// Charge
 					if ( !dfScrChargeTime-- )
 						dfScrChargeTime = 3;
+					vret = 1;
+					break;
+                                        
+				case 3:	// Stealth
+					if ( !dfStealthPuffsCnt-- )
+						dfStealthPuffsCnt = 20;
 					vret = 1;
 					break;                                        
 			}
@@ -3116,11 +3151,12 @@ const menu_t ScreenProtMenu =
 	0,
 	ScreenProtMenuOnClick+1,
 	ScreenProtMenuOnEvent+1,
-	6,
+	7,
 	{
 		{ String_Saver, 0, 0, 0 },
 		{ String_Main, 0, 0, 0 },
-                { String_Charge, 0, 0, 0 },        
+                { String_Charge, 0, 0, 0 },
+                { String_Stealth, 0, 0, 0 },        
                 { String_Mode, 0, 0, 0 },                        
                 { String_Sleep, &DimOffDelayData, 0, MACTION_DATA }, 
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }

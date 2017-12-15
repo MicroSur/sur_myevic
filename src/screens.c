@@ -48,7 +48,7 @@ __myevic__ void DrawScreen()
 	static uint8_t	TenthOfSecs = 0;
 	static uint16_t	CurrentFD = 0;
         static uint8_t scrSaveOnce = 1;
-        static uint8_t StealthPuffs = 0;
+        static uint8_t StealthPuffs = 0; //dfStealthPuffsCnt
 
 	if ( ( !PE0 || AutoPuffTimer ) && Screen == 2 && FireDuration && FireDuration != CurrentFD )
 	{
@@ -80,9 +80,9 @@ __myevic__ void DrawScreen()
 			//case  3: // Main view (?)
 			//case  4: // (unused?)
 
-                                if ( dfStealthOn == 1 && LastEvent == 15 && FireDuration < 5 )
+                                if ( dfStealthOn == 1 && LastEvent == 15 && FireDuration < 2 )
                                 {
-                                        StealthPuffs = 2;       
+                                        StealthPuffs = dfStealthPuffsCnt;       
                                 }
                         
 				ShowMainView();                            
@@ -101,7 +101,10 @@ __myevic__ void DrawScreen()
                                         gFlags.MainContrast = 0;
                                 }
                                                                    
-                                if ( ( dfStealthOn != 1 || StealthPuffs ) || ShowWeakBatFlag ) ShowMainView();
+                                if ( ( dfStealthOn != 1 || StealthPuffs ) || ShowWeakBatFlag ) 
+                                {
+                                        ShowMainView();
+                                }
 
 				break;
 
@@ -260,23 +263,31 @@ __myevic__ void DrawScreen()
 
 
 //if ( gFlags.debug & 1 )
-
+        
+// scr edges x,y       
+//        
+// 0,0       64,0
+//
+//
+//
+// 0,108 ... 64,108
+        
 //DrawValue( 0, 108, Screen, 0, 0x01, 0 );
 //DrawValue( 20, 108, LastEvent, 0, 0x01, 0 );
-//DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
 //DrawValueRight( 38, 108, gFlags.inverse, 0, 0x01, 0 );
-//DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 ); //PreheatDelay
-DrawValueRight( 64, 108, FireDuration, 0, 0x01, 0 );
+//DrawValueRight( 64, 108, FireDuration, 0, 0x01, 0 );
         
-DrawValue( 0, 0, StealthPuffs, 0, 0x01, 0 ); //KeyUpTimer
+//DrawValue( 0, 0, StealthPuffs, 0, 0x01, 0 );
+//DrawValue( 64, 0, FireDuration ? : 0, 0, 0x01, 0 );
+//DrawValueRight( 64, 0, LastEvent, 0, 0x01, 0 ); 
+//NextPreheatTimer UserInputs AutoPuffTimer
+//UserInputs LastInputs TargetVolts AtoRez
+//FireClicksEvent  FireClickCount CurrentFD ScreenDuration PreheatDelay SleepTimer KeyUpTimer
 //dfResistance AtoRez dfTempAlgo
-//DrawValue( 64, 0, FireDuration ? : 0, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
-DrawValueRight( 64, 0, LastEvent, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts AtoRez
-//FireClicksEvent  FireClickCount CurrentFD
-DisplayRefresh();
-
-
         
+//DisplayRefresh();
+
+
 	if ( ( Screen == 1 || Screen == 60 ) && ( ScreenDuration <= 4 ) )
 	{
 		if ( !gFlags.fading  )
@@ -335,7 +346,7 @@ DisplayRefresh();
 			break;
 
 		case   2: // Firing
-                        if ( dfStealthOn == 1 && StealthPuffs && FireDuration > 5 ) //CurrentFD
+                        if ( dfStealthOn == 1 && StealthPuffs && FireDuration > 1 ) //CurrentFD
                         {
                             --StealthPuffs;
                         }

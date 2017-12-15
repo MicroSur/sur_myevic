@@ -661,24 +661,24 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.off = 0;
 //	dfStatus.keylock = 0;
 	dfStatus.flipped = ScrFlip;
-    //    dfStatus.fireflip = 0;
-    //    dfStatus.vvlite = 0; //VVolt
+//      dfStatus.fireflip = 0;
+//      dfStatus.vvlite = 0;        //VVolt
 	dfStatus.nologo = 1;
 //	dfStatus.clock = 0;
 //	dfStatus.vcom = 0;
 //	dfStatus.storage = 0;
-    //    dfStatus.autopuff = 0;
+//      dfStatus.autopuff = 0;
         dfAutoPuffTimer = 20;
-//	dfStatus.dbgena = 0;  //not used
+//	dfStatus.dbgena = 0;        //not used
 	dfStatus.x32off = X32Off;
 	dfStatus.onewatt = 1;
         dfStatus.vapedml = 1;
-    //    dfStatus2.vapedjoules = 0;
+//      dfStatus2.vapedjoules = 0;
 	dfStatus.digclk = 1;
-    //    dfStatus2.digclk2 = 0; //00 01 10
+//      dfStatus2.digclk2 = 0;      //00 01 10
 //	dfStatus.battpc = 1;
         dfBattLine = 1;
-//        dfStatus.battv = 0;
+//      dfStatus.battv = 0;
 //	dfStatus.phpct = 0;
 	dfStatus.wakeonpm = 1;
 	dfStatus.sme = 1;
@@ -687,25 +687,26 @@ __myevic__ void ResetDataFlash()
 //	dfRezTCR = 0;
 //	dfRezLockedTCR = 0;
 //	dfTCRIndex = 0;
-	dfScrMainTime = 5; //ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
-        dfDimTimeout = 20; //see dfScrMainTime
+	dfScrMainTime = 5;          //index of ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
+//      dfDimTimeout = 20;          //see dfScrMainTime; set in GetMainScreenDuration()
+//      dfStealthPuffsCnt = 0;
 //      dfDimOffMode = 0;
-        dfDimOffTimeout = 180;  //sleep timeout     
+        dfDimOffTimeout = 180;      //sleep timeout     
 	dfTCRM[0] = 90;
 	dfTCRM[1] = 100;
 	dfTCRM[2] = 110;
 	dfScreenSaver = SSAVER_QIX;
 //	dfTCMode = 0;
-	dfScreenProt = 3; //30s
+	dfScreenProt = 3;           //30s
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
 //	MemClear( dfSavedCfgPwr, sizeof(dfSavedCfgPwr) );
 //	dfFBBest = 0;
 //	dfFBSpeed = 0;
 //      dfTTBest = 0;
         dfTTSpeed = 2;
-        dfColdLockTemp = 20; //cels
-        dfNewRezPerc = 5; //%
-	dfContrast = 45; //17%
+        dfColdLockTemp = 20;        //cels
+        dfNewRezPerc = 5;           //%
+	dfContrast = 45;            //17%
 //      dfContrast2 = 0;
 //	dfModesSel = 0;
 	dfClkRatio = RTC_DEF_CLK_RATIO;

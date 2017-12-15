@@ -155,7 +155,8 @@ typedef struct dfParams
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS];
 /* 004E */	//uint8_t		Unused4E[38];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
-/* 0062 */	uint8_t		Unused4E[13];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 0062 */	uint8_t		Unused4E[12];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 006E */	uint8_t		StealthPuffsCnt;        //stealth delay in puffs
 /* 006F */	uint8_t		ScrChargeTime;
 /* 0070 */      uint32_t	Joules;
 /* 0074 */	uint8_t         CurveRepeatTimer;            // 0.1s = 1 1s = 10...    was TempCoefsTi
@@ -364,6 +365,7 @@ extern dfStruct_t DataFlash;
 #define dfVVLockedVolt	DFP(VVLockedVolt)
 #define dfBattery		DFP(Battery)
 #define dfPwrCurve		DFP(PwrCurve)
+#define dfStealthPuffsCnt       DFP(StealthPuffsCnt)
 #define dfScrChargeTime		DFP(ScrChargeTime)
 #define dfJoules		DFP(Joules)
 #define dfCurveRepeatTimer	DFP(CurveRepeatTimer)
