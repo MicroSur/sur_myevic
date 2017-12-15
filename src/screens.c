@@ -48,6 +48,7 @@ __myevic__ void DrawScreen()
 	static uint8_t	TenthOfSecs = 0;
 	static uint16_t	CurrentFD = 0;
         static uint8_t scrSaveOnce = 1;
+        static uint8_t StealthPuffs = 0;
 
 	if ( ( !PE0 || AutoPuffTimer ) && Screen == 2 && FireDuration && FireDuration != CurrentFD )
 	{
@@ -71,17 +72,25 @@ __myevic__ void DrawScreen()
 		switch ( Screen )
 		{
 			case  0: // Black
+                                if ( dfStatus.off ) StealthPuffs = 0;
+                                
 				break;
 
 			case  1: // Main view
 			//case  3: // Main view (?)
 			//case  4: // (unused?)
-				ShowMainView();
+
+                                if ( dfStealthOn == 1 && LastEvent == 15 && FireDuration < 5 )
+                                {
+                                        StealthPuffs = 2;       
+                                }
+                        
+				ShowMainView();                            
 				break;
 
 			case  2: // Firing
 
-				if ( !dfStealthOn && !gFlags.MainContrast )
+				if ( dfStealthOn != 2 && !gFlags.MainContrast )
 				{
                                         DisplaySetContrast( dfContrast );
                                         gFlags.MainContrast = 1;
@@ -91,8 +100,8 @@ __myevic__ void DrawScreen()
                                         DisplaySetContrast( dfContrast2 );
                                         gFlags.MainContrast = 0;
                                 }
-                                                                    
-                                if ( dfStealthOn != 1 || ShowWeakBatFlag ) ShowMainView();
+                                                                   
+                                if ( ( dfStealthOn != 1 || StealthPuffs ) || ShowWeakBatFlag ) ShowMainView();
 
 				break;
 
@@ -256,15 +265,15 @@ __myevic__ void DrawScreen()
 //DrawValue( 20, 108, LastEvent, 0, 0x01, 0 );
 //DrawValue( 20, 108, SleepTimer, 0, 0x01, 0 );
 //DrawValueRight( 38, 108, gFlags.inverse, 0, 0x01, 0 );
-//DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 );
-//DrawValueRight( 64, 108, PreheatDelay, 0, 0x01, 0 );
+//DrawValueRight( 64, 108, ScreenDuration, 0, 0x01, 0 ); //PreheatDelay
+DrawValueRight( 64, 108, FireDuration, 0, 0x01, 0 );
         
-//DrawValue( 0, 0, KeyUpTimer, 0, 0x01, 2 ); //KeyUpTimer
+DrawValue( 0, 0, StealthPuffs, 0, 0x01, 0 ); //KeyUpTimer
 //dfResistance AtoRez dfTempAlgo
-//DrawValue( 0, 0, dfTempAlgo, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
-//DrawValueRight( 64, 0, AtoRez, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts
-
-//DisplayRefresh();
+//DrawValue( 64, 0, FireDuration ? : 0, 0, 0x01, 0 ); //NextPreheatTimer UserInputs dfTempAlgo AutoPuffTimer
+DrawValueRight( 64, 0, LastEvent, 0, 0x01, 0 ); //UserInputs LastInputs TargetVolts AtoRez
+//FireClicksEvent  FireClickCount CurrentFD
+DisplayRefresh();
 
 
         
@@ -293,6 +302,7 @@ __myevic__ void DrawScreen()
 		return;
 
 	TenthOfSecs = 0;
+        //                              every second now:
 
 	if (  100 * ScreenDuration < EditModeTimer )
 		ScreenDuration = EditModeTimer / 100 + 1;
@@ -304,7 +314,9 @@ __myevic__ void DrawScreen()
 	{
 		case   0: // Black
 			if ( dfStatus.off )
+                        {
 				SleepTimer = 0;
+                        }
 			else
 			{
 				if (( !gFlags.firing )
@@ -323,9 +335,20 @@ __myevic__ void DrawScreen()
 			break;
 
 		case   2: // Firing
+                        if ( dfStealthOn == 1 && StealthPuffs && FireDuration > 5 ) //CurrentFD
+                        {
+                            --StealthPuffs;
+                        }
+                        //no brake
 		case  28: // Key Lock
 		case  40: // Stealth ON/OFF
-			if ( dfStealthOn == 1)
+                       
+                        if ( dfStealthOn != 1 )
+                        {
+                                StealthPuffs = 0;
+                        }
+                        
+			if ( dfStealthOn == 1 && !StealthPuffs )
 			{
 				Screen = 0;
 				SleepTimer = dfDimOffTimeout * 100; //18000;
