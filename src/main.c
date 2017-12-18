@@ -927,8 +927,12 @@ __myevic__ void Main()
         //if ( ISGEN3 ) WaitOnTMR2( 1500 );
         
 	InitDisplay();
+        
+        if ( dfStatus2.splash0 || dfStatus2.splash1 ) //01 10 on
+        {
+            SplashTimer = 2;
+        }
 	MainView();
-	SplashTimer = 2;
 
 	//CustomStartup();
 

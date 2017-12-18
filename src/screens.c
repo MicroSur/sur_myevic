@@ -1406,14 +1406,21 @@ __myevic__ int SplashExists()
 
 __myevic__ void ShowSplash()
 {
+//         		  off	on	box
+//dfStatus2.splash0         0	1	0
+//dfStatus2.splash1         0	0	1
+
 	//if ( gFlags.splash )
 	//{
-		DrawImage( 0, 0, 0xFF );
-		//ScreenDuration = 3;
+    
+	DrawImage( 0, 0, 0xFF );
                 
-        uint8_t strbuf[20];
-        convert_string1( strbuf, BoxName );
-        DrawStringCentered( strbuf, 115 );
+        if ( !dfStatus2.splash0 && dfStatus2.splash1 )
+        {
+                uint8_t strbuf[20];
+                convert_string1( strbuf, BoxName );
+                DrawStringCentered( strbuf, 115 );
+        }
         
 	//}
 	//else

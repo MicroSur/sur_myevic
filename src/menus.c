@@ -661,7 +661,7 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 			//DrawImageRight( 63, line+2, dfStatus.digclk ? 0x9F : 0x9C ); // D/A
                         
                         const uint8_t strings[4] = { 0x9C, 0x9F, 0xA8, 0x68 }; //A D M a
-			int f = dfStatus.digclk | ( dfStatus2.digclk2 << 1 );
+			int f = dfStatus.digclk | ( dfStatus2.digclk2 << 1 );  // 0 1 2 3
                         DrawImageRight( 63, line+2, strings[f] ); 
 			break;
 	}
@@ -746,6 +746,17 @@ __myevic__ void IFMenuIDraw( int it, int line, int sel )
 			DrawValueRight( 63, line+2, dfUIVersion + 1, 0, 0x0B, 0 );
 			break;
                         
+                case 7: //splash 00 01 10
+                        {
+                            int f = dfStatus2.splash0 | ( dfStatus2.splash1 << 1 );  // 0 1 2 3
+                            const uint8_t *strings[] =
+				{ String_Off, String_On, String_Box };
+                            const uint8_t *s = strings[f];
+
+                            DrawStringRight( s, 63, line+2 );
+                        }
+			break;
+                        
 		default:
 			break;
 	}
@@ -823,6 +834,16 @@ __myevic__ void IFMenuOnClick()
 			if ( ++dfUIVersion > 1 )
                             dfUIVersion = 0;
 			break;
+                        
+                case 7: //splash
+                        {
+                            int f = dfStatus2.splash0 | ( dfStatus2.splash1 << 1 );
+                            if ( ++f > 2 ) f = 0;
+                            
+                            dfStatus2.splash0 = f & 1;
+                            dfStatus2.splash1 = f >> 1;
+                        }       
+                        break;
                         
 		//default: // Exit
 		//	UpdateDataFlash();
@@ -2970,7 +2991,7 @@ const menu_t Object3DMenu =
 		{ String_None, 0, EVENT_PARENT_MENU, 0 },
                 { String_Square, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Tetra, 0, EVENT_PARENT_MENU, 0 },
-		{ String_Cube, 0, EVENT_PARENT_MENU, 0 },
+		{ String_Box, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Octa, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Dodeca, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Isoca, 0, EVENT_PARENT_MENU, 0 },
@@ -3620,7 +3641,7 @@ const menu_t IFMenu =
 	0,
 	IFMenuOnClick+1,
 	0,
-	8,
+	9,
 	{
                 { String_Clicks, &ClicksMenu, 0, MACTION_SUBMENU },
 		{ String_1Watt, 0, 0, 0 },
@@ -3628,7 +3649,8 @@ const menu_t IFMenu =
 		{ String_WakeMP, 0, 0, 0 },
 		{ String_Temp, 0, 0, 0 },
 		{ String_PPwr, 0, 0, 0 },
-                { String_UI, 0, 0, 0 },        
+                { String_UI, 0, 0, 0 },
+                { String_Splash, 0, 0, 0 },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

@@ -935,8 +935,11 @@ __myevic__ void EventHandler()
 				if ( ( BatteryVoltage > BatteryCutOff + 20 ) || gFlags.usb_attached )
 				{
 					dfStatus.off = 0;
+                                        if ( dfStatus2.splash0 || dfStatus2.splash1 ) //01 10 on
+                                        {
+                                                SplashTimer = 2;
+                                        }
 					MainView();
-					SplashTimer = 2;
 				}
 			}
 			else //on
@@ -1190,9 +1193,20 @@ __myevic__ void EventHandler()
 				{
 					EditModeTimer = 1000;
 
-					if ( EditItemIndex == 2 && gFlags.edit_capture_evt )
+					if ( gFlags.edit_capture_evt )
 					{
+                                            if ( EditItemIndex == 2 )
+                                            {
 						dfStatus.priopwr ? TempMinus() : PowerMinus( &dfTCPower, 10, MaxTCPower );
+                                            }
+                                            else if ( EditItemIndex == 4 )
+                                            {
+                                                if ( --dfAPT3 > 11 ) dfAPT3 = 11;
+                                            }
+                                            else if ( EditItemIndex == 5 )
+                                            {
+                                                if ( --dfAPT > 11 ) dfAPT = 11;
+                                            }
 					}
 					else if ( !ISMODETC(dfMode) )
 					{
@@ -1363,7 +1377,7 @@ __myevic__ void EventHandler()
 
 						case 2:
 							dfStatus.priopwr ? TempPlus() : PowerPlus( &dfTCPower, 10, MaxTCPower );
-							gFlags.edit_capture_evt = 1;
+							gFlags.edit_capture_evt = 1; // for use minus button here too
 							break;
 
 						case 3:
@@ -1372,13 +1386,15 @@ __myevic__ void EventHandler()
 
                                                 case 4:
 							if ( ++dfAPT3 > 11 ) dfAPT3 = 0;
+                                                        gFlags.edit_capture_evt = 1;
 							break;
                                                         
-                                                case 5: //4:
+                                                case 5:
 							if ( ++dfAPT > 11 ) dfAPT = 0;
+                                                        gFlags.edit_capture_evt = 1;
 							break;
 
-                                                case 6: //5:        
+                                                case 6:       
                                                         if ( NumBatteries > 1 )
                                                         {
                                                             if ( ++dfBattLine > 3 ) dfBattLine = 0;

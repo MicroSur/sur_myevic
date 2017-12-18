@@ -98,6 +98,8 @@ typedef struct
 /* 00000004 */	unsigned int smart_ph:1;
 /* 00000008 */	unsigned int swap_mp:1;
 /* 00000010 */	unsigned int digclk2:1;
+/* 00000020 */	unsigned int splash0:1;         // 0-00 off; 1-01 on; 2-10 on with box name //11
+/* 00000040 */	unsigned int splash1:1;
 }
 // Do not exceed 32 bits;
 dfStatus2_t;

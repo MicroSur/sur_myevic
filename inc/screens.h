@@ -200,7 +200,7 @@ extern const uint8_t String_Miscs[];
 extern const uint8_t String_Save[];
 extern const uint8_t String_Clock[];
 extern const uint8_t String_3D[];
-extern const uint8_t String_Cube[];
+extern const uint8_t String_Box[]; //cube
 extern const uint8_t String_Qix[];
 extern const uint8_t String_None[];
 extern const uint8_t String_Screen[];

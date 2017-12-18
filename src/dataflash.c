@@ -172,6 +172,7 @@ __myevic__ void SetProductID()
 		u32Data ^= PID_SCRAMBLE;
                 
                 //MemCpy( BoxID, pid_invoke, 4 );
+                        BoxName = "myevic";
 
 		if ( u32Data == PID_VTCMINI )
 		{
@@ -676,6 +677,7 @@ __myevic__ void ResetDataFlash()
 //      dfStatus2.vapedjoules = 0;
 	dfStatus.digclk = 1;
 //      dfStatus2.digclk2 = 0;      //00 01 10
+        dfStatus2.splash1 = 1;      //splash on with box name
 //	dfStatus.battpc = 1;
         dfBattLine = 1;
 //      dfStatus.battv = 0;
