@@ -427,29 +427,33 @@ __myevic__ void StopFire()
 			if ( ++dfPuffCount > 99999 ) dfPuffCount = 0;
 			UpdatePTTimer = 80;                        
                         
-                        if ( dfPuffsOff && ++PuffsOffCount >= dfPuffsOff ) // mod off case puffs counter
-                        {
-                            PuffsOffCount = 0;
-                            dfStatus.off = 1;
-                            if ( !gFlags.FireNotFlipped )
-                            {
-                                    gFlags.FireNotFlipped = 1;
-                                    dfStatus.flipped ^= 1;
-                                    InitDisplay();
-                            }
+                        if ( dfPuffsOff && ++PuffsOffCount >= dfPuffsOff )
+                        {   
+                        // puffs counter limit - mod off
                             
-                            gFlags.refresh_display = 1;
-                            //LEDOff();
-                            if ( gFlags.battery_charging )
-                            {
-				ChargeView();
-				BatAnimLevel = BatteryTenth;
-                            }   
-                            else
-                            {
-				Screen = 0;
-				SleepTimer = 0;
-                            }                               
+                        //    PuffsOffCount = 0;
+                        //    dfStatus.off = 1;
+                    //        if ( !gFlags.FireNotFlipped )
+                    //        {
+                    //                gFlags.FireNotFlipped = 1;
+                    //                dfStatus.flipped ^= 1;
+                    //                InitDisplay();
+                    //        }
+                            
+                            Event = 17;
+                            
+                        //    gFlags.refresh_display = 1;
+                        //    if ( gFlags.battery_charging )
+                        //    {
+			//	ChargeView();
+			//	BatAnimLevel = BatteryTenth;
+                        //    }   
+                        //    else
+                        //    {
+                        //        SetScreen( 61, 3 ); //goodbye
+				//Screen = 0;
+				//SleepTimer = 0;
+                        //    }                               
                         }      
 		}             
 	}
@@ -1981,9 +1985,10 @@ __myevic__ void ReadAkkuTemp()
 __myevic__ void Overtemp()
 {
 	StopFire();
-	gFlags.refresh_display = 1;
-	Screen = 29;
-	ScreenDuration = 5;
+        SetScreen( 29, 5 );
+	//gFlags.refresh_display = 1;
+	//Screen = 29;
+	//ScreenDuration = 5;
 	KeyPressTime |= 0x8000;
 }
 

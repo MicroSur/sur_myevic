@@ -1418,18 +1418,20 @@ __myevic__ void BatteryChargeDual()
                     {
 			ChargeStatus = 6; //no charge   
                         dfStatus.usbchghotoff = 1;
-                        gFlags.refresh_display = 1;
-			Screen = 29;	// overtemp
-			ScreenDuration = 3;                      
+                        Overtemp();
+                        //gFlags.refresh_display = 1;
+			//Screen = 29;	// overtemp
+			//ScreenDuration = 3;                      
                     }
                 }               
 		else if ( BatteryStatus == 2 )
 		{
 			if ( ChargeCurrent > 250 )
 			{
-				gFlags.refresh_display = 1;
-				Screen = 58;
-				ScreenDuration = 2;
+                                SetScreen( 58, 2 );
+				//gFlags.refresh_display = 1;
+				//Screen = 58;
+				//ScreenDuration = 2;
 			}
 
 			ChargeStatus = 6;
@@ -1438,9 +1440,10 @@ __myevic__ void BatteryChargeDual()
 		{
 			if ( ChargeStatus != 6 )
 			{
-				gFlags.refresh_display = 1;
-				Screen = 57;
-				ScreenDuration = 2;
+                                SetScreen( 57, 2 );
+				//gFlags.refresh_display = 1;
+				//Screen = 57;
+				//ScreenDuration = 2;
 			}
 
 			ChargeStatus = 6;
@@ -1449,9 +1452,10 @@ __myevic__ void BatteryChargeDual()
 		{
 			if ( ChargeStatus != 6 )
 			{
-				gFlags.refresh_display = 1;
-				Screen = 58;
-				ScreenDuration = 2;
+                                SetScreen( 58, 2 );
+				//gFlags.refresh_display = 1;
+				//Screen = 58;
+				//ScreenDuration = 2;
 			}
 
 			ChargeStatus = 6;
@@ -1773,18 +1777,20 @@ __myevic__ void BatteryCharge()
                     {
 			ChargeStatus = 6; //no charge  
                         dfStatus.usbchghotoff = 1;
-                        gFlags.refresh_display = 1;
-			Screen = 29;	// overtemp
-			ScreenDuration = 3;                      
+                        Overtemp();
+                        //gFlags.refresh_display = 1;
+			//Screen = 29;	// overtemp
+			//ScreenDuration = 3;                      
                     }
                 }
 		else if ( BatteryStatus == 2 )
 		{
 			if ( ChargeCurrent > 250 )
 			{
-				gFlags.refresh_display = 1;
-				Screen = 58;	// Charge Error
-				ScreenDuration = 2;
+                                SetScreen( 58, 2 );
+				//gFlags.refresh_display = 1;
+				//Screen = 58;	// Charge Error
+				//ScreenDuration = 2;
 			}
 			ChargeStatus = 6; //no charge
 		}
@@ -1792,9 +1798,10 @@ __myevic__ void BatteryCharge()
 		{
 			if ( ChargeStatus != 6 )
 			{
-				gFlags.refresh_display = 1;
-				Screen = 57;	// USB Adapter Error
-				ScreenDuration = 2;
+                                SetScreen( 57, 2 );
+				//gFlags.refresh_display = 1;
+				//Screen = 57;	// USB Adapter Error
+				//ScreenDuration = 2;
 			}
 			ChargeStatus = 6; //no charge
 		}
@@ -1802,9 +1809,10 @@ __myevic__ void BatteryCharge()
 		{
 			if ( ChargeStatus != 6 )
 			{
-				gFlags.refresh_display = 1;
-				Screen = 58;	// Charge Error
-				ScreenDuration = 2;
+                                SetScreen( 58, 2 );
+				//gFlags.refresh_display = 1;
+				//Screen = 58;	// Charge Error
+				//ScreenDuration = 2;
 			}
 			ChargeStatus = 6; //no charge
 		}

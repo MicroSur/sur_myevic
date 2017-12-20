@@ -191,7 +191,7 @@ __myevic__ void EventHandler()
 		{
 			if ( dfStatus.off )
 			{
-                            if ( Screen == 60 )
+                            if ( Screen == 60 ) // set clock off
                             {
                                 Screen = 0;
 				SleepTimer = 0;
@@ -199,13 +199,7 @@ __myevic__ void EventHandler()
                             }
                             else if( !gFlags.battery_charging && !dfStatus.offmodclock && Screen == 0 )
                             {
-                                Screen = 60; //show ss clock when off
-                                ScreenDuration = 10; //GetScreenProtection();
-                                gFlags.refresh_display = 1; //need
-                                //DrawDigitClock( 80 );
-                                //DrawClock( 0 );   
-                                //DisplayRefresh();
-                                //KeyPressTime |= 0x8000; //bad for start clicks
+                                SetScreen( 60, 10 );
                             }                           
                         return;                       
 			}
@@ -229,25 +223,28 @@ __myevic__ void EventHandler()
                                                
 			if ( BatteryStatus == 2 )
 			{
-				Screen = 56; // Check Battery
-				ScreenDuration = 2;
-				gFlags.refresh_display = 1;
+                                SetScreen( 56, 2 );
+				//Screen = 56; // Check Battery
+				//ScreenDuration = 2;
+				//gFlags.refresh_display = 1;
 				return;
 			}
 
 			if ( BatteryStatus == 3 )
 			{
-				Screen = 57; // Check USB Adapter
-				ScreenDuration = 2;
-				gFlags.refresh_display = 1;
+                                SetScreen( 57, 2 );
+				//Screen = 57; // Check USB Adapter
+				//ScreenDuration = 2;
+				//gFlags.refresh_display = 1;
 				return;
 			}
 
 			if ( BatteryStatus == 4 )
 			{
-				Screen = 58; // Charge Error
-				ScreenDuration = 2;
-				gFlags.refresh_display = 1;
+                                SetScreen( 58, 2 );
+				//Screen = 58; // Charge Error
+				//ScreenDuration = 2;
+				//gFlags.refresh_display = 1;
 				return;
 			}
 
@@ -255,9 +252,10 @@ __myevic__ void EventHandler()
 			{
 				if ( BatteryVoltage < BatteryCutOff + 20) //+ 50 )
 				{
-					gFlags.refresh_display = 1;
-					Screen = 25; //Battery Low Lock
-					ScreenDuration = 2;
+                                        SetScreen( 25, 2 );
+					//gFlags.refresh_display = 1;
+					//Screen = 25; //Battery Low Lock
+					//ScreenDuration = 2;
 					KeyPressTime |= 0x8000;
 					return;
 				}
@@ -782,9 +780,11 @@ __myevic__ void EventHandler()
                         
 			if ( !gFlags.firing || LastInputs != 1 )
 				StopFire();
-			gFlags.refresh_display = 1;
-			Screen = 2; //on fire screen
-			ScreenDuration = 1;
+                        
+                        SetScreen( 2, 1 );
+			//gFlags.refresh_display = 1;
+			//Screen = 2; //on fire screen
+			//ScreenDuration = 1;
 			return;
 		}
 
@@ -798,16 +798,19 @@ __myevic__ void EventHandler()
 		case 34:	// Show battery voltage
 			if ( !dfStatus.off )
 				return;
-			gFlags.refresh_display = 1;
-			Screen = 54;
-			ScreenDuration = 5;
+                        
+                        SetScreen( 54, 5 );
+			//gFlags.refresh_display = 1;
+			//Screen = 54;
+			//ScreenDuration = 5;
 			return;
 
 		case 32:	// New coil
 			StopFire();
-			gFlags.refresh_display = 1;
-			Screen = 51;
-			ScreenDuration = 10;
+                        SetScreen( 51, 10 );
+			//gFlags.refresh_display = 1;
+			//Screen = 51;
+			//ScreenDuration = 10;
 			return;
 
 /*
@@ -823,58 +826,68 @@ __myevic__ void EventHandler()
 		case 30:	// Key lock violation
 			if ( dfStatus.off )
 				return;
-			gFlags.refresh_display = 1;
-			Screen = 28;
-			ScreenDuration = 2;
+                        
+                        SetScreen( 28, 2 );
+			//gFlags.refresh_display = 1;
+			//Screen = 28;
+			//ScreenDuration = 2;
 			return;
 
 		case 29:	// FW Version screen
 			if ( dfStatus.off )
 				return;
-			gFlags.refresh_display = 1;
-			Screen = 50;
-			ScreenDuration = 10;
+                        
+                        SetScreen( 50, 10 );
+			//gFlags.refresh_display = 1;
+			//Screen = 50;
+			//ScreenDuration = 10;
 			return;
 
 		case 28:	// Battery < 3.1V idle or < 2.8V firing
 			StopFire();
 			KeyPressTime |= 0x8000;
-			gFlags.refresh_display = 1;
-			Screen = 24; // Battery Low
-			ScreenDuration = 2;
+                        SetScreen( 24, 2 );
+			//gFlags.refresh_display = 1;
+			//Screen = 24; // Battery Low
+			//ScreenDuration = 2;
 			return;
 
 		case 27:	// Atomizer Low
 			StopFire();
-			gFlags.refresh_display = 1;
-			Screen = 22;
-			ScreenDuration = 2;
+                        SetScreen( 22, 2 );
+			//gFlags.refresh_display = 1;
+			//Screen = 22;
+			//ScreenDuration = 2;
 			KeyPressTime |= 0x8000;
 			return;
 
 		case 26:	// No Atomizer Found
 			StopFire();
-			gFlags.refresh_display = 1;
-			Screen = 20;
-			ScreenDuration = 2;
+                        SetScreen( 20, 2 );
+			//gFlags.refresh_display = 1;
+			//Screen = 20;
+			//ScreenDuration = 2;
 			return;
 
 		case 25:	// Atomizer short
-			gFlags.refresh_display = 1;
-			Screen = 21;
-			ScreenDuration = 2;
+                        SetScreen( 21, 2 );
+			//gFlags.refresh_display = 1;
+			//Screen = 21;
+			//ScreenDuration = 2;
 			return;
                         
 		case 70:	// Atomizer short current
-			gFlags.refresh_display = 1;
-			Screen = 70;
-			ScreenDuration = 2;
+                        SetScreen( 70, 2 );
+			//gFlags.refresh_display = 1;
+			//Screen = 70;
+			//ScreenDuration = 2;
 			return;
                         
                 case 71:	// Atomizer short Bad contact
-			gFlags.refresh_display = 1;
-			Screen = 71;
-			ScreenDuration = 2;
+                        SetScreen( 71, 2 );
+			//gFlags.refresh_display = 1;
+			//Screen = 71;
+			//ScreenDuration = 2;
 			return;
                         
 		case 24:	// 10s Fire protection
@@ -883,9 +896,10 @@ __myevic__ void EventHandler()
 				return;
 			if ( FireDuration >= dfProtec ) //FIRE_PROTEC_MAX )
 			{
-				gFlags.refresh_display = 1;
-				Screen = 23;
-				ScreenDuration = 5;
+                                SetScreen( 23, 4 );
+				//gFlags.refresh_display = 1;
+				//Screen = 23;
+				//ScreenDuration = 3;
 			}
 			return;
 
@@ -916,11 +930,13 @@ __myevic__ void EventHandler()
 		case 18:	// Flip display
 			if ( !dfStatus.off )
 				return;
+                        
 			dfStatus.flipped ^= 1;
 			InitDisplay();
-			gFlags.refresh_display = 1;
-			Screen = 1;
-			ScreenDuration = 2;
+                        SetScreen( 1, 2 );
+			//gFlags.refresh_display = 1;
+			//Screen = 1;
+			//ScreenDuration = 2;
 			UpdateDataFlash();
 			return;
 
@@ -928,7 +944,7 @@ __myevic__ void EventHandler()
 			if ( gFlags.firing )
 				return;
                         
-			if ( dfStatus.off )
+			if ( dfStatus.off ) //switch mod on
 			{
 				gFlags.sample_vbat = 1;
 				ReadBatteryVoltage();                                                                
@@ -942,11 +958,20 @@ __myevic__ void EventHandler()
 					MainView();
 				}
 			}
-			else //on
-			{
+			else //swith to off
+			{                         
+                                if ( !gFlags.FireNotFlipped )
+                                {
+                                    gFlags.FireNotFlipped = 1;
+                                    dfStatus.flipped ^= 1;
+                                    InitDisplay();
+                                }
+                                
+                                PuffsOffCount = 0;                    
 				dfStatus.off = 1;
 				gFlags.refresh_display = 1;
 				//LEDOff();
+                                
 				if ( gFlags.battery_charging )
 				{
 					ChargeView();
@@ -954,10 +979,11 @@ __myevic__ void EventHandler()
 				}
 				else
 				{
-					Screen = 0;
-					SleepTimer = 0;
+                                        SetScreen( 61, 3 ); //goodbye
+				//	Screen = 0;
+				//	SleepTimer = 0;
 				}
-                                PuffsOffCount = 0;
+                                
 			}
 			return;
 
@@ -1106,21 +1132,25 @@ __myevic__ void EventHandler()
 				return;
                         
 			//dfStealthOn = ( dfStealthOn == 0 );
-                        if ( ++dfStealthOn > 2 ) dfStealthOn = 0; // 2 fire contrast
+                        if ( ++dfStealthOn > 2 ) 
+                            dfStealthOn = 0; // 2 fire contrast
                         
-			gFlags.refresh_display = 1;
-			Screen = 40;
-			ScreenDuration = 2;
+                        SetScreen( 40, 2 );
+			//gFlags.refresh_display = 1;
+			//Screen = 40;
+			//ScreenDuration = 2;
 			return;
 
 		case 4:		// Key (Un)Lock
 			if ( dfStatus.off )
 				return;
 			dfStatus.keylock ^= 1;
+                        
 			if ( dfStatus.keylock )
 				Screen = 28;
 			else
 				Screen = 31;
+                        
 			ScreenDuration = 2;
 			gFlags.refresh_display = 1;
 			UpdateDFTimer = 50;

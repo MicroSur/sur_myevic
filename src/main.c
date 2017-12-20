@@ -334,6 +334,7 @@ __myevic__ void InitVariables()
 
 __myevic__ void Plantouille( int xpsr, int* stack )
 {
+/*
 	int i, k;
 
 	k = 0;
@@ -380,6 +381,7 @@ __myevic__ void Plantouille( int xpsr, int* stack )
 		if ( k < 0 ) k = 0;
 		else if ( k > 15 ) k = 15;
 	}
+*/
 }
 
 
@@ -907,7 +909,7 @@ __myevic__ void Main()
 
 	InitHardware();
 
-	myprintf( "\n\nJoyetech APROM\n" );
+	myprintf( "\n\nJoyetech APROM\n" ); // need for identify FW file
 	//myprintf( "CPU @ %dHz(PLL@ %dHz)\n", SystemCoreClock, PllClock );
 
 	SetBatteryModel();
@@ -1086,10 +1088,11 @@ __myevic__ void Main()
                                     DisplaySetContrast( dfContrast2 );
                                     gFlags.MainContrast = 0;
                                 }
+                                
 				if ( Screen == 60 ) 
                                     AnimateScreenSaver();
 			}
-                        
+                                
 			if ( gFlags.firing )
 			{
 				if ( gFlags.read_bir && ( FireDuration > 10 ) )

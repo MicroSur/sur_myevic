@@ -68,6 +68,7 @@ extern void ShowMenus();
 extern void ShowRTCSpeed();
 extern void ShowRTCAdjust();
 extern void ShowScreenSaver();
+extern void ShowGoodBye();
 extern void ShowSetTime();
 extern void ShowSetJoules();
 extern void ShowSetDate();

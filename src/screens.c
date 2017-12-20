@@ -85,7 +85,7 @@ __myevic__ void DrawScreen()
                                         StealthPuffs = dfStealthPuffsCnt;       
                                 }
                         
-				ShowMainView();                            
+				ShowMainView(); 
 				break;
 
 			case  2: // Firing
@@ -201,22 +201,28 @@ __myevic__ void DrawScreen()
 
 			case 60: // Screen Saver
                             
-                            if ( dfStatus.off )
-                            {
+                                if ( dfStatus.off )
+                                {
                                     DisplaySetContrast( dfContrast ); //main contrast in off state fire clock 
                                     gFlags.MainContrast = 1;
-                            }
-                            else
-                            {
-                                if ( gFlags.MainContrast )
-                                {
-                                    DisplaySetContrast( dfContrast2 );
-                                    gFlags.MainContrast = 0;
                                 }
-                            }
+                                else
+                                {
+                                    if ( gFlags.MainContrast )
+                                    {
+                                        DisplaySetContrast( dfContrast2 );
+                                        gFlags.MainContrast = 0;
+                                    }
+                                }
 				ShowScreenSaver();
 				break;
-
+                                
+			case 61: //goodbye
+                                DisplaySetContrast( dfContrast2 );
+                                gFlags.MainContrast = 0;
+                                ShowGoodBye();
+				break;
+                                
 			//case 100:
 			//	ShowInfos();
 			//	break;
@@ -283,7 +289,7 @@ __myevic__ void DrawScreen()
 //NextPreheatTimer UserInputs AutoPuffTimer
 //UserInputs LastInputs TargetVolts AtoRez
 //FireClicksEvent  FireClickCount CurrentFD ScreenDuration PreheatDelay SleepTimer KeyUpTimer
-//dfResistance AtoRez dfTempAlgo
+//dfResistance AtoRez dfTempAlgo StealthPuffs
         
 //DisplayRefresh();
 
@@ -441,7 +447,7 @@ __myevic__ void DrawScreen()
 		case 100: // Infos page
                         scrSaveOnce = 1;
                         //NOBREAK
-                case  60: // Screen Saver    
+                case  60: // Screen Saver
 			if ( gFlags.battery_charging )
 			{
 				ChargeView();
@@ -458,8 +464,14 @@ __myevic__ void DrawScreen()
 				gFlags.refresh_display = 1;
 			}
                          
-			break;  
-
+			break;
+                        
+                case  61: // goodbye
+			Screen = 0;
+			SleepTimer = 0;
+                        gFlags.refresh_display = 1;
+                        break;
+                        
 		default:
 			break;
 	}
@@ -975,7 +987,7 @@ __myevic__ void ShowStealthMode()
 	DrawStringCentered( String_Stealth, 88 );
         //DrawStringCentered( dfStealthOn ? String_ON : String_OFF, 102 );
         if ( !dfStealthOn )
-            DrawStringCentered( String_OFF, 102 );
+            DrawStringCentered( String_Off, 102 );
         else if ( dfStealthOn == 1 )
             DrawStringCentered( String_On, 102 );
         else
@@ -1117,9 +1129,16 @@ __myevic__ void ShowRTCAdjust()
 
 
 //=========================================================================
+__myevic__ void ShowGoodBye()
+{
+    DrawStringCentered( String_Off, 63 );
+    gFlags.refresh_display = 1;
+}
+
+//=========================================================================
 __myevic__ void ShowScreenSaver()
 {
-        if ( dfStatus.off )
+        if ( dfStatus.off ) //&& !dfStatus.offmodclock )
         {
                 DrawDigitClock( 82, 0 );
                 DrawClock( 0 );
