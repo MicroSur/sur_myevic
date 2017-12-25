@@ -157,9 +157,10 @@ typedef struct dfParams
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS];
 /* 004E */	//uint8_t		Unused4E[38];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
-/* 0062 */	uint8_t		Unused4E[12];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 0062 */	uint8_t		Unused4E[11];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 006D */	uint8_t		ThreeButtonsAct;        //action
 /* 006E */	uint8_t		StealthPuffsCnt;        //stealth delay in puffs
-/* 006F */	uint8_t		ScrChargeTime;
+/* 006F */	uint8_t		ScrChargeTime;          // timeout for charge screen
 /* 0070 */      uint32_t	Joules;
 /* 0074 */	uint8_t         CurveRepeatTimer;            // 0.1s = 1 1s = 10...    was TempCoefsTi
 /* 0075 */	int8_t          AkkuTempCorr;  
@@ -193,7 +194,7 @@ typedef struct dfParams
 /* 00C5 */	uint8_t		Clicks[4];
 /* 00C9 */	uint8_t		DimTimeout;
 /* 00CA */	uint8_t		BatteryModel;
-//   ?? DataFlash.p.UnusedCA[3]                 CB 00
+// CB 00
 /* 00CB */	uint16_t	USBMaxCharge;   //  CC
 /* 00CD */	uint8_t		PreheatTime;    //  CE
 /* 00CE */	uint16_t	PreheatPwr;     //  CF
@@ -367,6 +368,7 @@ extern dfStruct_t DataFlash;
 #define dfVVLockedVolt	DFP(VVLockedVolt)
 #define dfBattery		DFP(Battery)
 #define dfPwrCurve		DFP(PwrCurve)
+#define dfThreeButtonsAct	DFP(ThreeButtonsAct)
 #define dfStealthPuffsCnt       DFP(StealthPuffsCnt)
 #define dfScrChargeTime		DFP(ScrChargeTime)
 #define dfJoules		DFP(Joules)

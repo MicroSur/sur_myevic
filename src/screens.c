@@ -1131,7 +1131,8 @@ __myevic__ void ShowRTCAdjust()
 //=========================================================================
 __myevic__ void ShowGoodBye()
 {
-    DrawStringCentered( String_Off, 63 );
+    //DrawStringCentered( String_Off, 63 );
+    DrawStringCentered( ScreenDuration > 1 ? String_On : String_Off, 63 );
     gFlags.refresh_display = 1;
 }
 

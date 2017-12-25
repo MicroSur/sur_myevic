@@ -342,6 +342,7 @@ extern const uint8_t String_NewZC[];
 extern const uint8_t String_ZeroCnts[];
 extern const uint8_t String_Repeat[];
 extern const uint8_t String_UI[];
+extern const uint8_t String_FMP[];
 
 //==============================================================================
 

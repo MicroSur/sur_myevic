@@ -183,6 +183,57 @@ __myevic__ void KeyRepeat()
 	}
 }
 
+__myevic__ void SetClicksAction( uint8_t num )
+{
+    					switch ( num )
+                                        //switch ( gFlags.asleep ? dfClick[FireClickCount-3] : dfClick[FireClickCount-2] )
+					{
+						default:
+                                                case CLICK_ACTION_NONE:                                                    
+							break;
+
+						case CLICK_ACTION_EDIT:
+							FireClicksEvent = 16;	// edit mode
+							break;
+
+						case CLICK_ACTION_TDOM:
+							FireClicksEvent = EVENT_TOGGLE_TDOM;	// priority power
+							break;
+
+						case CLICK_ACTION_CLOCK:
+							FireClicksEvent = EVENT_TOGGLE_CLOCK;	// toggle clock display
+							break;
+
+						case CLICK_ACTION_NEXT_MODE:
+							FireClicksEvent = EVENT_NEXT_MODE;	// change mode
+							break;
+
+						case CLICK_ACTION_ON_OFF:
+							FireClicksEvent = 17;	// Switch On/Off
+							break;
+
+						case CLICK_ACTION_PROFILE:
+                                                        //sur do not like EVENT_NEXT_PROFILE;
+							FireClicksEvent = EVENT_PROFILE_MENU;	// Cycle profile
+							break;
+                                                        
+                                                case CLICK_ACTION_TETRIS:
+							FireClicksEvent = EVENT_TETRIS; // tetris
+							break;
+                                                        
+                                                case CLICK_ACTION_GAME:
+							FireClicksEvent = 41;	// flappy
+							break;
+                                                        
+                                                case CLICK_ACTION_SAVER:
+							FireClicksEvent = EVENT_SAVER;
+							break;       
+
+                                                case CLICK_ACTION_MENU:
+                                                        FireClicksEvent = EVENT_ENTER_MENUS;
+							break;
+					}
+}
 
 //=========================================================================
 //----- (00004B34) --------------------------------------------------------
@@ -250,14 +301,31 @@ __myevic__ void GetUserInput()
 		}
 
 		//if ( !dfStatus.off || IsMenuScreen() )
-		//{
-			if ( !PD2 ) UserInputs = 2;
-			if ( !PD3 ) UserInputs = 3;
-		//}
-
-		if ( !PD2 && !PD3 ) UserInputs = 4;
-		if ( !PE0 && !PD2 ) UserInputs = 5;
-		if ( !PE0 && !PD3 ) UserInputs = 6;
+                //! means pressed
+		if ( !PD2 && PE0 && PD3 ) 
+                {
+                    UserInputs = 2;
+                }
+                else if ( !PD3 && PE0 && PD2 ) 
+                {
+                    UserInputs = 3;
+                }
+		else if ( !PD2 && !PD3 && PE0 ) 
+                {
+                    UserInputs = 4;
+                }
+		else if ( !PE0 && !PD2 && PD3 ) 
+                {
+                    UserInputs = 5;
+                }
+		else if ( !PE0 && !PD3 && PD2 ) 
+                {
+                    UserInputs = 6;
+                }
+                else if ( !PE0 && !PD3 && !PD2 )
+                {
+                    UserInputs = 7;
+                }
 
 		if ( USBD_IS_ATTACHED() )
 		{
@@ -359,8 +427,6 @@ __myevic__ void GetUserInput()
 			|| UserInputs == 5
 			|| UserInputs == 6
 			|| UserInputs == 7
-			|| UserInputs == 8
-			|| UserInputs == 9
 		)
 			return;
 
@@ -397,54 +463,8 @@ __myevic__ void GetUserInput()
 				case 3:
 				case 4:
                                 case 5:
-					switch ( dfClick[FireClickCount-2] )
-                                        //switch ( gFlags.asleep ? dfClick[FireClickCount-3] : dfClick[FireClickCount-2] )
-					{
-						default:
-							break;
+                                        SetClicksAction( dfClick[FireClickCount-2] );
 
-						case CLICK_ACTION_NONE:
-						//	if ( FireClickCount == 4 )
-						//		FireClicksEvent = EVENT_DEBUG_MODE;	// debug mode
-							break;
-
-						case CLICK_ACTION_EDIT:
-							FireClicksEvent = 16;	// edit mode
-							break;
-
-						case CLICK_ACTION_TDOM:
-							FireClicksEvent = EVENT_TOGGLE_TDOM;	// priority power
-							break;
-
-						case CLICK_ACTION_CLOCK:
-							FireClicksEvent = EVENT_TOGGLE_CLOCK;	// toggle clock display
-							break;
-
-						case CLICK_ACTION_NEXT_MODE:
-							FireClicksEvent = EVENT_NEXT_MODE;	// change mode
-							break;
-
-						case CLICK_ACTION_ON_OFF:
-							FireClicksEvent = 17;	// Switch On/Off
-							break;
-
-						case CLICK_ACTION_PROFILE:
-                                                        //sur do not like EVENT_NEXT_PROFILE;
-							FireClicksEvent = EVENT_PROFILE_MENU;	// Cycle profile
-							break;
-                                                        
-                                                case CLICK_ACTION_TETRIS:
-							FireClicksEvent = EVENT_TETRIS; // tetris
-							break;
-                                                        
-                                                case CLICK_ACTION_GAME:
-							FireClicksEvent = 41;	// Game
-							break;
-                                                        
-                                                case CLICK_ACTION_SAVER:
-							FireClicksEvent = EVENT_SAVER; // tetris
-							break;                                                        
-					}
 					if ( dfStatus.off )
 					{
 						if ( FireClicksEvent != 17 )
@@ -562,7 +582,16 @@ __myevic__ void GetUserInput()
 
 				}                                
 			}
-		}
+                }
+                else if ( UserInputs == 7 ) //all 3 buttons
+                {
+                    if ( Screen == 1 )  //( !dfStatus.off && !IsMenuScreen() )
+                    {
+                        SetClicksAction( dfThreeButtonsAct );
+                        ScreenDuration = GetMainScreenDuration();
+                    }
+                }
+		
 	}
         else if ( KeyPressTime == 100 )
         {

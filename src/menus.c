@@ -578,50 +578,56 @@ __myevic__ void ClicksMenuIDraw( int it, int line, int sel )
 	if ( it > CurrentMenu->nitems - 2 )
 		return;
 
-	DrawFillRect( 15, line, 63, line+12, 0 );
-
-	switch ( dfClick[it] )
+	DrawFillRect( 22, line, 63, line+12, 0 );
+        
+        uint8_t num = (it == 4)? dfThreeButtonsAct : dfClick[it];
+        
+	switch ( num )
 	{
 		default:
 		case CLICK_ACTION_NONE:
-			DrawString( String_None, 26, line+2 );
+			DrawString( String_None, 28, line+2 );
 			break;
 
 		case CLICK_ACTION_EDIT:
-			DrawString( String_Edit, 26, line+2 );
+			DrawString( String_Edit, 28, line+2 );
 			break;
 
 		case CLICK_ACTION_CLOCK:
-			DrawString( String_Clock, 26, line+2 );
+			DrawString( String_Clock, 28, line+2 );
 			break;
 
 		case CLICK_ACTION_TDOM:
-			DrawString( String_PPwr, 26, line+2 );
+			DrawString( String_PPwr, 28, line+2 );
 			break;
 
 		case CLICK_ACTION_NEXT_MODE:
-			DrawString( String_ModePlus, 26, line+2 );
+			DrawString( String_ModePlus, 28, line+2 );
 			break;
 
 		case CLICK_ACTION_ON_OFF:
-			DrawString( String_OnOff, 26, line+2 );
+			DrawString( String_OnOff, 28, line+2 );
 			break;
 
 		case CLICK_ACTION_PROFILE:
-			DrawString( String_Profile, 26, line+2 );
+			DrawString( String_Profile, 28, line+2 );
 			break;
 
 		case CLICK_ACTION_GAME:
-			DrawString( String_Game, 26, line+2 );
+			DrawString( String_Game, 28, line+2 );
 			break;
 
 		case CLICK_ACTION_TETRIS:
-			DrawString( String_Tetris, 26, line+2 );
+			DrawString( String_Tetris, 28, line+2 );
 			break;
                         
 		case CLICK_ACTION_SAVER:
-			DrawString( String_Saver, 26, line+2 );
-			break;                        
+			DrawString( String_Saver, 28, line+2 );
+			break;
+                        
+                case CLICK_ACTION_MENU:
+			DrawString( String_Menus, 28, line+2 );
+			break;
 	}
 }
 
@@ -631,9 +637,18 @@ __myevic__ void ClicksMenuOnClick()
 	if ( CurrentMenuItem > CurrentMenu->nitems - 2 )
 		return;
 
-	if ( ++dfClick[CurrentMenuItem] >= CLICK_ACTION_MAX )
+        if ( CurrentMenuItem == 4 )
+        {
+            if ( ++dfThreeButtonsAct >= CLICK_ACTION_MAX )
+            {
+		dfThreeButtonsAct = CLICK_ACTION_NONE;
+            }
+        }
+        else if ( ++dfClick[CurrentMenuItem] >= CLICK_ACTION_MAX )
+        {
 		dfClick[CurrentMenuItem] = CLICK_ACTION_NONE;
-
+        }
+        
 	UpdateDFTimer = 50;
 	gFlags.refresh_display = 1;
 }
@@ -3622,12 +3637,13 @@ const menu_t ClicksMenu =
 	0,
 	ClicksMenuOnClick+1,
 	0,
-	5,
+	6,
 	{
 		{ String_2, 0, 0, 0 },
 		{ String_3, 0, 0, 0 },
 		{ String_4, 0, 0, 0 },
                 { String_5, 0, 0, 0 },
+                { String_FMP, 0, 0, 0 },                        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

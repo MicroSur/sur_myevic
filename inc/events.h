@@ -70,14 +70,14 @@ extern uint8_t	LastEvent;
 #define EVENT_NEXT_MODE			109
 #define EVENT_TOGGLE_TDOM		110
 #define EVENT_RESET_VVEL		111
-#define EVENT_FORCE_VCOM		112
+//#define EVENT_FORCE_VCOM		112
 #define EVENT_AUTO_PUFF			113
 #define EVENT_CLK_SPEED			114
 #define EVENT_CLK_ADJUST		115
 #define EVENT_INVERT_SCREEN		116
 #define EVENT_MODE_CHANGE		117
 #define EVENT_PROFILE_MENU		118
-#define EVENT_NEXT_PROFILE		119
+//#define EVENT_NEXT_PROFILE		119
 #define EVENT_POWER_CURVE		120
 #define EVENT_TETRIS                    121
 #define EVENT_SAVER                     122
@@ -97,7 +97,8 @@ enum
         CLICK_ACTION_TETRIS,
         CLICK_ACTION_GAME,
         CLICK_ACTION_SAVER,
-	CLICK_ACTION_MAX
+        CLICK_ACTION_MENU,
+	CLICK_ACTION_MAX //last index in enum
 };
 
 
