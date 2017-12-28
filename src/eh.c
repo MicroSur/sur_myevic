@@ -1041,7 +1041,7 @@ __myevic__ void EventHandler()
 			{
 				if ( BatteryStatus == 1 )
 				{
-					Screen = 55;
+					Screen = 55; //Imbalanced Batteries
 					ScreenDuration = 2;
 				}
 				else if ( dfStatus.off )
@@ -1161,9 +1161,9 @@ __myevic__ void EventHandler()
 		case 3:		// - (minus or left) button
 		{
                     
-                        if ( Screen == 5 && dfStealthOn != 1) //charge scr on off
+                        if ( Screen == 5 ) //&& dfStealthOn != 1 ) //charge scr on off
 			{
-				gFlags.screen_on = ( gFlags.screen_on == 0 );                                
+				gFlags.screen_on = ( gFlags.screen_on == 0 );                            
                                 ScreenDuration = ScrChargeTimes[dfScrChargeTime]; //ScreenDuration = 0;                               
                                 gFlags.refresh_display = 1;
 			}

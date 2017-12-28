@@ -240,8 +240,8 @@ __myevic__ void TimedItems()
 				else
 					BatAnimLevel = BatteryTenth;
 
-				if (( Screen == 5 ) && ( dfScreenSaver == SSAVER_NONE ))
-					ScreenDuration = GetMainScreenDuration();
+				//if (( Screen == 5 ) && ( dfScreenSaver == SSAVER_NONE ))
+				//	ScreenDuration = GetMainScreenDuration();
 
 				gFlags.refresh_display = 1;
 			}

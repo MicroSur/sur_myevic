@@ -916,8 +916,17 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 			}
 			else
 			{
-				dp = ( v < 1000 ) ? 1 : 0;
-				v  = ( v < 1000 ) ? v : v / 10;
+                                if ( v < 1000 && WattsInc == 1 )
+				//dp = ( v < 1000 ) ? 1 : 0;
+				//v  = ( v < 1000 ) ? v : v / 10;
+                                {
+                                    dp = 1;
+                                }
+                                else
+                                {
+                                    dp = 0;
+                                    v = v / 10;
+                                }
 				img = 0x98;
 			}                       
 			break;
@@ -1049,7 +1058,7 @@ __myevic__ int PreheatMEvent( int event )
 				}
 				else if ( CurrentMenuItem == 3 )
 				{
-					if ( dfPreheatTime < 200 ) dfPreheatTime += 10;
+					if ( dfPreheatTime < 250 ) dfPreheatTime += 10;
 					else if ( KeyTicks < 5 ) dfPreheatTime = 10;
 				}
 				//UpdateDFTimer = 50;
@@ -1079,7 +1088,7 @@ __myevic__ int PreheatMEvent( int event )
 				else if ( CurrentMenuItem == 3 )
 				{
 					if ( dfPreheatTime >= 20 ) dfPreheatTime -= 10;
-					else if ( KeyTicks < 5 ) dfPreheatTime = 200;
+					else if ( KeyTicks < 5 ) dfPreheatTime = 250;
 				}
 				//UpdateDFTimer = 50;
 				//gFlags.refresh_display = 1;

@@ -1288,7 +1288,7 @@ __myevic__ void Main()
                         }
  
 			if ( gFlags.firing )
-			{
+                        {
 				if ( ISMODETC(dfMode) )
 				{
 					DrawScreen();
