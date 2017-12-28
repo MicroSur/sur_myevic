@@ -931,7 +931,7 @@ __myevic__ uint32_t hidSetProfile( CMD_T *pCmd )
 
 
 //-------------------------------------------------------------------------
-// Monitoring
+// Monitoring USB
 //-------------------------------------------------------------------------
 __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 {
@@ -1004,7 +1004,14 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 	}
 	else
 	{
+            if ( ISMODEBY(dfMode) )
+            {
+                mondata->PowerSet = BypassVolts;
+            }
+            else
+            {
 		mondata->PowerSet = dfPower;
+            }
 	}
 
 	mondata->Resistance = dfResistance * 10 + RezMillis;

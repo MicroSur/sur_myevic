@@ -822,17 +822,17 @@ __myevic__ void ShowMainView()
 
 	if ( gFlags.firing )
 	{
-		pwr = AtoPower( AtoVolts );
+		pwr = AtoPower( AtoVolts ); //from ADC
 	}
 	else if ( ISMODEBY(dfMode) )
 	{
-
-		//amps = 10 * BattVoltsTotal / ( 10 * AtoRez + NumBatteries * BatteryIntRez );
                 amps = 1000 * BattVoltsTotal / ( 10 * AtoRez + NumBatteries * BatteryIntRez );
-		BypassVolts = AtoRez * amps / 100;
+		BypassVolts = AtoRez * amps / 100; // / NumBatteries;
+                //BypassVolts = BattVoltsTotal / NumBatteries;
+                //BypassVolts = BatteryVoltage;
                                
                 //if ( BypassVolts > AtoMaxVolts ) BypassVolts = AtoMaxVolts;
-		pwr  = ClampPower( BypassVolts, 0 );
+		pwr  = ClampPower( BypassVolts, 1); //0 );
 	}
 
 	if ( ISMODETC(dfMode) )
@@ -856,12 +856,12 @@ __myevic__ void ShowMainView()
 		}
 	}
 
-	if (( dfMode == 4 ) || ( dfMode == 5 ))
+	if (( dfMode == 4 ) || ( dfMode == 5 )) //pwr bypass
 	{
 		DrawPower( pwr );
 	}
 
-	if ( dfMode == 6 )
+	if ( dfMode == 6 ) //smart
 	{
 		//DrawString( String_MAX_s, 23, 15 );
 		//DrawString( String_MIN_s, 23, 97 );

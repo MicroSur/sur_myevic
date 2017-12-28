@@ -295,6 +295,9 @@ __myevic__ uint16_t ClampPower( uint16_t volts, int clampmax )
 		pwr = volts * volts / ( 10 * AtoRez );
 
 		ClampAtoPowers();
+                        // ClampAtoPowers =>
+                	//if ( AtoMinPower < 10 ) AtoMinPower = 10;
+                        //if ( AtoMaxPower > MaxPower ) AtoMaxPower = MaxPower;
 
 		if ( pwr < AtoMinPower )
 			pwr = AtoMinPower;
