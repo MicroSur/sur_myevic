@@ -805,6 +805,8 @@ __myevic__ void ShowMainView()
         
 	unsigned int sm_p; // r2@168
 	int sm_dt; // r3@169
+        int btv;
+        int numb;
 
 	if ( !gFlags.firing )
 	{
@@ -826,12 +828,25 @@ __myevic__ void ShowMainView()
 	}
 	else if ( ISMODEBY(dfMode) )
 	{
-                amps = 1000 * BattVoltsTotal / ( 10 * AtoRez + NumBatteries * BatteryIntRez );
-		BypassVolts = AtoRez * amps / 100; // / NumBatteries;
+                if ( !dfStatus2.bybatts ) //0 - 1batt
+                {
+                    btv = BattVoltsTotal / NumBatteries;
+                    numb = 1;
+                }
+                else
+                {
+                    btv = BattVoltsTotal;
+                    numb = NumBatteries;
+                }
+                amps = 1000 * btv / ( 10 * AtoRez + numb * BatteryIntRez );
+                BypassVolts = AtoRez * amps / 100;
+                
                 //BypassVolts = BattVoltsTotal / NumBatteries;
                 //BypassVolts = BatteryVoltage;
                                
                 //if ( BypassVolts > AtoMaxVolts ) BypassVolts = AtoMaxVolts;
+                
+                //calculated power:
 		pwr  = ClampPower( BypassVolts, 1); //0 );
 	}
 

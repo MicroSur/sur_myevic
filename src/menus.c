@@ -1288,6 +1288,10 @@ __myevic__ void MaxMenuIDraw( int it, int line, int sel )
 			DrawImageRight( 63, line+2, 0x68 );
                     }
 			break;
+                
+                case 4:	// BY batts num
+                        DrawStringRight( dfStatus2.bybatts ? String_All : String_B1, 63, line+2 );
+			break;
                         
 		//case 4:	// bat amps
                 //    
@@ -1313,7 +1317,15 @@ __myevic__ void MaxMenuOnClick()
         if ( CurrentMenuItem == 3 && !gFlags.soft_charge )
                 return;
         
+        if ( CurrentMenuItem == 4 )
+        {
+            dfStatus2.bybatts ^= 1;
+        }
+        else
+        {
         gFlags.edit_value ^= 1;         
+        }
+        
         gFlags.refresh_display = 1;
 }
 
@@ -3486,13 +3498,13 @@ const menu_t MAXMenu =
 	0,
 	MaxMenuOnClick+1,
 	MaxMenuOnEvent+1,
-	5,
+	6,
 	{
 		{ String_PWR_s, 0, 0, 0 },	       
                 { String_VOLT_s, 0, 0, 0 },
 		{ String_TEMP_s, 0, 0, 0 },
                 { String_UCH_s, 0, 0, 0 },
-                //{ String_BATT_s, 0, 0, 0 },                        
+                { String_BY, 0, 0, 0 },                        
                 { String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

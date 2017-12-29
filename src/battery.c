@@ -463,7 +463,8 @@ __myevic__ void ReadInternalResistance()
 
 	// mA
 	// Assume 90% efficiency of the circuitry
-	ibat = ( 1000 * AtoVolts * AtoCurrent ) / ( 9 * RTBVTotal );
+	//ibat = ( 1000 * AtoVolts * AtoCurrent ) / ( 9 * RTBVTotal );
+        ibat = 10000 * AtoVolts * AtoCurrent / RTBVTotal / 90;
 
 	// mOhm
 	rez = ( 10000 * ( BattVoltsTotal - RTBVTotal ) ) / ibat;
@@ -473,7 +474,9 @@ __myevic__ void ReadInternalResistance()
 	if ( filter.count >= FILTER_SIZE )
 	{
 		// Mean rez per battery, rounded up
-		rez = ( rez + NumBatteries / 2 ) / NumBatteries;
+		//rez = ( rez + NumBatteries / 2 ) / NumBatteries;
+            
+                rez /= NumBatteries;
 
 		// There's no battery with internal resistance
 		// less than 20mOhm.
@@ -944,7 +947,7 @@ __myevic__ void ReadBatteryVoltage()
 			&& (	( SavedBatVoltage > BatteryVoltage && SavedBatVoltage - BatteryVoltage > 1 )
 				||	( BatteryVoltage > SavedBatVoltage && BatteryVoltage - SavedBatVoltage > 1 ) ) )
 		{
-			gFlags.read_bir = 1;
+			gFlags.read_bir = 1; //for ReadInternalResistance
 			SetBatMaxPower();
 			NewBatteryVoltage();
 		}
