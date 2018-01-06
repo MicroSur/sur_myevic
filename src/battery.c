@@ -675,10 +675,16 @@ __myevic__ void ChargeBalance()
 
 	if ( !gFlags.usb_attached || !gFlags.battery_charging || ChBalTimer <= 50 )
 	{
-	        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
+	        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE || ISGEN3 )
                 {
                     PA3 = 0;
                     PA2 = 0;
+                    
+                    if ( ISGEN3 )    
+                    {        
+                        PF5 = 0;
+                    }
+                    
                 }
                 else if ( ISRX300 || ISRX2 || ISSINFJ200 )
                 {
@@ -690,12 +696,6 @@ __myevic__ void ChargeBalance()
                         PA3 = 0;
                         PA2 = 0;
                     }
-                }
-                else if ( ISGEN3 )    
-                {        
-                    PF5 = 0;
-                    PA3 = 0;
-                    PA2 = 0;
                 }
 	}
 }

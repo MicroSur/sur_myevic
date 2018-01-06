@@ -1988,6 +1988,14 @@ __myevic__ void ReadAkkuTemp()
 __myevic__ void Overtemp()
 {
 	StopFire();
+        
+        if ( !gFlags.FireNotFlipped )
+        {
+                    gFlags.FireNotFlipped = 1;
+                    dfStatus.flipped ^= 1;
+                    InitDisplay();
+        }
+        
         SetScreen( 29, 5 );
 	//gFlags.refresh_display = 1;
 	//Screen = 29;

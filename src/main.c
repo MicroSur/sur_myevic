@@ -1217,7 +1217,7 @@ __myevic__ void Main()
 			//if ( ShowProfNum )
 			//	--ShowProfNum;
 
-			if ( !( gFlags.firing && ISMODETC(dfMode) ) )
+			if ( !( gFlags.firing && ISMODETC(dfMode) ) ) //!(A && B) = !A || !B  DeMorgans Law
 			{
 				DrawScreen();
 			}
