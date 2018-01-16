@@ -68,6 +68,7 @@ const char pid_sinp80   [8]	__PIDATTR__	= { 'J','0','0','1', 1, 0, 0, 0 };
 const char pid_sinfj200 [8]	__PIDATTR__	= { 'J','0','0','9', 1, 0, 0, 0 };
 const char pid_rx2      [8]	__PIDATTR__	= { 'J','0','1','2', 1, 0, 0, 0 };
 const char pid_invoke   [8]	__PIDATTR__	= { 'M','0','9','5', 1, 0, 0, 0 };
+const char pid_rx217    [8]	__PIDATTR__	= { 'J','0','7','5', 1, 0, 0, 0 };
 
 #define PID_SCRAMBLE 0x12345678UL
 #define MAKEPID(p) ((((p)[0])|((p)[1]<<8)|((p)[2]<<16)|((p)[3]<<24))^PID_SCRAMBLE)
@@ -103,6 +104,7 @@ const char pid_invoke   [8]	__PIDATTR__	= { 'M','0','9','5', 1, 0, 0, 0 };
 #define PID_SINFJ200	MAKEPID(pid_sinfj200)
 #define PID_RX2         MAKEPID(pid_rx2)
 #define PID_INVOKE      MAKEPID(pid_invoke)
+#define PID_RX217       MAKEPID(pid_rx217)
 
 #define HWV_VTCMINI	MAKEHWV(pid_vtcmini)
 #define HWV_VTWOMINI	MAKEHWV(pid_vtwomini)
@@ -132,6 +134,7 @@ const char pid_invoke   [8]	__PIDATTR__	= { 'M','0','9','5', 1, 0, 0, 0 };
 #define HWV_SINFJ200	MAKEHWV(pid_sinfj200)
 #define HWV_RX2         MAKEHWV(pid_rx2)
 #define HWV_INVOKE      MAKEHWV(pid_invoke)
+#define HWV_RX217       MAKEHWV(pid_rx217)
 
 
 //=========================================================================
@@ -299,18 +302,26 @@ __myevic__ void SetProductID()
                         BoxName = "FJ200";
 			break;
 		}
-                else if ( u32Data == PID_RX2 )
+                else if ( u32Data == PID_RX2 || u32Data == PID_RX217 )
 		{
-			dfMaxHWVersion = HWV_RX2;
-			DFMagicNumber = 0x12;
-			BoxModel = BOX_RX2;
+			DFMagicNumber = 0x12; //both
 			NumBatteries = 2;
 			MaxBatteries = 2;
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
                         //ScrFlip = 1;
                         X32Off = 1;
+
+                        dfMaxHWVersion = HWV_RX2;
+                        BoxModel = BOX_RX2;
                         BoxName = "RX2";
+                       
+                        if ( u32Data == PID_RX217 )
+                        {
+                            dfMaxHWVersion = HWV_RX217;
+                            BoxModel = BOX_RX217;
+                            BoxName = "RX217";
+                        }
 			break;
 		}
                 else if ( u32Data == PID_INVOKE )
@@ -599,7 +610,7 @@ __myevic__ void InitSetPowerVoltMax()
 	{
 		SetMaxPower ( 2500 ); //MaxPower = 2500; //2280
 	}        
-	else if ( ISCUBOID || ISCUBO200 || ISINVOKE || ISSINFJ200 || ISRX2 )
+	else if ( ISCUBOID || ISCUBO200 || ISINVOKE || ISSINFJ200 || ISRX2 || ISRX217 )
 	{
 		SetMaxPower ( 2000 ); //MaxPower = 2000;
 	}
@@ -1460,6 +1471,10 @@ __myevic__ uint16_t GetShuntRezValue()
         {
                 rez = 103;
         }
+        else if ( ISRX217 )
+        {
+                rez = 101;
+        }        
         else if ( ISINVOKE )
         {
                 rez = 97;            

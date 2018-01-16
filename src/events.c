@@ -370,7 +370,7 @@ __myevic__ void GetUserInput()
 				}
 			}
 			else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 
-                                && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISRX2 && !ISINVOKE && !ISSINFJ200 )
+                                && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISRX2 && !ISINVOKE && !ISSINFJ200 && !ISRX217 )
 			{
 				if ( !PD7 && !gFlags.battery_charging )
 				{

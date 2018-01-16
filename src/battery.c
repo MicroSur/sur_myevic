@@ -396,7 +396,7 @@ __myevic__ uint32_t ReadBatterySample( int nbat )
 			{
 				sample = ADC_Read( 0 );
 			}
-			else if ( ISVTCDUAL || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 )
+			else if ( ISVTCDUAL || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISRX217 )
 			{
 				sample = ADC_Read( 4 );
 			}
@@ -653,7 +653,7 @@ __myevic__ void ChargeBalance()
 			PA3 = ( BBBits & 1 ) != 0;              // 480C
 			PA2 = ( BBBits & 2 ) != 0;              // 4808
                     }    
-                    else if ( ISRX300 || ISRX2 || ISSINFJ200 )    
+                    else if ( ISRX300 || ISRX2 || ISSINFJ200 || ISRX217 )    
                     {        
                         PF5 = ( BBBits & 1 ) != 0;              // 4954
 			PF6 = ( BBBits & 2 ) != 0;              // 4958
@@ -686,7 +686,7 @@ __myevic__ void ChargeBalance()
                     }
                     
                 }
-                else if ( ISRX300 || ISRX2 || ISSINFJ200 )
+                else if ( ISRX300 || ISRX2 || ISSINFJ200 || ISRX217 )
                 {
                     PF5 = 0;
                     PF6 = 0;
@@ -728,12 +728,12 @@ __myevic__ void ReadBatteryVoltage()
 
 		gFlags.sample_vbat = 0;
 
-		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 )
+		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 || ISRX217 )
 		{
                         VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
 			if ( VbatSample2 ) 
                         {
-                            if ( ISRX2 || ISSINFJ200 ) 
+                            if ( ISRX2 || ISSINFJ200 || ISRX217 ) 
                                 VbatSample2 += 3;
                             else
                                 VbatSample2 += 4;
@@ -938,7 +938,7 @@ __myevic__ void ReadBatteryVoltage()
 		NewBatteryData();
                 
 		if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 
-                        || ISINVOKE || ISSINFJ200 )
+                        || ISINVOKE || ISSINFJ200 || ISRX217 )
 		{
 			ChargeBalance();
 		}
@@ -1036,14 +1036,14 @@ __myevic__ int CheckBattery()
 
 			if ( bv2 < bv ) bv = bv2;
                 }
-                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 )
+                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 || ISRX217 )
                 {
                     
 			bvtot = 139 * ReadBatterySample( 1 ) / 624;
                         
 			if ( bvtot ) 
                         {
-                                if ( ISRX2 || ISSINFJ200 ) 
+                                if ( ISRX2 || ISSINFJ200 || ISRX217 ) 
                                     bvtot += 3;
                                 else
                                     bvtot += 4;                       
@@ -1593,7 +1593,7 @@ __myevic__ void BatteryPinsSet( int lh )
     {
             PD1 = lh;
     }
-    else if ( ISRX2 )
+    else if ( ISRX2 || ISRX217 )
     {
             PF2 = lh;
     }
@@ -1623,7 +1623,7 @@ __myevic__ void BatteryCharge()
 	{
 		ChargeCurrent = 135 * ADCChargeCurrent / 360;
 	}
-        else if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 )
+        else if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 )
         {
             if ( ISINVOKE )
             {

@@ -113,7 +113,7 @@ __myevic__ void InitGPIO()
 		PD1 = 0;
 		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 	}
-        else if ( ISRX2 )
+        else if ( ISRX2 || ISRX217 )
         {
                 PF2 = 0;
                 GPIO_SetMode( PF, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );        //pf 4 1                    
@@ -133,7 +133,7 @@ __myevic__ void InitGPIO()
 //      LDR     R1, [R0,#0x48]
 //      STR     R1, [R0,#0x48]
 	if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPRIMOMINI || ISPREDATOR 
-                || ISPRIMOSE || ISGEN3 || ISINVOKE || ISSINP80 || ISRX2 || ISSINFJ200 )
+                || ISPRIMOSE || ISGEN3 || ISINVOKE || ISSINP80 || ISRX2 || ISSINFJ200 || ISRX217 )
 	{
 		SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk|SYS_GPD_MFPL_PD1MFP_Msk);
 		SYS->GPD_MFPL |= SYS_GPD_MFPL_PD0MFP_GPIO|SYS_GPD_MFPL_PD1MFP_GPIO;
@@ -154,7 +154,8 @@ __myevic__ void InitGPIO()
         }
         
 	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || 
-                ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 )
+                ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || 
+                ISSINFJ200 || ISRX217 )
 	{
 		PD7 = 0;
 		BBC_Configure( BBC_PWMCH_CHARGER, 0 );          // 5 0
@@ -187,9 +188,10 @@ __myevic__ void InitGPIO()
 		PF2 = 1;                                                                // 0x40004948
 		GPIO_SetMode( PF, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );                // 0x40004140 4 1
 	}
-	else if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 )
+	else if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE 
+                || ISRX2 || ISSINFJ200 || ISRX217 )
 	{
-            if ( ISRX300 || ISRX2 || ISSINFJ200 )
+            if ( ISRX300 || ISRX2 || ISSINFJ200 || ISRX217 )
             {
 		SYS->GPF_MFPL &= ~(SYS_GPF_MFPL_PF5MFP_Msk|SYS_GPF_MFPL_PF6MFP_Msk);
 		SYS->GPF_MFPL |= SYS_GPF_MFPL_PF5MFP_GPIO|SYS_GPF_MFPL_PF6MFP_GPIO;
@@ -206,7 +208,7 @@ __myevic__ void InitGPIO()
 		GPIO_SetMode( PF, GPIO_PIN_PIN5_Msk, GPIO_MODE_OUTPUT );   
             }
             
-            if ( !ISRX2 )
+            if ( !ISRX2 && !ISRX217 )
             {
                 PA3 = 0;
                 GPIO_SetMode( PA, GPIO_PIN_PIN3_Msk, GPIO_MODE_OUTPUT );
@@ -243,7 +245,7 @@ __myevic__ void InitGPIO()
 	GPIO_SetMode( PC, GPIO_PIN_PIN4_Msk, GPIO_MODE_OUTPUT );                // 0x40004080 0x10 1
 
 	// BATTERY
-        if ( !ISSINP80 && !ISINVOKE && !ISRX2 )
+        if ( !ISSINP80 && !ISINVOKE && !ISRX2 && !ISRX217 )
         {
             GPIO_SetMode( PD, GPIO_PIN_PIN0_Msk, GPIO_MODE_INPUT );             // 0x400040C0 1 0
             GPIO_EnableInt( PD, 0, GPIO_INT_FALLING );                          // 0x400040C0 0 1
@@ -261,7 +263,7 @@ __myevic__ void InitGPIO()
 		GPIO_ENABLE_DEBOUNCE( PD, GPIO_PIN_PIN1_Msk );
 	}
 	else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 
-                && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISINVOKE && !ISRX2 && !ISSINFJ200 )
+                && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISINVOKE && !ISRX2 && !ISSINFJ200 && !ISRX217 )
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );
 		GPIO_EnableInt( PD, 7, GPIO_INT_RISING );
@@ -272,7 +274,7 @@ __myevic__ void InitGPIO()
 	PE10 = 0;                                                               // 0x40004928
 	GPIO_SetMode( PE, GPIO_PIN_PIN10_Msk, GPIO_MODE_OUTPUT );               // 0x40004100 (0x400 = 0x40004928 ASR 0x14) 1
         
-        if ( ISRX2 || ISINVOKE )
+        if ( ISRX2 || ISINVOKE || ISRX217 )
             PE12 = 1;
         else
             PE12 = 0;                                                               // 0x40004930
@@ -311,11 +313,11 @@ __myevic__ void InitGPIO()
 	}
         else if ( ISSINP80 )
         {
-                PD0 = 0;      // LED? R G(01) Y Off                                                 // 0x400048C0
+                PD0 = 0;      // LED R G(01) Y Off                                                 // 0x400048C0
                 PD1 = 0;                                                                        // 0x400048C4
                 GPIO_SetMode( PD, GPIO_PIN_PIN0_Msk|GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );      // 0x400040C0 3 1
         }
-        else if ( ISRX2 )
+        else if ( ISRX2 || ISRX217 )
         {
             	PA3 = 1;
 		GPIO_SetMode( PA, GPIO_PIN_PIN3_Msk, GPIO_MODE_OUTPUT );            //pa 8 1
@@ -332,6 +334,13 @@ __myevic__ void InitGPIO()
 		GPIO_SetMode( PB, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );
 	}
 
+        //Nested Vector Interrupt Controller
+        if ( ISRX217 )
+        {
+        NVIC_EnableIRQ( GPA_IRQn );                                         // 0x10
+        NVIC_EnableIRQ( GPB_IRQn );                                         // 0x11
+        }
+        
 	NVIC_EnableIRQ( GPD_IRQn );                                         // 0x13
 	NVIC_EnableIRQ( GPE_IRQn );                                         // 0x14
 	NVIC_EnableIRQ( GPF_IRQn );                                         // 0x15

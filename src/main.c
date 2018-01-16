@@ -411,7 +411,7 @@ __myevic__ void DevicesOnOff( int off )
                     SetADCState( 14, 0 ); //ISSINP80
 
 		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || 
-                        ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 )
+                        ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 || ISRX217 )
 		{
 
                         SetADCState( 3, 0 );
@@ -464,7 +464,7 @@ __myevic__ void DevicesOnOff( int off )
 			PA1 = 0;
                         PA2 = 0;
                 }                
-                else if ( ISRX2 )
+                else if ( ISRX2 || ISRX217 )
 		{
                         PA3 = 0;
                 }
@@ -473,7 +473,7 @@ __myevic__ void DevicesOnOff( int off )
 			PB7 = 0;                                                // 4000485C
 		}
 
-                if ( !ISRX2 && !ISSINP80 && !ISINVOKE )
+                if ( !ISRX2 && !ISSINP80 && !ISINVOKE && !ISRX217 )
 		{
                     GPIO_DisableInt( PD, 0 );
                     PD0 = 0;                                                        // 400048C0
@@ -481,9 +481,9 @@ __myevic__ void DevicesOnOff( int off )
                 }
                     
 		if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 
-                        || ISINVOKE || ISSINFJ200 )
+                        || ISINVOKE || ISSINFJ200 || ISRX217 )
 		{
-                    if ( ISRX300 || ISRX2 || ISSINFJ200 )
+                    if ( ISRX300 || ISRX2 || ISSINFJ200 || ISRX217 )
                     {
 			PF5 = 0;                                                // 40004954
 			PF6 = 0;                                                // 40004958
@@ -493,7 +493,7 @@ __myevic__ void DevicesOnOff( int off )
                         PF5 = 0;
                     }
                     
-                    if ( !ISRX2 && !ISSINFJ200 )
+                    if ( !ISRX2 && !ISSINFJ200 && !ISRX217 )
                     {
 			PA3 = 0;                                                // 4000480C
 			PA2 = 0;                                                // 40004808
@@ -507,7 +507,8 @@ __myevic__ void DevicesOnOff( int off )
 			GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
 		}
 		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 
-                        && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISRX2 && !ISINVOKE && !ISSINFJ200 )
+                        && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISRX2 
+                        && !ISINVOKE && !ISSINFJ200 && !ISRX217 )
 		{
 			GPIO_DisableInt( PD, 7 ); //ISSINP80
 			PD7 = 0;                                                // 400048DC
@@ -549,7 +550,7 @@ __myevic__ void DevicesOnOff( int off )
                         PF0 = 0;                                                // 4940
                         PD1 = 0;                                                // 48C4
                 }
-                else if ( ISRX2 )
+                else if ( ISRX2 || ISRX217 )
                 {
                         PF2 = 0;                                                // 4948
                 }
@@ -593,7 +594,7 @@ __myevic__ void DevicesOnOff( int off )
 		SYS->GPE_MFPH &= ~(SYS_GPE_MFPH_PE11MFP_Msk|SYS_GPE_MFPH_PE12MFP_Msk|SYS_GPE_MFPH_PE13MFP_Msk);
 		SYS->GPE_MFPH |= (SYS_GPE_MFPH_PE11MFP_SPI0_MOSI0|SYS_GPE_MFPH_PE12MFP_SPI0_SS|SYS_GPE_MFPH_PE13MFP_SPI0_CLK);
 
-                if ( !ISRX2 && !ISSINP80 && !ISINVOKE )
+                if ( !ISRX2 && !ISSINP80 && !ISINVOKE && !ISRX217 )
                 {
                         GPIO_SetMode( PD, GPIO_PIN_PIN0_Msk, GPIO_MODE_INPUT );         // 40C0 1 0
                         GPIO_EnableInt( PD, 0, GPIO_INT_FALLING );                      // 40C0 0 1
@@ -606,7 +607,8 @@ __myevic__ void DevicesOnOff( int off )
 			GPIO_ENABLE_DEBOUNCE( PD, GPIO_PIN_PIN1_Msk );
 		}
 		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 
-                        && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISRX2 && !ISINVOKE && !ISSINFJ200 )
+                        && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISRX2 
+                        && !ISINVOKE && !ISSINFJ200 && !ISRX217 )
 		{
 			GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT ); // 40C0 0x80 0     ISSINP80
 			GPIO_EnableInt( PD, 7, GPIO_INT_RISING );               // 40C0 7 0x10000
@@ -621,7 +623,7 @@ __myevic__ void DevicesOnOff( int off )
 		{
 			PD1 = 1;                                                // 48C4
 		}
-		else if ( ISRX2 )
+		else if ( ISRX2 || ISRX217 )
 		{
 			PA3 = 1;                                                // 48C4
 		}
@@ -643,7 +645,8 @@ __myevic__ void DevicesOnOff( int off )
                     SetADCState( 14, 1 );
 
 		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 
-                        || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 )
+                        || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE 
+                        || ISSINFJ200 || ISRX217 )
 		{
 			SetADCState( 3, 1 );
 			SetADCState( 13, 1 );
@@ -1065,7 +1068,7 @@ __myevic__ void Main()
                                 gFlags.soft_charge = 1;
 			}
 			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
-                                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 )
+                                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 )
 			{
 				BatteryCharge();
                                 gFlags.soft_charge = 1;

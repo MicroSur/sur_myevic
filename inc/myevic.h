@@ -68,7 +68,8 @@ enum
         BOX_RX2,
         BOX_SINP80,
         BOX_SINFJ200,
-        BOX_INVOKE
+        BOX_INVOKE,
+        BOX_RX217,
 };
 
 #define ISVTCMINI		(BoxModel==BOX_VTCMINI)
@@ -98,6 +99,7 @@ enum
 #define ISSINP80                (BoxModel==BOX_SINP80)
 #define ISSINFJ200              (BoxModel==BOX_SINFJ200)
 #define ISINVOKE                (BoxModel==BOX_INVOKE)
+#define ISRX217                 (BoxModel==BOX_RX217)
 
 //=========================================================================
 // Global flags bitfield

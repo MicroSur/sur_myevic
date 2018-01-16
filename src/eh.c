@@ -575,7 +575,7 @@ __myevic__ void EventHandler()
 			}
 			else if ( !ISCUBOID && ! ISCUBO200 && !ISRX200S && !ISRX23 
                                 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR 
-                                && !ISGEN3 && !ISRX2 && !ISINVOKE && !ISSINFJ200 )
+                                && !ISGEN3 && !ISRX2 && !ISINVOKE && !ISSINFJ200 && !ISRX217 )
 			{
 				GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );
 				PD7 = 0;
@@ -979,7 +979,7 @@ __myevic__ void EventHandler()
 				}
 				else
 				{
-                                        SetScreen( 61, 3 ); //goodbye
+                                        SetScreen( 61, 2 ); //goodbye
 				//	Screen = 0;
 				//	SleepTimer = 0;
 				}
@@ -1099,7 +1099,7 @@ __myevic__ void EventHandler()
 			ChargeStatus = 1;
 			if ( NumBatteries > 1 )
 			{
-                            if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 )
+                            if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 )
                             {
                                 USBMaxLoad = 3;
                             } 
