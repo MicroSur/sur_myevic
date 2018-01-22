@@ -147,6 +147,7 @@ extern void InitTCAlgo();
 extern void TweakTargetVoltsSegments();
 extern void TweakTargetVoltsAlgo();
 
+extern uint8_t GetLockState();
 
 //=============================================================================
 

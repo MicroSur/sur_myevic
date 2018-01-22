@@ -254,25 +254,29 @@ __myevic__ void DrawCoilLine( int line )
             x = 63;
             yoff = 8;
         }
-        
-                DrawString( String_COIL_s, 0, y+yoff );
+                  
+        uint8_t lock = GetLockState();
+ 
+        DrawString( String_COIL_s, 0, y+yoff );
 
-            	if ( Set_NewRez_dfRez || !AtoRez )
-		{
-			rez = AtoRez;
-		}
-		else
-		{
-			rez = dfResistance;
-		}
+        if ( ( !lock && Set_NewRez_dfRez ) || !AtoRez ) //Set_NewRez_dfRez show AtoRez on start
+	{
+		rez = AtoRez;
+	}
+	else
+	{
+		rez = dfResistance;
+	}
 
         DrawValueRight( x, y, rez, 2, fset, 3 );
-
-	if     ((( dfMode == 0 ) && ( dfRezLockedNI ))
-	||	(( dfMode == 1 ) && ( dfRezLockedTI ))
-	||	(( dfMode == 2 ) && ( dfRezLockedSS ))
-	||	(( dfMode == 3 ) && ( dfRezLockedTCR )))
-	{
+                               
+//	if     ((( dfMode == 0 ) && ( dfRezLockedNI ))
+//	||	(( dfMode == 1 ) && ( dfRezLockedTI ))
+//	||	(( dfMode == 2 ) && ( dfRezLockedSS ))
+//	||	(( dfMode == 3 ) && ( dfRezLockedTCR )))
+//	{
+        if ( lock )
+            {
             if ( dfUIVersion == 1 )
             {
                 DrawImage( 0, y+yoff, 0xC3 ); //lock 9
@@ -481,6 +485,7 @@ __myevic__ void DrawAPTLines()
 		}
 		case 10: // coil temp
 		{
+                    // AtoTemp from last visited TC mode!
 			DrawImage( 0, line+2, 0xDB );
                         if ( !AtoRezMilli ) AtoTemp = 32;
                         int t = dfIsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;

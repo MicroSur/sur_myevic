@@ -766,6 +766,8 @@ __myevic__ void CheckMode()
 //----- (00003250) --------------------------------------------------------
 __myevic__ void ReadAtomizer()
 {
+    // 1000Hz from Main() + from Probe
+    
 	uint32_t ADCShuntSum;
 	uint32_t ADCShuntSum1;
 	uint32_t ADCShuntSum2;
@@ -825,7 +827,7 @@ __myevic__ void ReadAtomizer()
                 
 		if ( gFlags.firing )
 		{
-			uint32_t pwr = AtoCurrent * AtoCurrent * AtoRezMilli / 100000;
+			uint32_t pwr = AtoCurrent * AtoCurrent * AtoRezMilli / 100000; // P = I^2 * R
 			MilliJoules += pwr;
 		}
                 
@@ -1656,7 +1658,7 @@ __myevic__ void ProbeAtomizer()
                 
                 if ( !ISMODETC(dfMode) )
                 {
-                    if ( dfResistance > AtoRez ) dfResistance = AtoRez; // goes down to cold
+                    if ( dfResistance > AtoRez ) dfResistance = AtoRez; // real goes down to cold (may be in TC too?)
                 }
 	}
 	else
@@ -1705,7 +1707,7 @@ __myevic__ void ProbeAtomizer()
 			Set_NewRez_dfRez = 1;
 		}
 		if ( !dfResistance )
-		{
+		{                               
 			if ( AtoRez )
 			{                             
                                 dfResistance = AtoRez;
@@ -2369,4 +2371,16 @@ __myevic__ void TweakTargetVoltsTC()
 			TweakTargetVoltsJT();
 			break;
 	}
+}
+
+__myevic__ uint8_t GetLockState()
+{
+        
+        uint8_t lock = 0;
+	if 	( dfMode == 0 ) lock = dfRezLockedNI;
+	else if ( dfMode == 1 ) lock = dfRezLockedTI;
+	else if ( dfMode == 2 ) lock = dfRezLockedSS;
+	else if ( dfMode == 3 ) lock = dfRezLockedTCR;
+        return lock;
+        
 }

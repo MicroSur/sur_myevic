@@ -314,11 +314,12 @@ __myevic__ void EventHandler()
 				NewRez = AtoRez;
 				NewMillis = AtoMillis;
 
-				uint8_t lock = 0;
-				if 	( dfMode == 0 ) lock = dfRezLockedNI;
-				else if ( dfMode == 1 ) lock = dfRezLockedTI;
-				else if ( dfMode == 2 ) lock = dfRezLockedSS;
-				else if ( dfMode == 3 ) lock = dfRezLockedTCR;
+                                uint8_t lock = GetLockState();
+				//uint8_t lock = 0;
+				//if 	( dfMode == 0 ) lock = dfRezLockedNI;
+				//else if ( dfMode == 1 ) lock = dfRezLockedTI;
+				//else if ( dfMode == 2 ) lock = dfRezLockedSS;
+				//else if ( dfMode == 3 ) lock = dfRezLockedTCR;
 
                                 if ( !lock || dfMode == 4 || dfMode == 5 || dfMode == 6 ) 
 				{
@@ -339,7 +340,7 @@ __myevic__ void EventHandler()
 					dfRezNI = dfResistance;
 					dfMillis = ( dfMillis & ~0xf ) | RezMillis;
 				}
-				else
+				else if ( !dfRezLockedNI )
 				{
 					word_200000BA = dfRezNI * 10 + ( dfMillis & 0xf );
 
@@ -347,13 +348,14 @@ __myevic__ void EventHandler()
 					{
 						if (	dfRezNI + dfRezNI * dfNewRezPerc / 100 < NewRez // dfRezNI / 20
 							&&	dfRezNI + 1 < NewRez
-							&&	!dfRezLockedNI )
+							//&&	!dfRezLockedNI 
+                                                        )
 						{
 							gFlags.new_rez_ni = 1;
 							Event = 32;
 							return;
 						}
-
+                                                    
 						if
 						(
 							(	(dfRezNI - dfRezNI * dfNewRezPerc / 100 <= NewRez || dfRezNI - 1 <= NewRez) // dfRezNI / 20
@@ -398,7 +400,7 @@ __myevic__ void EventHandler()
 					dfRezTI = dfResistance;
 					dfMillis = ( dfMillis & ~0xf0 ) | ( RezMillis << 4 );
 				}
-				else
+				else if ( !dfRezLockedTI )
 				{
 					word_200000B8 = dfRezTI * 10 + ( ( dfMillis >> 4 ) & 0xf );
 
@@ -406,7 +408,8 @@ __myevic__ void EventHandler()
 					{
 						if (	dfRezTI + dfRezTI * dfNewRezPerc / 100 < NewRez
 							&&	dfRezTI + 1 < NewRez
-							&&	!dfRezLockedTI )
+							//&&	!dfRezLockedTI 
+                                                        )
 						{
 							gFlags.new_rez_ti = 1;
 							Event = 32;
@@ -457,7 +460,7 @@ __myevic__ void EventHandler()
 					dfRezSS = dfResistance;
 					dfMillis = ( dfMillis & ~0xf00 ) | ( RezMillis << 8 );
 				}
-				else
+				else if ( !dfRezLockedSS )
 				{
 					word_200000BC = dfRezSS * 10 + ( ( dfMillis >> 8 ) & 0xf );
 
@@ -465,7 +468,8 @@ __myevic__ void EventHandler()
 					{
 						if (	dfRezSS + dfRezSS * dfNewRezPerc / 100 < NewRez
 							&&	dfRezSS + 1 < NewRez
-							&&	!dfRezLockedSS )
+							//&&	!dfRezLockedSS 
+                                                        )
 						{
 							gFlags.new_rez_ss = 1;
 							Event = 32;
@@ -515,7 +519,7 @@ __myevic__ void EventHandler()
 					dfRezTCR = dfResistance;
 					dfMillis = ( dfMillis & ~0xf000 ) | ( RezMillis << 12 );
 				}
-				else
+				else if ( !dfRezLockedTCR )
 				{
 					word_200000BE = dfRezTCR * 10 + ( dfMillis >> 12 );
 
@@ -523,7 +527,8 @@ __myevic__ void EventHandler()
 					{
 						if (	dfRezTCR + dfRezTCR * dfNewRezPerc / 100 < NewRez
 							&&	dfRezTCR + 1 < NewRez
-							&&	!dfRezLockedTCR )
+							//&&	!dfRezLockedTCR 
+                                                        )
 						{
 							gFlags.new_rez_tcr = 1;
 							Event = 32;
