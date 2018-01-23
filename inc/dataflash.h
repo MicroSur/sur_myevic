@@ -69,8 +69,8 @@ typedef struct
 /* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
 /* 00008000 */	unsigned int preheat:1;     //lsls 0x10  15 bit
 
-/* 00010000 */	unsigned int sme:1;         //lsls 0x0F was nfe
-/* 00020000 */	unsigned int dfmt1:1;       //lsls 0x0E
+/* 00010000 */	unsigned int sme:1;         //lsls 0x0F for FWUpdater recognize logo
+/* 00020000 */	unsigned int dfmt1:1;       //lsls 0x0E data format 1(2) bit
 /* 00040000 */	unsigned int invert:1;      //lsls 0x0D
 /* 00080000 */	unsigned int vapedml:1;     //lsls 0x0C
 /* 00100000 */	unsigned int onedegree:1;   //lsls 0x0B
@@ -81,7 +81,7 @@ typedef struct
 /* 01000000 */	unsigned int timebig:1;     //lsls 0x07
 /* 02000000 */	unsigned int usbchgoff:1;   //lsls 0x06
 /* 04000000 */	unsigned int chkmodeoff:1;  //lsls 0x05
-/* 08000000 */	unsigned int dfmt2:1;       //lsls 0x04
+/* 08000000 */	unsigned int dfmt2:1;       //lsls 0x04 data format 2(2) bit
 /* 10000000 */	unsigned int pcurve:1;      //lsls 0x03
 /* 20000000 */  unsigned int offmodclock:1; //lsls 0x02 29
 /* 40000000 */  unsigned int fireflip:1;   //lsls 0x01

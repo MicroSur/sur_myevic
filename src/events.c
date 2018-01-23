@@ -667,6 +667,10 @@ __myevic__ void GetUserInput()
                     }
                     
 		}
+                else if ( UserInputs == 5 ) // Fire + Right button LONG
+		{
+			Event = EVENT_POWER_CURVE;
+		}
 /*
 		else if ( UserInputs == 4 )
 		{
@@ -709,6 +713,7 @@ __myevic__ void GetUserInput()
 		}
 */
 	}
+/*
 	else if ( KeyPressTime == 300 )
 	{
 		if ( UserInputs == 5 ) // Fire + Right button very LONG
@@ -716,13 +721,16 @@ __myevic__ void GetUserInput()
 			Event = EVENT_POWER_CURVE;
 		}
 	}
+*/
 	else if ( ( KeyPressTime & 0x8000 ) || ( KeyPressTime & 0x7fff ) > 200 )
 	{
 		if ( UserInputs == 1 )
 		{
-			if ( KeyPressTime > dfProtec * 10 + 50 ) //FIRE_PROTEC_MAX * 10 + 100 )
+                        uint8_t pt;
+                        pt = dfProtec * 10 + 50;
+			if ( KeyPressTime > pt ) //FIRE_PROTEC_MAX * 10 + 100 )
 			{
-				KeyPressTime = dfProtec * 10 + 50; //FIRE_PROTEC_MAX * 10 + 100;
+				KeyPressTime = pt; //dfProtec * 10 + 50; //FIRE_PROTEC_MAX * 10 + 100;
 				gFlags.user_idle = 1; //to switch mod Off
 			}
 			else if ( gFlags.firing && FireDuration >= dfProtec )

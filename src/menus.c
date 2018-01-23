@@ -111,6 +111,23 @@ const mbitdesc_t InvBitDesc =
 };
 
 //-----------------------------------------------------------------------------
+// Forward declarations for parent menu pointers
+
+const menu_t MainMenu;
+const menu_t CoilsMenu;
+const menu_t ClockMenu;
+const menu_t ScreenMenu;
+const menu_t MiscsMenu;
+const menu_t IFMenu;
+const menu_t CurveMenu;
+const menu_t VapingMenu;
+const menu_t ExpertMenu;
+const menu_t ProfileMenu;
+
+//-----------------------------------------------------------------------------
+
+// first Event then Click
+
 __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
 {
 	if ( it >= DATAFLASH_PROFILES_MAX )
@@ -166,21 +183,21 @@ __myevic__ int ProfileMenuOnEvent( int event )
 
 	switch ( event )
 	{
-		case 1: // Fire button
+		case 1: // Fire button press
 			break;
 
 		case 15: // Single Fire
-			if ( CurrentMenuItem != dfProfile ) 
+			//if ( CurrentMenuItem != dfProfile ) 
                             //need. enter in menu is single click (
                             //u can not load current profile
-			{
+			//{
                             if ( IsProfileValid( CurrentMenuItem ) )
                             {
 				LoadProfile( CurrentMenuItem );
                                 dfProfile = CurrentMenuItem;
                                 Event = EVENT_EXIT_MENUS;
                             }
-                        }
+                        //}
 			break;
 
 		case EVENT_LONG_FIRE:
@@ -1921,7 +1938,7 @@ __myevic__ void CoilsMenuIDraw( int it, int line, int sel )
 __myevic__ void CoilsMenuOnClick()
 {
 	switch ( CurrentMenuItem )
-	{
+	{           
 		case 3:	// Cold
                 case 4: // New
 			gFlags.edit_value ^= 1;
@@ -1942,6 +1959,15 @@ __myevic__ void CoilsMenuOnClick()
 __myevic__ int CoilsMenuOnEvent( int event )
 {
 	int vret = 0;
+        
+        if (CurrentMenuItem == 2 && event == 15 )
+        {
+            Event = EVENT_PROFILE_MENU;
+            //CurrentMenu = &ProfileMenu;
+            //CurrentMenuItem = dfProfile;
+            //SetScreen( 102, 15 );  
+            return 1;
+        }
 
 	if ( !gFlags.edit_value )
 		return vret;
@@ -2729,21 +2755,6 @@ __myevic__ int CurveMenuOnEvent( int event )
 	return vret;
 }
 
-//-----------------------------------------------------------------------------
-// Forward declarations for parent menu pointers
-
-const menu_t MainMenu;
-const menu_t CoilsMenu;
-const menu_t ClockMenu;
-const menu_t ScreenMenu;
-const menu_t MiscsMenu;
-const menu_t IFMenu;
-const menu_t CurveMenu;
-const menu_t VapingMenu;
-const menu_t ExpertMenu;
-const menu_t ProfileMenu;
-
-//-----------------------------------------------------------------------------
 
 const menu_t GameMenu =
 {
@@ -3005,7 +3016,7 @@ const menu_t CoilsMenu =
 	{
 		{ String_Manage, &CoilsMgmtMenu, 0, MACTION_SUBMENU },
 		{ String_TCRSet, &TCRSetMenu, 0, MACTION_SUBMENU },
-                { String_Profile, 0, EVENT_PROFILE_MENU, MACTION_SUBMENU },  //0
+                { String_Profile, 0, 0, MACTION_SUBMENU }, //EVENT_PROFILE_MENU, MACTION_SUBMENU },
                 { String_Cold, 0, 0, 0 },
                 { String_New, 0, 0, 0 },
 		{ String_Check, 0, 0, 0 },                         

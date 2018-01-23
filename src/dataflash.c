@@ -636,7 +636,12 @@ __myevic__ void ResetDataFlash()
 {
 	int hwv;
         uint8_t		tmpBVOffset[4];
+        int8_t          tmpAkkuTempCorr;
+        int8_t		tmpBoardTempCorr;
+        
         MemCpy(tmpBVOffset, dfBVOffset, 4); // I dnt remember
+        tmpAkkuTempCorr = dfAkkuTempCorr;
+        tmpBoardTempCorr = dfBoardTempCorr;
 	hwv = dfHWVersion;
         
 	MemClear( DataFlash.params, DATAFLASH_PARAMS_SIZE );
@@ -646,6 +651,8 @@ __myevic__ void ResetDataFlash()
         
         dfHWVersion = hwv;
         MemCpy(dfBVOffset, tmpBVOffset, 4);
+        dfAkkuTempCorr = tmpAkkuTempCorr;
+        dfBoardTempCorr = tmpBoardTempCorr;
         
 	dfMagic = DFMagicNumber;
 	dfMode = 4;
@@ -761,7 +768,7 @@ __myevic__ void ResetDataFlash()
 
 	//dfPuffCount = 0;
 	//dfTimeCount = 0;
-	//UpdatePTCounters();
+	UpdatePTCounters();
 
 	AtoShuntRez = GetShuntRezValue();
 }
@@ -882,7 +889,7 @@ __myevic__ void DFCheckValuesValidity()
 		}
 	//}
 
-	MemSet( DataFlash.p.Unused4E, 0, sizeof(DataFlash.p.Unused4E) );
+	//MemSet( DataFlash.p.Unused4E, 0, sizeof(DataFlash.p.Unused4E) );
 
 	if ( dfShuntRez < SHUNT_MIN_VALUE || dfShuntRez > SHUNT_MAX_VALUE ) //75 150
 		dfShuntRez = 0;
@@ -1692,8 +1699,9 @@ const uint8_t ProfileFilter[32] =
 // Saved status bits
 //                                 3         2         1          
 //                               21098765432109876543210987654321
-const uint32_t  StatusFilter = 0b11010000000111001000011000000000;
-//                                                           8421
+const uint32_t  StatusFilter = 0b11010000000111001000011001000000;
+//                                      3       2       1       0  
+//                               84218421842184218421842184218421
 const uint32_t StatusFilter2 = 0b00000000000000000000000000000110;
 
 //-------------------------------------------------------------------------
