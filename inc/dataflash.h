@@ -58,7 +58,7 @@ typedef struct
 /* 00000010 */	unsigned int clock:1;       //lsls 0x1B 4
 /* 00000020 */	unsigned int vcom:1;        //lsls 0x1A
 /* 00000040 */	unsigned int autopuff:1;     //lsls 0x19 //was storage
-/* 00000080 */	unsigned int dbgena:1;      //lsls 0x18                     //not used
+/* 00000080 */	unsigned int endlessfire:1;      //lsls 0x18
 
 /* 00000100 */	unsigned int x32off:1;      //lsls 0x17
 /* 00000200 */	unsigned int priopwr:1;     //lsls 0x16
@@ -101,6 +101,8 @@ typedef struct
 /* 00000020 */	unsigned int splash0:1;         // 0-00 off; 1-01 on; 2-10 on with box name //11
 /* 00000040 */	unsigned int splash1:1;
 /* 00000080 */	unsigned int bybatts:1;     //batteries voltage for bypass mode, 0 - 1batt, 1 - all batts
+
+/* 00000100 */	unsigned int vwrezlock:1;  //lock res in VW like in TC
 }
 // Do not exceed 32 bits;
 dfStatus2_t;

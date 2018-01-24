@@ -790,6 +790,7 @@ __myevic__ void SleepIfIdle()
                         PuffsOffCount = 0;
                         NextPreheatTimer = 0;
                         AutoPuffTimer = 0;
+                        gFlags.apuff = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();
                         
@@ -1197,8 +1198,12 @@ __myevic__ void Main()
                                     InitDisplay();
                                     gFlags.refresh_display = 1;
                                 }
-  
-				++FireDuration;
+                                                //
+                                if ( !( gFlags.apuff && dfStatus.endlessfire && FireDuration >= dfProtec ) )
+                                {
+                                    ++FireDuration;
+                                }
+                                
                                 if ( dfStatus.pcurve ) ++CurveRepeatTimerDuration;
                                         
 				//if ( gFlags.monitoring )

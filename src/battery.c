@@ -474,9 +474,8 @@ __myevic__ void ReadInternalResistance()
 	if ( filter.count >= FILTER_SIZE )
 	{
 		// Mean rez per battery, rounded up
-		//rez = ( rez + NumBatteries / 2 ) / NumBatteries;
-            
-                rez /= NumBatteries;
+		rez = ( rez + NumBatteries / 2 ) / NumBatteries;
+                //rez /= NumBatteries;
 
 		// There's no battery with internal resistance
 		// less than 20mOhm.

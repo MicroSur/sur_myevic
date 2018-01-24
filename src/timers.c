@@ -222,7 +222,7 @@ __myevic__ void TimedItems()
 			FireClickCount = 0;
 	}
 
-	if ( AutoPuffTimer )
+	if ( AutoPuffTimer && gFlags.apuff && !dfStatus.endlessfire )
 		--AutoPuffTimer;
 
 	if ( ++BatAnimTimer >= 100 )

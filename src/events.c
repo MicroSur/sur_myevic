@@ -240,7 +240,7 @@ __myevic__ void SetClicksAction( uint8_t num )
 // Called at 100Hz
 __myevic__ void GetUserInput()
 {
-        static uint8_t	apuff = 0;
+        //gFlags.apuff    static uint8_t	apuff = 0;
         
 	UserInputs = 14;
 
@@ -257,12 +257,13 @@ __myevic__ void GetUserInput()
                         if ( FireClickCount > 1 || KeyPressTime > 80 )
                         {
                             AutoPuffTimer = 0;
-                            apuff = 0;
+                            gFlags.apuff = 0;
                         }
                         else if ( KeyPressTime >= 20 && !AutoPuffTimer && Screen == 2 ) //on fire screen...
                         {
-                            AutoPuffTimer = (uint16_t)dfAutoPuffTimer * 10 - FireDuration * 10;
-                            apuff = 1;
+                            //AutoPuffTimer = (uint16_t)dfAutoPuffTimer * 10 - FireDuration * 10;
+                            AutoPuffTimer = ( (uint16_t)dfAutoPuffTimer - FireDuration ) * 10;
+                            gFlags.apuff = 1;
                         }
                     }
                 }
@@ -277,9 +278,9 @@ __myevic__ void GetUserInput()
 			{
 				StopFire();                            
                                 //gFlags.refresh_display = 1; //bad idea // for correct last FireDuration in TC
-                                if ( apuff )
+                                if ( gFlags.apuff )
                                 {
-                                    apuff = 0;
+                                    gFlags.apuff = 0;
                                     FireDuration = (uint16_t)dfAutoPuffTimer;
                                     if ( dfStealthOn != 1 )
                                     {
@@ -726,15 +727,16 @@ __myevic__ void GetUserInput()
 	{
 		if ( UserInputs == 1 )
 		{
-                        uint8_t pt;
-                        pt = dfProtec * 10 + 50;
+                        uint16_t pt;
+                        pt = dfProtec * 10 + 50; //+5 sec and Off mod
 			if ( KeyPressTime > pt ) //FIRE_PROTEC_MAX * 10 + 100 )
 			{
 				KeyPressTime = pt; //dfProtec * 10 + 50; //FIRE_PROTEC_MAX * 10 + 100;
 				gFlags.user_idle = 1; //to switch mod Off
 			}
-			else if ( gFlags.firing && FireDuration >= dfProtec )
+			else if ( gFlags.firing && FireDuration > dfProtec )
 			{
+                            if ( !( gFlags.apuff && dfStatus.endlessfire ) )
 				Event = 24;	// 10s protection
 			}
 		}

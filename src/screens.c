@@ -283,13 +283,16 @@ __myevic__ void DrawScreen()
 //DrawValueRight( 38, 108, gFlags.inverse, 0, 0x01, 0 );
 //DrawValueRight( 64, 108, dfTempAlgo, 0, 0x01, 0 );
         
+//DrawValue( 0, 108, gFlags.apuff ? 1 : 0, 0, 0x01, 0 );    
+//DrawValueRight( 64, 108, dfStatus.endlessfire, 0, 0x01, 0 );
 //DrawValue( 0, 0, StealthPuffs, 0, 0x01, 0 );
-//DrawValue( 64, 0, FireDuration ? : 0, 0, 0x01, 0 );
+//DrawValueRight( 64, 0, FireDuration ? : 0, 0, 0x01, 0 );
 //DrawValueRight( 64, 0, LastEvent, 0, 0x01, 0 ); 
 //NextPreheatTimer UserInputs AutoPuffTimer FireDuration
 //UserInputs LastInputs TargetVolts AtoRez
 //FireClicksEvent  FireClickCount CurrentFD ScreenDuration PreheatDelay SleepTimer KeyUpTimer
 //dfResistance AtoRez dfTempAlgo StealthPuffs
+//gFlags.apuff && dfStatus.endlessfire
         
 //DisplayRefresh(); //uncomment too
 

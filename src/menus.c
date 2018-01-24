@@ -324,8 +324,16 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 
                 case 10: //AutoPuffTimer
                         DrawFillRect( 36, line, 63, line+12, 0 );
-                        DrawImageRight( 63, line+2, 0x94 );
-                        DrawValueRight( 57, line+2, dfAutoPuffTimer, 1, 0x0B, 0 );
+                        if ( dfStatus.endlessfire )
+                        {
+                            DrawImageRight( 63, line+2, 0xEC );
+                        }
+                        else
+                        {
+                            DrawImageRight( 63, line+2, 0x94 );
+                            DrawValueRight( 57, line+2, dfAutoPuffTimer, 1, 0x0B, 0 );
+                        }
+                        
                 	if ( sel && gFlags.edit_value )
 				InvertRect( 0, line, 63, line+12 );    
                         break;             
@@ -413,10 +421,10 @@ __myevic__ int VapingMenuOnEvent( int event )
 					break;
                                         
 				case 10: // autopufftimers
-					if ( ++dfAutoPuffTimer > 250 )
+					if ( ++dfAutoPuffTimer > 251 ) // 25 sec max
 					{
 						if ( KeyTicks < 5 ) dfAutoPuffTimer = 10;
-						else dfAutoPuffTimer = 250;
+						else dfAutoPuffTimer = 251;
 					}
 					vret = 1;
 					break;                                          
@@ -454,10 +462,10 @@ __myevic__ int VapingMenuOnEvent( int event )
 					break;
                                         
 				case 10: // autopufftimers
-					if ( --dfAutoPuffTimer < 10 )
-					{
+					if ( --dfAutoPuffTimer < 9 )
+					{                                                
 						if ( KeyTicks < 5 ) dfAutoPuffTimer = 250;
-						else dfAutoPuffTimer = 10;
+						else dfAutoPuffTimer = 9;
 					}
 					vret = 1;
 					break; 
@@ -493,6 +501,10 @@ __myevic__ int VapingMenuOnEvent( int event )
 
 	if ( vret )
 	{
+            dfStatus.endlessfire = 0;
+            if ( dfAutoPuffTimer == 9 || dfAutoPuffTimer == 251 )
+                dfStatus.endlessfire = 1;
+            
 		UpdateDFTimer = 50;
 		gFlags.refresh_display = 1;
 	}

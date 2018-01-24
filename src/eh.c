@@ -680,7 +680,7 @@ __myevic__ void EventHandler()
 
 			if ( !ISMODETC(dfMode) )
 			{
-				if ( AtoRez < 5 )
+				if ( AtoRez < 5 ) //0.05
 				{
 					StopFire();
 					Event = 27;
@@ -1350,7 +1350,7 @@ __myevic__ void EventHandler()
 				MainView();
 			}
 
-			if ( Screen == 51 )
+			if ( Screen == 51 ) //new coil screen
 			{
 				switch ( dfMode )
 				{
@@ -1379,7 +1379,7 @@ __myevic__ void EventHandler()
 				}
 				MainView();
 			}
-			else if ( Screen == 1 )
+			else if ( Screen == 1 ) //main screen
 			{
 				KeyUpTimer = 10;
 

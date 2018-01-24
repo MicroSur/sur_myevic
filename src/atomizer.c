@@ -464,6 +464,7 @@ __myevic__ void StopFire()
 //	myprintf( "StopFire from 0x%08x\n", caller );
 
 	AutoPuffTimer = 0;
+        gFlags.apuff = 0;
 	PreheatTimer = 0;
 
 	LowBatVolts = 0;
@@ -867,7 +868,7 @@ __myevic__ void ReadAtomizer()
 				}
 				return;
 			}
-			if ( AtoProbeCount <= 10 && AtoRezMilli > 3500 )
+			if ( AtoProbeCount <= 10 && AtoRezMilli > 10000 ) //3500 )
 			{
 				AtoStatus = 3;
 				//myprintf( "RL_LARGE %d\n", AtoRezMilli );
@@ -1658,7 +1659,7 @@ __myevic__ void ProbeAtomizer()
                 
                 if ( !ISMODETC(dfMode) )
                 {
-                    if ( dfResistance > AtoRez ) dfResistance = AtoRez; // real goes down to cold (may be in TC too?)
+                    if ( !dfStatus2.vwrezlock && dfResistance > AtoRez ) dfResistance = AtoRez; // real goes down to cold (may be in TC too?)
                 }
 	}
 	else
@@ -1775,7 +1776,8 @@ __myevic__ void SwitchRezLock()
                         dfVWVolts = GetAtoVWVolts( dfPower, AtoRez );
                         dfVVLockedVolt = dfVWVolts;
                         
-                        //dfVVLockedVolt = dfVWVolts;
+                        dfStatus2.vwrezlock ^= 1;
+
 			RezMillis = AtoMillis;
                         UpdateDFTimer = 50;
                         break;
@@ -2381,6 +2383,7 @@ __myevic__ uint8_t GetLockState()
 	else if ( dfMode == 1 ) lock = dfRezLockedTI;
 	else if ( dfMode == 2 ) lock = dfRezLockedSS;
 	else if ( dfMode == 3 ) lock = dfRezLockedTCR;
+        else if ( dfMode == 4 && dfStatus2.vwrezlock ) lock = 1;
         return lock;
         
 }
