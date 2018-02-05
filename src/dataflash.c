@@ -669,8 +669,8 @@ __myevic__ void ResetDataFlash()
 	dfTemp = 200;
 //	dfResistance = 0;
 //	dfUIVersion = 2;
-	dfAPT = 6;
-	dfAPT3 = 5;
+	dfAPT = 10;
+	dfAPT3 = 7;
 //	dfRezTI = 0;
 //	dfRezNI = 0;
 //	dfRezLockedTI = 0;
@@ -694,8 +694,8 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.dbgena = 0;        //not used
 	dfStatus.x32off = X32Off;
 	dfStatus.onewatt = 1;
-        dfStatus.vapedml = 1;
-//      dfStatus2.vapedjoules = 0;
+        dfStatus.vapedml = 1;       //not used
+//      dfStatus2.vapedjoules = 0;  //not used
 	dfStatus.digclk = 1;
 //      dfStatus2.digclk2 = 0;      //00 01 10
         dfStatus2.splash1 = 1;      //splash on with box name

@@ -290,6 +290,7 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 
 		case 5:	// Vaped
 			DrawFillRect( 39, line, 63, line+12, 0 );
+/*
                         if ( dfStatus2.vapedjoules )
                         {
                             DrawImageRight( 63, line+2, 0xDE );   
@@ -299,6 +300,8 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
                             DrawImageRight( 63, line+2, dfStatus.vapedml ? 0xF9 : 0xF3 );   
                             //DrawString( dfStatus.vapedml ? String_ml : String_mld, 43, line+2 );
                         }
+*/
+                        DrawImageRight( 63, line+2, 0xF6 ); 
 			break;
 
 		//case 6: // mL/kJ
@@ -353,6 +356,7 @@ __myevic__ void VapingMenuOnClick()
 
 		case 5:	// Vaped
                     
+/*
                         if ( dfStatus.vapedml )
 			{
 				dfStatus.vapedml = 0;
@@ -369,6 +373,7 @@ __myevic__ void VapingMenuOnClick()
                         
 			//dfStatus.vapedml ^= 1;
 			UpdateDFTimer = 50;
+*/
 			break;
 
 		//case 6: // mL/kJ
@@ -3909,7 +3914,7 @@ const menu_t VapingMenu =
                 { String_Algo, &AlgoMenu, 0, MACTION_SUBMENU },
                 { String_Modes, &ModesMenu, 0, MACTION_SUBMENU },
 		{ String_Prot, 0, 0, 0 },
-		{ String_Vaped, 0, 0, 0 },
+		{ String_Vaped, 0, 0, 0 }, // not used
 		{ String_mlkJ, 0, EVENT_SET_JOULES, MACTION_SUBMENU },
                 { String_PuffsOff, 0, 0, 0 }, 
                 { String_VVLite, &VVLite, 0, MACTION_DATA }, 

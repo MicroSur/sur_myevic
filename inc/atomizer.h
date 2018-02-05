@@ -55,6 +55,7 @@ enum
 extern uint32_t	AtoVolts;
 extern uint32_t	TargetVolts;
 extern uint32_t	AtoRezMilli;
+extern uint32_t	AtoRezMilliMin;
 extern uint32_t	AtoMinVolts;
 extern uint32_t	AtoMaxVolts;
 extern uint32_t	AtoMinPower;

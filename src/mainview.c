@@ -343,14 +343,14 @@ __myevic__ void DrawAPTLines()
 			break;
 		}
 
-		case 1:	// Puff counter
+		case 1:	// Puff counter ( preserved case 1 )
 		{
 			DrawString( String_PUFF_s, 0, line+2 );
 			DrawValueRight( 24+8*5, line, dfPuffCount, 0, 0x1F, 0 );
 			break;
 		}
 
-		case 2:	// Time counter
+		case 2:	// Time counter ( preserved case 2 )
 		{
 		//	DrawString( String_TIME_s, 0, line+2 );
 		//	DrawValue( 24, line, dfTimeCount / 10, 0, 0x1F, 5 );
@@ -363,53 +363,56 @@ __myevic__ void DrawAPTLines()
 			break;
 		}
 
-		case 3:	// Vape Velocity
+		case 3:	// Vape Velocity ( preserved case 3 4 5)
+                case 4:
+                case 5:
 		{
-			uint32_t vv, t;
-			// Elasped seconds since last VV reset
-			t = RTCGetEpoch( 0 );
-			t -= RTCReadRegister( RTCSPARE_VV_BASE );
-
+			uint32_t vv;
 			vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
 			vv /= 10;
 			if ( vv > 9999 ) vv = 9999;
                         
-                        if ( dfStatus2.vapedjoules )
+                        if ( a == 5 )                        
+                        //if ( dfStatus2.vapedjoules )
                         {
-                            vv = ( MilliJoules / 10 ) / 3600;
+                            vv = ( MilliJoules / 3600 ) / 10; // / 10 ) / 3600;
                             if ( vv > 9999 ) vv = 9999;
                             DrawImage( 0, line+2, 0xDE ); //energy
                             DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
                             DrawImage( 56, line, 0x67 ); //wh
                         }                       
-                        else
+                        else if ( a == 3 )
                         {
-                            if ( dfStatus.vapedml )
-                            {
-				//DrawString( String_LIQ_s, 0, line+2 );
+                        //    if ( dfStatus.vapedml )
+                        //    {
 				DrawImage( 0, line+2, 0xF9 ); //ml
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-                            }
-                            else
-                            {
+                                DrawImage( 57, line+2, 0xCD ); //flask
+                        }
+                        else 
+                        {
+                            	// Elasped seconds since last VV reset
+                                uint32_t t;
+                                t = RTCGetEpoch( 0 );
+                                t -= RTCReadRegister( RTCSPARE_VV_BASE );
+                        
 				vv = vv * 86400 / ( t ? : 1 );
 				DrawImage( 0, line+2, 0xF3 ); //mld
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-                            }
-                            DrawImage( 57, line+2, 0xCD ); //flask
-                        }
+                                DrawImage( 57, line+2, 0xCD ); //flask
+                        }                                                   
 			break;
 		}
-
-		case 4:	// Atomizer voltage
+                
+		case 6:	// Atomizer voltage
 		{
 			DrawString( String_VOUT_s, 0, line+2 );
 			DrawValue( 27, line, gFlags.firing?AtoVolts:0, 2, 0x1F, 3 );
 			DrawImage( 57, line+2, 0x7D );
 			break;
 		}
-
-		case 5:	// Battery voltage
+                
+		case 7:	// Battery voltage
 		{
 			DrawString( String_BATT_s, 0, line+2 );
 			//DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );
@@ -432,11 +435,18 @@ __myevic__ void DrawAPTLines()
 			DrawImage( 57, line+2, 0x7D );
 			break;
 		}
-
-		case 6:	// Board temperature
+                
+		case 8:	// Real-time clock ( preserved case 8 )
 		{
-
-                                      
+			S_RTC_TIME_DATA_T rtd;
+			GetRTC( &rtd );
+			//DrawTime( 3, line, &rtd, 0x1F );
+                        DrawDigitClock( line, 1 );
+			break;
+		}
+                
+		case 9:	// Board temperature
+		{             
                         int t;
                         if ( ISSINFJ200 )
                         {
@@ -455,8 +465,8 @@ __myevic__ void DrawAPTLines()
 			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
 		}
-
-		case 7:	// Real-time atomizer resistance
+                
+		case 10:	// Real-time atomizer resistance
 		{
 			int rez = AtoError ? 0 : AtoRezMilli;
 			//int nd = ( rez < 1000 ) ? 3 : 4;
@@ -467,23 +477,16 @@ __myevic__ void DrawAPTLines()
 			ScreenRefreshTimer = 10;
 			break;
 		}
-
-		case 8:	// Real-time clock
-		{
-			S_RTC_TIME_DATA_T rtd;
-			GetRTC( &rtd );
-			//DrawTime( 3, line, &rtd, 0x1F );
-                        DrawDigitClock( line, 1 );
-			break;
-		}
-		case 9:	// BatteryIntRez
+                
+		case 11:	// BatteryIntRez
 		{
 			DrawImage( 0, line+2, 0xFA );
 			DrawValueRight( 55, line, BatteryIntRez, 3, 0x1F, 4 );
 			DrawImage( 56, line+2, 0xC0 );
 			break;
 		}
-		case 10: // coil temp
+                
+		case 12: // coil temp
 		{
                     // AtoTemp from last visited TC mode!
 			DrawImage( 0, line+2, 0xDB );
@@ -492,14 +495,23 @@ __myevic__ void DrawAPTLines()
 			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
 			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
-		}     
-                case 11: // batts total
+		}
+                
+                case 13: // batts total
 		{
 			DrawString( String_BATT_s, 0, line+2 );
                         DrawValueRight( 55, line+2, gFlags.firing?RTBVTotal:BattVoltsTotal, 2, 0x0B, 4 ); 
                         DrawImage( 57, line+2, 0x7D );
 			break;
-		} 
+		}
+                
+                case 14: // min res on puff
+		{
+			DrawImage( 0, line+2, 0xED );
+                        DrawValueRight( 55, line, AtoRezMilliMin, 3, 0x1F, 4 ); 
+                        DrawImage( 56, line+2, 0xC0 );
+			break;
+		}                 
 	}
     }
 }

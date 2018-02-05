@@ -19,6 +19,7 @@ uint32_t	AtoVoltsADC;
 uint32_t	AtoVolts;
 uint32_t	TargetVolts;
 uint32_t	AtoRezMilli;
+uint32_t	AtoRezMilliMin; //min while puff
 uint32_t	AtoMinVolts;
 uint32_t	AtoMaxVolts;
 uint32_t	AtoMinPower;
@@ -37,7 +38,7 @@ uint16_t	TCR;
 uint8_t		AtoProbeCount;
 uint8_t		AtoShuntRez;
 uint8_t		AtoError;		// 0,1,2,3 = Ok,Open/Large,Short,Low
-uint8_t		AtoStatus;		// 0,1,2,3,4 = Open,Short,Low,Large,Ok
+uint8_t		AtoStatus;		// 0,1,2,3,4,5 = Open,Short,Low,Large,Ok,overCurrent
 uint8_t		BoardTemp;
 uint8_t		AkkuTemp;
 uint8_t		ConfigIndex;
@@ -483,7 +484,9 @@ uint16_t LowestRezMeasure()
 		rez = AtoRez;
 	if ( AtoRezMilli / 10 < rez && AtoRezMilli >= 10 )
 		rez = ( AtoRezMilli / 10 );
-
+        
+        if ( AtoRezMilliMin > AtoRezMilli || !AtoRezMilliMin ) AtoRezMilliMin = AtoRezMilli;
+        
 	return rez;
 }
 
@@ -591,12 +594,12 @@ __myevic__ void ReadAtoCurrent()
 			return;
 		}
 
-		AtoStatus = 1;
+		AtoStatus = 5; // overcurrent //AtoStatus = 1
 
-		if ( gFlags.firing ) Event = 70; //25;
-
-		StopFire();
-
+		if ( gFlags.firing ) Event = 70; //String_Error //25; 
+                
+                StopFire();
+                
 /*
 		myprintf(	"\n"
 					" Short %d! u32ADValue_Res_temp(%d) u32ADValue_CurVol_temp(%d)"
@@ -833,7 +836,7 @@ __myevic__ void ReadAtomizer()
 		}
                 
 //myprintf( "%d(%d,%d,%d)\n", AtoRezMilli, ADCAtoSum, ADCShuntSum1, ADCShuntSum2 );
-
+                        
 		if ( AtoRezMilli >= 5 )
 		{
 			if ( AtoRezMilli <= 20 )
@@ -877,7 +880,7 @@ __myevic__ void ReadAtomizer()
 			if ( gFlags.firing && AtoRezMilli / 10 <= AtoRez >> 2 )
 			{
 				StopFire();
-				Event = 71; //25;  check contact
+				Event = 71; //25;  check contact bad
 				//myprintf( "RL_GND2 %d\n", AtoRezMilli );
 				return;
 			}
@@ -933,7 +936,7 @@ __myevic__ void RegulateDualBuck()
 			++BuckDuty;
 	}
 
-	if ( ( AtoStatus == 0 || AtoStatus == 1 || ( !gFlags.firing && AtoProbeCount >= 12 ) )
+	if ( ( AtoStatus == 0 || AtoStatus == 1 || AtoStatus == 5 || ( !gFlags.firing && AtoProbeCount >= 12 ) )
 		&& BuckDuty >= ProbeDuty )
 	{
 		BuckDuty = ProbeDuty;
@@ -1046,7 +1049,7 @@ __myevic__ void RegulateBuckBoost()
 					else BuckDuty = 0;
 				}
 
-				if (	( AtoStatus == 0 || AtoStatus == 1 )
+				if (	( AtoStatus == 0 || AtoStatus == 1 || AtoStatus == 5 )
 					||	( !gFlags.firing && AtoProbeCount >= 12 ) )
 				{
 					if ( BuckDuty >= ProbeDuty ) BuckDuty = ProbeDuty;
@@ -1162,7 +1165,8 @@ __myevic__ void AtoWarmUp()
 		if ( AtoVolts == TargetVolts )
 			break;
 
-		if (( AtoStatus == 0 || AtoStatus == 1 || ( !gFlags.firing && AtoProbeCount >= 12 ))
+		if (( AtoStatus == 0 || AtoStatus == 1 || AtoStatus == 5 
+                        || ( !gFlags.firing && AtoProbeCount >= 12 ))
 			&& BuckDuty >= ProbeDuty )
 		{
 			break;
@@ -1622,7 +1626,7 @@ __myevic__ void ProbeAtomizer()
 
 //myprintf("AtoStatus=%d\n", AtoStatus);
         
-        //AtoStatus;	0,1,2,3,4 = Open,Short,Low,Large,Ok
+        //AtoStatus;	0,1,2,3,4,5 = Open,Short,Low,Large,Ok,overCurrent
         //AtoError;     0,1,2,3 = Ok,Open/Large,Short,Low
 	switch ( AtoStatus )
 	{
@@ -1631,6 +1635,7 @@ __myevic__ void ProbeAtomizer()
 			AtoError = 1; //no ato
 			break;
 		case 1:
+                case 5:    
 			AtoError = 2;
 			break;
 		case 2:
@@ -1648,7 +1653,7 @@ __myevic__ void ProbeAtomizer()
 	{
 		++AtoProbeCount;
 	}
-
+       
 	if ( AtoStatus == 4 )
 	{
 		// 
@@ -1656,7 +1661,7 @@ __myevic__ void ProbeAtomizer()
 		//	return;
 		AtoRez = AtoRezMilli / 10;
 		AtoMillis = AtoRezMilli % 10;
-                
+                                       
                 if ( !ISMODETC(dfMode) )
                 {
                     if ( !dfStatus2.vwrezlock && dfResistance > AtoRez ) dfResistance = AtoRez; // real goes down to cold (may be in TC too?)

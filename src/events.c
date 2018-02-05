@@ -640,27 +640,27 @@ __myevic__ void GetUserInput()
 		if ( UserInputs == 1 ){
                     if (( Screen == 1 ) && ( EditModeTimer > 0 ))
                     {
-                        if ( EditItemIndex == 4 ) //3-d info line
+                        uint8_t a;
+                        if ( EditItemIndex == 4 || EditItemIndex == 5 ) //4 = 3-d info line
                         {
-				EditModeTimer = 1000;
-				if ( dfAPT3 == 1 )
-					Event = 22;	// puff reset
-				else if ( dfAPT3 == 2 )
-					Event = 23;	// time reset
-				else if ( dfAPT3 == 3 )
-					Event = EVENT_RESET_VVEL;	// vvel reset
-                        }
-                        else if ( EditItemIndex == 5 )
-                        {
+                            if ( EditItemIndex == 4 ) a = dfAPT3;
+                            else a = dfAPT;
+                        
                             EditModeTimer = 1000;
-				if ( dfAPT == 1 )
-					Event = 22;	// puff reset
-                                else if ( dfAPT == 2 )
-					Event = 23;	// time reset
-				else if ( dfAPT == 3 )
-					Event = EVENT_RESET_VVEL;	// vvel reset
+                            switch ( a )
+                            {
+                                    case 1:
+                                        Event = 22;	// puff reset
+                                        break;
+                                    case 2:
+                                        Event = 23;	// time reset
+                                        break;                                        
+                                    case 3:
+                                    case 4:
+                                    case 5:
+                                        Event = EVENT_RESET_VVEL;	// vvel reset
                             }
-			
+                        }
                     }
                     else
                     {

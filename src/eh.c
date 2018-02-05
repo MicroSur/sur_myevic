@@ -297,6 +297,9 @@ __myevic__ void EventHandler()
 				case 3:
 					Event = 26;
 					break;
+                                case 5:
+                                	Event = 70; //overcurrent
+					break;
 				case 4:
 				default:
 					break;
@@ -600,6 +603,7 @@ __myevic__ void EventHandler()
 			gFlags.firing = 1;
 			FireDuration = 0;
                         CurveRepeatTimerDuration=0;
+                        AtoRezMilliMin = AtoRezMilli;
                         
                         if ( Screen == 1 ) gFlags.FireNotFlipped = 1;
         
@@ -1184,13 +1188,11 @@ __myevic__ void EventHandler()
                                     {
 					MainView();
                                     }         
-			} 
-                        
-			if ( Screen == 2 )
+			}                        
+			else if ( Screen == 2 )
 			{
 				MainView();
 			}
-                     
 			else if ( Screen == 51 )
 			{
 				switch ( dfMode )
@@ -1236,11 +1238,11 @@ __myevic__ void EventHandler()
                                             }
                                             else if ( EditItemIndex == 4 )
                                             {
-                                                if ( --dfAPT3 > 11 ) dfAPT3 = 11;
+                                                if ( --dfAPT3 > 14 ) dfAPT3 = 14;
                                             }
                                             else if ( EditItemIndex == 5 )
                                             {
-                                                if ( --dfAPT > 11 ) dfAPT = 11;
+                                                if ( --dfAPT > 14 ) dfAPT = 14;
                                             }
 					}
 					else if ( !ISMODETC(dfMode) )
@@ -1344,13 +1346,11 @@ __myevic__ void EventHandler()
 					MainView();
 				}
 			}
-
-			if ( Screen == 2 )
+			else if ( Screen == 2 )
 			{
 				MainView();
 			}
-
-			if ( Screen == 51 ) //new coil screen
+			else if ( Screen == 51 ) //new coil screen
 			{
 				switch ( dfMode )
 				{
@@ -1420,12 +1420,12 @@ __myevic__ void EventHandler()
 							break;
 
                                                 case 4:
-							if ( ++dfAPT3 > 11 ) dfAPT3 = 0;
+							if ( ++dfAPT3 > 14 ) dfAPT3 = 0;
                                                         gFlags.edit_capture_evt = 1;
 							break;
                                                         
                                                 case 5:
-							if ( ++dfAPT > 11 ) dfAPT = 0;
+							if ( ++dfAPT > 14 ) dfAPT = 0;
                                                         gFlags.edit_capture_evt = 1;
 							break;
 

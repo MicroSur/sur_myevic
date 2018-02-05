@@ -69,10 +69,10 @@ typedef struct
 /* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
 /* 00008000 */	unsigned int preheat:1;     //lsls 0x10  15 bit
 
-/* 00010000 */	unsigned int sme:1;         //lsls 0x0F for FWUpdater recognize logo
+/* 00010000 */	unsigned int sme:1;         //lsls 0x0F for recognize logo by FWUpdater
 /* 00020000 */	unsigned int dfmt1:1;       //lsls 0x0E data format 1(2) bit
 /* 00040000 */	unsigned int invert:1;      //lsls 0x0D
-/* 00080000 */	unsigned int vapedml:1;     //lsls 0x0C
+/* 00080000 */	unsigned int vapedml:1;     //lsls 0x0C     not used
 /* 00100000 */	unsigned int onedegree:1;   //lsls 0x0B
 /* 00200000 */	unsigned int usbchghotoff:1;       //lsls 0x0A
 /* 00400000 */	unsigned int lsloff:1;      //lsls 0x09
@@ -81,7 +81,7 @@ typedef struct
 /* 01000000 */	unsigned int timebig:1;     //lsls 0x07
 /* 02000000 */	unsigned int usbchgoff:1;   //lsls 0x06
 /* 04000000 */	unsigned int chkmodeoff:1;  //lsls 0x05
-/* 08000000 */	unsigned int dfmt2:1;       //lsls 0x04 data format 2(2) bit
+/* 08000000 */	unsigned int dfmt2:1;       //lsls 0x04     data format 2(2) bit
 /* 10000000 */	unsigned int pcurve:1;      //lsls 0x03
 /* 20000000 */  unsigned int offmodclock:1; //lsls 0x02 29
 /* 40000000 */  unsigned int fireflip:1;   //lsls 0x01
@@ -94,7 +94,7 @@ dfStatus_t;
 typedef struct
 {
 /* 00000001 */	unsigned int anim3d:1;         //lsls 0x1F  0-bit
-/* 00000002 */	unsigned int vapedjoules:1; 
+/* 00000002 */	unsigned int vapedjoules:1;  // not used
 /* 00000004 */	unsigned int smart_ph:1;
 /* 00000008 */	unsigned int swap_mp:1;
 /* 00000010 */	unsigned int digclk2:1;
@@ -164,7 +164,7 @@ typedef struct dfParams
 /* 006D */	uint8_t		ThreeButtonsAct;        //action
 /* 006E */	uint8_t		StealthPuffsCnt;        //stealth delay in puffs
 /* 006F */	uint8_t		ScrChargeTime;          // timeout for charge screen
-/* 0070 */      uint32_t	Joules;
+/* 0070 */      uint32_t	Joules;                 // for save only
 /* 0074 */	uint8_t         CurveRepeatTimer;            // 0.1s = 1 1s = 10...    was TempCoefsTi
 /* 0075 */	int8_t          AkkuTempCorr;  
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad

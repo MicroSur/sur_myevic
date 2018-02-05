@@ -1307,7 +1307,7 @@ __myevic__ void Main()
                             //if ( AtoError == 2 ) 
                             if 
                                 ( 
-                                ( AtoStatus == 1 || AtoStatus == 2 ) //short low
+                                ( AtoStatus == 1 || AtoStatus == 5 || AtoStatus == 2 ) //short overcurrent low
                                 && !dfStatus.off
                                 && Event == 0
                                 && AtoProbeCount >= 12
