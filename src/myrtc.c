@@ -9,6 +9,7 @@
 //=============================================================================
 
 volatile int32_t ClockCorrection = 0;
+volatile uint8_t IsRTCAlarmINT = 0;
 
 //=============================================================================
 
@@ -43,8 +44,14 @@ __myevic__ void RTC_IRQHandler()
 
 		ClockCorrection = 0;
 	}
+        
+        if ( RTC_GET_ALARM_INT_FLAG() )
+        {
+                RTC_CLEAR_ALARM_INT_FLAG();
+                IsRTCAlarmINT++;
+        }
+        
 }
-
 
 //=============================================================================
 
@@ -388,6 +395,21 @@ __myevic__ void RTCStart( S_RTC_TIME_DATA_T *d )
 		RTC_EnableInt( RTC_INTEN_TICKIEN_Msk );
 		NVIC_EnableIRQ( RTC_IRQn );
 	}
+        
+         S_RTC_TIME_DATA_T sWriteRTC;
+    sWriteRTC.u32Year       = 2018;
+    sWriteRTC.u32Month      = 2;
+    sWriteRTC.u32Day        = 9;
+    sWriteRTC.u32DayOfWeek  = RTC_FRIDAY;
+    sWriteRTC.u32Hour       = 0;
+    sWriteRTC.u32Minute     = 0;
+    sWriteRTC.u32Second     = 0;
+    RTC_SetAlarmDateAndTime(&sWriteRTC);
+    
+        //RTC_SetAlarmTime(uint32_t u32Hour, uint32_t u32Minute, uint32_t u32Second, uint32_t u32TimeMode, uint32_t u32AmPm);
+        //RTC_SetAlarmTime(0, 0, 0, RTC_CLOCK_24, 0);
+        RTC_EnableInt(RTC_INTEN_ALMIEN_Msk);
+        
 }
 
 

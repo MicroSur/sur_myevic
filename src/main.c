@@ -278,22 +278,28 @@ __myevic__ void InitRTC()
 
 	gFlags.rtcinit = 1;
 
-	time_t vvbase;
+//	time_t vvbase;
 
-	vvbase = RTCReadRegister( RTCSPARE_VV_BASE );
+//	vvbase = RTCReadRegister( RTCSPARE_VV_BASE );
 
-	if ( ( vvbase == 0 ) || ( vvbase % 86400 ) )
-	{
-		vvbase = RTCGetEpoch( 0 );
-		vvbase -= vvbase % 86400;
-		RTCWriteRegister( RTCSPARE_VV_BASE, vvbase );
-		RTCWriteRegister( RTCSPARE_VV_MJOULES, 0 );
-	}
-	else
-	{
-		MilliJoules = RTCReadRegister( RTCSPARE_VV_MJOULES );
-	}
+//	if ( ( vvbase == 0 ) || ( vvbase % 86400 ) )
+//	{
+//		vvbase = RTCGetEpoch( 0 );
+//		vvbase -= vvbase % 86400;
+//		RTCWriteRegister( RTCSPARE_VV_BASE, vvbase );
+//		RTCWriteRegister( RTCSPARE_VV_MJOULES, 0 );
+//                RTCWriteRegister( RTCSPARE_VV_MJOULESDAY, 0 );
+//	}
+//	else
+//	{
+		//MilliJoules = RTCReadRegister( RTCSPARE_VV_MJOULES );
+                //MilliJoulesDay = RTCReadRegister( RTCSPARE_VV_MJOULESDAY );
+//	}
         if ( !MilliJoules ) MilliJoules = dfJoules;
+        if ( !MilliJoulesDay ) MilliJoulesDay = dfJoulesDay;      
+        
+
+                                                
 }
 
 
@@ -894,6 +900,25 @@ __myevic__ void Monitor()
 }
 */
 
+__myevic__ void ResetMJDay()
+{
+        //S_RTC_TIME_DATA_T rtd;
+        //GetRTC( &rtd );
+        //int h = rtd.u32Hour;
+        //int m = rtd.u32Minute;
+        //int s = rtd.u32Second;
+        
+        //if ( !h && !m && !s ) 
+        if ( IsRTCAlarmINT )
+        {
+            IsRTCAlarmINT = 0;
+            MilliJoulesDay = 0;
+            dfJoulesDay = 0;
+            //RTCWriteRegister( RTCSPARE_VV_MJOULESDAY, 0 );
+            UpdateDataFlash();
+        }
+        
+}
 
 //=========================================================================
 //----- (00000148) --------------------------------------------------------
@@ -1342,7 +1367,15 @@ __myevic__ void Main()
 		{
 			// 1Hz
 			gFlags.tick_1hz = 0;
-                       
+                        
+                                //time_t t;
+                                //RTCGetEpoch( &t );
+                                //t -= RTCReadRegister( RTCSPARE_VV_BASE );
+                                //if ( !( t % 86400 ) ) MilliJoulesDay = 0;
+                                
+                                ResetMJDay();
+                                
+                                
                         if ( !gFlags.firing ) AtoProbeCount = 10; //for quick res mesure in idle (lower - better but with fire multiclicks damage)
                                 
 			if ( SplashTimer )

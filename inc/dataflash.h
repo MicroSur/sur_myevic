@@ -160,11 +160,12 @@ typedef struct dfParams
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS];
 /* 004E */	//uint8_t		Unused4E[38];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
-/* 0062 */	uint8_t		Unused4E[11];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 0062 */	uint8_t		Unused4E[6];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 0069 */      uint32_t	JoulesDay;                 // save for mods without clock battery
 /* 006D */	uint8_t		ThreeButtonsAct;        //action
 /* 006E */	uint8_t		StealthPuffsCnt;        //stealth delay in puffs
 /* 006F */	uint8_t		ScrChargeTime;          // timeout for charge screen
-/* 0070 */      uint32_t	Joules;                 // for save only
+/* 0070 */      uint32_t	Joules;                 // save for mods without clock battery
 /* 0074 */	uint8_t         CurveRepeatTimer;            // 0.1s = 1 1s = 10...    was TempCoefsTi
 /* 0075 */	int8_t          AkkuTempCorr;  
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad
@@ -222,7 +223,7 @@ typedef struct dfParams
 /* 00F6 */      uint16_t        MaxPower;       //  FA 
 /* 00F8 */      uint16_t        MaxVolts;       //  FC
                 uint8_t         DimOffTimeout;  //  FE      0-255 0-4:15  ( x \ 60 & ":" & (x Mod 60) )
-                uint8_t         DimOffMode;     //        0 normal sleep, 1 - mod off, 2? - lock
+                uint8_t         DimOffMode;     //  FF      0 normal sleep, 1 - mod off, 2? - lock
 // stop on FF
 }
 dfParams_t;
@@ -375,6 +376,7 @@ extern dfStruct_t DataFlash;
 #define dfStealthPuffsCnt       DFP(StealthPuffsCnt)
 #define dfScrChargeTime		DFP(ScrChargeTime)
 #define dfJoules		DFP(Joules)
+#define dfJoulesDay		DFP(JoulesDay)
 #define dfCurveRepeatTimer	DFP(CurveRepeatTimer)
 #define dfLEDColor		DFP(LEDColor)
 #define dfStatus		DFP(Status)

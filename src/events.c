@@ -656,7 +656,7 @@ __myevic__ void GetUserInput()
                                         Event = 23;	// time reset
                                         break;                                        
                                     case 3:
-                                    case 4:
+                                    //case 4: vv day
                                     case 5:
                                         Event = EVENT_RESET_VVEL;	// vvel reset
                             }
@@ -1412,11 +1412,13 @@ __myevic__ int EvtSetJoules()
 
 __myevic__ void ResetVapedCounter()
 {
-    time_t t;
-    RTCGetEpoch( &t );
-    t = t - ( t% 86400 );
+    //time_t t;
+    //RTCGetEpoch( &t );
+    //t = t - ( t % 86400 );
     MilliJoules = 0;
-    RTCWriteRegister( RTCSPARE_VV_BASE, t ); 
+    //MilliJoulesDay = 0; //?
+    //RTCWriteRegister( RTCSPARE_VV_MJOULES, 0 );
+    //RTCWriteRegister( RTCSPARE_VV_BASE, t ); 
 }
 __myevic__ void ResetAllCounters()
 {

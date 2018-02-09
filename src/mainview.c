@@ -306,6 +306,15 @@ __myevic__ void DrawCoilLine( int line )
 	}
 }
 
+__myevic__ uint32_t GetVV( uint32_t MJoules )
+{
+    uint32_t vv;
+    vv = dfVVRatio * ( MJoules / 1000 );
+    vv /= 100;
+    vv /= 100;
+    if ( vv > 9999 ) vv = 9999;
+    return vv;
+}
 //=============================================================================
 
 __myevic__ void DrawAPTLines()
@@ -368,9 +377,10 @@ __myevic__ void DrawAPTLines()
                 case 5:
 		{
 			uint32_t vv;
-			vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
-			vv /= 10;
-			if ( vv > 9999 ) vv = 9999;
+			//vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
+			//vv /= 10;
+			//if ( vv > 9999 ) vv = 9999;
+                        //DrawValue( 0, 0, MilliJoules, 0, 0x01, 0 );
                         
                         if ( a == 5 )                        
                         //if ( dfStatus2.vapedjoules )
@@ -385,6 +395,8 @@ __myevic__ void DrawAPTLines()
                         {
                         //    if ( dfStatus.vapedml )
                         //    {
+                                vv = GetVV(MilliJoules);
+                            
 				DrawImage( 0, line+2, 0xF9 ); //ml
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
                                 DrawImage( 57, line+2, 0xCD ); //flask
@@ -392,11 +404,18 @@ __myevic__ void DrawAPTLines()
                         else 
                         {
                             	// Elasped seconds since last VV reset
-                                uint32_t t;
-                                t = RTCGetEpoch( 0 );
-                                t -= RTCReadRegister( RTCSPARE_VV_BASE );
-                        
-				vv = vv * 86400 / ( t ? : 1 );
+                                //uint32_t t;
+                                //t = RTCGetEpoch( 0 );
+                                //time_t t;
+                                //RTCGetEpoch( &t );
+                                //DrawValue( 0, 37, t, 0, 0x01, 0 );
+                                //t -= RTCReadRegister( RTCSPARE_VV_BASE );
+                                //DrawValue( 0, 108, t, 0, 0x01, 0 );
+                                //DrawValue( 0, 57, RTCReadRegister( RTCSPARE_VV_BASE ), 0, 0x01, 0 );
+				//vv = vv * 86400 / ( t ? : 1 );
+                            
+                                vv = GetVV(MilliJoulesDay);
+                                
 				DrawImage( 0, line+2, 0xF3 ); //mld
 				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
                                 DrawImage( 57, line+2, 0xCD ); //flask

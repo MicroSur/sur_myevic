@@ -47,6 +47,7 @@ uint16_t	PreheatPower;
 uint16_t	PreheatDelay;
 uint16_t        NextPreheatTimer;
 uint32_t	MilliJoules;
+uint32_t	MilliJoulesDay;
 uint8_t		RezMillis;
 
 uint8_t		Set_NewRez_dfRez;
@@ -415,8 +416,10 @@ __myevic__ void StopFire()
 	{
 		gFlags.firing = 0;
 
-		RTCWriteRegister( RTCSPARE_VV_MJOULES, MilliJoules );
+		//RTCWriteRegister( RTCSPARE_VV_MJOULES, MilliJoules );
+                //RTCWriteRegister( RTCSPARE_VV_MJOULESDAY, MilliJoulesDay );
                 dfJoules = MilliJoules;
+                dfJoulesDay = MilliJoulesDay;
                 
 		if (( FireDuration * 10 >= dfPreheatTime )
 		||  ( dfStatus.pcurve && FireDuration > 10 ))
@@ -833,6 +836,7 @@ __myevic__ void ReadAtomizer()
 		{
 			uint32_t pwr = AtoCurrent * AtoCurrent * AtoRezMilli / 100000; // P = I^2 * R
 			MilliJoules += pwr;
+                        MilliJoulesDay += pwr;
 		}
                 
 //myprintf( "%d(%d,%d,%d)\n", AtoRezMilli, ADCAtoSum, ADCShuntSum1, ADCShuntSum2 );

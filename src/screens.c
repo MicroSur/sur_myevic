@@ -1228,7 +1228,7 @@ __myevic__ void AnimateScreenSaver()
 //=========================================================================
 __myevic__ void ShowSetJoules()
 {
-        uint32_t vv, t;
+        uint32_t vv; //, t;
         
 	DrawString( String_mlkJ, 4, 6 );
 	DrawHLine( 0, 16, 63, 1 );
@@ -1249,9 +1249,9 @@ __myevic__ void ShowSetJoules()
         DrawImageRight( 61, 43, 0xCD ); //flask
 
         // Elasped seconds since last VV reset
-        t = RTCGetEpoch( 0 );
-        t -= RTCReadRegister( RTCSPARE_VV_BASE );
-        vv = vv * 86400 / ( t ? : 1 );
+        //t = RTCGetEpoch( 0 );
+        //t -= RTCReadRegister( RTCSPARE_VV_BASE );
+        //vv = vv * 86400 / ( t ? : 1 );
         DrawImage( 2, 59, 0xF3 ); //mld
         DrawValueRight( 52, 57, vv, 2, 0x1F, 0 );
         DrawImageRight( 61, 59, 0xCD ); //flask

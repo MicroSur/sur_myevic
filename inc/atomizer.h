@@ -83,6 +83,7 @@ extern uint16_t	PreheatPower;
 extern uint16_t	PreheatDelay;
 extern uint16_t NextPreheatTimer;
 extern uint32_t	MilliJoules;
+extern uint32_t	MilliJoulesDay;
 extern uint8_t	RezMillis;
 extern uint16_t	BypassVolts;
 
