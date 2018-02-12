@@ -1235,15 +1235,16 @@ __myevic__ void ShowSetJoules()
         
         DrawValueRight( 45, 24, dfVVRatio, 0, 0x1F, 0 );
 
-        vv = ( MilliJoules / 10 ) / 3600;
+        vv = ( MilliJoules / 3600 ) / 10;
         if ( vv > 9999 ) vv = 9999;                        
         DrawImage( 2, 75, 0xDE ); //energy
         DrawValueRight( 52, 73, vv, 2, 0x1F, 0 );
         DrawImageRight( 62, 73, 0x67 ); //wh
    
-   	vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
-	vv /= 10;
-	if ( vv > 9999 ) vv = 9999;
+   	//vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
+	//vv /= 10;
+	//if ( vv > 9999 ) vv = 9999;
+        vv = GetVV(MilliJoules);
         DrawImage( 2, 43, 0xF9 ); //ml
         DrawValueRight( 52, 41, vv, 2, 0x1F, 0 );
         DrawImageRight( 61, 43, 0xCD ); //flask
@@ -1252,6 +1253,7 @@ __myevic__ void ShowSetJoules()
         //t = RTCGetEpoch( 0 );
         //t -= RTCReadRegister( RTCSPARE_VV_BASE );
         //vv = vv * 86400 / ( t ? : 1 );
+        vv = GetVV(MilliJoulesDay);
         DrawImage( 2, 59, 0xF3 ); //mld
         DrawValueRight( 52, 57, vv, 2, 0x1F, 0 );
         DrawImageRight( 61, 59, 0xCD ); //flask
@@ -1452,4 +1454,14 @@ __myevic__ void ShowSplash()
 	//{
 	//	MainView();
 	//}
+}
+
+__myevic__ uint32_t GetVV( uint32_t MJoules )
+{
+    uint32_t vv;
+    vv = dfVVRatio * ( MJoules / 1000 );
+    vv /= 100;
+    vv /= 100;
+    if ( vv > 9999 ) vv = 9999;
+    return vv;
 }

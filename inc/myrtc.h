@@ -41,7 +41,7 @@
 // This value is unused if a X32 is soldered on the board.
 
 extern volatile int32_t ClockCorrection;
-extern volatile uint8_t IsRTCAlarmINT;
+//extern volatile uint8_t IsRTCAlarmINT;
 
 //=========================================================================
 // Functions
@@ -64,6 +64,8 @@ extern void RTCSleep();
 extern void RTCWakeUp();
 
 extern time_t RTCGetEpoch( time_t *t );
+
+extern time_t RTCGetReferenceDate();
 
 //=========================================================================
 

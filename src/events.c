@@ -656,9 +656,11 @@ __myevic__ void GetUserInput()
                                         Event = 23;	// time reset
                                         break;                                        
                                     case 3:
-                                    //case 4: vv day
                                     case 5:
                                         Event = EVENT_RESET_VVEL;	// vvel reset
+                                        break;                                        
+                                    case 4: //vv day
+                                        MilliJoulesDay = 0;
                             }
                         }
                     }

@@ -902,20 +902,40 @@ __myevic__ void Monitor()
 
 __myevic__ void ResetMJDay()
 {
-        //S_RTC_TIME_DATA_T rtd;
-        //GetRTC( &rtd );
-        //int h = rtd.u32Hour;
-        //int m = rtd.u32Minute;
-        //int s = rtd.u32Second;
+        //gFlags.tick_1hz
+        S_RTC_TIME_DATA_T rtd;
+        S_RTC_TIME_DATA_T rtd_ref;
+        time_t ref;
+        int r = 0;
+        GetRTC( &rtd );
+        //RTC_GetDateAndTime( &rtd );
+        //RTCTimeToEpoch( &t, &rtd );
+        ref = RTCGetReferenceDate();
+        RTCEpochToTime( &rtd_ref, &ref );
         
         //if ( !h && !m && !s ) 
-        if ( IsRTCAlarmINT )
+        //if ( IsRTCAlarmINT )
+        if ( rtd.u32Day > rtd_ref.u32Day )
         {
-            IsRTCAlarmINT = 0;
+            r = 1;
+        }
+        else if ( rtd.u32Month > rtd_ref.u32Month )
+        {
+            r = 1;
+        }
+        else if ( rtd.u32Year > rtd_ref.u32Year )
+        {
+            r = 1;
+        }
+        
+        if ( r )
+        {
+            //IsRTCAlarmINT = 0;
             MilliJoulesDay = 0;
             dfJoulesDay = 0;
             //RTCWriteRegister( RTCSPARE_VV_MJOULESDAY, 0 );
-            UpdateDataFlash();
+            UpdateDFTimer = 50;
+            //UpdateDataFlash();
         }
         
 }
@@ -1367,14 +1387,8 @@ __myevic__ void Main()
 		{
 			// 1Hz
 			gFlags.tick_1hz = 0;
-                        
-                                //time_t t;
-                                //RTCGetEpoch( &t );
-                                //t -= RTCReadRegister( RTCSPARE_VV_BASE );
-                                //if ( !( t % 86400 ) ) MilliJoulesDay = 0;
-                                
-                                ResetMJDay();
-                                
+                                                        
+                        ResetMJDay();                               
                                 
                         if ( !gFlags.firing ) AtoProbeCount = 10; //for quick res mesure in idle (lower - better but with fire multiclicks damage)
                                 

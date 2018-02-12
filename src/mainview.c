@@ -306,15 +306,6 @@ __myevic__ void DrawCoilLine( int line )
 	}
 }
 
-__myevic__ uint32_t GetVV( uint32_t MJoules )
-{
-    uint32_t vv;
-    vv = dfVVRatio * ( MJoules / 1000 );
-    vv /= 100;
-    vv /= 100;
-    if ( vv > 9999 ) vv = 9999;
-    return vv;
-}
 //=============================================================================
 
 __myevic__ void DrawAPTLines()
