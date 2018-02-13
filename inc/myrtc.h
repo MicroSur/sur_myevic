@@ -66,6 +66,7 @@ extern void RTCWakeUp();
 extern time_t RTCGetEpoch( time_t *t );
 
 extern time_t RTCGetReferenceDate();
+extern void RTCSetReferenceDate( time_t *t );
 
 //=========================================================================
 

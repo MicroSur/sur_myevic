@@ -936,6 +936,10 @@ __myevic__ void ResetMJDay()
             //RTCWriteRegister( RTCSPARE_VV_MJOULESDAY, 0 );
             UpdateDFTimer = 50;
             //UpdateDataFlash();
+
+            RTCTimeToEpoch( &ref, &rtd );
+            RTCSetReferenceDate( &ref );
+        
         }
         
 }
