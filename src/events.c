@@ -1418,16 +1418,22 @@ __myevic__ void ResetVapedCounter()
     //RTCGetEpoch( &t );
     //t = t - ( t % 86400 );
     MilliJoules = 0;
+    dfJoules = 0;
     //MilliJoulesDay = 0; //?
     //RTCWriteRegister( RTCSPARE_VV_MJOULES, 0 );
     //RTCWriteRegister( RTCSPARE_VV_BASE, t ); 
+    UpdateDFTimer = 50;
 }
 __myevic__ void ResetAllCounters()
+{
+    ResetVapedCounter();
+    ResetPuffCounters();
+}
+__myevic__ void ResetPuffCounters()
 {
     dfTimeCount = 0;
     dfPuffCount = 0;
     UpdatePTTimer = 80;
-    ResetVapedCounter();
     UpdateDFTimer = 50;
 }
 

@@ -113,6 +113,7 @@ extern void GetUserInput();
 extern void EventHandler();
 extern void ResetVapedCounter();
 extern void ResetAllCounters();
+extern void ResetPuffCounters();
 extern int CustomEvents();
 
 extern void PowerPlus( uint16_t *pwr, uint16_t min, uint16_t max );

@@ -1398,7 +1398,6 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 					}
 */
 
-/*
 					if ( df->i.Year >= 2000 && df->i.Year <= 2099 )
 					{
 						S_RTC_TIME_DATA_T rtd;
@@ -1412,7 +1411,6 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 						rtd.u32TimeScale = RTC_CLOCK_24;
 						SetRTC( &rtd );
 					}
-*/
 
 					gFlags.refresh_display = 1;
 				}

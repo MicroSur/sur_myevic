@@ -293,7 +293,14 @@ __myevic__ void DrawScreen()
 //FireClicksEvent  FireClickCount CurrentFD ScreenDuration PreheatDelay SleepTimer KeyUpTimer
 //dfResistance AtoRez dfTempAlgo StealthPuffs
 //gFlags.apuff && dfStatus.endlessfire
-        
+
+//    time_t t,mn;
+//    RTCGetEpoch ( &t );
+//    mn = RTCReadRegister( RTCSPARE_MIDNIGHT );
+//    DrawValue( 0, 37, mn, 0, 0x01, 0 );
+//    DrawValue( 0, 108, t, 0, 0x01, 0 );
+
+    
 //DisplayRefresh(); //uncomment too
 
 
@@ -1223,43 +1230,6 @@ __myevic__ void AnimateScreenSaver()
 		default:
 			break;
 	}
-}
-
-//=========================================================================
-__myevic__ void ShowSetJoules()
-{
-        uint32_t vv; //, t;
-        
-	DrawString( String_mlkJ, 4, 6 );
-	DrawHLine( 0, 16, 63, 1 );
-        
-        DrawValueRight( 45, 24, dfVVRatio, 0, 0x1F, 0 );
-
-        vv = ( MilliJoules / 3600 ) / 10;
-        if ( vv > 9999 ) vv = 9999;                        
-        DrawImage( 2, 75, 0xDE ); //energy
-        DrawValueRight( 52, 73, vv, 2, 0x1F, 0 );
-        DrawImageRight( 62, 73, 0x67 ); //wh
-   
-   	//vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
-	//vv /= 10;
-	//if ( vv > 9999 ) vv = 9999;
-        vv = GetVV(MilliJoules);
-        DrawImage( 2, 43, 0xF9 ); //ml
-        DrawValueRight( 52, 41, vv, 2, 0x1F, 0 );
-        DrawImageRight( 61, 43, 0xCD ); //flask
-
-        // Elasped seconds since last VV reset
-        //t = RTCGetEpoch( 0 );
-        //t -= RTCReadRegister( RTCSPARE_VV_BASE );
-        //vv = vv * 86400 / ( t ? : 1 );
-        vv = GetVV(MilliJoulesDay);
-        DrawImage( 2, 59, 0xF3 ); //mld
-        DrawValueRight( 52, 57, vv, 2, 0x1F, 0 );
-        DrawImageRight( 61, 59, 0xCD ); //flask
-
-        //DrawStringCentered( String_Fire, 53 );
-	//DrawStringCentered( String_Exit, 64 );
 }
 
 //=========================================================================

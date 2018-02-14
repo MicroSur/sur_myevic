@@ -691,11 +691,8 @@ __myevic__ void ResetDataFlash()
 //	dfStatus.storage = 0;
 //      dfStatus.autopuff = 0;
         dfAutoPuffTimer = 20;
-//	dfStatus.dbgena = 0;        //not used
 	dfStatus.x32off = X32Off;
 	dfStatus.onewatt = 1;
-        dfStatus.vapedml = 1;       //not used
-//      dfStatus2.vapedjoules = 0;  //not used
 	dfStatus.digclk = 1;
 //      dfStatus2.digclk2 = 0;      //00 01 10
         dfStatus2.splash1 = 1;      //splash on with box name

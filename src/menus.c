@@ -287,31 +287,8 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 			if ( sel && gFlags.edit_value )
 				InvertRect( 0, line, 63, line+12 );
 			break;
-
-		case 5:	// Vaped
-			DrawFillRect( 39, line, 63, line+12, 0 );
-/*
-                        if ( dfStatus2.vapedjoules )
-                        {
-                            DrawImageRight( 63, line+2, 0xDE );   
-                        }
-                        else
-                        {
-                            DrawImageRight( 63, line+2, dfStatus.vapedml ? 0xF9 : 0xF3 );   
-                            //DrawString( dfStatus.vapedml ? String_ml : String_mld, 43, line+2 );
-                        }
-*/
-                        DrawImageRight( 63, line+2, 0xF6 ); 
-			break;
-
-		//case 6: // mL/kJ
-		//	DrawFillRect( 37, line, 63, line+12, 0 );
-		//	DrawValueRight( 63, line+2, dfVVRatio, 0, 0x0B, 0 );
-		//	if ( sel && gFlags.edit_value )
-		//		InvertRect( 0, line, 63, line+12 );
-		//	break;
                         
-		case 7: // puffs off mod
+		case 6: // puffs off mod
                         DrawFillRect( 40, line, 63, line+12, 0 );
                         if ( dfPuffsOff ) 
                         {
@@ -325,7 +302,7 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 				InvertRect( 0, line, 63, line+12 );
 			break; 
 
-                case 10: //AutoPuffTimer
+                case 9: //AutoPuffTimer
                         DrawFillRect( 36, line, 63, line+12, 0 );
                         if ( dfStatus.endlessfire )
                         {
@@ -349,37 +326,11 @@ __myevic__ void VapingMenuOnClick()
 	switch ( CurrentMenuItem )
 	{
 		case 4:	// Protec
-		case 7: // puffs off
-                case 10: // autopufftimers
+		case 6: // puffs off
+                case 9: // autopufftimers
 			gFlags.edit_value ^= 1;
 			break;
-
-		case 5:	// Vaped
-                    
-/*
-                        if ( dfStatus.vapedml )
-			{
-				dfStatus.vapedml = 0;
-				dfStatus2.vapedjoules = 1;
-			}
-			else if ( dfStatus2.vapedjoules )
-			{
-				dfStatus2.vapedjoules = 0;
-			}
-			else
-			{
-				dfStatus.vapedml = 1;
-			}
-                        
-			//dfStatus.vapedml ^= 1;
-			UpdateDFTimer = 50;
-*/
-			break;
-
-		//case 6: // mL/kJ
-		//	gFlags.edit_value ^= 1;
-                //        Event = EVENT_SET_JOULES;
-		//	break;     
+ 
         }
 
 	gFlags.refresh_display = 1;
@@ -406,17 +357,8 @@ __myevic__ int VapingMenuOnEvent( int event )
 					}
 					vret = 1;
 					break;
-
-				//case 6: // mL/kJ
-				//	if ( ++dfVVRatio > VVEL_MAX_RATIO )
-				//	{
-				//		if ( KeyTicks < 5 ) dfVVRatio = VVEL_MIN_RATIO;
-				//		else dfVVRatio = VVEL_MAX_RATIO;
-				//	}
-				//	vret = 1;
-				//	break;
                                         
-				case 7: // Puffs off
+				case 6: // Puffs off
 					if ( ++dfPuffsOff > PUFFS_OFF_MAX )
 					{
 						if ( KeyTicks < 5 ) dfPuffsOff = PUFFS_OFF_MIN;
@@ -425,7 +367,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 					vret = 1;
 					break;
                                         
-				case 10: // autopufftimers
+				case 9: // autopufftimers
 					if ( ++dfAutoPuffTimer > 251 ) // 25 sec max
 					{
 						if ( KeyTicks < 5 ) dfAutoPuffTimer = 10;
@@ -448,16 +390,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 					vret = 1;
 					break;
 
-				//case 6: // mL/kJ
-				//	if ( --dfVVRatio < VVEL_MIN_RATIO  )
-				//	{
-				//		if ( KeyTicks < 5 ) dfVVRatio = VVEL_MAX_RATIO;
-				//		else dfVVRatio = VVEL_MIN_RATIO;
-				//	}
-				//	vret = 1;
-				//	break;
-
-				case 7: // Puffs off
+				case 6: // Puffs off
 					if ( --dfPuffsOff > PUFFS_OFF_MAX )
 					{
 						if ( KeyTicks < 5 ) dfPuffsOff = PUFFS_OFF_MAX;
@@ -466,7 +399,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 					vret = 1;
 					break;
                                         
-				case 10: // autopufftimers
+				case 9: // autopufftimers
 					if ( --dfAutoPuffTimer < 9 )
 					{                                                
 						if ( KeyTicks < 5 ) dfAutoPuffTimer = 250;
@@ -485,17 +418,14 @@ __myevic__ int VapingMenuOnEvent( int event )
                                         gFlags.edit_value = 0;
                                         vret = 1;
                                         break;
-                                //case 6: // mL/kJ
-                                //        dfVVRatio = VVEL_DEF_RATIO;  
-                                //        //gFlags.edit_value = 0;
-                                //        vret = 1;
-                                //        break; 
-                                case 7: //puffs off        
+
+                                case 6: //puffs off        
                                         dfPuffsOff = 13;  
                                         gFlags.edit_value = 0;
                                         vret = 1;
-                                        break;  
-                                case 10: //autopufftimers     
+                                        break;
+                                        
+                                case 9: //autopufftimers     
                                         dfAutoPuffTimer = 20;  
                                         gFlags.edit_value = 0;
                                         vret = 1;
@@ -2608,17 +2538,9 @@ __myevic__ void MiscMenuOnClick()
 {
     	switch ( CurrentMenuItem )
 	{
-            case 5:
+            case 6:
                 ResetAllCounters();
                 break;
-
-        //    case 6:
-                			
-		//	Screen = 50;
-		//	ScreenDuration = 10;
-        //        ShowVersion();
-        //        gFlags.refresh_display = 1;
-        //        break;
         }
 	
 }
@@ -2627,18 +2549,18 @@ __myevic__ int MiscMenuOnEvent( int event )
 {
 	int vret = 0;
                             
-	if ( CurrentMenuItem != 7 )
+	if ( CurrentMenuItem != 8 )
 		return vret;  //no capture others events
 
 	switch ( event )
 	{                       
                 case EVENT_LONG_FIRE:
-			if ( CurrentMenuItem == 7 ) //reset dataflash
-                        { 
+			//if ( CurrentMenuItem == 8 ) //reset dataflash
+                        //{ 
                         	ResetDataFlash();
                                 vret = 1;
                                 Event = EVENT_EXIT_MENUS;
-                        }   
+                        //}   
                         break;
 	}
         
@@ -2833,7 +2755,7 @@ const mvaluedesc_t PreheatDelayDesc =
 {
 	34, 42,
 	3, 2,
-	0, 180, // 0 - 3:00
+	0, 255, // 180 0 - 3:00
 	&DrawPreheatDelay+1,
 	0,
 	0,
@@ -3140,7 +3062,14 @@ const mdata_t NBZC =
 	&BitDesc,
 	MITYPE_BIT,
 	12
-};        
+};      
+const mdata_t Puff24 =
+{
+	&dfStatus,
+	&BitDesc,
+	MITYPE_BIT,
+	19
+};
 const menu_t MiscsMenu =
 {
 	String_Miscs,
@@ -3150,7 +3079,7 @@ const menu_t MiscsMenu =
 	0,
 	MiscMenuOnClick+1,
 	MiscMenuOnEvent+1,
-	9,
+	10,
 	{
 		{ String_Game, &GameMenu, 0, MACTION_SUBMENU },
                 { String_Tetris, &GameTtMenu, 0, MACTION_SUBMENU },                        
@@ -3159,7 +3088,8 @@ const menu_t MiscsMenu =
                 //{ String_FiFlip, &FireFlip, 0, MACTION_DATA },     
                 { String_SwapMP, &SwapMP, 0, MACTION_DATA },  
                 { String_NewZC, &NBZC, 0, MACTION_DATA },
-                { String_ZeroCnts, 0, EVENT_EXIT_MENUS, 0 },
+                { String_Puff24, &Puff24, 0, MACTION_DATA },        
+                { String_ZeroCnts, 0, EVENT_EXIT_MENUS, 0 },                        
                 { String_Version, 0, 29, 0 },
                 { String_Reset, 0, 0, 0 },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
@@ -3907,15 +3837,15 @@ const menu_t VapingMenu =
 	0,
 	VapingMenuOnClick+1,
 	VapingMenuOnEvent+1,
-	12,
+	11,
 	{
 		{ String_Preheat, &PreheatMenu, 0, MACTION_SUBMENU },
 		{ String_Curve, &CurveMenu, 0, MACTION_SUBMENU },
                 { String_Algo, &AlgoMenu, 0, MACTION_SUBMENU },
                 { String_Modes, &ModesMenu, 0, MACTION_SUBMENU },
 		{ String_Prot, 0, 0, 0 },
-		{ String_Vaped, 0, 0, 0 }, // not used
-		{ String_mlkJ, 0, EVENT_SET_JOULES, MACTION_SUBMENU },
+		//{ String_Vaped, 0, 0, 0 },
+		{ String_Vaped, 0, EVENT_SET_JOULES, MACTION_SUBMENU },
                 { String_PuffsOff, 0, 0, 0 }, 
                 { String_VVLite, &VVLite, 0, MACTION_DATA }, 
                 { String_AutoFi, &APuffTime, 0, MACTION_DATA },  
@@ -4243,7 +4173,7 @@ __myevic__ int MenuDataAction( int event, const mdata_t *data )
 
 					uint16_t inc = desc->inc * ( KeyTicks >= 105 ) ? 10 : 1;
 
-					if ( ( *p <= desc->min + inc ) || ( ( *p -= inc ) < desc->min ) )
+					if ( ( *p < desc->min + inc ) || ( ( *p -= inc ) < desc->min ) )
 					{
 						*p = ( KeyTicks < 5 ) ? desc->max : desc->min;
 					}
@@ -4296,6 +4226,7 @@ __myevic__ int MenuDataAction( int event, const mdata_t *data )
 
 			switch ( data->type )
 			{
+                                case MITYPE_BYTE:
 				case MITYPE_WORD:
 				{
 					int16_t *p = data->ptr;

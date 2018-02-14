@@ -29,6 +29,7 @@
 //-------------------------------------------------------------------------
 
 #define RTCSPARE_REF_DATE	0
+#define RTCSPARE_MIDNIGHT       1
 //#define RTCSPARE_VV_BASE	1 //not used
 //#define RTCSPARE_VV_MJOULES	2
 //#define RTCSPARE_VV_MJOULESDAY	3
@@ -65,8 +66,9 @@ extern void RTCWakeUp();
 
 extern time_t RTCGetEpoch( time_t *t );
 
-extern time_t RTCGetReferenceDate();
-extern void RTCSetReferenceDate( time_t *t );
+//extern time_t RTCGetReferenceDate();
+//extern void RTCSetReferenceDate( time_t *t );
+extern void RTCWriteNextMidnight();
 
 //=========================================================================
 

@@ -298,8 +298,8 @@ __myevic__ void InitRTC()
         if ( !MilliJoules ) MilliJoules = dfJoules;
         if ( !MilliJoulesDay ) MilliJoulesDay = dfJoulesDay;      
         
-
-                                                
+        RTCWriteNextMidnight();
+        
 }
 
 
@@ -755,7 +755,7 @@ void GoToSleep()
 	gFlags.firing = 0;
 	BatReadTimer = 50;
 	RTCSleep();
-	DevicesOnOff( 1 );
+	DevicesOnOff( 1 ); //off
 	CLK_SysTickDelay( 250 );
 	CLK_SysTickDelay( 250 );
 	CLK_SysTickDelay( 250 );
@@ -772,7 +772,7 @@ void GoToSleep()
         
         if ( dfStatus.invert ) gFlags.inverse = 1;
                                         
-	DevicesOnOff( 0 );
+	DevicesOnOff( 0 ); //on
 	RTCWakeUp();
 	InitDisplay();
         
@@ -902,43 +902,26 @@ __myevic__ void Monitor()
 
 __myevic__ void ResetMJDay()
 {
-        //gFlags.tick_1hz
-        S_RTC_TIME_DATA_T rtd;
-        S_RTC_TIME_DATA_T rtd_ref;
-        time_t ref;
-        int r = 0;
-        GetRTC( &rtd );
-        //RTC_GetDateAndTime( &rtd );
+        time_t t, mn;
+        RTCGetEpoch ( &t );
+        //GetRTC( &rtd );
         //RTCTimeToEpoch( &t, &rtd );
-        ref = RTCGetReferenceDate();
-        RTCEpochToTime( &rtd_ref, &ref );
-        
-        //if ( !h && !m && !s ) 
-        //if ( IsRTCAlarmINT )
-        if ( rtd.u32Day > rtd_ref.u32Day )
-        {
-            r = 1;
-        }
-        else if ( rtd.u32Month > rtd_ref.u32Month )
-        {
-            r = 1;
-        }
-        else if ( rtd.u32Year > rtd_ref.u32Year )
-        {
-            r = 1;
-        }
-        
-        if ( r )
+        mn = RTCReadRegister( RTCSPARE_MIDNIGHT );
+
+        if ( t >= mn )
         {
             //IsRTCAlarmINT = 0;
             MilliJoulesDay = 0;
             dfJoulesDay = 0;
             //RTCWriteRegister( RTCSPARE_VV_MJOULESDAY, 0 );
             UpdateDFTimer = 50;
-            //UpdateDataFlash();
-
-            RTCTimeToEpoch( &ref, &rtd );
-            RTCSetReferenceDate( &ref );
+           
+            //SetRTC( &rtd );
+            
+            RTCWriteNextMidnight();
+                        
+            if ( dfStatus.puffday )
+                    ResetPuffCounters();
         
         }
         
@@ -1391,9 +1374,12 @@ __myevic__ void Main()
 		{
 			// 1Hz
 			gFlags.tick_1hz = 0;
-                                                        
-                        ResetMJDay();                               
-                                
+                              
+                        if ( gFlags.rtcinit )
+                        {
+                                ResetMJDay();                               
+                        }
+                        
                         if ( !gFlags.firing ) AtoProbeCount = 10; //for quick res mesure in idle (lower - better but with fire multiclicks damage)
                                 
 			if ( SplashTimer )

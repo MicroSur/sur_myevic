@@ -72,7 +72,7 @@ typedef struct
 /* 00010000 */	unsigned int sme:1;         //lsls 0x0F for recognize logo by FWUpdater
 /* 00020000 */	unsigned int dfmt1:1;       //lsls 0x0E data format 1(2) bit
 /* 00040000 */	unsigned int invert:1;      //lsls 0x0D
-/* 00080000 */	unsigned int vapedml:1;     //lsls 0x0C     not used
+/* 00080000 */	unsigned int puffday:1;     //lsls 0x0C     was vapedml
 /* 00100000 */	unsigned int onedegree:1;   //lsls 0x0B
 /* 00200000 */	unsigned int usbchghotoff:1;       //lsls 0x0A
 /* 00400000 */	unsigned int lsloff:1;      //lsls 0x09

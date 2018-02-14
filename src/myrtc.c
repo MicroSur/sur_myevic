@@ -431,7 +431,9 @@ __myevic__ void SetRTC( S_RTC_TIME_DATA_T *rtd )
 
 	RTCTimeToEpoch( &t, rtd );
 	RTCSetReferenceDate( &t );
-
+        
+        RTCWriteNextMidnight();
+                                
 	ClockCorrection = 0;
 	adjustment = 0;
 
@@ -597,3 +599,16 @@ __myevic__ void RTCWakeUp()
 	RTC_EnableInt( RTC_INTEN_TICKIEN_Msk );
 }
 
+__myevic__ void RTCWriteNextMidnight()
+{
+        time_t mn;
+        //mn = RTCReadRegister( RTCSPARE_MIDNIGHT );
+        //if ( mn == 0 )
+        //{
+                RTCGetEpoch( &mn );
+                mn /= 86400;
+                mn *= 86400;
+                mn += 86400;
+                RTCWriteRegister( RTCSPARE_MIDNIGHT, mn ); //next midnight in ticks
+        //}  
+}
