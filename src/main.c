@@ -906,7 +906,8 @@ __myevic__ void ResetMJDay()
         RTCGetEpoch ( &t );
         //GetRTC( &rtd );
         //RTCTimeToEpoch( &t, &rtd );
-        mn = RTCReadRegister( RTCSPARE_MIDNIGHT );
+        
+        mn = RTCGetMidnightDate();
 
         if ( t >= mn )
         {

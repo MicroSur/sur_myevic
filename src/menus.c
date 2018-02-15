@@ -280,7 +280,7 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 {
 	switch ( it )
 	{
-		case 4:	// Protec
+		case 5:	// Protec
 			DrawFillRect( 34, line, 63, line+12, 0 );
 			DrawImageRight( 63, line+2, 0x94 );
 			DrawValueRight( 57, line+2, dfProtec, 1, 0x0B, 0 );
@@ -325,7 +325,7 @@ __myevic__ void VapingMenuOnClick()
 {
 	switch ( CurrentMenuItem )
 	{
-		case 4:	// Protec
+		case 5:	// Protec
 		case 6: // puffs off
                 case 9: // autopufftimers
 			gFlags.edit_value ^= 1;
@@ -349,7 +349,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 		case 2:	// Plus
 			switch ( CurrentMenuItem )
 			{
-				case 4: // Protec
+				case 5: // Protec
 					if ( ++dfProtec > FIRE_PROTEC_MAX )
 					{
 						if ( KeyTicks < 5 ) dfProtec = FIRE_PROTEC_MIN;
@@ -381,7 +381,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 		case 3:	// Minus
 			switch ( CurrentMenuItem )
 			{
-				case 4: // Protec
+				case 5: // Protec
 					if ( --dfProtec < FIRE_PROTEC_MIN )
 					{
 						if ( KeyTicks < 5 ) dfProtec = FIRE_PROTEC_MAX;
@@ -413,7 +413,7 @@ __myevic__ int VapingMenuOnEvent( int event )
                 case EVENT_LONG_FIRE:
                         switch ( CurrentMenuItem )
 			{                    
-                                case 4: //protec
+                                case 5: //protec
                                         dfProtec = 100;
                                         gFlags.edit_value = 0;
                                         vret = 1;
@@ -542,7 +542,7 @@ __myevic__ void ClicksMenuIDraw( int it, int line, int sel )
 	if ( it > CurrentMenu->nitems - 2 )
 		return;
 
-	DrawFillRect( 22, line, 63, line+12, 0 );
+	DrawFillRect( 20, line, 63, line+12, 0 );
         
         uint8_t num = (it == 4)? dfThreeButtonsAct : dfClick[it];
         
@@ -550,47 +550,51 @@ __myevic__ void ClicksMenuIDraw( int it, int line, int sel )
 	{
 		default:
 		case CLICK_ACTION_NONE:
-			DrawString( String_None, 28, line+2 );
+			DrawString( String_None, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_EDIT:
-			DrawString( String_Edit, 28, line+2 );
+			DrawString( String_Edit, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_CLOCK:
-			DrawString( String_Clock, 28, line+2 );
+			DrawString( String_Clock, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_TDOM:
-			DrawString( String_PPwr, 28, line+2 );
+			DrawString( String_PPwr, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_NEXT_MODE:
-			DrawString( String_ModePlus, 28, line+2 );
+			DrawString( String_ModePlus, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_ON_OFF:
-			DrawString( String_OnOff, 28, line+2 );
+			DrawString( String_OnOff, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_PROFILE:
-			DrawString( String_Profile, 28, line+2 );
+			DrawString( String_Profile, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_GAME:
-			DrawString( String_Game, 28, line+2 );
+			DrawString( String_Game, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_TETRIS:
-			DrawString( String_Tetris, 28, line+2 );
+			DrawString( String_Tetris, 26, line+2 );
 			break;
                         
 		case CLICK_ACTION_SAVER:
-			DrawString( String_Saver, 28, line+2 );
+			DrawString( String_Saver, 26, line+2 );
 			break;
                         
                 case CLICK_ACTION_MENU:
-			DrawString( String_Menus, 28, line+2 );
+			DrawString( String_Menus, 26, line+2 );
+			break;
+                        
+                case CLICK_ACTION_BATTERIES:
+			DrawString( String_Battery, 26, line+2 );
 			break;
 	}
 }
@@ -3843,9 +3847,8 @@ const menu_t VapingMenu =
 		{ String_Curve, &CurveMenu, 0, MACTION_SUBMENU },
                 { String_Algo, &AlgoMenu, 0, MACTION_SUBMENU },
                 { String_Modes, &ModesMenu, 0, MACTION_SUBMENU },
-		{ String_Prot, 0, 0, 0 },
-		//{ String_Vaped, 0, 0, 0 },
 		{ String_Vaped, 0, EVENT_SET_JOULES, MACTION_SUBMENU },
+                { String_Prot, 0, 0, 0 },                        
                 { String_PuffsOff, 0, 0, 0 }, 
                 { String_VVLite, &VVLite, 0, MACTION_DATA }, 
                 { String_AutoFi, &APuffTime, 0, MACTION_DATA },  

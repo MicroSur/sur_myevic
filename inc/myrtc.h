@@ -69,6 +69,9 @@ extern time_t RTCGetEpoch( time_t *t );
 //extern time_t RTCGetReferenceDate();
 //extern void RTCSetReferenceDate( time_t *t );
 extern void RTCWriteNextMidnight();
+extern time_t RTCGetMidnightDate();
+
+extern void ResetMJDay();
 
 //=========================================================================
 

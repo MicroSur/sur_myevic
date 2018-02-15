@@ -185,6 +185,7 @@ __myevic__ void KeyRepeat()
 
 __myevic__ void SetClicksAction( uint8_t num )
 {
+    //multi fire clicks
     					switch ( num )
                                         //switch ( gFlags.asleep ? dfClick[FireClickCount-3] : dfClick[FireClickCount-2] )
 					{
@@ -232,6 +233,11 @@ __myevic__ void SetClicksAction( uint8_t num )
                                                 case CLICK_ACTION_MENU:
                                                         FireClicksEvent = EVENT_ENTER_MENUS;
 							break;
+                                                        
+                                                case CLICK_ACTION_BATTERIES:
+                                                        FireClicksEvent = 34; //all volts
+							break;
+                                                        
 					}
 }
 

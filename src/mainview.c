@@ -310,22 +310,56 @@ __myevic__ void DrawCoilLine( int line )
 
 __myevic__ void DrawTimeCounterLine ( int line )
 {
-			DrawString( String_TIME_s, 0, line );
-		//	DrawValue( 24, line, dfTimeCount / 10, 0, 0x1F, 5 );
-		//	DrawString( String_PUFF_s, 0, line );
-			DrawValueRight( 34, line, dfTimeCount / 36000, 0, 0x0B, 0 );
-			DrawImage( 34, line, 0xD7 );
-			DrawValue( 37, line, dfTimeCount / 600 % 60, 0, 0x0B, 2 );
-			DrawImage( 49, line, 0xD7 );
-			DrawValue( 52, line, dfTimeCount / 10 % 60, 0, 0x0B, 2 );
+	DrawString( String_TIME_s, 0, line );
+	//	DrawValue( 24, line, dfTimeCount / 10, 0, 0x1F, 5 );
+	//	DrawString( String_PUFF_s, 0, line );
+	DrawValueRight( 34, line, dfTimeCount / 36000, 0, 0x0B, 0 );
+	DrawImage( 34, line, 0xD7 );
+	DrawValue( 37, line, dfTimeCount / 600 % 60, 0, 0x0B, 2 );
+	DrawImage( 49, line, 0xD7 );
+	DrawValue( 52, line, dfTimeCount / 10 % 60, 0, 0x0B, 2 );
+}
+
+//=============================================================================
+
+__myevic__ void DrawEnergyLine ( int line )
+{
+        uint32_t vv;
+        vv = ( MilliJoules / 3600 ) / 10;
+        if ( vv > 9999 ) vv = 9999;                        
+        DrawImage( 1, line+2, 0xDE ); //energy
+        DrawValueRight( 53, line, vv, 2, 0x1F, 0 );
+        DrawImageRight( 63, line, 0x67 ); //wh
+}
+
+//=============================================================================
+
+__myevic__ void DrawVapedLine ( int line )
+{
+        uint32_t vv;
+        vv = GetVV(MilliJoules);
+        DrawImage( 0, line, 0xF9 ); //ml
+        DrawValueRight( 53, line-2, vv, 2, 0x1F, 0 );
+        DrawImageRight( 63, line, 0xCD ); //flask
+}
+
+//=============================================================================
+
+__myevic__ void DrawVapedDayLine ( int line )
+{
+        uint32_t vv;
+        vv = GetVV(MilliJoulesDay);
+        DrawImage( 0, line, 0xF3 ); //mld
+        DrawValueRight( 53, line-2, vv, 2, 0x1F, 0 );
+        DrawImageRight( 63, line, 0xCD ); //flask
 }
 
 //=============================================================================
 
 __myevic__ void DrawPuffCounterLine ( int line )
 {
-			DrawString( String_PUFF_s, 0, line );
-			DrawValueRight( 64, line-2, dfPuffCount, 0, 0x1F, 0 );
+	DrawString( String_PUFF_s, 0, line );
+	DrawValueRight( 64, line-2, dfPuffCount, 0, 0x1F, 0 );
 }
 
 //=============================================================================
@@ -381,30 +415,28 @@ __myevic__ void DrawAPTLines()
                 case 4:
                 case 5:
 		{
-			uint32_t vv;
+			//uint32_t vv;
 			//vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
 			//vv /= 10;
 			//if ( vv > 9999 ) vv = 9999;
                         //DrawValue( 0, 0, MilliJoules, 0, 0x01, 0 );
                         
                         if ( a == 5 )                        
-                        //if ( dfStatus2.vapedjoules )
                         {
-                            vv = ( MilliJoules / 3600 ) / 10; // / 10 ) / 3600;
-                            if ( vv > 9999 ) vv = 9999;
-                            DrawImage( 0, line+2, 0xDE ); //energy
-                            DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-                            DrawImage( 56, line, 0x67 ); //wh
+                                //vv = ( MilliJoules / 3600 ) / 10;
+                                //if ( vv > 9999 ) vv = 9999;
+                                //DrawImage( 0, line+2, 0xDE ); //energy
+                                //DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
+                                //DrawImage( 56, line, 0x67 ); //wh
+                                DrawEnergyLine( line );
                         }                       
                         else if ( a == 3 )
                         {
-                        //    if ( dfStatus.vapedml )
-                        //    {
-                                vv = GetVV(MilliJoules);
-                            
-				DrawImage( 0, line+2, 0xF9 ); //ml
-				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-                                DrawImage( 57, line+2, 0xCD ); //flask
+                                //vv = GetVV(MilliJoules);
+				//DrawImage( 0, line+2, 0xF9 ); //ml
+				//DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
+                                //DrawImage( 57, line+2, 0xCD ); //flask
+                                DrawVapedLine( line+2 );
                         }
                         else 
                         {
@@ -419,11 +451,11 @@ __myevic__ void DrawAPTLines()
                                 //DrawValue( 0, 57, RTCReadRegister( RTCSPARE_VV_BASE ), 0, 0x01, 0 );
 				//vv = vv * 86400 / ( t ? : 1 );
                             
-                                vv = GetVV(MilliJoulesDay);
-                                
-				DrawImage( 0, line+2, 0xF3 ); //mld
-				DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
-                                DrawImage( 57, line+2, 0xCD ); //flask
+                                //vv = GetVV(MilliJoulesDay);
+				//DrawImage( 0, line+2, 0xF3 ); //mld
+				//DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
+                                //DrawImage( 57, line+2, 0xCD ); //flask
+                                DrawVapedDayLine( line+2 );
                         }                                                   
 			break;
 		}
@@ -1210,7 +1242,7 @@ __myevic__ void DrawDigitClock( int line, int infoline )
 //=========================================================================
 __myevic__ void ShowSetJoules()
 {
-        uint32_t vv; //, t;
+        //uint32_t vv; //, t;
         
         DrawString( String_Vaped, 4, 5 );
         DrawHLine( 0, 16, 63, 1 );
@@ -1218,29 +1250,24 @@ __myevic__ void ShowSetJoules()
 	DrawString( String_mlkJ, 0, 26 );
         DrawValueRight( 64, 24, dfVVRatio, 0, 0x1F, 0 );
 
-        vv = ( MilliJoules / 3600 ) / 10;
-        if ( vv > 9999 ) vv = 9999;                        
-        DrawImage( 1, 75, 0xDE ); //energy
-        DrawValueRight( 53, 73, vv, 2, 0x1F, 0 );
-        DrawImageRight( 63, 73, 0x67 ); //wh
-   
-   	//vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
-	//vv /= 10;
-	//if ( vv > 9999 ) vv = 9999;
-        vv = GetVV(MilliJoules);
-        DrawImage( 1, 43, 0xF9 ); //ml
-        DrawValueRight( 53, 41, vv, 2, 0x1F, 0 );
-        DrawImageRight( 62, 43, 0xCD ); //flask
-
-        // Elasped seconds since last VV reset
-        //t = RTCGetEpoch( 0 );
-        //t -= RTCReadRegister( RTCSPARE_VV_BASE );
-        //vv = vv * 86400 / ( t ? : 1 );
-        vv = GetVV(MilliJoulesDay);
-        DrawImage( 1, 59, 0xF3 ); //mld
-        DrawValueRight( 53, 57, vv, 2, 0x1F, 0 );
-        DrawImageRight( 62, 59, 0xCD ); //flask
-
+        //vv = ( MilliJoules / 3600 ) / 10;
+        //if ( vv > 9999 ) vv = 9999;                        
+        //DrawImage( 1, 75, 0xDE ); //energy
+        //DrawValueRight( 53, 73, vv, 2, 0x1F, 0 );
+        //DrawImageRight( 63, 73, 0x67 ); //wh
+        DrawEnergyLine( 73 );
+        //vv = GetVV(MilliJoules);
+        //DrawImage( 1, 43, 0xF9 ); //ml
+        //DrawValueRight( 53, 41, vv, 2, 0x1F, 0 );
+        //DrawImageRight( 62, 43, 0xCD ); //flask
+        DrawVapedLine( 43 );
+                
+        //vv = GetVV(MilliJoulesDay);
+        //DrawImage( 1, 59, 0xF3 ); //mld
+        //DrawValueRight( 53, 57, vv, 2, 0x1F, 0 );
+        //DrawImageRight( 62, 59, 0xCD ); //flask
+        DrawVapedDayLine( 59 );
+                
         //DrawStringCentered( String_Fire, 53 );
 	//DrawStringCentered( String_Exit, 64 );
         

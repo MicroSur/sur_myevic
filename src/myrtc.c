@@ -14,6 +14,7 @@ volatile int32_t ClockCorrection = 0;
 //=============================================================================
 
 static time_t ref_date = 0;
+static time_t midnight_date = 0;
 static int32_t adjustment = 0;
 
 static volatile uint8_t int_cnt = 0;
@@ -610,5 +611,16 @@ __myevic__ void RTCWriteNextMidnight()
                 mn *= 86400;
                 mn += 86400;
                 RTCWriteRegister( RTCSPARE_MIDNIGHT, mn ); //next midnight in ticks
+                
+                midnight_date = mn;
         //}  
+}
+
+__myevic__ time_t RTCGetMidnightDate()
+{
+	if ( !midnight_date )
+	{
+		midnight_date = RTCReadRegister( RTCSPARE_MIDNIGHT );
+	}
+	return midnight_date;
 }

@@ -805,8 +805,8 @@ __myevic__ void EventHandler()
 //------------------------------------------------------------------------------
 
 		case 34:	// Show battery voltage
-			if ( !dfStatus.off )
-				return;
+			//if ( !dfStatus.off )
+			//	return;
                         
                         SetScreen( 54, 5 );
 			//gFlags.refresh_display = 1;
