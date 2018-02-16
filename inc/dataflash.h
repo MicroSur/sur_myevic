@@ -170,7 +170,7 @@ typedef struct dfParams
 /* 0075 */	int8_t          AkkuTempCorr;  
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad
 /* 0078 */	dfStatus_t	Status;
-/* 007C */	uint8_t         BattLine;		//0-big,1-%+small,2-v+small,3-all_small	//was uint16_t	AtoRez;
+/* 007C */	uint8_t         BattLine;		//0- %+V,1- %+small,2-v+small,3-all_small	//was uint16_t	AtoRez;
 /* 007D */	uint8_t         AutoPuffTimer;
 /* 007E */	uint8_t		NewRezPerc;		//	was AtoStatus
 /* 007F */	uint8_t		ShuntRez;		//	former 1-byte pad

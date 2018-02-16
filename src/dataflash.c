@@ -740,18 +740,18 @@ __myevic__ void ResetDataFlash()
         dfClick[3] = CLICK_ACTION_ON_OFF;
 //	dfBatteryModel = 0;
 	dfPreheatPwr = 300;
-	dfTCAlgo = TCALGO_DEF;
+//	dfTCAlgo = TCALGO_DEF; // =0 
 	dfTCBoost = 50;
 	dfPID.P = PID_P_DEF;
 	dfPID.I = PID_I_DEF;
 	dfPID.D = PID_D_DEF;
 //	dfMillis = 0;
 //	dfProfile = 0;
-    //    dfStatus.offmodclock = 0;
+//      dfStatus.offmodclock = 0;
         dfFireScrDuration = 2;
         Object3D = 7;
-    //    dfMaxPower = 0;
-    //    dfMaxVolts = 0;
+//      dfMaxPower = 0;
+//      dfMaxVolts = 0;
         
         InitSetPowerVoltMax();
         SetAtoLimits();
@@ -759,7 +759,7 @@ __myevic__ void ResetDataFlash()
         dfUSBMaxCharge = 2000; 
         dfMaxBoardTemp = 70;
         dfBattVolt = 420;
-    //    dfStatus.nbrc = 0;        
+//      dfStatus.nbrc = 0;        
         
 //	ResetCustomBattery();
 //	ResetPowerCurve();

@@ -941,6 +941,7 @@ __myevic__ void EventHandler()
 				return;
                         
 			dfStatus.flipped ^= 1;
+                        dfStatus2.swap_mp ^= 1;
 			InitDisplay();
                         SetScreen( 1, 2 );
 			//gFlags.refresh_display = 1;

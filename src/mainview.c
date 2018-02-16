@@ -328,7 +328,7 @@ __myevic__ void DrawEnergyLine ( int line )
         vv = ( MilliJoules / 3600 ) / 10;
         if ( vv > 9999 ) vv = 9999;                        
         DrawImage( 1, line+2, 0xDE ); //energy
-        DrawValueRight( 53, line, vv, 2, 0x1F, 0 );
+        DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
         DrawImageRight( 63, line, 0x67 ); //wh
 }
 
@@ -339,7 +339,7 @@ __myevic__ void DrawVapedLine ( int line )
         uint32_t vv;
         vv = GetVV(MilliJoules);
         DrawImage( 0, line, 0xF9 ); //ml
-        DrawValueRight( 53, line-2, vv, 2, 0x1F, 0 );
+        DrawValueRight( 55, line-2, vv, 2, 0x1F, 0 );
         DrawImageRight( 63, line, 0xCD ); //flask
 }
 
@@ -350,7 +350,7 @@ __myevic__ void DrawVapedDayLine ( int line )
         uint32_t vv;
         vv = GetVV(MilliJoulesDay);
         DrawImage( 0, line, 0xF3 ); //mld
-        DrawValueRight( 53, line-2, vv, 2, 0x1F, 0 );
+        DrawValueRight( 55, line-2, vv, 2, 0x1F, 0 );
         DrawImageRight( 63, line, 0xCD ); //flask
 }
 
@@ -389,12 +389,29 @@ __myevic__ void DrawAPTLines()
                     if ( gFlags.battery_charging )
                     {
                     	DrawString( gFlags.firing ? String_AMP_s : String_UCH_s, 0, line+2 );
-                        if ( gFlags.firing ) DrawValue( 27, line, AtoCurrent, 1, 0x1F, 3 );    
-                        else DrawValue( 27, line, ChargeCurrent / 10, 2, 0x1F, 3 ); 
-                    } else {
+                        if ( gFlags.firing ) 
+                        {
+                            DrawValue( 27, line, AtoCurrent, 1, 0x1F, 3 );    
+                        }
+                        else 
+                        {
+                            if ( !gFlags.soft_charge )
+                            {
+                                DrawImageRight( 63, line+2 , 0xF6 ); // N/A
+                                break;
+                            } 
+                            else
+                            {
+                                DrawValue( 27, line, ChargeCurrent / 10, 2, 0x1F, 3 ); 
+                            }
+                        }
+                    } 
+                    else 
+                    {
 			DrawString( String_AMP_s, 0, line+2 );
 			DrawValue( 27, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 3 );                        
                     }
+                    
 			DrawImage( 57, line+2, 0x9C );
 			break;
 		}

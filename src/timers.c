@@ -115,7 +115,7 @@ __myevic__ void TMR2_IRQHandler()
 
 		if ( gFlags.playing_fb )
 		{
-			if ( (!(TMR2Counter % 16) && dfFBSpeed == 0)
+			if ( (!(TMR2Counter % 20) && dfFBSpeed == 0)
 			  || (!(TMR2Counter % 13) && dfFBSpeed == 1)
 			  || (!(TMR2Counter % 10) && dfFBSpeed == 2) )
 			{

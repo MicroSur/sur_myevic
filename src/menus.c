@@ -597,11 +597,23 @@ __myevic__ void ClicksMenuIDraw( int it, int line, int sel )
 			DrawString( String_Battery, 26, line+2 );
 			break;
 	}
+        
+                
+        if ( sel && gFlags.edit_value )
+            InvertRect( 0, line, 63, line+12 );
+        
 }
+
 
 
 __myevic__ void ClicksMenuOnClick()
 {
+    
+	gFlags.edit_value ^= 1;
+     
+	gFlags.refresh_display = 1;
+        
+/*
 	if ( CurrentMenuItem > CurrentMenu->nitems - 2 )
 		return;
 
@@ -619,8 +631,87 @@ __myevic__ void ClicksMenuOnClick()
         
 	UpdateDFTimer = 50;
 	gFlags.refresh_display = 1;
+*/
 }
 
+
+__myevic__ int ClicksMenuOnEvent( int event )
+{
+	int vret = 0;
+
+	if ( !gFlags.edit_value )
+		return vret;
+
+	switch ( event )
+	{
+		case 2:	// Plus
+			switch ( CurrentMenuItem )
+                        {
+				case 0: //
+                                case 1:
+                                case 2:
+                                case 3:
+                                        if ( ++dfClick[CurrentMenuItem] >= CLICK_ACTION_MAX )
+                                        {
+                                            dfClick[CurrentMenuItem] = CLICK_ACTION_NONE;
+                                        }
+					vret = 1;
+					break;
+                                case 4:
+                                        if ( ++dfThreeButtonsAct >= CLICK_ACTION_MAX )
+                                        {
+                                            dfThreeButtonsAct = CLICK_ACTION_NONE;
+                                        }   
+                                        vret = 1;
+					break;
+			}
+			break;
+
+		case 3:	// Minus
+                        switch ( CurrentMenuItem )
+                        {
+				case 0: //
+                                case 1:
+                                case 2:
+                                case 3:
+                                        if ( --dfClick[CurrentMenuItem] > CLICK_ACTION_MAX )
+                                        {
+                                            dfClick[CurrentMenuItem] = CLICK_ACTION_MAX - 1;
+                                        }
+					vret = 1;
+					break;
+                                case 4:
+                                        if ( --dfThreeButtonsAct > CLICK_ACTION_MAX )
+                                        {
+                                            dfThreeButtonsAct = CLICK_ACTION_MAX - 1;
+                                        }
+                                        vret = 1;
+					break;
+			}
+			break;
+                        
+/*
+                case EVENT_LONG_FIRE:
+                        switch ( CurrentMenuItem )
+			{                    
+                                case : //
+
+                                        gFlags.edit_value = 0;
+                                        vret = 1;
+                                        break;      
+                        }  
+                        break;  
+*/
+	}
+
+	if ( vret )
+	{
+		UpdateDFTimer = 50;
+		gFlags.refresh_display = 1;
+	}
+
+	return vret;
+}
 
 //-----------------------------------------------------------------------------
 
@@ -3619,7 +3710,7 @@ const menu_t ClicksMenu =
 	ClicksMenuIDraw+1,
 	0,
 	ClicksMenuOnClick+1,
-	0,
+	ClicksMenuOnEvent+1,
 	6,
 	{
 		{ String_2, 0, 0, 0 },
