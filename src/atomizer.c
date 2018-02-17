@@ -1737,6 +1737,8 @@ __myevic__ void ProbeAtomizer()
 //=========================================================================
 __myevic__ uint16_t ResetRez()
 {
+    // for SwitchRezLock
+    
     //ISMODETC(m) ((m)<=3)
     //ISMODEVW(m) (((m)==4)||((m)==6))
     //ISMODEBY(m) ((m)==5)
@@ -1764,7 +1766,7 @@ __myevic__ uint16_t ResetRez()
 //=========================================================================
 //----- (000088B4) --------------------------------------------------------
 
-__myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez, uint8_t sw )
+__myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez )
 {
 /*
 	if ( *plock )
@@ -1779,7 +1781,7 @@ __myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez, uint8_t sw )
 
     if ( AtoRez )
     {
-        if ( sw ) *plock ^= 1;
+        *plock ^= 1;
         *prez = ResetRez();
     }
     
@@ -1802,24 +1804,24 @@ __myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez, uint8_t sw )
 }
 
 
-__myevic__ void SwitchRezLock( uint8_t sw )
+__myevic__ void SwitchRezLock()
 {
 	switch ( dfMode )
 	{
 		case 0:
-			_SwitchRezLock( &dfRezLockedNI, &dfRezNI, sw );
+			_SwitchRezLock( &dfRezLockedNI, &dfRezNI );
 			break;
 
 		case 1:
-			_SwitchRezLock( &dfRezLockedTI, &dfRezTI, sw  );
+			_SwitchRezLock( &dfRezLockedTI, &dfRezTI );
 			break;
 
 		case 2:
-			_SwitchRezLock( &dfRezLockedSS, &dfRezSS, sw  );
+			_SwitchRezLock( &dfRezLockedSS, &dfRezSS );
 			break;
 
 		case 3:
-			_SwitchRezLock( &dfRezLockedTCR, &dfRezTCR, sw  );
+			_SwitchRezLock( &dfRezLockedTCR, &dfRezTCR );
 			break;
                         
                 case 4: //pwr re-read rez in VW too
@@ -1827,7 +1829,7 @@ __myevic__ void SwitchRezLock( uint8_t sw )
                         
                     if ( AtoRez )
                     {    
-                        if ( sw ) dfStatus2.vwrezlock ^= 1;
+                        dfStatus2.vwrezlock ^= 1;
                         AtoRez = ResetRez();
                     }
                         

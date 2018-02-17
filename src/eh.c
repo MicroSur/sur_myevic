@@ -1417,7 +1417,7 @@ __myevic__ void EventHandler()
 							break;
 
 						case 3:
-							SwitchRezLock( 1 );
+							SwitchRezLock();
 							break;
 
                                                 case 4:

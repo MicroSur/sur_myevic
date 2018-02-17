@@ -183,7 +183,7 @@ __myevic__ void SetProductID()
 			DFMagicNumber = 0x36;
 			BoxModel = BOX_VTCMINI;
 			X32Off = 1;
-                        BoxName = "VTC mini";
+                        BoxName = "VTC m";
 			break;
 		}
 		else if ( u32Data == PID_VTWOMINI )
@@ -191,7 +191,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_VTWOMINI;
 			DFMagicNumber = 0x10;
 			BoxModel = BOX_VTWOMINI;
-                        BoxName = "VTwo mini";
+                        BoxName = "VTwo m";
 			break;
 		}
 		else if ( u32Data == PID_PRIMOMINI )
@@ -199,7 +199,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_PRIMOMINI;
 			DFMagicNumber = 0x11;
 			BoxModel = BOX_PRIMOMINI;
-                        BoxName = "Primo mini";
+                        BoxName = "Primo m";
 			break;
 		}  
 		else if ( u32Data == PID_PRIMOSE )
@@ -207,7 +207,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_PRIMOSE;
 			DFMagicNumber = 0x10;
 			BoxModel = BOX_PRIMOSE;
-                        BoxName = "Primo SE";
+                        BoxName = "PrimoSE";
 			break;
 		}                
 		else if ( u32Data == PID_VTWO )
@@ -215,6 +215,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_VTWO;
 			DFMagicNumber = 0x40;
 			BoxModel = BOX_VTWO;
+                        BoxName = "VTwo";
 			break;
 		}
 		else if ( u32Data == PID_VTCDUAL )
@@ -225,7 +226,7 @@ __myevic__ void SetProductID()
 			NumBatteries = 0;
 			MaxBatteries = 2;
 			gFlags.pwm_pll = 1;
-                        BoxName = "VTC Dual";
+                        BoxName = "VTCDual";
 			break;
 		}
                 else if ( u32Data == PID_PRIMO1 )
@@ -237,7 +238,7 @@ __myevic__ void SetProductID()
 			MaxBatteries = 2;
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
-                        BoxName = "Primo 1";
+                        BoxName = "Primo1";
 			break;
 		}
                 else if ( u32Data == PID_PRIMO2 )
@@ -249,7 +250,7 @@ __myevic__ void SetProductID()
 			MaxBatteries = 2;
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
-                        BoxName = "Primo 2";
+                        BoxName = "Primo2";
 			break;
 		}     
                 else if ( u32Data == PID_PREDATOR )
@@ -275,7 +276,7 @@ __myevic__ void SetProductID()
 			gFlags.pwm_pll = 1;
                         ScrFlip = 1;
                         X32Off = 1;
-                        BoxName = "RX GEN3";
+                        BoxName = "GEN3";
 			break;
 		}
                 else if ( u32Data == PID_SINP80 )
@@ -351,7 +352,7 @@ __myevic__ void SetProductID()
 		{
 			dfMaxHWVersion = HWV_EGRIPII;
 			DFMagicNumber = 0x15;
-			BoxModel = BOX_EGRIPII;
+			BoxModel = BOX_EGRIPII;  
 			break;
 		}
 		else if ( u32Data == PID_CUBOMINI )
@@ -361,7 +362,7 @@ __myevic__ void SetProductID()
 			BoxModel = BOX_CUBOMINI;
 			ScrFlip = 1;
 			X32Off = 1;
-                        BoxName = "Cub mini";                        
+                        BoxName = "Cub m";                        
 			break;
 		}
 		else if ( u32Data == PID_CUBOID )
@@ -387,7 +388,7 @@ __myevic__ void SetProductID()
 			MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
 			X32Off = 1;
-                        BoxName = "Cub 200";
+                        BoxName = "Cub200";
 			break;
 		}
 		else if ( u32Data == PID_EVICBASIC )
@@ -405,7 +406,7 @@ __myevic__ void SetProductID()
 			DFMagicNumber = 0x30;
 			BoxModel = BOX_PRESA75W;
 			X32Off = 1;
-                        BoxName = "Presa 75";                        
+                        BoxName = "Presa75";                        
 			break;
 		}
 		else if ( u32Data == PID_PRESA100W )

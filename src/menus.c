@@ -2470,7 +2470,7 @@ __myevic__ void CoilsIClick()
 			ResetResistance();
 			if ( AtoStatus == 4 )
 			{
-				SwitchRezLock( 1 );
+				SwitchRezLock();
 			}
 			break;
 	}
@@ -2599,7 +2599,7 @@ __myevic__ void DrawTCRP( int x, int y, int v, uint8_t dp, uint8_t z, uint8_t nd
 {
 	if ( v == 0 )
 	{
-		DrawString( String_DEF, x - 18, y + 2 );
+		DrawStringRight( String_DEF, x, y + 2 ); //( String_DEF, x - 18, y + 2 );
 	}
 	else
 	{
@@ -2905,7 +2905,7 @@ const mvaluedesc_t TCRNIDesc =
 {
 	32, 59,
 	0, 0,
-	0, 999,
+	0, 999,     // 0 = DEF
 	&DrawTCRP+1,
 	0,
 	0,
@@ -2937,7 +2937,7 @@ const mvaluedesc_t TCRSSDesc =
 	0,
 	0x0B,
 	1,
-	0, 120
+	0, 100 //120
 };
 
 const mvaluedesc_t TCRMDesc =
@@ -2950,7 +2950,7 @@ const mvaluedesc_t TCRMDesc =
 	0,
 	0x0B,
 	1,
-	0, 120
+	0, 100
 };
 
 const mdata_t TCRNIData =
@@ -3346,7 +3346,7 @@ const mvaluedesc_t CUSVoltDesc =
 {
 	30, 40,
 	3, 2,
-	280, 423,
+	270, 423,
 	&DrawCUS+1,
 	0,
 	0,

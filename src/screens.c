@@ -919,21 +919,13 @@ __myevic__ void ShowBattVolts()
     //Event = 34;
     //SetScreen( 54
     
-	if ( NumBatteries > 1 )
-	{
-		DrawStringCentered( String_Battery, 32 );
-		for ( int i = 0 ; i < NumBatteries ; ++i )
-		{
-			DrawValue(  6, 44+20*i, BattVolts[i], 2, 0x29, 3 );
-			DrawImage( 46, 44+20*i, 0xB8 );
-		}
-	}
-	else
-	{
-		DrawStringCentered( String_Battery, 88 );
-		DrawValue( 6, 102, BatteryVoltage, 2, 0x29, 3 );
-		DrawImage( 46, 102, 0xB8 );
-	}
+    DrawStringCentered( NumBatteries > 1? String_Batteries : String_Battery, 13 );
+
+    for ( int i = 0 ; i < NumBatteries ; ++i )
+    {
+        DrawValue(  8, 27+21*i, BattVolts[i], 2, 0x29, 3 );
+        DrawImage( 50, 35+21*i, 0xB1 );
+    }
 }
 
 
@@ -952,21 +944,30 @@ __myevic__ void ShowBoardTemp()
 //----- (00007684) --------------------------------------------------------
 __myevic__ void ShowVersion()
 {
+    //about
+    //info
+    
 	uint8_t buf[12];
 
-        DrawStringCentered( String_SME, 13 );
-	DrawStringCentered( String_myevic, 24 );
+        DrawStringCentered( String_SME, 2 );
+	//DrawStringCentered( String_myevic, 24 );
 
-	DrawStringCentered( String_Build, 44 );
+	DrawString( String_Build, 2, 17 );
 	Value2Str( buf, __BUILD1, 0, 0x1F, 0 );
-	DrawStringCentered( buf, 58 );
+	DrawString( buf, 15, 30 );
 
-	DrawStringCentered( String_Version, 78 );
-	DrawValue( 11, 92, FWVERSION, 2, 0x29, 3 ); //0x48
+	DrawString( String_Version, 2, 47 );
+	DrawValue( 35, 60, FWVERSION, 2, 0x1F, 3 );
+        
+        //
         
         uint8_t strbuf[20];
         convert_string1( strbuf, BoxName );
-        DrawStringCentered( strbuf, 118 );
+        DrawStringCentered( strbuf, 81 );
+        
+        DrawString( String_Hard, 1, 96 );
+        DrawString( String_Version, 26, 96 );
+        DrawValue( 35, 109, dfHWVersion, 2, 0x1F, 3 );
 
 }
 

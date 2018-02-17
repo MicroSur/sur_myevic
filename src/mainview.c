@@ -56,16 +56,18 @@ __myevic__ void DrawMode()
 		switch ( dfMode )
 		{
 			case 0:
+                        case 1:
+                        case 2:
 				DrawString( String_TEMP, 10, 0 );
 				break;
-			case 1:
-				DrawString( String_TEMP, 10, 0 );
-				break;
-			case 2:
-				DrawString( String_TEMP, 10, 0 );
-				break;
+			//case 1:
+			//	DrawString( String_TEMP, 10, 0 );
+			//	break;
+			//case 2:
+			//	DrawString( String_TEMP, 10, 0 );
+			//	break;
 			case 3:
-				DrawString( String_TCR, 1, 0 );
+				DrawString( String_TCR, 10, 0 );
 				break;
 			case 4:
 				DrawStringCentered( String_POWER, 0 );
@@ -98,9 +100,9 @@ __myevic__ void DrawMode()
 				//DrawImage( 59, 3, 0x07 );
 				break;
 			case 3:
-				DrawValue( 26, 0, dfTCRM[dfTCRIndex], 0, 0x0B, 3 );
-				DrawImage( 49, 0, 0xA8 );
-				DrawValue( 57, 0, dfTCRIndex + 1, 0, 0x0B, 1 );
+				DrawValue( 35, 0, dfTCRM[dfTCRIndex], 0, 0x0B, 3 ); // 26 TCR value
+				//DrawImage( 49, 0, 0xA8 ); //M
+				//DrawValue( 57, 0, dfTCRIndex + 1, 0, 0x0B, 1 ); // 1-2-3
 				break;
 			default:
 				break;

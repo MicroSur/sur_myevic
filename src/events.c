@@ -239,7 +239,7 @@ __myevic__ void SetClicksAction( uint8_t num )
 							break;
 
                                                 case CLICK_ACTION_REZRESET:
-                                                        SwitchRezLock( 0 );
+                                                        ResetResistance();
 							break;
                                                         
 					}
@@ -286,11 +286,9 @@ __myevic__ void GetUserInput()
 		{
 			if ( LastInputs == 1 )
 			{
-				StopFire();                            
-                                //gFlags.refresh_display = 1; //bad idea // for correct last FireDuration in TC
-                                if ( gFlags.apuff )
+                                if ( gFlags.apuff ) // 1 //for correct last FireDuration in TC
                                 {
-                                    gFlags.apuff = 0;
+                                    //gFlags.apuff = 0; //in StopFire(); 
                                     FireDuration = (uint16_t)dfAutoPuffTimer;
                                     if ( dfStealthOn != 1 )
                                     {
@@ -298,6 +296,10 @@ __myevic__ void GetUserInput()
                                         DisplayRefresh();   
                                     }
                                 }
+                                                            
+				StopFire();          //2                  
+                                //gFlags.refresh_display = 1; //bad idea // for correct last FireDuration in TC
+
 			}
 			gFlags.user_idle = 1;
 			LastInputs = -1;

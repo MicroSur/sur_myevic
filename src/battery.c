@@ -75,7 +75,7 @@ const Battery_t const myCustom[] =
 			{  90, 380 },
 			{ 100, 418 }
 		},
-		280,
+		270,
 		20,
 		25
 	}
@@ -99,7 +99,7 @@ const Battery_t const Batteries[] =
 			{  90, 400 },
 			{ 100, 410 }
 		},
-		280,
+		270,
 		25,
 		20
 	},
@@ -120,7 +120,7 @@ const Battery_t const Batteries[] =
 			{  97, 417 },
 			{ 100, 419 }
 		},
-		280,
+		270,
 		20,
 		25
 	},
@@ -141,7 +141,7 @@ const Battery_t const Batteries[] =
 			{  99, 417 },
 			{ 100, 420 }
 		},
-		280,
+		270,
 		20,
 		25
 	},
@@ -185,7 +185,7 @@ const Battery_t const Batteries[] =
 			{  99, 416 },
 			{ 100, 420 }
 		},
-		280,
+		270,
 		20,
 		25
 	},
@@ -229,7 +229,7 @@ const Battery_t const Batteries[] =
 			{  99, 418 },
 			{ 100, 420 }
 		},
-		280,
+		270,
 		20,
 		30
 	},
@@ -2097,14 +2097,14 @@ __myevic__ int CheckCustomBattery()
 		if ( CustomBattery.V2P[i].percent > 100 )
 			return 0;
 
-		if ( CustomBattery.V2P[i].voltage < 280 || CustomBattery.V2P[i].voltage > 423 )
+		if ( CustomBattery.V2P[i].voltage < 270 || CustomBattery.V2P[i].voltage > 423 )
 			return 0;
 
 		if (( i > 0 ) && ( CustomBattery.V2P[i].percent <= CustomBattery.V2P[i-1].percent ))
 			return 0;
 	}
 
-	if ( CustomBattery.cutoff < 275 || CustomBattery.cutoff > 350 ) return 0;
+	if ( CustomBattery.cutoff < 270 || CustomBattery.cutoff > 350 ) return 0;
 
 	return 1;
 }
