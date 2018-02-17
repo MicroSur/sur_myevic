@@ -38,6 +38,13 @@ void SetScreen( int screen, int duration )
 	gFlags.refresh_display = 1;
 }
 
+//=========================================================================
+void DarkScreen()
+{
+    	Screen = 0;
+	SleepTimer = dfDimOffTimeout * 100; //18000;
+	gFlags.refresh_display = 1;
+}
 
 //=========================================================================
 // Called at a frequency of 10Hz except when firing in TC modes.
@@ -360,14 +367,19 @@ __myevic__ void DrawScreen()
 				}
 			}
 			break;
-
+                        
+                case  28: // Key Lock
+                        scrSaveOnce = 0;
+                        DarkScreen();
+                        break;
+    
 		case   2: // Firing
                         if ( dfStealthOn == 1 && StealthPuffs && FireDuration > 1 ) //CurrentFD
                         {
                             --StealthPuffs;
                         }
                         //no brake
-		case  28: // Key Lock
+		//case  28: // Key Lock
 		case  40: // Stealth ON/OFF
                        
                         if ( dfStealthOn != 1 )
@@ -377,9 +389,7 @@ __myevic__ void DrawScreen()
                         
 			if ( dfStealthOn == 1 && !StealthPuffs )
 			{
-				Screen = 0;
-				SleepTimer = dfDimOffTimeout * 100; //18000;
-				gFlags.refresh_display = 1;
+                                DarkScreen();
 			}
 			else
 			{
@@ -412,10 +422,8 @@ __myevic__ void DrawScreen()
 				}
 				else
 				{
-					Screen = 0;
-					SleepTimer = dfDimOffTimeout * 100; //18000;
-					gFlags.refresh_display = 1;
                                         scrSaveOnce = 1;
+                                        DarkScreen();
 				}
 			}
 			break;
@@ -469,9 +477,7 @@ __myevic__ void DrawScreen()
 			}
 			else
 			{
-				Screen = 0;
-				SleepTimer = dfDimOffTimeout * 100; //18000;
-				gFlags.refresh_display = 1;
+                                DarkScreen();
 			}
                          
 			break;
@@ -810,7 +816,7 @@ __myevic__ void ShowBattery()
 //----- (00006764) --------------------------------------------------------
 __myevic__ void ShowBatCharging()
 {
-    //ChargeView screen
+    //Charge screen
     
 	if ( ( dfStealthOn == 1 && ScreenDuration == 0 ) || !gFlags.screen_on )
 	{
