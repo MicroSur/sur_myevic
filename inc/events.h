@@ -99,6 +99,7 @@ enum
         CLICK_ACTION_SAVER,
         CLICK_ACTION_MENU,
         CLICK_ACTION_BATTERIES,
+        CLICK_ACTION_REZRESET,
 	CLICK_ACTION_MAX //last index in enum
 };
 

@@ -596,6 +596,11 @@ __myevic__ void ClicksMenuIDraw( int it, int line, int sel )
                 case CLICK_ACTION_BATTERIES:
 			DrawString( String_Battery, 26, line+2 );
 			break;
+                        
+                case CLICK_ACTION_REZRESET:
+			DrawString( String_ResetCoil, 26, line+2 );
+			break;                        
+                        
 	}
         
                 
@@ -2465,7 +2470,7 @@ __myevic__ void CoilsIClick()
 			ResetResistance();
 			if ( AtoStatus == 4 )
 			{
-				SwitchRezLock();
+				SwitchRezLock( 1 );
 			}
 			break;
 	}

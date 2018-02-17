@@ -133,7 +133,7 @@ extern void ReadAkkuTemp();
 extern void Overtemp();
 extern void ResetResistance();
 
-extern void SwitchRezLock();
+extern void SwitchRezLock( uint8_t sw );
 
 extern int SearchSMARTRez( uint16_t rez );
 extern void SetAtoSMARTParams();

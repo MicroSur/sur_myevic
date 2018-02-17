@@ -347,6 +347,7 @@ extern const uint8_t String_UI[];
 extern const uint8_t String_FMP[];
 extern const uint8_t String_All[];
 extern const uint8_t String_Puff24[];
+extern const uint8_t String_ResetCoil[];
 
 //==============================================================================
 

@@ -237,6 +237,10 @@ __myevic__ void SetClicksAction( uint8_t num )
                                                 case CLICK_ACTION_BATTERIES:
                                                         FireClicksEvent = 34; //all volts
 							break;
+
+                                                case CLICK_ACTION_REZRESET:
+                                                        SwitchRezLock( 0 );
+							break;
                                                         
 					}
 }

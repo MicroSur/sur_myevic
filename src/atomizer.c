@@ -1734,61 +1734,113 @@ __myevic__ void ProbeAtomizer()
 	}
 }
 
+//=========================================================================
+__myevic__ uint16_t ResetRez()
+{
+    //ISMODETC(m) ((m)<=3)
+    //ISMODEVW(m) (((m)==4)||((m)==6))
+    //ISMODEBY(m) ((m)==5)
+
+        //if ( AtoRez )
+        //{
+		dfResistance = AtoRezMilli / 10; //=real //AtoRez;
+		RezMillis = AtoMillis;
+		//*prez = dfResistance;
+                
+                if ( ISMODETC(dfMode) )
+                {
+                    dfMillis &= ~( 0xf << ( dfMode << 2 ) );
+                    dfMillis |= RezMillis << ( dfMode << 2 );
+                }
+                else
+                {
+                    dfVWVolts = GetAtoVWVolts( dfPower, dfResistance ); //AtoRez
+                    dfVVLockedVolt = dfVWVolts;
+                }
+        //}
+        return dfResistance;
+}
 
 //=========================================================================
 //----- (000088B4) --------------------------------------------------------
-__myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez )
+
+__myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez, uint8_t sw )
 {
+/*
 	if ( *plock )
 	{
 		*plock = 0;
 	}
-	else if ( AtoRez )
-	{
-		*plock = 1;
-		//if ( !dfResistance )
-		//{
-			dfResistance = AtoRezMilli / 10; //AtoRez;
-			RezMillis = AtoMillis;
-		//}
+	else
+        { 
+                *plock = 1;
+	}
+*/
+
+    if ( AtoRez )
+    {
+        if ( sw ) *plock ^= 1;
+        *prez = ResetRez();
+    }
+    
+    //else
+    //{
+    //    *plock = 0;
+    //}
+        
+/*
+        if ( AtoRez )
+        {
+		dfResistance = AtoRezMilli / 10; //AtoRez;
+		RezMillis = AtoMillis;
+
 		*prez = dfResistance;
 		dfMillis &= ~( 0xf << ( dfMode << 2 ) );
-		dfMillis |= RezMillis << ( dfMode << 2 );
-	}
+		dfMillis |= RezMillis << ( dfMode << 2 );   
+        }
+*/
 }
 
-__myevic__ void SwitchRezLock()
+
+__myevic__ void SwitchRezLock( uint8_t sw )
 {
 	switch ( dfMode )
 	{
 		case 0:
-			_SwitchRezLock( &dfRezLockedNI, &dfRezNI );
+			_SwitchRezLock( &dfRezLockedNI, &dfRezNI, sw );
 			break;
 
 		case 1:
-			_SwitchRezLock( &dfRezLockedTI, &dfRezTI );
+			_SwitchRezLock( &dfRezLockedTI, &dfRezTI, sw  );
 			break;
 
 		case 2:
-			_SwitchRezLock( &dfRezLockedSS, &dfRezSS );
+			_SwitchRezLock( &dfRezLockedSS, &dfRezSS, sw  );
 			break;
 
 		case 3:
-			_SwitchRezLock( &dfRezLockedTCR, &dfRezTCR );
+			_SwitchRezLock( &dfRezLockedTCR, &dfRezTCR, sw  );
 			break;
                         
                 case 4: //pwr re-read rez in VW too
                 case 5: //bypass
-                        AtoRez = AtoRezMilli / 10;
-                        dfResistance = AtoRez;
                         
-                        dfVWVolts = GetAtoVWVolts( dfPower, AtoRez );
+                    if ( AtoRez )
+                    {    
+                        if ( sw ) dfStatus2.vwrezlock ^= 1;
+                        AtoRez = ResetRez();
+                    }
+                        
+/*                       
+                        //AtoRez = AtoRezMilli / 10;
+                        //dfResistance = AtoRez;
+                        dfResistance = AtoRezMilli / 10;
+                        
+                        dfVWVolts = GetAtoVWVolts( dfPower, dfResistance ); //AtoRez
                         dfVVLockedVolt = dfVWVolts;
-                        
-                        dfStatus2.vwrezlock ^= 1;
-
 			RezMillis = AtoMillis;
                         UpdateDFTimer = 50;
+*/
                         break;
 
 		default:

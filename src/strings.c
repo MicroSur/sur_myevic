@@ -238,3 +238,4 @@ __string__ String_FMP           [] = { 0xA1, 0xD5, 0xD4, 0 }; //F<>
 __string__ String_All           [] = { 0x9C, 0x8D, 0x8D, 0 };
 //__string__ String_Puff24        [] = { 0xEE, 0 };
 __string__ String_Puff24        [] = { 0xAB, 0x96, 0x87, 0x87, 0xB5, 0x9F, 0 }; //PuffZD
+__string__ String_ResetCoil     [] = { 0xD0, 0x9E, 0x90, 0x8A, 0x8D, 0 }; //reset coil
