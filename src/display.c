@@ -206,33 +206,7 @@ __myevic__ void DrawDate( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
         const uint8_t *WEEKS[] = { String_Sunday, String_Monday, String_Tuesday, 
                             String_Wednesday, String_Thursday, String_Friday, 
                             String_Saturday};
-        DrawStringCentered( WEEKS[dayofweek ( rtd->u32Day, rtd->u32Month, rtd->u32Year )], y );        
-/*
-        switch ( dayofweek ( rtd->u32Day, rtd->u32Month, rtd->u32Year ) )
-	{
-		case 0:
-			DrawStringCentered( String_Sunday, y );
-			break;
-		case 1:
-			DrawStringCentered( String_Monday, y );
-			break;
-                case 2:
-			DrawStringCentered( String_Tuesday, y );
-			break;
-                case 3:
-			DrawStringCentered( String_Wednesday, y );
-			break;
-                case 4:
-			DrawStringCentered( String_Thursday, y );
-			break;
-                case 5:
-			DrawStringCentered( String_Friday, y );
-			break;
-                case 6:
-			DrawStringCentered( String_Saturday, y );
-			break;
-	}       
-*/
+        DrawStringCentered( WEEKS[dayofweek ( rtd->u32Day, rtd->u32Month, rtd->u32Year )], y );
 }
 
 
@@ -350,6 +324,16 @@ __myevic__ void DrawVLine( const int x, const int y1, const int y2, const int co
 	}
 }
 
+//=========================================================================
+__myevic__ void DrawVLineDots( const int x, const int y1, const int y2, const int color )
+{
+	int inc = ( y1 < y2 ) * 2 - 1;
+
+	for ( int y = y1 ; y <= y2 + 2*inc ; y += 2*inc )
+	{
+		DrawPoint( x, y, color );
+	}
+}
 
 //=========================================================================
 //----- (0000575C) --------------------------------------------------------

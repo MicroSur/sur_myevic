@@ -585,6 +585,7 @@ __myevic__ void fbCheckFire()
 
 	if ( fbBirdLine >= 0 && !PE0 )
 	{
+/*
 		if ( dfFBSpeed == 2 )
 		{
 			fbBirdDisp = -20;
@@ -595,7 +596,16 @@ __myevic__ void fbCheckFire()
 		}
 		else
 		{
-			fbBirdDisp = -15; //-14;
+			fbBirdDisp = -20; //-15; //-14;
+		}
+*/
+            	if ( dfFBSpeed == 1 )
+		{
+			fbBirdDisp = -17;
+		}
+		else
+		{
+			fbBirdDisp = -20;
 		}
 
 		fbSetTimeoutDelay( 10 );
@@ -613,6 +623,7 @@ __myevic__ void fbMoveBird()
 		fbDeleteTimeout( fbCurrentTimeout );
 	}
 
+/*
 	if ( dfFBSpeed == 2 )
 	{
 		fbBirdDisp += 6;
@@ -623,9 +634,18 @@ __myevic__ void fbMoveBird()
 	}
 	else
 	{
-		fbBirdDisp += 4;
+		fbBirdDisp += 7;
 	}
-
+*/
+	if ( dfFBSpeed == 1 )
+	{
+		fbBirdDisp += 5;
+	}
+	else
+	{
+		fbBirdDisp += 6;
+	}
+        
 	if ( fbBirdDisp <= 0 )
 	{
 		fbBirdLine = fbBirdLine + fbBirdDisp / 12 - 1;

@@ -98,6 +98,8 @@ enum
         CLICK_ACTION_GAME,
         CLICK_ACTION_SAVER,
         CLICK_ACTION_MENU,
+        CLICK_ACTION_BATTERIES,
+        CLICK_ACTION_REZRESET,
 	CLICK_ACTION_MAX //last index in enum
 };
 
@@ -113,6 +115,7 @@ extern void GetUserInput();
 extern void EventHandler();
 extern void ResetVapedCounter();
 extern void ResetAllCounters();
+extern void ResetPuffCounters();
 extern int CustomEvents();
 
 extern void PowerPlus( uint16_t *pwr, uint16_t min, uint16_t max );

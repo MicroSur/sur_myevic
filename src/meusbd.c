@@ -537,7 +537,7 @@ __myevic__ void InitUSB()
 //=========================================================================
 // HID Requests definitions
 
-#define HID_CMD_SIGNATURE   0x43444948
+#define HID_CMD_SIGNATURE   0x43444948  //<>HIDC
 
 /* HID Commands */
 #define HID_CMD_NONE		0x00
@@ -558,12 +558,12 @@ __myevic__ void InitUSB()
 #define HID_CMD_RESET		0xB4    //restart mod
 //#define HID_CMD_FMCREAD		0xC0
 #define HID_CMD_SCREENSHOT	0xC1
-#define HID_CMD_APUPDATE	0xC3    //write data
+//#define HID_CMD_APUPDATE	0xC3    //write data
 
-#define HID_CONFIG_LENGTH	0x400
-#define HID_CONFIG_FORMAT	0x03
-#define HID_PROFILE_LENGTH	(DATAFLASH_PARAMS_SIZE+DATAFLASH_INFOS_SIZE)
-#define HID_PROFILE_FORMAT	0x00
+//#define HID_CONFIG_LENGTH	0x400
+//#define HID_CONFIG_FORMAT	0x03
+//#define HID_PROFILE_LENGTH	(DATAFLASH_PARAMS_SIZE+DATAFLASH_INFOS_SIZE)
+//#define HID_PROFILE_FORMAT	0x00
 
 
 typedef struct __attribute__((packed))
@@ -1397,7 +1397,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 						}
 					}
 */
-
+                                        // for FWUpdater
 					if ( df->i.Year >= 2000 && df->i.Year <= 2099 )
 					{
 						S_RTC_TIME_DATA_T rtd;

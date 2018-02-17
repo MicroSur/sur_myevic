@@ -185,6 +185,7 @@ __myevic__ void KeyRepeat()
 
 __myevic__ void SetClicksAction( uint8_t num )
 {
+    //multi fire clicks
     					switch ( num )
                                         //switch ( gFlags.asleep ? dfClick[FireClickCount-3] : dfClick[FireClickCount-2] )
 					{
@@ -232,6 +233,15 @@ __myevic__ void SetClicksAction( uint8_t num )
                                                 case CLICK_ACTION_MENU:
                                                         FireClicksEvent = EVENT_ENTER_MENUS;
 							break;
+                                                        
+                                                case CLICK_ACTION_BATTERIES:
+                                                        FireClicksEvent = 34; //all volts
+							break;
+
+                                                case CLICK_ACTION_REZRESET:
+                                                        SwitchRezLock( 0 );
+							break;
+                                                        
 					}
 }
 
@@ -656,9 +666,11 @@ __myevic__ void GetUserInput()
                                         Event = 23;	// time reset
                                         break;                                        
                                     case 3:
-                                    case 4:
                                     case 5:
                                         Event = EVENT_RESET_VVEL;	// vvel reset
+                                        break;                                        
+                                    case 4: //vv day
+                                        MilliJoulesDay = 0;
                             }
                         }
                     }
@@ -1412,18 +1424,26 @@ __myevic__ int EvtSetJoules()
 
 __myevic__ void ResetVapedCounter()
 {
-    time_t t;
-    RTCGetEpoch( &t );
-    t = t - ( t% 86400 );
+    //time_t t;
+    //RTCGetEpoch( &t );
+    //t = t - ( t % 86400 );
     MilliJoules = 0;
-    RTCWriteRegister( RTCSPARE_VV_BASE, t ); 
+    dfJoules = 0;
+    //MilliJoulesDay = 0; //?
+    //RTCWriteRegister( RTCSPARE_VV_MJOULES, 0 );
+    //RTCWriteRegister( RTCSPARE_VV_BASE, t ); 
+    UpdateDFTimer = 50;
 }
 __myevic__ void ResetAllCounters()
+{
+    ResetVapedCounter();
+    ResetPuffCounters();
+}
+__myevic__ void ResetPuffCounters()
 {
     dfTimeCount = 0;
     dfPuffCount = 0;
     UpdatePTTimer = 80;
-    ResetVapedCounter();
     UpdateDFTimer = 50;
 }
 

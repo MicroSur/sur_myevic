@@ -26,7 +26,7 @@
 
 //-------------------------------------------------------------------------
 
-#define FWVERSION	558
+#define FWVERSION	111
 
 #define __BUILD1	( __DAY__ + __MONTH__ * 100 + ( __YEAR__ % 100 ) * 10000 )
 
@@ -106,7 +106,7 @@ enum
 //-------------------------------------------------------------------------
 
 typedef struct
-{
+{                                               //0x20000064
 /* 00000001 */	int	tick_5khz:1;            //lsls 0x1F
 /* 00000002 */	int	tick_1khz:1;            //lsls 0x1E
 /* 00000004 */	int	tick_us:1;              //lsls 0x1D
@@ -142,9 +142,9 @@ typedef struct
 /* 20000000 */	int limit_power:1;              //lsls 2
 /* 40000000 */	int batteries_ooe:1;            //lsls 1
 /* 80000000 */	int new_rez_ss:1;               //lsls 0
-
+                                                //0x20000068
 /* 00000001 */	int edit_value:1;
-/* 00000002 */	int new_rez_tcr:1;
+/* 00000002 */	int new_rez_tcr:1;              //lsls 0x1E
 /* 00000004 */	int nbcr:1;
 /* 00000008 */	int bad_cell:1;
 /* 00000010 */	int edit_capture_evt:1;

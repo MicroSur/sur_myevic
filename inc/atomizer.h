@@ -83,6 +83,7 @@ extern uint16_t	PreheatPower;
 extern uint16_t	PreheatDelay;
 extern uint16_t NextPreheatTimer;
 extern uint32_t	MilliJoules;
+extern uint32_t	MilliJoulesDay;
 extern uint8_t	RezMillis;
 extern uint16_t	BypassVolts;
 
@@ -132,7 +133,7 @@ extern void ReadAkkuTemp();
 extern void Overtemp();
 extern void ResetResistance();
 
-extern void SwitchRezLock();
+extern void SwitchRezLock( uint8_t sw );
 
 extern int SearchSMARTRez( uint16_t rez );
 extern void SetAtoSMARTParams();

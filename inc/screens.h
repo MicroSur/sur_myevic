@@ -27,6 +27,8 @@ extern const uint8_t ScrChargeTimes[4];
 extern void DrawClock();
 extern void DrawDigitClock(int line, int infoline);
 
+extern uint32_t GetVV( uint32_t MJoules );
+
 enum {
 	SSAVER_NONE = 0,
 	SSAVER_CLOCK,
@@ -344,6 +346,8 @@ extern const uint8_t String_Repeat[];
 extern const uint8_t String_UI[];
 extern const uint8_t String_FMP[];
 extern const uint8_t String_All[];
+extern const uint8_t String_Puff24[];
+extern const uint8_t String_ResetCoil[];
 
 //==============================================================================
 

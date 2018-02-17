@@ -805,8 +805,8 @@ __myevic__ void EventHandler()
 //------------------------------------------------------------------------------
 
 		case 34:	// Show battery voltage
-			if ( !dfStatus.off )
-				return;
+			//if ( !dfStatus.off )
+			//	return;
                         
                         SetScreen( 54, 5 );
 			//gFlags.refresh_display = 1;
@@ -941,6 +941,7 @@ __myevic__ void EventHandler()
 				return;
                         
 			dfStatus.flipped ^= 1;
+                        dfStatus2.swap_mp ^= 1;
 			InitDisplay();
                         SetScreen( 1, 2 );
 			//gFlags.refresh_display = 1;
@@ -1416,7 +1417,7 @@ __myevic__ void EventHandler()
 							break;
 
 						case 3:
-							SwitchRezLock();
+							SwitchRezLock( 1 );
 							break;
 
                                                 case 4:

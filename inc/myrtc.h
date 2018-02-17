@@ -29,8 +29,10 @@
 //-------------------------------------------------------------------------
 
 #define RTCSPARE_REF_DATE	0
-#define RTCSPARE_VV_BASE	1
-#define RTCSPARE_VV_MJOULES	2
+#define RTCSPARE_MIDNIGHT       1
+//#define RTCSPARE_VV_BASE	1 //not used
+//#define RTCSPARE_VV_MJOULES	2
+//#define RTCSPARE_VV_MJOULESDAY	3
 
 //=========================================================================
 // When the RTC is driven by the LIRC, a "second" of the RTC is approx
@@ -40,6 +42,7 @@
 // This value is unused if a X32 is soldered on the board.
 
 extern volatile int32_t ClockCorrection;
+//extern volatile uint8_t IsRTCAlarmINT;
 
 //=========================================================================
 // Functions
@@ -62,6 +65,13 @@ extern void RTCSleep();
 extern void RTCWakeUp();
 
 extern time_t RTCGetEpoch( time_t *t );
+
+//extern time_t RTCGetReferenceDate();
+//extern void RTCSetReferenceDate( time_t *t );
+extern void RTCWriteNextMidnight();
+extern time_t RTCGetMidnightDate();
+
+extern void ResetMJDay();
 
 //=========================================================================
 

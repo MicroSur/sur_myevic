@@ -293,7 +293,14 @@ __myevic__ void DrawScreen()
 //FireClicksEvent  FireClickCount CurrentFD ScreenDuration PreheatDelay SleepTimer KeyUpTimer
 //dfResistance AtoRez dfTempAlgo StealthPuffs
 //gFlags.apuff && dfStatus.endlessfire
-        
+
+//    time_t t,mn;
+//    RTCGetEpoch ( &t );
+//    mn = RTCReadRegister( RTCSPARE_MIDNIGHT );
+//    DrawValue( 0, 37, mn, 0, 0x01, 0 );
+//    DrawValue( 0, 108, t, 0, 0x01, 0 );
+
+    
 //DisplayRefresh(); //uncomment too
 
 
@@ -668,18 +675,33 @@ __myevic__ void ShowBattery()
         
         if ( BLINKITEM(6) ) return;
 
-        if ( dfBattLine == 2 )
+        uint16_t bv = gFlags.firing ? RTBattVolts : BatteryVoltage;
+        
+        if ( dfBattLine == 2 ) //volts + small 
 		{
-			uint16_t bv = gFlags.firing ? RTBattVolts : BatteryVoltage;
+			//uint16_t bv = gFlags.firing ? RTBattVolts : BatteryVoltage;
 			DrawValueRight(	20, 118, bv, 2, 0x0B, 0 );
 			DrawImage( 21, 118, 0x7D );
 		}
-	else if ( dfBattLine == 1 )
+	else if ( dfBattLine == 1 ) //percent + small
 		{
 			DrawValueRight(	17, 118, BatteryPercent, 0, 0x0B, 0 );
 			DrawImage( 18, 118, 0xC2 );
 		}
+        else if ( dfBattLine == 0 ) //percent+volts (was big)
+        {
+                DrawValueRight(	17, 118, BatteryPercent, 0, 0x0B, 0 ); 
+                DrawImage( 19, 118, 0xC2 );
+                
+                //uint16_t bv = gFlags.firing ? RTBattVolts : BatteryVoltage;
+		DrawValueRight(	56, 118, bv, 2, 0x0B, 0 );
+		DrawImage( 57, 118, 0x97 );
+                
+                DrawVLineDots( 31, 114, 127, 1 );
+                
+        }
 
+        
 	if ( gFlags.battery_10pc && !gFlags.battery_charging )
 	{
 		if ( gFlags.draw_battery )
@@ -690,7 +712,8 @@ __myevic__ void ShowBattery()
 			}
 			else if ( dfBattLine == 0 )
 			{
-				DrawImage( 8, 114, 0xC4 ); //big empty
+				//DrawImage( 8, 114, 0xC4 ); //big empty
+                                DrawVLine( 31, 114, 127, 0 );
 			}
                         else if ( dfBattLine == 3 )
                         {
@@ -705,10 +728,10 @@ __myevic__ void ShowBattery()
 		{
 			DrawImage( 30, 114, 0xE3 ); //small charging
 		}
-		else if ( dfBattLine == 0 )
-		{
-			DrawImage( 8, 114, 0xC5 ); //big charging
-		}
+		//else if ( dfBattLine == 0 )
+		//{
+		//	DrawImage( 8, 114, 0xC5 ); //big charging
+		//}
                 else if ( dfBattLine == 3 )
 		{
 			DrawImage( 1, 114, 0xE3 ); //2 small charging
@@ -722,9 +745,7 @@ __myevic__ void ShowBattery()
 			DrawImage( 30, 114, 0xE2 ); // 1 small empty
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
 			{
-				//DrawString( String_BAL_s, 35, 117 );
                                 DrawImage( 37, 117, 0xC6 );
-                                //DrawHLine ( 32, 117, 57, 1 ); //fill space after drawstring
 			}
 			else if ( BatteryTenth )
 			{
@@ -733,17 +754,16 @@ __myevic__ void ShowBattery()
 		}
 		else if ( dfBattLine == 0 )
 		{
-			DrawImage( 8, 114, 0xC4 );
+		//	DrawImage( 8, 114, 0xC4 );
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
 			{
-				//DrawString( String_BALANCE_s, 10, 117 );
-                                DrawImage( 23, 117, 0xC6 );
-                                //DrawHLine ( 9, 117, 50, 1 );
+                //                DrawImage( 23, 117, 0xC6 );
+                                DrawVLine( 31, 114, 127, 1 );
 			}
-			else if ( BatteryTenth )
-			{
-				DrawFillRectLines( 10, 119, (4 * BatteryTenth + 9), 123, 1 );
-			}
+		//	else if ( BatteryTenth )
+		//	{
+		//		DrawFillRectLines( 10, 119, (4 * BatteryTenth + 9), 123, 1 );
+		//	}
 		}
 		else if ( dfBattLine == 3 )
 		{
@@ -751,9 +771,7 @@ __myevic__ void ShowBattery()
                         DrawImage( 33, 114, 0xE2 ); 
 			if ( gFlags.batteries_ooe && gFlags.draw_battery )
 			{
-				//DrawString( String_BAL_s, 37, 117 );
                                 DrawImage( 40, 117, 0xC6 );
-                                //DrawHLine ( 34, 117, 59, 1 ); //fill space after drawstring
 			}
 			else 
 			{
@@ -792,6 +810,8 @@ __myevic__ void ShowBattery()
 //----- (00006764) --------------------------------------------------------
 __myevic__ void ShowBatCharging()
 {
+    //ChargeView screen
+    
 	if ( ( dfStealthOn == 1 && ScreenDuration == 0 ) || !gFlags.screen_on )
 	{
 		return;
@@ -810,41 +830,41 @@ __myevic__ void ShowBatCharging()
 	}
 */
   
-	if ( dfBattLine == 0 )
-	{
-		DrawImage( 8, 114, 0xC4 );
-	}
-	else
-	{
+	//if ( dfBattLine == 0 )
+	//{
+	//	DrawImage( 8, 114, 0xC4 );
+	//}
+	//else
+	//{
 		DrawValueRight(	18, 118, BatteryPercent, 0, 0x0B, 0 );
 		DrawImage( 19, 118, 0xC2 );
 		DrawImage( 30, 114, 0xE2 );
-	}
+	//}
         
 	if ( BatteryTenth != 10 )
 	{
 		if ( BatAnimLevel )
 		{
-			if ( dfBattLine == 0 )
-			{
-				DrawFillRectLines( 10, 119, (4 * BatAnimLevel + 9), 123, 1 );
-			}
-                        else
-			{
+			//if ( dfBattLine == 0 )
+			//{
+			//	DrawFillRectLines( 10, 119, (4 * BatAnimLevel + 9), 123, 1 );
+			//}
+                        //else
+			//{
 				DrawFillRectLines( 32, 119, (25 * BatAnimLevel / 10 + 31), 123, 1 );
-			}
+			//}
 		}
 	}
 	else if ( gFlags.draw_battery_charging )
 	{
-		if ( dfBattLine == 0 )
-		{
-			DrawFillRectLines( 10, 119, 49, 123, 1 );
-		}
-                else
-		{
+		//if ( dfBattLine == 0 )
+		//{
+		//	DrawFillRectLines( 10, 119, 49, 123, 1 );
+		//}
+                //else
+		//{
 			DrawFillRectLines( 32, 119, 56, 123, 1 );
-		}
+		//}
 	}
 
 /*
@@ -871,7 +891,8 @@ __myevic__ void ShowBatCharging()
                 DrawString( String_Charge, 6, 20 );
                 DrawValue(  31, 34, ChargeCurrent / 10, 2, 0x0B, 3 );
                 DrawImage( 52, 34, 0x68 );
-                } else
+                } 
+                else
                 {
                     DrawString( String_Charge, 6, 0 );    
                 }
@@ -895,9 +916,12 @@ __myevic__ void ShowBatCharging()
 //----- (0000683C) --------------------------------------------------------
 __myevic__ void ShowBattVolts()
 {
+    //Event = 34;
+    //SetScreen( 54
+    
 	if ( NumBatteries > 1 )
 	{
-		DrawStringCentered( String_Batteries, 32 );
+		DrawStringCentered( String_Battery, 32 );
 		for ( int i = 0 ; i < NumBatteries ; ++i )
 		{
 			DrawValue(  6, 44+20*i, BattVolts[i], 2, 0x29, 3 );
@@ -1226,41 +1250,6 @@ __myevic__ void AnimateScreenSaver()
 }
 
 //=========================================================================
-__myevic__ void ShowSetJoules()
-{
-        uint32_t vv, t;
-        
-	DrawString( String_mlkJ, 4, 6 );
-	DrawHLine( 0, 16, 63, 1 );
-        
-        DrawValueRight( 45, 24, dfVVRatio, 0, 0x1F, 0 );
-
-        vv = ( MilliJoules / 10 ) / 3600;
-        if ( vv > 9999 ) vv = 9999;                        
-        DrawImage( 2, 75, 0xDE ); //energy
-        DrawValueRight( 52, 73, vv, 2, 0x1F, 0 );
-        DrawImageRight( 62, 73, 0x67 ); //wh
-   
-   	vv = dfVVRatio * ( MilliJoules / 1000 ) / 1000;
-	vv /= 10;
-	if ( vv > 9999 ) vv = 9999;
-        DrawImage( 2, 43, 0xF9 ); //ml
-        DrawValueRight( 52, 41, vv, 2, 0x1F, 0 );
-        DrawImageRight( 61, 43, 0xCD ); //flask
-
-        // Elasped seconds since last VV reset
-        t = RTCGetEpoch( 0 );
-        t -= RTCReadRegister( RTCSPARE_VV_BASE );
-        vv = vv * 86400 / ( t ? : 1 );
-        DrawImage( 2, 59, 0xF3 ); //mld
-        DrawValueRight( 52, 57, vv, 2, 0x1F, 0 );
-        DrawImageRight( 61, 59, 0xCD ); //flask
-
-        //DrawStringCentered( String_Fire, 53 );
-	//DrawStringCentered( String_Exit, 64 );
-}
-
-//=========================================================================
 __myevic__ void ShowSetTime()
 {
 	DrawString( String_Time, 4, 6 );
@@ -1338,6 +1327,8 @@ __myevic__ void ShowChargeError()
 //=========================================================================
 __myevic__ void ShowImbBatts()
 {
+    //scr 55
+    
 	DrawStringCentered( String_Imbalanced, 88 );
 	DrawStringCentered( String_Batteries, 102 );
 }
@@ -1452,4 +1443,14 @@ __myevic__ void ShowSplash()
 	//{
 	//	MainView();
 	//}
+}
+
+__myevic__ uint32_t GetVV( uint32_t MJoules )
+{
+    uint32_t vv;
+    vv = dfVVRatio * ( MJoules / 1000 );
+    vv /= 100;
+    vv /= 100;
+    if ( vv > 9999 ) vv = 9999;
+    return vv;
 }
