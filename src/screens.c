@@ -984,14 +984,18 @@ __myevic__ void ShowNewCoil()
 {
 	int rez;
 
-	DrawStringCentered( String_NewCoil, 50 );
-	DrawValue( 16, 62, dfResistance, 2, 0x0B, 3 );
-	DrawImage( 40, 62, 0xC0 );
-	DrawStringCentered( String_Right, 74 );
-	DrawStringCentered( String_SameCoil, 90 );
-
-	if ( ISMODETC( dfMode ) )
-	{
+	DrawStringCentered( String_NewCoil, 32 );
+        DrawStringCentered( String_SameCoil, 66 );
+	DrawImage( 43, 48, 0xC0 );
+        DrawImage( 43, 82, 0xC0 );
+	//DrawStringCentered( String_Right, 74 );
+        DrawImage( 55, 54, 0xD4 );
+        DrawImage( 5, 63, 0xD5 );
+        DrawImage( 43, 82, 0xC0 );
+        DrawValue( 14, 46, dfResistance, 2, 0x1F, 3 );
+        
+	//if ( ISMODETC( dfMode ) )
+	//{
 		if ( dfMode == 0 )
 		{
 			rez = dfRezNI;
@@ -1004,15 +1008,15 @@ __myevic__ void ShowNewCoil()
 		{
 			rez = dfRezSS;
 		}
-		else if ( dfMode == 3 )
+		else //( dfMode == 3 )
 		{
 			rez = dfRezTCR;
 		}
-		DrawValue( 16, 102, rez, 2, 0x0B, 3 );
-	}
-
-	DrawImage( 40, 102, 0xC0 );
-	DrawStringCentered( String_Left, 114 );
+        
+		DrawValue( 14, 80, rez, 2, 0x1F, 3 );
+	//}
+	
+	//DrawStringCentered( String_Left, 114 );
 }
 
 

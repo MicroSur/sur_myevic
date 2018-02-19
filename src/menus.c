@@ -566,7 +566,7 @@ __myevic__ void ClicksMenuIDraw( int it, int line, int sel )
 			break;
 
 		case CLICK_ACTION_NEXT_MODE:
-			DrawString( String_ModePlus, 26, line+2 );
+			DrawString( String_Modes, 26, line+2 );
 			break;
 
 		case CLICK_ACTION_ON_OFF:
