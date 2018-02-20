@@ -191,7 +191,7 @@ __myevic__ void EventHandler()
 		{
 			if ( dfStatus.off )
 			{
-                            if ( Screen == 60 ) // set clock off
+                            if ( Screen == 60 || Screen == 54 ) // set clock off, battery
                             {
                                 Screen = 0;
 				SleepTimer = 0;
