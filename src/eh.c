@@ -808,7 +808,7 @@ __myevic__ void EventHandler()
 			//if ( !dfStatus.off )
 			//	return;
                         
-                        SetScreen( 54, 5 );
+                        SetScreen( 54, 30 );
 			//gFlags.refresh_display = 1;
 			//Screen = 54;
 			//ScreenDuration = 5;

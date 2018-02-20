@@ -703,7 +703,7 @@ __myevic__ void ShowBattery()
 		DrawValueRight(	56, 118, bv, 2, 0x0B, 0 );
 		DrawImage( 57, 118, 0x97 );
                 
-                DrawVLineDots( 31, 114, 127, 1 );
+                DrawVLineDots( 31, 114, 127 );
                 
         }
 
@@ -924,13 +924,30 @@ __myevic__ void ShowBattVolts()
 {
     //Event = 34;
     //SetScreen( 54
+    int x, y, r;
+    const BatV2P_t *v2p = Battery->V2P;
     
-    DrawStringCentered( NumBatteries > 1? String_Batteries : String_Battery, 13 );
+    DrawStringCentered( NumBatteries > 1? String_Batteries : String_Battery, 0 );
+    
+    //DrawVLineDots( const int x, const int y1, const int y2, const int color )
+    DrawVLineDots( 0, 11, 43 );            
+    //DrawHLineDots( const int x1, const int y, const int x2, const int color )
+    DrawHLineDots( 0, 43, 63, 1 );
+    for ( int i = 11 ; i >= 0 ; --i )
+    {
+    //int x = BatteryVoltsToPercent( v2p[i] );
+    x = 60 - v2p[i].percent * 57 / 100;
+    y = 43 - ( v2p[i].voltage - 270 ) * 30 / 153;
+    //DrawPoint( )
+    r = BatteryPercent <= v2p[i].percent ? 2 : 1;
+    //DrawCircle( int x_centre, int y_centre, int r, int color, int fill )
+    DrawCircle( x, y, r, 1, 1 );
+    }
 
     for ( int i = 0 ; i < NumBatteries ; ++i )
     {
-        DrawValue(  8, 27+21*i, BattVolts[i], 2, 0x29, 3 );
-        DrawImage( 50, 35+21*i, 0xB1 );
+        DrawValue(  8, 49+21*i, BattVolts[i], 2, 0x29, 3 );
+        DrawImage( 50, 57+21*i, 0xB1 );
     }
 }
 

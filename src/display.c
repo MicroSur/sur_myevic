@@ -325,13 +325,13 @@ __myevic__ void DrawVLine( const int x, const int y1, const int y2, const int co
 }
 
 //=========================================================================
-__myevic__ void DrawVLineDots( const int x, const int y1, const int y2, const int color )
+__myevic__ void DrawVLineDots( const int x, const int y1, const int y2 )
 {
 	int inc = ( y1 < y2 ) * 2 - 1;
 
-	for ( int y = y1 ; y <= y2 + 2*inc ; y += 2*inc )
+	for ( int y = y1 ; y < y2 + 2*inc ; y += 2*inc )
 	{
-		DrawPoint( x, y, color );
+		DrawPoint( x, y, 1 );
 	}
 }
 

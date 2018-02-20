@@ -598,7 +598,7 @@ __myevic__ void GetUserInput()
                 }
                 else if ( UserInputs == 7 ) //all 3 buttons
                 {
-                    if ( Screen == 1 )  //( !dfStatus.off && !IsMenuScreen() )
+                    if ( !dfStatus.off && ( Screen == 1 || Screen == 0 ) )  //( !dfStatus.off && !IsMenuScreen() )
                     {
                         SetClicksAction( dfThreeButtonsAct );
                         ScreenDuration = GetMainScreenDuration();
