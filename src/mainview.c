@@ -1068,7 +1068,7 @@ __myevic__ void ShowMainView()
 	if ( dfMode != 6 )
 	{
             
-            static uint8_t sx = 0; //pacman line
+            static int sx = 0; //pacman line
                 
             if ( ( gFlags.firing || gFlags.battery_charging ) && dfStatus.nologo )
             {

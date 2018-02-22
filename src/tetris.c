@@ -30,29 +30,29 @@ int tetrisScreen[14][24] = {
     {1}
 };
 
-uint8_t ttTetrisLine = 14;
-uint8_t ttAnimStep = 0;
+int ttTetrisLine = 14;
+int ttAnimStep = 0;
 uint16_t ttScore;
 int levellineCount = 0;
 uint8_t ttTimeoutMask = 0;
 uint8_t ttCurrentTimeout = 0;
 uint8_t ttUsedTimeouts = 0;
-uint8_t gameOver;
-uint8_t countdown;
-uint8_t level;
-uint8_t CurPieceNumber;
-uint8_t NextPieceNumber;
-uint8_t nSZ = 3; //for rotate
+int gameOver;
+int countdown;
+int level;
+int CurPieceNumber;
+int NextPieceNumber;
+int nSZ = 3; //for rotate
 
-uint8_t ttKeyDown = 0;
-uint8_t ttFireDown = 0;
-uint8_t ttLongFireDown = 0;
+int ttKeyDown = 0;
+int ttFireDown = 0;
+int ttLongFireDown = 0;
 uint16_t ttKeyTick = 0;
-uint8_t pause = 0;
+int pause = 0;
 int bto;
-uint8_t FastMove = 0; //for score
-uint8_t noShift = 1;
-uint8_t noRotate = 1;
+int FastMove = 0; //for score
+int noShift = 1;
+int noRotate = 1;
 
 //-------------------------------------------------------------------------
 
@@ -125,13 +125,13 @@ void ttCLSBuf() {
     MemClear2(0, ScreenBuffer, SCREEN_BUFFER_SIZE);
 }
 
-void LoadPiece(uint8_t BlockFlag, uint8_t pieceNumber, int col, int row) {
+void LoadPiece(int BlockFlag, uint8_t pieceNumber, int col, int row) {
 
-    uint8_t r = 0, c = 0;
+    int r = 0, c = 0;
     //    uint8_t pieceRow = 0;
     //    uint8_t pieceColoum = 0;
 
-    for (uint8_t i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
 
         //iterate through bit mask
         for (uint8_t mask = 1; mask; mask <<= 1) {
@@ -207,8 +207,8 @@ void fillTetrisArray() {
     //+2 for border
     // x 0 1 (2 3 4 5 6 7 8 9 A B) C D
     // 
-    for (uint8_t r = 0; r < 24; r++) {
-        for (uint8_t c = 0; c < 14; c++) {
+    for (int r = 0; r < 24; r++) {
+        for (int c = 0; c < 14; c++) {
             tetrisScreen[c][r] = 1;
         }
     }
@@ -216,8 +216,8 @@ void fillTetrisArray() {
 
 void fillTetrisScreen(uint8_t value) {
 
-    for (uint8_t r = 2; r < 22; r++) {
-        for (uint8_t c = 2; c < 12; c++) {
+    for (int r = 2; r < 22; r++) {
+        for (int c = 2; c < 12; c++) {
             tetrisScreen[c][r] = value;
         }
     }
@@ -235,7 +235,7 @@ int oledY(int y) {
     return oy;
 }
 
-void DrawPiece(int X, int Y, uint8_t draw) {
+void DrawPiece(int X, int Y, int draw) {
     // 0000
     // 01*0
     // 0011
@@ -321,8 +321,8 @@ void DrawTTCup() {
 
 int CheckCollision() {
 
-    uint8_t pieceRow = 0;
-    uint8_t pieceCol = 0;
+    int pieceRow = 0;
+    int pieceCol = 0;
     int Col = currentPiece.Col;
     int Row = currentPiece.Row;
 
@@ -344,9 +344,9 @@ int CheckCollision() {
 
 void RotatePiece() {
 
-    uint8_t c;
-    uint8_t r;
-    uint8_t i;
+    int c;
+    int r;
+    int i;
     uint8_t Fig[4][4] = {0};
 
     if (CurPieceNumber == 0) {
@@ -423,7 +423,7 @@ void movePieceRight() {
     }
 }
 
-void setScore(uint16_t score, uint8_t show) {
+void setScore(uint16_t score, int show) {
     //DrawValue(x, y, value, dot_pos, font, num_digits);
     if (show) {
         DrawValue(34, 0, score, 0, 1, 5);
@@ -432,7 +432,7 @@ void setScore(uint16_t score, uint8_t show) {
     }
 }
 
-void setLevel(uint16_t lvl, uint8_t show) {
+void setLevel(uint16_t lvl, int show) {
     //DrawValue(x, y, value, dot_pos, font, num_digits);
     if (show) {
         DrawValue(1, 0, lvl, 0, 1, 2);
@@ -445,11 +445,11 @@ void CompletedLines() {
 
     //int rowCheck = 0;
     //int coloumCheck = 0;
-    uint8_t fullLine = 0;
-    uint8_t noLine = 1;
-    uint8_t linesProcessed = 0;
-    uint8_t clearedLines = 0;
-    uint8_t topRow = 0;
+    int fullLine = 0;
+    int noLine = 1;
+    int linesProcessed = 0;
+    int clearedLines = 0;
+    int topRow = 0;
     int bottomRow = 0;
     //int currentRow = 0;
     uint16_t AmountScored = 0;
@@ -587,8 +587,8 @@ void CompletedLines() {
 
 void DrawLandedPiece() {
     // Landed pieces are 1
-    uint8_t pieceRow = 0;
-    uint8_t pieceColoum = 0;
+    int pieceRow = 0;
+    int pieceColoum = 0;
 
     int Col = currentPiece.Col;
     int Row = currentPiece.Row;
@@ -612,7 +612,7 @@ void DrawLandedPiece() {
 }
 
 void movePieceDown() {
-    uint8_t pieceLanded = 0;
+    int pieceLanded = 0;
 
     oldPiece = currentPiece;
     currentPiece.Row = currentPiece.Row - 1;

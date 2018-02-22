@@ -847,9 +847,9 @@ __myevic__ void next_angle_spin()
 
 __myevic__ void anim3d( int redraw_last )
 {
-	static uint8_t tscaler = 0;
+	static int tscaler = 0;
 	const obj3d_t *object;
-        uint8_t cY = 79; //75;
+        int cY = 79; //75;
         
 	if (( Object3D > 0 ) && ( Object3D <= N3DOBJECTS ))
 	{
@@ -956,7 +956,7 @@ static int16_t ptr;
 
 __myevic__ void qix( int refresh )
 {
-	static uint8_t tscaler = 0;
+	static int tscaler = 0;
 
 	if ( refresh )
 	{
@@ -1038,7 +1038,7 @@ __myevic__ void qix_diddle(int16_t *ptr)
 
 __myevic__ void Snow( int redraw )
 {
-	static uint8_t tscaler = 0;
+	static int tscaler = 0;
 
 	// Lets's say 50Hz
 	if ( ++tscaler < 2 ) return;
