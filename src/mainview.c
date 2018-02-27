@@ -888,12 +888,12 @@ __myevic__ void DrawPower( int pwr )
 __myevic__ void ShowMainView()
 {
 	unsigned int pwr, amps;
-	unsigned int i, j;
+	//unsigned int i, j;
 
-	unsigned int v15; // r0@93
-	unsigned int v17; // r8@98
-	unsigned int v19; // r3@99
-	unsigned int v20; // r1@99
+	//unsigned int v15; // r0@93
+	//unsigned int v17; // r8@98
+	//unsigned int v19; // r3@99
+	//unsigned int v20; // r1@99
         
 	unsigned int sm_p; // r2@168
 	int sm_dt; // r3@169
@@ -970,12 +970,39 @@ __myevic__ void ShowMainView()
 
 	if ( dfMode == 6 ) //smart
 	{
+            
+                int x1,x2;
+                
+            	for ( int i = 0 ; i < 10 ; ++i )
+                {
+		//int r = dfSavedCfgRez[i];
+		int p = dfSavedCfgPwr[i];
+                if ( i == ConfigIndex )
+                {
+                    x1 = 3;
+                    x2 = 3;
+                    
+                }
+                else
+                {
+                    x1 = 4;
+                    x2 = 1;
+                }
+                //DrawVLine( const int x, const int y1, const int y2, const int color )
+                //DrawFillRect( const int x1, const int y1,const  int x2, const int y2, const int color)
+        DrawFillRect( x1+i*6, 50 - 30 * p / MaxPower, x1+x2+i*6, 50, 1);
+                //DrawVLine( i+4, 36 - 20 * p / MaxPower, 36, 1 );
+		}
+
+                
+                
 		//DrawString( String_MAX_s, 23, 15 );
 		//DrawString( String_MIN_s, 23, 97 );
 		//DrawHLine( 0, 18, 21, 1 );
 		//DrawHLine( 43, 18, 63, 1 );
 		//DrawHLine( 0, 100, 21, 1 );
 		//DrawHLine( 43, 100, 63, 1 );
+/*
                 DrawHLineDots( 0, 14, 63, 1 );
                 DrawHLineDots( 0, 95, 63, 1 );
             
@@ -1010,6 +1037,7 @@ __myevic__ void ShowMainView()
 			DrawHLine( 25, v17 + 1, 39, 0 ); //40
 			DrawString( String_BF_s, 27, v17 - 3 );
 		}
+*/
 
 		if ( !ShowWeakBatFlag )
 		{
