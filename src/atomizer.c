@@ -1447,6 +1447,8 @@ __myevic__ void SetAtoSMARTParams()
 			RoundPowers();
 		}
 */
+                
+/*
 		if ( dfSavedCfgRez[9] )
 		{
 			// Most recently used at end of list
@@ -1458,6 +1460,7 @@ __myevic__ void SetAtoSMARTParams()
 			dfSavedCfgPwr[i] = p;
 			ConfigIndex = 9;
 		}
+*/
 	}
 	else
 	{
@@ -1509,10 +1512,13 @@ __myevic__ void SetAtoLimits()
 	if ( dfPower > MaxPower ) dfPower = MaxPower;
 	if ( dfTCPower > MaxTCPower ) dfTCPower = MaxTCPower;
 
-	if ( !AtoError && AtoRez && ISMODEVW(dfMode) )
+	if ( !AtoError && AtoRez && dfMode == 6 )
 	{
-		SetAtoSMARTParams();
-
+                if ( Set_NewRez_dfRez ) //no change ConfigIndex while vaping
+                {
+                        SetAtoSMARTParams();
+                }
+            
 		if ( dfMode == 6 )
 			pwr = dfSavedCfgPwr[ConfigIndex];
 		else
@@ -1524,7 +1530,7 @@ __myevic__ void SetAtoLimits()
 		dfVWVolts = GetAtoVWVolts( pwr, AtoRez );
                 dfVVLockedVolt = GetAtoVWVolts( pwr, dfResistance );
 
-		if ( dfMode == 6 )
+		if ( dfMode == 6 ) //SMART
 			//dfPower = ClampPower( dfVWVolts, 1 );
                         //dfSavedCfgPwr[ConfigIndex] = ClampPower( dfVWVolts, 1 );
                         dfSavedCfgPwr[ConfigIndex] = pwr;
@@ -1695,8 +1701,7 @@ __myevic__ void ProbeAtomizer()
 		AtoMillis = LastAtoMillis;
 	}
         
-	if ( AtoRez != LastAtoRez
-			|| AtoError != LastAtoError )
+	if ( AtoRez != LastAtoRez || AtoError != LastAtoError )
 	{
 		if ( !LastAtoRez )
 		{
@@ -1705,17 +1710,23 @@ __myevic__ void ProbeAtomizer()
 		LastAtoRez = AtoRez;
 		LastAtoMillis = AtoMillis;
 		LastAtoError = AtoError;              
-		SetAtoLimits();
+		//SetAtoLimits();
+                
 		if ( Screen != 2 || gFlags.firing ) gFlags.refresh_display = 1; //no refresh while scr2 delay
 		//ScreenDuration = GetMainScreenDuration();
 	}
+        else if ( AtoProbeCount >= 12 )
+        {
+                SetAtoLimits(); //and smartRez
+        }
 
 	if ( Set_NewRez_dfRez )
-	{
-		if ( Set_NewRez_dfRez == 2 )
+	{          
+		if ( Set_NewRez_dfRez == 2 ) //was: reset rez, sleep, shunt changed
 		{
 			Set_NewRez_dfRez = 1;
 		}
+                
 		if ( !dfResistance )
 		{                               
 			if ( AtoRez )
@@ -1725,6 +1736,7 @@ __myevic__ void ProbeAtomizer()
 				UpdateDFTimer = 50;
 			}
 		}
+                
 		gFlags.new_rez_ni = 1;
 		gFlags.new_rez_ti = 1;
 		gFlags.new_rez_ss = 1;
@@ -1735,8 +1747,9 @@ __myevic__ void ProbeAtomizer()
 }
 
 //=========================================================================
-__myevic__ uint16_t ResetRez()
-{
+__myevic__ uint16_t RereadRez()
+{   
+    // Reread dfResistance
     // for SwitchRezLock
     
     //ISMODETC(m) ((m)<=3)
@@ -1782,7 +1795,7 @@ __myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez )
     if ( AtoRez )
     {
         *plock ^= 1;
-        *prez = ResetRez();
+        *prez = RereadRez();
     }
     
     //else
@@ -1804,24 +1817,25 @@ __myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez )
 }
 
 
-__myevic__ void SwitchRezLock()
+/*
+__myevic__ void SetRez()
 {
-	switch ( dfMode )
+    	switch ( dfMode )
 	{
 		case 0:
-			_SwitchRezLock( &dfRezLockedNI, &dfRezNI );
+			dfRezNI = RereadRez();
 			break;
 
 		case 1:
-			_SwitchRezLock( &dfRezLockedTI, &dfRezTI );
+			dfRezTI = RereadRez();
 			break;
 
 		case 2:
-			_SwitchRezLock( &dfRezLockedSS, &dfRezSS );
+			dfRezSS = RereadRez();
 			break;
 
 		case 3:
-			_SwitchRezLock( &dfRezLockedTCR, &dfRezTCR );
+			dfRezTCR = RereadRez();
 			break;
                         
                 case 4: //pwr re-read rez in VW too
@@ -1829,8 +1843,72 @@ __myevic__ void SwitchRezLock()
                         
                     if ( AtoRez )
                     {    
-                        dfStatus2.vwrezlock ^= 1;
-                        AtoRez = ResetRez();
+                        AtoRez = RereadRez();
+                    }
+                        break;
+
+		default:
+			break;
+	}
+}
+*/
+
+
+__myevic__ void SwitchRezLock( int lock )
+{
+	switch ( dfMode )
+	{
+		case 0:
+                    if ( lock )
+                    {
+			_SwitchRezLock( &dfRezLockedNI, &dfRezNI );
+                    }
+                    else
+                    {
+                        dfRezNI = RereadRez();
+                    }
+			break;
+
+		case 1:
+                    if ( lock )
+                    {
+			_SwitchRezLock( &dfRezLockedTI, &dfRezTI );
+                    }
+                    else
+                    {
+                        dfRezTI = RereadRez();
+                    }
+			break;
+
+		case 2:
+                    if ( lock )
+                    {
+			_SwitchRezLock( &dfRezLockedSS, &dfRezSS );
+                                            }
+                    else
+                    {
+                        dfRezSS = RereadRez();
+                    }
+			break;
+
+		case 3:
+                    if ( lock )
+                    {
+			_SwitchRezLock( &dfRezLockedTCR, &dfRezTCR );
+                                            }
+                    else
+                    {
+                        dfRezTCR = RereadRez();
+                    }
+			break;
+                        
+                case 4: //pwr re-read rez in VW too
+                case 5: //bypass
+                        
+                    if ( AtoRez )
+                    {    
+                        if ( lock ) dfStatus2.vwrezlock ^= 1;
+                        AtoRez = RereadRez();
                     }
                         
 /*                       
@@ -1841,8 +1919,9 @@ __myevic__ void SwitchRezLock()
                         dfVWVolts = GetAtoVWVolts( dfPower, dfResistance ); //AtoRez
                         dfVVLockedVolt = dfVWVolts;
 			RezMillis = AtoMillis;
-                        UpdateDFTimer = 50;
 */
+                        UpdateDFTimer = 50;
+
                         break;
 
 		default:
@@ -2075,10 +2154,11 @@ __myevic__ void Overtemp()
 //-------------------------------------------------------------------------
 __myevic__ void ResetResistance()
 {
+        //full reread
 	dfResistance = 0;
 	AtoRezMilli = 0;
 	AtoRez = 0;
-	Set_NewRez_dfRez = 2;
+	Set_NewRez_dfRez = 2; //reset flag
 	AtoProbeCount = 0;
 	AtoStatus = 4;
 
@@ -2087,13 +2167,18 @@ __myevic__ void ResetResistance()
 		ProbeAtomizer();
 		WaitOnTMR2( 10 );
 	}
-                                AtoRez = AtoRezMilli / 10;
-                                AtoMillis = AtoRezMilli % 10;
-                                dfResistance = AtoRez;
-				RezMillis = AtoMillis;
+                                
+        AtoRez = AtoRezMilli / 10;
+        AtoMillis = AtoRezMilli % 10;
+        dfResistance = AtoRez;
+                
+	RezMillis = AtoMillis;
 				
-                                LastAtoRez = AtoRez;
-                                LastAtoMillis = AtoMillis;                              
+        LastAtoRez = AtoRez;
+        LastAtoMillis = AtoMillis;     
+                                
+        UpdateDFTimer = 50;
+        //UpdateDataFlash();
 }
 
 
@@ -2438,15 +2523,15 @@ __myevic__ void TweakTargetVoltsTC()
 	}
 }
 
-__myevic__ uint8_t GetLockState()
+__myevic__ int GetLockState()
 {
         
-        uint8_t lock = 0;
+        int lock = 0;
 	if 	( dfMode == 0 ) lock = dfRezLockedNI;
 	else if ( dfMode == 1 ) lock = dfRezLockedTI;
 	else if ( dfMode == 2 ) lock = dfRezLockedSS;
 	else if ( dfMode == 3 ) lock = dfRezLockedTCR;
-        else if ( dfMode == 4 && dfStatus2.vwrezlock ) lock = 1;
+        else if ( dfStatus2.vwrezlock ) lock = 1; //dfMode == 4 && 
         return lock;
         
 }

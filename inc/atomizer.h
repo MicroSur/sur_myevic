@@ -133,7 +133,9 @@ extern void ReadAkkuTemp();
 extern void Overtemp();
 extern void ResetResistance();
 
-extern void SwitchRezLock();
+extern void SwitchRezLock( int lock );
+//extern uint16_t RereadRez();
+//extern void SetRez();
 
 extern int SearchSMARTRez( uint16_t rez );
 extern void SetAtoSMARTParams();
@@ -149,7 +151,7 @@ extern void InitTCAlgo();
 extern void TweakTargetVoltsSegments();
 extern void TweakTargetVoltsAlgo();
 
-extern uint8_t GetLockState();
+extern int GetLockState();
 
 //=============================================================================
 

@@ -62,7 +62,7 @@ const char pid_rxmini	[8]	__PIDATTR__	= { 'W','0','7','3', 1, 0, 0, 0 };
 const char pid_lpb      [8]	__PIDATTR__	= { 'W','0','4','3', 1, 0, 0, 0 };
 const char pid_primo1   [8]	__PIDATTR__	= { 'E','1','8','2', 1, 0, 1, 0 };
 const char pid_primo2   [8]	__PIDATTR__	= { 'E','2','0','3', 1, 0, 1, 0 };
-const char pid_predator [8]	__PIDATTR__	= { 'W','0','7','8', 1, 0, 0, 0 };
+const char pid_predator [8]	__PIDATTR__	= { 'W','0','7','8', 1, 0, 1, 0 };
 const char pid_gen3     [8]	__PIDATTR__	= { 'W','0','9','1', 1, 0, 0, 0 };
 const char pid_sinp80   [8]	__PIDATTR__	= { 'J','0','0','1', 1, 0, 0, 0 };
 const char pid_sinfj200 [8]	__PIDATTR__	= { 'J','0','0','9', 1, 0, 0, 0 };
@@ -175,7 +175,7 @@ __myevic__ void SetProductID()
 		u32Data ^= PID_SCRAMBLE;
                 
                 //MemCpy( BoxID, pid_invoke, 4 );
-                        BoxName = "myevic";
+                        BoxName = "mybox";
 
 		if ( u32Data == PID_VTCMINI )
 		{
@@ -183,7 +183,7 @@ __myevic__ void SetProductID()
 			DFMagicNumber = 0x36;
 			BoxModel = BOX_VTCMINI;
 			X32Off = 1;
-                        BoxName = "VTC m";
+                        BoxName = "VTC/m";
 			break;
 		}
 		else if ( u32Data == PID_VTWOMINI )
@@ -191,7 +191,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_VTWOMINI;
 			DFMagicNumber = 0x10;
 			BoxModel = BOX_VTWOMINI;
-                        BoxName = "VTwo m";
+                        BoxName = "VTwo/m";
 			break;
 		}
 		else if ( u32Data == PID_PRIMOMINI )
@@ -199,7 +199,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_PRIMOMINI;
 			DFMagicNumber = 0x11;
 			BoxModel = BOX_PRIMOMINI;
-                        BoxName = "Primo m";
+                        BoxName = "Primo/m";
 			break;
 		}  
 		else if ( u32Data == PID_PRIMOSE )
@@ -362,7 +362,7 @@ __myevic__ void SetProductID()
 			BoxModel = BOX_CUBOMINI;
 			ScrFlip = 1;
 			X32Off = 1;
-                        BoxName = "Cub m";                        
+                        BoxName = "Cub min";                        
 			break;
 		}
 		else if ( u32Data == PID_CUBOID )
@@ -1471,10 +1471,24 @@ __myevic__ uint16_t GetShuntRezValue()
 {
 	uint16_t rez;
 
-	if ( ISPRESA75W || ISEVICAIO || ISRXMINI || ISPREDATOR || ISSINP80 || ISSINFJ200 )
+	if ( ISPRESA75W || ISEVICAIO || ISRXMINI || ISSINP80 || ISSINFJ200 )
 	{
 		rez = 100;
 	}
+        else if ( ISPREDATOR )
+        {
+            	switch ( dfHWVersion )
+		{
+			case 100:
+			default:
+				rez = 100;
+				break;
+
+			case 101:
+				rez = 103;
+				break;
+		}
+        }
         else if ( ISRX2 )
         {
                 rez = 103;

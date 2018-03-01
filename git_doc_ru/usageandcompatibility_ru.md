@@ -23,7 +23,7 @@
   * Reuleaux RX2/3
   * Reuleaux RXmini
   * Reuleaux RX300
-  * Sinuous (Predator) 228W
+  * Sinuous + Predator 228W
   * Reuleaux RX Gen3
   * RX2 20700
   * Sinuous P80
@@ -40,7 +40,7 @@
 
 Файл прошивки находится в папке bin проекта.  
 Файл myevic.bin - для прошивки в мод с помощью **любой** существующей программы для прошивки.  
-Файл myevic_enc.bin - расшифрованный, в основном для изучения программистами. Он так же может быть прошит моим апдейтером [FWUpdater](https://www.dropbox.com/s/qbymcwthnahmles/VTCFont.rar?dl=1).
+Файл myevic_enc.bin - расшифрованный, в основном для тестирования новых возможностей до опубликования основной прошивки. Он так же может быть прошит моим апдейтером [FWUpdater](https://www.dropbox.com/s/qbymcwthnahmles/VTCFont.rar?dl=1).
 
 ### Полезно знать!
 

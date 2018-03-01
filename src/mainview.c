@@ -257,7 +257,7 @@ __myevic__ void DrawCoilLine( int line )
             yoff = 8;
         }
                   
-        uint8_t lock = GetLockState();
+        int lock = GetLockState();
  
         DrawString( String_COIL_s, 0, y+yoff );
 
@@ -370,7 +370,7 @@ __myevic__ void DrawAPTLines()
 {       
     // APT - line 4, APT3 - line 3 (i)=1
     int count;
-    if ( dfUIVersion == 1 )
+    if ( dfUIVersion == 1 && dfMode != 6 )
         count = 1;
     else
         count = 2;
@@ -790,37 +790,36 @@ __myevic__ void DrawTemp()
 
 //=============================================================================
 
-__myevic__ void DrawPower( int pwr )
+__myevic__ void DrawPower( int pwr, int yp )
 {
-	int xp, xc;
-        int yp = 12;
+    //WW line yp = 12
+    //Smart line = 60
+	int xp, xc; // x coord for preheat
+        //int yp = 12;
         
     if ( !dfStatus.onewatt )
     {            
 	if ( pwr < 100 )
 	{
 		xp = 45;
-		//yp = 12;
 
-		DrawValue( 5, 13, pwr, 1, 0x48, 2 );
-		DrawImage( 46, 20, 0xB9 ); //W
+		DrawValue( 5, yp+1, pwr, 1, 0x48, 2 ); //13
+		DrawImage( 46, yp+8, 0xB9 ); //W 20
 	}
 	else
 	{
 		xp = 54;
-		//yp = 12;
 
 		if ( pwr < 1000 )
 		{
-			DrawValue( 0, 13, pwr, 1, 0x48, 3 );
+			DrawValue( 0, yp+1, pwr, 1, 0x48, 3 );
 		}
 		else
 		{
-			DrawValue( 5, 13, pwr / 10, 0, 0x48, 3 );
-		//	DrawValue( 0, 18, pwr, 1, 0x29, 4 );
+			DrawValue( 5, yp+1, pwr / 10, 0, 0x48, 3 );
 		}
 
-		DrawImage( 54, 28, 0x98 ); //w
+		DrawImage( 54, yp+16, 0x98 ); //w 28
 	}
     }
     else
@@ -828,24 +827,23 @@ __myevic__ void DrawPower( int pwr )
         if ( pwr < 100 )
 	{
 		xp = 33;
-		//yp = 12;
-		DrawValue( 13, 13, pwr / 10, 0, 0x48, 1 );
-		DrawImage( 33, 20, 0xB9 ); //W
+		DrawValue( 13, yp+1, pwr / 10, 0, 0x48, 1 ); //13
+		DrawImage( 33, yp+8, 0xB9 ); //W 20
 	}
 	else
 	{
-		//yp = 12;
+
 		if ( pwr < 1000 )
 		{
                     	xp = 47;
-			DrawValue( 11, 13, pwr / 10, 0, 0x48, 2 );
-                        DrawImage( 46, 28, 0xB2 ); //w
+			DrawValue( 11, yp+1, pwr / 10, 0, 0x48, 2 ); //13
+                        DrawImage( 46, yp+16, 0xB2 ); //w 28
 		}
 		else
 		{
                         xp = 54;
-			DrawValue( 3, 13, pwr / 10, 0, 0x48, 3 );
-                        DrawImage( 54, 28, 0x98 ); //w
+			DrawValue( 3, yp+1, pwr / 10, 0, 0x48, 3 ); //13
+                        DrawImage( 54, yp+16, 0x98 ); //w 28
 		}
 		
 	}  
@@ -896,7 +894,7 @@ __myevic__ void ShowMainView()
 	//unsigned int v20; // r1@99
         
 	unsigned int sm_p; // r2@168
-	int sm_dt; // r3@169
+	//int sm_dt; // r3@169
         int btv;
         int numb;
 
@@ -955,43 +953,53 @@ __myevic__ void ShowMainView()
 				pwr = dfTCPower;
 			}
 
-			DrawPower( pwr );
+			DrawPower( pwr, 12 );
 		}
 		else
 		{
 			DrawTemp();
 		}
+                
 	}
-
-	if (( dfMode == 4 ) || ( dfMode == 5 )) //pwr bypass
-	{
-		DrawPower( pwr );
-	}
-
-	if ( dfMode == 6 ) //smart
+	else if (( dfMode == 4 ) || ( dfMode == 5 )) //pwr bypass
 	{
             
-                int x1,x2;
+		DrawPower( pwr, 12 );
+                
+	}
+	else if ( dfMode == 6 ) //smart
+	{
+            
+                int x1, x2;
+                int pMax = 0;
+                int p;
+                
+                for ( int i = 0 ; i < 10 ; ++i )
+                {
+                    p = dfSavedCfgPwr[i];
+                    if ( p > pMax ) pMax = p;
+                }
+                
+                if ( !pMax ) pMax = MaxPower;
                 
             	for ( int i = 0 ; i < 10 ; ++i )
                 {
-		//int r = dfSavedCfgRez[i];
-		int p = dfSavedCfgPwr[i];
-                if ( i == ConfigIndex )
-                {
-                    x1 = 3;
-                    x2 = 3;
+                    p = dfSavedCfgPwr[i];
                     
-                }
-                else
-                {
-                    x1 = 4;
-                    x2 = 1;
-                }
-                //DrawVLine( const int x, const int y1, const int y2, const int color )
-                //DrawFillRect( const int x1, const int y1,const  int x2, const int y2, const int color)
-        DrawFillRect( x1+i*6, 50 - 30 * p / MaxPower, x1+x2+i*6, 50, 1);
-                //DrawVLine( i+4, 36 - 20 * p / MaxPower, 36, 1 );
+                    if ( i == ConfigIndex && AtoStatus == 4 )
+                    {
+                        x1 = 3;
+                        x2 = 3;
+                    }
+                    else
+                    {
+                        x1 = 4;
+                        x2 = 1;
+                    }
+                
+                    //DrawFillRect( const int x1, const int y1,const  int x2, const int y2, const int color)
+                    DrawFillRect( x1+i*6, 72 - 26 * p / pMax, x1+x2+i*6, 72, 1); //74 = bottom, 30 = height
+                    //DrawVLine( i+4, 36 - 20 * p / MaxPower, 36, 1 );
 		}
 
                 
@@ -1002,10 +1010,10 @@ __myevic__ void ShowMainView()
 		//DrawHLine( 43, 18, 63, 1 );
 		//DrawHLine( 0, 100, 21, 1 );
 		//DrawHLine( 43, 100, 63, 1 );
-/*
-                DrawHLineDots( 0, 14, 63, 1 );
-                DrawHLineDots( 0, 95, 63, 1 );
-            
+
+                DrawHLineDots( 0, 41, 63, 1 ); //upper line
+                //DrawHLineDots( 0, 113, 63, 1 );
+/*            
 		v15 = SearchSMARTRez( dfSavedCfgRez[(int)ConfigIndex] );
 		if ( v15 > 3 )
 		{
@@ -1039,12 +1047,13 @@ __myevic__ void ShowMainView()
 		}
 */
 
-		if ( !ShowWeakBatFlag )
-		{
-                        if ( gFlags.firing )
-                            ShowFireDuration( 0 );
-                        
+                if ( gFlags.firing )
+                        ShowFireDuration( 0 );
+                
+		//if ( !ShowWeakBatFlag )
+		//{
                         sm_p = dfSavedCfgPwr[(int)ConfigIndex];
+/*
 			if ( sm_p >= 1000 )
 			{
                                 sm_p /= 10;
@@ -1054,11 +1063,26 @@ __myevic__ void ShowMainView()
 			{
                                 sm_dt = 1;
 			}
+*/
                         
-                        DrawValue( 13, 101, sm_p, sm_dt, 0x1F, 3 ); //smart power
-			DrawImage( 44, 103, 0xB2 ); // W
+                        //DrawValue( 13, 101, sm_p, sm_dt, 0x1F, 3 ); //smart power
+			//DrawImage( 44, 103, 0xB2 ); // W
+                        //DrawValue( 13, 59, sm_p, sm_dt, 0x1F, 3 ); //smart power
+			//DrawImage( 44, 61, 0xB2 ); // W
                         
-                        ShowBattery();
+                        DrawPower( sm_p, 12 );
+                        DrawAPTLines();
+                        
+                        //int r = dfSavedCfgRez[ConfigIndex];
+                        //DrawValue( 13, 75, r, 2, 0x1F, 3 );
+                        //DrawImage( 44, 77, 0xC0 );
+                        
+                        //DrawValue( 13, 91, AtoRezMilli / 10, 2, 0x1F, 3 );
+                        //DrawImage( 44, 93, 0xC0 );
+                        
+                //if ( !ShowWeakBatFlag )
+		//{                        
+                //        ShowBattery();
 /*
 			if ( !( gFlags.firing ) )
 			{
@@ -1090,7 +1114,7 @@ __myevic__ void ShowMainView()
 				//DrawImage( 40, 110, 0xB7 );
 			}
 */
-		}
+		//}
 	}
 
 	if ( dfMode != 6 )
@@ -1119,9 +1143,8 @@ __myevic__ void ShowMainView()
                 DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
             }
 
-		DrawHLineDots( 0, 113, 63, 1 ); //second h-line
-
-		ShowBattery();
+//		DrawHLineDots( 0, 113, 63, 1 ); //second h-line
+//		ShowBattery();
 
 		if ( Screen == 2 || EditModeTimer )
 		{
@@ -1209,9 +1232,15 @@ __myevic__ void ShowMainView()
         
         if ( ShowWeakBatFlag )
 	{
-		DrawFillRect( 0, 108, 63, 127, 0 );
+		//DrawFillRect( 0, 108, 63, 127, 0 );
 		ShowWeakBat();
 	}
+        else
+        {
+       		DrawHLineDots( 0, 113, 63, 1 ); //second h-line
+		ShowBattery();
+
+        }
 }
 
 

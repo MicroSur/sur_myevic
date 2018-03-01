@@ -2466,28 +2466,33 @@ __myevic__ void CoilsIClick()
 			dfRezSS  = 0; dfRezLockedSS  = 0;
 			dfRezTCR = 0; dfRezLockedTCR = 0;
 			dfMillis = 0;
+                                        
+/*
+                        //zero smart
 			for ( int i = 0 ; i < 10 ; ++i )
 			{
 				dfSavedCfgRez[i] = 0;
 				dfSavedCfgPwr[i] = 0;
 			}
+*/
+                        
 			ResetResistance();
 			if ( AtoStatus == 4 )
 			{
-				SwitchRezLock();
+				SwitchRezLock( 1 );
 			}
 			break;
 	}
         
-	if ( CurrentMenuItem == CurrentMenu->nitems - 1 )
-	{
-		UpdateDataFlash();
-	}
-	else
-	{
-		UpdateDFTimer = 50;
+//	if ( CurrentMenuItem == CurrentMenu->nitems - 1 )
+//	{
+//		UpdateDataFlash();
+//	}
+//	else
+//	{
+//		UpdateDFTimer = 50; // in ResetResistance
 		gFlags.refresh_display = 1;
-	}
+//	}
 }
 
 __myevic__ int CoilsMEvent( int event )

@@ -41,12 +41,12 @@ __string__ String_Back 		[] = { 0xCF, 0 }; // "< -"
 __string__ String_NI 		[] = { 0xA9, 0xA4, 0	}; // "NI"
 __string__ String_TI 		[] = { 0xAF, 0xA4, 0	}; // "TI"
 __string__ String_SS 		[] = { 0xAE, 0xAE, 0	}; // "SS"
-__string__ String_BF_s 		[] = { 0x69, 0x6D, 0	}; // "BF" (small)
+//__string__ String_BF_s 		[] = { 0x69, 0x6D, 0	}; // "BF" (small)
 __string__ String_TCR 		[] = { 0xAF, 0x9E, 0xAD, 0 }; // "TCR"
 __string__ String_PWR_s 	[] = { 0xE4, 0 }; //[] = { 0x77, 0x7E, 0x79, 0 }; // "PWR" (small)
 __string__ String_AMP_s 	[] = { 0xE5, 0 }; //[] = { 0x68, 0x74, 0x77, 0 }; // "AMP" (small)
 __string__ String_MAX_s 	[] = { 0x74, 0x68, 0x7F, 0 }; // "MAX" (small)
-__string__ String_MIN_s 	[] = { 0x74, 0x70, 0x75, 0 }; // "MIN" (small)
+//__string__ String_MIN_s 	[] = { 0x74, 0x70, 0x75, 0 }; // "MIN" (small)
 __string__ String_Weak 		[] = { 0xB2, 0x86, 0x82, 0x8C, 0 }; // "Weak"
 __string__ String_TEMP 		[] = { 0xAF, 0xA0, 0xA8, 0xAB, 0 }; // "TEMP"
 __string__ String_TCRSet 	[] = { 0xAF, 0x9E, 0xAD, 0xBC, 0xAE, 0x86, 0x95, 0 }; // "TCR Set"

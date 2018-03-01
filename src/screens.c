@@ -405,11 +405,14 @@ __myevic__ void DrawScreen()
                     
                     	break;
                         
+/*                          
+                            // always stay on
 		case  22: // Atomizer Low
 		case  24: // Battery Low
 		case  25: // Battery Low Lock
 		//case  50: // FW Version
-			break;
+			break; 
+*/
 
 		case  23: // 10s Protection
 			if ( !dfStatus.off )
@@ -428,6 +431,10 @@ __myevic__ void DrawScreen()
 			}
 			break;
 
+                case  22: // Atomizer Low
+		case  24: // Battery Low
+		case  25: // Battery Low Lock
+                    
 		case  20: // No Atomizer Found
 		case  21: // Atomizer Short
 		case  29: // Device too hot

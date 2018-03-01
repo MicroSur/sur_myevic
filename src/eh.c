@@ -105,6 +105,30 @@ __myevic__ void PowerMinus( uint16_t *pwr, uint16_t min, uint16_t max )
 	}
 }
 
+//-------------------------------------------------------------------------
+
+__myevic__ void SmartPowerPM( int plus )
+{
+        unsigned int spwr;
+    	spwr = dfSavedCfgPwr[ConfigIndex];
+	spwr -= spwr % WattsInc; //10;
+        
+        if ( plus )
+        {
+            spwr += WattsInc;
+            if ( spwr > AtoMaxPower ) spwr = AtoMaxPower;
+	
+        }
+        else
+        {
+            spwr -= WattsInc; //10;
+            if ( spwr < AtoMinPower ) spwr = AtoMinPower;
+        }
+        
+	dfSavedCfgPwr[ConfigIndex] = spwr;
+	dfVWVolts = GetAtoVWVolts( spwr, AtoRez );
+        
+}
 
 //-------------------------------------------------------------------------
 
@@ -165,7 +189,7 @@ __myevic__ void TempMinus()
 __myevic__ void EventHandler()
 {
 	unsigned int pwr;
-	unsigned int spwr;
+	//unsigned int spwr;
 
 	unsigned int v21;
 	int v22;
@@ -311,20 +335,24 @@ __myevic__ void EventHandler()
                         }
 				
 
-			if ( Set_NewRez_dfRez == 1 )
+			if ( Set_NewRez_dfRez == 1 ) //from: init, Ato... <> lastAto...
 			{
 				Set_NewRez_dfRez = 0;
 				NewRez = AtoRez;
 				NewMillis = AtoMillis;
 
-                                uint8_t lock = GetLockState();
+                                int lock = GetLockState();
 				//uint8_t lock = 0;
 				//if 	( dfMode == 0 ) lock = dfRezLockedNI;
 				//else if ( dfMode == 1 ) lock = dfRezLockedTI;
 				//else if ( dfMode == 2 ) lock = dfRezLockedSS;
 				//else if ( dfMode == 3 ) lock = dfRezLockedTCR;
 
-                                if ( !lock || dfMode == 4 || dfMode == 5 || dfMode == 6 ) 
+                                //#define ISMODEVW(m) (((m)==4)||((m)==6))
+                                //#define ISMODEBY(m) ((m)==5)
+                                
+                                //if ( !lock ) //|| dfMode == 4 || dfMode == 5 || dfMode == 6 )      
+                                if ( !lock ) //&& !ISMODETC(dfMode) )    
 				{
 					dfResistance = AtoRez;
 					RezMillis = AtoMillis;
@@ -855,7 +883,7 @@ __myevic__ void EventHandler()
 		case 28:	// Battery < 3.1V idle or < 2.8V firing
 			StopFire();
 			KeyPressTime |= 0x8000;
-                        SetScreen( 24, 2 );
+                        SetScreen( 24, 3 );
 			//gFlags.refresh_display = 1;
 			//Screen = 24; // Battery Low
 			//ScreenDuration = 2;
@@ -863,7 +891,7 @@ __myevic__ void EventHandler()
 
 		case 27:	// Atomizer Low
 			StopFire();
-                        SetScreen( 22, 2 );
+                        SetScreen( 22, 3 );
 			//gFlags.refresh_display = 1;
 			//Screen = 22;
 			//ScreenDuration = 2;
@@ -872,28 +900,28 @@ __myevic__ void EventHandler()
 
 		case 26:	// No Atomizer Found
 			StopFire();
-                        SetScreen( 20, 2 );
+                        SetScreen( 20, 3 );
 			//gFlags.refresh_display = 1;
 			//Screen = 20;
 			//ScreenDuration = 2;
 			return;
 
 		case 25:	// Atomizer short
-                        SetScreen( 21, 2 );
+                        SetScreen( 21, 3 );
 			//gFlags.refresh_display = 1;
 			//Screen = 21;
 			//ScreenDuration = 2;
 			return;
                         
 		case 70:	// Atomizer short current
-                        SetScreen( 70, 2 );
+                        SetScreen( 70, 3 );
 			//gFlags.refresh_display = 1;
 			//Screen = 70;
 			//ScreenDuration = 2;
 			return;
                         
                 case 71:	// Atomizer short Bad contact
-                        SetScreen( 71, 2 );
+                        SetScreen( 71, 3 );
 			//gFlags.refresh_display = 1;
 			//Screen = 71;
 			//ScreenDuration = 2;
@@ -1194,7 +1222,7 @@ __myevic__ void EventHandler()
 			{
 				MainView();
 			}
-			else if ( Screen == 51 )
+			else if ( Screen == 51 ) //new coil screen [OLD]
 			{
 				switch ( dfMode )
 				{
@@ -1227,7 +1255,7 @@ __myevic__ void EventHandler()
 			{
 				KeyUpTimer = 10;
 
-				if ( EditModeTimer )
+				if ( EditModeTimer ) // -
 				{
 					EditModeTimer = 1000;
 
@@ -1249,7 +1277,16 @@ __myevic__ void EventHandler()
 					else if ( !ISMODETC(dfMode) )
 					{
 						if ( dfMode == 6 ) //smart
-						{
+						{                                                        
+                                                        if ( ++EditItemIndex > 6 )
+                                                        {
+								EditItemIndex = 0;
+                                                        }
+                                                        else if ( EditItemIndex < 4 )
+                                                        {
+								EditItemIndex = 4;                                  
+                                                        }
+/*
 							if ( EditItemIndex == 0 )
 							{
 								EditItemIndex = 6;
@@ -1258,6 +1295,7 @@ __myevic__ void EventHandler()
 							{
 								EditItemIndex = 0;
 							}
+*/
 						}
 						else
 // change info lines for edit
@@ -1287,16 +1325,18 @@ __myevic__ void EventHandler()
 							EditItemIndex = 0;
 					}
 				}
-				else
+				else // no edit, minus button
 				{
 					if ( ISMODETC(dfMode) )
 					{
 						dfStatus.priopwr ? PowerMinus( &dfTCPower, 10, MaxTCPower ) : TempMinus();
 					}
-					else if ( dfMode == 6 ) // -
+					else if ( dfMode == 6 ) // Smart
 					{
 						if ( ConfigIndex < 10 )
 						{
+                                                        SmartPowerPM( 0 ); 
+/*
 							spwr = dfSavedCfgPwr[ConfigIndex];
 							spwr -= spwr % WattsInc; //10;
 							spwr -= WattsInc; //10;
@@ -1305,6 +1345,7 @@ __myevic__ void EventHandler()
 							dfSavedCfgPwr[ConfigIndex] = spwr;
 							dfVWVolts = GetAtoVWVolts( spwr, AtoRez );
                                                         //dfPower = spwr;
+*/
 						}
 					}
 					else if ( dfMode == 4 )
@@ -1351,7 +1392,7 @@ __myevic__ void EventHandler()
 			{
 				MainView();
 			}
-			else if ( Screen == 51 ) //new coil screen
+			else if ( Screen == 51 ) //new coil screen [NEW]
 			{
 				switch ( dfMode )
 				{
@@ -1417,7 +1458,7 @@ __myevic__ void EventHandler()
 							break;
 
 						case 3:
-							SwitchRezLock();
+							SwitchRezLock( 1 );
 							break;
 
                                                 case 4:
@@ -1459,7 +1500,7 @@ __myevic__ void EventHandler()
 					}
 
 				}
-				else
+				else //plus button, not in edit
 				{
 					switch ( dfMode )
 					{
@@ -1481,8 +1522,11 @@ __myevic__ void EventHandler()
 							break;
 
 						case 6: // +
-							if ( ConfigIndex < 10 && !AtoError && AtoRez )
+							if ( ConfigIndex < 10 )
+                                                            //&& !AtoError && AtoRez
 							{
+                                                            SmartPowerPM( 1 ); 
+/*
 								spwr = dfSavedCfgPwr[ConfigIndex];
 								spwr -= spwr % WattsInc; //10;
 								spwr += WattsInc; //10;
@@ -1491,6 +1535,7 @@ __myevic__ void EventHandler()
 								dfSavedCfgPwr[ConfigIndex] = spwr;
 								dfVWVolts = GetAtoVWVolts( spwr, AtoRez );
                                                                 //dfPower = spwr;
+*/
 							}
 							break;
 
