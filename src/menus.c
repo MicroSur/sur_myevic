@@ -818,7 +818,7 @@ __myevic__ void IFMenuIDraw( int it, int line, int sel )
 			break;
 
 		case 4:	// Temp
-			DrawImageRight( 63, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			DrawImageRight( 63, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 			break;
 
 		case 5:	// TDom
@@ -867,7 +867,7 @@ __myevic__ void IFMenuOnClick()
 			dfStatus.onedegree ^= 1;
 			if ( !dfStatus.onedegree )
 			{
-				dfTemp -= dfTemp % ( dfIsCelsius ? 5 : 10 );
+				dfTemp -= dfTemp % ( dfStatus.IsCelsius ? 5 : 10 );
 			}
 			break;
 
@@ -876,11 +876,11 @@ __myevic__ void IFMenuOnClick()
 			break;
 
 		case 4:	// Temp
-			dfIsCelsius ^= 1;
+			dfStatus.IsCelsius ^= 1;
                         dfBoardTempCorr = 0;
                         dfAkkuTempCorr = 0;
                         
-			if ( dfIsCelsius )
+			if ( dfStatus.IsCelsius )
 			{
 				dfTemp = FarenheitToC( dfTemp );
                                 if ( !dfStatus.onedegree )
@@ -1342,9 +1342,9 @@ __myevic__ void MaxMenuIDraw( int it, int line, int sel )
 			break;
 
 		case 2:	// t
-                        t = dfIsCelsius ? dfMaxBoardTemp : CelsiusToF( dfMaxBoardTemp );
+                        t = dfStatus.IsCelsius ? dfMaxBoardTemp : CelsiusToF( dfMaxBoardTemp );
 			DrawValueRight( 53, line+2, t, 0, 0x0B, t>99?3:2 );
-			DrawImageRight( 63, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			DrawImageRight( 63, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 			break;     
 	                 
 		case 3:	// ch
@@ -1659,15 +1659,15 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
                 case 7:	// mod Temp
                     if ( AkkuTempFlag )
                     {
-                        t = dfIsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
+                        t = dfStatus.IsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
                     }
                     else
                     {
-                        t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+                        t = dfStatus.IsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
                     }
                         
 			DrawValueRight( 54, line+2, t, 0, 0x0B, 0 ); //t>99?3:2
-			DrawImageRight( 63, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			DrawImageRight( 63, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 			if ( gFlags.edit_value && sel )
 				InvertRect( 0, line, 63, line+12 );
 			break; 
@@ -1958,9 +1958,9 @@ __myevic__ void CoilsMenuIDraw( int it, int line, int sel )
 	switch ( it )
 	{
 		case 3:	// Cold
-                        t = dfIsCelsius ? dfColdLockTemp : CelsiusToF( (uint16_t)dfColdLockTemp );
+                        t = dfStatus.IsCelsius ? dfColdLockTemp : CelsiusToF( (uint16_t)dfColdLockTemp );
 			DrawValueRight( 52, line+2, t, 0, 0x0B, 0 ); //t>99?3:2
-                        DrawImageRight( 63, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+                        DrawImageRight( 63, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 			//DrawImage( 55, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
 		case 4:	// New
@@ -2683,6 +2683,7 @@ __myevic__ int MiscMenuOnEvent( int event )
 
 //-----------------------------------------------------------------------------
 
+/*
 __myevic__ void CurveMenuOnClick()
 {
 	if ( CurrentMenuItem == 2 )
@@ -2690,6 +2691,7 @@ __myevic__ void CurveMenuOnClick()
 		ResetPowerCurve();
 	}
 }
+*/
 
 __myevic__ void CurveMenuIDraw( int it, int line, int sel )
 {
@@ -2729,40 +2731,38 @@ __myevic__ int CurveMenuOnEvent( int event )
 {
 
 	int vret = 0;
-/*
+
         
-                        if (event == EVENT_LONG_FIRE && CurrentMenuItem == 4 )
-                        { //preheat delay off
-                            dfPHDelay = 0;
-                            UpdateDFTimer = 50;
-                            gFlags.refresh_display = 1;
-                            gFlags.edit_value = 0;
+                        if (event == EVENT_LONG_FIRE && CurrentMenuItem == 2 )
+                        { 
+                            ResetPowerCurve();
                             vret = 1;
+                            Event = EVENT_POWER_CURVE;
                         }
-*/                             
+                            
 	if ( CurrentMenuItem != 4 )
 		return vret;  //no capture others events
 
 	switch ( event )
 	{                       
 		case 1:	// Fire
-                    if ( CurrentMenuItem == 4 )
-                    {
+                    //if ( CurrentMenuItem == 4 )
+                    //{
 			gFlags.edit_value ^= 1;
 			//UpdateDFTimer = 50;
 			//gFlags.refresh_display = 1;
-                    }
+                    //}
                     vret = 1;
                     break;
 
 		case 2:	// Plus
 			if ( gFlags.edit_value )
 			{
-                                if ( CurrentMenuItem == 4 )
-				{
+                                //if ( CurrentMenuItem == 4 )
+				//{
 					if ( dfCurveRepeatTimer < 50 ) dfCurveRepeatTimer += 1;
 					else if ( KeyTicks < 5 ) dfCurveRepeatTimer = 0;
-				}
+				//}
 				//UpdateDFTimer = 50;
 				//gFlags.refresh_display = 1;
 				vret = 1;
@@ -2772,11 +2772,11 @@ __myevic__ int CurveMenuOnEvent( int event )
 		case 3:	// Minus
 			if ( gFlags.edit_value )
 			{
-                                if ( CurrentMenuItem == 4 )
-				{
+                                //if ( CurrentMenuItem == 4 )
+				//{
 					if ( dfCurveRepeatTimer > 0 ) dfCurveRepeatTimer -= 1;
 					else if ( KeyTicks < 5 ) dfCurveRepeatTimer = 50;
-				}
+				//}
 				//UpdateDFTimer = 50;
 				//gFlags.refresh_display = 1;
 				vret = 1;
@@ -2784,14 +2784,14 @@ __myevic__ int CurveMenuOnEvent( int event )
 			break;
                         
                 case EVENT_LONG_FIRE:
-			if ( CurrentMenuItem == 4 )
-                        { 
+			//if ( CurrentMenuItem == 4 )
+                        //{ 
                             dfCurveRepeatTimer = 0;
                             //UpdateDFTimer = 50;
                             //gFlags.refresh_display = 1;
                             gFlags.edit_value = 0;
                             vret = 1;
-                        }   
+                        //}   
                         break;
 	}
         
@@ -2876,6 +2876,14 @@ const mvaluedesc_t PreheatDelayDesc =
 const mdata_t PreheatDelayData =
 {
 	&dfPHDelay,
+	&PreheatDelayDesc,
+	MITYPE_BYTE,
+	0
+};
+
+const mdata_t CurveDelayData =
+{
+	&dfCUDelay,
 	&PreheatDelayDesc,
 	MITYPE_BYTE,
 	0
@@ -3880,29 +3888,6 @@ const mdata_t CurveEnaData =
 	28
 };
 
-/*
-const mvaluedesc_t CurveDelayDesc =
-{
-	36, 42,
-	3, 2,
-	0, 180,
-	&DrawPreheatDelay+1,
-	0,
-	0,
-	0x0B,
-	1,
-	-1, 0
-};
-
-const mdata_t CurveDelayData =
-{
-	&dfPHDelay,         //the same delay
-	&CurveDelayDesc,
-	MITYPE_BYTE,
-	0
-};
-*/
-
 const menu_t CurveMenu =
 {
 	String_Curve,
@@ -3910,14 +3895,14 @@ const menu_t CurveMenu =
 	0,
 	CurveMenuIDraw+1,
 	0,
-	CurveMenuOnClick+1,
+	0, //CurveMenuOnClick+1,
 	CurveMenuOnEvent+1,
 	6,
 	{
 		{ String_Enable, &CurveEnaData, 0, MACTION_DATA },
                 { String_Edit, 0, EVENT_POWER_CURVE, MACTION_SUBMENU }, //0
-		{ String_Reset, 0, EVENT_POWER_CURVE, 0 }, //0		
-		{ String_Delay, &PreheatDelayData, 0, MACTION_DATA }, //CurveDelayData
+		{ String_Reset, 0, 0, 0 }, //EVENT_POWER_CURVE	
+		{ String_Delay, &CurveDelayData, 0, MACTION_DATA },
                 { String_Repeat, 0, 0, 0 },                        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}

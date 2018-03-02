@@ -134,7 +134,7 @@ __myevic__ void SmartPowerPM( int plus )
 
 __myevic__ void TempPlus()
 {
-	if ( dfIsCelsius )
+	if ( dfStatus.IsCelsius )
 	{
 		dfTemp += dfStatus.onedegree ? 1 : 5;
                         //if ( !dfStatus.onedegree )
@@ -164,7 +164,7 @@ __myevic__ void TempPlus()
 
 __myevic__ void TempMinus()
 {
-	if ( dfIsCelsius )
+	if ( dfStatus.IsCelsius )
 	{
 		dfTemp -= dfStatus.onedegree ? 1 : 5;
 		if ( dfTemp < 5 ) //100
@@ -680,7 +680,7 @@ __myevic__ void EventHandler()
 						if ( dfRezType != 1 )
 						{
 							tempf = dfTemp;
-							if ( dfIsCelsius == 1 ) tempf = CelsiusToF( dfTemp );
+							if ( dfStatus.IsCelsius ) tempf = CelsiusToF( dfTemp );
 
 							// 10W - 40W on full temp range
 							int p  = 100 + ( 3 * ( tempf - 200 ) / 4 );
@@ -744,7 +744,7 @@ __myevic__ void EventHandler()
 					{
 						pwr = AtoMaxPower;
 					}
-                                        if ( !PreheatDelay ) pc = 1;
+                                        if ( !CurveDelay ) pc = 1;
 				}
 				//else if ( !PreheatDelay && dfStatus.preheat )
                                 else if ( dfStatus.preheat )

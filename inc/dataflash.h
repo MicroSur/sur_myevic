@@ -69,7 +69,7 @@ typedef struct
 /* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
 /* 00008000 */	unsigned int preheat:1;     //lsls 0x10  15 bit
 
-/* 00010000 */	unsigned int sme:1;         //lsls 0x0F for recognize logo by FWUpdater
+/* 00010000 */	unsigned int IsCelsius:1;   //lsls 0x0F 
 /* 00020000 */	unsigned int dfmt1:1;       //lsls 0x0E data format 1(2) bit
 /* 00040000 */	unsigned int invert:1;      //lsls 0x0D
 /* 00080000 */	unsigned int puffday:1;     //lsls 0x0C     was vapedml
@@ -148,7 +148,7 @@ typedef struct dfParams
 /* 0014 */	uint8_t		APT;
 /* 0015 */	uint8_t		RezType;                // 1 2 may be in dfStatus bit
 /* 0016 */	uint8_t		TempAlgo;               // 1ni 2ti 3ss   4tcr for ni ti ss
-/* 0017 */	uint8_t		IsCelsius;   // may be in dfStatus bit
+/* 0017 */	uint8_t		CUDelay;                // was isCelsius
 /* 0018 */	uint16_t	Resistance;
 /* 001A */	uint16_t	RezTI;
 /* 001C */	uint16_t	RezNI;
@@ -158,7 +158,7 @@ typedef struct dfParams
 /* 0021 */	uint8_t		StealthOn;              // 0 1 2 (off on contrast)
 /* 0022 */	uint16_t	VVLockedVolt;           // for vvlite: cold rez locked volt
 /* 0024 */	dfBattery_t	Battery;
-/* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS];
+/* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS]; //20
 /* 004E */	//uint8_t		Unused4E[38];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
 /* 0062 */	uint8_t		Unused4E[6];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
 /* 0069 */      uint32_t	JoulesDay;                 // save for mods without clock battery
@@ -361,7 +361,7 @@ extern dfStruct_t DataFlash;
 #define dfAPT3			DFP(APT3)
 #define dfRezType		DFP(RezType)
 #define dfTempAlgo		DFP(TempAlgo)
-#define dfIsCelsius		DFP(IsCelsius)
+#define dfCUDelay		DFP(CUDelay)
 #define dfResistance	DFP(Resistance)
 #define dfRezTI			DFP(RezTI)
 #define dfRezNI			DFP(RezNI)

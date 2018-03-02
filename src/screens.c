@@ -914,15 +914,15 @@ __myevic__ void ShowBatCharging()
         int t;
         if ( ISSINFJ200 )
         {
-                t = dfIsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
+                t = dfStatus.IsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
                 DrawValueRight( 52, 90, t, 0, 0x0B, 0 );
-                DrawImage( 54, 90, dfIsCelsius ? 0xC9 : 0xC8 );
+                DrawImage( 54, 90, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
         }
                         
-	t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+	t = dfStatus.IsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 
 	DrawValueRight( 52, 104, t, 0, 0x0B, 0 );
-	DrawImage( 54, 104, dfIsCelsius ? 0xC9 : 0xC8 );
+	DrawImage( 54, 104, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 }
 
 //=========================================================================
@@ -1372,10 +1372,11 @@ __myevic__ void ShowImbBatts()
 //=========================================================================
 __myevic__ void ShowPowerCurve()
 {
-	DrawHLine( 10, 127,  60, 1 );
-	DrawHLine( 10,  26,  60, 1 );
-	DrawVLine( 10,  27, 126, 1 );
-	DrawVLine( 60,  27, 126, 1 );
+    	DrawHLine( 6,  19,  58, 1 );
+	DrawHLine( 6, 119,  58, 1 );
+
+	DrawVLine( 6,  19, 119, 1 ); //100 h
+	DrawVLine( 58, 19, 119, 1 );
 
 	int t = EditItemIndex; // * 5;
 	int j = -1;
@@ -1384,7 +1385,7 @@ __myevic__ void ShowPowerCurve()
 	{
 		int t1, t2;
 
-		t1 = dfPwrCurve[i].time;
+		t1 = dfPwrCurve[i].time; // 50 h
 
 		if ( ( i > 0 ) && ( t1 == 0 ) )
 			break;
@@ -1393,17 +1394,17 @@ __myevic__ void ShowPowerCurve()
 		{
 			t2 = dfPwrCurve[i+1].time;
 
-			if ( t2 == 0 ) t2 = 250;
+			if ( t2 == 0 ) t2 = 50;
 		}
 		else
 		{
-			t2 = 250;
+			t2 = 50;
 		}
 
-		DrawVLine(	10 + dfPwrCurve[i].power / 4,
-					27 + 2 * t1, // / 5,
-					27 + 2 * t2, // / 5,
-					1 );
+		DrawVLine( 7 + dfPwrCurve[i].power / 4,
+                            20 + 2 * t1,
+                            19 + 2 * t2,
+                            1 );
 
 		if (( t2 > t ) && ( j < 0 ))
 		{
@@ -1411,27 +1412,32 @@ __myevic__ void ShowPowerCurve()
 
 			if ( t == t1 )
 			{
-				DrawFillRect(	10,
-								27 + 2 * t1, // / 5,
-								10 + dfPwrCurve[i].power / 4,
-								28 + 2 * t1, // / 5,
+/*
+				DrawFillRect(	7,
+								21 + 2 * t1, // / 5,
+								7 + dfPwrCurve[i].power / 4,
+								22 + 2 * t1, // / 5,
 								1 );
+*/
+                                DrawHLine( 7,  20 + 2 * t1,  7 + dfPwrCurve[i].power / 4, 1 );
 			}
 		}
 	}
 
 	if ( !gFlags.edit_value || gFlags.draw_edited_item )
 	{
-		DrawImage( 6, 23 + EditItemIndex *2, 0xD4 ); //2
+		DrawImage( 2, 16 + EditItemIndex *2, 0xD4 ); // ">"
 	}
 
-	DrawImage( 12, 3, 0xAF );
-	DrawValueRight( 44, 3, t, 1, 0x0B, 0 );
-	DrawImage( 46, 3, 0x94 );
+	//DrawImage( 12, 3, 0xAF ); // T
+	//DrawValueRight( 44, 3, t, 1, 0x0B, 0 );
+        DrawValue( 6, 5, t, 1, 0x0B, 0 );
+	DrawImage( 22, 5, 0x94 );
 
-	DrawImage( 12, 13, 0xAB );
-	DrawValueRight( 44, 13, dfPwrCurve[j].power, 0, 0x0B, 0 );
-	DrawImage( 46, 13, 0xC2 );
+	//DrawImage( 12, 13, 0xAB ); //P
+	//DrawValueRight( 44, 13, dfPwrCurve[j].power, 0, 0x0B, 0 );
+        DrawValueRight( 50, 5, dfPwrCurve[j].power, 0, 0x0B, 0 );
+	DrawImage( 52, 5, 0xC2 );
 }
 
 

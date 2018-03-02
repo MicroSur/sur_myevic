@@ -81,6 +81,7 @@ extern uint8_t	ConfigIndex;
 extern uint8_t	PreheatTimer;
 extern uint16_t	PreheatPower;
 extern uint16_t	PreheatDelay;
+extern uint16_t	CurveDelay;
 extern uint16_t NextPreheatTimer;
 extern uint32_t	MilliJoules;
 extern uint32_t	MilliJoulesDay;
@@ -143,6 +144,7 @@ extern void RoundPowers();
 
 extern uint16_t CelsiusToF( uint16_t tc );
 extern uint16_t FarenheitToC( uint16_t tf );
+//extern uint16_t GetRegionalTemp( uint16_t atemp );
 
 extern const uint16_t SMARTRezValues[];
 extern const uint16_t SMARTPowers[];

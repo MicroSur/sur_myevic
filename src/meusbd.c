@@ -957,9 +957,9 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 
 	mondata->IsFiring = gFlags.firing;
 	mondata->IsCharging = gFlags.battery_charging;
-	mondata->IsCelsius = dfIsCelsius;
+	mondata->IsCelsius = dfStatus.IsCelsius;
 
-	uint16_t temp = dfIsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
+	uint16_t temp = dfStatus.IsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
 
 	if ( gFlags.firing )
 	{

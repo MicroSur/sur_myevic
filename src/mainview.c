@@ -181,7 +181,9 @@ __myevic__ void DrawTempLine( int line )
 
 	if ( Screen == 2 ) //fire
 	{
-		if ( dfIsCelsius )
+                DrawValueRight( x, y, dfStatus.IsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp, 0, fset, 3 );  
+/*
+		if ( dfStatus.IsCelsius )
 		{
 			DrawValueRight( x, y, FarenheitToC( AtoTemp ), 0, fset, 3 );
 		}
@@ -189,6 +191,7 @@ __myevic__ void DrawTempLine( int line )
 		{
 			DrawValueRight( x, y, AtoTemp, 0, fset, 3 );
 		}
+*/
 	}
 	else
 	{
@@ -196,7 +199,7 @@ __myevic__ void DrawTempLine( int line )
 	}
                
         if ( dfUIVersion == 0 )
-            DrawImage( x+1, y+yoff, dfIsCelsius ? 0xC9 : 0xC8 );
+                DrawImage( x+1, y+yoff, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 }
 
 
@@ -526,18 +529,18 @@ __myevic__ void DrawAPTLines()
                         if ( ISSINFJ200 )
                         {
                             DrawString( String_TEMP_s, 0, line+2 );
-                            t = dfIsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
+                            t = dfStatus.IsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
                             DrawValueRight( 37, line+3, t, 0, 0x01, 0 );
-                            //DrawImage( 54, 90, dfIsCelsius ? 0xC9 : 0xC8 );
+                            //DrawImage( 54, 90, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
                         }
                         else
                         {
                             DrawString( String_BOARD_s, 0, line+2 );    
                         }
                         
-                        t = dfIsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
+                        t = dfStatus.IsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 			DrawValue( t>99?31:39, line, t, 0, 0x1F, t>99?3:2 );
-			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			DrawImage( 56, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 			break;
 		}
                 
@@ -566,9 +569,9 @@ __myevic__ void DrawAPTLines()
                     // AtoTemp from last visited TC mode!
 			DrawImage( 0, line+2, 0xDB );
                         if ( !AtoRezMilli ) AtoTemp = 32;
-                        int t = dfIsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
+                        int t = dfStatus.IsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
 			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
-			DrawImage( 56, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
+			DrawImage( 56, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 			break;
 		}
                 
@@ -759,7 +762,7 @@ __myevic__ void DrawTemp()
 {
 	if ( Screen == 2 )
 	{
-		if ( dfIsCelsius )
+		if ( dfStatus.IsCelsius )
 		{
 			int tempc = FarenheitToC( AtoTemp );
 
@@ -775,7 +778,7 @@ __myevic__ void DrawTemp()
 	else
 	{
 		DrawValue( 0, 13, dfTemp, 0, 0x48, 3 );
-		DrawImage( 48, 20, dfIsCelsius ? 0xE0 : 0xE1 );
+		DrawImage( 48, 20, dfStatus.IsCelsius ? 0xE0 : 0xE1 );
 	}
         
         if ( ISMODETC(dfMode) )
@@ -855,7 +858,7 @@ __myevic__ void DrawPower( int pwr, int yp )
 		{
                     xc = dfStatus.preheat ? 6: 0;
                     
-			if ( !PreheatDelay || gFlags.osc_1hz )
+			if ( !CurveDelay || gFlags.osc_1hz )
 			{
 				DrawImage( xp + xc, yp, 0x6A ); //C
 			}

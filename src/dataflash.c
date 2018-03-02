@@ -175,12 +175,13 @@ __myevic__ void SetProductID()
 		u32Data ^= PID_SCRAMBLE;
                 
                 //MemCpy( BoxID, pid_invoke, 4 );
-                        BoxName = "mybox";
+                BoxName = "mybox";
+                DFMagicNumber = 0xDA;
 
 		if ( u32Data == PID_VTCMINI )
 		{
 			dfMaxHWVersion = HWV_VTCMINI;
-			DFMagicNumber = 0x36;
+			//DFMagicNumber = 0x36;
 			BoxModel = BOX_VTCMINI;
 			X32Off = 1;
                         BoxName = "VTC/m";
@@ -189,7 +190,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_VTWOMINI )
 		{
 			dfMaxHWVersion = HWV_VTWOMINI;
-			DFMagicNumber = 0x10;
+			//DFMagicNumber = 0x10;
 			BoxModel = BOX_VTWOMINI;
                         BoxName = "VTwo/m";
 			break;
@@ -197,7 +198,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_PRIMOMINI )
 		{
 			dfMaxHWVersion = HWV_PRIMOMINI;
-			DFMagicNumber = 0x11;
+			//DFMagicNumber = 0x11;
 			BoxModel = BOX_PRIMOMINI;
                         BoxName = "Primo/m";
 			break;
@@ -205,7 +206,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_PRIMOSE )
 		{
 			dfMaxHWVersion = HWV_PRIMOSE;
-			DFMagicNumber = 0x10;
+			//DFMagicNumber = 0x10;
 			BoxModel = BOX_PRIMOSE;
                         BoxName = "PrimoSE";
 			break;
@@ -213,7 +214,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_VTWO )
 		{
 			dfMaxHWVersion = HWV_VTWO;
-			DFMagicNumber = 0x40;
+			//DFMagicNumber = 0x40;
 			BoxModel = BOX_VTWO;
                         BoxName = "VTwo";
 			break;
@@ -221,7 +222,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_VTCDUAL )
 		{
 			dfMaxHWVersion = HWV_VTCDUAL;
-			DFMagicNumber = 0x12;
+			//DFMagicNumber = 0x12;
 			BoxModel = BOX_VTCDUAL;
 			NumBatteries = 0;
 			MaxBatteries = 2;
@@ -232,7 +233,7 @@ __myevic__ void SetProductID()
                 else if ( u32Data == PID_PRIMO1 )
 		{
 			dfMaxHWVersion = HWV_PRIMO1;
-			DFMagicNumber = 0x11;
+			//DFMagicNumber = 0x11;
 			BoxModel = BOX_PRIMO1;
 			NumBatteries = 2;
 			MaxBatteries = 2;
@@ -244,7 +245,7 @@ __myevic__ void SetProductID()
                 else if ( u32Data == PID_PRIMO2 )
 		{
 			dfMaxHWVersion = HWV_PRIMO2;
-			DFMagicNumber = 0x10;
+			//DFMagicNumber = 0x10;
 			BoxModel = BOX_PRIMO2;
 			NumBatteries = 2;
 			MaxBatteries = 2;
@@ -256,7 +257,7 @@ __myevic__ void SetProductID()
                 else if ( u32Data == PID_PREDATOR )
 		{
 			dfMaxHWVersion = HWV_PREDATOR;
-			DFMagicNumber = 0x11;
+			//DFMagicNumber = 0x11;
 			BoxModel = BOX_PREDATOR;
 			NumBatteries = 2;
 			MaxBatteries = 2;
@@ -268,7 +269,7 @@ __myevic__ void SetProductID()
                 else if ( u32Data == PID_GEN3 )
 		{
 			dfMaxHWVersion = HWV_GEN3;
-			DFMagicNumber = 0x14;
+			//DFMagicNumber = 0x14;
 			BoxModel = BOX_GEN3;
 			NumBatteries = 3;
 			MaxBatteries = 3;
@@ -282,7 +283,7 @@ __myevic__ void SetProductID()
                 else if ( u32Data == PID_SINP80 )
 		{
 			dfMaxHWVersion = HWV_SINP80;
-			DFMagicNumber = 0x11;
+			//DFMagicNumber = 0x11;
 			BoxModel = BOX_SINP80;
                         ScrFlip = 1;
                         X32Off = 1;
@@ -292,7 +293,7 @@ __myevic__ void SetProductID()
                 else if ( u32Data == PID_SINFJ200 )
 		{
 			dfMaxHWVersion = HWV_SINFJ200;
-			DFMagicNumber = 0x13;
+			//DFMagicNumber = 0x13;
 			BoxModel = BOX_SINFJ200;
 			NumBatteries = 2;
 			MaxBatteries = 2;
@@ -305,7 +306,7 @@ __myevic__ void SetProductID()
 		}
                 else if ( u32Data == PID_RX2 || u32Data == PID_RX217 )
 		{
-			DFMagicNumber = 0x12; //both
+			//DFMagicNumber = 0x12; //both
 			NumBatteries = 2;
 			MaxBatteries = 2;
                         MaxCurrent = 50;
@@ -328,7 +329,7 @@ __myevic__ void SetProductID()
                 else if ( u32Data == PID_INVOKE )
 		{
 			dfMaxHWVersion = HWV_INVOKE;
-			DFMagicNumber = 0x10;
+			//DFMagicNumber = 0x10;
 			BoxModel = BOX_INVOKE;
 			NumBatteries = 2;
 			MaxBatteries = 2;
@@ -342,7 +343,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_EVICAIO )
 		{
 			dfMaxHWVersion = HWV_EVICAIO;
-			DFMagicNumber = 0x50;
+			//DFMagicNumber = 0x50;
 			BoxModel = BOX_EVICAIO;
 			ScrFlip = 1;
                         BoxName = "AIO";                        
@@ -351,14 +352,14 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_EGRIPII )
 		{
 			dfMaxHWVersion = HWV_EGRIPII;
-			DFMagicNumber = 0x15;
+			//DFMagicNumber = 0x15;
 			BoxModel = BOX_EGRIPII;  
 			break;
 		}
 		else if ( u32Data == PID_CUBOMINI )
 		{
 			dfMaxHWVersion = HWV_CUBOMINI;
-			DFMagicNumber = 0x50;
+			//DFMagicNumber = 0x50;
 			BoxModel = BOX_CUBOMINI;
 			ScrFlip = 1;
 			X32Off = 1;
@@ -368,7 +369,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_CUBOID )
 		{
 			dfMaxHWVersion = HWV_CUBOID;
-			DFMagicNumber = 0x39;
+			//DFMagicNumber = 0x39;
 			BoxModel = BOX_CUBOID;
 			NumBatteries = 2;
 			MaxBatteries = 2;
@@ -381,7 +382,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_CUBO200 )
 		{
 			dfMaxHWVersion = HWV_CUBO200;
-			DFMagicNumber = 0x10;
+			//DFMagicNumber = 0x10;
 			BoxModel = BOX_CUBO200;
 			NumBatteries = 3;
 			MaxBatteries = 3;
@@ -394,7 +395,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_EVICBASIC )
 		{
 			dfMaxHWVersion = HWV_EVICBASIC;
-			DFMagicNumber = 0x13;
+			//DFMagicNumber = 0x13;
 			BoxModel = BOX_EVICBASIC;
 			ScrFlip = 1;
                         BoxName = "Basic";                        
@@ -403,7 +404,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_PRESA75W )
 		{
 			dfMaxHWVersion = HWV_PRESA75W;
-			DFMagicNumber = 0x30;
+			//DFMagicNumber = 0x30;
 			BoxModel = BOX_PRESA75W;
 			X32Off = 1;
                         BoxName = "Presa75";                        
@@ -412,7 +413,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_PRESA100W )
 		{
 			dfMaxHWVersion = HWV_PRESA100W;
-			DFMagicNumber = 0x40;
+			//DFMagicNumber = 0x40;
 			BoxModel = BOX_PRESA100W;
 			X32Off = 1;
 			break;
@@ -420,7 +421,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_WRX75TC )
 		{
 			dfMaxHWVersion = HWV_WRX75TC;
-			DFMagicNumber = 0x32;
+			//DFMagicNumber = 0x32;
 			BoxModel = BOX_WRX75TC;
 			X32Off = 1;
 			break;
@@ -428,7 +429,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_RXMINI )
 		{
 			dfMaxHWVersion = HWV_RXMINI;
-			DFMagicNumber = 0x10;
+			//DFMagicNumber = 0x10;
 			BoxModel = BOX_RXMINI;
 			X32Off = 1;
 			break;
@@ -437,7 +438,7 @@ __myevic__ void SetProductID()
 		{
                         //Vaponaute La Petite Box
 			dfMaxHWVersion = HWV_LPB;
-			DFMagicNumber = 0x31;
+			//DFMagicNumber = 0x31;
 			BoxModel = BOX_PRESA75W;	// Act as Presa 75W
 			X32Off = 1;
 			break;
@@ -445,7 +446,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_RX200S )
 		{
 			dfMaxHWVersion = HWV_RX200S;
-			DFMagicNumber = 0x14;
+			//DFMagicNumber = 0x14;
 			BoxModel = BOX_RX200S;
 			NumBatteries = 3;
 			MaxBatteries = 3;
@@ -458,7 +459,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_RX23 )
 		{
 			dfMaxHWVersion = HWV_RX23;
-			DFMagicNumber = 0x14;
+			//DFMagicNumber = 0x14;
 			BoxModel = BOX_RX23;
 			NumBatteries = 3;
 			MaxBatteries = 3;
@@ -471,7 +472,7 @@ __myevic__ void SetProductID()
 		else if ( u32Data == PID_RX300 )
 		{
 			dfMaxHWVersion = HWV_RX300;
-			DFMagicNumber = 0x12;
+			//DFMagicNumber = 0x12;
 			BoxModel = BOX_RX300;
 			NumBatteries = 4;
 			MaxBatteries = 4;
@@ -664,7 +665,7 @@ __myevic__ void ResetDataFlash()
 	dfVWVolts = 300;
 	dfPower = 200;
 	dfTCPower = 300;
-	dfIsCelsius = 1;
+	dfStatus.IsCelsius = 1;
 	dfRezType = 1;
 	dfTempAlgo = 1;
 	dfTemp = 200;
@@ -698,11 +699,10 @@ __myevic__ void ResetDataFlash()
 //      dfStatus2.digclk2 = 0;      //00 01 10
         dfStatus2.splash1 = 1;      //splash on with box name
 //	dfStatus.battpc = 1;
-        dfBattLine = 1;
+//        dfBattLine = 1;
 //      dfStatus.battv = 0;
 //	dfStatus.phpct = 0;
 	dfStatus.wakeonpm = 1;
-	dfStatus.sme = 1;
 //	dfRezSS = 0;
 //	dfRezLockedSS = 0;
 //	dfRezTCR = 0;
@@ -718,7 +718,7 @@ __myevic__ void ResetDataFlash()
 	dfTCRM[2] = 110;
 	dfScreenSaver = SSAVER_QIX;
 //	dfTCMode = 0;
-	dfScreenProt = 3;           //30s
+	dfScreenProt = 3;
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
 //	MemClear( dfSavedCfgPwr, sizeof(dfSavedCfgPwr) );
 //	dfFBBest = 0;

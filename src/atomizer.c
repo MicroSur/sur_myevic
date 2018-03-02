@@ -45,6 +45,7 @@ uint8_t		ConfigIndex;
 uint8_t		PreheatTimer;
 uint16_t	PreheatPower;
 uint16_t	PreheatDelay;
+uint16_t	CurveDelay;
 uint16_t        NextPreheatTimer;
 uint32_t	MilliJoules;
 uint32_t	MilliJoulesDay;
@@ -359,6 +360,13 @@ __myevic__ uint16_t FarenheitToC( uint16_t tf )
 	return ( 5 * ( tf - 32 )) / 9;
 }
 
+/*
+//=========================================================================
+__myevic__ uint16_t GetRegionalTemp( uint16_t atemp )
+{
+	return dfStatus.IsCelsius ? FarenheitToC( atemp ) : atemp;
+}
+*/
 
 //=========================================================================
 //----- (0000344C) --------------------------------------------------------
@@ -425,6 +433,7 @@ __myevic__ void StopFire()
 		||  ( dfStatus.pcurve && FireDuration > 10 ))
 		{
 			PreheatDelay = dfPHDelay * 100;
+                        CurveDelay = dfCUDelay * 100;
 		}       
                 
                 if ( FireDuration > 5 )
@@ -1243,11 +1252,11 @@ __myevic__ void TweakTargetVoltsVW()
 				break;
 
 		int p = dfPwrCurve[t].power;
-		if ( p > 100 && PreheatDelay ) p = 100;
+		if ( p > 100 && CurveDelay ) p = 100;
 
 		pwr = p * pwr / 100;
                 
-                if ( !PreheatDelay ) pc = 1;
+                if ( !CurveDelay ) pc = 1;
 	}
 
 	pwr = AtoPowerLimit( pwr );
@@ -1283,7 +1292,7 @@ __myevic__ void TweakTargetVoltsJT()
 
 		volts = GetVoltsForPower( pwr );
 
-		temp = ( dfIsCelsius == 1 ) ? CelsiusToF( dfTemp ) : dfTemp;
+		temp = ( dfStatus.IsCelsius ) ? CelsiusToF( dfTemp ) : dfTemp;
 
 		//if ( gFlags.decrease_voltage )
 		//{
@@ -2298,7 +2307,7 @@ __myevic__ void InitTCAlgo()
 {
 	AlgoCtl.start = 0;
 	AlgoCtl.boost = dfTCBoost;
-	AlgoCtl.ttemp = dfIsCelsius ? dfTemp : FarenheitToC( dfTemp );
+	AlgoCtl.ttemp = dfStatus.IsCelsius ? dfTemp : FarenheitToC( dfTemp );
 
 	AlgoCtl.counter = 0;
 

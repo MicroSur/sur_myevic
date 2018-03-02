@@ -285,6 +285,7 @@ __myevic__ void TimedItems()
 	{
 		if ( --PreheatDelay )
                 {
+                    //smart preheat
                     NextPreheatTimer = (100 - (PreheatDelay / dfPHDelay) ) * dfPreheatTime / 100;
                 }
                 else
@@ -297,7 +298,16 @@ __myevic__ void TimedItems()
 			gFlags.refresh_display = 1;
 		}
 	}
-
+        
+	if ( CurveDelay )
+	{
+                --CurveDelay;
+		if ( ( Screen == 1 ) && !( CurveDelay % 25 ) )
+		{
+			gFlags.refresh_display = 1;
+		}
+	}
+        
 	++ChBalTimer;
 }
 

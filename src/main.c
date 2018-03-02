@@ -326,7 +326,7 @@ __myevic__ void InitVariables()
         //if ( !dfMaxBoardTemp ) dfMaxBoardTemp = 70;
         
         //dfUIVersion = 1;
-        dfStatus.sme = 1;
+        //dfStatus.sme = 1; // DFMagicNumber = 0xDA;
         gFlags.FireNotFlipped = 1;
         gFlags.screen_on = 1;
         if ( !dfColdLockTemp ) dfColdLockTemp = 20;
@@ -765,6 +765,7 @@ void GoToSleep()
 		WDT_Close();
 		FlushAndSleep();
 		PreheatDelay = 0;
+                CurveDelay = 0;
 	}
 	WDT_Open( WDT_TIMEOUT_2POW14, WDT_RESET_DELAY_18CLK, TRUE, FALSE );
 	SYS_LockReg();
