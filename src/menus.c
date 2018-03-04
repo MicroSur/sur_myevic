@@ -3937,7 +3937,7 @@ const menu_t VapingMenu =
 		{ String_Curve, &CurveMenu, 0, MACTION_SUBMENU },
                 { String_Algo, &AlgoMenu, 0, MACTION_SUBMENU },
                 { String_Modes, &ModesMenu, 0, MACTION_SUBMENU },
-		{ String_Vaped, 0, EVENT_SET_JOULES, MACTION_SUBMENU },
+		{ String_Vaped, 0, EVENT_SET_JOULES, MACTION_SUBMENU }, //ShowSetJoules()
                 { String_Prot, 0, 0, 0 },                        
                 { String_PuffsOff, 0, 0, 0 }, 
                 { String_VVLite, &VVLite, 0, MACTION_DATA }, 

@@ -455,7 +455,7 @@ __myevic__ void fbDeathScreen()
 			if ( !PE0 )
 			{
 				fbAnimStep = 4;
-				fbSetTimeoutDelay( 100 );
+				fbSetTimeoutDelay( 20 ); //100
 			}
 			break;
 
@@ -471,6 +471,9 @@ __myevic__ void fbDeathScreen()
 			break;
 
 		default:
+                    
+                        fbCLSBuf();
+                        
 			if ( fbBirdLine >= 48 )
 			{
 				if ( fbDead == 3 )
@@ -478,7 +481,7 @@ __myevic__ void fbDeathScreen()
 					fbDead = 0;
 					fbAnimStep = 3;
 				}
-				fbSetTimeoutDelay( 200 );
+				fbSetTimeoutDelay( 20 ); //200
 			}
 			else
 			{
@@ -500,7 +503,7 @@ __myevic__ void fbDeathScreen()
 			fbDrawNumber( 71, 18, fbNumDigits( fbScore ), fbScore );
 			fbDrawNumber( 71, 36, fbNumDigits( dfFBBest ), dfFBBest );
 			DisplayRefresh();
-			fbCLSBuf();
+			//fbCLSBuf();
 			fbSetTimeoutDelay( 4 );
 			UpdateDFTimer = 50;
 			break;
@@ -513,7 +516,9 @@ __myevic__ void fbDeathScreen()
 __myevic__ void fbGame()
 {
 	int nd;
-
+        
+        fbCLSBuf();
+        
 	if ( fbDead )
 	{
 		fbAnimTimer = 0;
@@ -568,7 +573,7 @@ __myevic__ void fbGame()
 	nd = fbNumDigits( fbScore );
 	fbDrawNumber( 119 - 4 * nd, 1, nd, fbScore);
 	DisplayRefresh();
-	fbCLSBuf();
+	//fbCLSBuf();
 	fbSetTimeoutDelay( 4 );
 }
 
@@ -675,6 +680,7 @@ __myevic__ void fbStartScreen()
 
 	if ( PE0 )
 	{
+                fbCLSBuf();
 		if ( fbAnimStep )
 		{
 			if ( ++fbBirdLine == 4 )
@@ -693,7 +699,7 @@ __myevic__ void fbStartScreen()
                 
 		fbBirdAnim( fbBirdLine + 16 );
 		DisplayRefresh();
-		fbCLSBuf();
+		//fbCLSBuf();
 		fbSetTimeoutDelay( 10 );
 	}
 	else

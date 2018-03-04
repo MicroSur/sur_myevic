@@ -12,6 +12,7 @@ __myevic__ void GPD_IRQHandler()
 	if ( GPIO_GET_INT_FLAG( PD, GPIO_PIN_PIN7_Msk ) )
 	{
 		GPIO_CLR_INT_FLAG( PD, GPIO_PIN_PIN7_Msk );
+// usb detach?
 
 		if ( gFlags.usb_attached )
 		{
@@ -57,7 +58,7 @@ __myevic__ void GPD_IRQHandler()
 	else if ( GPIO_GET_INT_FLAG( PD, GPIO_PIN_PIN2_Msk|GPIO_PIN_PIN3_Msk ) )
 	{
 		GPIO_CLR_INT_FLAG( PD, GPIO_PIN_PIN2_Msk|GPIO_PIN_PIN3_Msk );
-
+// +- buttons press
 		if ( dfStatus.wakeonpm )
 		{
 			gFlags.wake_up = 1;
@@ -75,7 +76,7 @@ __myevic__ void GPE_IRQHandler()
 	if ( GPIO_GET_INT_FLAG( PE, GPIO_PIN_PIN0_Msk ) )
 	{
 		GPIO_CLR_INT_FLAG( PE, GPIO_PIN_PIN0_Msk );
-
+//fire press
 		gFlags.wake_up = 1;
 	}
 	else

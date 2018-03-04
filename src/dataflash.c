@@ -659,7 +659,7 @@ __myevic__ void ResetDataFlash()
         dfAkkuTempCorr = tmpAkkuTempCorr;
         dfBoardTempCorr = tmpBoardTempCorr;
         
-	dfMagic = DFMagicNumber;
+	dfMagic = DFMagicNumber;       
 	dfMode = 4;
 	dfProtec = FIRE_PROTEC_DEF;
 	dfVWVolts = 300;
@@ -1342,6 +1342,8 @@ __myevic__ void InitDataFlash()
 	AtoShuntRez = GetShuntRezValue();
 
 	dfFWVersion	= FWVERSION;
+        dfBuild = __BUILD3;
+
 
         InitSetPowerVoltMax();
 

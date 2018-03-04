@@ -332,6 +332,9 @@ __myevic__ void InitVariables()
         if ( !dfColdLockTemp ) dfColdLockTemp = 20;
         if ( !dfNewRezPerc ) dfNewRezPerc = 5;
         AtoTemp = CelsiusToF( dfColdLockTemp ); //70;
+        
+        //test
+        //gFlags.pbank = 1;
 }
 
 
@@ -1049,6 +1052,8 @@ __myevic__ void Main()
 			{
 				ReadAtomizer();
 
+            //if ( !gFlags.pbank ) 
+            //{
 				if ( ISMODETC(dfMode) )
 				{
 					if ( gFlags.check_mode )
@@ -1061,6 +1066,7 @@ __myevic__ void Main()
 				{
 					TweakTargetVoltsVW();
 				}
+            //}
 			}
 
 			if ( dfStatus.vcom )
@@ -1073,7 +1079,7 @@ __myevic__ void Main()
 		{
 			// 100Hz
 			gFlags.tick_100hz = 0;
-
+            
 			ResetWatchDog();
 
 			if ( gFlags.read_battery )
@@ -1153,6 +1159,8 @@ __myevic__ void Main()
 
 					if ( pwr > BatteryMaxPwr )
 					{
+                //if ( gFlags.pbank ) //stop PBank
+                                                    
                                                 pwr = BatteryMaxPwr;
 						gFlags.limit_power = 1;
 						//PowerScale = 100 * BatteryMaxPwr / pwr;
@@ -1324,7 +1332,7 @@ __myevic__ void Main()
 //
                         if ( !gFlags.battery_charging && !gFlags.nbcr && dfStatus.nbrc && gFlags.rtcinit && ( BatteryVoltage > 250 ) &&  ( BatteryVoltage > dfBattVolt + 20 )) 
                         {
-                                gFlags.nbcr = 1;
+                                gFlags.nbcr = 1; //new buttery counters reset
                                 dfBattVolt = BatteryVoltage;
                                 ResetAllCounters();     
                         }
@@ -1376,7 +1384,7 @@ __myevic__ void Main()
 		{
 			// 1Hz
 			gFlags.tick_1hz = 0;
-                              
+                        
                         if ( gFlags.rtcinit )
                         {
                                 ResetMJDay();                               

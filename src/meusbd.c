@@ -215,7 +215,7 @@ __myevic__ void USBD_IRQHandler(void)
 {
 	uint32_t u32IntSts = USBD_GET_INT_FLAG();
 	uint32_t u32State = USBD_GET_BUS_STATE();
-
+gFlags.wake_up = 1;
 	//------------------------------------------------------------------
 	if(u32IntSts & USBD_INTSTS_FLDET)
 	{

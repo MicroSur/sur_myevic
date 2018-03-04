@@ -18,7 +18,7 @@ volatile uint32_t	TMR2Counter;
 volatile uint32_t	TMR3Counter;
 
 volatile uint32_t	WarmUpCounter;
-volatile uint32_t	TickCount;
+//volatile uint32_t	TickCount;
 
 uint16_t	SleepTimer;
 uint16_t	AutoPuffTimer;
@@ -114,7 +114,7 @@ __myevic__ void TMR2_IRQHandler()
 		}
 
 		if ( gFlags.playing_fb )
-		{
+                {
 			if ( (!(TMR2Counter % 20) && dfFBSpeed == 0)
 			  || (!(TMR2Counter % 13) && dfFBSpeed == 1)
 			  || (!(TMR2Counter % 10) && dfFBSpeed == 2) )
@@ -348,6 +348,7 @@ __myevic__ void WaitOnTMR2( int ms )
 // caller to reset the TickCount variable when appropriate.
 //-------------------------------------------------------------------------
 
+/*
 __myevic__ void StartTickCount()
 {
 	SysTick->LOAD = 0xFFFFFF;
@@ -360,3 +361,4 @@ __myevic__ void StopTickCount()
 	TickCount += 0xFFFFFF - SysTick->VAL;
 	SysTick->CTRL = 0;
 }
+*/

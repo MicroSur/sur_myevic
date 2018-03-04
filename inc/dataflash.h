@@ -258,28 +258,31 @@ typedef struct
 /* 0045 */	uint8_t		Minute;
 /* 0046 */	uint8_t		Second;
 /* 0047 */	uint8_t		Format;
-/* 0048 */	uint32_t	Build;
+/* 0048 */	//uint32_t	Build;
 }
 dfInfos_t;
 
 
 //-------------------------------------------------------------------------
-// NFE Block
+// Second params block
+// 0x200 in dataflash
 //-------------------------------------------------------------------------
 
 typedef struct
 {
-	uint32_t	Build;
+/* 0000 */      uint32_t	Build;
+/* 0004 */
+/* 0008 */
 }
-dfNFEBlock_t;
+dfParams2_t;
 
 
 #define ALIGN256(x) (((x)&0xff)?((x)-((x)&0xff)+0x100):(x))
 
 #define DATAFLASH_PARAMS_SIZE	ALIGN256(sizeof(dfParams_t))
 #define DATAFLASH_INFOS_SIZE	ALIGN256(sizeof(dfInfos_t))
-#define DATAFLASH_NFEBLOCK_SIZE	ALIGN256(sizeof(dfNFEBlock_t))
-#define DATAFLASH_FREE_SIZE		(FMC_FLASH_PAGE_SIZE-DATAFLASH_PARAMS_SIZE-DATAFLASH_INFOS_SIZE-DATAFLASH_NFEBLOCK_SIZE)
+#define DATAFLASH_PARAMS2_SIZE	ALIGN256(sizeof(dfParams2_t))
+#define DATAFLASH_FREE_SIZE		(FMC_FLASH_PAGE_SIZE-DATAFLASH_PARAMS_SIZE-DATAFLASH_INFOS_SIZE-DATAFLASH_PARAMS2_SIZE)
 
 //-------------------------------------------------------------------------
 // It's important for DATAFLASH_PARAMS_SIZE to be a divider of
@@ -320,8 +323,8 @@ typedef struct dfStruct
 	};
 	union
 	{
-		dfNFEBlock_t	n;
-		uint32_t		nfe[DATAFLASH_NFEBLOCK_SIZE/4];
+		dfParams2_t	p2;
+		uint32_t	params2[DATAFLASH_PARAMS2_SIZE/4];
 	};
 	union
 	{
@@ -344,7 +347,7 @@ extern dfStruct_t DataFlash;
 
 #define DFP(x) DataFlash.p.x
 #define DFI(x) DataFlash.i.x
-#define DFN(x) DataFlash.n.x
+#define DFP2(x) DataFlash.p2.x
 
 #define dfChecksum		DataFlash.Checksum
 #define dfCRC			DFP(PCRC)
@@ -436,7 +439,7 @@ extern dfStruct_t DataFlash;
 #define dfDimOffMode            DFP(DimOffMode)
 
 
-#define dfFWVersion		DFI(FWVersion)
+#define dfFWVersion	DFI(FWVersion)
 #define dffmcCID        DFI(fmcCID)
 #define dffmcDID        DFI(fmcDID)
 #define dffmcPID        DFI(fmcPID)
@@ -446,14 +449,15 @@ extern dfStruct_t DataFlash;
 #define dfTimeCount     DFI(TimeCount)
 #define dfProductID     DFI(ProductID)
 #define dfMaxHWVersion  DFI(MaxHWVersion)
-#define dfYear			DFI(Year)
+#define dfYear			DFI(Year)   //for second method of time setup
 #define dfMonth			DFI(Month)
 #define dfDay			DFI(Day)
 #define dfHour			DFI(Hour)
 #define dfMinute		DFI(Minute)
 #define dfSecond		DFI(Second)
 
-#define dfBuild			DFN(Build)
+#define dfBuild         DFP2(Build)
+
 
 #define gPlayfield		DataFlash.playfield
 

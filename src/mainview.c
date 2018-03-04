@@ -385,7 +385,10 @@ __myevic__ void DrawAPTLines()
         
         uint8_t a = i? dfAPT3 : dfAPT;
         int line = i? 80 : 97; 
-         
+        
+        // Refresh every second
+        ScreenRefreshTimer = 10; 
+        
 	switch ( a )
 	{
 		default:
@@ -541,6 +544,7 @@ __myevic__ void DrawAPTLines()
                         t = dfStatus.IsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 			DrawValue( t>99?31:39, line, t, 0, 0x1F, t>99?3:2 );
 			DrawImage( 56, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
+                        //ScreenRefreshTimer = 10;
 			break;
 		}
                 
@@ -552,7 +556,7 @@ __myevic__ void DrawAPTLines()
 			DrawValueRight( 55, line, rez, 3, 0x1F, 4 );
 			DrawImage( 56, line+2, 0xC0 );
 			// Refresh every second
-			ScreenRefreshTimer = 10;
+			//ScreenRefreshTimer = 10;
 			break;
 		}
                 
@@ -1327,7 +1331,8 @@ __myevic__ void ShowSetJoules()
         DrawHLine( 0, 16, 63, 1 );
         
 	DrawString( String_mlkJ, 0, 26 );
-        DrawValueRight( 64, 24, dfVVRatio, 0, 0x1F, 0 );
+        DrawValueRight( 63, 24, dfVVRatio, 0, 0x1F, 0 );
+        InvertRect( 32, 23, 62, 23+12 ); // ? DrawStringRightInv
 
         //vv = ( MilliJoules / 3600 ) / 10;
         //if ( vv > 9999 ) vv = 9999;                        

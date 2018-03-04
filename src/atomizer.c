@@ -497,7 +497,8 @@ uint16_t LowestRezMeasure()
 	if ( AtoRezMilli / 10 < rez && AtoRezMilli >= 10 )
 		rez = ( AtoRezMilli / 10 );
         
-        if ( AtoRezMilliMin > AtoRezMilli || !AtoRezMilliMin ) AtoRezMilliMin = AtoRezMilli;
+        if ( AtoRezMilliMin > AtoRezMilli || !AtoRezMilliMin ) 
+                AtoRezMilliMin = AtoRezMilli;
         
 	return rez;
 }
@@ -706,7 +707,7 @@ __myevic__ void CheckMode()
 	unsigned int v1; // r1@4
 
 	static uint8_t CheckModeCounter;
-
+        
 	if ( AtoRezMilli / 10 <= AtoRez )
 		v0 = 0;
 	else
@@ -874,6 +875,9 @@ __myevic__ void ReadAtomizer()
 				}
 				return;
 			}
+                        
+                    //if ( !gFlags.pbank ) 
+                    //{
 			if ( AtoRezMilli > 20000 )
 			{
 				AtoStatus = 0;
@@ -906,6 +910,12 @@ __myevic__ void ReadAtomizer()
 				//if ( gFlags.firing ) 
                                     ReadAtoTemp();
 			}
+                    //} //pbank
+                    //else
+                    //{
+                    //    AtoStatus = 4;
+                    //}
+                        
 		}
 	}
 }
@@ -982,7 +992,7 @@ __myevic__ void RegulateBuckBoost()
 	AtoVoltsADC = ADC_Read( 1 );
 	AtoVolts = ( 1109 * AtoVoltsADC ) >> 12;
 
-	if ( ISCUBO200|| ISRX200S || ISRX23 || ISRX300 || ISGEN3 )
+	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 )
 	{
 		RegulateDualBuck();
 		return;
@@ -1604,17 +1614,22 @@ __myevic__ void ProbeAtomizer()
 		if ( TargetVolts > 600 ) TargetVolts = 600;
 */
 
+/*
 			if ( gFlags.firing )
 			{
 				gFlags.limit_ato_temp = 1;
 			
-                                TargetVolts = GetVoltsForPower( 50 );                               
+                                //TargetVolts = GetVoltsForPower( 50 );                               
                                 if ( !TargetVolts )  TargetVolts = 100;
                         }
                         else 
                         {
                                 TargetVolts = 100;     
                         }
+*/
+                
+                        TargetVolts = 100;  
+                        //if ( gFlags.pbank ) TargetVolts = 500;  
 
 		gFlags.probing_ato = 1;
 		AtoWarmUp();
@@ -1692,7 +1707,8 @@ __myevic__ void ProbeAtomizer()
 		AtoMillis = 0;
 		if ( AtoStatus == 0 ) AtoProbeCount = 0;
 	}
-
+        
+        //if ( gFlags.pbank ) return; //Set_NewRez_dfRez = 0;
 /*
 	if ( AtoError == LastAtoError
 			&& ( AtoRez + AtoRez / 20 ) >= LastAtoRez // /20

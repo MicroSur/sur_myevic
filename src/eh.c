@@ -666,9 +666,13 @@ __myevic__ void EventHandler()
 					break;
 			}
 
+                //if ( gFlags.pbank ) 
+                //        TargetVolts = 500;
+                //else           
 			TargetVolts = 100;
-			//PowerScale = 100;
-
+			////PowerScale = 100;
+                
+                        
 			if ( ISMODETC(dfMode) )
 			{
                                 InitTCAlgo(); //put here for vtwo mini bug
@@ -788,6 +792,8 @@ __myevic__ void EventHandler()
                                         pc = 1;
 				}
                                 
+                    //if ( !gFlags.pbank ) 
+                    //{
                                 if ( dfStatus.vvlite && !pc )
                                 {
                                     if ( !dfVVLockedVolt ) dfVVLockedVolt = dfVWVolts;
@@ -797,6 +803,11 @@ __myevic__ void EventHandler()
                                 {
                                     TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
                                 }
+                    //}
+                    //else
+                    //{
+                    //    TargetVolts = 500;
+                    //}
                                 
 				LowBatVolts = ( BatteryVoltage > BatteryCutOff + 100 ) ? 0 : BatteryVoltage;
 			}

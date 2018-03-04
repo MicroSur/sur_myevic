@@ -30,11 +30,15 @@
 
 #define __BUILD1	( __DAY__ + __MONTH__ * 100 + ( __YEAR__ % 100 ) * 10000 )
 
+/*
 #define __BUILD2	(	__DAY__ % 10 + ( __DAY__ / 10 << 4 ) \
 					+	( __MONTH__ % 10 << 8 ) + ( __MONTH__ / 10 << 12 ) \
 					+	( __YEAR__ % 10 << 16 ) + ( __YEAR__ / 10 % 10 << 20 ) )
 
-#define __BUILD3	( ( __YEAR__ % 100 ) + ( __MONTH__ << 8 ) + ( __DAY__ << 16 ) )
+*/
+
+ #define __BUILD3	( ( __YEAR__ % 100 ) + ( __MONTH__ << 8 ) + ( __DAY__ << 16 ) )
+
 
 //-------------------------------------------------------------------------
 
@@ -172,6 +176,7 @@ typedef struct
 /* 01000000 */	int playing_tt:1;
 /* 02000000 */	int soft_charge:1;
 /* 04000000 */	int inverse:1;
+/* 08000000 */	int pbank:1;
 }
 
 gFlags_t;

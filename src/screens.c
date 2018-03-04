@@ -358,11 +358,14 @@ __myevic__ void DrawScreen()
 				&&	( SleepTimer > 0 )
 				&&	( dfScreenSaver > 0 )
 				&&	( GetScreenProtection() > 0 )
-                                &&	( scrSaveOnce ) )
+                                &&	( scrSaveOnce ) 
+                                        
+                                        )
 				{
-					Screen = 60;
-					ScreenDuration = GetScreenProtection();
-					gFlags.refresh_display = 1;
+                                        SetScreen( 60, GetScreenProtection() );
+					//Screen = 60;
+					//ScreenDuration = GetScreenProtection();
+					//gFlags.refresh_display = 1;
                                         scrSaveOnce = 0;
 				}
 			}
