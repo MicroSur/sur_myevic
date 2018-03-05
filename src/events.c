@@ -607,6 +607,10 @@ __myevic__ void GetUserInput()
                         SetClicksAction( dfThreeButtonsAct );
                         ScreenDuration = GetMainScreenDuration();
                     }
+                    else if ( dfThreeButtonsAct == CLICK_ACTION_ON_OFF )
+                    {
+                        Event = 17;
+                    }
                 }
 		
 	}
