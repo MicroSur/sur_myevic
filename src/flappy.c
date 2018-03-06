@@ -497,8 +497,8 @@ __myevic__ void fbDeathScreen()
 			//fbDrawColumn( &fbColumn1 );
 			//fbDrawColumn( &fbColumn2 );
 			//fbDrawColumn( &fbColumn3 );
-			fbDrawRect( 26, 16, 98, 52, 0, 1 );
-			fbDrawRect( 26, 16, 98, 52, 1, 0 );
+			fbDrawRect( 24, 16, 98, 53, 1, 0 ); //0, 1
+			//fbDrawRect( 26, 16, 98, 52, 1, 0 );
 			//fbDrawText( 27, 18, "SCORE" );
 			//fbDrawText( 27, 36, "BEST" );
                         const uint8_t Str_BS [] = { 2, 5, 12, 13, 0 };
