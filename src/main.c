@@ -700,7 +700,7 @@ __myevic__ void LightSleep()
 	//#endif
 
 	gFlags.wake_up = 0;
-
+        
 	do
 	{
 		CLK_Idle();

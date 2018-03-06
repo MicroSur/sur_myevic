@@ -42,7 +42,7 @@ uint8_t		fbUsedTimeouts = 0;
 
 extern const uint8_t	fbColumnBody[];
 extern const uint8_t	fbColumnBottom[];
-extern const uint8_t	fbColumnTop[];
+//extern const uint8_t	fbColumnTop[];
 extern const uint8_t	fbBird0[];
 extern const uint8_t	fbBird1[];
 extern const uint8_t	fbBird2[];
@@ -233,7 +233,10 @@ __myevic__ void fbDrawSprite( int x, int y, int w, int h, const uint8_t bitmap[]
 			pixels = *bitmap++;
 			for ( int j = 0 ; j < 8 ; ++j )
 			{
-				if ( pixels & 1 ) fbPlot( x + 8 * i + j, y, 1 );
+				//if ( pixels & 1 ) fbPlot( x + 8 * i + j, y, 1 );
+                            
+                                fbPlot( x + 8 * i + j, y, pixels & 1 );
+                                
 				pixels >>= 1;
 			}
 		}
@@ -355,7 +358,7 @@ __myevic__ void fbDrawRect( int x1, int y1, int x2, int y2, int color, int fill 
 //----- (00001798) --------------------------------------------------------
 __myevic__ void fbDrawDeadBird( int y )
 {
-	fbDrawSprite( 10, y, 16, 16, fbBird0 ); //fbBirdDead );
+	fbDrawSprite( 10, y+1, 16, 12, fbBird0 ); //fbBirdDead );
 }
 
 
@@ -364,30 +367,33 @@ __myevic__ void fbDrawDeadBird( int y )
 __myevic__ void fbBirdAnim( int line )
 {
 	const uint8_t *sprite = 0;
-
-	if ( fbBirdCycle == 1 )
-	{
-		sprite = fbBird0;
-	}
-	else if ( fbBirdCycle == 2 )
+    
+	//if ( fbBirdCycle == 1 )
+	//{
+		//sprite = fbBird0;
+                fbDrawSprite( fbBirdColumn, line+1, 16, 12, fbBird0 );
+	//}else if
+	if ( fbBirdCycle == 2 )
 	{
 		sprite = fbBird1;
+                //fbDrawSprite( fbBirdColumn, line+4, 16, 7, fbBird1 );
 	}
 	else if ( fbBirdCycle == 3 )
 	{
 		sprite = fbBird2;
+                //fbDrawSprite( fbBirdColumn, line+4, 16, 7, fbBird2 );
 	}
-	else if ( fbBirdCycle == 4 )
-	{
-		sprite = fbBird0;
-	}
+	//else if ( fbBirdCycle == 4 )
+	//{
+	//	sprite = fbBird0;
+	//}
 
 	if ( sprite )
 	{
-		fbDrawSprite( fbBirdColumn, line, 16, 16, sprite );
+		fbDrawSprite( fbBirdColumn, line+4, 16, 7, sprite );
 	}
 
-	if ( ++fbBirdCycle == 5 ) fbBirdCycle = 1;
+	if ( ++fbBirdCycle == 4 ) fbBirdCycle = 1;
 }
 
 
@@ -405,10 +411,10 @@ __myevic__ void fbDrawColumn( const fbColumn_t *c )
 	{
 		fbDrawSprite( c->x, 56 - 8 * i, 24, 8, fbColumnBody );
 	}
-	fbDrawSprite( c->x, c->top_bot - 8	, 24, 8, fbColumnBody );
-	fbDrawSprite( c->x, c->top_bot		, 24, 8, fbColumnBottom );
-	fbDrawSprite( c->x, c->bot_top		, 24, 8, fbColumnTop );
-	fbDrawSprite( c->x, c->bot_top + 8	, 24, 8, fbColumnBody );
+	fbDrawSprite( c->x, c->top_bot - 8	, 24, 7, fbColumnBody );
+	fbDrawSprite( c->x, c->top_bot		, 24, 7, fbColumnBottom );
+	fbDrawSprite( c->x, c->bot_top + 1	, 24, 7, fbColumnBottom ); //fbColumnTop
+	fbDrawSprite( c->x, c->bot_top + 8	, 24, 7, fbColumnBody );
 }
 
 
@@ -488,9 +494,9 @@ __myevic__ void fbDeathScreen()
 				fbBirdLine += 4;
 			}
 			fbDrawDeadBird( fbBirdLine );
-			fbDrawColumn( &fbColumn1 );
-			fbDrawColumn( &fbColumn2 );
-			fbDrawColumn( &fbColumn3 );
+			//fbDrawColumn( &fbColumn1 );
+			//fbDrawColumn( &fbColumn2 );
+			//fbDrawColumn( &fbColumn3 );
 			fbDrawRect( 26, 16, 98, 52, 0, 1 );
 			fbDrawRect( 26, 16, 98, 52, 1, 0 );
 			//fbDrawText( 27, 18, "SCORE" );
@@ -683,7 +689,7 @@ __myevic__ void fbStartScreen()
                 fbCLSBuf();
 		if ( fbAnimStep )
 		{
-			if ( ++fbBirdLine == 4 )
+			if ( ++fbBirdLine == 8 )
 			fbAnimStep = 0;
 		}
 		else
