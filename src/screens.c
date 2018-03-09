@@ -225,10 +225,11 @@ __myevic__ void DrawScreen()
                                 scrSaveOnce = 0;
                                 ScreenRefreshTimer = 0;
                                 
-                                if ( !ISANIMSAVER(dfScreenSaver) || ( ISANIMSAVER(dfScreenSaver) && !gFlags.animready ) )
+                                if ( dfStatus.off || !ISANIMSAVER(dfScreenSaver) || ( ISANIMSAVER(dfScreenSaver) && !gFlags.animready ) )
                                 {
                                     //call anim once, other in AnimateScreenSaver()
                                     //call non anim while duration
+                                    // dfStatus.off for clock in off state
                                     ShowScreenSaver();
                                 }
 
