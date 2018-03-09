@@ -221,7 +221,17 @@ __myevic__ void DrawScreen()
                                         gFlags.MainContrast = 0;
                                     }
                                 }
-				ShowScreenSaver();
+                               
+                                scrSaveOnce = 0;
+                                ScreenRefreshTimer = 0;
+                                
+                                if ( !ISANIMSAVER(dfScreenSaver) || ( ISANIMSAVER(dfScreenSaver) && !gFlags.animready ) )
+                                {
+                                    //call anim once, other in AnimateScreenSaver()
+                                    //call non anim while duration
+                                    ShowScreenSaver();
+                                }
+
 				break;
                                 
 			case 61: //goodbye
@@ -362,11 +372,12 @@ __myevic__ void DrawScreen()
                                         
                                         )
 				{
+                                        gFlags.animready = 0;
                                         SetScreen( 60, GetScreenProtection() );
 					//Screen = 60;
 					//ScreenDuration = GetScreenProtection();
 					//gFlags.refresh_display = 1;
-                                        scrSaveOnce = 0;
+                                        //scrSaveOnce = 0;
 				}
 			}
 			break;
@@ -475,7 +486,7 @@ __myevic__ void DrawScreen()
 		case 100: // Infos page
                         scrSaveOnce = 1;
                         //NOBREAK
-                case  60: // Screen Saver
+                case  60: // Screen Saver                        
 			if ( gFlags.battery_charging )
 			{
 				ChargeView();
@@ -1206,14 +1217,16 @@ __myevic__ void ShowGoodBye()
 //=========================================================================
 __myevic__ void ShowScreenSaver()
 {
-        if ( dfStatus.off ) //&& !dfStatus.offmodclock )
+        if ( dfStatus.off )
         {
                 DrawDigitClock( 82, 0 );
                 DrawClock( 0 );
                 gFlags.refresh_display = 1;
                 return;
         }
-
+        
+        // and for anim init, other call in AnimateScreenSaver()
+        
 	switch ( dfScreenSaver )
 	{
 		case SSAVER_CLOCK:
@@ -1222,9 +1235,9 @@ __myevic__ void ShowScreenSaver()
                         DrawClock( 0 );           
 			break;
 
-		case SSAVER_3D:
-			anim3d( 1 );
-			break;
+		//case SSAVER_3D: //not need init...
+		//	anim3d( 1 );
+		//	break;
 
 		case SSAVER_LOGO:
 		{
@@ -1236,37 +1249,30 @@ __myevic__ void ShowScreenSaver()
 			break;
 		}
 
-		case SSAVER_QIX:
-			qix( 1 );
-			break;
+		//case SSAVER_QIX:
+		//	qix( 1 );
+		//	break;
 
-		case SSAVER_SNOW:
-			Snow( 1 );
-			break;
+		//case SSAVER_SNOW:
+		//	Snow( 1 );
+		//	break;
 
 		case SSAVER_SPLASH:
-			//DrawImage( 0, 0, 0xFF );
                         ShowSplash();
 			break;
 
 		default:
 			break;
         }
+        
+        gFlags.animready = 1; //allow AnimateScreenSaver()
+              
 }
 
 
 //=========================================================================
 __myevic__ void AnimateScreenSaver()
 {
-/*
-        if ( dfStatus.off )
-        {
-                DrawDigitClock( 82, 0 );
-                DrawClock( 0 );
-                gFlags.refresh_display = 1;
-                return;
-        }
-*/
             
 	switch ( dfScreenSaver )
 	{

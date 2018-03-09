@@ -769,7 +769,7 @@ void GoToSleep()
 		FlushAndSleep();
 		PreheatDelay = 0;
                 CurveDelay = 0;
-	}
+	}       
 	WDT_Open( WDT_TIMEOUT_2POW14, WDT_RESET_DELAY_18CLK, TRUE, FALSE );
 	SYS_LockReg();
 	gFlags.refresh_battery = 1;
@@ -1121,7 +1121,7 @@ __myevic__ void Main()
 
 			if (( dfStatus2.anim3d ) && ( Screen == 1 ) && ( dfMode != 6 ) && ( !EditModeTimer ) && !HideLogo && !SplashTimer )
 			{
-				anim3d( 0 );
+				anim3d( 0 ); //logo
 			}
 
 			if ( ( Screen == 60 || Screen == 0 ) && !dfStatus.off ) 
@@ -1133,7 +1133,7 @@ __myevic__ void Main()
                                     gFlags.MainContrast = 0;
                                 }
                                 
-				if ( Screen == 60 ) 
+				if ( Screen == 60 && gFlags.animready )     
                                     AnimateScreenSaver();
 			}
                                 
@@ -1269,7 +1269,7 @@ __myevic__ void Main()
 
 			if ( !( gFlags.firing && ISMODETC(dfMode) ) ) //!(A && B) = !A || !B  DeMorgans Law
 			{
-				DrawScreen();
+                                        DrawScreen();
 			}
 
 			if ( KeyTicks < 5 )

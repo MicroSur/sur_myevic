@@ -3091,7 +3091,7 @@ const menu_t Object3DMenu =
 	0,
 	10,
 	{
-		{ String_None, 0, EVENT_PARENT_MENU, 0 },
+		{ String_Off, 0, EVENT_PARENT_MENU, 0 }, //none
                 { String_Square, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Tetra, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Box, 0, EVENT_PARENT_MENU, 0 },
@@ -3622,7 +3622,7 @@ const menu_t ScreenSaveMenu =
 	0,
 	7,
 	{
-		{ String_None, 0, EVENT_PARENT_MENU, 0 }, //EVENT_EXIT_MENUS
+		{ String_Off, 0, EVENT_PARENT_MENU, 0 }, //none
 		{ String_Clock, 0, EVENT_PARENT_MENU, 0 },
 		{ String_3D, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Logo, 0, EVENT_PARENT_MENU, 0 },

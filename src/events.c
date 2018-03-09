@@ -1620,9 +1620,11 @@ __myevic__ int CustomEvents()
 			break;
                         
                 case EVENT_SAVER:
-			Screen = 60;
-			ScreenDuration = GetScreenProtection();
-                        gFlags.refresh_display = 1;
+                        gFlags.animready = 0;
+                        SetScreen( 60, GetScreenProtection() );
+			//Screen = 60;
+			//ScreenDuration = GetScreenProtection();
+                        //gFlags.refresh_display = 1;
 			break;   
                                                
 		default:

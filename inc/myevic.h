@@ -24,6 +24,7 @@
 #define ISMODEVW(m) (((m)==4)||((m)==6))
 #define ISMODEBY(m) ((m)==5)
 
+#define	ISANIMSAVER(m) (((m)==2)||((m)==4)||((m)==5)) //SSAVER_3D SSAVER_QIX SSAVER_SNOW
 //-------------------------------------------------------------------------
 
 #define FWVERSION	111
@@ -177,6 +178,7 @@ typedef struct
 /* 02000000 */	int soft_charge:1;
 /* 04000000 */	int inverse:1;
 /* 08000000 */	int pbank:1;
+/* 10000000 */	int animready:1;
 }
 
 gFlags_t;
