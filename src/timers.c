@@ -144,7 +144,7 @@ __myevic__ void TMR3_IRQHandler()
 	if ( TIMER_GetIntFlag( TIMER3 ) )
 	{
 		TIMER_ClearIntFlag( TIMER3 );
-
+              
 		gFlags.tick_10hz = 1;
 
 		if ( !gFlags.has_x32 )
@@ -160,6 +160,14 @@ __myevic__ void TMR3_IRQHandler()
 
 		if ( !(TMR3Counter % 10) )
 			gFlags.tick_1hz = 1;
+                
+                                        
+                if( USBD_IS_ATTACHED() && !gFlags.usb_attached )
+                {
+                            gFlags.wake_up = 1;
+                }
+  
+
 	}
 }
 

@@ -699,6 +699,8 @@ __myevic__ void LightSleep()
 	//CLK_DisableModuleClock( UART0_MODULE );
 	//#endif
 
+        //CLK_EnableModuleClock( USBD_MODULE );
+        
 	gFlags.wake_up = 0;
         
 	do
@@ -779,7 +781,7 @@ void GoToSleep()
 	DevicesOnOff( 0 ); //on
 	RTCWakeUp();
 	InitDisplay();
-        
+       
         //if ( !dfStatus.off ) gFlags.asleep = 1;
 }
 
@@ -1320,7 +1322,7 @@ __myevic__ void Main()
 					u8Seconds = (uint8_t)rtd.u32Second;
 					gFlags.refresh_display = 1;
 				}
-			}
+			}                        
 		}
 
 		if ( gFlags.tick_2hz )

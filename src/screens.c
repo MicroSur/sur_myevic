@@ -579,10 +579,12 @@ __myevic__ void ChargeView()
 {
 	Screen = 5;
 	gFlags.refresh_display = 1;
-	ScreenDuration = ScrChargeTimes[dfScrChargeTime]; //5;
-        
-        //if ( dfStealthOn != 1 ) 
-        //    gFlags.screen_on = 1;
+	ScreenDuration = ScrChargeTimes[dfScrChargeTime];
+
+        if ( dfStealthOn != 1 ) 
+            gFlags.screen_on = 1;
+        else
+            gFlags.screen_on = 0;
 }
 
 

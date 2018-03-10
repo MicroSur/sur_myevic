@@ -1212,7 +1212,8 @@ __myevic__ void EventHandler()
                     
                         if ( Screen == 5 ) //&& dfStealthOn != 1 ) //charge scr on off
 			{
-				gFlags.screen_on = ( gFlags.screen_on == 0 );                            
+				//gFlags.screen_on = ( gFlags.screen_on == 0 );                            
+                                gFlags.screen_on ^= 1;                            
                                 ScreenDuration = ScrChargeTimes[dfScrChargeTime]; //ScreenDuration = 0;                               
                                 gFlags.refresh_display = 1;
 			}

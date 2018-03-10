@@ -2135,7 +2135,7 @@ __myevic__ void ScreenProtMenuIDraw( int it, int line, int sel )
 			}
 			else
 			{
-				DrawStringRight( String_Off, 63, line+2 );
+				DrawStringRight( String_On, 63, line+2 ); //always show scr
 			}
 			break;
                         
