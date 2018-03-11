@@ -242,7 +242,7 @@ __myevic__ void SetClicksAction( uint8_t num )
                                                         if ( AtoStatus == 4 )
                                                         {
                                                             ResetResistance();
-                                                            SwitchRezLock( 0 ); //reread TC rez
+                                                            SwitchRezLock( 1 ); //reread TC rez
                                                         }
 							break;
                                                         

@@ -86,8 +86,17 @@ __myevic__ void ModeChange()
 			break;
 
 		default:
-                    	dfResistance = AtoRez;
-                        RezMillis = AtoMillis;
+                    	if ( dfRezVW )
+			{
+				if ( dfStatus2.vwrezlock ) //|| !( gFlags.new_rez_tcr ))
+				{
+					dfResistance = dfRezVW;
+					RezMillis = 0;
+				}
+			}
+                                        
+                    	//dfResistance = AtoRez;
+                        //RezMillis = AtoMillis;
 			break;
 	}
 

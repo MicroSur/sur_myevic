@@ -271,7 +271,7 @@ dfInfos_t;
 typedef struct
 {
 /* 0000 */      uint32_t	Build;
-/* 0004 */
+/* 0004 */	uint8_t		RezVW;
 /* 0008 */
 }
 dfParams2_t;
@@ -457,7 +457,7 @@ extern dfStruct_t DataFlash;
 #define dfSecond		DFI(Second)
 
 #define dfBuild         DFP2(Build)
-
+#define dfRezVW     DFP2(RezVW)
 
 #define gPlayfield		DataFlash.playfield
 

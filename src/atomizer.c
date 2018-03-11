@@ -1932,8 +1932,14 @@ __myevic__ void SwitchRezLock( int lock )
                         
                     if ( AtoRez )
                     {    
-                        if ( lock ) dfStatus2.vwrezlock ^= 1;
+                        if ( lock ) 
+                        {
+                            //dfStatus2.vwrezlock ^= 1;
+                            dfStatus2.vwrezlock = 1;
+                        }
+                        
                         AtoRez = RereadRez();
+                        dfRezVW = AtoRez;
                     }
                         
 /*                       
