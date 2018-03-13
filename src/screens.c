@@ -1501,7 +1501,9 @@ __myevic__ void ShowSplash()
 __myevic__ uint32_t GetVV( uint32_t MJoules )
 {
     uint32_t vv;
-    vv = dfVVRatio * ( MJoules / 1000 );
+    vv = dfVVRatio * MJoules;
+    vv /= 100;
+    vv /= 100;
     vv /= 100;
     vv /= 100;
     if ( vv > 9999 ) vv = 9999;

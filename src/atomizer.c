@@ -844,8 +844,8 @@ __myevic__ void ReadAtomizer()
                 
 		if ( gFlags.firing )
 		{
-			uint32_t pwr = AtoCurrent * AtoCurrent * AtoRezMilli / 100000; // P = I^2 * R
-			MilliJoules += pwr;
+			uint32_t pwr = AtoCurrent * AtoCurrent * AtoRezMilli / 10000; // P = I^2 * R
+			MilliJoules += pwr; //*10
                         MilliJoulesDay += pwr;
 		}
                 
