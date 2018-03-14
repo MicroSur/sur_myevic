@@ -318,7 +318,8 @@ __myevic__ void DrawScreen()
 //    DrawValue( 0, 37, mn, 0, 0x01, 0 );
 //    DrawValue( 0, 108, t, 0, 0x01, 0 );
 
-    
+//DrawValue( 0, 108, MilliJoules, 0, 0x01, 0 );
+
 //DisplayRefresh(); //uncomment too
 
 
@@ -1501,9 +1502,8 @@ __myevic__ void ShowSplash()
 __myevic__ uint32_t GetVV( uint32_t MJoules )
 {
     uint32_t vv;
-    vv = dfVVRatio * MJoules;
-    vv /= 100;
-    vv /= 100;
+    vv = dfVVRatio * ( MJoules / 1000 );
+    vv /= 10;
     vv /= 100;
     vv /= 100;
     if ( vv > 9999 ) vv = 9999;
