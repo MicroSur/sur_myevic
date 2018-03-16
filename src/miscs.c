@@ -273,6 +273,14 @@ __myevic__ int32_t cosine( int32_t x )
 	return sine( x + 90 );
 }
 
+//=========================================================================
+// scale of coordinate
+__myevic__ int map( int x, int in_min, int in_max, int out_min, int out_max )
+{
+	return ( x - in_min ) * ( out_max - out_min )
+                / ( in_max - in_min ) + out_min;
+}
+
 
 //=========================================================================
 
@@ -779,14 +787,14 @@ static pt3d_t points[20]; //biggest one
 
 __myevic__ void Next3DObject()
 {
-        if ( Screen == 60 ) DrawFillRect( 0, 0, 63, 127, 0 );
+        if ( Screen == 60 ) ClearScreenBuffer(); //DrawFillRect( 0, 0, 63, 127, 0 );
 	if ( ++Object3D > N3DOBJECTS ) Object3D = 1;
 }
 
 
 __myevic__ void Previous3DObject()
 {
-        if ( Screen == 60 ) DrawFillRect( 0, 0, 63, 127, 0 );
+        if ( Screen == 60 ) ClearScreenBuffer(); //DrawFillRect( 0, 0, 63, 127, 0 );
 	if ( --Object3D < 1 ) Object3D = N3DOBJECTS;
 }
 
@@ -858,7 +866,8 @@ __myevic__ void anim3d( int redraw_last )
 {
 	static int tscaler = 0;
 	const obj3d_t *object;
-        int cY = 79; //75;
+        int cY = 79;
+        int thk = 1;
         
 	if (( Object3D > 0 ) && ( Object3D <= N3DOBJECTS ))
 	{
@@ -891,19 +900,23 @@ __myevic__ void anim3d( int redraw_last )
 
         if ( Screen == 60 )
         {
-                cY = 64;
-                DrawFillRect( 0, 0, 63, 127, 0 );
-        } else {
-            
-            if ( !dfStatus.nologo && !dfStatus.logomid && GetLogoHeight() > 40 )
-            {
-                    DrawFillRect( 0, 47, 63, 110, 0 );
-            }
-            else    
-            {
-                    DrawFillRect( 0, 46, 63, 110, 0 );  
-            }
-            
+            cY = 64;
+            thk = 2;
+            ClearScreenBuffer(); //DrawFillRect( 0, 0, 63, 127, 0 );
+        } 
+        else 
+        {
+            //int ry = 46;
+            //if ( !dfStatus.nologo && !dfStatus.logomid && GetLogoHeight() > 40 )
+            //{
+            //        ry = 47;
+                    //DrawFillRect( 0, 47, 63, 110, 0 );
+            //}
+            //else    
+            //{
+            //        DrawFillRect( 0, 46, 63, 110, 0 );  
+            //}
+            DrawFillRect( 0, 48, 63, 110, 0 );     
         }
         
 	for ( int i = 0 ; i < object->nlines ; ++i )
@@ -914,7 +927,7 @@ __myevic__ void anim3d( int redraw_last )
 			points[object->lines[i].pt2].x + 32,
 			points[object->lines[i].pt2].y + cY,
 			1,
-			1
+			thk
 		);
 	}
 
@@ -963,10 +976,11 @@ static qix_t	qix_prev[QIX_LCT];
 static int16_t ptr;
 
 
-__myevic__ void qix( int refresh )
+__myevic__ void qix() // int refresh 
 {
 	static int tscaler = 0;
 
+/*
 	if ( refresh )
 	{
 		SetRandSeed( TMR1Counter );
@@ -979,6 +993,7 @@ __myevic__ void qix( int refresh )
 			qix_prev[ptr].x1 = qix_prev[ptr].y1 = qix_prev[ptr].x2 = qix_prev[ptr].y2 = -1;
 		}
  	}
+*/
 
 	if ( ++tscaler < 4 ) return;
 	tscaler = 0;
@@ -999,10 +1014,11 @@ __myevic__ void qix( int refresh )
 	if (qix_prev[ptr].x1 >= 0) {
 		DrawLine(qix_prev[ptr].x1, qix_prev[ptr].y1, qix_prev[ptr].x2, qix_prev[ptr].y2, 1, 1);
 	}
-	if ( !refresh )
-	{
+        
+	//if ( !refresh )
+	//{
 		DisplayRefresh();
-	}
+	//}
 }
 
 __myevic__ void qix_mvpoint(int16_t *tx, int16_t *ty, int16_t *v_x, int16_t *v_y)
@@ -1045,7 +1061,7 @@ __myevic__ void qix_diddle(int16_t *ptr)
 // Snow (screen burn-out recovery)
 //-------------------------------------------------------------------------
 
-__myevic__ void Snow( int redraw )
+__myevic__ void Snow() // int redraw 
 {
 	static int tscaler = 0;
 
@@ -1057,12 +1073,54 @@ __myevic__ void Snow( int redraw )
 	{
 		ScreenBuffer[i] = Random() % 0xFF;
 	}
-	if ( !redraw )
-	{
+	//if ( !redraw )
+	//{
 		DisplayRefresh();
-	}
+	//}
 }
 
+typedef struct {
+        int x, y, z;
+} stars_t;
+
+__myevic__ void StarField()
+{
+    //Daniel Shiffman 
+    //https://github.com/CodingTrain/website/tree/master/CodingChallenges/CC_01_StarField_p5.js
+    
+    static stars_t stars[50];
+    int sx, sy, r;
+
+    static int tscaler = 0;
+    if ( ++tscaler < 5 ) return;
+    tscaler = 0;
+        
+    //SetRandSeed( TMR1Counter );
+    
+    ClearScreenBuffer();
+    
+    for ( int i = 0; i < 50; i++ ) 
+    {            
+        stars[i].z -= 1;
+        
+        if ( stars[i].z < 1 ) 
+        {
+            stars[i].z = Random() % 32 + 32;
+            stars[i].x = Random() % 64 - 32;
+            stars[i].y = Random() % 128 - 64;
+        }
+    
+        sx = map( (stars[i].x * 16) / stars[i].z, -32, 32, 0, 63 );
+        sy = map( (stars[i].y * 16) / stars[i].z, -64, 64, 0, 127 );
+        r = map( stars[i].z, 32, 0, 0, 6 );
+    
+        // DrawCircle( int x_centre, int y_centre, int r, int color, int fill )
+        DrawCircle( sx, sy, r, 1, !r );
+    }
+ 
+    DisplayRefresh();
+
+}
 
 //=========================================================================
 // LED Stuff

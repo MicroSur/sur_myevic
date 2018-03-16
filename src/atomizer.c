@@ -1934,8 +1934,7 @@ __myevic__ void SwitchRezLock( int lock )
                     {    
                         if ( lock ) 
                         {
-                            //dfStatus2.vwrezlock ^= 1;
-                            dfStatus2.vwrezlock = 1;
+                            dfStatus2.vwrezlock ^= 1;
                         }
                         
                         AtoRez = RereadRez();

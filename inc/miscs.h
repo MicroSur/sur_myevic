@@ -30,11 +30,12 @@ extern int32_t cosine( int32_t x );
 extern uint32_t Random();
 extern void SetRandSeed( uint32_t s );
 
-extern void qix( int );
+extern void qix(); // int 
 extern void qix_mvpoint(int16_t *tx, int16_t *ty, int16_t *v_x, int16_t *v_y );
 extern void qix_diddle(int16_t *ptr );
 
-extern void Snow( int );
+extern void Snow(); // int 
+extern void StarField();
 
 extern uint8_t LEDRed;
 extern uint8_t LEDGreen;
@@ -47,5 +48,7 @@ extern void LEDWhite();
 extern void LEDControl();
 extern void LEDOff();
 extern void LEDTimerTick();
+
+//extern int map( int x, int in_min, int in_max, int out_min, int out_max );
 
 #endif /* __MISCS_H__ */

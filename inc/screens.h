@@ -37,6 +37,7 @@ enum {
 	SSAVER_QIX,
 	SSAVER_SNOW,
 	SSAVER_SPLASH,
+        SSAVER_SF,
 	SSAVER_MAX
 };
 

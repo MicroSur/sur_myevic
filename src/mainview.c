@@ -1201,6 +1201,7 @@ __myevic__ void ShowMainView()
 		{
 			int h = GetLogoHeight();
                         int y = 0;
+                        int y2;
                         
                         if ( h )
                         {
@@ -1210,15 +1211,22 @@ __myevic__ void ShowMainView()
                                 {
                                     if ( dfUIVersion == 0 )
                                     {
-                                        DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
-                                        y += 10;
+                                        y2 = 60;
+                                        //DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
+                                        //DrawFillRect( 0, 0, 63, 60, 0 ); // erase with upper line
+                                        y = 10;
                                     }
                                     else
                                     {
-                                        DrawFillRect( 0, 10, 63, 66, 0 );   //erase space
-                                        y += 15;
+                                        y2 = 66;
+                                        //DrawFillRect( 0, 10, 63, 66, 0 );   //erase space
+                                        //DrawFillRect( 0, 0, 63, 66, 0 );
+                                        y = 15;
                                     }
+                                    
+                                    DrawFillRect( 0, 0, 63, y2, 0 );
                                 }
+                                
                                 DrawLOGO( 0, y ); //x y
                             }
                             else

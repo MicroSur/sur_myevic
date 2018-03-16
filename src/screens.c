@@ -962,7 +962,9 @@ __myevic__ void ShowBattVolts()
     {
     //int x = BatteryVoltsToPercent( v2p[i] );
     x = 60 - v2p[i].percent * 57 / 100;
+    //x = map( v2p[i].percent, 0, 100, 60, 3);
     y = 43 - ( v2p[i].voltage - 270 ) * 30 / 153;
+    //y = map( v2p[i].voltage, 270, 423, 43, 13);
     //DrawPoint( )
     r = BatteryPercent <= v2p[i].percent ? 2 : 1;
     //DrawCircle( int x_centre, int y_centre, int r, int color, int fill )
@@ -1260,7 +1262,11 @@ __myevic__ void ShowScreenSaver()
 		//case SSAVER_SNOW:
 		//	Snow( 1 );
 		//	break;
-
+                
+		//case SSAVER_SF:
+		//	StarField( 1 );
+		//	break;
+                
 		case SSAVER_SPLASH:
                         ShowSplash();
 			break;
@@ -1269,7 +1275,8 @@ __myevic__ void ShowScreenSaver()
 			break;
         }
         
-        gFlags.animready = 1; //allow AnimateScreenSaver()
+        SetRandSeed( TMR1Counter );
+        gFlags.animready = 1; //allow AnimateScreenSaver() anti first-flick
               
 }
 
@@ -1285,11 +1292,15 @@ __myevic__ void AnimateScreenSaver()
 			break;
 
 		case SSAVER_QIX:
-			qix( 0 );
+			qix();
 			break;
 
 		case SSAVER_SNOW:
-			Snow( 0 );
+			Snow();
+			break;
+                        
+                case SSAVER_SF:
+			StarField();
 			break;
 
 		default:

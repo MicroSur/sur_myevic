@@ -3620,7 +3620,7 @@ const menu_t ScreenSaveMenu =
 	ScreenSaveOnSelect+1,
 	0,
 	0,
-	7,
+	8,
 	{
 		{ String_Off, 0, EVENT_PARENT_MENU, 0 }, //none
 		{ String_Clock, 0, EVENT_PARENT_MENU, 0 },
@@ -3628,7 +3628,8 @@ const menu_t ScreenSaveMenu =
 		{ String_Logo, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Qix, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Snow, 0, EVENT_PARENT_MENU, 0 },
-		{ String_Splash, 0, EVENT_PARENT_MENU, 0 }
+		{ String_Splash, 0, EVENT_PARENT_MENU, 0 },
+                { String_Vaped, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
 

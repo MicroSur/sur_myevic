@@ -716,7 +716,7 @@ __myevic__ void ResetDataFlash()
 	dfTCRM[0] = 90;
 	dfTCRM[1] = 100;
 	dfTCRM[2] = 110;
-	dfScreenSaver = SSAVER_QIX;
+	dfScreenSaver = SSAVER_SF;
 //	dfTCMode = 0;
 	dfScreenProt = 3;
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
