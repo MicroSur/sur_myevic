@@ -1449,11 +1449,18 @@ __myevic__ void SetAtoSMARTParams()
 		p = dfSavedCfgPwr[i];
 		if ( p > MaxPower || p < 10 )
 		{
-			if ( dfMode == 6 )
-			{
+			//if ( dfMode == 6 ) only 6
+			//{
 				j = SearchSMARTRez( r );
 				dfSavedCfgPwr[i] = SMARTPowers[ j << 1 ];
-			}
+                                
+                                if ( !dfSavedCfgPwr[i] )
+                                {
+                                    dfSavedCfgPwr[i] = dfPower;
+                                }
+			//}
+                        
+
 			//else
 			//{
 			//	dfSavedCfgPwr[i] = dfPower;
@@ -1505,10 +1512,10 @@ __myevic__ void SetAtoSMARTParams()
 
 		dfSavedCfgRez[ConfigIndex] = AtoRez;
 
-		if ( dfMode == 6 )
-		{
+		//if ( dfMode == 6 )
+		//{
 			dfSavedCfgPwr[ConfigIndex] = SMARTPowers[ SearchSMARTRez( AtoRez ) << 1 ];
-		}
+		//}
 		//else
 		//{
 		//	dfSavedCfgPwr[ConfigIndex] = dfPower;

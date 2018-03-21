@@ -900,7 +900,7 @@ __myevic__ void ShowMainView()
 	//unsigned int v19; // r3@99
 	//unsigned int v20; // r1@99
         
-	unsigned int sm_p; // r2@168
+	//unsigned int sm_p; // r2@168
 	//int sm_dt; // r3@169
         int btv;
         int numb;
@@ -1055,11 +1055,17 @@ __myevic__ void ShowMainView()
 */
 
                 if ( gFlags.firing )
+                {
                         ShowFireDuration( 0 );
+                }
+                else
+                {
+                        pwr = dfSavedCfgPwr[(int)ConfigIndex];
+                }
                 
 		//if ( !ShowWeakBatFlag )
 		//{
-                        sm_p = dfSavedCfgPwr[(int)ConfigIndex];
+                       // sm_p = dfSavedCfgPwr[(int)ConfigIndex];
 /*
 			if ( sm_p >= 1000 )
 			{
@@ -1077,7 +1083,7 @@ __myevic__ void ShowMainView()
                         //DrawValue( 13, 59, sm_p, sm_dt, 0x1F, 3 ); //smart power
 			//DrawImage( 44, 61, 0xB2 ); // W
                         
-                        DrawPower( sm_p, 12 );
+                        DrawPower( pwr, 12 );
                         DrawAPTLines();
                         
                         //int r = dfSavedCfgRez[ConfigIndex];

@@ -88,10 +88,10 @@ __myevic__ void ModeChange()
 		default:
                     	if ( dfRezVW )
 			{
-				if ( dfStatus2.vwrezlock ) //|| !( gFlags.new_rez_tcr ))
+				if ( dfStatus2.vwrezlock )
 				{
 					dfResistance = dfRezVW;
-					RezMillis = 0;
+					RezMillis = 0; //lazy todo
 				}
 			}
                                         

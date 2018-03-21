@@ -1026,6 +1026,8 @@ __myevic__ void ShowVersion()
 //----- (000068D4) --------------------------------------------------------
 __myevic__ void ShowNewCoil()
 {
+    //screen 51
+    //event 32
 	int rez;
 
 	DrawStringCentered( String_NewCoil, 32 );
