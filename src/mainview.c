@@ -330,7 +330,7 @@ __myevic__ void DrawTimeCounterLine ( int line )
 __myevic__ void DrawEnergyLine ( int line )
 {
         uint32_t vv;
-        vv = ( MilliJoules / 3600 ) / 100;
+        vv = ( MilliJoulesEnergy / 3600 ) / 100;
         if ( vv > 9999 ) vv = 9999;                        
         DrawImage( 1, line+2, 0xDE ); //energy
         DrawValueRight( 55, line, vv, 2, 0x1F, 0 );

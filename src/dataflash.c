@@ -588,7 +588,7 @@ __myevic__ void InitSetPowerVoltMax()
         }
 	else
 	{
-		SetMaxVolts ( 900 ); //MaxVolts = 900;
+		SetMaxVolts ( 900 );
 	}
 
 	if ( ISEVICBASIC )
@@ -597,24 +597,24 @@ __myevic__ void InitSetPowerVoltMax()
 	}
 	else if ( ISPRIMOSE || ISPRIMOMINI || ISVTWO || ISEGRIPII || ISCUBOMINI || ISRXMINI || ISSINP80 )
 	{
-		SetMaxPower ( 800 ); //MaxPower = 800;
+		SetMaxPower ( 800 );
 	}
 	else if ( ISPRESA100W )
 	{
-		SetMaxPower ( 1000 ); //MaxPower = 1000;
+		SetMaxPower ( 1000 );
 	}
 	else if ( ISVTCDUAL )
 	{
-		SetMaxPower ( 1500 ); //MaxPower = 1500;
+		SetMaxPower ( 1500 );
 		gFlags.batt_unk = 1;
 	}
 	else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX200S || ISRX23 )
 	{
-		SetMaxPower ( 2500 ); //MaxPower = 2500; //2280
+		SetMaxPower ( 2500 );
 	}        
 	else if ( ISCUBOID || ISCUBO200 || ISINVOKE || ISSINFJ200 || ISRX2 || ISRX217 )
 	{
-		SetMaxPower ( 2000 ); //MaxPower = 2000;
+		SetMaxPower ( 2000 );
 	}
         else if ( ISGEN3 )
         {
@@ -622,11 +622,11 @@ __myevic__ void InitSetPowerVoltMax()
         }
 	else if ( ISRX300 )
 	{
-		SetMaxPower ( 4000 ); //MaxPower = 4000;
+		SetMaxPower ( 4000 );
 	}
 	else
 	{
-		SetMaxPower ( 750 ); //MaxPower = 750;
+		SetMaxPower ( 750 );
 	}
 
 	//MaxTCPower = MaxPower;    
@@ -731,7 +731,7 @@ __myevic__ void ResetDataFlash()
 //      dfContrast2 = 0;
 //	dfModesSel = 0;
 	dfClkRatio = RTC_DEF_CLK_RATIO;
-	dfVVRatio = VVEL_DEF_RATIO;
+	dfVVRatio = VVEL_DEF_RATIO; ////#define VVEL_DEF_RATIO	 170 //360
         dfPuffsOff = PUFFS_OFF_DEF;
         dfHideLogo = 3;
 	dfPreheatTime = 10;

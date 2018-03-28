@@ -160,7 +160,8 @@ typedef struct dfParams
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS]; //20
 /* 004E */	//uint8_t		Unused4E[38];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
-/* 0062 */	uint8_t		Unused4E[6];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 0062 */	uint8_t		Unused4E[2];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 0065 */      uint32_t	JoulesEnergy;                 // Joules for energy separated from Joules for vaped
 /* 0069 */      uint32_t	JoulesDay;                 // save for mods without clock battery
 /* 006D */	uint8_t		ThreeButtonsAct;        //action
 /* 006E */	uint8_t		StealthPuffsCnt;        //stealth delay in puffs
@@ -380,6 +381,7 @@ extern dfStruct_t DataFlash;
 #define dfScrChargeTime		DFP(ScrChargeTime)
 #define dfJoules		DFP(Joules)
 #define dfJoulesDay		DFP(JoulesDay)
+#define dfJoulesEnergy		DFP(JoulesEnergy)
 #define dfCurveRepeatTimer	DFP(CurveRepeatTimer)
 #define dfLEDColor		DFP(LEDColor)
 #define dfStatus		DFP(Status)

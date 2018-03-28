@@ -14,7 +14,7 @@
 #define SHUNT_MIN_VALUE	75
 #define SHUNT_MAX_VALUE	150
 
-#define VVEL_DEF_RATIO	 360
+#define VVEL_DEF_RATIO	 170 //360
 #define VVEL_MIN_RATIO	  50
 #define VVEL_MAX_RATIO	1000
 
@@ -85,6 +85,7 @@ extern uint16_t	CurveDelay;
 extern uint16_t NextPreheatTimer;
 extern uint32_t	MilliJoules;
 extern uint32_t	MilliJoulesDay;
+extern uint32_t	MilliJoulesEnergy;
 extern uint8_t	RezMillis;
 extern uint16_t	BypassVolts;
 

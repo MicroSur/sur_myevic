@@ -296,7 +296,8 @@ __myevic__ void InitRTC()
                 //MilliJoulesDay = RTCReadRegister( RTCSPARE_VV_MJOULESDAY );
 //	}
         if ( !MilliJoules ) MilliJoules = dfJoules;
-        if ( !MilliJoulesDay ) MilliJoulesDay = dfJoulesDay;      
+        if ( !MilliJoulesDay ) MilliJoulesDay = dfJoulesDay;
+        if ( !MilliJoulesEnergy ) MilliJoulesEnergy = dfJoulesEnergy;
         
         RTCWriteNextMidnight();
         
