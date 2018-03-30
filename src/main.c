@@ -335,7 +335,7 @@ __myevic__ void InitVariables()
         AtoTemp = CelsiusToF( dfColdLockTemp ); //70;
         
         if ( dfVapeDelayTimer > 3600 ) dfVapeDelayTimer = 0;
-        VapeDelayTimer = dfVapeDelayTimer;
+        //VapeDelayTimer = dfVapeDelayTimer;
         
         //test
         //gFlags.pbank = 1;
