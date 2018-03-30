@@ -627,8 +627,12 @@ __myevic__ void EventHandler()
 			}
 
 		//	myprintf( "StartFire\n" );
-                           
-			gFlags.firing = 1;
+
+                        if ( !VapeDelayTimer )
+                        {
+                            gFlags.firing = 1;
+                        }
+
 			FireDuration = 0;
                         CurveRepeatTimerDuration=0;
                         AtoRezMilliMin = AtoRezMilli;

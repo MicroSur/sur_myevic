@@ -186,6 +186,7 @@ const S_USBD_INFO_T usbdDescriptors =
 	usbdConfigHidDescIdx
 };
 
+/*
 const S_USBD_INFO_T usbdVCOMDescriptors =
 {
 	usbdDevice,
@@ -195,6 +196,7 @@ const S_USBD_INFO_T usbdVCOMDescriptors =
 	usbdHIDReportSize,
 	usbdConfigHidDescIdx
 };
+*/
 
 /*
 const S_USBD_INFO_T usbdMSCDescriptors =
@@ -233,7 +235,7 @@ __myevic__ void USBD_IRQHandler(void)
 			USBD_DISABLE_USB();
 		}
 
-		gCtrlSignal = 0;
+		//gCtrlSignal = 0; //vcom
 	}
 
 	//------------------------------------------------------------------
@@ -267,7 +269,7 @@ __myevic__ void USBD_IRQHandler(void)
 			USBD_ENABLE_USB();
 		}
 
-		gCtrlSignal = 0;
+		//gCtrlSignal = 0; //vcom
 	}
 
 	//------------------------------------------------------------------
@@ -332,7 +334,7 @@ __myevic__ void USBD_IRQHandler(void)
 			/* Clear event flag */
 			USBD_CLR_INT_FLAG(USBD_INTSTS_EP5);
 			// Interrupt IN
-			usbdEP5Handler();
+			//usbdEP5Handler(); //vcom
 		}
 
 		if(u32IntSts & USBD_INTSTS_EP6)
@@ -340,7 +342,7 @@ __myevic__ void USBD_IRQHandler(void)
 			/* Clear event flag */
 			USBD_CLR_INT_FLAG(USBD_INTSTS_EP6);
 			// Interrupt OUT
-			usbdEP6Handler();
+			//usbdEP6Handler();  //vcom
 		}
 
 		if(u32IntSts & USBD_INTSTS_EP7)
@@ -363,6 +365,7 @@ __myevic__ void usbdClassRequest()
 
 	USBD_GetSetupPacket( token );
 
+/*
 	if ( ( token[0] & 0x1F ) == 1 )
 	{
 		if (( dfStatus.vcom ) && ( token[4] == VCOM_INTERFACE ))
@@ -376,6 +379,7 @@ __myevic__ void usbdClassRequest()
 		//	return;
 		//}
 	}
+*/
 
 	if( token[0] & 0x80 )    /* request data transfer direction */
 	{
@@ -465,25 +469,30 @@ __myevic__ void SetupEndpoints()
 	USBD_SET_PAYLOAD_LEN(EP3, EP3_MAX_PKT_SIZE);
 
 	/*****************************************************/
+        
+
+/*
 	if ( dfStatus.vcom )
 	{
-		/* EP4 ==> Interrupt IN endpoint, address 3 */
+		// EP4 ==> Interrupt IN endpoint, address 3
 		USBD_CONFIG_EP(EP4, USBD_CFG_EPMODE_IN | VCOM_INT_IN_EP_NUM);
-		/* Buffer offset for EP4 ->  */
+		// Buffer offset for EP4 -> 
 		USBD_SET_EP_BUF_ADDR(EP4, EP4_BUF_BASE);
 
-		/* EP5 ==> Bulk IN endpoint, address 1 */
+		// EP5 ==> Bulk IN endpoint, address 1
 		USBD_CONFIG_EP(EP5, USBD_CFG_EPMODE_IN | VCOM_BULK_IN_EP_NUM);
-		/* Buffer offset for EP5 */
+		// Buffer offset for EP5
 		USBD_SET_EP_BUF_ADDR(EP5, EP5_BUF_BASE);
 
-		/* EP6 ==> Bulk Out endpoint, address 2 */
+		// EP6 ==> Bulk Out endpoint, address 2
 		USBD_CONFIG_EP(EP6, USBD_CFG_EPMODE_OUT | VCOM_BULK_OUT_EP_NUM);
-		/* Buffer offset for EP6 */
+		// Buffer offset for EP6
 		USBD_SET_EP_BUF_ADDR(EP6, EP6_BUF_BASE);
-		/* trigger receive OUT data */
+		// trigger receive OUT data
 		USBD_SET_PAYLOAD_LEN(EP6, EP6_MAX_PKT_SIZE);
 	}
+*/
+        
 	//else if ( dfStatus.storage )
 	//{
 		/* EP5 ==> Bulk IN endpoint, address 1 */
@@ -507,29 +516,34 @@ __myevic__ void InitUSB()
 {
 	USBD_SwReset();
 
+/*
 	if ( dfStatus.vcom )
 	{
 		USBD_Open( &usbdVCOMDescriptors, usbdClassRequest+1, 0 );
 	}
+*/
 	//else if ( dfStatus.storage )
 	//{
 	//	USBD_Open( &usbdMSCDescriptors, usbdClassRequest+1, 0 );
 	//	USBD_SetConfigCallback( MSC_SetConfig );
 	//	MSC_Init();
 	//}
-	else
-	{
+        
+	//else
+	//{
 		USBD_Open( &usbdDescriptors, usbdClassRequest+1, 0 );
-	}
+	//}
 
 	SetupEndpoints();
 	USBD_Start();
 	NVIC_EnableIRQ( USBD_IRQn );
 
+/*
 	if ( dfStatus.vcom )
 	{
 		myputc = VCOM_Putc;
 	}
+*/
 
 }
 
@@ -1576,27 +1590,33 @@ __myevic__ void usbdEP3Handler()
 
 
 //-------------------------------------------------------------------------
+/*
 __myevic__ void usbdEP5Handler()
 {
-	if ( dfStatus.vcom )
-	{
-		VCOM_EP5Handler();
-	}
+	//if ( dfStatus.vcom )
+	//{
+	//	VCOM_EP5Handler();
+	//}
+        
 	//else if ( dfStatus.storage )
 	//{
 	//	MSC_EP5Handler();
 	//}
 }
+*/
 
 //-------------------------------------------------------------------------
+/*
 __myevic__ void usbdEP6Handler()
 {
-	if ( dfStatus.vcom )
-	{
-		VCOM_EP6Handler();
-	}
+	//if ( dfStatus.vcom )
+	//{
+	//	VCOM_EP6Handler();
+	//}
+    
 	//else if ( dfStatus.storage )
 	//{
 	//	MSC_EP6Handler();
 	//}
 }
+*/

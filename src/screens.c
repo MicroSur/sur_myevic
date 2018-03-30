@@ -687,7 +687,7 @@ __myevic__ int IsClockOnScreen()
 {
         return (  ( ( Screen == 1 ) && ( ( dfAPT == 8 ) || ( dfAPT3 == 8 ) ) )
 	//return (  ((( Screen == 1 ) || ( Screen == 2 )) && ( ( dfAPT == 8 ) || ( dfAPT3 == 8 ) ) )
-			|| (( Screen == 1 ) && ( dfStatus.clock ))
+			|| (( Screen == 1 ) && ( dfStatus.clock || VapeDelayTimer ))
 			|| (( Screen == 60 ) && ( dfScreenSaver == SSAVER_CLOCK ))
 			||  ( Screen == 103 )
 			||  ( Screen == 104 )

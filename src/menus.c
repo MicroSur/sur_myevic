@@ -192,16 +192,18 @@ __myevic__ int ProfileMenuOnEvent( int event )
 
 		case 15: // Single Fire
 			//if ( CurrentMenuItem != dfProfile ) 
-                            //need. enter in menu is single click (
-                            //u can not load current profile
-			//{
+
                             if ( IsProfileValid( CurrentMenuItem ) )
                             {
 				LoadProfile( CurrentMenuItem );
                                 dfProfile = CurrentMenuItem;
                                 Event = EVENT_EXIT_MENUS;
                             }
-                        //}
+                            else
+                            {
+                                EraseProfile( CurrentMenuItem );
+                                gFlags.refresh_display = 1;
+                            }
 			break;
 
 		case EVENT_LONG_FIRE:
@@ -211,19 +213,19 @@ __myevic__ int ProfileMenuOnEvent( int event )
 				{
                                     EraseProfile( CurrentMenuItem );
                                     gFlags.refresh_display = 1;
-                                    UpdateDFTimer = 50;
+                                    //UpdateDFTimer = 50;
 				}
                                 else {
                                     dfProfile = CurrentMenuItem;
                                     SaveProfile();
                                     //LoadProfile( CurrentMenuItem );   
-                                    UpdateDFTimer = 50;
+                                    //UpdateDFTimer = 50;
                                     
                                     Event = EVENT_EXIT_MENUS;
                                 }  
                         
 			//gFlags.refresh_display = 1;
-			//UpdateDFTimer = 50;                        
+			UpdateDFTimer = 50;                        
 			//Event = EVENT_EXIT_MENUS;
 			break;
 
@@ -304,9 +306,26 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
                         }
 			if ( sel && gFlags.edit_value )
 				InvertRect( 0, line, 63, line+12 );
-			break; 
-
-                case 9: //AutoPuffTimer
+			break;
+                        
+                case 7: // vape delay timer 0h:00m
+                        DrawFillRect( 40, line, 63, line+12, 0 );
+                        if ( dfVapeDelayTimer ) 
+                        {
+                            DrawValueRight( 48, line+2, dfVapeDelayTimer / 3600, 0, 0x0B, 1 );
+                            DrawImage( 48, line+2, 0xD7 );
+                            DrawValue( 51, line+2, dfVapeDelayTimer / 60 % 60, 0, 0x0B, 2 );
+                        }
+                        else 
+                        {
+                            DrawStringRight( String_Off, 63, line+2 );
+                        }
+                        
+			if ( sel && gFlags.edit_value )
+				InvertRect( 0, line, 63, line+12 );
+			break;
+                        
+                case 10: //AutoPuffTimer
                         DrawFillRect( 36, line, 63, line+12, 0 );
                         if ( dfStatus.endlessfire )
                         {
@@ -331,8 +350,14 @@ __myevic__ void VapingMenuOnClick()
 	{
 		case 5:	// Protec
 		case 6: // puffs off
-                case 9: // autopufftimers
+                case 10: // autopufftimers
 			gFlags.edit_value ^= 1;
+			break;
+                case 7: // vape delay
+                        if ( !VapeDelayTimer )
+                        {
+                            gFlags.edit_value ^= 1;
+                        }
 			break;
  
         }
@@ -344,8 +369,9 @@ __myevic__ void VapingMenuOnClick()
 __myevic__ int VapingMenuOnEvent( int event )
 {
 	int vret = 0;
-
-	if ( !gFlags.edit_value )
+        int holdtimer = dfVapeDelayTimer / 60; // in minutes
+        
+	if ( !gFlags.edit_value && event != EVENT_LONG_FIRE )
 		return vret;
 
 	switch ( event )
@@ -371,7 +397,18 @@ __myevic__ int VapingMenuOnEvent( int event )
 					vret = 1;
 					break;
                                         
-				case 9: // autopufftimers
+				case 7: // vape delay
+                                        //holdtimer = dfVapeDelayTimer / 60;
+					if ( ++holdtimer > 60 )
+					{
+						if ( KeyTicks < 5 ) holdtimer = 0;
+						else holdtimer = 60;
+					}
+                                        dfVapeDelayTimer = holdtimer * 60;   
+					vret = 1;
+					break;                                        
+                                        
+				case 10: // autopufftimers
 					if ( ++dfAutoPuffTimer > 251 ) // 25 sec max
 					{
 						if ( KeyTicks < 5 ) dfAutoPuffTimer = 10;
@@ -402,8 +439,19 @@ __myevic__ int VapingMenuOnEvent( int event )
 					}
 					vret = 1;
 					break;
+
+				case 7: // vape delay
+                                        //holdtimer = dfVapeDelayTimer / 60;
+					if ( --holdtimer < 0 )
+					{
+						if ( KeyTicks < 5 ) holdtimer = 60;
+						else holdtimer = 0;
+					}
+                                        dfVapeDelayTimer = holdtimer * 60;
+					vret = 1;
+					break;
                                         
-				case 9: // autopufftimers
+				case 10: // autopufftimers
 					if ( --dfAutoPuffTimer < 9 )
 					{                                                
 						if ( KeyTicks < 5 ) dfAutoPuffTimer = 250;
@@ -419,22 +467,31 @@ __myevic__ int VapingMenuOnEvent( int event )
 			{                    
                                 case 5: //protec
                                         dfProtec = 100;
-                                        gFlags.edit_value = 0;
+                                        //gFlags.edit_value = 0;
                                         vret = 1;
                                         break;
 
                                 case 6: //puffs off        
                                         dfPuffsOff = 13;  
-                                        gFlags.edit_value = 0;
+                                        //gFlags.edit_value = 0;
+                                        vret = 1;
+                                        break;
+
+                                case 7: //vape delay   
+                                        dfVapeDelayTimer = 0;
+                                        VapeDelayTimer = 0;
+                                        //gFlags.edit_value = 0;
                                         vret = 1;
                                         break;
                                         
-                                case 9: //autopufftimers     
+                                case 10: //autopufftimers     
                                         dfAutoPuffTimer = 20;  
-                                        gFlags.edit_value = 0;
+                                        //gFlags.edit_value = 0;
                                         vret = 1;
                                         break;        
-                        }  
+                        }
+                        
+                        gFlags.edit_value = 0;
                         break;                         
 	}
 
@@ -1193,13 +1250,13 @@ __myevic__ void BVOMenuIDraw( int it, int line, int sel )
 	{
 		for ( int i = 0 ; i < NumBatteries ; ++i )
 		{
-			DrawValue(  2 + 32 * ( i & 1 ), 100 + ( i >> 1 ) * 12, BattVolts[i], 2, 0x0B, 3 );
-			DrawImage( 23 + 32 * ( i & 1 ), 100 + ( i >> 1 ) * 12, 0x7D );
+			DrawValue(  2 + 32 * ( i & 1 ), 104 + ( i >> 1 ) * 12, BattVolts[i], 2, 0x0B, 3 );
+			DrawImage( 23 + 32 * ( i & 1 ), 104 + ( i >> 1 ) * 12, 0x7D );
 		}
 		ScreenRefreshTimer = 10;
 	}
 
-	if ( it >= CurrentMenu->nitems - 1 )
+	if ( it >= CurrentMenu->nitems - 2 )
 		return;
 
 	DrawFillRect( 22, line, 63, line+12, 0 );
@@ -1211,6 +1268,20 @@ __myevic__ void BVOMenuIDraw( int it, int line, int sel )
         
 	if ( gFlags.edit_value && sel )
 		InvertRect( 0, line, 63, line+12 );
+}
+
+__myevic__ void BVOMenuOnClick()
+{
+	switch ( CurrentMenuItem )
+	{
+		case 4:
+                    SetScreen( 54, 30 ); //need both for prevent auto-close
+                    FireClicksEvent = 34;
+                    break;
+
+                default:
+                    break;               
+	}
 }
 
 __myevic__ void DrawCUS( int x, int y, int v, uint8_t dp, uint8_t z, uint8_t nd )
@@ -1577,7 +1648,7 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
     
 	//if ( it >= CurrentMenu->nitems - 1 )
 	//	return;
-	if ( it < 1 || it > 7 )
+	if ( it < 1 || it > 6 )
 		return;
     
 	DrawFillRect( 32, line, 63, line+12, 0 );
@@ -1631,6 +1702,7 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
                                 InvertRect( 0, line, 63, line+12 );
 			break;
 
+/*
 		case 6:	// USB
 			if ( dfStatus.vcom )
 				DrawStringRight( String_COM, 63, line+2 );
@@ -1639,6 +1711,7 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 			else
 				DrawStringRight( String_HID, 63, line+2 );
 			break;
+*/
 
 /*
 		case 7:	// DBG
@@ -1656,7 +1729,7 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 		//		DrawString( String_OFF, 40, line+2 );
 		//	break;
                         
-                case 7:	// mod Temp
+                case 6:	// mod Temp
                     if ( AkkuTempFlag )
                     {
                         t = dfStatus.IsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
@@ -1685,7 +1758,10 @@ __myevic__ void ExpertMenuOnClick()
 		//	break;
                     
 		case 1:	// X32
-			dfStatus.x32off ^= 1;
+                        if ( gFlags.has_x32 )
+                        {
+                            dfStatus.x32off ^= 1;
+                        }
 			break;
                    
 		case 2:	// LSL
@@ -1709,9 +1785,9 @@ __myevic__ void ExpertMenuOnClick()
 		//	SetBatteryModel();
                         gFlags.edit_value ^= 1;
 			break;
-                        
+/*                        
 		case 6:	// USB
-/*
+
 			if ( dfStatus.vcom )
 			{
 				dfStatus.vcom = 0;
@@ -1725,11 +1801,11 @@ __myevic__ void ExpertMenuOnClick()
 			{
 				dfStatus.vcom = 1;
 			}
-*/
+
                         dfStatus.vcom ^= 1;
 			InitUSB();
 			break;
-                    
+*/                    
 		//case 7:	// DBG
 		//	dfStatus.dbgena ^= 1;
 		//	if ( ! dfStatus.dbgena ) gFlags.debug = 0;
@@ -1739,7 +1815,7 @@ __myevic__ void ExpertMenuOnClick()
 		//	dfStatus.nfe ^= 1;
 		//	break;
                         
-                case 7: //boart temp corr
+                case 6: //boart temp corr
                     
                     if ( ISSINFJ200 && !AkkuTempFlag && gFlags.edit_value )
                     {
@@ -1794,7 +1870,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
                                     vret = 1;
                                     break;
                                          
-                                case 7: //board temp corr
+                                case 6: //board temp corr
                                     if ( AkkuTempFlag )
                                     {
                                         if ( ++AkkuTemp > 70 )
@@ -1851,7 +1927,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
                                     vret = 1;
                                     break;
                                           
-                                case 7: //board temp corr
+                                case 6: //board temp corr
                                     if ( AkkuTempFlag )
                                     {
                                         if ( --AkkuTemp > 70 )
@@ -1896,7 +1972,7 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					vret = 1;
 					break;
                                         
-				case 7:	// board temp corr
+				case 6:	// board temp corr
                                     
                                         dfAkkuTempCorr = 0;
                                         gFlags.sample_atemp = 1;
@@ -2011,9 +2087,15 @@ __myevic__ int CoilsMenuOnEvent( int event )
 {
 	int vret = 0;
         
-        if (CurrentMenuItem == 2 && event == 15 )
+        if ( CurrentMenuItem == 2 ) //&& event == 15 )
         {
-            Event = EVENT_PROFILE_MENU;
+            CurrentMenu = &ProfileMenu;
+            CurrentMenuItem = dfProfile;
+            SetScreen( 102, 15 );
+            FireClicksEvent = EVENT_PROFILE_MENU;
+            //Event = EVENT_PROFILE_MENU;
+            
+            
             //CurrentMenu = &ProfileMenu;
             //CurrentMenuItem = dfProfile;
             //SetScreen( 102, 15 );  
@@ -3342,19 +3424,20 @@ const mdata_t BVO4Data =
 
 const menu_t BVOMenu =
 {
-	String_BVO,
+	String_Batteries,
 	&ExpertMenu,
 	0,
 	BVOMenuIDraw+1,
 	0,
+	BVOMenuOnClick+1, //0,
 	0,
-	0,
-	5,
+	6,
 	{
 		{ String_B1, &BVO1Data, 0, MACTION_DATA },
 		{ String_B2, &BVO2Data, 0, MACTION_DATA },
 		{ String_B3, &BVO3Data, 0, MACTION_DATA },
 		{ String_B4, &BVO4Data, 0, MACTION_DATA },
+                { String_AMP_s, 0, 0, MACTION_SUBMENU },//show batts volts                            
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -3593,20 +3676,20 @@ const menu_t ExpertMenu =
 	0,
 	ExpertMenuOnClick+1,
 	ExpertMenuOnEvent+1,
-	11,
+	10,
 	{
-                { String_BVO, &BVOMenu, 0, MACTION_SUBMENU },
+                { String_Batteries, &BVOMenu, 0, MACTION_SUBMENU },
                 { String_X32, 0, 0, 0 },
                 { String_LSL, 0, 0, 0 }, 
                 { String_SHR, 0, 0, 0 }, 
                 { String_UCH_s, 0, 0, 0 }, 
                 { String_BATT_s, 0, 0, 0 },        
-		{ String_USB, 0, 0, 0 },
+		//{ String_USB, 0, 0, 0 },
 		//{ String_DBG, 0, 0, 0 },
 		//{ String_PCT, 0, 0, 0 },
-                { String_TEMP_s, 0, 0, 0 },  
-                { String_CUS, &CUSMenu, 0, MACTION_SUBMENU },  
-                { String_MAX_s, &MAXMenu, 0, MACTION_SUBMENU },         
+                { String_TEMP_s, 0, 0, 0 },  //6
+                { String_CUS, &CUSMenu, 0, MACTION_SUBMENU },  //7
+                { String_MAX_s, &MAXMenu, 0, MACTION_SUBMENU },   //8      
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -3932,7 +4015,7 @@ const menu_t VapingMenu =
 	0,
 	VapingMenuOnClick+1,
 	VapingMenuOnEvent+1,
-	11,
+	12,
 	{
 		{ String_Preheat, &PreheatMenu, 0, MACTION_SUBMENU },
 		{ String_Curve, &CurveMenu, 0, MACTION_SUBMENU },
@@ -3940,10 +4023,11 @@ const menu_t VapingMenu =
                 { String_Modes, &ModesMenu, 0, MACTION_SUBMENU },
 		{ String_Vaped, 0, EVENT_SET_JOULES, MACTION_SUBMENU }, //ShowSetJoules()
                 { String_Prot, 0, 0, 0 },                        
-                { String_PuffsOff, 0, 0, 0 }, 
-                { String_VVLite, &VVLite, 0, MACTION_DATA }, 
-                { String_AutoFi, &APuffTime, 0, MACTION_DATA },  
-                { String_ATime, 0, 0, MACTION_DATA },        
+                { String_PuffsOff, 0, 0, 0 }, //6
+                { String_HoldFi, 0, 0, 0 },     //7   
+                { String_VVLite, &VVLite, 0, MACTION_DATA }, //8
+                { String_AutoFi, &APuffTime, 0, MACTION_DATA }, //9 
+                { String_ATime, 0, 0, MACTION_DATA },        //10
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -4476,7 +4560,7 @@ __myevic__ int MenuEvent( int event )
 		case 15:  //short fire
 			vret = 1;
 			break;
-
+                                              
 		case 39:
 			CurrentMenu = &TCRSetMenu;
 			CurrentMenuItem = 0;

@@ -334,6 +334,9 @@ __myevic__ void InitVariables()
         if ( !dfNewRezPerc ) dfNewRezPerc = 5;
         AtoTemp = CelsiusToF( dfColdLockTemp ); //70;
         
+        if ( dfVapeDelayTimer > 3600 ) dfVapeDelayTimer = 0;
+        VapeDelayTimer = dfVapeDelayTimer;
+        
         //test
         //gFlags.pbank = 1;
 }
@@ -754,8 +757,12 @@ __myevic__ void FlushAndSleep()
 
 void GoToSleep()
 {
-	gFlags.light_sleep = !( gFlags.has_x32 || dfStatus.lsloff || gFlags.noclock );
+	gFlags.light_sleep = !( gFlags.has_x32 
+                || dfStatus.lsloff || gFlags.noclock );
+        
+        if ( VapeDelayTimer ) gFlags.light_sleep = 1;
 
+        
 	ScreenOff();
 	LEDOff();
 	gFlags.firing = 0;
@@ -1072,10 +1079,10 @@ __myevic__ void Main()
             //}
 			}
 
-			if ( dfStatus.vcom )
-			{
-				VCOM_Poll();
-			}
+			//if ( dfStatus.vcom )
+			//{
+			//	VCOM_Poll();
+			//}
 		}
 
 		if ( gFlags.tick_100hz )
@@ -1122,7 +1129,7 @@ __myevic__ void Main()
                             gFlags.soft_charge = 0;
                         }
 
-			if (( dfStatus2.anim3d ) && ( Screen == 1 ) && ( dfMode != 6 ) && ( !EditModeTimer ) && !HideLogo && !SplashTimer )
+			if (( dfStatus2.anim3d ) && ( Screen == 1 ) && ( !EditModeTimer ) && !HideLogo && !SplashTimer ) //&& ( dfMode != 6 )
 			{
 				anim3d( 0 ); //logo
 			}

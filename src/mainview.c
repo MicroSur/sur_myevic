@@ -114,6 +114,8 @@ __myevic__ void DrawMode()
 
 __myevic__ void DrawPwrLine( int pwr, int line )
 {
+    //small info line
+    
 	if ( BLINKITEM(2) && PD2 && PD3 )
 		return;
         
@@ -233,7 +235,7 @@ __myevic__ void DrawVoltsLine( int volts, int line )
 	DrawValueRight( x, y, volts, 2, fset, 3 );
         
         if ( dfUIVersion == 0 )
-            DrawImage( x+1, y+yoff, 0x7D );
+            DrawImage( x+2, y+yoff, 0x7D );
 }
 
 
@@ -313,6 +315,21 @@ __myevic__ void DrawCoilLine( int line )
 
 //=============================================================================
 
+__myevic__ void DrawVapeHoldLine ()
+{
+    // hold vape timer
+	//DrawString( String_TIME_s, 0, line );
+        DrawFillRect( 0, 0, 63, 9, 0 );
+	DrawValueRight( 20, 1, VapeDelayTimer / 3600, 0, 0x0B, 0 );
+	DrawImage( 20, 1, 0xD7 );
+	DrawValue( 23, 1, VapeDelayTimer / 60 % 60, 0, 0x0B, 2 );
+	DrawImage( 35, 1, 0xD7 );
+	DrawValue( 38, 1, VapeDelayTimer % 60, 0, 0x0B, 2 );
+        InvertRect( 0, 0, 63, 9 );
+}
+
+//=============================================================================
+
 __myevic__ void DrawTimeCounterLine ( int line )
 {
 	DrawString( String_TIME_s, 0, line );
@@ -385,7 +402,7 @@ __myevic__ void DrawAPTLines()
         
         uint8_t a = i? dfAPT3 : dfAPT;
         int line = i? 80 : 97; 
-        
+        int ximg = 57;
         // Refresh every second
         ScreenRefreshTimer = 10; 
         
@@ -420,7 +437,7 @@ __myevic__ void DrawAPTLines()
 			DrawValue( 27, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 3 );                        
                     }
                     
-			DrawImage( 57, line+2, 0x9C );
+			DrawImage( ximg, line+2, 0x9C );
 			break;
 		}
 
@@ -489,7 +506,7 @@ __myevic__ void DrawAPTLines()
 		{
 			DrawString( String_VOUT_s, 0, line+2 );
 			DrawValue( 27, line, gFlags.firing?AtoVolts:0, 2, 0x1F, 3 );
-			DrawImage( 57, line+2, 0x7D );
+			DrawImage( ximg, line+2, 0x7D );
 			break;
 		}
                 
@@ -513,7 +530,7 @@ __myevic__ void DrawAPTLines()
                         {
                             DrawValue( 27, line, gFlags.firing?RTBattVolts:BatteryVoltage, 2, 0x1F, 3 );   
                         }
-			DrawImage( 57, line+2, 0x7D );
+			DrawImage( ximg, line+2, 0x7D );
 			break;
 		}
                 
@@ -543,7 +560,7 @@ __myevic__ void DrawAPTLines()
                         
                         t = dfStatus.IsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 			DrawValue( t>99?31:39, line, t, 0, 0x1F, t>99?3:2 );
-			DrawImage( 56, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
+			DrawImage( ximg-1, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
                         //ScreenRefreshTimer = 10;
 			break;
 		}
@@ -554,7 +571,7 @@ __myevic__ void DrawAPTLines()
 			//int nd = ( rez < 1000 ) ? 3 : 4;
 			DrawString( String_RES_s, 0, line+2 );
 			DrawValueRight( 55, line, rez, 3, 0x1F, 4 );
-			DrawImage( 56, line+2, 0xC0 );
+			DrawImage( ximg-1, line+2, 0xC0 );
 			// Refresh every second
 			//ScreenRefreshTimer = 10;
 			break;
@@ -564,7 +581,7 @@ __myevic__ void DrawAPTLines()
 		{
 			DrawImage( 0, line+2, 0xFA );
 			DrawValueRight( 55, line, BatteryIntRez, 3, 0x1F, 4 );
-			DrawImage( 56, line+2, 0xC0 );
+			DrawImage( ximg-1, line+2, 0xC0 );
 			break;
 		}
                 
@@ -575,7 +592,7 @@ __myevic__ void DrawAPTLines()
                         if ( !AtoRezMilli ) AtoTemp = 32;
                         int t = dfStatus.IsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
 			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
-			DrawImage( 56, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
+			DrawImage( ximg-1, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 			break;
 		}
                 
@@ -583,7 +600,7 @@ __myevic__ void DrawAPTLines()
 		{
 			DrawString( String_BATT_s, 0, line+2 );
                         DrawValueRight( 55, line+2, gFlags.firing?RTBVTotal:BattVoltsTotal, 2, 0x0B, 4 ); 
-                        DrawImage( 57, line+2, 0x7D );
+                        DrawImage( ximg, line+2, 0x7D );
 			break;
 		}
                 
@@ -591,7 +608,7 @@ __myevic__ void DrawAPTLines()
 		{
 			DrawImage( 0, line+2, 0xED );
                         DrawValueRight( 55, line, AtoRezMilliMin, 3, 0x1F, 4 ); 
-                        DrawImage( 56, line+2, 0xC0 );
+                        DrawImage( ximg-1, line+2, 0xC0 );
 			break;
 		}                 
 	}
@@ -612,23 +629,8 @@ __myevic__ void ShowFireDuration( int line )
 	DrawValue( x, line+1, FireDuration, 1, 0xB, 0 );
 	DrawImage( x + 15 + 6 * ( FireDuration > 99 ), line+1, 0x94 );
 	InvertRect( 1, line+1, 3 + 59 * FireDuration / dfProtec, line+8 );   
-/*
-	//DrawFillRect( 0, line, 63, line+15, 1 );
-	DrawFillRect( 0, line, 63, line+10, 0 );
-	x = ( FireDuration > dfProtec / 2 ) ? 5 : 38;
-	DrawValue( x, line+1, FireDuration, 1, 0xB, 0 );
-	DrawImage( x + 15 + 6 * ( FireDuration > 99 ), line+1, 0x94 );
-	InvertRect( 2, line, 2 + 59 * FireDuration / dfProtec, line+9 );        
 
-	DrawFillRect( 0, line, 63, line+15, 1 );
-	DrawFillRect( 1, line+1, 62, line+14, 0 );
-	x = ( FireDuration > dfProtec / 2 ) ? 5 : 38;
-	DrawValue( x, line+4, FireDuration, 1, 0xB, 0 );
-	DrawImage( x + 15 + 6 * ( FireDuration > 99 ), line+4, 0x94 );
-	InvertRect( 2, line+2, 2 + 59 * FireDuration / dfProtec, line+13 );
-*/
 }
-
 
 //=============================================================================
 __myevic__ void DrawInfoLines()
@@ -677,7 +679,8 @@ __myevic__ void DrawInfoLines()
     //return;
 
     
-	if ( Screen == 2 ) //firing
+	//if ( Screen == 2 ) //firing
+        if ( gFlags.firing )
 	{
 		switch ( dfMode )
 		{
@@ -741,10 +744,18 @@ __myevic__ void DrawInfoLines()
 			default:
 				break;
 		}
+                
+                if ( VapeDelayTimer && !EditModeTimer )
+                {
+                        DrawVapeHoldLine();
+                }
 	}
 
-	DrawCoilLine( 63 );
-        DrawAPTLines();;
+        if ( dfMode != 6 )
+            DrawCoilLine( 63 );
+        
+        DrawAPTLines();
+        
 }
 
 
@@ -887,6 +898,101 @@ __myevic__ void DrawPower( int pwr, int yp )
         }
 }
 
+//=============================================================================
+
+__myevic__ void ShowLogo( int place )
+{
+    int h = GetLogoHeight();
+    
+    if ( !place ) // 0
+    {
+        if ( !HideLogo )
+        {
+    			if ( dfStatus2.anim3d ) //&& !HideLogo )
+			{
+				anim3d( 1 );
+			}
+			else if ( dfStatus.clock ) //&& !HideLogo )
+			{                                 
+				if ( dfStatus.digclk != dfStatus2.digclk2 ) //D 01  M 10 
+				{
+                                        DrawFillRect( 0, 42, 63, 112, 0 );
+					DrawDigitClock( 62, 0 ); //60
+				}
+				else
+				{	//00 11 AD aM
+                                        DrawFillRect( 0, 44, 63, 127, 0 );
+					DrawClock( 54 );                         
+				}       
+			}
+                        else if ( !dfStatus.nologo && dfStatus.logomid ) //&& !HideLogo ) //mid logo
+			{
+                               //int h = GetLogoHeight();
+
+                                if ( h )
+                                {
+                                    DrawFillRect( 0, 42, 63, 112, 0 );
+                                    if ( h > 40 ) 
+                                    {
+                                        DrawLOGO( 0, 50 );
+                                    }
+                                    else 
+                                    {
+                                        DrawLOGO( 0, 56 );
+                                    } 
+                                }
+                        }
+                        else 
+                        {
+                                DrawInfoLines();
+                        } 
+        }
+        else
+        {
+                DrawInfoLines();
+        }
+    }
+    else //1 pic logo top
+    {
+
+                        int y = 0;
+                        int y2;
+                        
+                        if ( h )
+                        {
+                            if ( h > 40 )
+                            {
+                                if ( !( dfStatus2.anim3d || dfStatus.clock ) )
+                                {
+                                    if ( dfMode == 6 )
+                                    {
+                                        y2 = 72;
+                                        y = 10;
+                                    }
+                                    else if ( dfUIVersion == 0 )
+                                    {
+                                        y2 = 60;
+                                        y = 10;
+                                    }
+                                    else
+                                    {
+                                        y2 = 66;
+                                        y = 15;
+                                    }
+                                    
+                                    DrawFillRect( 0, 0, 63, y2, 0 );
+                                }
+                                
+                                DrawLOGO( 0, y ); //x y
+                            }
+                            else
+                            {
+                                DrawHLineDots( 0, 41, 63, 0 ); //erase 1-st main line
+                                DrawLOGO( 0, 0 ); //x y
+                            }
+                        }        
+    }
+}
 
 //=============================================================================
 
@@ -1009,132 +1115,18 @@ __myevic__ void ShowMainView()
                     //DrawVLine( i+4, 36 - 20 * p / MaxPower, 36, 1 );
 		}
 
-                
-                
-		//DrawString( String_MAX_s, 23, 15 );
-		//DrawString( String_MIN_s, 23, 97 );
-		//DrawHLine( 0, 18, 21, 1 );
-		//DrawHLine( 43, 18, 63, 1 );
-		//DrawHLine( 0, 100, 21, 1 );
-		//DrawHLine( 43, 100, 63, 1 );
-
-                DrawHLineDots( 0, 41, 63, 1 ); //upper line
-                //DrawHLineDots( 0, 113, 63, 1 );
-/*            
-		v15 = SearchSMARTRez( dfSavedCfgRez[(int)ConfigIndex] );
-		if ( v15 > 3 )
-		{
-			for ( i = 0;
-				  dfSavedCfgPwr[(int)ConfigIndex] / ( MaxPower / 15 ) > i;
-				  ++i )
-			{
-				DrawFillRect( 0, 89 - 5*i, 62, 90 - 5*i, 1 ); //94 95
-			}
-			if ( !i ) DrawBFLine( 89 ); //94
-		}
-		else
-		{
-			v20 = SMARTPowers[ 2 * v15 + 1 ] / (MaxPower / 15);
-			v17 = 94 - 5 * v20; //99
-			for ( j = 0; ; ++j )
-			{
-				v19 = dfSavedCfgPwr[(int)ConfigIndex] / (MaxPower / 15);
-				if ( v19 <= j )
-					break;
-				if ( v19 >= v20 && v20 - 1 <= j )
-					DrawBFLine( 89 - 5*j ); //94
-				else
-					DrawFillRect( 0, 89 - 5*j, 62, 90 - 5*j, 1 ); //94 95
-			}
-			if ( !j ) DrawBFLine(89); //94
-			DrawBFLine( v17 );
-			DrawHLine( 25, v17, 39, 0 ); //40
-			DrawHLine( 25, v17 + 1, 39, 0 ); //40
-			DrawString( String_BF_s, 27, v17 - 3 );
-		}
-*/
-
-                if ( gFlags.firing )
+                if ( !gFlags.firing )
                 {
-                        ShowFireDuration( 0 );
-                }
-                else
-                {
-                        pwr = dfSavedCfgPwr[(int)ConfigIndex];
+                        pwr = dfSavedCfgPwr[(int)ConfigIndex]; //show fixed power
                 }
                 
-		//if ( !ShowWeakBatFlag )
-		//{
-                       // sm_p = dfSavedCfgPwr[(int)ConfigIndex];
-/*
-			if ( sm_p >= 1000 )
-			{
-                                sm_p /= 10;
-                                sm_dt = 0;
-			}
-			else
-			{
-                                sm_dt = 1;
-			}
-*/
+                DrawPower( pwr, 12 );
+                // DrawAPTLines();
                         
-                        //DrawValue( 13, 101, sm_p, sm_dt, 0x1F, 3 ); //smart power
-			//DrawImage( 44, 103, 0xB2 ); // W
-                        //DrawValue( 13, 59, sm_p, sm_dt, 0x1F, 3 ); //smart power
-			//DrawImage( 44, 61, 0xB2 ); // W
-                        
-                        DrawPower( pwr, 12 );
-                        DrawAPTLines();
-                        
-                        //int r = dfSavedCfgRez[ConfigIndex];
-                        //DrawValue( 13, 75, r, 2, 0x1F, 3 );
-                        //DrawImage( 44, 77, 0xC0 );
-                        
-                        //DrawValue( 13, 91, AtoRezMilli / 10, 2, 0x1F, 3 );
-                        //DrawImage( 44, 93, 0xC0 );
-                        
-                //if ( !ShowWeakBatFlag )
-		//{                        
-                //        ShowBattery();
-/*
-			if ( !( gFlags.firing ) )
-			{
-				if ( !PD2 || !PD3 || ( KeyUpTimer && !EditModeTimer ) )
-				{
-					sm_p = dfSavedCfgPwr[(int)ConfigIndex];
-					if ( sm_p >= 1000 )
-					{
-						sm_p /= 10;
-						sm_dt = 0;
-					}
-					else
-					{
-						sm_dt = 1;
-					}
-					DrawValue( 11, 116, sm_p, sm_dt, 0x1F, 3 ); //smart power
-					DrawImage( 42, 118, 0xB2 );
-				}
-				else
-				{
-					ShowBattery();
-				}
-			}
-			else
-			{
-                                ShowBattery();
-                                ShowFireDuration( 0 ); 
-				//DrawValue( 10, 110, FireDuration, 1, 0x29, 2 );
-				//DrawImage( 40, 110, 0xB7 );
-			}
-*/
-		//}
-	}
+	} //dfMode == 6 
 
-	if ( dfMode != 6 )
-	{
-            
+           
             static int sx = 0; //pacman line
-                
             if ( ( gFlags.firing || gFlags.battery_charging ) && dfStatus.nologo )
             {
                 if ( sx % 2 ) 
@@ -1156,101 +1148,21 @@ __myevic__ void ShowMainView()
                 DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
             }
 
-//		DrawHLineDots( 0, 113, 63, 1 ); //second h-line
-//		ShowBattery();
-
-		if ( Screen == 2 || EditModeTimer )
-		{
+            if ( Screen == 2 || EditModeTimer )
+            {
 			DrawInfoLines();
-		}
-		else
-		{
-			if ( dfStatus2.anim3d && !HideLogo )
-			{
-				anim3d( 1 );
-			}
-			else if ( dfStatus.clock && !HideLogo )
-			{                                 
-				if ( dfStatus.digclk != dfStatus2.digclk2 ) //D 01  M 10 
-				{
-					DrawDigitClock( 62, 0 ); //60
-				}
-				else
-				{	//00 11 AD aM
-                                        DrawFillRect( 0, 44, 63, 127, 0 );
-					DrawClock( 54 );                         
-				}       
-			}
-                        else if ( !dfStatus.nologo && dfStatus.logomid && !HideLogo ) //mid logo
-			{
-                               int h = GetLogoHeight();
+            }
+            else
+            {
+                    ShowLogo( 0 );      
+            }
 
-                                if ( h )
-                                {
-                                    if ( h > 40 ) 
-                                    {
-                                        DrawLOGO( 0, 50 );
-                                    }
-                                    else 
-                                    {
-                                        DrawLOGO( 0, 56 );
-                                    } 
-                                }
-                        }
-                        else 
-                        {
-                                DrawInfoLines();
-                        }                              
-                }
-
-		if (( Screen == 1 ) && !HideLogo && !dfStatus.nologo && !dfStatus.logomid)
-		{
-			int h = GetLogoHeight();
-                        int y = 0;
-                        int y2;
-                        
-                        if ( h )
-                        {
-                            if ( h > 40 )
-                            {
-                                if ( !( dfStatus2.anim3d || dfStatus.clock ) )
-                                {
-                                    if ( dfUIVersion == 0 )
-                                    {
-                                        y2 = 60;
-                                        //DrawFillRect( 0, 45, 63, 60, 0 );   //erase 1-st info line
-                                        //DrawFillRect( 0, 0, 63, 60, 0 ); // erase with upper line
-                                        y = 10;
-                                    }
-                                    else
-                                    {
-                                        y2 = 66;
-                                        //DrawFillRect( 0, 10, 63, 66, 0 );   //erase space
-                                        //DrawFillRect( 0, 0, 63, 66, 0 );
-                                        y = 15;
-                                    }
-                                    
-                                    DrawFillRect( 0, 0, 63, y2, 0 );
-                                }
-                                
-                                DrawLOGO( 0, y ); //x y
-                            }
-                            else
-                            {
-                                DrawLOGO( 0, 0 ); //x y
-                            }
-                        }
-		}
-        }
+            if (( Screen == 1 ) && !HideLogo && !dfStatus.nologo && !dfStatus.logomid)
+            {
+                        ShowLogo( 1 ); //top pic logo
+            }
         
-//	if ( ShowProfNum )
-//	{
-//		DrawFillRect( 0, 108, 63, 127, 0 );
-//		DrawString( String_Profile, 12, 114 );
-//		DrawImage( 47, 114, dfProfile + 0x0C );
-//	}
-//	else 
-        
+       
         if ( ShowWeakBatFlag )
 	{
 		//DrawFillRect( 0, 108, 63, 127, 0 );
@@ -1258,8 +1170,11 @@ __myevic__ void ShowMainView()
 	}
         else
         {
-       		DrawHLineDots( 0, 113, 63, 1 ); //second h-line
-		ShowBattery();
+            if ( !( dfStatus.clock && !HideLogo && dfStatus.digclk == dfStatus2.digclk2 ) )
+            { //when not analog clock logo
+                    DrawHLineDots( 0, 113, 63, 1 ); //second h-line
+                    ShowBattery();
+            }
 
         }
 }
@@ -1339,8 +1254,6 @@ __myevic__ void DrawDigitClock( int line, int infoline )
 //=========================================================================
 __myevic__ void ShowSetJoules()
 {
-        //uint32_t vv; //, t;
-        
         DrawString( String_Vaped, 4, 5 );
         DrawHLine( 0, 16, 63, 1 );
         
@@ -1348,28 +1261,9 @@ __myevic__ void ShowSetJoules()
         DrawValueRight( 63, 24, dfVVRatio, 0, 0x1F, 0 );
         InvertRect( 32, 23, 62, 23+12 ); // ? DrawStringRightInv
 
-        //vv = ( MilliJoules / 3600 ) / 10;
-        //if ( vv > 9999 ) vv = 9999;                        
-        //DrawImage( 1, 75, 0xDE ); //energy
-        //DrawValueRight( 53, 73, vv, 2, 0x1F, 0 );
-        //DrawImageRight( 63, 73, 0x67 ); //wh
-        DrawEnergyLine( 73 );
-        //vv = GetVV(MilliJoules);
-        //DrawImage( 1, 43, 0xF9 ); //ml
-        //DrawValueRight( 53, 41, vv, 2, 0x1F, 0 );
-        //DrawImageRight( 62, 43, 0xCD ); //flask
         DrawVapedLine( 43 );
-                
-        //vv = GetVV(MilliJoulesDay);
-        //DrawImage( 1, 59, 0xF3 ); //mld
-        //DrawValueRight( 53, 57, vv, 2, 0x1F, 0 );
-        //DrawImageRight( 62, 59, 0xCD ); //flask
-        DrawVapedDayLine( 59 );
-                
-        //DrawStringCentered( String_Fire, 53 );
-	//DrawStringCentered( String_Exit, 64 );
-        
-        DrawTimeCounterLine( 89 );
-        
-        DrawPuffCounterLine( 105 );
+        DrawVapedDayLine( 60 );
+        DrawEnergyLine( 75 );
+        DrawTimeCounterLine( 92 );
+        DrawPuffCounterLine( 109 );    
 }

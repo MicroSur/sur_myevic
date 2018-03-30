@@ -673,11 +673,6 @@ __myevic__ void ResetDataFlash()
 //	dfUIVersion = 2;
 	dfAPT = 10;
 	dfAPT3 = 7;
-//	dfRezTI = 0;
-//	dfRezNI = 0;
-//	dfRezLockedTI = 0;
-//	dfRezLockedNI = 0;
-//	dfTiOn = 1;
 //	dfStealthOn = 0;
 //	dfTempCoefsNI = 201;
 //	dfTempCoefsTI = 101;
@@ -688,10 +683,6 @@ __myevic__ void ResetDataFlash()
 //      dfStatus.fireflip = 0;
 //      dfStatus.vvlite = 0;        //VVolt
 	dfStatus.nologo = 1;
-//	dfStatus.clock = 0;
-//	dfStatus.vcom = 0;
-//	dfStatus.storage = 0;
-//      dfStatus.autopuff = 0;
         dfAutoPuffTimer = 20;
 	dfStatus.x32off = X32Off;
 	dfStatus.onewatt = 1;
@@ -700,30 +691,17 @@ __myevic__ void ResetDataFlash()
         dfStatus2.splash1 = 1;      //splash on with box name
 //	dfStatus.battpc = 1;
 //        dfBattLine = 1;
-//      dfStatus.battv = 0;
-//	dfStatus.phpct = 0;
 	dfStatus.wakeonpm = 1;
-//	dfRezSS = 0;
-//	dfRezLockedSS = 0;
-//	dfRezTCR = 0;
-//	dfRezLockedTCR = 0;
-//	dfTCRIndex = 0;
 	dfScrMainTime = 5;          //index of ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
 //      dfDimTimeout = 20;          //see dfScrMainTime; set in GetMainScreenDuration()
-//      dfStealthPuffsCnt = 0;
-//      dfDimOffMode = 0;
         dfDimOffTimeout = 180;      //sleep timeout     
 	dfTCRM[0] = 90;
 	dfTCRM[1] = 100;
 	dfTCRM[2] = 110;
 	dfScreenSaver = SSAVER_SF;
-//	dfTCMode = 0;
 	dfScreenProt = 3;
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
 //	MemClear( dfSavedCfgPwr, sizeof(dfSavedCfgPwr) );
-//	dfFBBest = 0;
-//	dfFBSpeed = 0;
-//      dfTTBest = 0;
         dfTTSpeed = 2;
         dfColdLockTemp = 20;        //cels
         dfNewRezPerc = 5;           //%

@@ -457,7 +457,9 @@ __myevic__ void StopFire()
                     //                dfStatus.flipped ^= 1;
                     //                InitDisplay();
                     //        }
-                            
+                            //dfVapeDelayTimer = 70; //6000 = 60s (*100Hz)
+                            VapeDelayTimer = dfVapeDelayTimer;
+                            //UpdateDataFlash();
                             Event = 17;
                             
                         //    gFlags.refresh_display = 1;
@@ -2218,7 +2220,6 @@ __myevic__ void ResetResistance()
         LastAtoMillis = AtoMillis;     
                                 
         UpdateDFTimer = 50;
-        //UpdateDataFlash();
 }
 
 

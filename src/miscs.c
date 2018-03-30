@@ -905,18 +905,8 @@ __myevic__ void anim3d( int redraw_last )
             ClearScreenBuffer(); //DrawFillRect( 0, 0, 63, 127, 0 );
         } 
         else 
-        {
-            //int ry = 46;
-            //if ( !dfStatus.nologo && !dfStatus.logomid && GetLogoHeight() > 40 )
-            //{
-            //        ry = 47;
-                    //DrawFillRect( 0, 47, 63, 110, 0 );
-            //}
-            //else    
-            //{
-            //        DrawFillRect( 0, 46, 63, 110, 0 );  
-            //}
-            DrawFillRect( 0, 48, 63, 110, 0 );     
+        {  
+            DrawFillRect( 0, 42, 63, 112, 0 ); //clear space
         }
         
 	for ( int i = 0 ; i < object->nlines ; ++i )

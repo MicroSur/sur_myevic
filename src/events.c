@@ -878,7 +878,7 @@ __myevic__ int EvtSingleFire()
                 case 50:     // FW Version
                 case EVENT_SET_JOULES:    
 		{
-			vret = 1; // prevents immediate call of mainview
+			vret = 1; // need prevents immediate call of mainview
 		}
 		break;
 

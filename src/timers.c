@@ -23,7 +23,7 @@ volatile uint32_t	WarmUpCounter;
 uint16_t	SleepTimer;
 uint16_t	AutoPuffTimer;
 uint16_t	FadeOutTimer;
-
+uint16_t	VapeDelayTimer;
 
 
 //=========================================================================
@@ -159,7 +159,12 @@ __myevic__ void TMR3_IRQHandler()
 			gFlags.tick_2hz = 1;
 
 		if ( !(TMR3Counter % 10) )
+                {
 			gFlags.tick_1hz = 1;
+                        
+                        if ( VapeDelayTimer ) // need LSL
+                            --VapeDelayTimer ;
+                }
                 
                                         
                 if( USBD_IS_ATTACHED() && !gFlags.usb_attached )
@@ -178,6 +183,8 @@ __myevic__ void TMR3_IRQHandler()
 
 __myevic__ void TimedItems()
 {
+        //6000 = 60s (*100Hz)
+    
 	static  uint8_t BatAnimTimer = 0;
         uint8_t dfc;
         
@@ -203,7 +210,7 @@ __myevic__ void TimedItems()
 	{
 		if ( --EditModeTimer )
 		{
-			if ( !(EditModeTimer % 25) )
+			if ( !(EditModeTimer % 25) ) //25 - 2 times in sec
 			{
 				gFlags.draw_edited_item ^= 1;
 				gFlags.refresh_display = 1;

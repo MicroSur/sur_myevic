@@ -56,7 +56,7 @@ typedef struct
 /* 00000004 */	unsigned int flipped:1;     //lsls 0x1D
 /* 00000008 */	unsigned int nologo:1;      //lsls 0x1C 3-d bit for menu
 /* 00000010 */	unsigned int clock:1;       //lsls 0x1B 4
-/* 00000020 */	unsigned int vcom:1;        //lsls 0x1A
+/* 00000020 */	unsigned int vcom:1;        //lsls 0x1A // deleted
 /* 00000040 */	unsigned int autopuff:1;     //lsls 0x19 //was storage
 /* 00000080 */	unsigned int endlessfire:1;      //lsls 0x18
 
@@ -159,8 +159,8 @@ typedef struct dfParams
 /* 0022 */	uint16_t	VVLockedVolt;           // for vvlite: cold rez locked volt
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS]; //20
-/* 004E */	//uint8_t		Unused4E[38];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
-/* 0062 */	uint8_t		Unused4E[2];         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+///* 004E */                                          //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 0063 */	uint16_t	VapeHoldTimer;         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
 /* 0065 */      uint32_t	JoulesEnergy;                 // Joules for energy separated from Joules for vaped
 /* 0069 */      uint32_t	JoulesDay;                 // save for mods without clock battery
 /* 006D */	uint8_t		ThreeButtonsAct;        //action
@@ -382,6 +382,7 @@ extern dfStruct_t DataFlash;
 #define dfJoules		DFP(Joules)
 #define dfJoulesDay		DFP(JoulesDay)
 #define dfJoulesEnergy		DFP(JoulesEnergy)
+#define dfVapeDelayTimer	DFP(VapeHoldTimer)
 #define dfCurveRepeatTimer	DFP(CurveRepeatTimer)
 #define dfLEDColor		DFP(LEDColor)
 #define dfStatus		DFP(Status)
