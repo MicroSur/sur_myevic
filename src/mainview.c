@@ -929,18 +929,20 @@ __myevic__ void ShowLogo( int place )
 			{
                                //int h = GetLogoHeight();
 
-                                if ( h )
-                                {
+                                //if ( h )
+                                //{
                                     DrawFillRect( 0, 42, 63, 112, 0 );
-                                    if ( h > 40 ) 
-                                    {
-                                        DrawLOGO( 0, 50 );
-                                    }
-                                    else 
-                                    {
-                                        DrawLOGO( 0, 56 );
-                                    } 
-                                }
+                                    DrawLOGO( 0, 77 - h / 2 );
+                                    
+                                    //if ( h > 40 ) 
+                                    //{
+                                    //    DrawLOGO( 0, 50 );
+                                    //}
+                                    //else 
+                                    //{
+                                    //    DrawLOGO( 0, 56 );
+                                    //} 
+                                //}
                         }
                         else 
                         {

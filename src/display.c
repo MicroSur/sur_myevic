@@ -432,13 +432,13 @@ __myevic__ int GetLogoHeight()
 
 	img = (image_t*)DATAFLASH_LOGO_1306_BASE;
 
-	h = 0;
+	//h = 0;
 
-	if ( img->width == 64 )
-	{
+	//if ( img->width == 64 )
+	//{
 		h = img->height;
-		if ( h < 40 || h > 63 ) h = 0;
-	}
+		//if ( h < 40 || h > 63 ) h = 0;
+	//}
 
 	return h;
 }
@@ -453,8 +453,8 @@ __myevic__ void DrawLOGO( const int x, const int y )
 
 	img = (image_t*)DATAFLASH_LOGO_1306_BASE;
 
-	if ( img->width == 64 && img->height >= 40 && img->height <= 63 )
-	{
+	//if ( img->width == 64 && img->height >= 40 && img->height <= 63 )
+	//{
 		switch ( DisplayModel )
 		{
 			case 0:
@@ -465,7 +465,7 @@ __myevic__ void DrawLOGO( const int x, const int y )
 				SSD1327_Bitmap( x, y, img, 0 );
 				break;
 		}
-	}
+	//}
 }
 
 
