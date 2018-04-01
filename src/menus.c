@@ -512,7 +512,7 @@ __myevic__ void ScreenMenuIDraw( int it, int line, int sel )
 {
 	switch ( it )
 	{
-		case 5: //fire scr duration
+		case 6: //fire scr duration
 			DrawFillRect( 44, line, 63, line+12, 0 );
 			DrawImage( 58, line+2, 0x94 );
 			DrawValueRight( 57, line+2, dfFireScrDuration, 0, 0x0B, 0 );
@@ -527,7 +527,7 @@ __myevic__ void ScreenMenuOnClick()
 {
 	switch ( CurrentMenuItem )
 	{
-		case 5:	//fire scr duration
+		case 6:	//fire scr duration
 			gFlags.edit_value ^= 1;
 			break;     
 	}
@@ -547,7 +547,7 @@ __myevic__ int ScreenMenuOnEvent( int event )
 		case 2:	// Plus
 			switch ( CurrentMenuItem )
                         {
-				case 5: //fire scr duration
+				case 6: //fire scr duration
 					if ( ++dfFireScrDuration > 9 )
 					{
 						if ( KeyTicks < 5 ) dfFireScrDuration = 1;
@@ -561,7 +561,7 @@ __myevic__ int ScreenMenuOnEvent( int event )
 		case 3:	// Minus
 			switch ( CurrentMenuItem )
 			{
-				case 5: //fire scr duration
+				case 6: //fire scr duration
 					if ( --dfFireScrDuration < 1 )
 					{
 						if ( KeyTicks < 5 ) dfFireScrDuration = 9;
@@ -577,7 +577,7 @@ __myevic__ int ScreenMenuOnEvent( int event )
                 case EVENT_LONG_FIRE:
                         switch ( CurrentMenuItem )
 			{                    
-                                case 5: //fire scr duration
+                                case 6: //fire scr duration
                                         dfFireScrDuration = 2;
                                         gFlags.edit_value = 0;
                                         vret = 1;
@@ -2087,7 +2087,7 @@ __myevic__ int CoilsMenuOnEvent( int event )
 {
 	int vret = 0;
         
-        if ( CurrentMenuItem == 2 ) //&& event == 15 )
+        if ( CurrentMenuItem == 2 && event == 1 ) //&& event == 15 )
         {
             CurrentMenu = &ProfileMenu;
             CurrentMenuItem = dfProfile;
@@ -2375,17 +2375,17 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 
 __myevic__ void Object3DOnEnter()
 {
-	if ( dfStatus2.anim3d )
-		CurrentMenuItem = Object3D;
-	else
-		CurrentMenuItem = 0;
+	//if ( dfStatus2.anim3d )
+		CurrentMenuItem = Object3D - 1;
+	//else
+	//	CurrentMenuItem = 0;
 }
 
 __myevic__ void Object3DOnClick()
 {
-	Object3D = CurrentMenuItem ? : Object3D;
-	if ( CurrentMenuItem ) dfStatus2.anim3d = 1;
-	else dfStatus2.anim3d = 0;
+	Object3D = CurrentMenuItem + 1; // ? : Object3D;
+	//if ( CurrentMenuItem ) dfStatus2.anim3d = 1;
+	//else dfStatus2.anim3d = 0;
         
         UpdateDFTimer = 50;
 }
@@ -3171,9 +3171,9 @@ const menu_t Object3DMenu =
 	0,
 	Object3DOnClick+1,
 	0,
-	10,
+	9,
 	{
-		{ String_Off, 0, EVENT_PARENT_MENU, 0 }, //none
+		//{ String_Off, 0, EVENT_PARENT_MENU, 0 }, //none
                 { String_Square, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Tetra, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Box, 0, EVENT_PARENT_MENU, 0 },
@@ -3267,7 +3267,7 @@ const mdata_t Puff24 =
 	&dfStatus,
 	&BitDesc,
 	MITYPE_BIT,
-	19
+	19 //dfStatus.puffday reset puffs counters
 };
 const menu_t MiscsMenu =
 {
@@ -3723,6 +3723,14 @@ const mbitdesc_t TopBotDesc =
 	String_Top
 };
 
+const mdata_t Show3DData =
+{
+	&dfStatus2,
+	&BitDesc,
+	MITYPE_BIT,
+	0 //dfStatus2.anim3d on/off
+};
+
 const mdata_t LogoShowData =
 {
 	&dfStatus,
@@ -3768,7 +3776,8 @@ const menu_t LogoMenu =
 	0,
 	6,
 	{
-	        { String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
+	        //{ String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
+                { String_3D, &Show3DData, 0, MACTION_DATA },
                 { String_Clock, &OnModClock, 0, MACTION_DATA },  
                 { String_Logo, &LogoShowData, 0, MACTION_DATA },
 		{ String_Where, &LogoWhereData, 0, MACTION_DATA },
@@ -3794,14 +3803,14 @@ const menu_t ScreenMenu =
 	0,
 	ScreenMenuOnClick+1,
 	ScreenMenuOnEvent+1,
-	8,
+	9,
 	{
 		{ String_Contrast, 0, EVENT_EDIT_CONTRAST, MACTION_SUBMENU }, //0
 		{ String_Protection, &ScreenProtMenu, 0, MACTION_SUBMENU },
 		{ String_Saver, &ScreenSaveMenu, 0, MACTION_SUBMENU },
 		{ String_Logo, &LogoMenu, 0, MACTION_SUBMENU },
+                { String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
 		{ String_Invert, &ScreenInvData, EVENT_INVERT_SCREEN, MACTION_DATA },
-		//{ String_Miscs, &MiscsMenu, 0, MACTION_SUBMENU },
                 { String_FireScrDur, 0, 0, 0 },
                 { String_FiFlip, &FireFlip, 0, MACTION_DATA },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }

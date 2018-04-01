@@ -909,7 +909,7 @@ __myevic__ void ShowLogo( int place )
         if ( !HideLogo )
         {
     			if ( dfStatus2.anim3d ) //&& !HideLogo )
-			{
+			{           
 				anim3d( 1 );
 			}
 			else if ( dfStatus.clock ) //&& !HideLogo )
@@ -1127,7 +1127,7 @@ __myevic__ void ShowMainView()
 
            
             static int sx = 0; //pacman line
-            if ( ( gFlags.firing || gFlags.battery_charging ) && dfStatus.nologo )
+            if ( ( gFlags.firing || gFlags.battery_charging ) && HideLogo ) //dfStatus.nologo )
             {
                 if ( sx % 2 ) 
                 {
@@ -1170,10 +1170,13 @@ __myevic__ void ShowMainView()
 	}
         else
         {
-            if ( !( dfStatus.clock && !HideLogo && dfStatus.digclk == dfStatus2.digclk2 ) )
+            if ( gFlags.firing || 
+                    !( !HideLogo && !dfStatus2.anim3d && dfStatus.clock && dfStatus.digclk == dfStatus2.digclk2 ) )
             { //when not analog clock logo
+                
                     DrawHLineDots( 0, 113, 63, 1 ); //second h-line
                     ShowBattery();
+                    
             }
 
         }
