@@ -14,7 +14,7 @@
 #define SHUNT_MIN_VALUE	75
 #define SHUNT_MAX_VALUE	150
 
-#define VVEL_DEF_RATIO	 170 //360
+#define VVEL_DEF_RATIO	 300 //360
 #define VVEL_MIN_RATIO	  50
 #define VVEL_MAX_RATIO	1000
 
