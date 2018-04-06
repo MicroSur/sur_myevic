@@ -416,7 +416,8 @@ __myevic__ void DrawAPTLines()
                     	DrawString( gFlags.firing ? String_AMP_s : String_UCH_s, 0, line+2 );
                         if ( gFlags.firing ) 
                         {
-                            DrawValue( 27, line, AtoCurrent, 1, 0x1F, 3 );    
+                            //DrawValue( 27, line, AtoCurrent, 1, 0x1F, 3 );
+                            DrawValueRight( 55, line, AtoCurrent, 1, 0x1F, 0 );
                         }
                         else 
                         {
@@ -427,14 +428,17 @@ __myevic__ void DrawAPTLines()
                             } 
                             else
                             {
-                                DrawValue( 27, line, ChargeCurrent / 10, 2, 0x1F, 3 ); 
+                                //DrawValue( 27, line, ChargeCurrent / 10, 2, 0x1F, 3 ); 
+                                DrawValueRight( 55, line, ChargeCurrent / 10, 2, 0x1F, 3 );
                             }
                         }
                     } 
                     else 
                     {
 			DrawString( String_AMP_s, 0, line+2 );
-			DrawValue( 27, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 3 );                        
+			//DrawValue( 27, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 3 );  
+                        DrawValueRight( 55, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 0 );
+                        
                     }
                     
 			DrawImage( ximg, line+2, 0x9C );
@@ -922,7 +926,7 @@ __myevic__ void ShowLogo( int place )
 				else
 				{	//00 11 AD aM
                                         DrawFillRect( 0, 44, 63, 127, 0 );
-					DrawClock( 54 );                         
+					DrawClock( 53 );
 				}       
 			}
                         else if ( !dfStatus.nologo && dfStatus.logomid ) //&& !HideLogo ) //mid logo
@@ -1129,7 +1133,9 @@ __myevic__ void ShowMainView()
 
            
             static int sx = 0; //pacman line
-            if ( ( gFlags.firing || gFlags.battery_charging ) && HideLogo ) //dfStatus.nologo )
+            //if ( ( gFlags.firing || gFlags.battery_charging ) && HideLogo ) //dfStatus.nologo )
+            if ( ( gFlags.firing || gFlags.battery_charging ) 
+                    && ( HideLogo || ( dfStatus.nologo && !dfStatus2.anim3d && !dfStatus.clock ) ) )
             {
                 if ( sx % 2 ) 
                 {
@@ -1205,7 +1211,14 @@ __myevic__ void DrawClock( int line )
 
 	DrawLine( 32, c, 32 + (( sine( h ) * 15 ) >> 16 ), c - (( cosine( h ) * 15 ) >> 16 ), 1, 3 );
 	DrawLine( 32, c, 32 + (( sine( m ) * 21 ) >> 16 ), c - (( cosine( m ) * 21 ) >> 16 ), 1, 2 );
-	DrawLine( 32, c, 32 + (( sine( s ) * 23 ) >> 16 ), c - (( cosine( s ) * 23 ) >> 16 ), 1, 1 );
+        
+	//DrawLine( 32, c, 32 + (( sine( s ) * 23 ) >> 16 ), c - (( cosine( s ) * 23 ) >> 16 ), 1, 1 );
+
+        DrawLine( 32 - (( sine( s ) * 6 ) >> 16 ), 
+                c + (( cosine( s ) * 6 ) >> 16 ), 
+                32 + (( sine( s ) * 23 ) >> 16 ), 
+                c - (( cosine( s ) * 23 ) >> 16 ), 
+                1, 1 );
 }
 
 __myevic__ void DrawDigitClock( int line, int infoline )

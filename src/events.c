@@ -455,7 +455,8 @@ __myevic__ void GetUserInput()
 			++FireClickCount;
 			FireClicksEvent = 0;
 			Event = 0;
-
+                        HideLogo = dfHideLogo;
+                        
 			// Disable multi-click features in menus
 			if ( IsMenuScreen() )
 			{
@@ -1276,9 +1277,10 @@ __myevic__ int EvtMinusButton()
 
 __myevic__ int EvtToggleClock()
 {
+        HideLogo = 0;
 	dfStatus.clock ^= 1;
         dfStatus2.anim3d = 0;
-        HideLogo = 0;
+        ShowLogo( 0 );
 	UpdateDFTimer = 50;
 	MainView();
 	return 1;

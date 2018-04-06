@@ -26,6 +26,7 @@ extern const uint8_t ScrChargeTimes[4];
 
 extern void DrawClock();
 extern void DrawDigitClock(int line, int infoline);
+extern void ShowLogo( int place );
 
 extern uint32_t GetVV( uint32_t MJoules );
 

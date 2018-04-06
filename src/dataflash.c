@@ -702,14 +702,14 @@ __myevic__ void ResetDataFlash()
 	dfScreenProt = 3;
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
 //	MemClear( dfSavedCfgPwr, sizeof(dfSavedCfgPwr) );
-        dfTTSpeed = 2;
+//        dfTTSpeed = 2;
         dfColdLockTemp = 20;        //cels
         dfNewRezPerc = 5;           //%
 	dfContrast = 45;            //17%
 //      dfContrast2 = 0;
 //	dfModesSel = 0;
 	dfClkRatio = RTC_DEF_CLK_RATIO;
-	dfVVRatio = VVEL_DEF_RATIO; ////#define VVEL_DEF_RATIO	 170 //360
+	dfVVRatio = VVEL_DEF_RATIO; ////#define VVEL_DEF_RATIO	 300 //360
         dfPuffsOff = PUFFS_OFF_DEF;
         dfHideLogo = 3;
 	dfPreheatTime = 10;
