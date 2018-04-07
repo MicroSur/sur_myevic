@@ -10,6 +10,9 @@
 // End of APROM address (on a 128k chip)
 #define DATAFLASH_APROM_END			0x00020000
 
+//#define FMC_FLASH_PAGE_SIZE     0x800           /*!< Flash Page Size (2048 Bytes) */
+//#define FMC_LDROM_SIZE          0x1000          /*!< LDROM Size (4 kBytes)       */
+
 // Time & Puffs counters space
 #define DATAFLASH_TIMECNTR_BASE		(DATAFLASH_APROM_END-FMC_FLASH_PAGE_SIZE)
 #define DATAFLASH_PUFFCNTR_BASE		(DATAFLASH_TIMECNTR_BASE-FMC_FLASH_PAGE_SIZE)
@@ -19,6 +22,14 @@
 #define DATAFLASH_PARAMS_END		DATAFLASH_PUFFCNTR_BASE
 #define DATAFLASH_PARAMS_BASE		(DATAFLASH_PARAMS_END-DATAFLASH_PARAMS_SPACE)
 
+//  DATAFLASH_PARAMS_BASE 
+//= DATAFLASH_PARAMS_END - DATAFLASH_PARAMS_SPACE
+//= DATAFLASH_PUFFCNTR_BASE - 2*FMC_FLASH_PAGE_SIZE 
+//= DATAFLASH_TIMECNTR_BASE - FMC_FLASH_PAGE_SIZE - 2*FMC_FLASH_PAGE_SIZE 
+//= DATAFLASH_APROM_END - FMC_FLASH_PAGE_SIZE - FMC_FLASH_PAGE_SIZE - 2*FMC_FLASH_PAGE_SIZE 
+//= 0x20000 - 0x800 - 0x800 - 2*0x800
+//= 0x1E000
+        
 // Profiles
 #define DATAFLASH_PROFILES_SPACE	FMC_FLASH_PAGE_SIZE
 #define DATAFLASH_PROFILES_END		DATAFLASH_PARAMS_BASE
@@ -141,10 +152,10 @@ typedef struct dfParams
 /* 0009 */	uint8_t		BootFlag;
 /* 000A */	uint8_t		Mode;
 /* 000B */	uint8_t		Protec;			//	former 1-byte pad
-/* 000C */	uint16_t	Power;
-/* 000E */	uint16_t	Temp;
-/* 0010 */	uint16_t	TCPower;
-/* 0012 */	uint16_t	VWVolts;
+/* 000C */	uint16_t	Power;                  //df VW power set
+/* 000E */	uint16_t	Temp;                   //df TC temperature set
+/* 0010 */	uint16_t	TCPower;                //df TC power set
+/* 0012 */	uint16_t	AwakingTimer;           //was VWVolts
 /* 0014 */	uint8_t		APT;
 /* 0015 */	uint8_t		RezType;                // 1 2 may be in dfStatus bit
 /* 0016 */	uint8_t		TempAlgo;               // 1ni 2ti 3ss   4tcr for ni ti ss
@@ -268,12 +279,14 @@ dfInfos_t;
 // Second params block
 // 0x200 in dataflash
 //-------------------------------------------------------------------------
+//This part is stored in RAM only too/
+//how to write this to DF? todo 
 
 typedef struct
 {
 /* 0000 */      uint32_t	Build;
 /* 0004 */	uint8_t		RezVW;
-/* 0008 */
+/* 0005 */      
 }
 dfParams2_t;
 
@@ -360,7 +373,8 @@ extern dfStruct_t DataFlash;
 #define dfPower			DFP(Power)
 #define dfTemp			DFP(Temp)
 #define dfTCPower		DFP(TCPower)
-#define dfVWVolts		DFP(VWVolts)
+//#define dfVWVolts		DFP(VWVolts)
+#define dfAwakeTimer            DFP(AwakingTimer)
 #define dfAPT			DFP(APT)
 #define dfAPT3			DFP(APT3)
 #define dfRezType		DFP(RezType)
@@ -460,7 +474,7 @@ extern dfStruct_t DataFlash;
 #define dfSecond		DFI(Second)
 
 #define dfBuild         DFP2(Build)
-#define dfRezVW     DFP2(RezVW)
+#define dfRezVW         DFP2(RezVW)
 
 #define gPlayfield		DataFlash.playfield
 
@@ -479,6 +493,7 @@ extern uint8_t	ScrFlip;
 
 extern void InitDataFlash();
 extern void ResetDataFlash();
+//extern void InitVariables();
 extern void DFCheckValuesValidity();
 extern uint32_t CalcPageCRC( uint32_t *pu32Addr );
 extern void UpdateDataFlash();

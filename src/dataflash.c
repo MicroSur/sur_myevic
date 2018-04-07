@@ -16,7 +16,7 @@
 dfStruct_t DataFlash;
 
 uint8_t ParamsBackup[DATAFLASH_PARAMS_SIZE];
-
+//uint8_t ParamsBackup2[DATAFLASH_PARAMS_SIZE];
 
 //-------------------------------------------------------------------------
 // Global variables
@@ -662,7 +662,7 @@ __myevic__ void ResetDataFlash()
 	dfMagic = DFMagicNumber;       
 	dfMode = 4;
 	dfProtec = FIRE_PROTEC_DEF;
-	dfVWVolts = 300;
+//	dfVWVolts = 300; 
 	dfPower = 200;
 	dfTCPower = 300;
 	dfStatus.IsCelsius = 1;
@@ -1175,7 +1175,7 @@ __myevic__ void UpdateDataFlash()
 		WriteDataFlash( DATAFLASH_PARAMS_BASE, DataFlash.params );
 		FMC_DISABLE_ISP();
 		SYS_LockReg();
-	}
+	}      
 }
 
 

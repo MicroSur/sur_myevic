@@ -16,6 +16,9 @@ extern uint8_t	ShowWeakBatFlag;
 extern uint8_t	BatAnimLevel;
 //extern uint8_t	ShowProfNum;
 extern uint8_t	SplashTimer;
+extern uint16_t	AwakeTimer;
+
+extern int	SwitchOffCase; // why my mod auto switch off, 1 - puff, 2 awake time, 
 
 extern uint8_t	EditItemIndex;
 extern uint16_t	EditModeTimer;
@@ -321,6 +324,7 @@ extern const uint8_t String_Enable[];
 extern const uint8_t String_Reset[];
 extern const uint8_t String_Splash[];
 extern const uint8_t String_PuffsOff[];
+extern const uint8_t String_VapeTimeOff[];
 extern const uint8_t String_HoldFi[];
 extern const uint8_t String_FireScrDur[];
 extern const uint8_t String_Percent[];

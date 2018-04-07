@@ -308,7 +308,24 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 				InvertRect( 0, line, 63, line+12 );
 			break;
                         
-                case 7: // vape delay timer 0h:00m
+                case 7: // alive time off
+                        DrawFillRect( 40, line, 63, line+12, 0 );
+                        if ( dfAwakeTimer ) 
+                        {
+                            DrawValueRight( 48, line+2, dfAwakeTimer / 3600, 0, 0x0B, 1 );
+                            DrawImage( 48, line+2, 0xD7 );
+                            DrawValue( 51, line+2, dfAwakeTimer / 60 % 60, 0, 0x0B, 2 );
+                        }
+                        else 
+                        {
+                            DrawStringRight( String_Off, 63, line+2 );
+                        }
+                        
+			if ( sel && gFlags.edit_value )
+				InvertRect( 0, line, 63, line+12 );
+			break;
+                        
+                case 8: // vape delay timer 0h:00m
                         DrawFillRect( 40, line, 63, line+12, 0 );
                         if ( dfVapeDelayTimer ) 
                         {
@@ -325,7 +342,7 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 				InvertRect( 0, line, 63, line+12 );
 			break;
                         
-                case 10: //AutoPuffTimer
+                case 11: //AutoPuffTimer
                         DrawFillRect( 36, line, 63, line+12, 0 );
                         if ( dfStatus.endlessfire )
                         {
@@ -350,10 +367,11 @@ __myevic__ void VapingMenuOnClick()
 	{
 		case 5:	// Protec
 		case 6: // puffs off
-                case 10: // autopufftimers
+                case 7: // alive time off
+                case 11: // autopufftimers
 			gFlags.edit_value ^= 1;
 			break;
-                case 7: // vape delay
+                case 8: // vape delay
                         if ( !VapeDelayTimer )
                         {
                             gFlags.edit_value ^= 1;
@@ -370,6 +388,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 {
 	int vret = 0;
         int holdtimer = dfVapeDelayTimer / 60; // in minutes
+        int vapetimer = dfAwakeTimer / 60;
         
 	if ( !gFlags.edit_value && event != EVENT_LONG_FIRE )
 		return vret;
@@ -397,8 +416,17 @@ __myevic__ int VapingMenuOnEvent( int event )
 					vret = 1;
 					break;
                                         
-				case 7: // vape delay
-                                        //holdtimer = dfVapeDelayTimer / 60;
+				case 7: // alive time off
+					if ( ++vapetimer > 60 )
+					{
+						if ( KeyTicks < 5 ) vapetimer = 0;
+						else vapetimer = 60;
+					}
+                                        dfAwakeTimer = vapetimer * 60;   
+					vret = 1;
+					break;   
+                                        
+				case 8: // vape delay
 					if ( ++holdtimer > 60 )
 					{
 						if ( KeyTicks < 5 ) holdtimer = 0;
@@ -408,7 +436,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 					vret = 1;
 					break;                                        
                                         
-				case 10: // autopufftimers
+				case 11: // autopufftimers
 					if ( ++dfAutoPuffTimer > 251 ) // 25 sec max
 					{
 						if ( KeyTicks < 5 ) dfAutoPuffTimer = 10;
@@ -439,9 +467,18 @@ __myevic__ int VapingMenuOnEvent( int event )
 					}
 					vret = 1;
 					break;
-
-				case 7: // vape delay
-                                        //holdtimer = dfVapeDelayTimer / 60;
+                                        
+				case 7: // alive time off
+					if ( --vapetimer < 0 )
+					{
+						if ( KeyTicks < 5 ) vapetimer = 60;
+						else vapetimer = 0;
+					}
+                                        dfAwakeTimer = vapetimer * 60;
+					vret = 1;
+					break;
+                                        
+				case 8: // vape delay
 					if ( --holdtimer < 0 )
 					{
 						if ( KeyTicks < 5 ) holdtimer = 60;
@@ -451,7 +488,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 					vret = 1;
 					break;
                                         
-				case 10: // autopufftimers
+				case 11: // autopufftimers
 					if ( --dfAutoPuffTimer < 9 )
 					{                                                
 						if ( KeyTicks < 5 ) dfAutoPuffTimer = 250;
@@ -467,24 +504,27 @@ __myevic__ int VapingMenuOnEvent( int event )
 			{                    
                                 case 5: //protec
                                         dfProtec = 100;
-                                        //gFlags.edit_value = 0;
                                         vret = 1;
                                         break;
 
                                 case 6: //puffs off        
-                                        dfPuffsOff = 13;  
-                                        //gFlags.edit_value = 0;
-                                        vret = 1;
-                                        break;
-
-                                case 7: //vape delay   
-                                        dfVapeDelayTimer = 0;
-                                        VapeDelayTimer = 0;
-                                        //gFlags.edit_value = 0;
+                                        dfPuffsOff = 10;  
                                         vret = 1;
                                         break;
                                         
-                                case 10: //autopufftimers     
+                                case 7: // alive time off
+                                        dfAwakeTimer = 0;
+                                        AwakeTimer = 0;
+                                        vret = 1;
+                                        break;
+                                        
+                                case 8: //vape delay   
+                                        dfVapeDelayTimer = 0;
+                                        VapeDelayTimer = 0;
+                                        vret = 1;
+                                        break;
+                                        
+                                case 11: //autopufftimers     
                                         dfAutoPuffTimer = 20;  
                                         //gFlags.edit_value = 0;
                                         vret = 1;
@@ -501,8 +541,8 @@ __myevic__ int VapingMenuOnEvent( int event )
             if ( dfAutoPuffTimer == 9 || dfAutoPuffTimer == 251 )
                 dfStatus.endlessfire = 1;
             
-		UpdateDFTimer = 50;
-		gFlags.refresh_display = 1;
+            UpdateDFTimer = 50;
+            gFlags.refresh_display = 1;
 	}
 
 	return vret;
@@ -2747,11 +2787,14 @@ __myevic__ int MiscMenuOnEvent( int event )
 	{                       
                 case EVENT_LONG_FIRE:
 			//if ( CurrentMenuItem == 8 ) //reset dataflash
-                        //{ 
-                        	ResetDataFlash();
+                        { 
+                                int p = dfProfile;
+                                ResetDataFlash();
+                                dfProfile = p;                      
+                                //InitVariables();
                                 vret = 1;
                                 Event = EVENT_EXIT_MENUS;
-                        //}   
+                        }   
                         break;
 	}
         
@@ -4024,7 +4067,7 @@ const menu_t VapingMenu =
 	0,
 	VapingMenuOnClick+1,
 	VapingMenuOnEvent+1,
-	12,
+	13,
 	{
 		{ String_Preheat, &PreheatMenu, 0, MACTION_SUBMENU },
 		{ String_Curve, &CurveMenu, 0, MACTION_SUBMENU },
@@ -4033,10 +4076,11 @@ const menu_t VapingMenu =
 		{ String_Vaped, 0, EVENT_SET_JOULES, MACTION_SUBMENU }, //ShowSetJoules()
                 { String_Prot, 0, 0, 0 },                        
                 { String_PuffsOff, 0, 0, 0 }, //6
-                { String_HoldFi, 0, 0, 0 },     //7   
-                { String_VVLite, &VVLite, 0, MACTION_DATA }, //8
-                { String_AutoFi, &APuffTime, 0, MACTION_DATA }, //9 
-                { String_ATime, 0, 0, MACTION_DATA },        //10
+                { String_VapeTimeOff, 0, 0, 0 }, //7
+                { String_HoldFi, 0, 0, 0 },     //8   
+                { String_VVLite, &VVLite, 0, MACTION_DATA }, //9
+                { String_AutoFi, &APuffTime, 0, MACTION_DATA }, //10 
+                { String_ATime, 0, 0, MACTION_DATA },        //11
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

@@ -27,7 +27,7 @@ uint16_t	EditModeTimer;
 
 uint8_t		ShowWeakBatFlag;
 uint8_t		BatAnimLevel;
-
+int             SwitchOffCase;
 
 //=========================================================================
 // Change Screen
@@ -286,15 +286,15 @@ __myevic__ void DrawScreen()
 
 
 
-//if ( gFlags.debug & 1 )
+//onscreen debug
         
 // scr edges x,y       
 //        
-// 0,0       64,0
+// (DrawValue)   0,0 ...   64,0(DrawValueRight)
 //
 //
 //
-// 0,108 ... 64,108
+// (DrawValue) 0,108 ... 64,108(DrawValueRight)
         
 //DrawValue( 0, 108, Screen, 0, 0x01, 0 );
 //DrawValue( 20, 108, LastEvent, 0, 0x01, 0 );
@@ -318,7 +318,8 @@ __myevic__ void DrawScreen()
 //    DrawValue( 0, 37, mn, 0, 0x01, 0 );
 //    DrawValue( 0, 108, t, 0, 0x01, 0 );
 
-//DrawValue( 0, 108, MilliJoules, 0, 0x01, 0 );
+//DrawValueRight( 64, 108, gFlags.asleep ? 1 : 0, 0, 0x01, 0 );           
+//DrawValue( 0, 108, AwakeTimer, 0, 0x01, 0 );
 
 //DisplayRefresh(); //uncomment too
 
@@ -1219,8 +1220,21 @@ __myevic__ void ShowRTCAdjust()
 //=========================================================================
 __myevic__ void ShowGoodBye()
 {
+    
     //DrawStringCentered( String_Off, 63 );
     DrawStringCentered( ScreenDuration > 1 ? String_On : String_Off, 63 );
+    
+    switch ( SwitchOffCase )
+    {                       
+                case 1:
+                    DrawStringCentered( String_PuffsOff, 100 );
+                    break;
+                    
+                case 2:
+                    DrawStringCentered( String_VapeTimeOff, 100 );
+                    break;
+    }
+  
     gFlags.refresh_display = 1;
 }
 

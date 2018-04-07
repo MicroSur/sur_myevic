@@ -752,9 +752,9 @@ __myevic__ void usbdEP2Handler()
 //----- (00002C00) --------------------------------------------------------
 __myevic__ uint32_t hidResetParamCmd( CMD_T *pCmd )
 {
-	uint8_t p;
+	//uint8_t p;
 	//myprintf("Reset param\n");
-	p = dfProfile;
+	int p = dfProfile;
 	ResetDataFlash();
 	dfProfile = p;
 	gFlags.refresh_display = 1;

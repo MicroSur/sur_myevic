@@ -126,7 +126,7 @@ __myevic__ void SmartPowerPM( int plus )
         }
         
 	dfSavedCfgPwr[ConfigIndex] = spwr;
-	dfVWVolts = GetAtoVWVolts( spwr, AtoRez );
+	VWVolts = GetAtoVWVolts( spwr, AtoRez );
         
 }
 
@@ -800,7 +800,7 @@ __myevic__ void EventHandler()
                     //{
                                 if ( dfStatus.vvlite && !pc )
                                 {
-                                    if ( !dfVVLockedVolt ) dfVVLockedVolt = dfVWVolts;
+                                    if ( !dfVVLockedVolt ) dfVVLockedVolt = VWVolts;
                                     TargetVolts = dfVVLockedVolt;
                                 }
                                 else
@@ -1020,7 +1020,9 @@ __myevic__ void EventHandler()
                                     InitDisplay();
                                 }
                                 
-                                PuffsOffCount = 0;                    
+                                PuffsOffCount = 0;
+                                AwakeTimer = 0;
+                                
 				dfStatus.off = 1;
 				gFlags.refresh_display = 1;
 				//LEDOff();
@@ -1032,7 +1034,7 @@ __myevic__ void EventHandler()
 				}
 				else
 				{
-                                        SetScreen( 61, 2 ); //goodbye
+                                        SetScreen( 61, SwitchOffCase ? 4 : 2 ); //goodbye
 				//	Screen = 0;
 				//	SleepTimer = 0;
 				}
@@ -1367,7 +1369,7 @@ __myevic__ void EventHandler()
 					else if ( dfMode == 4 )
 					{
 						PowerMinus( &dfPower, AtoMinPower, AtoMaxPower );
-						dfVWVolts = GetAtoVWVolts( dfPower, AtoRez );
+						VWVolts = GetAtoVWVolts( dfPower, AtoRez );
                                                 dfVVLockedVolt = GetAtoVWVolts( dfPower, dfResistance );
 						//if ( ConfigIndex < 10 && !AtoError && AtoRez )
 						//{
@@ -1529,7 +1531,7 @@ __myevic__ void EventHandler()
 
 						case 4:
 							PowerPlus( &dfPower, AtoMinPower, AtoMaxPower );
-							dfVWVolts = GetAtoVWVolts( dfPower, AtoRez );
+							VWVolts = GetAtoVWVolts( dfPower, AtoRez );
                                                         dfVVLockedVolt = GetAtoVWVolts( dfPower, dfResistance );
 							//if ( ConfigIndex < 10 && !AtoError && AtoRez )
 							//{

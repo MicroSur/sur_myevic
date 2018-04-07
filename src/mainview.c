@@ -15,7 +15,7 @@ uint16_t	BypassVolts;
 uint8_t		HideLogo;
 //uint8_t		ShowProfNum;
 uint8_t		SplashTimer;
-
+uint16_t        AwakeTimer;
 
 //=============================================================================
 //----- (00001654) --------------------------------------------------------
@@ -30,7 +30,7 @@ __myevic__ void MainView()
 		Screen = 1;
 		ScreenDuration = GetMainScreenDuration();
                 gFlags.screen_on = 1;
-                //gFlags.asleep = 0;
+                
 	}
 	else // dfStatus.off
 	{
@@ -705,7 +705,7 @@ __myevic__ void DrawInfoLines()
                                 if ( dfStatus.vvlite )
                                     DrawVoltsLine( dfVVLockedVolt, 46 );
                                 else
-                                    DrawVoltsLine( dfVWVolts, 46 );
+                                    DrawVoltsLine( VWVolts, 46 );
                                 
 				break;
 			case 5:
@@ -739,7 +739,7 @@ __myevic__ void DrawInfoLines()
                                 if ( dfStatus.vvlite )
                                     DrawVoltsLine( dfVVLockedVolt, 46 );
                                 else
-                                    DrawVoltsLine( dfVWVolts, 46 );
+                                    DrawVoltsLine( VWVolts, 46 );
                             
 				break;
 			case 5:

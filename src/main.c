@@ -337,8 +337,13 @@ __myevic__ void InitVariables()
         if ( dfVapeDelayTimer > 3600 ) dfVapeDelayTimer = 0;
         //VapeDelayTimer = dfVapeDelayTimer;
         
+        VWVolts = 330;
+        //AwakeTimer = 0;
+        
         //test
         //gFlags.pbank = 1;
+        
+        //dfAwakeTimer = 20; //test 20 sec alive
 }
 
 
@@ -789,8 +794,7 @@ void GoToSleep()
 	DevicesOnOff( 0 ); //on
 	RTCWakeUp();
 	InitDisplay();
-       
-        //if ( !dfStatus.off ) gFlags.asleep = 1;
+
 }
 
 
@@ -801,18 +805,20 @@ __myevic__ void SleepIfIdle()
 	if ( !gFlags.firing && !NoEventTimer )
 	{
 		if ( ( Screen == 0 ) && ( SleepTimer == 0 ) && ( gFlags.user_idle ) )
-		{                  
+		{                                        
 			GoToSleep();
-
+                        
 			Set_NewRez_dfRez = 2;
 			AtoProbeCount = 0;
 			AtoRezMilli = 0;
                         PuffsOffCount = 0;
                         NextPreheatTimer = 0;
                         AutoPuffTimer = 0;
+                        AwakeTimer = 0;
                         gFlags.apuff = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();
+                        SwitchOffCase = 0;
                         
 			if ( dfDimOffMode == 1 || ( ( BatteryVoltage <= BatteryCutOff + 20 ) && !gFlags.usb_attached ) )
 			{
@@ -830,8 +836,13 @@ __myevic__ void SleepIfIdle()
                         
                         if ( ISSINFJ200 )
                             gFlags.sample_atemp = 1;
+                        
+                        
+                        gFlags.asleep = 1;
 		}
-		NoEventTimer = 200;
+                
+                
+		NoEventTimer = 200; //2s
 	}
 }
 
@@ -1199,7 +1210,11 @@ __myevic__ void Main()
 
 			DataFlashUpdateTick();
 			LEDTimerTick();
-                                               
+                        
+                        if ( !dfStatus.off && gFlags.asleep ) 
+                            gFlags.asleep = 0;
+                        
+                                                               
                         if ( !gFlags.MainContrast && Screen != 60 && Screen != 5 && Screen != 0 && !gFlags.firing ) //&& Screen != 2)
 			{
                                 DisplaySetContrast( dfContrast );
@@ -1427,6 +1442,16 @@ __myevic__ void Main()
 					}
 				}
 			}
+                        
+                        if ( dfAwakeTimer && !gFlags.asleep ) //&& !gFlags.battery_charging )
+                        {
+                                if ( ++AwakeTimer >= dfAwakeTimer )
+                                {
+                                    VapeDelayTimer = dfVapeDelayTimer;
+                                    SwitchOffCase = 2;
+                                    Event = 17;
+                                }
+                        }
 		}
 
 		EventHandler();

@@ -31,6 +31,7 @@ uint32_t	MaxCurrent;
 uint16_t	FireDuration;
 uint8_t         CurveRepeatTimerDuration;
 uint16_t	AtoTemp;
+uint16_t        VWVolts;
 uint16_t	AtoCurrent;
 uint16_t	AtoRez;
 uint8_t		AtoMillis;
@@ -447,33 +448,16 @@ __myevic__ void StopFire()
                         
                         if ( dfPuffsOff && ++PuffsOffCount >= dfPuffsOff )
                         {   
-                        // puffs counter limit - mod off
+                            // puffs counter limit - mod off
                             
-                        //    PuffsOffCount = 0;
-                        //    dfStatus.off = 1;
-                    //        if ( !gFlags.FireNotFlipped )
-                    //        {
-                    //                gFlags.FireNotFlipped = 1;
-                    //                dfStatus.flipped ^= 1;
-                    //                InitDisplay();
-                    //        }
                             //dfVapeDelayTimer = 70; //6000 = 60s (*100Hz)
-                            VapeDelayTimer = dfVapeDelayTimer;
-                            //UpdateDataFlash();
-                            Event = 17;
                             
-                        //    gFlags.refresh_display = 1;
-                        //    if ( gFlags.battery_charging )
-                        //    {
-			//	ChargeView();
-			//	BatAnimLevel = BatteryTenth;
-                        //    }   
-                        //    else
-                        //    {
-                        //        SetScreen( 61, 3 ); //goodbye
-				//Screen = 0;
-				//SleepTimer = 0;
-                        //    }                               
+                            VapeDelayTimer = dfVapeDelayTimer;
+                            
+                            SwitchOffCase = 1;
+                                    
+                            Event = 17;
+                                                          
                         }      
 		}             
 	}
@@ -734,7 +718,7 @@ __myevic__ void CheckMode()
 		if ( dfPower > 200 )
 		{
 			dfPower = 200;
-			dfVWVolts = GetAtoVWVolts( 200, AtoRez );
+			VWVolts = GetAtoVWVolts( 200, AtoRez );
 		}
 
 		if ( !gFlags.new_rez_ni  )
@@ -1278,7 +1262,7 @@ __myevic__ void TweakTargetVoltsVW()
 
         if ( dfStatus.vvlite && !pc )
         {
-            if ( !dfVVLockedVolt ) dfVVLockedVolt = dfVWVolts;
+            if ( !dfVVLockedVolt ) dfVVLockedVolt = VWVolts;
             TargetVolts = dfVVLockedVolt;
         }
         else
@@ -1558,7 +1542,7 @@ __myevic__ void SetAtoLimits()
 		if ( pwr < AtoMinPower ) pwr = AtoMinPower;
 		if ( pwr > AtoMaxPower ) pwr = AtoMaxPower;
 
-		dfVWVolts = GetAtoVWVolts( pwr, AtoRez );
+		VWVolts = GetAtoVWVolts( pwr, AtoRez );
                 dfVVLockedVolt = GetAtoVWVolts( pwr, dfResistance );
 
 		if ( dfMode == 6 ) //SMART
@@ -1806,8 +1790,8 @@ __myevic__ uint16_t RereadRez()
                 }
                 else
                 {
-                    dfVWVolts = GetAtoVWVolts( dfPower, dfResistance ); //AtoRez
-                    dfVVLockedVolt = dfVWVolts;
+                    VWVolts = GetAtoVWVolts( dfPower, dfResistance ); //AtoRez
+                    dfVVLockedVolt = VWVolts;
                 }
         //}
         return dfResistance;

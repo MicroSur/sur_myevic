@@ -160,7 +160,7 @@ typedef struct
 /* 00000100 */	int tick_1hz:1;
 /* 00000200 */	int playing_fb:1;
 /* 00000400 */	int has_x32:1;
-/* 00000800 */	int asleep:1;               //not used yet flag when mod sleep
+/* 00000800 */	int asleep:1;               //mod in sleep or off
 /* 00001000 */	int sample_atemp:1;         //was debug 
 /* 00002000 */	int noclock:1;
 /* 00004000 */	int read_bir:1;
