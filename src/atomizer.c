@@ -454,8 +454,7 @@ __myevic__ void StopFire()
                             
                             VapeDelayTimer = dfVapeDelayTimer;
                             
-                            SwitchOffCase = 1;
-                                    
+                            SwitchOffCase = 1;       
                             Event = 17;
                                                           
                         }      

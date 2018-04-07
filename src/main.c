@@ -818,7 +818,7 @@ __myevic__ void SleepIfIdle()
                         gFlags.apuff = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();
-                        SwitchOffCase = 0;
+                        //SwitchOffCase = 0;
                         
 			if ( dfDimOffMode == 1 || ( ( BatteryVoltage <= BatteryCutOff + 20 ) && !gFlags.usb_attached ) )
 			{
@@ -1443,9 +1443,9 @@ __myevic__ void Main()
 				}
 			}
                         
-                        if ( dfAwakeTimer && !gFlags.asleep ) //&& !gFlags.battery_charging )
+                        if ( dfAwakeTimer && !gFlags.asleep && !VapeDelayTimer ) //&& !gFlags.battery_charging )
                         {
-                                if ( ++AwakeTimer >= dfAwakeTimer )
+                                if ( ++AwakeTimer >= dfAwakeTimer && Screen < 100 )
                                 {
                                     VapeDelayTimer = dfVapeDelayTimer;
                                     SwitchOffCase = 2;

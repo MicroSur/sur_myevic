@@ -438,6 +438,7 @@ __myevic__ void DrawScreen()
 				// have been given to a long fire.
 				if ( !PE0 && gFlags.user_idle )
 				{
+                                        SwitchOffCase = 0;
 					Event = 17; //on-off mod
 				}
 				else

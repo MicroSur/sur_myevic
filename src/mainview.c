@@ -325,6 +325,19 @@ __myevic__ void DrawVapeHoldLine ()
 	DrawValue( 23, 1, VapeDelayTimer / 60 % 60, 0, 0x0B, 2 );
 	DrawImage( 35, 1, 0xD7 );
 	DrawValue( 38, 1, VapeDelayTimer % 60, 0, 0x0B, 2 );
+        
+        switch ( SwitchOffCase )
+        {
+            case 1:
+                DrawImage( 1, 1, 0xAB ); //P
+                break;
+                
+            case 2:
+                DrawImage( 1, 1, 0xAF ); //T
+                break;
+                    
+        }
+        
         InvertRect( 0, 0, 63, 9 );
 }
 

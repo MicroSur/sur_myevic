@@ -87,7 +87,6 @@ extern void ShowPowerCurve();
 extern void ShowSplash();
 
 extern void ShowFireDuration( int line );
-extern void ShowVapeDelayTime( int line );
 
 extern uint16_t GetScreenProtection();
 extern uint16_t GetMainScreenDuration();

@@ -210,6 +210,7 @@ __myevic__ void SetClicksAction( uint8_t num )
 							break;
 
 						case CLICK_ACTION_ON_OFF:
+                                                        if ( !dfStatus.off ) SwitchOffCase = 0; 
 							FireClicksEvent = 17;	// Switch On/Off
 							break;
 
@@ -493,13 +494,10 @@ __myevic__ void GetUserInput()
 					break;
 
                                 default:
+                                        SwitchOffCase = 0; 
                                         FireClicksEvent = 17; //not Event
                                         break;
                                             
-				//case 5:
-				//	Event = 17;	// Switch On/Off
-				//	break;
-
 				//case 7:
 				//	FireClicksEvent = 31;	// board temp screen from on state
 				//	break;
@@ -610,6 +608,7 @@ __myevic__ void GetUserInput()
                     }
                     else if ( dfThreeButtonsAct == CLICK_ACTION_ON_OFF )
                     {
+                        SwitchOffCase = 0;
                         Event = 17;
                     }
                 }
