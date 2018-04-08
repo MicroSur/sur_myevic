@@ -157,7 +157,7 @@ typedef struct dfParams
 /* 0010 */	uint16_t	TCPower;                //df TC power set
 /* 0012 */	uint16_t	AwakingTimer;           //was VWVolts
 /* 0014 */	uint8_t		APT;
-/* 0015 */	uint8_t		RezType;                // 1 2 may be in dfStatus bit
+/* 0015 */	uint8_t		RezType; // 1 2 may be in dfStatus bit
 /* 0016 */	uint8_t		TempAlgo;               // 1ni 2ti 3ss   4tcr for ni ti ss
 /* 0017 */	uint8_t		CUDelay;                // was isCelsius
 /* 0018 */	uint16_t	Resistance;
@@ -188,9 +188,9 @@ typedef struct dfParams
 /* 007F */	uint8_t		ShuntRez;		//	former 1-byte pad
 /* 0080 */	uint16_t	RezSS;
 /* 0082 */	uint8_t		RezLockedSS;
-/* 0083 */	uint8_t		UIVersion;
+/* 0083 */	uint8_t		UIVersion; // 0 1 now
 /* 0084 */	uint8_t		TCRIndex;
-/* 0085 */	uint8_t		ScrMainTime;	//	former 1-byte pad
+/* 0085 */	uint8_t		ScrMainTime;            //	former 1-byte pad
 /* 0086 */	uint16_t	TCRM[3];
 /* 008C */	uint16_t	RezTCR;
 /* 008E */	uint8_t		RezLockedTCR;
@@ -200,9 +200,9 @@ typedef struct dfParams
 /* 0092 */	uint16_t	SavedCfgRez[10];
 /* 00A6 */	uint16_t	SavedCfgPwr[10];
 /* 00BA */	uint16_t	FBBest;
-/* 00BC */	uint8_t		FBSpeed;
+/* 00BC */	uint8_t		FBSpeed; // todo del
 /* 00BD */	uint8_t		ColdLockTemp;
-/* 00BE */	uint8_t		Contrast;
+/* 00BE */	uint8_t		Contrast;               //value
 /* 00BF */	uint8_t		ModesSel;
 /* 00C0 */	uint16_t	ClkRatio;
 /* 00C2 */	uint16_t	VVRatio;
@@ -223,7 +223,7 @@ typedef struct dfParams
 /* 00E2 */	uint8_t		Profile;
 /* 00E3 */	int8_t		BVOffset[4];
 /* 00E8 */	uint16_t	TTBest;
-/* 00EA */	uint8_t		TTSpeed;        //  EC
+/* 00EA */	uint8_t		TTSpeed; //todo del      //  EC
 /* 00EB */	uint8_t		APT3;           //  ED
 /* 00EC */	uint8_t		PuffsOff;       //  EE
 /* 00ED */	uint8_t		HideLogo;       //  EF

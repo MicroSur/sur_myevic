@@ -1394,11 +1394,26 @@ __myevic__ void EventHandler()
 
 		case 2:		// + (plus or right) button
 		{
-			if ( dfStatus.off )
-			{
-				return;
-			}
+			//if ( dfStatus.off )
+			//{
+			//	return;
+			//}
 
+                        if ( dfStatus.off )
+			{
+                            if ( Screen == 61 ) // hide goodbye scr
+                            {
+                                Screen = 0;
+				SleepTimer = 0;
+                                gFlags.refresh_display = 1;
+                            }
+                            else if( !gFlags.battery_charging && Screen == 0 )
+                            {
+                                SetScreen( 61, SwitchOffCase ? 4 : 2 ); //goodbye
+                            }                           
+                        return;                       
+			}
+                        
 			if ( Screen == 0 || Screen == 60 )
 			{
 				if ( dfStatus.wakeonpm )

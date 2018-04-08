@@ -27,7 +27,7 @@ uint16_t	EditModeTimer;
 
 uint8_t		ShowWeakBatFlag;
 uint8_t		BatAnimLevel;
-int             SwitchOffCase;
+uint8_t         SwitchOffCase;
 
 //=========================================================================
 // Change Screen
@@ -319,7 +319,7 @@ __myevic__ void DrawScreen()
 //    DrawValue( 0, 108, t, 0, 0x01, 0 );
 
 //DrawValueRight( 64, 108, gFlags.asleep ? 1 : 0, 0, 0x01, 0 );           
-//DrawValue( 0, 108, AwakeTimer, 0, 0x01, 0 );
+//DrawValue( 0, 108, SwitchOffCase, 0, 0x01, 0 ); //SwitchOffCase AwakeTimer
 
 //DisplayRefresh(); //uncomment too
 
@@ -438,7 +438,7 @@ __myevic__ void DrawScreen()
 				// have been given to a long fire.
 				if ( !PE0 && gFlags.user_idle )
 				{
-                                        SwitchOffCase = 0;
+                                        SwitchOffCase = 3;
 					Event = 17; //on-off mod
 				}
 				else
@@ -1221,7 +1221,7 @@ __myevic__ void ShowRTCAdjust()
 //=========================================================================
 __myevic__ void ShowGoodBye()
 {
-    
+    //screen = 61
     //DrawStringCentered( String_Off, 63 );
     DrawStringCentered( ScreenDuration > 1 ? String_On : String_Off, 63 );
     
@@ -1234,6 +1234,10 @@ __myevic__ void ShowGoodBye()
                 case 2:
                     DrawStringCentered( String_VapeTimeOff, 100 );
                     break;
+                    
+                case 3:
+                    DrawStringCentered( String_LongFire, 100 );
+                    break;                    
     }
   
     gFlags.refresh_display = 1;

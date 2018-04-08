@@ -818,7 +818,6 @@ __myevic__ void SleepIfIdle()
                         gFlags.apuff = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();
-                        //SwitchOffCase = 0;
                         
 			if ( dfDimOffMode == 1 || ( ( BatteryVoltage <= BatteryCutOff + 20 ) && !gFlags.usb_attached ) )
 			{
