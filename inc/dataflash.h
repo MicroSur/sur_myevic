@@ -150,7 +150,7 @@ typedef struct dfParams
 /* 0004 */	uint32_t	HWVersion;
 /* 0008 */	uint8_t		Magic;                  // = DFMagicNumber;
 /* 0009 */	uint8_t		BootFlag;
-/* 000A */	uint8_t		Mode;
+/* 000A */	uint8_t		Mode;                   // 0 Ni, 1 Ti, 2 SS, 3 TCR, 4 pwr, 5 by, 6 smart
 /* 000B */	uint8_t		Protec;			//	former 1-byte pad
 /* 000C */	uint16_t	Power;                  //df VW power set
 /* 000E */	uint16_t	Temp;                   //df TC temperature set
@@ -189,13 +189,13 @@ typedef struct dfParams
 /* 0080 */	uint16_t	RezSS;
 /* 0082 */	uint8_t		RezLockedSS;
 /* 0083 */	uint8_t		UIVersion; // 0 1 now
-/* 0084 */	uint8_t		TCRIndex;
+/* 0084 */	uint8_t		TCRIndex;               // 0 m1, 1 m2, 2 m3
 /* 0085 */	uint8_t		ScrMainTime;            //	former 1-byte pad
 /* 0086 */	uint16_t	TCRM[3];
 /* 008C */	uint16_t	RezTCR;
 /* 008E */	uint8_t		RezLockedTCR;
 /* 008F */	uint8_t		ScreenSaver;
-/* 0090 */	uint8_t		TCMode;
+/* 0090 */	uint8_t		TCMode;                 // 0 1 2
 /* 0091 */	uint8_t		ScreenProt;		//	former 1-byte pad
 /* 0092 */	uint16_t	SavedCfgRez[10];
 /* 00A6 */	uint16_t	SavedCfgPwr[10];

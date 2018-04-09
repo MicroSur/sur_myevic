@@ -95,10 +95,10 @@ uint8_t PrevMenuItem;
 uint8_t CUSSaved = 0;
 uint8_t AkkuTempFlag = 0;
 const menu_t LogoMenu;
-const uint8_t *strSplash[] = { String_Off, String_On, String_Box };
-const uint8_t *modes[] = { String_NI, String_TI, String_SS, String_TC, String_PW, String_BY, String_SM };
-const uint8_t *strDMY[] = { String_DMY1, String_MDY, String_DMY2, String_YMD };
-const uint8_t strADM[4] = { 0x9C, 0x9F, 0xA8, 0x68 }; //A D M a
+//const uint8_t *strSplash[] = { String_Off, String_On, String_Box };
+//in sub! const uint8_t *modes[] = { String_NI, String_TI, String_SS, String_TC, String_PW, String_BY, String_SM };
+//const uint8_t *strDMY[] = { String_DMY1, String_MDY, String_DMY2, String_YMD };
+//const uint8_t strADM[4] = { 0x9C, 0x9F, 0xA8, 0x68 }; //A D M a
                             
 const mbitdesc_t BitDesc =
 {
@@ -153,24 +153,24 @@ __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
 	//if ( p->PCRC == 0xFFFF )
         if ( ( it != dfProfile ) && !IsProfileValid( it ) )
 		return;
-
+    
         dfParams_t *p = (dfParams_t*)( DATAFLASH_PROFILES_BASE + it * DATAFLASH_PARAMS_SIZE );
     
-	//const uint8_t *modes[] =
-	//	{ String_NI, String_TI, String_SS, String_TC, String_PW, String_BY, String_SM };
+	const uint8_t *modes[] =
+		{ String_NI, String_TI, String_SS, String_TC, String_PW, String_BY, String_SM };
 
-/*
-	if ( it == dfProfile )
-	{
-		mode = dfMode;
-		rez  = dfResistance;
-	}
-	else
-	{
-*/
+
+	//if ( it == dfProfile )
+	//{
+	//	mode = dfMode;
+	//	rez  = dfResistance;
+	//}
+	//else
+	//{
+
 		mode = p->Mode;
 		//rez  = p->Resistance;
-//	}
+	//}
     
     val  = p->Resistance;
     img = 0xC0;
@@ -194,7 +194,7 @@ __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
             img = 0x7E;
         }
     }
-       
+    
         DrawStringCentered( String_LongFire, 105 );
 	DrawStringCentered( String_Save, 116 );
         
@@ -887,8 +887,9 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 	{
 		case 4:	// Format
 		{
-			//const uint8_t *strings[] =
-			//	{ String_DMY1, String_MDY, String_DMY2, String_YMD };
+			const uint8_t *strDMY[] =
+				{ String_DMY1, String_MDY, String_DMY2, String_YMD };
+                        
 			int f = dfStatus.dfmt1 | ( dfStatus.dfmt2 << 1 );
 			const uint8_t *s = strDMY[f];
 			DrawFillRect( 28, line, 63, line+12, 0 );
@@ -900,7 +901,8 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 			DrawFillRect( 36, line, 63, line+12, 0 );
 			//DrawImageRight( 63, line+2, dfStatus.digclk ? 0x9F : 0x9C ); // D/A
                         
-                        //const uint8_t strADM[4] = { 0x9C, 0x9F, 0xA8, 0x68 }; //A D M a
+                        const uint8_t strADM[4] = { 0x9C, 0x9F, 0xA8, 0x68 }; //A D M a
+                        
 			int f = dfStatus.digclk | ( dfStatus2.digclk2 << 1 );  // 0 1 2 3
                         DrawImageRight( 63, line+2, strADM[f] ); 
 			break;
@@ -986,8 +988,7 @@ __myevic__ void IFMenuIDraw( int it, int line, int sel )
                 case 7: //splash 00 01 10
                         {
                             int f = dfStatus2.splash0 | ( dfStatus2.splash1 << 1 );  // 0 1 2 3
-                            //const uint8_t *strings[] =
-                            //String_Off, String_On, String_Box };
+                            const uint8_t *strSplash[] = { String_Off, String_On, String_Box };
                             const uint8_t *s = strSplash[f];
 
                             DrawStringRight( s, 63, line+2 );

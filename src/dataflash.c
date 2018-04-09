@@ -1848,6 +1848,7 @@ __myevic__ int IsProfileValid( int p )
 	dfParams_t *params;
 	if ( p >= DATAFLASH_PROFILES_MAX )
 		return 0;
+        
 	addr = DATAFLASH_PROFILES_BASE + p * DATAFLASH_PARAMS_SIZE;
 	params = (dfParams_t*)addr;
 	if (( params->Magic == DFMagicNumber ) && ( params->PCRC == CalcPageCRC( (uint32_t*)params ) ))

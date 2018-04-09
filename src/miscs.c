@@ -86,7 +86,7 @@ __myevic__ void ModeChange()
 			break;
 
 		default:
-                    	if ( dfRezVW )
+                    	if ( dfRezVW ) //not in DF
 			{
 				if ( dfStatus2.vwrezlock )
 				{
