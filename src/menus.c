@@ -134,21 +134,28 @@ const menu_t ProfileMenu;
 
 __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
 {
+    
+    	uint8_t mode;
+	//uint16_t rez;
+        uint16_t val;
+        int img;
+        int z;
+        static int trig = 0;
+        
 	if ( it >= DATAFLASH_PROFILES_MAX )
 		return;
 
-	dfParams_t *p = (dfParams_t*)( DATAFLASH_PROFILES_BASE + it * DATAFLASH_PARAMS_SIZE );
-
 	DrawImage( 4, line+2, 0x0C + it );
-	if ( sel ) InvertRect( 0, line, 13, line+12 );
+	if ( sel ) InvertRect( 0, line, 12, line+12 );
 
+        
+        ++trig;
 	//if ( p->PCRC == 0xFFFF )
         if ( ( it != dfProfile ) && !IsProfileValid( it ) )
 		return;
 
-	uint8_t mode;
-	uint16_t rez;
-
+        dfParams_t *p = (dfParams_t*)( DATAFLASH_PROFILES_BASE + it * DATAFLASH_PARAMS_SIZE );
+    
 	//const uint8_t *modes[] =
 	//	{ String_NI, String_TI, String_SS, String_TC, String_PW, String_BY, String_SM };
 
@@ -162,20 +169,45 @@ __myevic__ void ProfileMenuIDraw( int it, int line, int sel )
 	{
 */
 		mode = p->Mode;
-		rez  = p->Resistance;
+		//rez  = p->Resistance;
 //	}
-
+    
+    val  = p->Resistance;
+    img = 0xC0;
+    z = 2;
+    if ( trig >= 200 ) trig = 0; 
+                    
+    if ( trig < 100 ) 
+    {
+        if ( mode < 5 )
+        {
+                    if ( mode < 4 )
+                    {
+                        val  = p->TCPower;
+                    }
+                    else if ( mode == 4 )
+                    {
+                        val  = p->Power;
+                    }
+            z = 0;
+            val /= 10;
+            img = 0x7E;
+        }
+    }
+       
         DrawStringCentered( String_LongFire, 105 );
 	DrawStringCentered( String_Save, 116 );
         
 	if ( mode > 6 )
 		return;
 
-	DrawString( modes[mode], 18, line+2 );
-	DrawValue( 34, line+2, rez, 2, 0x0B, 3 );
-	DrawImage( 56, line+2, 0xC0 );
+	DrawString( modes[mode], 16, line+2 );
+	DrawValueRight( 55, line+2, val, z, 0x0B, 0 );
+	DrawImage( 56, line+2, img );
         
-        if ( it == dfProfile ) InvertRect( 16, line, 63, line+12 );
+        if ( it == dfProfile ) InvertRect( 14, line, 63, line+12 );
+        
+    gFlags.refresh_display = 1;
         
 }
 
@@ -282,6 +314,22 @@ __myevic__ void AlgoMenuOnClick()
 
 //-----------------------------------------------------------------------------
 
+__myevic__ void DrawVapingLine (int line, uint16_t val)
+{
+    //same for two
+    DrawFillRect( 40, line-2, 63, line+10, 0 );
+                        if ( val ) 
+                        {
+                            DrawValueRight( 48, line, val / 3600, 0, 0x0B, 1 );
+                            DrawImage( 48, line, 0xD7 );
+                            DrawValue( 51, line, val / 60 % 60, 0, 0x0B, 2 );
+                        }
+                        else 
+                        {
+                            DrawStringRight( String_Off, 63, line );
+                        }
+}
+
 __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 {
 	switch ( it )
@@ -290,8 +338,8 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 			DrawFillRect( 34, line, 63, line+12, 0 );
 			DrawImageRight( 63, line+2, 0x94 );
 			DrawValueRight( 57, line+2, dfProtec, 1, 0x0B, 0 );
-			if ( sel && gFlags.edit_value )
-				InvertRect( 0, line, 63, line+12 );
+			//if ( sel && gFlags.edit_value )
+			//	InvertRect( 0, line, 63, line+12 );
 			break;
                         
 		case 6: // puffs off mod
@@ -304,12 +352,15 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
                         {
                             DrawStringRight( String_Off, 63, line+2 );
                         }
-			if ( sel && gFlags.edit_value )
-				InvertRect( 0, line, 63, line+12 );
+			//if ( sel && gFlags.edit_value )
+			//	InvertRect( 0, line, 63, line+12 );
 			break;
                         
                 case 7: // alive time off
-                        DrawFillRect( 40, line, 63, line+12, 0 );
+                        //DrawFillRect( 40, line, 63, line+12, 0 );
+                        
+                        DrawVapingLine( line+2, dfAwakeTimer );
+/*
                         if ( dfAwakeTimer ) 
                         {
                             DrawValueRight( 48, line+2, dfAwakeTimer / 3600, 0, 0x0B, 1 );
@@ -320,13 +371,18 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
                         {
                             DrawStringRight( String_Off, 63, line+2 );
                         }
+*/
                         
-			if ( sel && gFlags.edit_value )
-				InvertRect( 0, line, 63, line+12 );
+			//if ( sel && gFlags.edit_value )
+			//	InvertRect( 0, line, 63, line+12 );
 			break;
                         
                 case 8: // vape delay timer 0h:00m
+                    
+                        DrawVapingLine( line+2, dfVapeDelayTimer );
+/*                        
                         DrawFillRect( 40, line, 63, line+12, 0 );
+
                         if ( dfVapeDelayTimer ) 
                         {
                             DrawValueRight( 48, line+2, dfVapeDelayTimer / 3600, 0, 0x0B, 1 );
@@ -337,9 +393,10 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
                         {
                             DrawStringRight( String_Off, 63, line+2 );
                         }
+*/
                         
-			if ( sel && gFlags.edit_value )
-				InvertRect( 0, line, 63, line+12 );
+			//if ( sel && gFlags.edit_value )
+			//	InvertRect( 0, line, 63, line+12 );
 			break;
                         
                 case 11: //AutoPuffTimer
@@ -354,10 +411,13 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
                             DrawValueRight( 57, line+2, dfAutoPuffTimer, 1, 0x0B, 0 );
                         }
                         
-                	if ( sel && gFlags.edit_value )
-				InvertRect( 0, line, 63, line+12 );    
+                	//if ( sel && gFlags.edit_value )
+			//	InvertRect( 0, line, 63, line+12 );    
                         break;             
 	}
+        
+        if ( sel && gFlags.edit_value )
+		InvertRect( 0, line, 63, line+12 );
 }
 
 
@@ -866,8 +926,6 @@ __myevic__ void ClockMenuOnClick()
 			if ( ++f > 3 ) f = 0;
 			dfStatus.dfmt1 = f & 1;
 			dfStatus.dfmt2 = f >> 1;
-			UpdateDFTimer = 50;
-			gFlags.refresh_display = 1;
 			break;
 		}
 
@@ -878,12 +936,11 @@ __myevic__ void ClockMenuOnClick()
 			if ( ++f > 3 ) f = 0;
 			dfStatus.digclk = f & 1;
 			dfStatus2.digclk2 = f >> 1;
-                        
-			UpdateDFTimer = 50;
-			gFlags.refresh_display = 1;
 			break;
                 }
 	}
+    UpdateDFTimer = 50;
+    gFlags.refresh_display = 1;        
 }
 
 
@@ -1107,32 +1164,11 @@ __myevic__ void PreheatIDraw( int it, int line, int sel )
 	}
 
 	DrawFillRect( 30, line, 63, line+12, 0 );
-
-/*
-	if ( v == 0 && it == 2 )
-	{
-		DrawString( String_Off, 45, line+2 );
-	}
-	else
-	{
-
-		DrawValueRight( 52, line+2, v, dp, 0x0B, 0 );
-		DrawImage( 54, line+2, img );
-	}
- */
-
-       // if ( it == 3 )
-       // {
-        
+       
         DrawValueRight( 54, line+2, v, dp, 0x0B, 0 );
         DrawImageRight( 63, line+2, img );
         
-       // }
-       // else {
-       //                 DrawValueRight( 52, line+2, v, dp, 0x0B, 0 );
-       //                 DrawImage( 54, line+2, img );
-       // }
-        
+       
 	if ( sel && gFlags.edit_value )
 		InvertRect( 0, line, 63, line+12 );
 }
@@ -1718,8 +1754,8 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 			//DrawValue( 40, line+2, AtoShuntRez, 0, 0x0B, 3 );
                         ProbeAtomizer();
                         DrawValueRight( 63, line+2, AtoRezMilli, 3, 0x0B, 4 );
-			if ( gFlags.edit_value && sel )
-				InvertRect( 0, line, 63, line+12 );
+			//if ( gFlags.edit_value && sel )
+			//	InvertRect( 0, line, 63, line+12 );
 			break;                    
 
 		case 4:	// UCH
@@ -1738,8 +1774,8 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 
 		case 5:	// BAT profile
 			DrawStringRight( GetBatteryName(), 63, line+2 );
-                        if ( gFlags.edit_value && sel )
-                                InvertRect( 0, line, 63, line+12 );
+                        //if ( gFlags.edit_value && sel )
+                        //        InvertRect( 0, line, 63, line+12 );
 			break;
 
 /*
@@ -1781,13 +1817,16 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
                         
 			DrawValueRight( 54, line+2, t, 0, 0x0B, 0 ); //t>99?3:2
 			DrawImageRight( 63, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
-			if ( gFlags.edit_value && sel )
-				InvertRect( 0, line, 63, line+12 );
+			//if ( gFlags.edit_value && sel )
+			//	InvertRect( 0, line, 63, line+12 );
 			break; 
                         
 		default:
 			break;
 	}
+        
+        if ( gFlags.edit_value && sel )
+		InvertRect( 0, line, 63, line+12 );
 }
 
 __myevic__ void ExpertMenuOnClick()
