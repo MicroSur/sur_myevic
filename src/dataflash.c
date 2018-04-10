@@ -42,7 +42,7 @@ uint16_t	fmcCntrsIndex;
 
 const char pid_vtcmini	[8]	__PIDATTR__	= { 'E','0','5','2', 1, 1, 1, 0 };
 const char pid_vtwomini	[8]	__PIDATTR__	= { 'E','1','1','5', 1, 0, 1, 0 };
-const char pid_primomini[8]	__PIDATTR__	= { 'E','1','9','6', 1, 0, 0, 0 };
+const char pid_primomini[8]	__PIDATTR__	= { 'E','1','9','6', 1, 0, 1, 0 };
 const char pid_primose  [8]	__PIDATTR__	= { 'E','2','3','5', 1, 0, 0, 0 };
 const char pid_vtwo     [8]	__PIDATTR__	= { 'E','0','4','3', 1, 0, 1, 0 };
 const char pid_evicaio	[8]	__PIDATTR__	= { 'E','0','9','2', 1, 0, 1, 0 };
@@ -1503,10 +1503,22 @@ __myevic__ uint16_t GetShuntRezValue()
 				break;
 		}
 	}
-	else if ( ISPRIMOSE || ISPRIMOMINI )
+	else if ( ISPRIMOSE )
  	{
 		rez = 109;
 	}
+	else if ( ISPRIMOMINI )
+ 	{
+            	switch ( dfHWVersion )
+		{
+			case 100:
+                            rez = 109;
+                            break;
+			case 101:
+                            rez = 107;
+                            break;
+                }
+	}       
 	else if ( ISEGRIPII || ISEVICBASIC )
 	{
 		rez = 120;

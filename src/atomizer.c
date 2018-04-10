@@ -520,7 +520,8 @@ __myevic__ void ReadAtoCurrent()
 	//int s;
 
         if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 || ISRX2 
-                || ISINVOKE || ISSINP80 || ISSINFJ200 || ISRX217 )
+                || ISINVOKE || ISSINP80 || ISSINFJ200 || ISRX217 
+                || ( ISPRIMOMINI && dfHWVersion > 100 ) )
             c = 11; //lsrs B
         else
             c = 12;
@@ -823,8 +824,9 @@ __myevic__ void ReadAtomizer()
                 
 		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ADCShuntSum );
                 
-                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 ||
-                     ISRX2 || ISSINP80 || ISINVOKE || ISSINFJ200 || ISRX217 )  
+                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3
+                    || ISRX2 || ISSINP80 || ISINVOKE || ISSINFJ200 || ISRX217
+                    || ( ISPRIMOMINI && dfHWVersion > 100 ) )  
                 {
                     AtoRezMilli >>= 1; //AtoRezMilli /= 2;
                 }
