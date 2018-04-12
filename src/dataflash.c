@@ -680,7 +680,7 @@ __myevic__ void ResetDataFlash()
 	dfTCPower = 300;
 	dfStatus.IsCelsius = 1;
 	dfRezType = 1;
-	dfTempAlgo = 1;
+	dfTempAlgo = 4;
 	dfTemp = 200;
 //	dfResistance = 0;
 //	dfUIVersion = 2;

@@ -655,14 +655,14 @@ __myevic__ void EventHandler()
 					TCR = 120;
 					break;
 
-				case 4:
-					if ( dfMode == 3 || dfMode == 4 || dfMode == 5 ) //for power & bypass too
+				case 4: //tcr
+					if ( dfMode >= 3 ) //== 3 || dfMode == 4 || dfMode == 5 ) //for power & bypass smart too
 					{
-						TCR = dfTCRM[dfTCRIndex];
+						TCR = dfTCRM[dfTCRIndex]; //m1 m2 m3
 					}
-					else if ( dfMode < 3 )
+					else if ( dfMode < 3 ) //todo for power?
 					{
-						TCR = dfTCRP[dfMode];
+						TCR = dfTCRP[dfMode]; //not def tcr for ni ti ss
 					}
 					break;
 
