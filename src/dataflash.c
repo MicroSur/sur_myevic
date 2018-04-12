@@ -374,7 +374,7 @@ __myevic__ void SetProductID()
 			BoxModel = BOX_CUBOMINI;
 			ScrFlip = 1;
 			X32Off = 1;
-                        BoxName = "Cub min";                        
+                        BoxName = "Cub/m";                        
 			break;
 		}
 		else if ( u32Data == PID_CUBOID )
