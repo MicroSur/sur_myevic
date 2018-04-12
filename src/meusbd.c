@@ -772,7 +772,7 @@ __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
 	if ( UpdatePTTimer ) UpdatePTCounters();
 
 	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
-                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 || ISRX217 )
+                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 || ISRX217 || ISGEN2 )
 	{
 		PD7 = 0;                                            //48DC
 		BBC_Configure( BBC_PWMCH_CHARGER, 0 );              // 5 0
@@ -789,7 +789,7 @@ __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
                 {
                         PD1 = 0;                                    //48C4
                 }
-                else if ( ISRX2 || ISRX217 )
+                else if ( ISRX2 || ISRX217 || ISGEN2 )
                 {
                         PF2 = 0;                                    //4948
                 }
@@ -1378,7 +1378,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 					{
 						MemCpy( DataFlash.params, df->params, DATAFLASH_PARAMS_SIZE );
 
-						DFCheckValuesValidity();
+						//DFCheckValuesValidity();
 						UpdateDataFlash();
 					}
 /*

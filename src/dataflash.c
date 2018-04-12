@@ -69,6 +69,7 @@ const char pid_sinfj200 [8]	__PIDATTR__	= { 'J','0','0','9', 1, 0, 0, 0 };
 const char pid_rx2      [8]	__PIDATTR__	= { 'J','0','1','2', 1, 0, 0, 0 };
 const char pid_invoke   [8]	__PIDATTR__	= { 'M','0','9','5', 1, 0, 0, 0 };
 const char pid_rx217    [8]	__PIDATTR__	= { 'J','0','7','5', 1, 0, 0, 0 };
+const char pid_gen2     [8]	__PIDATTR__	= { 'J','0','5','9', 1, 0, 0, 0 };
 
 #define PID_SCRAMBLE 0x12345678UL
 #define MAKEPID(p) ((((p)[0])|((p)[1]<<8)|((p)[2]<<16)|((p)[3]<<24))^PID_SCRAMBLE)
@@ -105,6 +106,7 @@ const char pid_rx217    [8]	__PIDATTR__	= { 'J','0','7','5', 1, 0, 0, 0 };
 #define PID_RX2         MAKEPID(pid_rx2)
 #define PID_INVOKE      MAKEPID(pid_invoke)
 #define PID_RX217       MAKEPID(pid_rx217)
+#define PID_GEN2        MAKEPID(pid_gen2)
 
 #define HWV_VTCMINI	MAKEHWV(pid_vtcmini)
 #define HWV_VTWOMINI	MAKEHWV(pid_vtwomini)
@@ -135,7 +137,7 @@ const char pid_rx217    [8]	__PIDATTR__	= { 'J','0','7','5', 1, 0, 0, 0 };
 #define HWV_RX2         MAKEHWV(pid_rx2)
 #define HWV_INVOKE      MAKEHWV(pid_invoke)
 #define HWV_RX217       MAKEHWV(pid_rx217)
-
+#define HWV_GEN2        MAKEHWV(pid_gen2)
 
 //=========================================================================
 // Reset device to LDROM
@@ -304,25 +306,34 @@ __myevic__ void SetProductID()
                         BoxName = "FJ200";
 			break;
 		}
-                else if ( u32Data == PID_RX2 || u32Data == PID_RX217 )
+                else if ( u32Data == PID_RX2 || u32Data == PID_RX217 || u32Data == PID_GEN2 )
 		{
-			//DFMagicNumber = 0x12; //both
+			//DFMagicNumber = 0x12;
 			NumBatteries = 2;
 			MaxBatteries = 2;
                         MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
                         //ScrFlip = 1;
                         X32Off = 1;
-
-                        dfMaxHWVersion = HWV_RX2;
-                        BoxModel = BOX_RX2;
-                        BoxName = "RX2";
-                       
+                      
                         if ( u32Data == PID_RX217 )
                         {
                             dfMaxHWVersion = HWV_RX217;
                             BoxModel = BOX_RX217;
                             BoxName = "RX217";
+                        }
+                        else if ( u32Data == PID_GEN2 )
+                        {
+                            dfMaxHWVersion = HWV_GEN2;
+                            BoxModel = BOX_GEN2;
+                            BoxName = "Gen3D";
+                            ScrFlip = 1;
+                        }
+                        else
+                        {
+                            dfMaxHWVersion = HWV_RX2;
+                            BoxModel = BOX_RX2;
+                            BoxName = "RX2";
                         }
 			break;
 		}
@@ -595,38 +606,40 @@ __myevic__ void InitSetPowerVoltMax()
 	{
 		SetMaxPower ( 600 ); //MaxPower = 600;
 	}
-	else if ( ISPRIMOSE || ISPRIMOMINI || ISVTWO || ISEGRIPII || ISCUBOMINI || ISRXMINI || ISSINP80 )
-	{
-		SetMaxPower ( 800 );
-	}
-	else if ( ISPRESA100W )
-	{
-		SetMaxPower ( 1000 );
-	}
+	//else if ( ISPRIMOSE || ISPRIMOMINI || ISVTWO || ISEGRIPII || ISCUBOMINI || ISRXMINI || ISSINP80 )
+	//{
+	//	SetMaxPower ( 800 );
+	//}
+	//else if ( ISPRESA100W )
+	//{
+	//	SetMaxPower ( 1000 );
+	//}
 	else if ( ISVTCDUAL )
 	{
 		SetMaxPower ( 1500 );
 		gFlags.batt_unk = 1;
 	}
-	else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX200S || ISRX23 )
-	{
-		SetMaxPower ( 2500 );
-	}        
-	else if ( ISCUBOID || ISCUBO200 || ISINVOKE || ISSINFJ200 || ISRX2 || ISRX217 )
+	//else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX200S || ISRX23 )
+	//{
+	//	SetMaxPower ( 2500 );
+	//}        
+	else if ( ISCUBOID || ISCUBO200 || ISINVOKE || ISSINFJ200 || ISRX2 || ISRX217 
+                || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX200S || ISRX23 || ISGEN2 
+                || ISGEN3 || ISRX300 )
 	{
 		SetMaxPower ( 2000 );
 	}
-        else if ( ISGEN3 )
-        {
-                SetMaxPower ( 3000 );
-        }
-	else if ( ISRX300 )
-	{
-		SetMaxPower ( 4000 );
-	}
+        //else if ( ISGEN3 )
+        //{
+        //        SetMaxPower ( 3000 );
+        //}
+	//else if ( ISRX300 )
+	//{
+	//	SetMaxPower ( 4000 );
+	//}
 	else
 	{
-		SetMaxPower ( 750 );
+		SetMaxPower ( 800 );
 	}
 
 	//MaxTCPower = MaxPower;    
@@ -754,10 +767,10 @@ __myevic__ void ResetDataFlash()
 
 
 //=========================================================================
-
+/*
 __myevic__ void DFCheckValuesValidity()
 {   
-/*
+
 	int i,v;
 
         //dfDimOffTimeout
@@ -1011,9 +1024,9 @@ __myevic__ void DFCheckValuesValidity()
         if ( !dfNewRezPerc || dfNewRezPerc > 50 ) dfNewRezPerc = 5;
         
         if ( dfBattVolt < 250 || dfBattVolt > 420 ) dfBattVolt = 420 ;
-*/
-}
 
+}
+*/
 
 //=========================================================================
 //----- (000018D0) --------------------------------------------------------
@@ -1337,11 +1350,11 @@ __myevic__ void InitDataFlash()
 */
 
 
-	if ( ( dfMagic == DFMagicNumber ) && ( CalcPageCRC( DataFlash.params ) == dfCRC ) )
-	{
-		DFCheckValuesValidity();
-	}
-	else
+	if ( !( ( dfMagic == DFMagicNumber ) && ( CalcPageCRC( DataFlash.params ) == dfCRC ) ) )
+	//{
+	//	DFCheckValuesValidity();
+	//}
+	//else
 	{
 		//myprintf( "Data Flash Re-Initialization\n" );
 		ResetDataFlash();
@@ -1451,7 +1464,7 @@ __myevic__ uint16_t GetShuntRezValue()
 {
 	uint16_t rez;
 
-	if ( ISPRESA75W || ISEVICAIO || ISRXMINI || ISSINP80 || ISSINFJ200 )
+	if ( ISPRESA75W || ISEVICAIO || ISRXMINI || ISSINP80 || ISSINFJ200 || ISGEN2 )
 	{
 		rez = 100;
 	}
@@ -1769,7 +1782,7 @@ __myevic__ void LoadProfile( int p )
 		*(uint32_t*)&d[offsetof(dfParams_t,Status)] = old_status | new_status;
                 *(uint32_t*)&d2[offsetof(dfParams_t,Status2)] = old_status2 | new_status2;                
                                 
-		DFCheckValuesValidity();
+		//DFCheckValuesValidity();
 		ApplyParameters();
 	}
 

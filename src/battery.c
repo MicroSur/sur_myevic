@@ -396,7 +396,7 @@ __myevic__ uint32_t ReadBatterySample( int nbat )
 			{
 				sample = ADC_Read( 0 );
 			}
-			else if ( ISVTCDUAL || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISRX217 )
+			else if ( ISVTCDUAL || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISRX217 || ISGEN2 )
 			{
 				sample = ADC_Read( 4 );
 			}
@@ -652,7 +652,7 @@ __myevic__ void ChargeBalance()
 			PA3 = ( BBBits & 1 ) != 0;              // 480C
 			PA2 = ( BBBits & 2 ) != 0;              // 4808
                     }    
-                    else if ( ISRX300 || ISRX2 || ISSINFJ200 || ISRX217 )    
+                    else if ( ISRX300 || ISRX2 || ISSINFJ200 || ISRX217 || ISGEN2 )    
                     {        
                         PF5 = ( BBBits & 1 ) != 0;              // 4954
 			PF6 = ( BBBits & 2 ) != 0;              // 4958
@@ -685,7 +685,7 @@ __myevic__ void ChargeBalance()
                     }
                     
                 }
-                else if ( ISRX300 || ISRX2 || ISSINFJ200 || ISRX217 )
+                else if ( ISRX300 || ISRX2 || ISSINFJ200 || ISRX217 || ISGEN2 )
                 {
                     PF5 = 0;
                     PF6 = 0;
@@ -727,13 +727,15 @@ __myevic__ void ReadBatteryVoltage()
 
 		gFlags.sample_vbat = 0;
 
-		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 || ISRX217 )
+		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 || ISRX217 || ISGEN2 )
 		{
                         VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
 			if ( VbatSample2 ) 
                         {
                             if ( ISRX2 || ISSINFJ200 || ISRX217 ) 
                                 VbatSample2 += 3;
+                            else if ( ISGEN2 )
+                                VbatSample2 += 8;
                             else
                                 VbatSample2 += 4;
                         }
@@ -741,7 +743,12 @@ __myevic__ void ReadBatteryVoltage()
                         VbatSample1 = ( VbatSample1 >> 7 );
                                 
                         if ( !ISSINFJ200 ) 
-                            VbatSample1 += 2;  
+                        {
+                            if ( ISGEN2 )
+                                VbatSample1 += 4;
+                            else
+                                VbatSample1 += 2;  
+                        }
                         
 			BattVolts[0] = VbatSample1;
 
@@ -937,7 +944,7 @@ __myevic__ void ReadBatteryVoltage()
 		NewBatteryData();
                 
 		if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 
-                        || ISINVOKE || ISSINFJ200 || ISRX217 )
+                        || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 )
 		{
 			ChargeBalance();
 		}
@@ -1035,7 +1042,7 @@ __myevic__ int CheckBattery()
 
 			if ( bv2 < bv ) bv = bv2;
                 }
-                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 || ISRX217 )
+                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 || ISRX217 || ISGEN2 )
                 {
                     
 			bvtot = 139 * ReadBatterySample( 1 ) / 624;
@@ -1044,6 +1051,8 @@ __myevic__ int CheckBattery()
                         {
                                 if ( ISRX2 || ISSINFJ200 || ISRX217 ) 
                                     bvtot += 3;
+                                else if ( ISGEN2 )
+                                    bvtot += 8;                                 
                                 else
                                     bvtot += 4;                       
                         }
@@ -1051,7 +1060,12 @@ __myevic__ int CheckBattery()
 			bv = ( ReadBatterySample( 0 ) >> 3 );
                         
                         if ( !ISSINFJ200 )
-                            bv += 2;
+                        {
+                            if ( ISGEN2 )
+                                bv += 4;
+                            else
+                                bv += 2;
+                        }
                                                         
                         if ( bvtot <= bv )
 				bv2 = 0;
@@ -1592,7 +1606,7 @@ __myevic__ void BatteryPinsSet( int lh )
     {
             PD1 = lh;
     }
-    else if ( ISRX2 || ISRX217 )
+    else if ( ISRX2 || ISRX217 || ISGEN2 )
     {
             PF2 = lh;
     }
@@ -1622,7 +1636,7 @@ __myevic__ void BatteryCharge()
 	{
 		ChargeCurrent = 135 * ADCChargeCurrent / 360;
 	}
-        else if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 )
+        else if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 )
         {
             if ( ISINVOKE )
             {
@@ -1653,20 +1667,6 @@ __myevic__ void BatteryCharge()
 		BatteryStatus = 2; // Check Battery
                 
                 BatteryPinsSet (0);
-/*
-                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
-                {
-                    PD1 = 0;
-                }
-                else if ( ISRX2 )
-                {
-                    PF2 = 0;
-                }
-                else 
-                {
-                    PF0 = 0;
-                }
-*/
 	}
 	else if ( BatteryVoltage >= 250 )
 	{
@@ -1675,20 +1675,6 @@ __myevic__ void BatteryCharge()
 			BatteryStatus = 3; // Check USB Adapter
                         
                         BatteryPinsSet (0);
-/*
-			if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
-                        {
-                            PD1 = 0;
-                        }
-                        else if ( ISRX2 )
-                        {
-                            PF2 = 0;
-                        }                        
-                        else 
-                        {
-                            PF0 = 0;
-                        }
-*/
 		}
 		else
 		{
@@ -1704,20 +1690,6 @@ __myevic__ void BatteryCharge()
 				}
 
                                 BatteryPinsSet (1);              
-/*
-				if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
-                                {
-                                    PD1 = 1;
-                                }
-                                else if ( ISRX2 )
-                                {
-                                    PF2 = 1;
-                                }
-                                else 
-                                {
-                                    PF0 = 1;
-                                }                               
-*/
 			}
 		}
 	}
@@ -1743,20 +1715,6 @@ __myevic__ void BatteryCharge()
             BatteryStatus = 2;
             
             BatteryPinsSet (0);
-/*
-            if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
-            {
-                PD1 = 0;
-            }
-            else if ( ISRX2 )
-            {
-                PF2 = 0;
-            }
-            else
-            {
-		PF0 = 0;
-            }
-*/
 	}
 
 //myprintf( "BatStat=%d \n", BatteryStatus);
@@ -1801,9 +1759,6 @@ __myevic__ void BatteryCharge()
 			if ( ChargeStatus != 6 )
 			{
                                 SetScreen( 57, 2 );
-				//gFlags.refresh_display = 1;
-				//Screen = 57;	// USB Adapter Error
-				//ScreenDuration = 2;
 			}
 			ChargeStatus = 6; //no charge
 		}
@@ -1812,9 +1767,6 @@ __myevic__ void BatteryCharge()
 			if ( ChargeStatus != 6 )
 			{
                                 SetScreen( 58, 2 );
-				//gFlags.refresh_display = 1;
-				//Screen = 58;	// Charge Error
-				//ScreenDuration = 2;
 			}
 			ChargeStatus = 6; //no charge
 		}
@@ -1978,20 +1930,6 @@ __myevic__ void BatteryCharge()
 								BatteryStatus = 4;
                                                                 
                                                                 BatteryPinsSet (0);         
-/*
-								if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
-                                                                {
-                                                                    PD1 = 0;
-                                                                }
-                                                                else if ( ISRX2 )
-                                                                {
-                                                                    PF2 = 0;
-                                                                }
-                                                                else 
-                                                                {
-                                                                    PF0 = 0;
-                                                                }
-*/
                                                                 
 							}
 						}

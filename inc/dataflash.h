@@ -494,7 +494,7 @@ extern uint8_t	ScrFlip;
 extern void InitDataFlash();
 extern void ResetDataFlash();
 //extern void InitVariables();
-extern void DFCheckValuesValidity();
+//extern void DFCheckValuesValidity();
 extern uint32_t CalcPageCRC( uint32_t *pu32Addr );
 extern void UpdateDataFlash();
 extern void UpdatePTCounters();

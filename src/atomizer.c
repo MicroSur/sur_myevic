@@ -184,7 +184,7 @@ __myevic__ void InitPWM()
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
 
 	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
-                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 )
+                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 )
 	{
 		PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_CHARGER, BBC_PWM_FREQ, 0 );
 		PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_CHARGER );
@@ -205,7 +205,7 @@ __myevic__ void InitPWM()
                 {
                         MaxChargerDuty = 320;
                 }
-                else if ( ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 )
+                else if ( ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 )
                 {
                         MaxChargerDuty = 360;
                 }
@@ -385,7 +385,7 @@ __myevic__ void StopFire()
 	}
 	else if (   !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && 
                     !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && 
-                    !ISGEN3 && !ISINVOKE && !ISRX2 && !ISSINFJ200 && !ISRX217 )
+                    !ISGEN3 && !ISINVOKE && !ISRX2 && !ISSINFJ200 && !ISRX217 && !ISGEN2 )
 	{
 		GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT );  // 0x400040C0 0x80 0
                 // ISEGRIPII ISEVICAIO ISSINP80 
@@ -520,7 +520,7 @@ __myevic__ void ReadAtoCurrent()
 	//int s;
 
         if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 || ISRX2 
-                || ISINVOKE || ISSINP80 || ISSINFJ200 || ISRX217 
+                || ISINVOKE || ISSINP80 || ISSINFJ200 || ISRX217 || ISGEN2 
                 || ( ISPRIMOMINI && dfHWVersion > 100 ) )
             c = 11; //lsrs B
         else
@@ -825,7 +825,7 @@ __myevic__ void ReadAtomizer()
 		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ADCShuntSum );
                 
                 if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3
-                    || ISRX2 || ISSINP80 || ISINVOKE || ISSINFJ200 || ISRX217
+                    || ISRX2 || ISSINP80 || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 
                     || ( ISPRIMOMINI && dfHWVersion > 100 ) )  
                 {
                     AtoRezMilli >>= 1; //AtoRezMilli /= 2;
@@ -878,7 +878,7 @@ __myevic__ void ReadAtomizer()
 				}
 				return;
 			}
-			if ( AtoProbeCount <= 10 && AtoRezMilli > 3500 ) //3500 )
+			if ( AtoProbeCount <= 10 && AtoRezMilli > 3500 ) //3500 ) more if infin autofire? todo
 			{
 				AtoStatus = 3;
 				//myprintf( "RL_LARGE %d\n", AtoRezMilli );
@@ -1566,7 +1566,7 @@ __myevic__ void ProbeAtomizer()
                ( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
             || ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 ) && ( BatteryStatus == 2 || !PF0 ) )
             || ( ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE ) && ( BatteryStatus == 2 || !PD1 ) )
-            || ( ( ISRX2 || ISRX217 ) && ( BatteryStatus == 2 || !PF2 ) ) 
+            || ( ( ISRX2 || ISRX217 || ISGEN2 ) && ( BatteryStatus == 2 || !PF2 ) ) 
             || ( ISSINFJ200 && BatteryStatus == 2 )
             )
         {

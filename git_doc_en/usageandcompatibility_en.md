@@ -24,6 +24,7 @@
   * Reuleaux RX300
   * Sinuous (Predator) 228W
   * Reuleaux RX Gen3
+  * Reuleaux RX Gen3 Dual
   * RX2 20700
   * Sinuous P80
   * Sinuous FJ200 (not full)
