@@ -2,7 +2,7 @@
 #define __MYEVIC_H__
 
 #include "M451Series.h"
-#include "myprintf.h"
+//#include "myprintf.h"
 #include "dtmacros.h"
 
 //=========================================================================
@@ -182,7 +182,6 @@ typedef struct
 /* 08000000 */	int pbank:1;
 /* 10000000 */	int animready:1;
 }
-
 gFlags_t;
 
 extern volatile gFlags_t gFlags;
@@ -192,22 +191,18 @@ extern char *BoxName;
 //=========================================================================
 // Functions from assembly language part
 //-------------------------------------------------------------------------
-
+//in myevic.s
 extern void MemCpy( void*, const void*, const uint32_t );
 extern void MemCpy2( const void*, void*, const uint32_t );
 extern void MemClear( void*, const uint32_t );
 extern void MemClear2( void*, void*, const uint32_t );
 extern void MemSet( void*, const char, const uint32_t );
 
-extern void DrawHexDigit( int x, int y, int v );
-extern void DrawHexLong( int x, int y, int v, int font );
-
-//-------------------------------------------------------------------------
+//extern void DrawHexDigit( int x, int y, int v );
+//extern void DrawHexLong( int x, int y, int v, int font );
 
 extern uint32_t sqrtul( uint32_t v );
-extern uint32_t GetFirmwareSize();
-
-//extern const uint8_t  MaxBoardTemp;
+//extern uint32_t GetFirmwareSize();
 
 //=========================================================================
 #endif /* __MYEVIC_H__ */

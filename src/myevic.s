@@ -334,52 +334,52 @@ loc_8A8A:				@ ...
 
 		.section	.myevic
 
-		.global	DrawHexDigit
-
-DrawHexDigit:
-		and		r2, #0xF
-		add		r2, #1
-		cmp		r2, #0xB
-		blt		1f
-		add		r2, #0x5D
-1:		mov		r3, #1
-		b		DrawImage
-
-		.global	DrawHexDigit2
-
-DrawHexDigit2:
-		and		r2, #0xF
-		add		r2, #0x1F
-		cmp		r2, #0x29
-		blt		1f
-		add		r2, #0x73
-		add		r1, #2
-1:		mov		r3, #1
-		b		DrawImage
-
-		.global	DrawHexLong
-
-DrawHexLong:
-		push	{r4-r8,lr}
-		mov		r5, r0
-		mov		r6, r1
-		mov		r7, r2
-		mov		r8, r3
-		movs	r4, #28
-1:		lsr		r2, r4
-		mov		r3, r8
-		cbz		r3, 2f
-		bl		DrawHexDigit2
-		add		r5, #8
-		b		3f
-2:		bl		DrawHexDigit
-		add		r5, #6
-3:		mov		r0, r5
-		mov		r1, r6
-		mov		r2, r7
-		subs	r4, #4
-		bpl		1b
-		pop		{r4-r8,pc}
+@ 		.global	DrawHexDigit
+@ 
+@ DrawHexDigit:
+@ 		and		r2, #0xF
+@ 		add		r2, #1
+@ 		cmp		r2, #0xB
+@ 		blt		1f
+@ 		add		r2, #0x5D
+@ 1:		mov		r3, #1
+@ 		b		DrawImage
+@ 
+@ 		.global	DrawHexDigit2
+@ 
+@ DrawHexDigit2:
+@ 		and		r2, #0xF
+@ 		add		r2, #0x1F
+@ 		cmp		r2, #0x29
+@ 		blt		1f
+@ 		add		r2, #0x73
+@ 		add		r1, #2
+@ 1:		mov		r3, #1
+@ 		b		DrawImage
+@ 
+@ 		.global	DrawHexLong
+@ 
+@ DrawHexLong:
+@ 		push	{r4-r8,lr}
+@ 		mov		r5, r0
+@ 		mov		r6, r1
+@ 		mov		r7, r2
+@ 		mov		r8, r3
+@ 		movs	r4, #28
+@ 1:		lsr		r2, r4
+@ 		mov		r3, r8
+@ 		cbz		r3, 2f
+@ 		bl		DrawHexDigit2
+@ 		add		r5, #8
+@ 		b		3f
+@ 2:		bl		DrawHexDigit
+@ 		add		r5, #6
+@ 3:		mov		r0, r5
+@ 		mov		r1, r6
+@ 		mov		r2, r7
+@ 		subs	r4, #4
+@ 		bpl		1b
+@ 		pop		{r4-r8,pc}
 
 
 @ ---------------------------------------------------------------------------
@@ -389,21 +389,23 @@ HardFault_Handler:
 MemManage_Handler:
 BusFault_Handler:
 UsageFault_Handler:
+                B	.
 
-		mov		r0, #4
-		mov		r1, lr
-		tst		r0, r1
-		beq		2f
-		mrs		r6, psp
-		b		3f
-2:		mrs		r6, msp
-3:
-		mrs		r4, xpsr
+@ 		mov		r0, #4
+@ 		mov		r1, lr
+@ 		tst		r0, r1
+@ 		beq		2f
+@ 		mrs		r6, psp
+@ 		b		3f
+@ 2:		mrs		r6, msp
+@ 3:
+@ 		mrs		r4, xpsr
+@ 
+@ 		mov		r0, r4
+@ 		mov		r1, r6
+@ 		bl		Plantouille
+@ 		b		.
 
-		mov		r0, r4
-		mov		r1, r6
-		bl		Plantouille
-		b		.
 
 
 @ ---------------------------------------------------------------------------
@@ -421,14 +423,14 @@ sqrtul:
 
 @ ---------------------------------------------------------------------------
 @
-		.global	GetFirmwareSize
-
-GetFirmwareSize:
-		ldr		r2, =RAMInitTable
-		ldr		r0, [r2]
-		ldr		r1, [r2, #8]
-		add		r0, r1
-		bx		lr
+@ 		.global	GetFirmwareSize
+@ 
+@ GetFirmwareSize:
+@ 		ldr		r2, =RAMInitTable
+@ 		ldr		r0, [r2]
+@ 		ldr		r1, [r2, #8]
+@ 		add		r0, r1
+@ 		bx		lr
 		
 		.balign	4,0
 		.pool

@@ -114,6 +114,7 @@ typedef struct
 /* 00000080 */	unsigned int bybatts:1;     //batteries voltage for bypass mode, 0 - 1batt, 1 - all batts
 
 /* 00000100 */	unsigned int vwrezlock:1;  //lock res in VW like in TC
+/* 00000200 */	unsigned int reztype:1;     //RezType 1 - TC, 0 - not TC wire
 }
 // Do not exceed 32 bits;
 dfStatus2_t;
@@ -157,7 +158,7 @@ typedef struct dfParams
 /* 0010 */	uint16_t	TCPower;                //df TC power set
 /* 0012 */	uint16_t	AwakingTimer;           //was VWVolts
 /* 0014 */	uint8_t		APT;
-/* 0015 */	uint8_t		RezType; // 1 2 may be in dfStatus bit
+/* 0015 */	uint8_t		RezType; // not used
 /* 0016 */	uint8_t		TempAlgo;               // 1ni 2ti 3ss   4tcr for ni ti ss
 /* 0017 */	uint8_t		CUDelay;                // was isCelsius
 /* 0018 */	uint16_t	Resistance;
@@ -285,7 +286,7 @@ dfInfos_t;
 typedef struct
 {
 /* 0000 */      uint32_t	Build;
-/* 0004 */	uint8_t		RezVW;
+/* 0004 */	uint16_t	RezVW;
 /* 0005 */      
 }
 dfParams2_t;
@@ -377,7 +378,7 @@ extern dfStruct_t DataFlash;
 #define dfAwakeTimer            DFP(AwakingTimer)
 #define dfAPT			DFP(APT)
 #define dfAPT3			DFP(APT3)
-#define dfRezType		DFP(RezType)
+//#define dfRezVW                 DFP(RezVW)
 #define dfTempAlgo		DFP(TempAlgo)
 #define dfCUDelay		DFP(CUDelay)
 #define dfResistance	DFP(Resistance)

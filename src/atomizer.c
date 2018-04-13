@@ -712,7 +712,7 @@ __myevic__ void CheckMode()
 			return;
 		}
 
-		dfRezType = 1;
+		dfStatus2.reztype = 0; // VW wire //dfRezType = 1;
 		dfMode = 4;
 
 		if ( dfPower > 200 )
@@ -757,7 +757,7 @@ __myevic__ void CheckMode()
 		if ( ++CheckModeCounter <= 3 )
 			return;
 
-		dfRezType = 2;
+		dfStatus2.reztype = 1; // TC wire //dfRezType = 2;
 	}
 
 	UpdateDFTimer = 50;
@@ -1379,6 +1379,7 @@ void RoundPowers()
 
 //=========================================================================
 // SMART mode resistances values
+//JoyeTech BF coils res 0.25(TC NI),  0.5, 0.6, 1, 1.5 Ohm
 const uint16_t SMARTRezValues[] =
 		{	50, 60, 100, 150	};
 
@@ -1427,12 +1428,12 @@ __myevic__ void SetAtoSMARTParams()
 			if ( 	(( r - r / 10 ) <= AtoRez || r - 1 <= AtoRez )
 				&& 	(( r + r / 10 ) >= AtoRez || r + 1 >= AtoRez ) )
 			{
-				break;
+				break; // new
 			}
 		}
 	}
 
-	if ( i > 0 )
+	if ( i > 0 ) //choose exist
 	{
 		ConfigIndex = i;
 
@@ -1478,7 +1479,7 @@ __myevic__ void SetAtoSMARTParams()
 		}
 */
 	}
-	else
+	else //set new
 	{
 		for ( j = 0 ; j < 10 ; ++j )
 		{
@@ -1744,7 +1745,7 @@ __myevic__ void ProbeAtomizer()
 
 	if ( Set_NewRez_dfRez )
 	{          
-		if ( Set_NewRez_dfRez == 2 ) //was: reset rez, sleep, shunt changed
+		if ( Set_NewRez_dfRez == 2 ) //was: reset rez, sleep???, shunt changed
 		{
 			Set_NewRez_dfRez = 1;
 		}

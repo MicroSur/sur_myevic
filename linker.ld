@@ -45,6 +45,9 @@ SECTIONS {
 		/* KEEP(*(.productid*)) */
 
 		. = ALIGN(4);
+		KEEP(*(.joyetech*))
+
+		. = ALIGN(4);
 		*(.rodata*)
 
 		. = ALIGN(4);

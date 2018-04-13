@@ -685,7 +685,7 @@ __myevic__ void EventHandler()
 				{
 					if ( !gFlags.check_mode && !dfStatus.chkmodeoff )
 					{
-						if ( dfRezType != 1 )
+						if ( dfStatus2.reztype ) //( dfRezType != 1 )
 						{
 							tempf = dfTemp;
 							if ( dfStatus.IsCelsius ) tempf = CelsiusToF( dfTemp );
@@ -1407,7 +1407,7 @@ __myevic__ void EventHandler()
 				SleepTimer = 0;
                                 gFlags.refresh_display = 1;
                             }
-                            else if( !gFlags.battery_charging && Screen == 0 )
+                            else if( !gFlags.battery_charging && ( Screen == 0 || Screen == 60 ) )
                             {
                                 SetScreen( 61, SwitchOffCase ? 4 : 2 ); //goodbye
                             }                           

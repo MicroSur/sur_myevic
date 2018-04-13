@@ -34,6 +34,12 @@ char            *BoxName;
 
 uint16_t	fmcCntrsIndex;
 
+#define __JOYETECH__ \
+	__attribute__((aligned(4))) \
+	__attribute__((section (".joyetech")))
+//for updaters
+const char joyetech	[14]	__JOYETECH__	= { 'J','o','y','e','t','e','c','h',' ','A','P','R','O','M' };
+
 //-------------------------------------------------------------------------
 
 #define __PIDATTR__ \
@@ -679,7 +685,7 @@ __myevic__ void ResetDataFlash()
 	dfPower = 200;
 	dfTCPower = 300;
 	dfStatus.IsCelsius = 1;
-	dfRezType = 1;
+//	dfRezType = 1;
 	dfTempAlgo = 4;
 	dfTemp = 200;
 //	dfResistance = 0;

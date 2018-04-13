@@ -350,9 +350,9 @@ __myevic__ void InitVariables()
 //=========================================================================
 // BSOD
 
-__myevic__ void Plantouille( int xpsr, int* stack )
+/*__myevic__ void Plantouille( int xpsr, int* stack )
 {
-/*
+
 	int i, k;
 
 	k = 0;
@@ -399,9 +399,9 @@ __myevic__ void Plantouille( int xpsr, int* stack )
 		if ( k < 0 ) k = 0;
 		else if ( k > 15 ) k = 15;
 	}
-*/
-}
 
+}
+*/
 
 //=========================================================================
 //----- (00005D24) --------------------------------------------------------
@@ -808,7 +808,7 @@ __myevic__ void SleepIfIdle()
 		{                                        
 			GoToSleep();
                         
-			Set_NewRez_dfRez = 2;
+			//Set_NewRez_dfRez = 2; we need recheck res?
 			AtoProbeCount = 0;
 			AtoRezMilli = 0;
                         PuffsOffCount = 0;
@@ -970,7 +970,7 @@ __myevic__ void Main()
 
 	InitHardware();
 
-	myprintf( "\n\nJoyetech APROM\n" ); // need for identify FW file
+	//myprintf( "\n\nJoyetech APROM\n" ); // need for identify FW file
 	//myprintf( "CPU @ %dHz(PLL@ %dHz)\n", SystemCoreClock, PllClock );
 
 	SetBatteryModel();
