@@ -598,7 +598,6 @@ __myevic__ void ShowInfos()
 {
 	uint8_t strbuf[20];
 
-	// TODO : infos page
 	convert_string1( strbuf, "Ferox" );
 	DrawStringCentered( strbuf, 71 );
         convert_string1( strbuf, "MicroSur" );
@@ -1223,6 +1222,8 @@ __myevic__ void ShowGoodBye()
 {
     //screen = 61
     //DrawStringCentered( String_Off, 63 );
+    //SetScreen( 61, SwitchOffCase ? 3 : 2 ); //goodbye
+    
     DrawStringCentered( ScreenDuration > 1 ? String_On : String_Off, 63 );
     
     switch ( SwitchOffCase )

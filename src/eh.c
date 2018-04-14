@@ -627,8 +627,8 @@ __myevic__ void EventHandler()
 			}
 
 		//	myprintf( "StartFire\n" );
-
-                        if ( !VapeDelayTimer )
+                        
+                        if ( !dfStatus2.vapedelay ) //!VapeDelayTimer
                         {
                             gFlags.firing = 1;
                         }
@@ -1025,7 +1025,7 @@ __myevic__ void EventHandler()
                                 
 				dfStatus.off = 1;
 				gFlags.refresh_display = 1;
-				//LEDOff();
+				UpdateDFTimer = 1;
                                 
 				if ( gFlags.battery_charging )
 				{
@@ -1034,7 +1034,7 @@ __myevic__ void EventHandler()
 				}
 				else
 				{
-                                        SetScreen( 61, SwitchOffCase ? 4 : 2 ); //goodbye
+                                        SetScreen( 61, SwitchOffCase ? 3 : 2 ); //goodbye
 				//	Screen = 0;
 				//	SleepTimer = 0;
 				}
@@ -1409,7 +1409,7 @@ __myevic__ void EventHandler()
                             }
                             else if( !gFlags.battery_charging && ( Screen == 0 || Screen == 60 ) )
                             {
-                                SetScreen( 61, SwitchOffCase ? 4 : 2 ); //goodbye
+                                SetScreen( 61, SwitchOffCase ? 3 : 2 ); //goodbye
                             }                           
                         return;                       
 			}

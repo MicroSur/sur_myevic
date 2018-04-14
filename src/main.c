@@ -330,12 +330,12 @@ __myevic__ void InitVariables()
         //dfStatus.sme = 1; // DFMagicNumber = 0xDA;
         gFlags.FireNotFlipped = 1;
         gFlags.screen_on = 1;
-        if ( !dfColdLockTemp ) dfColdLockTemp = 20;
-        if ( !dfNewRezPerc ) dfNewRezPerc = 5;
+        //if ( !dfColdLockTemp ) dfColdLockTemp = 20;
+        //if ( !dfNewRezPerc ) dfNewRezPerc = 5;
         AtoTemp = CelsiusToF( dfColdLockTemp ); //70;
         
-        if ( dfVapeDelayTimer > 3600 ) dfVapeDelayTimer = 0;
-        //VapeDelayTimer = dfVapeDelayTimer;
+        //if ( dfVapeDelayTimer > 3600 ) dfVapeDelayTimer = 0; //not need if reset df
+        if ( dfStatus2.vapedelay ) VapeDelayTimer = dfVapeDelayTimer;
         
         VWVolts = 330;
         //AwakeTimer = 0;
@@ -742,10 +742,7 @@ __myevic__ void LightSleep()
 //----- (00005D14) --------------------------------------------------------
 __myevic__ void FlushAndSleep()
 {
-	//#if (ENABLE_UART)
-	//	UART_WAIT_TX_EMPTY( UART0 );
-	//#endif
-
+    
 	if ( !gFlags.light_sleep )
 	{
 		CLK_PowerDown();
@@ -1442,15 +1439,22 @@ __myevic__ void Main()
 				}
 			}
                         
+                        if ( dfStatus2.vapedelay && !VapeDelayTimer )
+                        {
+                                dfStatus2.vapedelay = 0;
+                                UpdateDFTimer = 10;
+                        }
+                        
                         if ( dfAwakeTimer && !gFlags.asleep && !VapeDelayTimer ) //&& !gFlags.battery_charging )
                         {
                                 if ( ++AwakeTimer >= dfAwakeTimer && Screen < 100 )
                                 {
                                     VapeDelayTimer = dfVapeDelayTimer;
+                                    dfStatus2.vapedelay = 1;
                                     SwitchOffCase = 2;
                                     Event = 17;
                                 }
-                        }
+                        }                                               
 		}
 
 		EventHandler();

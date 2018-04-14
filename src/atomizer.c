@@ -428,7 +428,7 @@ __myevic__ void StopFire()
 
 		//RTCWriteRegister( RTCSPARE_VV_MJOULES, MilliJoules );
                 //RTCWriteRegister( RTCSPARE_VV_MJOULESDAY, MilliJoulesDay );
-                dfJoules = MilliJoules; // double var? todo
+                dfJoules = MilliJoules;
                 dfJoulesDay = MilliJoulesDay;
                 dfJoulesEnergy = MilliJoulesEnergy;
                 
@@ -453,7 +453,7 @@ __myevic__ void StopFire()
                             //dfVapeDelayTimer = 70; //6000 = 60s (*100Hz)
                             
                             VapeDelayTimer = dfVapeDelayTimer;
-                            
+                            dfStatus2.vapedelay = 1;
                             SwitchOffCase = 1;       
                             Event = 17;
                                                           

@@ -730,8 +730,8 @@ __myevic__ void fbStartScreen()
 //=========================================================================
 __myevic__ void fbStartGame()
 {
-	UpdateDataFlash();
-        if ( dfFBSpeed > 2 ) dfTTSpeed = 0;
+	//UpdateDataFlash();
+        //if ( dfFBSpeed > 2 ) dfFBSpeed = 0;
 	
 	gFlags.playing_fb = 1;
 	Screen = 0;

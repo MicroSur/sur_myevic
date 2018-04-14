@@ -859,8 +859,8 @@ void ttGame() {
 
 void ttStartGame() {
 
-    UpdateDataFlash();
-    if (dfTTSpeed > 2) dfTTSpeed = 2;
+    //UpdateDataFlash();
+    //if (dfTTSpeed > 2) dfTTSpeed = 2;
 
     if (dfTTBest < ttScore) {
         dfTTBest = ttScore;

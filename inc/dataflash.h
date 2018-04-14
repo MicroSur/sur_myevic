@@ -115,6 +115,7 @@ typedef struct
 
 /* 00000100 */	unsigned int vwrezlock:1;  //lock res in VW like in TC
 /* 00000200 */	unsigned int reztype:1;     //RezType 1 - TC, 0 - not TC wire
+/* 00000400 */	unsigned int vapedelay:1;     //flag 
 }
 // Do not exceed 32 bits;
 dfStatus2_t;
@@ -164,15 +165,15 @@ typedef struct dfParams
 /* 0018 */	uint16_t	Resistance;
 /* 001A */	uint16_t	RezTI;
 /* 001C */	uint16_t	RezNI;
-/* 001E */	uint8_t		RezLockedTI;
-/* 001F */	uint8_t		RezLockedNI;
+/* 001E */	uint8_t		RezLockedTI;  //flag, move to status
+/* 001F */	uint8_t		RezLockedNI;  //flag, move to status
 /* 0020 */	uint8_t		MaxBoardTemp;	
 /* 0021 */	uint8_t		StealthOn;              // 0 1 2 (off on contrast)
 /* 0022 */	uint16_t	VVLockedVolt;           // for vvlite: cold rez locked volt
 /* 0024 */	dfBattery_t	Battery;
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS]; //20
 ///* 004E */                                          //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
-/* 0063 */	uint16_t	VapeHoldTimer;         //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
+/* 0063 */	uint16_t	VapeHoldTimer;         //dfVapeDelayTimer Status2.vapedelay
 /* 0065 */      uint32_t	JoulesEnergy;                 // Joules for energy separated from Joules for vaped
 /* 0069 */      uint32_t	JoulesDay;                 // save for mods without clock battery
 /* 006D */	uint8_t		ThreeButtonsAct;        //action
@@ -188,13 +189,13 @@ typedef struct dfParams
 /* 007E */	uint8_t		NewRezPerc;		//	was AtoStatus
 /* 007F */	uint8_t		ShuntRez;		//	former 1-byte pad
 /* 0080 */	uint16_t	RezSS;
-/* 0082 */	uint8_t		RezLockedSS;
+/* 0082 */	uint8_t		RezLockedSS;  //flag, move to status
 /* 0083 */	uint8_t		UIVersion; // 0 1 now
 /* 0084 */	uint8_t		TCRIndex;               // 0 m1, 1 m2, 2 m3
 /* 0085 */	uint8_t		ScrMainTime;            //	former 1-byte pad
 /* 0086 */	uint16_t	TCRM[3];
 /* 008C */	uint16_t	RezTCR;
-/* 008E */	uint8_t		RezLockedTCR;
+/* 008E */	uint8_t		RezLockedTCR; //flag, move to status
 /* 008F */	uint8_t		ScreenSaver;
 /* 0090 */	uint8_t		TCMode;                 // 0 1 2
 /* 0091 */	uint8_t		ScreenProt;		//	former 1-byte pad
