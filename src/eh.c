@@ -619,11 +619,11 @@ __myevic__ void EventHandler()
 
 			if ( ISEGRIPII || ISEVICAIO || ISSINFJ200 || ISSINP80 ) 
 			{
-				if ( !dfStealthOn ) // != 0 for stealth contrast too
-				{
+				//if ( !dfStealthOn ) // != 0 for stealth contrast too
+				//{
 					LEDTimer = 0;
 					gFlags.led_on = 1;
-				}
+				//}
 			}
 
 		//	myprintf( "StartFire\n" );

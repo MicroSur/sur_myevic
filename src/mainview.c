@@ -576,7 +576,7 @@ __myevic__ void DrawAPTLines()
                         {
                             DrawString( String_TEMP_s, 0, line+2 );
                             t = dfStatus.IsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
-                            DrawValueRight( 37, line+3, t, 0, 0x01, 0 );
+                            DrawValueRight( 37, line+2, t, 0, 0x0B, 0 );
                             //DrawImage( 54, 90, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
                         }
                         else
@@ -850,7 +850,7 @@ __myevic__ void DrawPower( int pwr, int yp )
 		xp = 45;
 
 		DrawValue( 5, yp+1, pwr, 1, 0x48, 2 ); //13
-		DrawImage( 46, yp+8, 0xB9 ); //W 20
+		DrawImage( 45, yp+8, 0xB9 ); //W
 	}
 	else
 	{
@@ -874,7 +874,7 @@ __myevic__ void DrawPower( int pwr, int yp )
 	{
 		xp = 33;
 		DrawValue( 13, yp+1, pwr / 10, 0, 0x48, 1 ); //13
-		DrawImage( 33, yp+8, 0xB9 ); //W 20
+		DrawImage( 33, yp+8, 0xB9 ); //W
 	}
 	else
 	{
@@ -883,7 +883,7 @@ __myevic__ void DrawPower( int pwr, int yp )
 		{
                     	xp = 47;
 			DrawValue( 11, yp+1, pwr / 10, 0, 0x48, 2 ); //13
-                        DrawImage( 46, yp+16, 0xB2 ); //w 28
+                        DrawImage( 47, yp+16, 0xB2 ); //w
 		}
 		else
 		{

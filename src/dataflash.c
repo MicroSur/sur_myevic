@@ -684,6 +684,7 @@ __myevic__ void ResetDataFlash()
 //	dfVWVolts = 300; 
 	dfPower = 200;
 	dfTCPower = 300;
+	dfPreheatPwr = dfTCPower; //300;        
 	dfStatus.IsCelsius = 1;
 //	dfRezType = 1;
 	dfTempAlgo = 4;
@@ -695,7 +696,7 @@ __myevic__ void ResetDataFlash()
 //	dfStealthOn = 0;
 //	dfTempCoefsNI = 201;
 //	dfTempCoefsTI = 101;
-	dfLEDColor = 25 << 10;
+	dfLEDColor = 151*175; //all //red = 25 << 10;
 //	dfStatus.off = 0;
 //	dfStatus.keylock = 0;
 	dfStatus.flipped = ScrFlip;
@@ -717,6 +718,9 @@ __myevic__ void ResetDataFlash()
 	dfTCRM[0] = 90;
 	dfTCRM[1] = 100;
 	dfTCRM[2] = 110;
+        dfUSBMaxCharge = 2000; 
+        dfMaxBoardTemp = 70;
+        dfBattVolt = 420;        
 	dfScreenSaver = SSAVER_SF;
 	dfScreenProt = 3;
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
@@ -737,7 +741,6 @@ __myevic__ void ResetDataFlash()
 	dfClick[2] = CLICK_ACTION_TETRIS;
         dfClick[3] = CLICK_ACTION_ON_OFF;
 //	dfBatteryModel = 0;
-	dfPreheatPwr = 300;
 //	dfTCAlgo = TCALGO_DEF; // =0 
 	dfTCBoost = 50;
 	dfPID.P = PID_P_DEF;
@@ -754,9 +757,6 @@ __myevic__ void ResetDataFlash()
         InitSetPowerVoltMax();
         SetAtoLimits();
         
-        dfUSBMaxCharge = 2000; 
-        dfMaxBoardTemp = 70;
-        dfBattVolt = 420;
 //      dfStatus.nbrc = 0;        
         
 //	ResetCustomBattery();
