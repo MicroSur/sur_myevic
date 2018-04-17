@@ -1529,7 +1529,7 @@ __myevic__ void SetAtoLimits()
 	if ( dfPower > MaxPower ) dfPower = MaxPower;
 	if ( dfTCPower > MaxTCPower ) dfTCPower = MaxTCPower;
 
-	if ( !AtoError && AtoRez && dfMode == 6 )
+	if ( !AtoError && AtoRez ) //  why this bug was -> && dfMode == 6 )
 	{
                 if ( Set_NewRez_dfRez ) //no change ConfigIndex while vaping
                 {
@@ -1537,10 +1537,19 @@ __myevic__ void SetAtoLimits()
                 }
             
 		if ( dfMode == 6 )
+                {
+                        if ( Set_NewRez_dfRez ) //no change ConfigIndex while vaping
+                        {
+                            SetAtoSMARTParams();
+                        }
+                
 			pwr = dfSavedCfgPwr[ConfigIndex];
+                }
 		else
+                {
 			pwr = dfPower;
-
+                }
+                
 		if ( pwr < AtoMinPower ) pwr = AtoMinPower;
 		if ( pwr > AtoMaxPower ) pwr = AtoMaxPower;
 
