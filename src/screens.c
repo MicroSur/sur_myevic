@@ -415,7 +415,7 @@ __myevic__ void DrawScreen()
 			break;
 
 		case   5: // charge screen
-                        if ( ScrChargeTimes[dfScrChargeTime] )
+                        if ( ScrChargeTimes[dfScrChargeTime] ) //|| dfStealthOn != 1 )
                         {
                             gFlags.screen_on = 0;
                         }
@@ -581,13 +581,18 @@ __myevic__ int convert_string1( uint8_t *strbuf, const char *s )
 __myevic__ void ChargeView()
 {
 	Screen = 5;
-	gFlags.refresh_display = 1;
 	ScreenDuration = ScrChargeTimes[dfScrChargeTime];
 
-        if ( dfStealthOn != 1 ) 
-            gFlags.screen_on = 1;
-        else
-            gFlags.screen_on = 0;
+        //if ( !ScreenDuration && dfStealthOn == 1 )
+        //    ScreenDuration = 10;
+        
+        //not here
+        //if ( dfStealthOn != 1 ) 
+        //    gFlags.screen_on = 1;
+        //else
+        //    gFlags.screen_on = 0;
+            
+	gFlags.refresh_display = 1;            
 }
 
 
@@ -846,7 +851,8 @@ __myevic__ void ShowBatCharging()
 {
     //Charge screen
     
-	if ( ( dfStealthOn == 1 && ScreenDuration == 0 ) || !gFlags.screen_on )
+	//if ( ( dfStealthOn == 1 && ScreenDuration == 0 ) || !gFlags.screen_on )
+        if ( !gFlags.screen_on )            
 	{
 		return;
 	}

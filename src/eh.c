@@ -1024,7 +1024,7 @@ __myevic__ void EventHandler()
                                 AwakeTimer = 0;
                                 
 				dfStatus.off = 1;
-				gFlags.refresh_display = 1;
+				//gFlags.refresh_display = 1;
 				UpdateDFTimer = 1;
                                 
 				if ( gFlags.battery_charging )
@@ -1099,8 +1099,9 @@ __myevic__ void EventHandler()
 					Screen = 55; //Imbalanced Batteries
 					ScreenDuration = 2;
 				}
-				else if ( dfStatus.off )
+				else if ( dfStatus.off || dfStealthOn == 1 )
 				{
+                                        gFlags.screen_on = 1; 
 					ChargeView();
 				}
 				else
@@ -1218,10 +1219,13 @@ __myevic__ void EventHandler()
                     
                         if ( Screen == 5 ) //&& dfStealthOn != 1 ) //charge scr on off
 			{
-				//gFlags.screen_on = ( gFlags.screen_on == 0 );                            
+				//gFlags.screen_on = ( gFlags.screen_on == 0 );  
+                            
                                 gFlags.screen_on ^= 1;                            
-                                ScreenDuration = ScrChargeTimes[dfScrChargeTime]; //ScreenDuration = 0;                               
-                                gFlags.refresh_display = 1;
+                                //ScreenDuration = ScrChargeTimes[dfScrChargeTime]; //ScreenDuration = 0;                               
+                                //gFlags.refresh_display = 1;
+                                
+                                ChargeView();
 			}
                                             
 			if ( dfStatus.off )
