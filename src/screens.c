@@ -318,8 +318,8 @@ __myevic__ void DrawScreen()
 //    DrawValue( 0, 37, mn, 0, 0x01, 0 );
 //    DrawValue( 0, 108, t, 0, 0x01, 0 );
 
-//DrawValueRight( 64, 108, gFlags.asleep ? 1 : 0, 0, 0x01, 0 );           
-//DrawValue( 0, 108, SwitchOffCase, 0, 0x01, 0 ); //SwitchOffCase AwakeTimer
+//DrawValueRight( 64, 108, dfTempAlgo, 0, 0x0B, 0 );     //gFlags.asleep ? 1 : 0      
+//DrawValue( 0, 108, TCR, 0, 0x0B, 0 ); //SwitchOffCase AwakeTimer
 
 //DisplayRefresh(); //uncomment too
 
@@ -626,7 +626,7 @@ __myevic__ void ShowContrast()
         dfc = ContrastNum ? dfContrast2 : dfContrast;   
 
         DrawValueRight( 63, 6, ContrastNum+1, 0, 0x0B, 1 );
-	DrawString( String_Contrast, 4, 6 );
+	DrawString( String_Contrast, 4, 5 );
 	DrawHLine( 0, 16, 63, 1 );
 
 	pc = ( ( 100 * dfc ) / 255 );
@@ -667,7 +667,7 @@ __myevic__ void ShowRTCSpeed()
 	unsigned int cs;
 	S_RTC_TIME_DATA_T rtd;
 
-	DrawString( String_ClkSpeed, 4, 6 );
+	DrawString( String_ClkSpeed, 4, 5 );
 	DrawHLine( 0, 16, 63, 1 );
 
 	GetRTC( &rtd );
@@ -1215,7 +1215,7 @@ __myevic__ void ShowRTCAdjust()
 {
 	S_RTC_TIME_DATA_T rtd;
 
-	DrawString( String_ClkAdjust, 4, 6 );
+	DrawString( String_ClkAdjust, 4, 5 );
 	DrawHLine( 0, 16, 63, 1 );
 
 	GetRTC( &rtd );
@@ -1341,7 +1341,7 @@ __myevic__ void AnimateScreenSaver()
 //=========================================================================
 __myevic__ void ShowSetTime()
 {
-	DrawString( String_Time, 4, 6 );
+	DrawString( String_Time, 4, 5 );
 	DrawHLine( 0, 16, 63, 1 );
 
 	DrawTime( 3, 46, &SetTimeRTD, 0x1F & ~( 1 << ( EditItemIndex << 1 ) ) );
@@ -1370,7 +1370,7 @@ __myevic__ void ShowSetDate()
 
 	GetRTC( &rtd );
 
-	DrawString( String_Date, 4, 6 );
+	DrawString( String_Date, 4, 5 );
 	DrawHLine( 0, 16, 63, 1 );
 
 	DrawTime( 3, 46, &rtd, 0x1F );

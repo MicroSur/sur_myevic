@@ -150,9 +150,9 @@ __myevic__ void DrawTime( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 	if ( gFlags.draw_edited_item ) colors = 0x1F;
 
 	if (colors&0x10) DrawValue( x   , y, rtd->u32Hour, 0, 0x1F, 2 );
-	if (colors&0x08) DrawImage( x+17, y, 0xDD );
+	if (colors&0x08) DrawImage( x+17, y+2, 0xDD );
 	if (colors&0x04) DrawValue( x+21, y, rtd->u32Minute, 0, 0x1F, 2 );
-	if (colors&0x02) DrawImage( x+38, y, 0xDD );
+	if (colors&0x02) DrawImage( x+38, y+2, 0xDD );
 	if (colors&0x01) DrawValue( x+42, y, rtd->u32Second, 0, 0x1F, 2 );
 }
 

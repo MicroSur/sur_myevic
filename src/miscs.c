@@ -13,18 +13,15 @@ __myevic__ void ModeChange()
 {
 	//dfResistance = AtoRez; //in 4
 	//RezMillis = AtoMillis;
-
+    
+//dfTempAlgo 1 Ni, 2 Ti, 3 SS, 4 M1, 5 M2, 6 M3, 7 tcrNi, 8 tcrTi, 9 tcrSS
+    
 	switch ( dfMode )
 	{
 		case 0: // Temp Ni
-			if ( dfTCRP[dfMode] == 0 )
-			{
-				dfTempAlgo = 1;
-			}
-			else
-			{
-				dfTempAlgo = 4;
-			}
+			if ( dfTCRP[dfMode] == 0 ) dfTempAlgo = 1;
+			else dfTempAlgo = 7; //or simple TCR
+
 			if ( dfRezNI )
 			{
 				if (( dfRezLockedNI ) || !( gFlags.new_rez_ni ))
@@ -36,14 +33,9 @@ __myevic__ void ModeChange()
 			break;
 
 		case 1: // Temp Ti
-			if ( dfTCRP[dfMode] == 0 )
-			{
-				dfTempAlgo = 2;
-			}
-			else
-			{
-				dfTempAlgo = 4;
-			}
+			if ( dfTCRP[dfMode] == 0 ) dfTempAlgo = 2;
+			else dfTempAlgo = 8;
+
 			if ( dfRezTI )
 			{
 				if (( dfRezLockedTI ) || !( gFlags.new_rez_ti ))
@@ -55,14 +47,9 @@ __myevic__ void ModeChange()
 			break;
 
 		case 2:  // Temp SS
-			if ( dfTCRP[dfMode] == 0 )
-			{
-				dfTempAlgo = 3;
-			}
-			else
-			{
-				dfTempAlgo = 4;
-			}
+			if ( dfTCRP[dfMode] == 0 ) dfTempAlgo = 3;
+			else dfTempAlgo = 9;
+
 			if ( dfRezSS )
 			{
 				if (( dfRezLockedSS ) || !( gFlags.new_rez_ss ))
@@ -74,7 +61,10 @@ __myevic__ void ModeChange()
 			break;
 
 		case 3:  //TCR
-			dfTempAlgo = 4;
+                        //dfTCRM[dfTCRIndex]
+                    
+			dfTempAlgo = 4 + dfTCRIndex; //4 5 6
+                        
 			if ( dfRezTCR )
 			{
 				if (( dfRezLockedTCR ) || !( gFlags.new_rez_tcr ))
@@ -85,8 +75,29 @@ __myevic__ void ModeChange()
 			}
 			break;
 
-		default:
-                    	if ( dfRezVW ) //not in DF
+		default: //VW
+                    
+                        if ( 
+                               ( dfVWTempAlgo == 1 && dfTCRP[0] )
+                            || ( dfVWTempAlgo == 2 && dfTCRP[1] )
+                            || ( dfVWTempAlgo == 3 && dfTCRP[2] ) )
+                        {
+                                dfVWTempAlgo += 6; //7 8 9
+                        }
+                        else if ( 
+                               ( dfVWTempAlgo == 7 && !dfTCRP[0] )
+                            || ( dfVWTempAlgo == 8 && !dfTCRP[1] )
+                            || ( dfVWTempAlgo == 9 && !dfTCRP[2] ) )
+                        {
+                                dfVWTempAlgo -= 6; //1 2 3
+                        }
+                        
+                        if ( dfVWTempAlgo && dfVWTempAlgo < 10 )
+                            dfTempAlgo = dfVWTempAlgo;
+                        else
+                            dfTempAlgo = 3;
+                        
+                    	if ( dfRezVW ) //not in DF for now
 			{
 				if ( dfStatus2.vwrezlock )
 				{

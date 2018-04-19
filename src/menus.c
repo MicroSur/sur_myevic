@@ -2778,10 +2778,116 @@ __myevic__ void DrawTCRP( int x, int y, int v, uint8_t dp, uint8_t z, uint8_t nd
 	}
 }
 
+//-----------------------------------------------------------------------------
+
+__myevic__ void TCRSetIDraw( int it, int line, int sel )
+{
+
+	if ( it != 6 )
+		return;
+
+	DrawFillRect( 31, line, 63, line+12, 0 );
+
+	//switch ( it )
+	//{
+	//	case 0:
+        
+        switch ( dfVWTempAlgo )
+        {
+            case 1:
+            case 7:
+                DrawStringRight( String_NI, 59, line+2 );
+                break;
+            case 2:
+            case 8:    
+                DrawStringRight( String_TI, 59, line+2 );
+                break;
+            case 3:
+            case 9:    
+                DrawStringRight( String_SS, 59, line+2 );
+                break;
+            case 4:
+                DrawStringRight( String_M1, 59, line+2 );
+                break;
+            case 5:
+                DrawStringRight( String_M2, 59, line+2 );
+                break;
+            case 6:
+                DrawStringRight( String_M3, 59, line+2 );
+                break;
+                
+            default:
+		break;
+	}
+
+	if ( gFlags.edit_value && CurrentMenuItem == it )
+	{
+		InvertRect( 0, line, 63, line+12 );
+	}
+}
+
 __myevic__ int TCRSetOnEvent( int event )
 {
-	Event = EVENT_MODE_CHANGE;
-	return 0;
+        int vret = 0;
+    
+	if ( CurrentMenuItem != 6 )
+        {
+            Event = EVENT_MODE_CHANGE;
+            return 0;  //no capture others events
+        }
+
+
+	switch ( event )
+	{                       
+		case 1:	// Fire
+			gFlags.edit_value ^= 1;  
+                        vret = 1;
+                        break;
+
+		case 2:	// Plus
+			if ( gFlags.edit_value )
+			{
+				if ( dfVWTempAlgo < 6 ) dfVWTempAlgo += 1;
+				else if ( KeyTicks < 5 ) dfVWTempAlgo = 1;
+                                
+                                gFlags.refresh_display = 1;
+                                return 1;
+				//vret = 1; //not call EVENT_MODE_CHANGE
+
+			}
+			break;
+
+		case 3:	// Minus
+			if ( gFlags.edit_value )
+			{
+				if ( dfVWTempAlgo > 1 ) dfVWTempAlgo -= 1;
+				else if ( KeyTicks < 5 ) dfVWTempAlgo = 6;
+ 
+                                gFlags.refresh_display = 1;
+                                return 1;
+				//vret = 1;
+			}
+			break;
+                        
+                case EVENT_LONG_FIRE:
+                            dfVWTempAlgo = 3;
+                            gFlags.edit_value = 0;
+                            vret = 1;   
+                        break;
+	}
+        
+        if ( vret )
+        {
+                UpdateDFTimer = 50;                     
+                Event = EVENT_MODE_CHANGE;
+        }
+        
+        gFlags.refresh_display = 1;
+        
+	return vret;
+        
+	//Event = EVENT_MODE_CHANGE;
+	//return 0;
 }
 
 
@@ -2898,12 +3004,12 @@ __myevic__ int CurveMenuOnEvent( int event )
 	int vret = 0;
 
         
-                        if (event == EVENT_LONG_FIRE && CurrentMenuItem == 2 )
-                        { 
-                            ResetPowerCurve();
-                            vret = 1;
-                            Event = EVENT_POWER_CURVE;
-                        }
+        if (event == EVENT_LONG_FIRE && CurrentMenuItem == 2 )
+        { 
+            ResetPowerCurve();
+            vret = 1;
+            Event = EVENT_POWER_CURVE;
+        }
                             
 	if ( CurrentMenuItem != 4 )
 		return vret;  //no capture others events
@@ -3188,11 +3294,11 @@ const menu_t TCRSetMenu =
 	String_TCRSet,
 	&CoilsMenu,
 	0,
-	0,
+	TCRSetIDraw+1, //0,
 	0,
 	0,
 	&TCRSetOnEvent+1,
-	7,
+	8,
 	{
 		{ String_M1, &TCRM1Data, 0, MACTION_DATA },
 		{ String_M2, &TCRM2Data, 0, MACTION_DATA },
@@ -3200,6 +3306,7 @@ const menu_t TCRSetMenu =
 		{ String_NI, &TCRNIData, 0, MACTION_DATA },
 		{ String_TI, &TCRTIData, 0, MACTION_DATA },
 		{ String_SS, &TCRSSData, 0, MACTION_DATA },
+                { String_PW, 0, 0, 0 },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

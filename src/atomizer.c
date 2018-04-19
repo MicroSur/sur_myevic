@@ -621,6 +621,7 @@ __myevic__ void ReadAtoCurrent()
 //----- (00002F44) --------------------------------------------------------
 __myevic__ void ReadAtoTemp()
 {
+        //result AtoTemp = 
 	long t;
 	long base_rez = dfResistance * 10 + RezMillis;
 
@@ -633,7 +634,7 @@ __myevic__ void ReadAtoTemp()
 		{
 			AtoTemp = CelsiusToF( dfColdLockTemp ); //70 F; when cold & no_fire
 		}
-		else if ( dfTempAlgo == 1 || dfTempAlgo == 2 )
+		else if ( dfTempAlgo == 1 || dfTempAlgo == 2 ) //ni ti
 		{
                         //new tables need for TCR calc
 			AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + CelsiusToF( dfColdLockTemp ); // 68 Ni +140
@@ -644,7 +645,7 @@ __myevic__ void ReadAtoTemp()
                 //        AtoTemp = 100 * ( AtoRezMilli - base_rez ) / TCR + CelsiusToF( dfColdLockTemp );
 		//	//AtoTemp = 10 * AtoRezMilli * TCR / base_rez - 460; // Ti
 		//}
-		else if ( dfTempAlgo == 3 || dfTempAlgo == 4 ) //SS mTCR
+		else if ( dfTempAlgo > 2 ) //( dfTempAlgo == 3 || dfTempAlgo == 4 ) //SS, mTCR, (simple Ni Ti SS)
 		{
 			t = base_rez * TCR;
 			t = 100000 * ( AtoRezMilli - base_rez ) / t + dfColdLockTemp; //20;
@@ -897,8 +898,8 @@ __myevic__ void ReadAtomizer()
 					&& (gFlags.firing || AtoProbeCount <= 10) )
 			{
 				AtoStatus = 4;
-				//if ( gFlags.firing ) 
-                                    ReadAtoTemp();
+                                            //if ( gFlags.firing ) 
+                                ReadAtoTemp();
 			}
                     //} //pbank
                     //else

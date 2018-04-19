@@ -640,8 +640,9 @@ __myevic__ void EventHandler()
                         if ( Screen == 1 ) gFlags.FireNotFlipped = 1;
         
 			if ( BattProbeCount == 1 ) BattProbeCount = 2;
-
-			switch ( dfTempAlgo )
+                         
+			switch ( dfTempAlgo ) //from ModeChange()
+                        //get TCR
 			{
 				case 1:
 					GetTempCoef( TempCoefsNI );
@@ -652,22 +653,51 @@ __myevic__ void EventHandler()
 					break;
 
 				case 3:
-					TCR = 120;
+                                default:
+					TCR = 120; //SS
 					break;
 
 				case 4: //tcr
-					if ( dfMode >= 3 ) //== 3 || dfMode == 4 || dfMode == 5 ) //for power & bypass smart too
+                                        TCR = dfTCRM[0];                          
+/*
+					//if ( dfMode >= 3 ) //== 3 || dfMode == 4 || dfMode == 5 ) //for power & bypass smart too
+                                        if ( dfMode == 3 )
 					{
 						TCR = dfTCRM[dfTCRIndex]; //m1 m2 m3
 					}
-					else if ( dfMode < 3 ) //todo for power?
-					{
-						TCR = dfTCRP[dfMode]; //not def tcr for ni ti ss
-					}
+					//else if ( dfMode < 3 )
+					//{
+					//	TCR = dfTCRP[dfMode]; //ni ti ss custom TCR
+					//}
+                                        else if ( dfMode > 3 )
+                                        {
+                                                TCR = dfTCRM[0];
+                                        }
+*/
 					break;
+                                        
+                                case 5: 
+                                        TCR = dfTCRM[1];                            
+                                        break;
 
-				default:
-					break;
+                                case 6: 
+                                        TCR = dfTCRM[2];
+                                        break;
+ 
+                                case 7: 
+                                        TCR = dfTCRP[0];
+                                        break;
+
+                                case 8: 
+                                        TCR = dfTCRP[1];
+                                        break;
+
+                                case 9: 
+                                        TCR = dfTCRP[2];
+                                        break;
+                                         
+				//default:
+				//	break;
 			}
 
                 //if ( gFlags.pbank ) 
@@ -1485,8 +1515,8 @@ __myevic__ void EventHandler()
 								if ( dfTCMode > 2 )
 									dfTCMode = 0;
 								dfMode = dfTCMode;
-								ModeChange();
 							}
+                                                        ModeChange();
 							break;
 
 						case 2:

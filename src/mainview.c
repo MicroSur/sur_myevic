@@ -1267,7 +1267,7 @@ __myevic__ void DrawDigitClock( int line, int infoline )
 	 DrawValue( 24 - x, line, rtd.u32Minute, 0, 0x1F, 2 );
 	 DrawImage( 41 - x, line, 0xDD );
 	 DrawValue( 45 - x, line, rtd.u32Second, 0, 0x1F, 2 );
-                
+         
 		//DrawTime( 3, line, &rtd, 0x1F );
 		//DrawDate( 4, line+16, &rtd, 0x1F );
                 y = 16;
@@ -1281,7 +1281,7 @@ __myevic__ void DrawDigitClock( int line, int infoline )
             
 		if ( !( rtd.u32Second & 1 ) )
 		{
-                        DrawImage( 31 - x, line-1, 0xD8 ); // :
+                        DrawImage( 31 - x, line-2, 0xD8 ); // :
 			//DrawImage( 28, line-5, 0xDF );
 			//DrawImage( 28, line-13, 0xDF );
 		}

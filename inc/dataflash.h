@@ -159,8 +159,8 @@ typedef struct dfParams
 /* 0010 */	uint16_t	TCPower;                //df TC power set
 /* 0012 */	uint16_t	AwakingTimer;           //was VWVolts
 /* 0014 */	uint8_t		APT;
-/* 0015 */	uint8_t		RezType; // not used
-/* 0016 */	uint8_t		TempAlgo;               // 1ni 2ti 3ss   4tcr for ni ti ss
+/* 0015 */	uint8_t		VWTempAlgo;             // 1 Ni, 2 Ti, 3 SS, 4 M1, 5 M2, 6 M3, 7 tcrNi, 8 tcrTi, 9 tcrSS
+/* 0016 */	uint8_t		TempAlgo;               // same
 /* 0017 */	uint8_t		CUDelay;                // was isCelsius
 /* 0018 */	uint16_t	Resistance;
 /* 001A */	uint16_t	RezTI;
@@ -379,7 +379,7 @@ extern dfStruct_t DataFlash;
 #define dfAwakeTimer            DFP(AwakingTimer)
 #define dfAPT			DFP(APT)
 #define dfAPT3			DFP(APT3)
-//#define dfRezVW                 DFP(RezVW)
+#define dfVWTempAlgo            DFP(VWTempAlgo)
 #define dfTempAlgo		DFP(TempAlgo)
 #define dfCUDelay		DFP(CUDelay)
 #define dfResistance	DFP(Resistance)

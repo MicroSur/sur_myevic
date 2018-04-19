@@ -999,7 +999,7 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 
 		//if ( ISMODETC(dfMode) )
 		//{
-			ReadAtoTemp();
+            ReadAtoTemp();
 		//	mondata->Temperature = temp;
 		//}
 	}

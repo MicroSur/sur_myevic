@@ -680,6 +680,8 @@ __myevic__ void ResetDataFlash()
         
 	dfMagic = DFMagicNumber;       
 	dfMode = 4;
+	dfTempAlgo = 3;
+        dfVWTempAlgo = 3;         //M1
 	dfProtec = FIRE_PROTEC_DEF;
 //	dfVWVolts = 300; 
 	dfPower = 200;
@@ -687,7 +689,6 @@ __myevic__ void ResetDataFlash()
 	dfPreheatPwr = dfTCPower; //300;        
 	dfStatus.IsCelsius = 1;
 //	dfRezType = 1;
-	dfTempAlgo = 4;
 	dfTemp = 200;
 //	dfResistance = 0;
 //	dfUIVersion = 2;
@@ -1735,6 +1736,7 @@ const uint32_t StatusFilter2 = 0b00000000000000000000000000000110;
 //-------------------------------------------------------------------------
 __myevic__ void ApplyParameters()
 {
+    //from LoadProfile
 	InitDisplay();
 	LEDGetColor();
 	SetBatteryModel();

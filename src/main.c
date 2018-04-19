@@ -344,6 +344,8 @@ __myevic__ void InitVariables()
         //gFlags.pbank = 1;
         
         //dfAwakeTimer = 20; //test 20 sec alive
+        
+        dfVWTempAlgo = 3; //SS test
 }
 
 
@@ -992,6 +994,8 @@ __myevic__ void Main()
         {
             SplashTimer = 2;
         }
+        
+        //ModeChange();
 	MainView();
 
 	//CustomStartup();
