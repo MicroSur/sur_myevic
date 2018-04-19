@@ -1263,9 +1263,9 @@ __myevic__ void DrawDigitClock( int line, int infoline )
         if ( !dfStatus.timebig || infoline )
 	{ // small
 	 DrawValueRight( 19 - x, line, h, 0, 0x1F, 0 ); //2
-	 DrawImage( 20 - x, line, 0xDD );
+	 DrawImage( 20 - x, line+2, 0xDD );
 	 DrawValue( 24 - x, line, rtd.u32Minute, 0, 0x1F, 2 );
-	 DrawImage( 41 - x, line, 0xDD );
+	 DrawImage( 41 - x, line+2, 0xDD );
 	 DrawValue( 45 - x, line, rtd.u32Second, 0, 0x1F, 2 );
          
 		//DrawTime( 3, line, &rtd, 0x1F );
