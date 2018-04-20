@@ -1,5 +1,5 @@
 #include <sys/types.h>
-#include <stdint.h>
+//#include <stdint.h>
 
 //=========================================================================
 // Sprites and font data for Flappy Bird

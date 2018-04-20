@@ -473,6 +473,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 						if ( KeyTicks < 5 ) dfPuffsOff = PUFFS_OFF_MIN;
 						else dfPuffsOff = PUFFS_OFF_MAX;
 					}
+                                        PuffsOffCount = 0;
 					vret = 1;
 					break;
                                         
@@ -482,7 +483,8 @@ __myevic__ int VapingMenuOnEvent( int event )
 						if ( KeyTicks < 5 ) vapetimer = 0;
 						else vapetimer = 60;
 					}
-                                        dfAwakeTimer = vapetimer * 60;   
+                                        dfAwakeTimer = vapetimer * 60; 
+                                        AwakeTimer = 0;
 					vret = 1;
 					break;   
                                         
@@ -525,6 +527,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 						if ( KeyTicks < 5 ) dfPuffsOff = PUFFS_OFF_MAX;
 						else dfPuffsOff = PUFFS_OFF_MIN;
 					}
+                                        PuffsOffCount = 0;
 					vret = 1;
 					break;
                                         
@@ -535,6 +538,7 @@ __myevic__ int VapingMenuOnEvent( int event )
 						else vapetimer = 0;
 					}
                                         dfAwakeTimer = vapetimer * 60;
+                                        AwakeTimer = 0;
 					vret = 1;
 					break;
                                         
@@ -568,7 +572,8 @@ __myevic__ int VapingMenuOnEvent( int event )
                                         break;
 
                                 case 6: //puffs off        
-                                        dfPuffsOff = 10;  
+                                        dfPuffsOff = 10;
+                                        PuffsOffCount = 0;
                                         vret = 1;
                                         break;
                                         

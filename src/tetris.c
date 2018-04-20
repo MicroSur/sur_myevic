@@ -13,7 +13,19 @@
 //https://github.com/AJRussell/Tiny-Tetris
 //flappy bird game from Ferox myevic
 
-extern const uint8_t Blocks[7][2];
+const uint8_t Blocks[7][2] ={
+    { 0b01100000, 0b00000110}, //O 
+    { 0b11110000, 0b00000000}, //I
+    { 0b11000000, 0b00000110}, //S 
+    { 0b01100000, 0b00001100}, //Z
+    { 0b11100000, 0b00000010}, //L 
+    { 0b11100000, 0b00001000}, //J    
+    { 0b11100000, 0b00000100}  //T    
+
+};
+
+//extern 
+//const uint8_t Blocks[7][2];
 
 typedef struct {
     uint8_t curBlock[4][4]; //r c
@@ -426,7 +438,7 @@ void movePieceRight() {
 void setScore(uint16_t score, int show) {
     //DrawValue(x, y, value, dot_pos, font, num_digits);
     if (show) {
-        DrawValue(34, 0, score, 0, 1, 5);
+        DrawValue(34, 0, score, 0, 0x0B, 5);
     } else {
         DrawFillRect(34, 0, 63, 6, 0);
     }
@@ -435,7 +447,7 @@ void setScore(uint16_t score, int show) {
 void setLevel(uint16_t lvl, int show) {
     //DrawValue(x, y, value, dot_pos, font, num_digits);
     if (show) {
-        DrawValue(1, 0, lvl, 0, 1, 2);
+        DrawValue(1, 0, lvl, 0, 0x0B, 2);
     } else {
         DrawFillRect(1, 0, 12, 6, 0);
     }
@@ -801,8 +813,8 @@ void ttStartScreen() {
         DrawString(strbuf, 4, 70);
         //DrawString(strBestScore, 4, 60);
         //DrawString(strLastScore, 4, 70);
-        DrawValue(29, 61, dfTTBest, 0, 1, 5);
-        DrawValue(29, 71, ttScore, 0, 1, 5);
+        DrawValue(29, 60, dfTTBest, 0, 0x0B, 5);
+        DrawValue(29, 70, ttScore, 0, 0x0B, 5);
         
         switch ( dfTTSpeed )
 	{

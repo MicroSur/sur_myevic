@@ -17,7 +17,6 @@
 
 volatile uint8_t Event;
 uint8_t	LastEvent;
-
 uint8_t	WattsInc;
 
 //-------------------------------------------------------------------------

@@ -24,7 +24,7 @@
 
 #define PUFFS_OFF_MIN  0
 #define PUFFS_OFF_DEF  0
-#define PUFFS_OFF_MAX 100
+#define PUFFS_OFF_MAX  99
 
 enum
 {

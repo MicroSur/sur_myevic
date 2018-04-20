@@ -206,6 +206,9 @@ __myevic__ void TimedItems()
 	if ( NoEventTimer )
 		--NoEventTimer;
 
+	if ( CustomTimer1 )
+		--CustomTimer1;
+        
 	if ( EditModeTimer )
 	{
 		if ( --EditModeTimer )

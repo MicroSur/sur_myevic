@@ -47,10 +47,42 @@ __myevic__ void MainView()
 	gFlags.refresh_display = 1;
 }
 
+//=============================================================================
+
+__myevic__ void DrawVapeAwakeLine ()
+{
+    // puffs & time to auto mod off
+    int at = dfAwakeTimer? dfAwakeTimer - AwakeTimer : 0 ;
+    int pc = dfPuffsOff ? dfPuffsOff - PuffsOffCount : 0;
+    
+        DrawValueRight( 13, 0, pc, 0, 0x0B, 2 );
+        
+        DrawImage( 16, 0, 0xBA ); //Off
+        
+	//DrawValueRight( 20, 1, AwakeTimer / 3600, 0, 0x0B, 0 );
+	//DrawImage( 20, 1, 0xD7 );
+	DrawValue( 37, 0, at / 60 % 60, 0, 0x0B, 2 );
+	DrawImage( 49, 0, 0xD7 );
+	DrawValue( 52, 0, at % 60, 0, 0x0B, 2 );
+        
+}
+
 
 //=============================================================================
 __myevic__ void DrawMode()
 {
+    //first line
+    
+    if ( dfAwakeTimer || dfPuffsOff )
+    {
+        if ( !EditModeTimer && CustomTimer1 ) //EditModeTimer && ( EditItemIndex 
+        {
+            DrawVapeAwakeLine();
+            return;
+        }
+    }
+    CustomTimer1 = 0;
+            
 	if ( !BLINKITEM(0) )
 	{
 		switch ( dfMode )

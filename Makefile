@@ -46,7 +46,6 @@ MYEVIC_OBJS := src/myevic.o \
 	src/flappy.o \
 	src/fbdata.o \
 	src/tetris.o \
-	src/ttdata.o \
 	src/fonts.o \
 	src/display.o \
 	src/SSD1306.o \

@@ -79,11 +79,12 @@
 
 // FAT16 Timestamping
 
+/* 
 #define FAT16_TODAY \
-	( \
-		(( __YEAR__ - 1980 ) << 9 ) | \
-		(( __MONTH__ ) << 5 ) | \
-		(( __DAY__ )) \
+ 	( \
+ 		(( __YEAR__ - 1980 ) << 9 ) | \
+ 		(( __MONTH__ ) << 5 ) | \
+ 		(( __DAY__ )) \
 	)
 
 #define FAT16_NOW \
@@ -91,6 +92,7 @@
 		(( __HOURS__ ) << 11 ) | \
 		(( __MINUTES__ ) << 5 ) | \
 		(( __SECONDS__ )) \
-	)
-	
+	)	
+*/ 
+
 #endif

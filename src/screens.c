@@ -410,6 +410,7 @@ __myevic__ void DrawScreen()
 			}
 			else
 			{
+                                CustomTimer1 = 300;
 				MainView();
 			}
 			break;

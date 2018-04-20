@@ -23,8 +23,9 @@ typedef struct {
 
 //-------------------------------------------------------------------------
 
-extern const uint8_t ByteMaskRight[];
-extern const uint8_t ByteMaskLeft[];
+//rx23 reset ok, mem? but FW file size up (
+//extern const uint8_t ByteMaskRight[];
+//extern const uint8_t ByteMaskLeft[];
 
 extern uint8_t DisplayModel;
 extern uint8_t ScreenBuffer[];
