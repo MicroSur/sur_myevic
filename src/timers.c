@@ -141,6 +141,7 @@ __myevic__ void TMR2_IRQHandler()
 
 __myevic__ void TMR3_IRQHandler()
 {
+    //work in LSL
 	if ( TIMER_GetIntFlag( TIMER3 ) )
 	{
 		TIMER_ClearIntFlag( TIMER3 );

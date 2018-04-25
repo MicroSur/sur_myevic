@@ -70,7 +70,7 @@ extern time_t RTCGetEpoch( time_t *t );
 //extern void RTCSetReferenceDate( time_t *t );
 extern void RTCWriteNextMidnight();
 extern time_t RTCGetMidnightDate();
-
+//extern void GoToSleep();
 extern void ResetMJDay();
 
 //=========================================================================

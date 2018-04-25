@@ -338,6 +338,9 @@ __myevic__ void InitVariables()
         if ( dfStatus2.vapedelay ) VapeDelayTimer = dfVapeDelayTimer;
         
         VWVolts = 330;
+        
+        //gFlags.wake_up = 1;
+        
         //AwakeTimer = 0;
         
         //test
@@ -345,7 +348,7 @@ __myevic__ void InitVariables()
         
         //dfAwakeTimer = 20; //test 20 sec alive
         
-        dfVWTempAlgo = 3; //SS test
+        //dfVWTempAlgo = 3; //SS test
 }
 
 
@@ -766,7 +769,8 @@ void GoToSleep()
         
         if ( VapeDelayTimer ) gFlags.light_sleep = 1;
 
-        
+        //if ( gFlags.power_down ) gFlags.light_sleep = 0;
+            
 	ScreenOff();
 	LEDOff();
 	gFlags.firing = 0;
@@ -787,8 +791,9 @@ void GoToSleep()
 	WDT_Open( WDT_TIMEOUT_2POW14, WDT_RESET_DELAY_18CLK, TRUE, FALSE );
 	SYS_LockReg();
 	gFlags.refresh_battery = 1;
-        
         if ( dfStatus.invert ) gFlags.inverse = 1;
+        
+        //gFlags.power_down = 0;
                                         
 	DevicesOnOff( 0 ); //on
 	RTCWakeUp();
