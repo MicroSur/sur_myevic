@@ -769,7 +769,7 @@ const obj3d_t isoca =
 	isoca_lines
 };
 
-const obj3d_t const *objects3d[] =
+const obj3d_t *objects3d[] =
 	{
                 &square,
 		&tetra,

@@ -157,6 +157,10 @@ extern void TweakTargetVoltsAlgo();
 
 extern int GetLockState();
 
+//extern uint16_t	BuckDuty; //for onscreen debug only
+//extern uint16_t	BoostDuty;
+//extern uint16_t	PWMCycles; //for onscreen debug only
+
 //=============================================================================
 
 #endif /* __ATOMIZER_H__ */

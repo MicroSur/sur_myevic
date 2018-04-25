@@ -318,8 +318,9 @@ __myevic__ void DrawScreen()
 //    DrawValue( 0, 37, mn, 0, 0x01, 0 );
 //    DrawValue( 0, 108, t, 0, 0x01, 0 );
 
-//DrawValueRight( 64, 108, dfTempAlgo, 0, 0x0B, 0 );     //gFlags.asleep ? 1 : 0      
-//DrawValue( 0, 108, TCR, 0, 0x0B, 0 ); //SwitchOffCase AwakeTimer
+//DrawValue( 0, 0, BoostDuty, 0, 0x0B, 0 ); //BoostDuty  BuckDuty PWMCycles
+//DrawValueRight( 64, 108, PWMCycles, 0, 0x0B, 0 );     //gFlags.asleep ? 1 : 0      dfTempAlgo
+//DrawValue( 0, 108, BuckDuty, 0, 0x0B, 0 ); //SwitchOffCase AwakeTimer TCR
 
 //DisplayRefresh(); //uncomment too
 

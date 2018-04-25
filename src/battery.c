@@ -57,7 +57,7 @@ const Battery_t BatteryRXMini =
 };
 */
 
-const Battery_t const myCustom[] =
+const Battery_t myCustom[] =
 {
     //for custom reset
 	{
@@ -81,7 +81,7 @@ const Battery_t const myCustom[] =
 	}
 };
 
-const Battery_t const Batteries[] =
+const Battery_t Batteries[] =
 {
 	// Generic 18650
 	{
