@@ -849,6 +849,14 @@ __myevic__ void ReadBatteryVoltage()
 		{
 		//	myprintf( "S1=%d S2=%d S3=%d\n",
 		//		VbatSample1, VbatSample2, VbatSample3 );
+                    
+//          B[2]     B[1]     B[0] 
+//	    |        |	      |
+//      ----| |------| |------| |---
+//      |   |    |   |    |   |	   |
+//	|	 |        |        |
+//   smpl_3    smpl_2    smpl_1    0
+                                     
                         if ( ISGEN3 )
                             VbatSample1 = ( VbatSample1 >> 7 ) + 3;
                         else
@@ -870,7 +878,9 @@ __myevic__ void ReadBatteryVoltage()
                         }
                         
 			if ( VbatSample3 <= VbatSample2 + 20 )
+                        {
 				BattVolts[2] = 0;
+                        }
 			else
                         {
 				BattVolts[2] = VbatSample3 - BattVolts[0] - BattVolts[1];
@@ -1694,7 +1704,7 @@ __myevic__ void BatteryCharge()
 			}
 		}
 	}
-	else if ( ( ISRX23 || ISGEN3 ) && BattVolts[0] >= 250 && BattVolts[1] >= 250 && BattVolts[2] < 20 )
+	else if ( ( ISRX200S || ISRX23 || ISGEN3 ) && BattVolts[0] >= 250 && BattVolts[1] >= 250 && BattVolts[2] < 20 )
 	{
 		NumBatteries = 2;
 		NewBatteryData();

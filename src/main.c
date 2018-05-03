@@ -1116,15 +1116,18 @@ __myevic__ void Main()
 			TimedItems();
 			SleepIfIdle();
 			ReadBatteryVoltage();
+                        
 			ReadBoardTemp();
                         if ( ISSINFJ200 )
                         {
                                 ReadAkkuTemp();
                         }
 
-			if ( gFlags.firing && ( BoardTemp > dfMaxBoardTemp
-                            || ( ISSINFJ200 && AkkuTemp > 70 ) ) 
-                                )
+			if ( 
+                                gFlags.firing 
+                                && ( BoardTemp > dfMaxBoardTemp
+                                || ( ISSINFJ200 && AkkuTemp > 70 ) ) 
+                            )
 			{
 				Overtemp();
 			}
@@ -1137,7 +1140,7 @@ __myevic__ void Main()
 			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
                                 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 )
 			{
-				BatteryCharge();
+				BatteryCharge(); // <- 2-3 batts for rx
                                 gFlags.soft_charge = 1;
 			}
                         else
