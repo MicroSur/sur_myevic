@@ -276,12 +276,13 @@ void DrawPiece(int X, int Y, int draw) {
     DisplayRefresh();
 }
 
-void DrawNext(int X, int Y) {
-
+void DrawNext() //(int X, int Y) 
+{
+    //X16 Y-4
     for (int r = 0; r < 3; r++) {
         for (int c = 0; c < 4; c++) {
-            int x1 = c * 4 + X;
-            int y1 = r * 4 + Y;
+            int x1 = c * 4 + 15; //+ X;
+            int y1 = r * 4 - 4; //+ Y;
             int x2 = x1 + 2;
             int y2 = y1 + 2;
             DrawFillRect(x1, y1, x2, y2, currentPiece.nextBlock[r][c]);
@@ -438,9 +439,9 @@ void movePieceRight() {
 void setScore(uint16_t score, int show) {
     //DrawValue(x, y, value, dot_pos, font, num_digits);
     if (show) {
-        DrawValue(34, 0, score, 0, 0x0B, 5);
+        DrawValue(33, 0, score, 0, 0x0B, 5);
     } else {
-        DrawFillRect(34, 0, 63, 6, 0);
+        DrawFillRect(33, 0, 63, 7, 0);
     }
 }
 
@@ -654,7 +655,7 @@ void movePieceDown() {
         } else {
             //next piece
             LoadPiece(1, (uint8_t) Random() % 7, 0, 0);
-            DrawNext(16, -4);
+            DrawNext(); //(16, -4);
             // DisplayRefresh();
         }
     }
@@ -775,7 +776,7 @@ void ttStartScreen() {
         DrawPiece(currentPiece.Col, currentPiece.Row, 1);
         //CheckCollision();
         LoadPiece(1, (uint8_t) Random() % 7, 0, 0); //get next piece
-        DrawNext(16, -4);
+        DrawNext(); //(16, -4);
         //DisplayRefresh();
 
         //KeyUpTimer = 0;

@@ -56,12 +56,26 @@ __myevic__ void RTC_IRQHandler()
 
 //=============================================================================
 
-static const char mon_days[] =
-			   {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+#define	YEAR0				1900			/* the first year */
+#define	EPOCH_YR			1970			/* EPOCH = Jan 1 1970 00:00:00 */
+#define	SECS_DAY			(24L * 60L * 60L)
+#define	LEAPYEAR(year)		(!((year) % 4) && (((year) % 100) || !((year) %	400)))
+#define	YEARSIZE(year)		(LEAPYEAR(year)	? 366 :	365)
 
-__myevic__ time_t time_to_epoch ( const struct tm *ltm, int utcdiff )
+//static const char mon_days[] =
+//			   {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+static const char _ytab[2][12] = {
+    { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
+    { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }	
+};
+
+__myevic__ time_t time_to_epoch ( const struct tm *ltm ) //, int utcdiff )
 {
-	long tyears, tdays, leaps, utc_hrs;
+
+/*
+        // leaps year bug here, try set date 01/01/2020
+	long tyears, tdays, leaps; //, utc_hrs;
 	int i;
 
 	tyears = ltm->tm_year - 70 ; // tm->tm_year is from 1900.
@@ -69,24 +83,27 @@ __myevic__ time_t time_to_epoch ( const struct tm *ltm, int utcdiff )
 	//i = (ltm->tm_year - 100) / 100;
 	//leaps -= ( (i/4)*3 + i%4 );
 	tdays = 0;
-	for (i=0; i < ltm->tm_mon; i++) tdays += mon_days[i];
+	for (i=0; i < ltm->tm_mon; i++) tdays += _ytab[0][i]; //mon_days[i];
 
 	tdays += ltm->tm_mday-1; // days of month passed.
 	tdays = tdays + (tyears * 365) + leaps;
 
-	utc_hrs = ltm->tm_hour + utcdiff; // for your time zone.
-	return (tdays * 86400) + (utc_hrs * 3600) + (ltm->tm_min * 60) + ltm->tm_sec;
+	//utc_hrs = ltm->tm_hour; // + utcdiff; // for your time zone.
+	return (tdays * 86400) + (ltm->tm_hour * 3600) + (ltm->tm_min * 60) + ltm->tm_sec;
+*/
+
+        int i;
+        long tdays = 0;
+        
+        for (i=0; i < ltm->tm_mon; i++) tdays += _ytab[0][i]; //mon_days[i];
+
+	tdays += ltm->tm_mday-1; // days of month passed.
+        
+        return  ltm->tm_sec + ltm->tm_min*60 + ltm->tm_hour*3600 + tdays*86400 +
+                (ltm->tm_year-70)*31536000 + ((ltm->tm_year-69)/4)*86400 -
+                ((ltm->tm_year-1)/100)*86400 + ((ltm->tm_year+299)/400)*86400;
+
 }
-
-#define	YEAR0				1900			/* the first year */
-#define	EPOCH_YR			1970			/* EPOCH = Jan 1 1970 00:00:00 */
-#define	SECS_DAY			(24L * 60L * 60L)
-#define	LEAPYEAR(year)		(!((year) %	4) && (((year) % 100) || !((year) %	400)))
-#define	YEARSIZE(year)		(LEAPYEAR(year)	? 366 :	365)
-
-static const char _ytab[2][12] = {
-						{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
-						{ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }	};
 
 __myevic__ struct tm * epoch_to_time(struct tm *timep, register const time_t *timer)
 {
@@ -100,18 +117,24 @@ __myevic__ struct tm * epoch_to_time(struct tm *timep, register const time_t *ti
 	timep->tm_sec = dayclock % 60;
 	timep->tm_min = (dayclock % 3600) / 60;
 	timep->tm_hour = dayclock / 3600;
-	timep->tm_wday = (dayno + 4) % 7;       /* day 0 was a thursday */
-	while (dayno >= YEARSIZE(year)) {
+	//timep->tm_wday = (dayno + 4) % 7;       /* day 0 was a thursday */
+        
+	while ( dayno >= YEARSIZE(year) ) 
+        {
 		dayno -= YEARSIZE(year);
 		year++;
 	}
+        
 	timep->tm_year = year - YEAR0;
 	timep->tm_yday = dayno;
 	timep->tm_mon = 0;
-	while (dayno >= _ytab[LEAPYEAR(year)][timep->tm_mon]) {
+        
+	while (dayno >= _ytab[LEAPYEAR(year)][timep->tm_mon]) 
+        {
 		dayno -= _ytab[LEAPYEAR(year)][timep->tm_mon];
 		timep->tm_mon++;
-	}
+	}        
+        
 	timep->tm_mday = dayno + 1;
 	timep->tm_isdst = 0;
 
@@ -134,12 +157,39 @@ __myevic__ void RTCTimeToEpoch( time_t *t, const S_RTC_TIME_DATA_T *d )
 	s.tm_wday  = 0;
 	s.tm_isdst = 0;
 
-	*t = time_to_epoch( &s, 0 );
+	*t = time_to_epoch( &s ); //, 0 );
 }
 
 
 __myevic__ void RTCEpochToTime( S_RTC_TIME_DATA_T *d, const time_t *t )
 {
+    //time.h
+    //struct tm
+    //{
+    //int	tm_sec;
+    //int	tm_min;
+    //int	tm_hour;
+    //int	tm_mday;
+    //int	tm_mon;
+    //int	tm_year;
+    //int	tm_wday;
+    //int	tm_yday;
+    //int	tm_isdst;
+    //}
+    
+    //typedef struct
+    //{
+    //uint32_t u32Year;           /*!< Year value */
+    //uint32_t u32Month;          /*!< Month value */
+    //uint32_t u32Day;            /*!< Day value */
+    //uint32_t u32DayOfWeek;      /*!< Day of week value */
+    //uint32_t u32Hour;           /*!< Hour value */
+    //uint32_t u32Minute;         /*!< Minute value */
+    //uint32_t u32Second;         /*!< Second value */
+    //uint32_t u32TimeScale;      /*!< 12-Hour, 24-Hour */
+    //uint32_t u32AmPm;           /*!< Only Time Scale select 12-hr used */
+    //} S_RTC_TIME_DATA_T;
+
 	struct tm s;
 
 	epoch_to_time( &s, t );
@@ -150,7 +200,7 @@ __myevic__ void RTCEpochToTime( S_RTC_TIME_DATA_T *d, const time_t *t )
 	d->u32Hour		= s.tm_hour;
 	d->u32Minute	= s.tm_min;
 	d->u32Second	= s.tm_sec;
-	d->u32DayOfWeek	= s.tm_wday;
+	//d->u32DayOfWeek	= s.tm_wday;
 	d->u32TimeScale	= RTC_CLOCK_24;
 }
 
@@ -255,6 +305,7 @@ __myevic__ void RTCSetReferenceDate( time_t *t )
 
 __myevic__ time_t RTCGetReferenceDate()
 {
+    //in ticks
 	if ( !ref_date )
 	{
 		ref_date = RTCReadRegister( RTCSPARE_REF_DATE );
@@ -270,7 +321,7 @@ __myevic__ void RTCSetClockSpeed( const unsigned int cs )
 
 __myevic__ unsigned int RTCGetClockSpeed()
 {
-	if ( ! dfClkRatio )
+	if ( !dfClkRatio )
 	{
 		dfClkRatio = RTC_DEF_CLK_RATIO;
 		UpdateDFTimer = 50;
@@ -472,7 +523,7 @@ __myevic__ void GetRTC( S_RTC_TIME_DATA_T *rtd )
 
 			d  = 32768ull * ( t - ref - sleep_ticks );
 			d += (int64_t)ClockCorrection + adj_10k;
-			d += (int64_t)sleep_ticks * cs;
+			d += (int64_t)sleep_ticks * cs;                        
 			d /= 10000;
 
 			t  = ref + d;
@@ -506,7 +557,7 @@ __myevic__ void RTCAdjustClock( int seconds )
 		int64_t adj_frac;
 		S_RTC_TIME_DATA_T rtd;
 
-		adj = adjustment;
+		adj = adjustment; // adjustment change in SetRTC
 		ref = RTCGetReferenceDate();
 
 		GetRTC( &rtd );

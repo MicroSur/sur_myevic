@@ -65,8 +65,8 @@ extern uint8_t	LastEvent;
 #define EVENT_LONG_FIRE			104
 #define EVENT_EXIT_MENUS		105
 #define EVENT_PARENT_MENU		106
-#define EVENT_SET_TIME			107
-#define EVENT_SET_DATE			108
+#define EVENT_SET_TIME_DATE			107 //screen 105
+//#define EVENT_SET_DATE			108
 #define EVENT_NEXT_MODE			109
 #define EVENT_TOGGLE_TDOM		110
 #define EVENT_RESET_VAPED		111

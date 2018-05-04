@@ -814,10 +814,10 @@ __myevic__ int EvtFire()
 		break;
 
 		case 105:
-		case 106:
+		//case 106:
 		{
 			EditModeTimer = 6000;
-			if ( --EditItemIndex > 2 ) EditItemIndex = 2;
+			if ( --EditItemIndex > 5 ) EditItemIndex = 5; //2
 			gFlags.draw_edited_item = 1;
 			vret = 1;
 		}
@@ -874,7 +874,7 @@ __myevic__ int EvtSingleFire()
 		case 103:
 		case 104:
 		case 105:
-		case 106:
+		//case 106:
 		case 107:
                 case 50:     // FW Version
                 case EVENT_SET_JOULES:    
@@ -1001,7 +1001,9 @@ __myevic__ int EvtPlusButton()
 
 		case 105:
 		{
-			switch ( EditItemIndex )
+                    if ( EditItemIndex > 2 )
+                    {
+			switch ( EditItemIndex - 3 )
 			{
 				case 0:
 					++SetTimeRTD.u32Second;
@@ -1016,6 +1018,33 @@ __myevic__ int EvtPlusButton()
 					SetTimeRTD.u32Hour %= 24;
 					break;
 			}
+                    }
+                    else
+                    {
+                        int f = dfStatus.dfmt1 | ( dfStatus.dfmt2 << 1 );
+			switch ( ( f << 2 | EditItemIndex ) )
+			{
+				case  0:
+				case  4:
+				case  8:
+				case 14:
+					if ( SetTimeRTD.u32Year < RTC_YEAR2000 + 1000 ) ++SetTimeRTD.u32Year;
+					break;
+				case  1:
+				case  6:
+				case  9:
+				case 13:
+					SetTimeRTD.u32Month = SetTimeRTD.u32Month %12 + 1;
+					break;
+				case  2:
+				case  5:
+				case 10:
+				case 12:
+					SetTimeRTD.u32Day = SetTimeRTD.u32Day %31 + 1;
+					break;
+			}
+                    }
+                    
 			gFlags.draw_edited_item = 1;
 			gFlags.refresh_display = 1;
 			ScreenDuration = 60;
@@ -1024,6 +1053,7 @@ __myevic__ int EvtPlusButton()
 		}
 		break;
 
+/*
 		case 106:
 		{
 			int f = dfStatus.dfmt1 | ( dfStatus.dfmt2 << 1 );
@@ -1055,6 +1085,7 @@ __myevic__ int EvtPlusButton()
 			vret = 1;
 		}
 		break;
+*/
 
 		case 107:
 		{
@@ -1179,7 +1210,9 @@ __myevic__ int EvtMinusButton()
 
 		case 105:
 		{
-			switch ( EditItemIndex )
+                    if ( EditItemIndex > 2 )
+                    {
+			switch ( EditItemIndex - 3 )
 			{
 				case 0:
 					SetTimeRTD.u32Second = ( SetTimeRTD.u32Second + 59 ) % 60;
@@ -1191,6 +1224,33 @@ __myevic__ int EvtMinusButton()
 					SetTimeRTD.u32Hour = ( SetTimeRTD.u32Hour + 23 ) % 24;
 					break;
 			}
+                    }
+                    else //if ( EditItemIndex <= 2 )
+                    {
+                        int f = dfStatus.dfmt1 | ( dfStatus.dfmt2 << 1 );
+			switch ( ( f << 2 | EditItemIndex ) )
+			{
+				case  0:
+				case  4:
+				case  8:
+				case 14:
+					if ( SetTimeRTD.u32Year > RTC_YEAR2000 ) --SetTimeRTD.u32Year;
+					break;
+				case  1:
+				case  6:
+				case  9:
+				case 13:
+					SetTimeRTD.u32Month = ( SetTimeRTD.u32Month + 10 ) % 12 + 1;
+					break;
+				case  2:
+				case  5:
+				case 10:
+				case 12:
+					SetTimeRTD.u32Day = ( SetTimeRTD.u32Day + 29 ) % 31 + 1;
+					break;
+			}
+                    }
+                        
 			gFlags.draw_edited_item = 1;
 			gFlags.refresh_display = 1;
 			ScreenDuration = 60;
@@ -1199,6 +1259,7 @@ __myevic__ int EvtMinusButton()
 		}
 		break;
 
+/*
 		case 106:
 		{
 			int f = dfStatus.dfmt1 | ( dfStatus.dfmt2 << 1 );
@@ -1230,6 +1291,7 @@ __myevic__ int EvtMinusButton()
 			vret = 1;
 		}
 		break;
+*/
 
 		case 107:
 		{
@@ -1324,16 +1386,25 @@ __myevic__ int EvtLongFire()
 			vret = MenuEvent( LastEvent );
 			break;
 
-		case 106: //SetDate
+                        //bug on mod wis no quartz 2020 01 01 saved as 2020 01 02 (yy mm dd)
+                case 105: //SetTimeDate
+		//case 106: //SetDate
 		{
-			S_RTC_TIME_DATA_T rtd;
+			//S_RTC_TIME_DATA_T rtd;
 
-			GetRTC( &rtd );
-			SetTimeRTD.u32Hour = rtd.u32Hour;
-			SetTimeRTD.u32Minute = rtd.u32Minute;
-			SetTimeRTD.u32Second = rtd.u32Second;
+			//GetRTC( &rtd );
+			//SetTimeRTD.u32Hour = rtd.u32Hour;
+			//SetTimeRTD.u32Minute = rtd.u32Minute;
+			//SetTimeRTD.u32Second = rtd.u32Second;
 			// NOBREAK
+                    
+      			SetRTC( &SetTimeRTD );
+			EditModeTimer = 0;
+                        Event = EVENT_PARENT_MENU;
+			vret = 1;
+			break;
 		}
+/*
 		case 105: //SetTime
 			SetRTC( &SetTimeRTD );
 			EditModeTimer = 0;
@@ -1341,6 +1412,7 @@ __myevic__ int EvtLongFire()
                         Event = EVENT_PARENT_MENU;
 			vret = 1;
 			break;
+*/
 
 		case 107:
 		{
@@ -1410,15 +1482,16 @@ __myevic__ int EvtSet( int what )
 }
 */
 
-__myevic__ int EvtSetTime()
+__myevic__ int EvtSetTimeDate()
 {
 	GetRTC( &SetTimeRTD );
 	SetScreen( 105, 60 );
-	EditItemIndex = 2;
+	EditItemIndex = 5; //2
 	EditModeTimer = 6000;
 	return 1;
 }
 
+/*
 __myevic__ int EvtSetDate()
 {
 	GetRTC( &SetTimeRTD );
@@ -1427,6 +1500,7 @@ __myevic__ int EvtSetDate()
 	EditModeTimer = 6000;
 	return 1;
 }
+*/
 
 __myevic__ int EvtSetJoules()
 {
@@ -1523,17 +1597,17 @@ __myevic__ int CustomEvents()
 			vret = MenuEvent( LastEvent );
 			break;
 
-		case EVENT_SET_TIME:
-			vret = EvtSetTime();
+		case EVENT_SET_TIME_DATE:
+			vret = EvtSetTimeDate();
 			break;
                         
 		case EVENT_SET_JOULES:
 			vret = EvtSetJoules();
 			break;
                         
-		case EVENT_SET_DATE:
-			vret = EvtSetDate();
-			break;
+		//case EVENT_SET_DATE:
+		//	vret = EvtSetDate();
+		//	break;
 
 		case EVENT_NEXT_MODE:
 			NextMode();

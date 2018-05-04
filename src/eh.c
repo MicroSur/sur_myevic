@@ -1205,10 +1205,10 @@ __myevic__ void EventHandler()
 				{
 					ChargeView();
 				}
-				else
-				{
-					MainView();
-				}
+				//else
+				//{
+				//	MainView();
+				//}
 			}
 			return;
 

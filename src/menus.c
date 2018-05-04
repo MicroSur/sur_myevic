@@ -890,7 +890,7 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 {
 	switch ( it )
 	{
-		case 4:	// Format
+		case 3:	// Format
 		{
 			const uint8_t *strDMY[] =
 				{ String_DMY1, String_MDY, String_DMY2, String_YMD };
@@ -902,7 +902,7 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 			break;
 		}
 
-		case 6:	// Dial
+		case 5:	// Dial
 			DrawFillRect( 36, line, 63, line+12, 0 );
 			//DrawImageRight( 63, line+2, dfStatus.digclk ? 0x9F : 0x9C ); // D/A
                         
@@ -927,7 +927,7 @@ __myevic__ void ClockMenuOnClick()
 		//	Event = EVENT_SET_DATE;
 		//	break;
 
-		case 4:	// Format
+		case 3:	// Format
 		{
 			int f = dfStatus.dfmt1 | ( dfStatus.dfmt2 << 1 );
 			if ( ++f > 3 ) f = 0;
@@ -936,7 +936,7 @@ __myevic__ void ClockMenuOnClick()
 			break;
 		}
 
-		case 6:	// Dial
+		case 5:	// Dial
 			//dfStatus.digclk ^= 1;
                 {    
                     	int f = dfStatus.digclk | ( dfStatus2.digclk2 << 1 );
@@ -2535,10 +2535,10 @@ __myevic__ void ModesIClick()
 		UpdateDFTimer = 50;
 		gFlags.refresh_display = 1;
 	}
-	else
-	{
-		UpdateDataFlash();
-	}
+	//else
+	//{
+	//	UpdateDataFlash();
+	//}
 }
 
 //-----------------------------------------------------------------------------
@@ -2939,10 +2939,8 @@ __myevic__ int MiscMenuOnEvent( int event )
                 case EVENT_LONG_FIRE:
 			//if ( CurrentMenuItem == 8 ) //reset dataflash
                         { 
-                                int p = dfProfile;
-                                ResetDataFlash();
-                                dfProfile = p;                      
-                                //InitVariables();
+                                ResetDFlashRes();			
+                                                        
                                 vret = 1;
                                 Event = EVENT_EXIT_MENUS;
                         }   
@@ -3296,7 +3294,7 @@ const mdata_t TCRM3Data =
 
 const menu_t TCRSetMenu =
 {
-	String_TCRSet,
+	String_TCR,
 	&CoilsMenu,
 	0,
 	TCRSetIDraw+1, //0,
@@ -3348,7 +3346,7 @@ const menu_t CoilsMenu =
 	7,
 	{
 		{ String_Manage, &CoilsMgmtMenu, 0, MACTION_SUBMENU },
-		{ String_TCRSet, &TCRSetMenu, 0, MACTION_SUBMENU },
+		{ String_TCR, &TCRSetMenu, 0, MACTION_SUBMENU },
                 { String_Profile, 0, 0, MACTION_SUBMENU }, //EVENT_PROFILE_MENU, MACTION_SUBMENU },
                 { String_Cold, 0, 0, 0 },
                 { String_New, 0, 0, 0 },
@@ -3528,10 +3526,10 @@ const menu_t ClockMenu =
 	0,
 	ClockMenuOnClick+1,
 	0,
-	9,
+	8,
 	{
-		{ String_Time, 0, EVENT_SET_TIME, MACTION_SUBMENU }, //0
-		{ String_Date, 0, EVENT_SET_DATE, MACTION_SUBMENU }, //0
+		{ String_Set, 0, EVENT_SET_TIME_DATE, MACTION_SUBMENU }, //0
+		//{ String_Date, 0, EVENT_SET_DATE, MACTION_SUBMENU }, //0
 		{ String_ClkAdjust, 0, EVENT_CLK_ADJUST, MACTION_SUBMENU }, //0
 		{ String_ClkSpeed, 0, EVENT_CLK_SPEED, MACTION_SUBMENU }, //0
 		{ String_Fmt, 0, 0, 0 },
@@ -4805,7 +4803,7 @@ __myevic__ int MenuEvent( int event )
 				case 103:
 				case 104:
 				case 105:
-				case 106:
+				//case 106:
                                         PrevMenuItem = 0;
 					CurrentMenu = &ClockMenu;
 					break;

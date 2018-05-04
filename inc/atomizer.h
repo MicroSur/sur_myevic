@@ -135,6 +135,7 @@ extern void ReadBoardTemp();
 extern void ReadAkkuTemp();
 extern void Overtemp();
 extern void ResetResistance();
+extern void ResetDFlashRes();
 
 extern void SwitchRezLock( int lock );
 //extern uint16_t RereadRez();

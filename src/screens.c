@@ -262,12 +262,12 @@ __myevic__ void DrawScreen()
 				break;
 
 			case 105:
-				ShowSetTime();
+				ShowSetTimeDate();
 				break;
 
-			case 106:
-				ShowSetDate();
-				break;
+			//case 106:
+			//	ShowSetDate();
+			//	break;
 
 			case 107:
 				ShowPowerCurve();
@@ -319,8 +319,8 @@ __myevic__ void DrawScreen()
 //    DrawValue( 0, 108, t, 0, 0x01, 0 );
 
 //DrawValue( 0, 0, BoostDuty, 0, 0x0B, 0 ); //BoostDuty  BuckDuty PWMCycles
-//DrawValueRight( 64, 108, PWMCycles, 0, 0x0B, 0 );     //gFlags.asleep ? 1 : 0      dfTempAlgo
-//DrawValue( 0, 108, BuckDuty, 0, 0x0B, 0 ); //SwitchOffCase AwakeTimer TCR
+//DrawValueRight( 64, 108, sleep_ticks, 0, 0x0B, 0 );     //gFlags.asleep ? 1 : 0      dfTempAlgo
+//DrawValue( 0, 108, SetTimeRTD.u32Day, 0, 0x0B, 0 ); //SwitchOffCase AwakeTimer TCR
 
 //DisplayRefresh(); //uncomment too
 
@@ -473,8 +473,8 @@ __myevic__ void DrawScreen()
 		case 102: // Menus
 		case 103: // RTC Speed
 		case 104: // Adjust Clock
-		case 105: // Set Time
-		case 106: // Set Date
+		case 105: // Set TimeDate
+		//case 106: // Set Date
 		case 107: // Power Curve
                 case EVENT_SET_JOULES:    
 			EditModeTimer = 0;
@@ -1341,20 +1341,77 @@ __myevic__ void AnimateScreenSaver()
 }
 
 //=========================================================================
-__myevic__ void ShowSetTime()
+__myevic__ void ShowSetTimeDate()
 {
-	DrawString( String_Time, 4, 5 );
+    //105 screen
+    
+	DrawString( String_Set, 4, 5 );
 	DrawHLine( 0, 16, 63, 1 );
+        
+    //or debug
+/*
+    S_RTC_TIME_DATA_T rtd;
+    GetRTC( &SetTimeRTD );
+    time_t t, ref;
+    uint32_t cs;
+    cs  = RTCGetClockSpeed();
+    RTC_GetDateAndTime( &rtd );
+    RTCTimeToEpoch( &t, &rtd );
+    ref = RTCReadRegister( RTCSPARE_REF_DATE );
+    DrawValue( 0, 0, t, 0, 0x0B, 0 );
+    DrawValue( 0, 10, ref, 0, 0x0B, 0 );    
+    DrawValue( 0, 20, cs, 0, 0x0B, 0 ); 
+    DrawValue( 0, 30, ClockCorrection, 0, 0x0B, 0 ); 
+*/
+    // end debug
+    
+        uint8_t EdItInd;
+        
+        //__myevic__ void DrawTime( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 
-	DrawTime( 3, 46, &SetTimeRTD, 0x1F & ~( 1 << ( EditItemIndex << 1 ) ) );
-	DrawDate( 4, 64, &SetTimeRTD, 0x1F );
+        if ( EditItemIndex > 2 ) 
+        {
+            EdItInd = EditItemIndex - 3;
+        
+            DrawTime( 3, 49, &SetTimeRTD, 0x1F & ~( 1 << ( EdItInd << 1 ) ) );
+            DrawDate( 4, 64, &SetTimeRTD, 0x1F );
+        
+            //DrawStringCentered( String_LongFire, 103 );
+            //DrawStringCentered( String_Save, 114 );
+
+        }
+        else
+        {
+            //date
+            const uint8_t cols[4][3] =
+            {
+            	{ 0x1E, 0x1B, 0x0F },
+            	{ 0x1E, 0x0F, 0x1B },
+            	{ 0x1E, 0x1B, 0x0F },
+		{ 0x0F, 0x1B, 0x1E }
+            };
+
+            int f = dfStatus.dfmt1 | ( dfStatus.dfmt2 << 1 );
+            int col = cols[f][EditItemIndex];
+
+            //S_RTC_TIME_DATA_T rtd;
+            //GetRTC( &rtd );
+            //DrawString( String_Date, 4, 5 );
+            //DrawHLine( 0, 16, 63, 1 );
+
+            DrawTime( 3, 49, &SetTimeRTD, 0x1F ); //rdt
+            DrawDate( 4, 64, &SetTimeRTD, col );
+        
+        }
         
         DrawStringCentered( String_LongFire, 103 );
 	DrawStringCentered( String_Save, 114 );
+        
 }
 
 
 //=========================================================================
+/*
 __myevic__ void ShowSetDate()
 {
 	const uint8_t cols[4][3] =
@@ -1381,6 +1438,7 @@ __myevic__ void ShowSetDate()
         DrawStringCentered( String_LongFire, 103 );
 	DrawStringCentered( String_Save, 114 );
 }
+*/
 
 
 //=========================================================================

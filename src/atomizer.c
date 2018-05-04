@@ -1967,6 +1967,18 @@ __myevic__ void SwitchRezLock( int lock )
 	}
 }
 
+__myevic__ void ResetDFlashRes()
+{
+    int p = dfProfile;
+    ResetDataFlash();
+    dfProfile = p;      
+    
+    //rx23 not found coil some time
+    RereadRez();
+    //Halt(     ResetResistance();
+    //if ( AtoStatus == 4 ) SwitchRezLock( 1 );
+
+}
 
 //=========================================================================
 

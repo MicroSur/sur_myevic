@@ -12,8 +12,8 @@
 
 void usbdEP2Handler();
 void usbdEP3Handler();
-void usbdEP5Handler();
-void usbdEP6Handler();
+//void usbdEP5Handler();
+//void usbdEP6Handler();
 
 
 //=========================================================================
@@ -754,9 +754,12 @@ __myevic__ uint32_t hidResetParamCmd( CMD_T *pCmd )
 {
 	//uint8_t p;
 	//myprintf("Reset param\n");
-	int p = dfProfile;
-	ResetDataFlash();
-	dfProfile = p;
+    
+        ResetDFlashRes();
+	//int p = dfProfile;
+	//ResetDataFlash();
+	//dfProfile = p;
+        
 	gFlags.refresh_display = 1;
 	pCmd->u8Cmd = HID_CMD_NONE;
 	return 0;
@@ -766,6 +769,7 @@ __myevic__ uint32_t hidResetParamCmd( CMD_T *pCmd )
 //----- (00002C38) --------------------------------------------------------
 __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
 {
+    //restart mod
 	//myprintf("Reset system command\n");
 
 	if ( UpdateDFTimer ) UpdateDataFlash();
@@ -1565,10 +1569,12 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 		default:
 		{
-			if ( hidProcessCommand( pu8Buffer, u32BufferLen ) )
-			{
-				//myprintf( "Unknown HID command %02X!\n", hidCmd.u8Cmd );
-			}
+                        hidProcessCommand( pu8Buffer, u32BufferLen );
+                        
+			//if ( hidProcessCommand( pu8Buffer, u32BufferLen ) )
+			//{
+			//	//myprintf( "Unknown HID command %02X!\n", hidCmd.u8Cmd );
+			//}
 			return;
 		}
 	}
