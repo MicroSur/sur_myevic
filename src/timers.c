@@ -207,8 +207,8 @@ __myevic__ void TimedItems()
 	if ( NoEventTimer )
 		--NoEventTimer;
 
-	if ( CustomTimer1 )
-		--CustomTimer1;
+	if ( LinePuffAwakeTimer )
+		--LinePuffAwakeTimer;
         
 	if ( EditModeTimer )
 	{

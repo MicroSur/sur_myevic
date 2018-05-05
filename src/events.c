@@ -438,7 +438,21 @@ __myevic__ void GetUserInput()
 	// 60 milliseconds before an event is emitted.
 	// (Taking into account the 50ms debounce time)
 
-	if ( KeyPressTime == 6 )
+        
+/*
+        if ( KeyPressTime == 1 )
+	{
+            if ( UserInputs == 1 && !dfStatus.off && !IsMenuScreen() && !EditModeTimer )
+            {
+                ++FireClickCount;
+                FireClickTimer = 40;
+                FireClicksEvent = 0;
+                Event = 1;
+            }
+        }
+       
+*/
+        if ( KeyPressTime == 2 ) //6
 	{
 		gFlags.user_idle = 0;
 
@@ -585,12 +599,12 @@ __myevic__ void GetUserInput()
 				else
 				{
                                     Event = 0;
-                                    if ( gFlags.playing_fb)
+                                    if ( gFlags.playing_fb )
                                     {
 					gFlags.playing_fb = 0;					
 					fbInitTimeouts();
                                     }
-                                    else if ( gFlags.playing_tt)
+                                    else if ( gFlags.playing_tt )
                                     {
 					gFlags.playing_tt = 0;
 					ttInitTimeouts();

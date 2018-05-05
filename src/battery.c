@@ -277,7 +277,7 @@ uint8_t		BatteryPercent;
 uint8_t		BatteryTenth;
 uint8_t         BatteryTenthAll[4];
 uint8_t		NoEventTimer;
-uint16_t	CustomTimer1;
+uint16_t	LinePuffAwakeTimer;
 uint8_t		BatReadTimer;
 uint8_t		NumBatteries;
 uint8_t		MaxBatteries;

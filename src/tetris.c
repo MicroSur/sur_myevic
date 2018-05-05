@@ -13,6 +13,8 @@
 //https://github.com/AJRussell/Tiny-Tetris
 //flappy bird game from Ferox myevic
 
+void ttGame();
+
 const uint8_t Blocks[7][2] ={
     { 0b01100000, 0b00000110}, //O 
     { 0b11110000, 0b00000000}, //I
@@ -436,22 +438,24 @@ void movePieceRight() {
     }
 }
 
-void setScore(uint16_t score, int show) {
+void setScore(uint16_t score) //, int show) 
+{
     //DrawValue(x, y, value, dot_pos, font, num_digits);
-    if (show) {
+    //if (show) {
         DrawValue(33, 0, score, 0, 0x0B, 5);
-    } else {
-        DrawFillRect(33, 0, 63, 7, 0);
-    }
+    //} else {
+    //    DrawFillRect(33, 0, 63, 7, 0);
+    //}
 }
 
-void setLevel(uint16_t lvl, int show) {
+void setLevel(uint16_t lvl) //, int show) 
+{
     //DrawValue(x, y, value, dot_pos, font, num_digits);
-    if (show) {
+    //if (show) {
         DrawValue(1, 0, lvl, 0, 0x0B, 2);
-    } else {
-        DrawFillRect(1, 0, 12, 6, 0);
-    }
+    //} else {
+    //    DrawFillRect(1, 0, 12, 7, 0);
+    //}
 }
 
 void CompletedLines() {
@@ -565,7 +569,7 @@ void CompletedLines() {
         else
             gameOver = 2;
         
-        setScore(ttScore, 1);
+        setScore(ttScore);
 
         //update level line count & level
         levellineCount += linesProcessed;
@@ -582,7 +586,7 @@ void CompletedLines() {
         {
             if (level > 99) gameOver = 2;
         }
-        setLevel(level, 1);
+        setLevel(level);
 
     }
 
@@ -767,8 +771,8 @@ void ttStartScreen() {
         fillTetrisScreen(0); //2-11 x 2-21
 
         DrawTTCup();
-        setLevel(level, 1);
-        setScore(0, 1);
+        setLevel(level);
+        setScore(0);
 
         //rnd 0-6
         nSZ = 3; //for rotate

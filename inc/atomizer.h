@@ -55,7 +55,7 @@ enum
 extern uint32_t	AtoVolts;
 extern uint32_t	TargetVolts;
 extern uint32_t	AtoRezMilli;
-extern uint32_t	AtoRezMilliMin;
+extern uint32_t	AtoRezMilliMin; //min while puff
 extern uint32_t	AtoMinVolts;
 extern uint32_t	AtoMaxVolts;
 extern uint32_t	AtoMinPower;
@@ -135,7 +135,6 @@ extern void ReadBoardTemp();
 extern void ReadAkkuTemp();
 extern void Overtemp();
 extern void ResetResistance();
-extern void ResetDFlashRes();
 
 extern void SwitchRezLock( int lock );
 //extern uint16_t RereadRez();

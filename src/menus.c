@@ -1737,10 +1737,6 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 
 	switch ( it )
 	{
-	//	case 0:	// BVO   
-        //        case 9: //cus
-        //        case 10: //max
-        //                break;
                         
 		case 1:	// X32
 			if ( dfStatus.x32off )
@@ -2485,13 +2481,17 @@ __myevic__ void GameMEnter()
 
 __myevic__ void GameISelect()
 {
+    if ( CurrentMenuItem < 3 )
+    {
 	dfFBSpeed = CurrentMenuItem;
 	UpdateDFTimer = 50;
+    }
 }
 
 __myevic__ void GameIClick()
 {
-	if ( dfFBSpeed < 3 ) fbStartGame();
+	if ( dfFBSpeed > 2 ) dfFBSpeed = 1;
+        fbStartGame();
 }
 
 __myevic__ void GameTtMEnter()
@@ -2501,13 +2501,17 @@ __myevic__ void GameTtMEnter()
 
 __myevic__ void GameTtISelect()
 {
+    if ( CurrentMenuItem < 3 )
+    {
 	dfTTSpeed = CurrentMenuItem;
 	UpdateDFTimer = 50;
+    }
 }
 
 __myevic__ void GameTtIClick()
 {
-        if ( dfTTSpeed < 3 ) ttStartGame();
+        if ( dfTTSpeed > 2 ) dfTTSpeed = 1;
+        ttStartGame();
 }
 
 //-----------------------------------------------------------------------------
@@ -2940,9 +2944,10 @@ __myevic__ int MiscMenuOnEvent( int event )
 			//if ( CurrentMenuItem == 8 ) //reset dataflash
                         { 
                                 ResetDFlashRes();			
-                                                        
-                                vret = 1;
-                                Event = EVENT_EXIT_MENUS;
+                                RestartMod();
+                                
+                                //vret = 1;
+                                //Event = EVENT_EXIT_MENUS;
                         }   
                         break;
 	}

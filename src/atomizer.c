@@ -474,7 +474,7 @@ __myevic__ void StopFire()
 
 //=========================================================================
 //----- (00003508) --------------------------------------------------------
-uint16_t LowestRezMeasure()
+__myevic__ uint16_t LowestRezMeasure()
 {
 	uint16_t rez;
 
@@ -569,7 +569,7 @@ __myevic__ void ReadAtoCurrent()
 		}
 
 		arez = LowestRezMeasure();
-
+                        
 		if	(  gFlags.firing
 			   // ( shunt current ) > ( 1.6 * theorical ato current )
 			&& 160 * 13 * adcAtoVolts / 100 * AtoShuntRez < 30 * ( adcShunt1 + adcShunt2 ) * arez
@@ -1965,19 +1965,6 @@ __myevic__ void SwitchRezLock( int lock )
 		default:
 			break;
 	}
-}
-
-__myevic__ void ResetDFlashRes()
-{
-    int p = dfProfile;
-    ResetDataFlash();
-    dfProfile = p;      
-    
-    //rx23 not found coil some time
-    RereadRez();
-    //Halt(     ResetResistance();
-    //if ( AtoStatus == 4 ) SwitchRezLock( 1 );
-
 }
 
 //=========================================================================

@@ -75,13 +75,13 @@ __myevic__ void DrawMode()
     
     if ( dfAwakeTimer || dfPuffsOff )
     {
-        if ( !EditModeTimer && CustomTimer1 ) //EditModeTimer && ( EditItemIndex 
+        if ( !EditModeTimer && LinePuffAwakeTimer ) //EditModeTimer && ( EditItemIndex 
         {
             DrawVapeAwakeLine();
             return;
         }
     }
-    CustomTimer1 = 0;
+    LinePuffAwakeTimer = 0;
             
 	if ( !BLINKITEM(0) )
 	{

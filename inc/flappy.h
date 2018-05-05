@@ -4,14 +4,14 @@
 //=========================================================================
 
 extern void fbInitTimeouts();
-extern int	fbCreateTimeout( void (*cb)( void ) );
-extern void fbDeleteTimeout( int );
-extern void fbSetTimeoutDelay( int );
+//extern int	fbCreateTimeout( void (*cb)( void ) );
+//extern void fbDeleteTimeout( int );
+//extern void fbSetTimeoutDelay( int );
 extern void fbTickTimeouts();
 extern void fbCallTimeouts();
 
-extern void fbStartScreen();
-extern void fbBirdAnim( int );
+//extern void fbStartScreen();
+//extern void fbBirdAnim( int );
 extern void fbStartGame();
 
 //=========================================================================

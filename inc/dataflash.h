@@ -511,11 +511,14 @@ extern void ApplyParameters();
 
 extern void ResetPowerCurve();
 
+extern void ResetDFlashRes();
+extern void RestartMod();
+
 //-------------------------------------------------------------------------
 
 extern void FMCWritePage( uint32_t u32Addr, uint32_t *pu32Data );
 extern int  FMCEraseWritePage( uint32_t u32Addr, uint32_t *pu32Data );
-extern uint32_t FMCVerifyPage( uint32_t u32Addr, uint32_t *pu32Data );
+//extern uint32_t FMCVerifyPage( uint32_t u32Addr, uint32_t *pu32Data );
 
 extern void FMCRead256( uint32_t u32Addr, uint32_t *pu32Buf );
 

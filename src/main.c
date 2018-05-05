@@ -1000,15 +1000,14 @@ __myevic__ void Main()
             SplashTimer = 2;
         }
         
-        //ModeChange();
 	MainView();
 
 	//CustomStartup();
 
-	if ( !PD3 )
+	if ( !PD3 || !PE0 )
 	{
 		DrawScreen();
-		while ( !PD3 )
+		while ( !PD3 || !PE0 )
 			;
 	}
        
@@ -1045,6 +1044,7 @@ __myevic__ void Main()
                                 if ( !PE0 || !PD2 || !PD3 )
                                     SleepTimer = 3000; //30 sec
 			}
+                        
 			if ( gFlags.tick_10hz )
 			{
 				// 10Hz

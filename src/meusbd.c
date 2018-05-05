@@ -754,14 +754,15 @@ __myevic__ uint32_t hidResetParamCmd( CMD_T *pCmd )
 {
 	//uint8_t p;
 	//myprintf("Reset param\n");
-    
-        ResetDFlashRes();
 	//int p = dfProfile;
 	//ResetDataFlash();
 	//dfProfile = p;
         
-	gFlags.refresh_display = 1;
 	pCmd->u8Cmd = HID_CMD_NONE;
+        
+        ResetDFlashRes();
+        gFlags.refresh_display = 1;      
+        
 	return 0;
 }
 
@@ -770,8 +771,14 @@ __myevic__ uint32_t hidResetParamCmd( CMD_T *pCmd )
 __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
 {
     //restart mod
-	//myprintf("Reset system command\n");
-
+    
+    pCmd->u8Cmd = HID_CMD_NONE;
+    
+    RestartMod();
+    
+    return 0;
+    
+/*
 	if ( UpdateDFTimer ) UpdateDataFlash();
 	if ( UpdatePTTimer ) UpdatePTCounters();
 
@@ -819,6 +826,7 @@ __myevic__ uint32_t hidResetSysCmd( CMD_T *pCmd )
 
 	while ( 1 )
 		;
+*/
 }
 
 
@@ -1265,7 +1273,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 	uint32_t u32Page;
 
 	uint32_t sz;
-	uint32_t veo;
+	//uint32_t veo;
 
 	u8Cmd			= hidCmd.u8Cmd;
 	u32StartAddr	= hidCmd.u32Arg1;
@@ -1432,10 +1440,10 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 
 					gFlags.refresh_display = 1;
 				}
-				else
-				{
+				//else
+				//{
 					//myprintf( "Sys Param Receive fail.\n" );
-				}
+				//}
 
 				hidDataIndex = 0;
 			}
@@ -1461,16 +1469,19 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 			FMC_ENABLE_ISP();
 			FMC_ENABLE_AP_UPDATE();
 
-			if ( FMCEraseWritePage( u32Page, (uint32_t*)hidData ) )
-			{
+                        FMCEraseWritePage( u32Page, (uint32_t*)hidData );
+			//if ( FMCEraseWritePage( u32Page, (uint32_t*)hidData ) )
+			//{
 				//myprintf( "Data Flash Erase error!\n" );
-			}
+			//}
 
+/*
 			veo = FMCVerifyPage( u32Page, (uint32_t*)hidData );
 			if ( veo )
 			{
 				//myprintf( "Data Flash Verify error! 0x%x\n", 4 * veo - 4 );
 			}
+*/
 
 			MemClear( hidData, FMC_FLASH_PAGE_SIZE );
 			u32ByteCount += hidDataIndex;

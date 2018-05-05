@@ -11,6 +11,8 @@
 
 //=========================================================================
 
+void fbStartScreen();
+
 typedef struct fbColumn_s
 {
 	int8_t	x;

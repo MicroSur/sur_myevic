@@ -37,9 +37,9 @@
 #define EP1_MAX_PKT_SIZE    EP0_MAX_PKT_SIZE
 #define EP2_MAX_PKT_SIZE    64
 #define EP3_MAX_PKT_SIZE    64
-#define EP4_MAX_PKT_SIZE    8
-#define EP5_MAX_PKT_SIZE    64
-#define EP6_MAX_PKT_SIZE    64
+//#define EP4_MAX_PKT_SIZE    8
+//#define EP5_MAX_PKT_SIZE    64
+//#define EP6_MAX_PKT_SIZE    64
 
 #define SETUP_BUF_BASE  0
 #define SETUP_BUF_LEN   8
@@ -51,12 +51,12 @@
 #define EP2_BUF_LEN     EP2_MAX_PKT_SIZE
 #define EP3_BUF_BASE    (EP2_BUF_BASE + EP2_BUF_LEN)
 #define EP3_BUF_LEN     EP3_MAX_PKT_SIZE
-#define EP4_BUF_BASE    (EP3_BUF_BASE + EP3_BUF_LEN)
-#define EP4_BUF_LEN     EP4_MAX_PKT_SIZE
-#define EP5_BUF_BASE    (EP4_BUF_BASE + EP4_BUF_LEN)
-#define EP5_BUF_LEN     EP5_MAX_PKT_SIZE
-#define EP6_BUF_BASE    (EP5_BUF_BASE + EP5_BUF_LEN)
-#define EP6_BUF_LEN     EP6_MAX_PKT_SIZE
+//#define EP4_BUF_BASE    (EP3_BUF_BASE + EP3_BUF_LEN)
+//#define EP4_BUF_LEN     EP4_MAX_PKT_SIZE
+//#define EP5_BUF_BASE    (EP4_BUF_BASE + EP4_BUF_LEN)
+//#define EP5_BUF_LEN     EP5_MAX_PKT_SIZE
+//#define EP6_BUF_BASE    (EP5_BUF_BASE + EP5_BUF_LEN)
+//#define EP6_BUF_LEN     EP6_MAX_PKT_SIZE
 
 /* Define the EP number */
 #define HID_INT_IN_EP_NUM   	0x01

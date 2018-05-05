@@ -8,6 +8,7 @@
 #include "atomizer.h"
 #include "miscs.h"
 
+#include "timers.h"
 #include "dataflash.h"
 
 //=========================================================================
@@ -16,7 +17,6 @@
 dfStruct_t DataFlash;
 
 uint8_t ParamsBackup[DATAFLASH_PARAMS_SIZE];
-//uint8_t ParamsBackup2[DATAFLASH_PARAMS_SIZE];
 
 //-------------------------------------------------------------------------
 // Global variables
@@ -162,6 +162,78 @@ __myevic__ void ResetToLDROM()
 		;
 }
 
+//=========================================================================
+        
+__myevic__ void RestartMod()
+{
+	//if ( UpdateDFTimer ) 
+        UpdateDataFlash();
+	if ( UpdatePTTimer ) UpdatePTCounters();
+
+	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
+                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 || ISRX217 || ISGEN2 )
+	{
+		PD7 = 0;                                            //48DC
+		BBC_Configure( BBC_PWMCH_CHARGER, 0 );              // 5 0
+		PD7 = 0;
+		ChargerDuty = 0;
+
+		if ( ISVTCDUAL )
+		{
+			PA3 = 0;
+			PC3 = 0;
+			PA2 = 0;
+		}
+                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE )
+                {
+                        PD1 = 0;                                    //48C4
+                }
+                else if ( ISRX2 || ISRX217 || ISGEN2 )
+                {
+                        PF2 = 0;                                    //4948
+                }
+		else if ( !ISSINFJ200 )
+                    // if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 gen3 )
+				// (currently useless, restore if needed)
+		{
+			PF0 = 0;
+		}
+	}
+
+	if ( !gFlags.has_x32 )
+	{
+		RTCAdjustClock( dfBootFlag ? 9 : 1 );
+		RTCAdjustClock( 0 );
+		CLK_SysTickDelay( 500 );
+	}
+
+	SYS_UnlockReg();
+
+	FMC_SELECT_NEXT_BOOT( dfBootFlag );
+	SCB->AIRCR = 0x05FA0004;
+
+	while ( 1 )
+		;
+}
+
+//=========================================================================
+
+__myevic__ void ResetDFlashRes()
+{
+    int p = dfProfile;
+    ResetDataFlash();
+    dfProfile = p;      
+    
+    ///Halt WaitOnTMR2( 200 );
+    //RestartMod();
+            
+    //rx23 not found coil some time
+    //RereadRez();
+    
+    //Halt    ResetResistance();
+    //if ( AtoStatus == 4 ) SwitchRezLock( 1 );
+
+}
 
 //=========================================================================
 //----- (00002064) --------------------------------------------------------
@@ -1373,7 +1445,6 @@ __myevic__ void InitDataFlash()
 	}
 
 	dfStatus.off = 0;
-	//dfUIVersion = 2;
 
 	MemCpy( ParamsBackup, DataFlash.params, DATAFLASH_PARAMS_SIZE );
 
@@ -1404,6 +1475,7 @@ __myevic__ void FMCWritePage( uint32_t u32Addr, uint32_t *pu32Data )
 //=========================================================================
 //----- (000016D0) --------------------------------------------------------
 // Compares 2kB (0x800) DF @R0 with RAM @R1
+/*
 __myevic__ uint32_t FMCVerifyPage( uint32_t u32Addr, uint32_t *pu32Data )
 {
 	for ( uint32_t idx = 0 ; idx < FMC_FLASH_PAGE_SIZE / 4 ; ++idx )
@@ -1415,6 +1487,7 @@ __myevic__ uint32_t FMCVerifyPage( uint32_t u32Addr, uint32_t *pu32Data )
 	}
 	return 0;
 }
+*/
 
 
 //=========================================================================

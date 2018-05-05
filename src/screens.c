@@ -411,7 +411,7 @@ __myevic__ void DrawScreen()
 			}
 			else
 			{
-                                CustomTimer1 = 300;
+                                LinePuffAwakeTimer = 300;
 				MainView();
 			}
 			break;
@@ -476,7 +476,7 @@ __myevic__ void DrawScreen()
 		case 105: // Set TimeDate
 		//case 106: // Set Date
 		case 107: // Power Curve
-                case EVENT_SET_JOULES:    
+                case EVENT_SET_JOULES:    //screen 123
 			EditModeTimer = 0;
 			gFlags.edit_capture_evt = 0;
 			gFlags.edit_value = 0;
