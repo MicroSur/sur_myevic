@@ -438,21 +438,7 @@ __myevic__ void GetUserInput()
 	// 60 milliseconds before an event is emitted.
 	// (Taking into account the 50ms debounce time)
 
-        
-/*
-        if ( KeyPressTime == 1 )
-	{
-            if ( UserInputs == 1 && !dfStatus.off && !IsMenuScreen() && !EditModeTimer )
-            {
-                ++FireClickCount;
-                FireClickTimer = 40;
-                FireClicksEvent = 0;
-                Event = 1;
-            }
-        }
-       
-*/
-        if ( KeyPressTime == 2 ) //6
+        if ( KeyPressTime == 1 ) //6
 	{
 		gFlags.user_idle = 0;
 
@@ -460,6 +446,8 @@ __myevic__ void GetUserInput()
 			|| UserInputs == 5
 			|| UserInputs == 6
 			|| UserInputs == 7
+                        || UserInputs == 2
+                        || UserInputs == 3
 		)
 			return;
 
@@ -526,7 +514,11 @@ __myevic__ void GetUserInput()
 				//	break;
 			}
 		}
-		else if ( UserInputs == 2 ) //right button
+        }
+        else if ( KeyPressTime == 6 )
+        {
+                
+		if ( UserInputs == 2 ) //right button
 		{
 			if ( Screen == 60 )
 			{
