@@ -12,6 +12,7 @@
 
 void usbdEP2Handler();
 void usbdEP3Handler();
+
 //void usbdEP5Handler();
 //void usbdEP6Handler();
 
@@ -185,31 +186,6 @@ const S_USBD_INFO_T usbdDescriptors =
 	usbdHIDReportSize,
 	usbdConfigHidDescIdx
 };
-
-/*
-const S_USBD_INFO_T usbdVCOMDescriptors =
-{
-	usbdDevice,
-	usbdVCOMConfigDesc,
-	usbdStrings,
-	usbdHIDReportDesc,
-	usbdHIDReportSize,
-	usbdConfigHidDescIdx
-};
-*/
-
-/*
-const S_USBD_INFO_T usbdMSCDescriptors =
-{
-	usbdDevice,
-	usbdMSCConfigDesc,
-	usbdStrings,
-	usbdHIDReportDesc,
-	usbdHIDReportSize,
-	usbdConfigHidDescIdx
-};
-*/
-
 
 //=========================================================================
 //-------------------------------------------------------------------------
@@ -1620,10 +1596,10 @@ __myevic__ void usbdEP5Handler()
 	//	MSC_EP5Handler();
 	//}
 }
-*/
+
 
 //-------------------------------------------------------------------------
-/*
+
 __myevic__ void usbdEP6Handler()
 {
 	//if ( dfStatus.vcom )
