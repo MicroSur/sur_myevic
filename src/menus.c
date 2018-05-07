@@ -655,7 +655,7 @@ __myevic__ int ScreenMenuOnEvent( int event )
 				case 6: //fire scr duration
 					if ( ++dfFireScrDuration > 9 )
 					{
-						if ( KeyTicks < 5 ) dfFireScrDuration = 1;
+						if ( KeyTicks < 5 ) dfFireScrDuration = 0;
 						else dfFireScrDuration = 9;
 					}
 					vret = 1;
@@ -667,10 +667,10 @@ __myevic__ int ScreenMenuOnEvent( int event )
 			switch ( CurrentMenuItem )
 			{
 				case 6: //fire scr duration
-					if ( --dfFireScrDuration < 1 )
+					if ( --dfFireScrDuration > 9 ) //< 1 )
 					{
 						if ( KeyTicks < 5 ) dfFireScrDuration = 9;
-						else dfFireScrDuration = 1;
+						else dfFireScrDuration = 0;
 					}
 					vret = 1;
 					break;

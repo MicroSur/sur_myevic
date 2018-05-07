@@ -61,7 +61,7 @@ __myevic__ void DrawScreen()
 	{
 		CurrentFD = FireDuration;
 		//ScreenDuration = ISMODETC(dfMode) ? 1 : 2;
-                ScreenDuration = dfFireScrDuration; //2;
+                ScreenDuration = dfFireScrDuration; //2;                
 		TenthOfSecs = 0;
 		gFlags.refresh_display = 1;
 	}
@@ -70,6 +70,11 @@ __myevic__ void DrawScreen()
 		if ( Screen != 2 ) 
                     gFlags.refresh_display = 1;
 	}
+        else if ( !dfFireScrDuration && Screen == 2 && !gFlags.firing )
+        {
+                    TenthOfSecs = 10; //no wait sec           
+                    gFlags.refresh_display = 1;                    
+        }
 
 	if ( gFlags.refresh_display )
 	{
@@ -87,7 +92,7 @@ __myevic__ void DrawScreen()
 			//case  3: // Main view (?)
 			//case  4: // (unused?)
 
-                                if ( dfStealthOn == 1 && LastEvent == 15 && FireDuration < 2 )
+                                if ( dfStealthOn == 1 && LastEvent == 15 && FireDuration < 4 ) //2 if KeyPressTime = 6
                                 {
                                         StealthPuffs = dfStealthPuffsCnt;       
                                 }

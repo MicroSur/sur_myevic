@@ -438,7 +438,9 @@ __myevic__ void GetUserInput()
 	// 60 milliseconds before an event is emitted.
 	// (Taking into account the 50ms debounce time)
 
-        if ( KeyPressTime == 1 ) //6
+        uint8_t kpt = IsMenuScreen() ? 5 : 1;
+                
+        if ( KeyPressTime == kpt ) //6
 	{
 		gFlags.user_idle = 0;
 
@@ -517,6 +519,7 @@ __myevic__ void GetUserInput()
         }
         else if ( KeyPressTime == 6 )
         {
+                gFlags.user_idle = 0;
                 
 		if ( UserInputs == 2 ) //right button
 		{
