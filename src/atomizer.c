@@ -20,6 +20,7 @@ uint32_t	AtoVolts;
 uint32_t	TargetVolts;
 uint32_t	AtoRezMilli;
 uint32_t	AtoRezMilliMin; //min while puff
+//uint32_t	AtoRezMilliReplay;
 uint32_t	AtoMinVolts;
 uint32_t	AtoMaxVolts;
 uint32_t	AtoMinPower;
@@ -395,7 +396,7 @@ __myevic__ void StopFire()
         
         if ( !ISVTCDUAL && !ISINVOKE )
         {
-        PC3 = 0;                                // 4000488C
+            PC3 = 0;                                // 4000488C
         }
         
 	BuckDuty = 0;
@@ -404,9 +405,9 @@ __myevic__ void StopFire()
 
         if ( !ISINVOKE )
         {
-	BoostDuty = 0;
-	PC2 = 0;                                    // 40004888
-	BBC_Configure( BBC_PWMCH_BOOST, 0 );        // 2 0
+            BoostDuty = 0;
+            PC2 = 0;                                    // 40004888
+            BBC_Configure( BBC_PWMCH_BOOST, 0 );        // 2 0
         }
         
 	SetADCState( 1, 0 );
@@ -999,7 +1000,7 @@ __myevic__ void RegulateBuckBoost()
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
                                         
-					if ( !ISVTCDUAL ) 
+					if ( !ISVTCDUAL && !ISINVOKE ) 
                                             PC3 = 1;
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
@@ -1032,7 +1033,7 @@ __myevic__ void RegulateBuckBoost()
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
                                         
-					if ( !ISVTCDUAL ) 
+					if ( !ISVTCDUAL && !ISINVOKE ) 
                                             PC3 = 1;
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
@@ -1081,7 +1082,7 @@ __myevic__ void RegulateBuckBoost()
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
                                         
-					if ( !ISVTCDUAL ) 
+					if ( !ISVTCDUAL && !ISINVOKE ) 
                                             PC3 = 1;
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
@@ -1287,7 +1288,7 @@ __myevic__ void TweakTargetVoltsJT()
 	{
 		pwr = dfTCPower;
 
-		if ( pwr < 10 ) pwr = 10;
+		//if ( pwr < 10 ) pwr = 10;
 
 		pwr = AtoPowerLimit( pwr );
 
@@ -1311,7 +1312,7 @@ __myevic__ void TweakTargetVoltsJT()
 			{
 				gFlags.limit_ato_temp = 0;
 				TargetVolts = 0;
-				if ( !ISVTCDUAL ) PC3 = 0;
+				if ( !ISVTCDUAL && !ISINVOKE ) PC3 = 0;
 				PC1 = 0;
 				BuckDuty = 0;
 				PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
@@ -1328,6 +1329,27 @@ __myevic__ void TweakTargetVoltsJT()
 	}
 }
 
+//=========================================================================
+
+/*
+__myevic__ void TweakTargetVoltsReplay()
+{
+	unsigned int pwr;
+	unsigned int volts;
+
+		pwr = AtoPowerLimit( dfPower );
+
+		volts = GetVoltsForPower( pwr );
+
+                if ( AtoRezMilli > AtoRezMilliReplay )
+		{
+			if ( TargetVolts ) --TargetVolts;
+		}
+
+		if ( TargetVolts > volts ) TargetVolts = volts;
+}
+
+*/
 
 //=========================================================================
 //----- (00008F90) --------------------------------------------------------
@@ -1636,7 +1658,10 @@ __myevic__ void ProbeAtomizer()
                         }
 */
                 
-                        TargetVolts = 100;  
+                if ( gFlags.firing )
+			gFlags.limit_ato_temp = 1;
+                                
+                TargetVolts = 100;  
                         //if ( gFlags.pbank ) TargetVolts = 500;  
 
 		gFlags.probing_ato = 1;
@@ -1812,29 +1837,16 @@ __myevic__ uint16_t RereadRez()
 //=========================================================================
 //----- (000088B4) --------------------------------------------------------
 
-__myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez )
-{
 /*
-	if ( *plock )
-	{
-		*plock = 0;
-	}
-	else
-        { 
-                *plock = 1;
-	}
-*/
+__myevic__ void _SwitchRezLock( uint8_t plock, uint16_t *prez )
+{
 
     if ( AtoRez )
     {
         *plock ^= 1;
         *prez = RereadRez();
     }
-    
-    //else
-    //{
-    //    *plock = 0;
-    //}
+*/
         
 /*
         if ( AtoRez )
@@ -1847,7 +1859,7 @@ __myevic__ void _SwitchRezLock( uint8_t *plock, uint16_t *prez )
 		dfMillis |= RezMillis << ( dfMode << 2 );   
         }
 */
-}
+//}
 
 
 /*
@@ -1888,52 +1900,29 @@ __myevic__ void SetRez()
 
 
 __myevic__ void SwitchRezLock( int lock )
-{
+{      
 	switch ( dfMode )
 	{
 		case 0:
-                    if ( lock )
-                    {
-			_SwitchRezLock( &dfRezLockedNI, &dfRezNI );
-                    }
-                    else
-                    {
-                        dfRezNI = RereadRez();
-                    }
-			break;
+                    dfRezNI = RereadRez();
+                    if ( lock ) dfStatus2.dfRezLockedNI ^= 1;
+                    //_SwitchRezLock( dfStatus2.dfRezLockedNI, &dfRezNI );
+                    break;
 
 		case 1:
-                    if ( lock )
-                    {
-			_SwitchRezLock( &dfRezLockedTI, &dfRezTI );
-                    }
-                    else
-                    {
-                        dfRezTI = RereadRez();
-                    }
-			break;
+                    dfRezTI = RereadRez();
+                    if ( lock ) dfStatus2.dfRezLockedTI ^= 1;
+                    break;
 
 		case 2:
-                    if ( lock )
-                    {
-			_SwitchRezLock( &dfRezLockedSS, &dfRezSS );
-                                            }
-                    else
-                    {
-                        dfRezSS = RereadRez();
-                    }
-			break;
+                    dfRezSS = RereadRez();
+                    if ( lock ) dfStatus2.dfRezLockedSS ^= 1;
+                    break;
 
 		case 3:
-                    if ( lock )
-                    {
-			_SwitchRezLock( &dfRezLockedTCR, &dfRezTCR );
-                                            }
-                    else
-                    {
-                        dfRezTCR = RereadRez();
-                    }
-			break;
+                    dfRezTCR = RereadRez();
+                    if ( lock ) dfStatus2.dfRezLockedTCR ^= 1;
+                    break;
                         
                 case 4: //pwr re-read rez in VW too
                 case 5: //bypass
@@ -2390,6 +2379,7 @@ __myevic__ void InitTCAlgo()
 }
 
 
+/*
 __myevic__ void CheckModeSeg()
 {
     //for TC
@@ -2416,6 +2406,7 @@ __myevic__ void CheckModeSeg()
 
 	return;
 }
+*/
 
 
 __myevic__ void TweakTargetVoltsSegments()
@@ -2535,11 +2526,13 @@ __myevic__ void TweakTargetVoltsTC()
 	if ( !TargetVolts )
 		return;
 
+/*
 	if ( gFlags.check_mode )
 	{
 		CheckModeSeg();
 		return;
 	}
+*/
 
 	switch ( dfTCAlgo )
 	{
@@ -2563,10 +2556,10 @@ __myevic__ int GetLockState()
 {
         
         int lock = 0;
-	if 	( dfMode == 0 ) lock = dfRezLockedNI;
-	else if ( dfMode == 1 ) lock = dfRezLockedTI;
-	else if ( dfMode == 2 ) lock = dfRezLockedSS;
-	else if ( dfMode == 3 ) lock = dfRezLockedTCR;
+	if 	( dfMode == 0 ) lock = dfStatus2.dfRezLockedNI;
+	else if ( dfMode == 1 ) lock = dfStatus2.dfRezLockedTI;
+	else if ( dfMode == 2 ) lock = dfStatus2.dfRezLockedSS;
+	else if ( dfMode == 3 ) lock = dfStatus2.dfRezLockedTCR;
         else if ( dfStatus2.vwrezlock ) lock = 1; //dfMode == 4 && 
         return lock;
         

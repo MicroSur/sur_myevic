@@ -1264,7 +1264,7 @@ __myevic__ int CheckBattery()
 	RTBattVolts = bv;
 
 	if ( !( gFlags.firing )
-		|| ( !ISMODEVW(dfMode) && ( !ISMODETC(dfMode) || gFlags.check_mode ) ) )
+		|| ( !ISMODEVW(dfMode) && ( !ISMODETC(dfMode) || gFlags.check_mode ) ) ) //TODO
 	{
 		//gFlags.decrease_voltage = 0;
 		return 0;

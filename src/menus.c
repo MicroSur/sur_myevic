@@ -2548,17 +2548,17 @@ __myevic__ void ModesIClick()
 //-----------------------------------------------------------------------------
 
 uint8_t CoilShift;
-uint8_t *CoilSelectedLock;
+uint8_t CoilSelectedLock[4];
 uint16_t *CoilSelectedRez;
 
 __myevic__ void CoilsSelectRez( uint8_t mode )
 {
 	switch ( mode )
 	{
-		case 0 : CoilSelectedRez = &dfRezNI ; CoilSelectedLock = &dfRezLockedNI ; break;
-		case 1 : CoilSelectedRez = &dfRezTI ; CoilSelectedLock = &dfRezLockedTI ; break;
-		case 2 : CoilSelectedRez = &dfRezSS ; CoilSelectedLock = &dfRezLockedSS ; break;
-		case 3 : CoilSelectedRez = &dfRezTCR; CoilSelectedLock = &dfRezLockedTCR; break;
+		case 0 : CoilSelectedRez = &dfRezNI ; CoilSelectedLock[0] = dfStatus2.dfRezLockedNI ; break;
+		case 1 : CoilSelectedRez = &dfRezTI ; CoilSelectedLock[1] = dfStatus2.dfRezLockedTI ; break;
+		case 2 : CoilSelectedRez = &dfRezSS ; CoilSelectedLock[2] = dfStatus2.dfRezLockedSS ; break;
+		case 3 : CoilSelectedRez = &dfRezTCR; CoilSelectedLock[3] = dfStatus2.dfRezLockedTCR; break;
 		default:
 			break;
 	}
@@ -2600,7 +2600,7 @@ __myevic__ void CoilsIDraw( int it, int line, int sel )
 			CoilsSelectRez( it );
 			rez = *CoilSelectedRez * 10;
 			rez += ( dfMillis >> CoilShift ) & 0xf;
-			if ( *CoilSelectedLock ) img = 0xC3;
+			if ( CoilSelectedLock[it] ) img = 0xC3;
 			DrawFillRect( 26, line, 63, line+12, 0 );
 			DrawValue( 28, line+2, rez, 3, 0x0B, 4 );
 			DrawImage( 56, line+2, img );
@@ -2632,10 +2632,10 @@ __myevic__ void CoilsIClick()
 	switch ( CurrentMenuItem )
 	{
 		case 4 :	// Zero All
-			dfRezNI  = 0; dfRezLockedNI  = 0;
-			dfRezTI  = 0; dfRezLockedTI  = 0;
-			dfRezSS  = 0; dfRezLockedSS  = 0;
-			dfRezTCR = 0; dfRezLockedTCR = 0;
+			dfRezNI  = 0; dfStatus2.dfRezLockedNI  = 0;
+			dfRezTI  = 0; dfStatus2.dfRezLockedTI  = 0;
+			dfRezSS  = 0; dfStatus2.dfRezLockedSS  = 0;
+			dfRezTCR = 0; dfStatus2.dfRezLockedTCR = 0;
 			dfMillis = 0;
                                         
 /*
@@ -2686,9 +2686,9 @@ __myevic__ int CoilsMEvent( int event )
 			gFlags.edit_value ^= 1;
 			if ( !gFlags.edit_value && !rmodified && *CoilSelectedRez > 0 )
 			{
-				*CoilSelectedLock ^= 1;
+				CoilSelectedLock[CurrentMenuItem] ^= 1;
 			}
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			rmodified = 0;
 			vret = 1;
 			break;
@@ -2704,7 +2704,7 @@ __myevic__ int CoilsMEvent( int event )
 				{
 					++rez;
 				}
-				*CoilSelectedLock = 1;
+				CoilSelectedLock[CurrentMenuItem] = 1;
 				rmodified = 1;
 				vret = 1;
 			}
@@ -2716,12 +2716,12 @@ __myevic__ int CoilsMEvent( int event )
 				if ( rez == 50 )
 				{
 					rez = 0;
-					*CoilSelectedLock = 0;
+					CoilSelectedLock[CurrentMenuItem] = 0;
 				}
 				else if ( rez > 50 )
 				{
 					--rez;
-					*CoilSelectedLock = 1;
+					CoilSelectedLock[CurrentMenuItem] = 1;
 				}
 				rmodified = 1;
 				vret = 1;
@@ -2730,14 +2730,14 @@ __myevic__ int CoilsMEvent( int event )
 
 		case EVENT_LONG_FIRE: //zero current
 			rez = 0;
-			*CoilSelectedLock = 0;
+			CoilSelectedLock[CurrentMenuItem] = 0;
 			if ( CurrentMenuItem == dfMode )
 			{
 				ResetResistance();
 				if ( AtoStatus == 4 )
 				{
 					rez = 10 * AtoRez + AtoMillis;
-					*CoilSelectedLock = 1;
+					CoilSelectedLock[CurrentMenuItem] = 1;
 				}
 			}
 			rmodified = 1;
@@ -2755,7 +2755,7 @@ __myevic__ int CoilsMEvent( int event )
 		dfMillis |= millis << CoilShift;
 
 		UpdateDFTimer = 50;
-		gFlags.refresh_display = 1;
+		//gFlags.refresh_display = 1;
 
 		if ( CurrentMenuItem == dfMode )
 		{
@@ -2768,7 +2768,19 @@ __myevic__ int CoilsMEvent( int event )
 			SetAtoLimits();
 		}
 	}
-
+        
+        switch ( CurrentMenuItem )
+        {
+            case 0 : dfStatus2.dfRezLockedNI = CoilSelectedLock[0]; break;
+            case 1 : dfStatus2.dfRezLockedTI = CoilSelectedLock[1]; break;
+            case 2 : dfStatus2.dfRezLockedSS = CoilSelectedLock[2]; break;
+            case 3 : dfStatus2.dfRezLockedTCR = CoilSelectedLock[3]; break;
+            default:
+		break;
+                }
+        
+        gFlags.refresh_display = 1;
+        
 	return vret;
 }
 

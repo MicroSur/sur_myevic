@@ -370,7 +370,7 @@ __myevic__ void EventHandler()
 					dfRezNI = dfResistance;
 					dfMillis = ( dfMillis & ~0xf ) | RezMillis;
 				}
-				else if ( !dfRezLockedNI )
+				else if ( !dfStatus2.dfRezLockedNI )
 				{
 					word_200000BA = dfRezNI * 10 + ( dfMillis & 0xf );
 
@@ -430,7 +430,7 @@ __myevic__ void EventHandler()
 					dfRezTI = dfResistance;
 					dfMillis = ( dfMillis & ~0xf0 ) | ( RezMillis << 4 );
 				}
-				else if ( !dfRezLockedTI )
+				else if ( !dfStatus2.dfRezLockedTI )
 				{
 					word_200000B8 = dfRezTI * 10 + ( ( dfMillis >> 4 ) & 0xf );
 
@@ -490,7 +490,7 @@ __myevic__ void EventHandler()
 					dfRezSS = dfResistance;
 					dfMillis = ( dfMillis & ~0xf00 ) | ( RezMillis << 8 );
 				}
-				else if ( !dfRezLockedSS )
+				else if ( !dfStatus2.dfRezLockedSS )
 				{
 					word_200000BC = dfRezSS * 10 + ( ( dfMillis >> 8 ) & 0xf );
 
@@ -549,7 +549,7 @@ __myevic__ void EventHandler()
 					dfRezTCR = dfResistance;
 					dfMillis = ( dfMillis & ~0xf000 ) | ( RezMillis << 12 );
 				}
-				else if ( !dfRezLockedTCR )
+				else if ( !dfStatus2.dfRezLockedTCR )
 				{
 					word_200000BE = dfRezTCR * 10 + ( dfMillis >> 12 );
 

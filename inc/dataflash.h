@@ -116,6 +116,10 @@ typedef struct
 /* 00000100 */	unsigned int vwrezlock:1;  //lock res in VW like in TC
 /* 00000200 */	unsigned int reztype:1;     //RezType 1 - TC, 0 - not TC wire
 /* 00000400 */	unsigned int vapedelay:1;     //flag 
+/* 00000800 */	unsigned int dfRezLockedNI:1;
+/* 00001000 */	unsigned int dfRezLockedTI:1;
+/* 00002000 */	unsigned int dfRezLockedSS:1;
+/* 00004000 */	unsigned int dfRezLockedTCR:1;       
 }
 // Do not exceed 32 bits;
 dfStatus2_t;
@@ -165,8 +169,8 @@ typedef struct dfParams
 /* 0018 */	uint16_t	Resistance;
 /* 001A */	uint16_t	RezTI;
 /* 001C */	uint16_t	RezNI;
-/* 001E */	uint8_t		RezLockedTI;  //flag, move to status
-/* 001F */	uint8_t		RezLockedNI;  //flag, move to status
+/* 001E */	uint8_t		RezLockedTI;  //not used
+/* 001F */	uint8_t		RezLockedNI;  //not used
 /* 0020 */	uint8_t		MaxBoardTemp;	
 /* 0021 */	uint8_t		StealthOn;              // 0 1 2 (off on contrast)
 /* 0022 */	uint16_t	VVLockedVolt;           // for vvlite: cold rez locked volt
@@ -189,13 +193,13 @@ typedef struct dfParams
 /* 007E */	uint8_t		NewRezPerc;		//	was AtoStatus
 /* 007F */	uint8_t		ShuntRez;		//	former 1-byte pad
 /* 0080 */	uint16_t	RezSS;
-/* 0082 */	uint8_t		RezLockedSS;  //flag, move to status
-/* 0083 */	uint8_t		UIVersion; // 0 1 now
+/* 0082 */	uint8_t		RezLockedSS;  //not used
+/* 0083 */	uint8_t		UIVersion;      // 0 1 now
 /* 0084 */	uint8_t		TCRIndex;               // 0 m1, 1 m2, 2 m3
 /* 0085 */	uint8_t		ScrMainTime;            //	former 1-byte pad
 /* 0086 */	uint16_t	TCRM[3];
 /* 008C */	uint16_t	RezTCR;
-/* 008E */	uint8_t		RezLockedTCR; //flag, move to status
+/* 008E */	uint8_t		RezLockedTCR; //not used
 /* 008F */	uint8_t		ScreenSaver;
 /* 0090 */	uint8_t		TCMode;                 // 0 1 2
 /* 0091 */	uint8_t		ScreenProt;		//	former 1-byte pad
@@ -221,7 +225,7 @@ typedef struct dfParams
 /* 00D3 */	uint8_t		TCBoost;
 /* 00D4 */	uint16_t	TCRP[3];
 /* 00DA */	dfPID_t		PID;
-/* 00E0 */	uint16_t	Millis;
+/* 00E0 */	uint16_t	Millis;         //store 0.00x Ohm for all TC res
 /* 00E2 */	uint8_t		Profile;
 /* 00E3 */	int8_t		BVOffset[4];
 /* 00E8 */	uint16_t	TTBest;
@@ -385,8 +389,8 @@ extern dfStruct_t DataFlash;
 #define dfResistance	DFP(Resistance)
 #define dfRezTI			DFP(RezTI)
 #define dfRezNI			DFP(RezNI)
-#define dfRezLockedTI	DFP(RezLockedTI)
-#define dfRezLockedNI	DFP(RezLockedNI)
+//#define dfRezLockedTI	DFP(RezLockedTI)
+//#define dfRezLockedNI	DFP(RezLockedNI)
 //#define dfTiOn			DFP(TiOn)
 #define dfStealthOn		DFP(StealthOn)
 #define dfVVLockedVolt	DFP(VVLockedVolt)
@@ -408,13 +412,13 @@ extern dfStruct_t DataFlash;
 #define dfNewRezPerc		DFP(NewRezPerc) //was dfAtoStatus
 #define dfShuntRez		DFP(ShuntRez)
 #define dfRezSS			DFP(RezSS)
-#define dfRezLockedSS	DFP(RezLockedSS)
+//#define dfRezLockedSS	DFP(RezLockedSS)
 #define dfUIVersion		DFP(UIVersion)
 #define dfTCRIndex		DFP(TCRIndex)
 #define dfScrMainTime	DFP(ScrMainTime)
 #define dfTCRM			DFP(TCRM)
 #define dfRezTCR		DFP(RezTCR)
-#define dfRezLockedTCR	DFP(RezLockedTCR)
+//#define dfRezLockedTCR	DFP(RezLockedTCR)
 #define dfScreenSaver	DFP(ScreenSaver)
 #define dfTCMode		DFP(TCMode)
 #define dfScreenProt	DFP(ScreenProt)

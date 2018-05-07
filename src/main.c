@@ -464,7 +464,7 @@ __myevic__ void DevicesOnOff( int off )
 		PC0 = 0;                                                        // 40004880
 		BBC_Configure( BBC_PWMCH_BUCK, 0 );                             // 0 0
                 
-		if ( !ISVTCDUAL ) 
+		if ( !ISVTCDUAL && !ISINVOKE ) 
                     PC3 = 0;                                                    // 4000488C
                 
                 if ( !ISINVOKE )
