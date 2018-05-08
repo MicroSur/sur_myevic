@@ -708,7 +708,7 @@ __myevic__ void CheckMode()
 	if (	AtoRez > 150
 		||	( v1 <= 115 && ( ( dfMode != 2 && dfMode != 3 ) || v1 <= 105 || v0 <= 1 ) ) )
 	{
-		if ( FireDuration < 20 )
+		if ( FireDuration < 10 ) //was 20, 2 sec puff for start check coil type
 		{
 			CheckModeCounter = 0;
 			return;
