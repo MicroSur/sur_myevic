@@ -1016,7 +1016,8 @@ __myevic__ void ShowLogo( int place )
     }
     else //1 pic logo top
     {
-
+        //if ( !HideLogo )
+        //{
                         int y = 0;
                         int y2;
                         
@@ -1052,7 +1053,8 @@ __myevic__ void ShowLogo( int place )
                                 DrawHLineDots( 0, 41, 63, 0 ); //erase 1-st main line
                                 DrawLOGO( 0, 0 ); //x y
                             }
-                        }        
+                        }    
+        //}
     }
 }
 

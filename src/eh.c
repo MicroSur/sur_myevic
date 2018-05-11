@@ -1412,6 +1412,7 @@ __myevic__ void EventHandler()
 				}
 
                                 MainView();
+                                HideLogo = 2; // temporary, when dfHideLogo = 0
                                 if ( KeyTicks >= 5 )
                                 {
 					gFlags.draw_edited_item = 1;
@@ -1613,6 +1614,7 @@ __myevic__ void EventHandler()
 				}
 
                                 MainView();
+                                HideLogo = 2; //when dfHideLogo = 0                                
                                 if ( KeyTicks >= 5 )
                                 {
 					gFlags.draw_edited_item = 1;
