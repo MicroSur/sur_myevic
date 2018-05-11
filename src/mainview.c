@@ -318,7 +318,7 @@ __myevic__ void DrawCoilLine( int line )
             {
             if ( dfUIVersion == 1 )
             {
-                DrawImage( 0, y+yoff, 0xC3 ); //lock 9
+                DrawImage( 6, y+yoff, 0xC3 ); //lock glyph
             }
             else
             {    
@@ -1221,7 +1221,7 @@ __myevic__ void ShowMainView()
                     ShowLogo( 0 );      
             }
 
-            if (( Screen == 1 ) && !HideLogo && !dfStatus.nologo && !dfStatus.logomid)
+            if (( Screen == 1 ) && !EditModeTimer && !HideLogo && !dfStatus.nologo && !dfStatus.logomid)
             {
                         ShowLogo( 1 ); //top pic logo
             }

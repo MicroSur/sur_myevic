@@ -681,7 +681,7 @@ void CheckButtons() {
         }
 
         if (!PD2 && !PD3) {
-            pause = pause == 0 ? 1 : 0;
+            pause ^= 1; //pause == 0 ? 1 : 0;
             ttKeyDown = 0;
             ttSetTimeoutDelay(100);
             return;

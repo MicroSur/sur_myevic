@@ -62,5 +62,4 @@ wrkspc.txt
 /nbproject/
 /driver/
 /ldrom.zip
-linker.ld
 Makefile

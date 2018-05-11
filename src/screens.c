@@ -1449,7 +1449,10 @@ __myevic__ void ShowSetDate()
 //=========================================================================
 __myevic__ int IsMenuScreen()
 {
-	return (( Screen >= 101 ) && ( Screen <= 107 ));
+	return (
+                ( Screen >= 101 && Screen <= 107 ) 
+                || Screen == EVENT_SET_JOULES //vaped scr
+               );
 }
 
 
