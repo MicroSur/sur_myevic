@@ -700,6 +700,46 @@ __myevic__ int ScreenMenuOnEvent( int event )
 	return vret;
 }
 
+__myevic__ void LogoMenuIDraw( int it, int line, int sel )
+{
+    	//if ( it != 2 )
+	//	return;
+        
+	switch ( it )
+	{
+		case 2: //logo
+                {
+                    DrawFillRect( 40, line, 63, line+12, 0 );
+                    
+                    if ( dfStatus.nologo )
+ 			DrawStringRight( String_Off, 63, line + 2 );
+                    else if ( dfStatus.logomid )
+                        DrawStringRight( String_Mid, 63, line + 2 );
+                    else
+                        DrawStringRight( String_Top, 63, line + 2 );
+                    
+                }   
+                    break;
+	}
+}
+
+__myevic__ void LogoMenuOnClick()
+{
+	switch ( CurrentMenuItem )
+	{
+		case 2:	//logo
+                {
+			int f = dfStatus.logomid | ( dfStatus.nologo << 1 ); // dfStatus.nologo dfStatus.logomid 
+			if ( ++f > 2 ) f = 0; //00 01 10
+			dfStatus.logomid = f & 1;
+			dfStatus.nologo = f >> 1; //10			
+                }
+                    break;     
+	}
+        
+        UpdateDFTimer = 50;
+	gFlags.refresh_display = 1;
+}
 
 //-----------------------------------------------------------------------------
 
@@ -3568,7 +3608,7 @@ const mdata_t DimOffDelayData =
 
 const menu_t ScreenProtMenu =
 {
-	String_Screen,
+	String_Protection,
 	&ScreenMenu,
 	0,
 	ScreenProtMenuIDraw+1,
@@ -3926,12 +3966,14 @@ const menu_t ScreenSaveMenu =
 	}
 };
 
+/*
 const mbitdesc_t TopBotDesc =
 {
 	0, 0,
 	String_Mid,
 	String_Top
 };
+*/
 
 const mdata_t Show3DData =
 {
@@ -3941,6 +3983,7 @@ const mdata_t Show3DData =
 	0 //dfStatus2.anim3d on/off
 };
 
+/*
 const mdata_t LogoShowData =
 {
 	&dfStatus,
@@ -3956,6 +3999,7 @@ const mdata_t LogoWhereData =
 	MITYPE_BIT,
 	23
 };
+*/
 const mvaluedesc_t HideLogoDesc =
 {
 	40, 55,
@@ -3980,17 +4024,17 @@ const menu_t LogoMenu =
 	String_Logo,
 	&ScreenMenu,
 	0,
+	LogoMenuIDraw+1, //0,
 	0,
+	LogoMenuOnClick+1, //0,
 	0,
-	0,
-	0,
-	6,
+	5,
 	{
 	        //{ String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
                 { String_3D, &Show3DData, 0, MACTION_DATA },
                 { String_Clock, &OnModClock, 0, MACTION_DATA },  
-                { String_Logo, &LogoShowData, 0, MACTION_DATA },
-		{ String_Where, &LogoWhereData, 0, MACTION_DATA },
+                { String_Logo, 0, 0, 0 },
+		//{ String_Where, &LogoWhereData, 0, MACTION_DATA },
                 { String_Hide, &HideLogoData, 0, MACTION_DATA },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}

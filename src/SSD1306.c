@@ -16,11 +16,11 @@ __myevic__ void SSD1306_Refresh()
 	{
 		DisplaySendCommand( 0xB0 + l );
 		DisplaySendCommand( 0 );
-		//DisplaySendCommand( ( dfStatus.flipped ) ? 0x12 : 0x10 );
-                if ( dfStatus.flipped )
-                    DisplaySendCommand ( 0x12 );
-                else
-                    DisplaySendCommand ( 0x10 );
+		DisplaySendCommand( ( dfStatus.flipped ) ? 0x12 : 0x10 );
+                //if ( dfStatus.flipped )
+                //    DisplaySendCommand ( 0x12 );
+                //else
+                //    DisplaySendCommand ( 0x10 );
                 
 		DisplaySendData( sb, 0x40 );
 		sb += 0x40;
@@ -79,27 +79,27 @@ __myevic__ void SSD1306_PowerOn()
 //=========================================================================
 
 const uint8_t SSD1306_InitSeq[] =
-	{	0xAE,
-		0xA8,
-		0x3F,
-		0xD5,
+	{	0xAE, //Set Display ON/OFF (AFh/AEh) 
+		0xA8, //Set Multiplex Ratio...
+		0x3F, //...to 63 (all scr visible)
+		0xD5, //Set Display Clock Divide Ratio/Oscillator Frequency, SETDISPLAYCLOCKDIV
 		0xF1,
-		0xC8,
-		0xD3,
-		0x20,
+		0xC8, // Set COM Output Scan Direction (C0h/C8h) vertical flip / no flip
+		0xD3, // Set Display Offset ...
+		0x20, // ... to 32
 		0xDC,
 		0x00,
 		0x20,
-		0x81,
-		0x2F,
-		0xA1,
-		0xA4,
-		0xA6,
+		0x81, // Set Contrast (0~255) ...
+		0x2F, // ... to 47
+		0xA1, //Set Segment Re-map (A0h/A1h) hor flip / no flip
+		0xA4, //Entire Display ON, DISPLAYALLON_RESUME
+		0xA6, //Set Normal/Inverse Display (A6h/A7h)
 		0xAD,
 		0x8A,
-		0xD9,
+		0xD9, //Set Pre-charge Period
 		0x22,
-		0xDB,
+		0xDB, // Set VCOMH Deselect Level, adjusts the VCOMH regulator output, SETVCOMDETECT
 		0x35	};
 
 //----- (00005530) --------------------------------------------------------
@@ -114,16 +114,16 @@ __myevic__ void SSD1306_Init()
 
 	if ( dfStatus.flipped )
 	{
-		DisplaySendCommand( 0xC0 );
-		DisplaySendCommand( 0xD3 );
-		DisplaySendCommand( 0x60 );
+		DisplaySendCommand( 0xC0 ); // Set COM Output Scan Direction (C0h/C8h) vert flip
+		DisplaySendCommand( 0xD3 ); // Set Display Offset ...
+		DisplaySendCommand( 0x60 ); // ... to 96
 		DisplaySendCommand( 0xDC );
 		DisplaySendCommand( 0x20 );
-		DisplaySendCommand( 0xA0 );
+		DisplaySendCommand( 0xA0 ); //Set Segment Re-map (A0h/A1h) hor flip
 	}
 
 	SSD1306_CLS();
-	DisplaySendCommand( 0xAF );
+	DisplaySendCommand( 0xAF ); //Display On
 	WaitOnTMR2( 20 );
 }
 
@@ -209,16 +209,16 @@ __myevic__ uint32_t SSD1306_Bitmap( int x, int y, const image_t *image, int colo
 	uint8_t pixels;
         //const uint8_t ByteMaskRight[] = { 0x00, 0x01, 0x03,	0x07, 0x0F, 0x1F, 0x3F,	0x7F };
         //const uint8_t ByteMaskLeft[]  = { 0xFF, 0xFE, 0xFC,	0xF8, 0xF0, 0xE0, 0xC0,	0x80 };
-
-	shift = y & 7;
+        //#define SCREEN_BUFFER_SIZE 0x400
+	shift = y & 7; // 0...7
 
 	bm_ptr = 0;
 
-	lines = image->height >> 3;
+	lines = image->height >> 3; //  \3 , in bytes
 
 	for ( h = 0 ; h < lines ; ++h )
 	{
-		addr = 0x40 * ( ( y >> 3 ) + h ) + x;
+		addr = 64 * ( ( y >> 3 ) + h ) + x;
 
 		for ( w = 0 ; w < image->width ; ++w )
 		{
@@ -233,10 +233,10 @@ __myevic__ uint32_t SSD1306_Bitmap( int x, int y, const image_t *image, int colo
 					ScreenBuffer[ addr ] &= ByteMaskRight[shift];
 					ScreenBuffer[ addr ] |= ( pixels << shift ) & ByteMaskLeft[shift];
 				}
-				if ( addr + 0x40 < SCREEN_BUFFER_SIZE )
+				if ( addr + 64 < SCREEN_BUFFER_SIZE )
 				{
-					ScreenBuffer[ addr + 0x40 ] &= ByteMaskLeft[shift];
-					ScreenBuffer[ addr + 0x40 ] |= ( pixels >> ( 8 - shift )) & ByteMaskRight[shift];
+					ScreenBuffer[ addr + 64 ] &= ByteMaskLeft[shift];
+					ScreenBuffer[ addr + 64 ] |= ( pixels >> ( 8 - shift )) & ByteMaskRight[shift];
 				}
 			}
 			else
@@ -252,6 +252,41 @@ __myevic__ uint32_t SSD1306_Bitmap( int x, int y, const image_t *image, int colo
 	}
 
 	return image->width;
+        
+// 4 12x16
+// {12,16,{0,0,0,192,240,124,31,255,255,255,0,0, 0,28,31,31,25,24,24,255,255,255,24,0}};
+// 
+// 00000000
+// 00000000
+// 00000000
+// 11000000
+// 11110000
+// 01111100
+// 00011111
+// 11111111
+// 11111111
+// 11111111
+// 00000000
+// 00000000
+//          \          =
+// 00000000 00000000   ......1111..
+// 00011100 00000000   ......1111..
+// 00011111 00000000   .....11111..
+// 00011111 11000000   .....11111..
+// 00011001 11110000   ....111111..
+// 00011000 01111100   ....11.111..
+// 00011000 00011111   ...111.111..
+// 11111111 11111111   ...11..111..
+// 11111111 11111111   ..111..111..
+// 11111111 11111111   ..11...111..
+// 00011000 00000000   .111...111..
+// 00000000 00000000   .1111111111.
+//                     .1111111111.
+//                     .......111..
+//                     .......111..
+//                     .......111..
+
+              
 }
 
 
@@ -291,7 +326,7 @@ __myevic__ void SSD1306_Screen2Bitmap( uint8_t *pu8Bitmap )
 			{
 				if ( ScreenBuffer[ line * 64 + x ] & mask )
 				{
-					pu8Bitmap[ y * 8 + ( x >> 3 ) ] |= ( 0x80 >> ( x & 7 ) );
+					pu8Bitmap[ y * 8 + ( x >> 3 ) ] |= ( 128 >> ( x & 7 ) );
 				}
 			}
 		}
