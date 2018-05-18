@@ -14,6 +14,8 @@ extern void fbCallTimeouts();
 //extern void fbBirdAnim( int );
 extern void fbStartGame();
 
+extern uint8_t FBSpeed;
+
 //=========================================================================
 
 #endif /* __FLAPPY_BIRD_H__ */

@@ -844,7 +844,8 @@ __myevic__ void ReadAtomizer()
                         {
                                 dfReplayRez = AtoRezMilli / 10;
                                 dfReplayMillis = AtoRezMilli % 10;
-                                ReplayRez = AtoRezMilli;                                
+                                ReplayRez = AtoRezMilli; 
+                                dfReplayPower = pwr;
                         }
 		}
                 
@@ -1343,9 +1344,9 @@ __myevic__ void TweakTargetVoltsReplay()
 	unsigned int pwr;
 	unsigned int volts;
 
-		pwr = AtoPowerLimit( dfMaxPower ); //dfPower , dfMaxPower - preheat //todo save replaypower 16 bit
-		//volts = GetVoltsForPower( pwr );
-                volts = GetAtoVWVolts( pwr, ReplayRez / 10 );
+		pwr = AtoPowerLimit( dfReplayPower ); //dfPower , dfMaxPower - preheat 
+		volts = GetVoltsForPower( pwr );
+                //volts = GetAtoVWVolts( pwr, ReplayRez / 10 );
                 //ReplayRez = dfReplayRez * 10 + dfReplayMillis;
                         
                 if ( AtoRezMilli > ReplayRez )

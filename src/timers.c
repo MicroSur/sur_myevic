@@ -115,9 +115,9 @@ __myevic__ void TMR2_IRQHandler()
 
 		if ( gFlags.playing_fb )
                 {
-			if ( (!(TMR2Counter % 20) && dfFBSpeed == 0)
-			  || (!(TMR2Counter % 13) && dfFBSpeed == 1)
-			  || (!(TMR2Counter % 10) && dfFBSpeed == 2) )
+			if ( (!(TMR2Counter % 20) && FBSpeed == 0)
+			  || (!(TMR2Counter % 13) && FBSpeed == 1)
+			  || (!(TMR2Counter % 10) && FBSpeed == 2) )
 			{
 				fbTickTimeouts();
 			}

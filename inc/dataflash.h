@@ -170,14 +170,13 @@ typedef struct dfParams
 /* 0018 */	uint16_t	Resistance;
 /* 001A */	uint16_t	RezTI;
 /* 001C */	uint16_t	RezNI;
-/* 001E */	uint16_t	ReplayRez;            // was uint8_t RezLockedTI uint8_t RezLockedNI
+/* 001E */	uint16_t	ReplayRez;              // was uint8_t RezLockedTI uint8_t RezLockedNI
 /* 0020 */	uint8_t		MaxBoardTemp;	
 /* 0021 */	uint8_t		StealthOn;              // 0 1 2 (off on contrast)
 /* 0022 */	uint16_t	VVLockedVolt;           // for vvlite: cold rez locked volt
-/* 0024 */	dfBattery_t	Battery;
+/* 0024 */	dfBattery_t	Battery;                //custom
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS]; //20
-///* 004E */                                          //recheck for PWR_CURVE_PTS value /* 004E */ = 10 pts /* 0062 */ = 20 pts
-/* 0063 */	uint16_t	VapeHoldTimer;         //dfVapeDelayTimer Status2.vapedelay
+/* 0063 */	uint16_t	VapeHoldTimer;          //dfVapeDelayTimer Status2.vapedelay
 /* 0065 */      uint32_t	JoulesEnergy;                 // Joules for energy separated from Joules for vaped
 /* 0069 */      uint32_t	JoulesDay;                 // save for mods without clock battery
 /* 006D */	uint8_t		ThreeButtonsAct;        //action
@@ -187,31 +186,30 @@ typedef struct dfParams
 /* 0074 */	uint8_t         CurveRepeatTimer;            // 0.1s = 1 1s = 10...    was TempCoefsTi
 /* 0075 */	int8_t          AkkuTempCorr;  
 /* 0076 */	uint16_t	LEDColor;		//	former 2-bytes pad
-/* 0078 */	dfStatus_t	Status;
+/* 0078 */	dfStatus_t	Status;                 //4 bytes
 /* 007C */	uint8_t         BattLine;		//0- %+V,1- %+small,2-v+small,3-all_small	//was uint16_t	AtoRez;
 /* 007D */	uint8_t         AutoPuffTimer;
 /* 007E */	uint8_t		NewRezPerc;		//	was AtoStatus
 /* 007F */	uint8_t		ShuntRez;		//	former 1-byte pad
 /* 0080 */	uint16_t	RezSS;
-/* 0082 */	uint8_t		RezLockedSS;  //not used
-/* 0083 */	uint8_t		UIVersion;      // 0 1 now
+/* 0082 */	uint16_t	ReplayPower;            //was RezLockedSS UIVersion
 /* 0084 */	uint8_t		TCRIndex;               // 0 m1, 1 m2, 2 m3
 /* 0085 */	uint8_t		ScrMainTime;            //	former 1-byte pad
 /* 0086 */	uint16_t	TCRM[3];
 /* 008C */	uint16_t	RezTCR;
-/* 008E */	uint8_t		ReplayMillis;       //    for ReplayRez 4 digits //was RezLockedTCR
+/* 008E */	uint8_t		ReplayMillis;           //    for ReplayRez 4 digits (1/2 byte need) //was RezLockedTCR
 /* 008F */	uint8_t		ScreenSaver;
 /* 0090 */	uint8_t		TCMode;                 // 0 1 2
 /* 0091 */	uint8_t		ScreenProt;		//	former 1-byte pad
 /* 0092 */	uint16_t	SavedCfgRez[10];
 /* 00A6 */	uint16_t	SavedCfgPwr[10];
 /* 00BA */	uint16_t	FBBest;
-/* 00BC */	uint8_t		FBSpeed; // todo del
+/* 00BC */	uint8_t		UIVersion;              // 0 1 now // was FBSpeed
 /* 00BD */	uint8_t		ColdLockTemp;
 /* 00BE */	uint8_t		Contrast;               //value
 /* 00BF */	uint8_t		ModesSel;
 /* 00C0 */	uint16_t	ClkRatio;
-/* 00C2 */	uint16_t	VVRatio;
+/* 00C2 */	uint16_t	VVRatio;                //calc vaped
 /* 00C4 */	uint8_t		PHDelay;
 /* 00C5 */	uint8_t		Clicks[4];
 /* 00C9 */	uint8_t		DimTimeout;
@@ -410,7 +408,7 @@ extern dfStruct_t DataFlash;
 #define dfNewRezPerc		DFP(NewRezPerc) //was dfAtoStatus
 #define dfShuntRez		DFP(ShuntRez)
 #define dfRezSS			DFP(RezSS)
-//#define dfRezLockedSS	DFP(RezLockedSS)
+#define dfReplayPower           DFP(ReplayPower)
 #define dfUIVersion		DFP(UIVersion)
 #define dfTCRIndex		DFP(TCRIndex)
 #define dfScrMainTime           DFP(ScrMainTime)
@@ -423,9 +421,9 @@ extern dfStruct_t DataFlash;
 #define dfSavedCfgRez           DFP(SavedCfgRez)
 #define dfSavedCfgPwr           DFP(SavedCfgPwr)
 #define dfFBBest		DFP(FBBest)
-#define dfFBSpeed		DFP(FBSpeed)
+//#define dfFBSpeed		DFP(FBSpeed)
 #define dfTTBest		DFP(TTBest)
-#define dfTTSpeed		DFP(TTSpeed)
+#define dfTTSpeed		DFP(TTSpeed)        //todo del
 #define dfColdLockTemp		DFP(ColdLockTemp)
 #define dfContrast		DFP(Contrast)
 #define dfContrast2		DFP(Contrast2)

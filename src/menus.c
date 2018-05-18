@@ -2516,21 +2516,21 @@ __myevic__ void Object3DOnClick()
 
 __myevic__ void GameMEnter()
 {
-    CurrentMenuItem = dfFBSpeed;
+    CurrentMenuItem = FBSpeed;
 }
 
 __myevic__ void GameISelect()
 {
     if ( CurrentMenuItem < 3 )
     {
-	dfFBSpeed = CurrentMenuItem;
+	FBSpeed = CurrentMenuItem;
 	UpdateDFTimer = 50;
     }
 }
 
 __myevic__ void GameIClick()
 {
-	if ( dfFBSpeed > 2 ) dfFBSpeed = 1;
+	if ( FBSpeed > 2 ) FBSpeed = 1;
         fbStartGame();
 }
 

@@ -83,7 +83,7 @@ const uint8_t SSD1306_InitSeq[] =
 		0xA8, //Set Multiplex Ratio...
 		0x3F, //...to 63 (all scr visible)
 		0xD5, //Set Display Clock Divide Ratio/Oscillator Frequency, SETDISPLAYCLOCKDIV
-		0xF1,
+		0xF1, // ... to
 		0xC8, // Set COM Output Scan Direction (C0h/C8h) vertical flip / no flip
 		0xD3, // Set Display Offset ...
 		0x20, // ... to
@@ -93,14 +93,14 @@ const uint8_t SSD1306_InitSeq[] =
 		0x81, // Set Contrast (0~255) ...
 		0x2F, // ... to
 		0xA1, //Set Segment Re-map (A0h/A1h) hor flip / no flip
-		0xA4, //Entire Display ON, DISPLAYALLON_RESUME
+		//0xA4, //def //Entire Display ON, DISPLAYALLON_RESUME,  Output follows RAM content 
 		0xA6, //Set Normal/Inverse Display (A6h/A7h)
-		0xAD,
-		0x8A,
-		0xD9, //Set Pre-charge Period
-		0x22,
+		//0xAD, // for SH1106 SH1106_SET_PUMP_MODE 0XAD
+		//0x8A, // SH1106_PUMP_OFF 0X8A
+		//0xD9, //def //Set Pre-charge Period
+		//0x22,
 		0xDB, // Set VCOMH Deselect Level, adjusts the VCOMH regulator output, SETVCOMDETECT
-		0x35	};
+		0x30	}; //35? 00h 20h_def 30h
 
 //----- (00005530) --------------------------------------------------------
 __myevic__ void SSD1306_Init()

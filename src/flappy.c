@@ -27,7 +27,7 @@ fbColumn_t;
 
 uint8_t		fbBirdColumn = 16;
 uint8_t		fbBirdCycle = 0;
-uint8_t		fbBirdLine = 24;
+uint8_t		fbBirdLine = 12; //24;
 int8_t		fbBirdDisp = 0;
 uint8_t		fbDead = 0;
 uint8_t		fbAnimStep = 0;
@@ -39,7 +39,7 @@ fbColumn_t	fbColumn3 = { 0 };
 uint8_t		fbTimeoutMask = 0;
 uint8_t		fbCurrentTimeout = 0;
 uint8_t		fbUsedTimeouts = 0;
-
+uint8_t         FBSpeed;
 //-------------------------------------------------------------------------
 
 extern const uint8_t	fbColumnBody[];
@@ -612,7 +612,7 @@ __myevic__ void fbCheckFire()
 			fbBirdDisp = -20; //-15; //-14;
 		}
 */
-            	if ( dfFBSpeed == 1 )
+            	if ( FBSpeed == 1 )
 		{
 			fbBirdDisp = -17;
 		}
@@ -650,7 +650,7 @@ __myevic__ void fbMoveBird()
 		fbBirdDisp += 7;
 	}
 */
-	if ( dfFBSpeed == 1 )
+	if ( FBSpeed == 1 )
 	{
 		fbBirdDisp += 5;
 	}
@@ -743,8 +743,9 @@ __myevic__ void fbStartGame()
 	SleepTimer = 3000;
 	fbInitTimeouts();
 	ClearScreenBuffer();
-	DisplayRefresh();
+	//DisplayRefresh();
         fbAnimStep = 0;
 	//fbBirdAnim( 24 );
+        fbSetTimeoutDelay( 20 ); //to show start screen
 	fbCreateTimeout( fbStartScreen + 1 );
 }

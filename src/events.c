@@ -1706,11 +1706,15 @@ __myevic__ int CustomEvents()
 			break;
                         
                 case 41:
-			fbStartGame();
+			//fbStartGame();
+                        CurrentMenu = &GameMenu; 
+                        SetScreen( 102, 15 );                        
 			break;
                         
                 case EVENT_TETRIS:
- 			ttStartGame();
+ 			//ttStartGame();
+                        CurrentMenu = &GameTtMenu; 
+                        SetScreen( 102, 15 );
 			break;
                         
                 case EVENT_SAVER:
