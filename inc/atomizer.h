@@ -55,6 +55,7 @@ enum
 extern uint32_t	AtoVolts;
 extern uint32_t	TargetVolts;
 extern uint32_t	AtoRezMilli;
+extern uint32_t	ReplayRez;
 extern uint32_t	AtoRezMilliMin; //min while puff
 extern uint32_t	AtoMinVolts;
 extern uint32_t	AtoMaxVolts;
@@ -124,6 +125,7 @@ extern void SetAtoLimits();
 extern void RegulateBuckBoost();
 extern void AtoWarmUp();
 extern void TweakTargetVoltsVW();
+extern void TweakTargetVoltsReplay();
 extern void TweakTargetVoltsTC();
 extern void ProbeAtomizer();
 extern void ReadAtoCurrent();

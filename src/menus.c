@@ -4269,6 +4269,13 @@ const mdata_t APuffTime =
 	MITYPE_BIT,
 	6
 };
+const mdata_t Replay =
+{
+	&dfStatus2,
+	&BitDesc,
+	MITYPE_BIT,
+	15
+};
 const menu_t VapingMenu =
 {
 	String_Vaping,
@@ -4278,7 +4285,7 @@ const menu_t VapingMenu =
 	0,
 	VapingMenuOnClick+1,
 	VapingMenuOnEvent+1,
-	13,
+	14,
 	{
 		{ String_Preheat, &PreheatMenu, 0, MACTION_SUBMENU },
 		{ String_Curve, &CurveMenu, 0, MACTION_SUBMENU },
@@ -4292,6 +4299,7 @@ const menu_t VapingMenu =
                 { String_VVLite, &VVLite, 0, MACTION_DATA }, //9
                 { String_AutoFi, &APuffTime, 0, MACTION_DATA }, //10 
                 { String_ATime, 0, 0, MACTION_DATA },        //11
+                { String_Repeat, &Replay, 0, MACTION_DATA },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
@@ -4705,7 +4713,7 @@ __myevic__ int MenuDataAction( int event, const mdata_t *data )
 	if ( vret )
 	{
 		UpdateDFTimer = 50;
-		ScreenDuration = 15;
+		ScreenDuration = 30; //15;
 		gFlags.refresh_display = 1;
 	}
 

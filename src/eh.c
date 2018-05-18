@@ -708,7 +708,7 @@ __myevic__ void EventHandler()
                         
 			if ( ISMODETC(dfMode) )
 			{
-                                InitTCAlgo(); //put here for vtwo mini bug
+                                InitTCAlgo(); //put first to fix vtwo mini bug
                             
 				if ( dfResistance <= 150 )
 				{
@@ -815,7 +815,7 @@ __myevic__ void EventHandler()
 				}
 
 
-				gFlags.limit_power = 0;
+				gFlags.limit_power = 0; //todo 
 //                              if ( pwr > 300 ) pwr = 300;
 				if ( pwr > BatteryMaxPwr )
 				{
@@ -827,7 +827,7 @@ __myevic__ void EventHandler()
                                 
                     //if ( !gFlags.pbank ) 
                     //{
-                                if ( dfStatus.vvlite && !pc )
+                                if ( dfStatus.vvlite && !pc ) //&& !( dfStatus.keylock && dfStatus2.replay ) )
                                 {
                                     if ( !dfVVLockedVolt ) dfVVLockedVolt = VWVolts;
                                     TargetVolts = dfVVLockedVolt;
@@ -904,7 +904,7 @@ __myevic__ void EventHandler()
 			return;
 */
 
-		case 30:	// Key lock violation
+		case 30:	// Key lock violation // show locked status
 			if ( dfStatus.off )
 				return;
                         

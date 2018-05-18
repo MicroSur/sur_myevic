@@ -1174,8 +1174,11 @@ __myevic__ void ShowBatLowLock()
 //----- (00007794) --------------------------------------------------------
 __myevic__ void ShowKeyLock()
 {
-	DrawStringCentered( String_Key, 88 );
-	DrawStringCentered( String_Lock, 102 );
+    if ( dfStatus2.replay && ISMODEVW(dfMode) )
+        DrawStringCentered( String_Repeat, 18 );
+    
+    DrawStringCentered( String_Key, 88 );
+    DrawStringCentered( String_Lock, 102 );
 }
 
 

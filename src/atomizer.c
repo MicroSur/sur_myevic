@@ -18,9 +18,9 @@
 uint32_t	AtoVoltsADC;
 uint32_t	AtoVolts;
 uint32_t	TargetVolts;
+uint32_t        ReplayRez;
 uint32_t	AtoRezMilli;
 uint32_t	AtoRezMilliMin; //min while puff
-//uint32_t	AtoRezMilliReplay;
 uint32_t	AtoMinVolts;
 uint32_t	AtoMaxVolts;
 uint32_t	AtoMinPower;
@@ -839,6 +839,13 @@ __myevic__ void ReadAtomizer()
 			MilliJoules += pwr; //*10
                         MilliJoulesDay += pwr;
                         MilliJoulesEnergy += pwr;
+                        
+                        if ( !dfStatus.keylock && dfStatus2.replay )
+                        {
+                                dfReplayRez = AtoRezMilli / 10;
+                                dfReplayMillis = AtoRezMilli % 10;
+                                ReplayRez = AtoRezMilli;                                
+                        }
 		}
                 
 //myprintf( "%d(%d,%d,%d)\n", AtoRezMilli, ADCAtoSum, ADCShuntSum1, ADCShuntSum2 );
@@ -1263,7 +1270,7 @@ __myevic__ void TweakTargetVoltsVW()
 
 	pwr = AtoPowerLimit( pwr );
 
-        if ( dfStatus.vvlite && !pc )
+        if ( dfStatus.vvlite && !pc ) //&& !( dfStatus.keylock && dfStatus2.replay ) )
         {
             if ( !dfVVLockedVolt ) dfVVLockedVolt = VWVolts;
             TargetVolts = dfVVLockedVolt;
@@ -1331,25 +1338,28 @@ __myevic__ void TweakTargetVoltsJT()
 
 //=========================================================================
 
-/*
 __myevic__ void TweakTargetVoltsReplay()
 {
 	unsigned int pwr;
 	unsigned int volts;
 
-		pwr = AtoPowerLimit( dfPower );
-
-		volts = GetVoltsForPower( pwr );
-
-                if ( AtoRezMilli > AtoRezMilliReplay )
+		pwr = AtoPowerLimit( dfMaxPower ); //dfPower , dfMaxPower - preheat //todo save replaypower 16 bit
+		//volts = GetVoltsForPower( pwr );
+                volts = GetAtoVWVolts( pwr, ReplayRez / 10 );
+                //ReplayRez = dfReplayRez * 10 + dfReplayMillis;
+                        
+                if ( AtoRezMilli > ReplayRez )
 		{
-			if ( TargetVolts ) --TargetVolts;
+                    if ( TargetVolts ) --TargetVolts;
 		}
+                else if ( AtoRezMilli < ReplayRez )
+                {
+                    ++TargetVolts;
+                }
 
 		if ( TargetVolts > volts ) TargetVolts = volts;
 }
 
-*/
 
 //=========================================================================
 //----- (00008F90) --------------------------------------------------------

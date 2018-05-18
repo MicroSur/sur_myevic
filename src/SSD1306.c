@@ -12,9 +12,9 @@ __myevic__ void SSD1306_Refresh()
 
 	sb = ScreenBuffer;
 
-	for ( int l = 0 ; l < 0x10 ; ++l )
+	for ( int i = 0 ; i < 16 ; ++i )
 	{
-		DisplaySendCommand( 0xB0 + l );
+		DisplaySendCommand( 0xB0 + i );
 		DisplaySendCommand( 0 );
 		DisplaySendCommand( ( dfStatus.flipped ) ? 0x12 : 0x10 );
                 //if ( dfStatus.flipped )
@@ -22,8 +22,8 @@ __myevic__ void SSD1306_Refresh()
                 //else
                 //    DisplaySendCommand ( 0x10 );
                 
-		DisplaySendData( sb, 0x40 );
-		sb += 0x40;
+		DisplaySendData( sb, 64 ); //64 * 16 = 1024 = 64 * 128 / 8 ;bytes
+		sb += 64;
 	}
 }
 
@@ -86,12 +86,12 @@ const uint8_t SSD1306_InitSeq[] =
 		0xF1,
 		0xC8, // Set COM Output Scan Direction (C0h/C8h) vertical flip / no flip
 		0xD3, // Set Display Offset ...
-		0x20, // ... to 32
+		0x20, // ... to
 		0xDC,
 		0x00,
 		0x20,
 		0x81, // Set Contrast (0~255) ...
-		0x2F, // ... to 47
+		0x2F, // ... to
 		0xA1, //Set Segment Re-map (A0h/A1h) hor flip / no flip
 		0xA4, //Entire Display ON, DISPLAYALLON_RESUME
 		0xA6, //Set Normal/Inverse Display (A6h/A7h)
@@ -116,7 +116,7 @@ __myevic__ void SSD1306_Init()
 	{
 		DisplaySendCommand( 0xC0 ); // Set COM Output Scan Direction (C0h/C8h) vert flip
 		DisplaySendCommand( 0xD3 ); // Set Display Offset ...
-		DisplaySendCommand( 0x60 ); // ... to 96
+		DisplaySendCommand( 0x60 ); // ... to
 		DisplaySendCommand( 0xDC );
 		DisplaySendCommand( 0x20 );
 		DisplaySendCommand( 0xA0 ); //Set Segment Re-map (A0h/A1h) hor flip
@@ -299,9 +299,9 @@ __myevic__ void SSD1306_WriteBytes( const int isData, const uint8_t data[], cons
 
 	PE10 = is_data ? 1 : 0;
 
-	for ( int l = 0 ; l < len ; ++l )
+	for ( int i = 0 ; i < len ; ++i )
 	{
-		byte = data[l];
+		byte = data[i];
 		while ( SPI_IS_BUSY( SPI0 ) )
 			;
 		SPI_WRITE_TX( SPI0, byte );

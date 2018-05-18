@@ -170,6 +170,7 @@ __myevic__ void DrawPwrLine( int pwr, int line )
 	if ( pwr < 1000 ) // < 100 w
 	{
 		DrawValueRight( x, y, pwr, 1, fset, 0 );
+                //DrawValueRight( x, y, dfStatus.onewatt? pwr/10 : pwr, dfStatus.onewatt? 0 : 1, fset, 0 );
 		//DrawImage( x+1, y+yoff, 0x98 );
 	}
 	else // > 99 w
@@ -860,7 +861,7 @@ __myevic__ void DrawTemp()
         {
             if ( dfTCAlgo )
             {
-               DrawImage( 53, 12, 0x68 ); //A 
+               DrawImage( 51, 10, 0x82 ); //A 68, a 82 (y-2)
             }
         }
 }
@@ -929,13 +930,19 @@ __myevic__ void DrawPower( int pwr, int yp )
 
 	if ( ISMODEVW(dfMode) )
 	{
+                if ( dfStatus.keylock && dfStatus2.replay )
+                {
+                        DrawImage( xp, yp-2, 0x93 ); //93 r (y-2), AD R (y+1)
+                        return;
+                }
+                            
 		if ( dfStatus.pcurve )
 		{
                     xc = dfStatus.preheat ? 6: 0;
                     
 			if ( !CurveDelay || gFlags.osc_1hz )
 			{
-				DrawImage( xp + xc, yp, 0x6A ); //C
+				DrawImage( xp + xc, yp-2, 0x84 ); //C 6A , c 84  (y-2)
 			}
 		}
                 
@@ -944,16 +951,16 @@ __myevic__ void DrawPower( int pwr, int yp )
 			if ( !PreheatDelay || gFlags.osc_1hz )
 			{
                             if ( dfStatus2.smart_ph && NextPreheatTimer && ( NextPreheatTimer < dfPreheatTime ) )
-                                DrawImage( xp, yp, 0x7A ); //S
-                            else DrawImage( xp, yp, 0x77 ); //P
+                                DrawImage( xp, yp-2, 0x94 ); //S 7A , s 94 (y-2)
+                            else DrawImage( xp, yp-2, 0x91 ); //P 77, p 91
 			}
-		}
+		}                
 	}
         else if ( ISMODETC(dfMode) )
         {
             if ( dfTCAlgo )
             {
-               DrawImage( xp, yp, 0x68 ); //A 
+               DrawImage( xp, yp-2, 0x82 ); //A 68, a 82 (y-2)
             }
         }
 }
@@ -1035,12 +1042,12 @@ __myevic__ void ShowLogo( int place )
                                     else if ( dfUIVersion == 0 )
                                     {
                                         y2 = 60;
-                                        y = 10;
+                                        y = 7;
                                     }
                                     else
                                     {
                                         y2 = 66;
-                                        y = 15;
+                                        y = 14;
                                     }
                                     
                                     DrawFillRect( 0, 0, 63, y2, 0 );
@@ -1050,7 +1057,7 @@ __myevic__ void ShowLogo( int place )
                             }
                             else
                             {
-                                DrawHLineDots( 0, 41, 63, 0 ); //erase 1-st main line
+                                DrawHLineDots( 0, 41, 63, 0 );
                                 DrawLOGO( 0, 0 ); //x y
                             }
                         }    

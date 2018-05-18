@@ -338,6 +338,11 @@ __myevic__ void InitVariables()
         if ( dfStatus2.vapedelay ) VapeDelayTimer = dfVapeDelayTimer;
         
         VWVolts = 330;
+                
+        if ( !dfReplayRez ) 
+            dfStatus2.replay = 0;
+        else
+            ReplayRez = dfReplayRez * 10 + dfReplayMillis;
         
         //gFlags.wake_up = 1;
         
@@ -1090,7 +1095,15 @@ __myevic__ void Main()
 				}
 				else if ( ISMODEVW(dfMode) )
 				{
-					TweakTargetVoltsVW();
+                                    if ( dfStatus.keylock && dfStatus2.replay && ReplayRez )  //dfMode == 4 only ?
+                                    {
+                                        TweakTargetVoltsReplay();
+                                    }
+                                    else
+                                    {
+                                        TweakTargetVoltsVW();
+                                        
+                                    }
 				}
             //}
 			}
