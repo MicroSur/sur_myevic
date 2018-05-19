@@ -1344,6 +1344,12 @@ __myevic__ void TweakTargetVoltsReplay()
 	unsigned int pwr;
 	unsigned int volts;
 
+                if ( AtoRezMilli < 5 ) 
+                {
+                    Event = 4; //keylock state change event
+                    return;
+                }
+            
 		pwr = AtoPowerLimit( dfReplayPower ); //dfPower , dfMaxPower - preheat 
 		volts = GetVoltsForPower( pwr );
                 //volts = GetAtoVWVolts( pwr, ReplayRez / 10 );

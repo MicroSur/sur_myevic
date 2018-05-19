@@ -3892,7 +3892,7 @@ const menu_t CUSMenu =
                 { String_V, &CUS10Voltage, 0, MACTION_DATA },  
 		{ String_Percent, 0, 0, 0 },        
                 { String_V, &CUS11Voltage, 0, MACTION_DATA },    
-                { String_Flash, 0, 0, 0 }, 
+                { String_Save, 0, 0, 0 }, 
                 { String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

@@ -700,12 +700,12 @@ __myevic__ void fbStartScreen()
 			if ( fbBirdLine == 0 )
 			fbAnimStep = 1;
 		}
-		fbSetBirdColumn( 100 );
+		fbSetBirdColumn( 105 );
 		//fbDrawText( 10, fbBirdLine + 16, "FLAPPY BIRD" );
                 const uint8_t Str_FB [] = { 6, 8, 1, 10, 10, 14, 15, 2, 7, 11, 4, 0 };
                 fbDrawText( 10, fbBirdLine + 16, Str_FB );
                 
-		fbBirdAnim( fbBirdLine + 16 );
+		fbBirdAnim( fbBirdLine + 17 );
 		DisplayRefresh();
 		//fbCLSBuf();
 		fbSetTimeoutDelay( 10 );

@@ -308,7 +308,9 @@ __myevic__ void InitRTC()
 //----- (0000895C) --------------------------------------------------------
 __myevic__ void InitVariables()
 {
-	InitDataFlash();
+    //call after restart and profile changes
+    
+	//InitDataFlash(); //in main
 	LEDGetColor();
 	KeyPressTime |= 0x8000;
 	LastInputs |= 0x80;
@@ -335,7 +337,7 @@ __myevic__ void InitVariables()
         AtoTemp = CelsiusToF( dfColdLockTemp ); //70;
         
         //if ( dfVapeDelayTimer > 3600 ) dfVapeDelayTimer = 0; //not need if reset df
-        if ( dfStatus2.vapedelay ) VapeDelayTimer = dfVapeDelayTimer;
+        if ( dfStatus2.vapedelay && !VapeDelayTimer ) VapeDelayTimer = dfVapeDelayTimer;
         
         VWVolts = 330;
                 
@@ -968,7 +970,8 @@ __myevic__ void Main()
     //Init
     
 	InitDevices();
-
+	InitDataFlash();
+	//LEDGetColor();
 	InitVariables();
 
 	// Enable chip temp sensor sampling by ADC

@@ -1802,7 +1802,7 @@ const uint8_t ProfileFilter[32] =
 const uint32_t  StatusFilter = 0b10010000000111001110111111001010;
 //                                      3       2       1       0  
 //                               84218421842184218421842184218421
-const uint32_t StatusFilter2 = 0b00000000000000001111110110000110;
+const uint32_t StatusFilter2 = 0b00000000000000001111100110000110;
 
 //-------------------------------------------------------------------------
 // Apply newly reloaded parameters
@@ -1811,7 +1811,9 @@ __myevic__ void ApplyParameters()
 {
     //from LoadProfile
 	InitDisplay();
-	LEDGetColor();
+	//LEDGetColor();
+        InitSetPowerVoltMax();
+        InitVariables();
 	SetBatteryModel();
 	ModeChange();
 

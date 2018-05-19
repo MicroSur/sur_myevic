@@ -494,6 +494,7 @@ extern uint8_t	ScrFlip;
 // Functions
 
 extern void InitDataFlash();
+extern void InitVariables();
 extern void ResetDataFlash();
 //extern void InitVariables();
 //extern void DFCheckValuesValidity();

@@ -329,7 +329,7 @@ extern const uint8_t String_HoldFi[];
 extern const uint8_t String_FireScrDur[];
 extern const uint8_t String_Percent[];
 extern const uint8_t String_V[];
-extern const uint8_t String_Flash[];
+//extern const uint8_t String_Flash[];
 extern const uint8_t String_Ok[];
 extern const uint8_t String_SwapMP[];
 extern const uint8_t String_SME[];
