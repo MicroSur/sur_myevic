@@ -214,32 +214,34 @@ typedef struct dfParams
 /* 00C5 */	uint8_t		Clicks[4];
 /* 00C9 */	uint8_t		DimTimeout;
 /* 00CA */	uint8_t		BatteryModel;
-// CB 00
-/* 00CB */	uint16_t	USBMaxCharge;   //  CC          // 8 bit???
-/* 00CD */	uint8_t		PreheatTime;    //  CE
-/* 00CE */	uint16_t	PreheatPwr;     //  CF
-/* 00D0 */	uint16_t	BattVolt;
-/* 00D2 */	uint8_t		TCAlgo;
-/* 00D3 */	uint8_t		TCBoost;
-/* 00D4 */	uint16_t	TCRP[3];
-/* 00DA */	dfPID_t		PID;
-/* 00E0 */	uint16_t	Millis;         //store 0.00x Ohm for all TC res
-/* 00E2 */	uint8_t		Profile;
-/* 00E3 */	int8_t		BVOffset[4];
-/* 00E8 */	uint16_t	TTBest;
-/* 00EA */	uint8_t		TTSpeed; //todo del      //  EC
-/* 00EB */	uint8_t		APT3;           //  ED
-/* 00EC */	uint8_t		PuffsOff;       //  EE
-/* 00ED */	uint8_t		HideLogo;       //  EF
-/* 00EE */	int8_t		BoardTempCorr;  //  F0
-/* 00EF */	uint8_t		Contrast2;      //  F1
-/* 00F0 */	dfStatus2_t	Status2;        //  F4
-/* 00F4 */      uint8_t         FireScrDuration;//  F8
-/* 00F5 */      uint8_t         dfObject3D;     //  F9  
-/* 00F6 */      uint16_t        MaxPower;       //  FA 
-/* 00F8 */      uint16_t        MaxVolts;       //  FC
-                uint8_t         DimOffTimeout;  //  FE      0-255 0-4:15  ( x \ 60 & ":" & (x Mod 60) )
-                uint8_t         DimOffMode;     //  FF      0 normal sleep, 1 - mod off, 2? - lock
+/* 00CB 00 */
+/* 00CC */	uint16_t	USBMaxCharge; // 8 bit??? /10
+/* 00CE */	uint8_t		PreheatTime;
+/* 00CF */	uint16_t	PreheatPwr;
+/* 00D1 */	uint16_t	BattVolt;
+/* 00D3 */	uint8_t		TCAlgo;
+/* 00D3 00 */
+/* 00D5 */	uint8_t		TCBoost;
+/* 00D6 */	uint16_t	TCRP[3];
+/* 00DC */	dfPID_t		PID;
+/* 00E2 */	uint16_t	Millis;         //store 0.00x Ohm for all TC res
+/* 00E4 */	uint8_t		Profile;
+/* 00E5 */	int8_t		BVOffset[4];
+/* 00E9 00 */ 
+/* 00EA */	uint16_t	TTBest;
+/* 00EC */	uint8_t		TTSpeed; //todo del
+/* 00ED */	uint8_t		APT3;
+/* 00EE */	uint8_t		PuffsOff;
+/* 00EF */	uint8_t		HideLogo;
+/* 00F0 */	int8_t		BoardTempCorr;
+/* 00F1 */	uint8_t		Contrast2;
+/* 00F4 */	dfStatus2_t	Status2;
+/* 00F8 */      uint8_t         FireScrDuration;
+/* 00F9 */      uint8_t         dfObject3D;
+/* 00FA */      uint16_t        MaxPower;
+/* 00FC */      uint16_t        MaxVolts;
+/* 00FE */      uint8_t         DimOffTimeout;          //   0-255 0-4:15  ( x \ 60 & ":" & (x Mod 60) )
+/* 00FF */      uint8_t         DimOffMode;             // 0 normal sleep, 1 - mod off, 2? - lock
 // stop on FF
 }
 dfParams_t;
