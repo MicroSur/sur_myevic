@@ -28,7 +28,7 @@ __myevic__ void MainView()
 			HideLogo = dfHideLogo;
 		}
 		Screen = 1;
-		ScreenDuration = GetMainScreenDuration();
+		ScreenDuration = ScrMainTimes[dfScrMainTime]; //GetMainScreenDuration();
                 gFlags.screen_on = 1;
                 
 	}

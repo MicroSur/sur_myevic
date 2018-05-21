@@ -89,7 +89,7 @@ extern void ShowSplash();
 extern void ShowFireDuration( int line );
 
 extern uint16_t GetScreenProtection();
-extern uint16_t GetMainScreenDuration();
+//extern uint16_t GetMainScreenDuration();
 extern void SetScreen( int screen, int duration );
 
 //==============================================================================

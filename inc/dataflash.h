@@ -76,7 +76,7 @@ typedef struct
 /* 00000400 */	unsigned int onewatt:1;     //lsls 0x15
 /* 00000800 */	unsigned int digclk:1;      //lsls 0x14
 /* 00001000 */	unsigned int nbrc:1;      //lsls 0x13        new battery reset counters
-/* 00002000 */	unsigned int phpct:1;       //lsls 0x12
+/* 00002000 */	unsigned int phpct:1;       //lsls 0x12     // preheat in percent or watts
 /* 00004000 */	unsigned int wakeonpm:1;    //lsls 0x11
 /* 00008000 */	unsigned int preheat:1;     //lsls 0x10  15 bit
 
@@ -151,6 +151,7 @@ typedef struct
 }
 dfPCPoint_t;
 
+//__attribute__((packed)) - big file, but no padding (+6 bytes)
 typedef struct dfParams
 {
 /* 0000 */	uint32_t	PCRC;
@@ -176,12 +177,13 @@ typedef struct dfParams
 /* 0022 */	uint16_t	VVLockedVolt;           // for vvlite: cold rez locked volt
 /* 0024 */	dfBattery_t	Battery;                //custom
 /* 003A */	dfPCPoint_t	PwrCurve[PWR_CURVE_PTS]; //20
-/* 0063 */	uint16_t	VapeHoldTimer;          //dfVapeDelayTimer Status2.vapedelay
-/* 0065 */      uint32_t	JoulesEnergy;                 // Joules for energy separated from Joules for vaped
-/* 0069 */      uint32_t	JoulesDay;                 // save for mods without clock battery
-/* 006D */	uint8_t		ThreeButtonsAct;        //action
-/* 006E */	uint8_t		StealthPuffsCnt;        //stealth delay in puffs
-/* 006F */	uint8_t		ScrChargeTime;          // timeout for charge screen
+/* 0062 */	uint16_t	VapeHoldTimer;          //dfVapeDelayTimer Status2.vapedelay
+/* 0064 */      uint32_t	JoulesEnergy;                 // Joules for energy separated from Joules for vaped
+/* 0068 */      uint32_t	JoulesDay;                 // save for mods without clock battery
+/* 006C */	uint8_t		ThreeButtonsAct;        //action
+/* 006D */	uint8_t		StealthPuffsCnt;        //stealth delay in puffs
+/* 006E */	uint8_t		ScrChargeTime;          // timeout for charge screen
+/* 006F 00 padding */
 /* 0070 */      uint32_t	Joules;                 // save for mods without clock battery
 /* 0074 */	uint8_t         CurveRepeatTimer;            // 0.1s = 1 1s = 10...    was TempCoefsTi
 /* 0075 */	int8_t          AkkuTempCorr;  
@@ -195,7 +197,7 @@ typedef struct dfParams
 /* 0082 */	uint16_t	ReplayPower;            //was RezLockedSS UIVersion
 /* 0084 */	uint8_t		TCRIndex;               // 0 m1, 1 m2, 2 m3
 /* 0085 */	uint8_t		ScrMainTime;            //	former 1-byte pad
-/* 0086 */	uint16_t	TCRM[3];
+/* 0086 */	uint16_t	TCRM[3];                // custom TCR M1 M2 M3
 /* 008C */	uint16_t	RezTCR;
 /* 008E */	uint8_t		ReplayMillis;           //    for ReplayRez 4 digits (1/2 byte need) //was RezLockedTCR
 /* 008F */	uint8_t		ScreenSaver;
@@ -212,22 +214,22 @@ typedef struct dfParams
 /* 00C2 */	uint16_t	VVRatio;                //calc vaped
 /* 00C4 */	uint8_t		PHDelay;
 /* 00C5 */	uint8_t		Clicks[4];
-/* 00C9 */	uint8_t		DimTimeout;
+/* 00C9 */	uint8_t		DimTimeout; //not used
 /* 00CA */	uint8_t		BatteryModel;
-/* 00CB 00 */
+/* 00CB 00 padding */
 /* 00CC */	uint16_t	USBMaxCharge; // 8 bit??? /10
 /* 00CE */	uint8_t		PreheatTime;
-/* 00CF */	uint16_t	PreheatPwr;
-/* 00D1 */	uint16_t	BattVolt;
-/* 00D3 */	uint8_t		TCAlgo;
-/* 00D3 00 */
+/* 00CF 00 padding */
+/* 00D0 */	uint16_t	PreheatPwr;
+/* 00D2 */	uint16_t	BattVolt;  // to 8 bit +250 ?
+/* 00D4 */	uint8_t		TCAlgo;
 /* 00D5 */	uint8_t		TCBoost;
-/* 00D6 */	uint16_t	TCRP[3];
+/* 00D6 */	uint16_t	TCRP[3];        //custom TCR for Ni Ti SS
 /* 00DC */	dfPID_t		PID;
 /* 00E2 */	uint16_t	Millis;         //store 0.00x Ohm for all TC res
 /* 00E4 */	uint8_t		Profile;
 /* 00E5 */	int8_t		BVOffset[4];
-/* 00E9 00 */ 
+/* 00E9 00 padding */ 
 /* 00EA */	uint16_t	TTBest;
 /* 00EC */	uint8_t		TTSpeed; //todo del
 /* 00ED */	uint8_t		APT3;
@@ -235,13 +237,15 @@ typedef struct dfParams
 /* 00EF */	uint8_t		HideLogo;
 /* 00F0 */	int8_t		BoardTempCorr;
 /* 00F1 */	uint8_t		Contrast2;
+/* 00F2 00 padding */
+/* 00F3 00 padding */
 /* 00F4 */	dfStatus2_t	Status2;
 /* 00F8 */      uint8_t         FireScrDuration;
 /* 00F9 */      uint8_t         dfObject3D;
 /* 00FA */      uint16_t        MaxPower;
 /* 00FC */      uint16_t        MaxVolts;
 /* 00FE */      uint8_t         DimOffTimeout;          //   0-255 0-4:15  ( x \ 60 & ":" & (x Mod 60) )
-/* 00FF */      uint8_t         DimOffMode;             // 0 normal sleep, 1 - mod off, 2? - lock
+/* 00FF */      uint8_t         DimOffMode;             // 0 normal sleep, 1 - mod off, 2 - lock
 // stop on FF
 }
 dfParams_t;
@@ -302,7 +306,7 @@ dfParams2_t;
 #define DATAFLASH_PARAMS_SIZE	ALIGN256(sizeof(dfParams_t))
 #define DATAFLASH_INFOS_SIZE	ALIGN256(sizeof(dfInfos_t))
 #define DATAFLASH_PARAMS2_SIZE	ALIGN256(sizeof(dfParams2_t))
-#define DATAFLASH_FREE_SIZE		(FMC_FLASH_PAGE_SIZE-DATAFLASH_PARAMS_SIZE-DATAFLASH_INFOS_SIZE-DATAFLASH_PARAMS2_SIZE)
+#define DATAFLASH_FREE_SIZE	(FMC_FLASH_PAGE_SIZE-DATAFLASH_PARAMS_SIZE-DATAFLASH_INFOS_SIZE-DATAFLASH_PARAMS2_SIZE)
 
 //-------------------------------------------------------------------------
 // It's important for DATAFLASH_PARAMS_SIZE to be a divider of
@@ -435,7 +439,7 @@ extern dfStruct_t DataFlash;
 #define dfVVRatio		DFP(VVRatio)
 #define dfPHDelay		DFP(PHDelay)
 #define dfClick			DFP(Clicks)
-#define dfDimTimeout            DFP(DimTimeout)
+//#define dfDimTimeout            DFP(DimTimeout)
 #define dfBatteryModel          DFP(BatteryModel)
 #define dfBVOffset		DFP(BVOffset)
 #define dfPreheatTime           DFP(PreheatTime)

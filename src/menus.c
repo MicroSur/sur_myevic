@@ -2431,7 +2431,7 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 					if ( ++dfScrMainTime > 5 )
 						dfScrMainTime = 0;
                                         
-					dfDimTimeout = ScrMainTimes[dfScrMainTime];
+					//dfDimTimeout = ScrMainTimes[dfScrMainTime];
 					vret = 1;
 					break;
                                         
@@ -2463,7 +2463,8 @@ __myevic__ int ScreenProtMenuOnEvent( int event )
 				case 1:	// Main
 					if ( !dfScrMainTime-- )
 						dfScrMainTime = 5;
-					dfDimTimeout = ScrMainTimes[dfScrMainTime];
+                                        
+					//dfDimTimeout = ScrMainTimes[dfScrMainTime];
 					vret = 1;
 					break;
                                         
@@ -2831,7 +2832,7 @@ __myevic__ void DrawTCRP( int x, int y, int v, uint8_t dp, uint8_t z, uint8_t nd
 {
 	if ( v == 0 )
 	{
-		DrawStringRight( String_DEF, x, y + 2 ); //( String_DEF, x - 18, y + 2 );
+		DrawStringRight( String_DEF, x, y + 2 );
 	}
 	else
 	{

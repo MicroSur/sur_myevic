@@ -2573,7 +2573,7 @@ __myevic__ int GetLockState()
 {
         
         int lock = 0;
-	if 	( dfMode == 0 ) lock = dfStatus2.dfRezLockedNI;
+	if 	( dfMode == 0 ) lock = dfStatus2.dfRezLockedNI; // 1 : 0'
 	else if ( dfMode == 1 ) lock = dfStatus2.dfRezLockedTI;
 	else if ( dfMode == 2 ) lock = dfStatus2.dfRezLockedSS;
 	else if ( dfMode == 3 ) lock = dfStatus2.dfRezLockedTCR;
