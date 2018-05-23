@@ -485,7 +485,7 @@ __myevic__ uint16_t LowestRezMeasure()
 	if ( AtoRezMilli / 10 < rez && AtoRezMilli >= 10 )
 		rez = ( AtoRezMilli / 10 );
         
-        if ( AtoRezMilliMin > AtoRezMilli || !AtoRezMilliMin ) 
+        if ( AtoRezMilliMin > AtoRezMilli ) //|| !AtoRezMilliMin ) // not store when AtoRezMilliMin was 0
                 AtoRezMilliMin = AtoRezMilli;
         
 	return rez;
@@ -1345,8 +1345,10 @@ __myevic__ void TweakTargetVoltsReplay()
 	unsigned int volts;
 
                 if ( AtoRezMilli < 5 ) 
-                {
+                {                    
                     Event = 4; //keylock state change event
+                    AtoRezMilliMin = 0; //AtoRezMilli;
+                    StopFire();
                     return;
                 }
             
@@ -2338,7 +2340,7 @@ algostage_t tabStagesSegments[]=
 
 __myevic__ void InitTCAlgo()
 {
-	AlgoCtl.start = 0;
+	//AlgoCtl.start = 0; //not used
 	AlgoCtl.boost = dfTCBoost;
 	AlgoCtl.ttemp = dfStatus.IsCelsius ? dfTemp : FarenheitToC( dfTemp );
 
@@ -2370,10 +2372,11 @@ __myevic__ void InitTCAlgo()
 
 		case TCALGO_JOY:
 		default:
-			AlgoCtl.nstages = sizeof( tabStagesSegments ) / sizeof( algostage_t );
-			AlgoCtl.stages = tabStagesSim;
-			AlgoCtl.power = dfTCPower;
-			AlgoCtl.nbtests = 1;
+                        //AlgoCtl not used
+			//AlgoCtl.nstages = sizeof( tabStagesSegments ) / sizeof( algostage_t );
+			//AlgoCtl.stages = tabStagesSim;
+			//AlgoCtl.power = dfTCPower;
+			//AlgoCtl.nbtests = 1;
 			break;
 	}
 
