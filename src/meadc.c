@@ -66,7 +66,7 @@ __myevic__ void InitEADC()
                     // Disable PB.0 - PB.7 digital input paths to avoid leakage currents
                     GPIO_DISABLE_DIGITAL_PATH( PB, 0xFF );    
                 }
-                else //ISINVOKE 
+                else //ISINVOKE IKU200
                 {
                     // Disable PB.0 - PB.6 digital input paths to avoid leakage currents
                     GPIO_DISABLE_DIGITAL_PATH( PB, 0x7F );

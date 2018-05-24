@@ -76,6 +76,7 @@ const char pid_rx2      [8]	__PIDATTR__	= { 'J','0','1','2', 1, 0, 0, 0 };
 const char pid_invoke   [8]	__PIDATTR__	= { 'M','0','9','5', 1, 0, 0, 0 };
 const char pid_rx217    [8]	__PIDATTR__	= { 'J','0','7','5', 1, 0, 0, 0 };
 const char pid_gen2     [8]	__PIDATTR__	= { 'J','0','5','9', 1, 0, 0, 0 };
+const char pid_iku200   [8]	__PIDATTR__	= { 'M','0','7','2', 1, 0, 0, 0 };
 
 #define PID_SCRAMBLE 0x12345678UL
 #define MAKEPID(p) ((((p)[0])|((p)[1]<<8)|((p)[2]<<16)|((p)[3]<<24))^PID_SCRAMBLE)
@@ -113,6 +114,7 @@ const char pid_gen2     [8]	__PIDATTR__	= { 'J','0','5','9', 1, 0, 0, 0 };
 #define PID_INVOKE      MAKEPID(pid_invoke)
 #define PID_RX217       MAKEPID(pid_rx217)
 #define PID_GEN2        MAKEPID(pid_gen2)
+#define PID_IKU200      MAKEPID(pid_iku200)
 
 #define HWV_VTCMINI	MAKEHWV(pid_vtcmini)
 #define HWV_VTWOMINI	MAKEHWV(pid_vtwomini)
@@ -144,6 +146,7 @@ const char pid_gen2     [8]	__PIDATTR__	= { 'J','0','5','9', 1, 0, 0, 0 };
 #define HWV_INVOKE      MAKEHWV(pid_invoke)
 #define HWV_RX217       MAKEHWV(pid_rx217)
 #define HWV_GEN2        MAKEHWV(pid_gen2)
+#define HWV_IKU200      MAKEHWV(pid_iku200)
 
 //=========================================================================
 // Reset device to LDROM
@@ -171,7 +174,8 @@ __myevic__ void RestartMod()
 	if ( UpdatePTTimer ) UpdatePTCounters();
 
 	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
-                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 || ISRX217 || ISGEN2 )
+                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 
+                || ISRX217 || ISGEN2 || ISIKU200 )
 	{
 		PD7 = 0;                                            //48DC
 		BBC_Configure( BBC_PWMCH_CHARGER, 0 );              // 5 0
@@ -192,7 +196,7 @@ __myevic__ void RestartMod()
                 {
                         PF2 = 0;                                    //4948
                 }
-		else if ( !ISSINFJ200 )
+		else if ( !ISSINFJ200 && !ISIKU200 )
                     // if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 gen3 )
 				// (currently useless, restore if needed)
 		{
@@ -255,7 +259,7 @@ __myevic__ void SetProductID()
 		u32Data ^= PID_SCRAMBLE;
                 
                 //MemCpy( BoxID, pid_invoke, 4 );
-                BoxName = "mybox";
+                BoxName = " ";
                 DFMagicNumber = 0xDA;
 
 		if ( u32Data == PID_VTCMINI )
@@ -264,7 +268,7 @@ __myevic__ void SetProductID()
 			//DFMagicNumber = 0x36;
 			BoxModel = BOX_VTCMINI;
 			X32Off = 1;
-                        BoxName = "VTC/m";
+                        BoxName = "VTCm";
 			break;
 		}
 		else if ( u32Data == PID_VTWOMINI )
@@ -272,7 +276,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_VTWOMINI;
 			//DFMagicNumber = 0x10;
 			BoxModel = BOX_VTWOMINI;
-                        BoxName = "VTwo/m";
+                        BoxName = "VTWOm";
 			break;
 		}
 		else if ( u32Data == PID_PRIMOMINI )
@@ -280,7 +284,7 @@ __myevic__ void SetProductID()
 			dfMaxHWVersion = HWV_PRIMOMINI;
 			//DFMagicNumber = 0x11;
 			BoxModel = BOX_PRIMOMINI;
-                        BoxName = "Primo/m";
+                        BoxName = "PRIMOm";
 			break;
 		}  
 		else if ( u32Data == PID_PRIMOSE )
@@ -307,7 +311,7 @@ __myevic__ void SetProductID()
 			NumBatteries = 0;
 			MaxBatteries = 2;
 			gFlags.pwm_pll = 1;
-                        BoxName = "VTCDual";
+                        BoxName = "VTCd";
 			break;
 		}
                 else if ( u32Data == PID_PRIMO1 )
@@ -384,6 +388,20 @@ __myevic__ void SetProductID()
                         BoxName = "FJ200";
 			break;
 		}
+                else if ( u32Data == PID_SINFJ200 )
+		{
+			dfMaxHWVersion = HWV_IKU200;
+			//DFMagicNumber = ;
+			BoxModel = BOX_IKU200;
+			NumBatteries = 2;
+			MaxBatteries = 2;
+                        MaxCurrent = 50;
+			gFlags.pwm_pll = 1;
+                        ScrFlip = 1;
+                        X32Off = 1;
+                        BoxName = "i200";
+			break;
+		}                
                 else if ( u32Data == PID_RX2 || u32Data == PID_RX217 || u32Data == PID_GEN2 )
 		{
 			//DFMagicNumber = 0x12;
@@ -452,7 +470,7 @@ __myevic__ void SetProductID()
 			BoxModel = BOX_CUBOMINI;
 			ScrFlip = 1;
 			X32Off = 1;
-                        BoxName = "Cub/m";                        
+                        BoxName = "CUBm";                        
 			break;
 		}
 		else if ( u32Data == PID_CUBOID )
@@ -542,7 +560,7 @@ __myevic__ void SetProductID()
 			MaxCurrent = 50;
 			gFlags.pwm_pll = 1;
 			X32Off = 1;
-                        BoxName = "RX200S";                        
+                        BoxName = "200S";                        
 			break;
 		}
 		else if ( u32Data == PID_RX23 )
@@ -671,7 +689,7 @@ __myevic__ void InitSetPowerVoltMax()
 	{
 		SetMaxVolts ( 990 ); //MaxVolts = 990;
 	}
-        else if ( ISINVOKE )
+        else if ( ISINVOKE || ISIKU200 )
         {
                 SetMaxVolts ( 800 );
         }
@@ -703,7 +721,7 @@ __myevic__ void InitSetPowerVoltMax()
 	//}        
 	else if ( ISCUBOID || ISCUBO200 || ISINVOKE || ISSINFJ200 || ISRX2 || ISRX217 
                 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX200S || ISRX23 || ISGEN2 
-                || ISGEN3 || ISRX300 )
+                || ISGEN3 || ISRX300 || ISIKU200 )
 	{
 		SetMaxPower ( 2000 );
 	}
@@ -765,7 +783,7 @@ __myevic__ void ResetDataFlash()
 //	dfResistance = 0;
 //	dfUIVersion = 2;
 	dfAPT = 10;
-	dfAPT3 = 7;
+//      dfAPT3 = 0; //7
 //	dfStealthOn = 0;
 //	dfTempCoefsNI = 201;
 //	dfTempCoefsTI = 101;
@@ -793,7 +811,7 @@ __myevic__ void ResetDataFlash()
 	dfTCRM[2] = 110;
         dfUSBMaxCharge = 2000; 
         dfMaxBoardTemp = 70;
-        dfBattVolt = 420;        
+        dfBattVolt = 420;           //for zero counters on new battery
 	dfScreenSaver = SSAVER_SF;
 	dfScreenProt = 3;
 //	MemClear( dfSavedCfgRez, sizeof(dfSavedCfgRez) );
@@ -1562,6 +1580,10 @@ __myevic__ uint16_t GetShuntRezValue()
 				break;
 		}
         }
+        else if ( ISIKU200 )
+        {
+                rez = 102;
+        }        
         else if ( ISRX2 )
         {
                 rez = 103;

@@ -91,6 +91,7 @@ extern void ShowFireDuration( int line );
 extern uint16_t GetScreenProtection();
 //extern uint16_t GetMainScreenDuration();
 extern void SetScreen( int screen, int duration );
+extern void DarkScreen();
 
 //==============================================================================
 
@@ -217,7 +218,7 @@ extern const uint8_t String_Min[];
 extern const uint8_t String_Expert[];
 extern const uint8_t String_USB[];
 extern const uint8_t String_HID[];
-extern const uint8_t String_COM[];
+//extern const uint8_t String_COM[];
 extern const uint8_t String_UCH_s[];
 //extern const uint8_t String_DBG[];
 extern const uint8_t String_X32[];
@@ -250,15 +251,15 @@ extern const uint8_t String_PPwr[];
 extern const uint8_t String_Clicks[];
 //extern const uint8_t String_BAT[];
 extern const uint8_t String_GEN[];
-extern const uint8_t String_25R[];
+//extern const uint8_t String_25R[];
 //extern const uint8_t String_HG2[];
-extern const uint8_t String_LGH[];
+//extern const uint8_t String_LGH[];
 //extern const uint8_t String_HE4[];
-extern const uint8_t String_30Q[];
+//extern const uint8_t String_30Q[];
 //extern const uint8_t String_VT4[];
 //extern const uint8_t String_VT5[];
 //extern const uint8_t String_VT6[];
-extern const uint8_t String_SVT[];
+//extern const uint8_t String_SVT[];
 extern const uint8_t String_CUS[];
 extern const uint8_t String_Vaping[];
 extern const uint8_t String_Prot[];

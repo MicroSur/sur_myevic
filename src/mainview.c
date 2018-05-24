@@ -605,7 +605,7 @@ __myevic__ void DrawAPTLines()
 		case 9:	// Board temperature
 		{             
                         int t;
-                        if ( ISSINFJ200 )
+                        if ( ISSINFJ200 || ISIKU200 )
                         {
                             DrawString( String_TEMP_s, 0, line+2 );
                             t = dfStatus.IsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );

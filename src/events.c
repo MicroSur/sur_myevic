@@ -389,7 +389,7 @@ __myevic__ void GetUserInput()
 			}
 			else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 && !ISPRIMO1 
                                 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISRX2 
-                                && !ISINVOKE && !ISSINFJ200 && !ISRX217 && !ISGEN2 )
+                                && !ISINVOKE && !ISSINFJ200 && !ISRX217 && !ISGEN2 && !ISIKU200 )
 			{
 				if ( !PD7 && !gFlags.battery_charging )
 				{
@@ -554,7 +554,9 @@ __myevic__ void GetUserInput()
 			}
 			else if ( dfStatus.keylock && !EditModeTimer
 				&& Screen != 51
-				&& !IsMenuScreen() )
+				&& !IsMenuScreen()
+                                && Screen != 5 //charge
+                                )
 			{
 				Event = 30;	// key lock violation
 			}

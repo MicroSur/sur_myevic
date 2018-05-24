@@ -77,7 +77,7 @@ const Battery_t myCustom[] =
 		},
 		270,
 		20,
-		25
+		30
 	}
 };
 
@@ -105,46 +105,46 @@ const Battery_t Batteries[] =
 	},
 
 	// Samsung 25R
-	{
-		String_25R,
-		{
-			{   0, 302 },
-			{   1, 310 },
-			{   5, 327 },
-			{   9, 341 },
-			{  25, 357 },
-			{  39, 365 },
-			{  70, 391 },
-			{  84, 405 },
-			{  93, 409 },
-			{  97, 417 },
-			{ 100, 419 }
-		},
-		270,
-		20,
-		25
-	},
+//	{
+//		String_25R,
+//		{
+//			{   0, 302 },
+//			{   1, 310 },
+//			{   5, 327 },
+//			{   9, 341 },
+//			{  25, 357 },
+//			{  39, 365 },
+//			{  70, 391 },
+//			{  84, 405 },
+//			{  93, 409 },
+//			{  97, 417 },
+//			{ 100, 419 }
+//		},
+//		270,
+//		20,
+//		25
+//	},
 
 	// LG HG2
-	{
-		String_LGH,//String_HG2,
-		{
-			{   0, 312 },
-			{   4, 326 },
-			{   9, 338 },
-			{  13, 345 },
-			{  26, 356 },
-			{  38, 364 },
-			{  79, 401 },
-			{  96, 411 },
-			{  98, 414 },
-			{  99, 417 },
-			{ 100, 420 }
-		},
-		270,
-		20,
-		25
-	},
+//	{
+//		String_LGH,//String_HG2,
+//		{
+//			{   0, 312 },
+//			{   4, 326 },
+//			{   9, 338 },
+//			{  13, 345 },
+//			{  26, 356 },
+//			{  38, 364 },
+//			{  79, 401 },
+//			{  96, 411 },
+//			{  98, 414 },
+//			{  99, 417 },
+//			{ 100, 420 }
+//		},
+//		270,
+//		20,
+//		25
+//	},
 
 	// LG HE4
 /*
@@ -170,25 +170,25 @@ const Battery_t Batteries[] =
 */
 
 	// Samsung 30Q
-	{
-		String_30Q,
-		{
-			{   0, 312 },
-			{  15, 340 },
-			{  23, 352 },
-			{  54, 381 },
-			{  68, 391 },
-			{  75, 400 },
-			{  81, 403 },
-			{  94, 408 },
-			{  97, 411 },
-			{  99, 416 },
-			{ 100, 420 }
-		},
-		270,
-		20,
-		25
-	},
+//	{
+//		String_30Q,
+//		{
+//			{   0, 312 },
+//			{  15, 340 },
+//			{  23, 352 },
+//			{  54, 381 },
+//			{  68, 391 },
+//			{  75, 400 },
+//			{  81, 403 },
+//			{  94, 408 },
+//			{  97, 411 },
+//			{  99, 416 },
+//			{ 100, 420 }
+//		},
+//		270,
+//		20,
+//		25
+//	},
 
 	// Sony VTC4
 /*
@@ -214,25 +214,25 @@ const Battery_t Batteries[] =
 */
 
 	// Sony VTC5
-	{
-		String_SVT, //String_VT5,
-		{
-			{   0, 305 },
-			{   1, 310 },
-			{   2, 320 },
-			{   4, 329 },
-			{  14, 342 },
-			{  23, 351 },
-			{  45, 365 },
-			{  79, 396 },
-			{  95, 411 },
-			{  99, 418 },
-			{ 100, 420 }
-		},
-		270,
-		20,
-		30
-	},
+//	{
+//		String_SVT, //String_VT5,
+//		{
+//			{   0, 305 },
+//			{   1, 310 },
+//			{   2, 320 },
+//			{   4, 329 },
+//			{  14, 342 },
+//			{  23, 351 },
+//			{  45, 365 },
+//			{  79, 396 },
+//			{  95, 411 },
+//			{  99, 418 },
+//			{ 100, 420 }
+//		},
+//		270,
+//		20,
+//		30
+//	},
 
 	// Sony VTC6
 /*
@@ -258,7 +258,7 @@ const Battery_t Batteries[] =
 */
 };
 
-#define NBATTERIES (sizeof(Batteries)/sizeof(Battery_t))
+//#define NBATTERIES (sizeof(Batteries)/sizeof(Battery_t))
 
 //-------------------------------------------------------------------------
 
@@ -307,10 +307,12 @@ uint32_t GetMaxCharge( const uint16_t ch );
 
 //=========================================================================
 
+/*
 __myevic__ int GetNBatteries()
 {
 	return NBATTERIES;
 }
+*/
 
 /*
 __myevic__ uint16_t GetMaxBattAmps()
@@ -331,7 +333,7 @@ __myevic__ void SetBatteryModel()
 	}
 	else
 	{
-		Battery = &Batteries[dfBatteryModel];
+		Battery = &Batteries[0]; //[dfBatteryModel];
 
 /*
 		if ( dfBatteryModel == 0 )
@@ -403,7 +405,7 @@ __myevic__ uint32_t ReadBatterySample( int nbat )
 			}
 			else
 			{
-				sample = ADC_Read( 18 ); //ISINVOKE ISSINP80 ISSINFJ200
+				sample = ADC_Read( 18 ); //ISINVOKE ISSINP80 ISSINFJ200 i200
 			}
 		}
 		else if ( nbat == 1 )
@@ -670,6 +672,11 @@ __myevic__ void ChargeBalance()
 			PA3 = ( BBBits & 2 ) != 0;
 			PA2 = ( BBBits & 4 ) != 0;
                     }
+                    else if ( ISIKU200 )
+                    {
+                        PC2 = ( BBBits & 1 ) != 0;              // 4888
+			PC3 = ( BBBits & 2 ) != 0;              // 488C                        
+                    }
 		}
 	}
 
@@ -696,6 +703,11 @@ __myevic__ void ChargeBalance()
                         PA3 = 0;
                         PA2 = 0;
                     }
+                }
+                else if ( ISIKU200 )
+                {
+                    PC2 = 0;
+                    PC3 = 0;
                 }
 	}
 }
@@ -728,12 +740,14 @@ __myevic__ void ReadBatteryVoltage()
 
 		gFlags.sample_vbat = 0;
 
-		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 || ISRX217 || ISGEN2 )
+		if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 
+                        || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 )
 		{
                         VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
+                        
 			if ( VbatSample2 ) 
                         {
-                            if ( ISRX2 || ISSINFJ200 || ISRX217 ) 
+                            if ( ISRX2 || ISSINFJ200 || ISRX217 || ISIKU200 ) 
                                 VbatSample2 += 3;
                             else if ( ISGEN2 )
                                 VbatSample2 += 8;
@@ -747,6 +761,8 @@ __myevic__ void ReadBatteryVoltage()
                         {
                             if ( ISGEN2 )
                                 VbatSample1 += 4;
+                            if ( ISIKU200 )
+                                VbatSample1 += 3;                            
                             else
                                 VbatSample1 += 2;  
                         }
@@ -955,7 +971,7 @@ __myevic__ void ReadBatteryVoltage()
 		NewBatteryData();
                 
 		if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 
-                        || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 )
+                        || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 )
 		{
 			ChargeBalance();
 		}
@@ -1053,14 +1069,15 @@ __myevic__ int CheckBattery()
 
 			if ( bv2 < bv ) bv = bv2;
                 }
-                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 || ISSINFJ200 || ISRX217 || ISGEN2 )
+                else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISRX2 
+                        || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 )
                 {
                     
 			bvtot = 139 * ReadBatterySample( 1 ) / 624;
                         
 			if ( bvtot ) 
                         {
-                                if ( ISRX2 || ISSINFJ200 || ISRX217 ) 
+                                if ( ISRX2 || ISSINFJ200 || ISRX217 || ISIKU200 ) 
                                     bvtot += 3;
                                 else if ( ISGEN2 )
                                     bvtot += 8;                                 
@@ -1074,6 +1091,8 @@ __myevic__ int CheckBattery()
                         {
                             if ( ISGEN2 )
                                 bv += 4;
+                            if ( ISIKU200 )
+                                bv += 3;                            
                             else
                                 bv += 2;
                         }
@@ -1621,7 +1640,7 @@ __myevic__ void BatteryPinsSet( int lh )
     {
             PF2 = lh;
     }
-    else if ( !ISSINFJ200 )
+    else if ( !ISSINFJ200 && !ISIKU200 )
     {
             PF0 = lh;
     }
@@ -1647,9 +1666,10 @@ __myevic__ void BatteryCharge()
 	{
 		ChargeCurrent = 135 * ADCChargeCurrent / 360;
 	}
-        else if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 )
+        else if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE 
+                || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 )
         {
-            if ( ISINVOKE )
+            if ( ISINVOKE || ISIKU200 )
             {
                 ChargeCurrent = 185 * ADCChargeCurrent / 320;
             }
@@ -1741,7 +1761,7 @@ __myevic__ void BatteryCharge()
 			}
 		}
                 else if ( ( BoardTemp > dfMaxBoardTemp ) 
-                        || ( ISSINFJ200 && ( AkkuTemp > 70 ) ) )
+                        || ( ( ISSINFJ200 || ISIKU200 ) && ( AkkuTemp > 70 ) ) )
                 {
                     Event = 13;  // Battery charge stop
                     if ( ChargeStatus != 6 )

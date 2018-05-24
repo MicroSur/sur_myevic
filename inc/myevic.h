@@ -75,7 +75,8 @@ enum
         BOX_SINFJ200,
         BOX_INVOKE,
         BOX_RX217,
-        BOX_GEN2
+        BOX_GEN2,
+        BOX_IKU200
 };
 
 #define ISVTCMINI		(BoxModel==BOX_VTCMINI)
@@ -107,6 +108,7 @@ enum
 #define ISINVOKE                (BoxModel==BOX_INVOKE)
 #define ISRX217                 (BoxModel==BOX_RX217)
 #define ISGEN2                  (BoxModel==BOX_GEN2)
+#define ISIKU200                (BoxModel==BOX_IKU200)
 
 //=========================================================================
 // Global flags bitfield

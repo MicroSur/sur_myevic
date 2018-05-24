@@ -440,8 +440,9 @@ __myevic__ void DevicesOnOff( int off )
                 else
                     SetADCState( 14, 0 ); //ISSINP80
 
-		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 || 
-                        ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 || ISRX217 || ISGEN2 )
+		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
+                        || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 
+                        || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 )
 		{
 
                         SetADCState( 3, 0 );
@@ -452,9 +453,9 @@ __myevic__ void DevicesOnOff( int off )
 				SetADCState( 15, 0 );
 			}
 
-                        if ( ISSINFJ200 )
+                        if ( ISSINFJ200 || ISIKU200 )
                         {
-                                SetADCState( 4, 0 );
+                                SetADCState( 4, 0 ); //akku temp
                         }
                         
 			PD7 = 0;                                                // 0x400048DC
@@ -472,12 +473,21 @@ __myevic__ void DevicesOnOff( int off )
 		BBC_Configure( BBC_PWMCH_BUCK, 0 );                             // 0 0
                 
 		if ( !ISVTCDUAL && !ISINVOKE ) 
+                    //ISIKU200
                     PC3 = 0;                                                    // 4000488C
                 
                 if ( !ISINVOKE )
+                    //ISIKU200
                     PC2 = 0;                                                        // 40004888
                 
-		BBC_Configure( BBC_PWMCH_BOOST, 0 );                            // 2 0
+                if ( !ISINVOKE && !ISIKU200 ) //todo check others
+                    BBC_Configure( BBC_PWMCH_BOOST, 0 );                        // 2 0
+                
+                if ( ISIKU200 )
+                {
+                    PA2 = 0;
+                    BBC_Configure( 3, 0 ); 
+                }
                 
 		if ( ISCUBO200 || ISRX200S || ISRX23 )
 		{
@@ -504,12 +514,13 @@ __myevic__ void DevicesOnOff( int off )
 		}
 
                 if ( !ISRX2 && !ISSINP80 && !ISINVOKE && !ISRX217 && !ISGEN2 )
-		{
+		{ 
+                    //i200
                     GPIO_DisableInt( PD, 0 );
                     PD0 = 0;                                                        // 400048C0
                     GPIO_SetMode( PD, GPIO_PIN_PIN0_Msk, GPIO_MODE_OUTPUT );        // 400040C0 1 1
                 }
-                    
+                
 		if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 
                         || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 )
 		{
@@ -538,7 +549,7 @@ __myevic__ void DevicesOnOff( int off )
 		}
 		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 
                         && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISRX2 
-                        && !ISINVOKE && !ISSINFJ200 && !ISRX217 && !ISGEN2 )
+                        && !ISINVOKE && !ISSINFJ200 && !ISRX217 && !ISGEN2 && ! ISIKU200 )
 		{
 			GPIO_DisableInt( PD, 7 ); //ISSINP80
 			PD7 = 0;                                                // 400048DC
@@ -638,7 +649,7 @@ __myevic__ void DevicesOnOff( int off )
 		}
 		else if ( !ISCUBOID && !ISCUBO200 && !ISRX200S && !ISRX23 && !ISRX300 
                         && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR && !ISGEN3 && !ISRX2 
-                        && !ISINVOKE && !ISSINFJ200 && !ISRX217 && !ISGEN2 )
+                        && !ISINVOKE && !ISSINFJ200 && !ISRX217 && !ISGEN2 && !ISIKU200 )
 		{
 			GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_INPUT ); // 40C0 0x80 0     ISSINP80
 			GPIO_EnableInt( PD, 7, GPIO_INT_RISING );               // 40C0 7 0x10000
@@ -676,7 +687,7 @@ __myevic__ void DevicesOnOff( int off )
 
 		if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 
                         || ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE 
-                        || ISSINFJ200 || ISRX217 || ISGEN2 )
+                        || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 )
 		{
 			SetADCState( 3, 1 );
 			SetADCState( 13, 1 );
@@ -685,7 +696,7 @@ __myevic__ void DevicesOnOff( int off )
 			{
 				SetADCState( 15, 1 );
 			}
-                        else if ( ISSINFJ200 )
+                        else if ( ISSINFJ200 || ISIKU200 )
                         {
                                 SetADCState( 4, 1 );
                         }
@@ -993,7 +1004,7 @@ __myevic__ void Main()
 	gFlags.sample_btemp = 1;
 	ReadBoardTemp();
         
-        if ( ISSINFJ200 )
+        if ( ISSINFJ200 || ISIKU200 )
         {
                 gFlags.sample_atemp = 1;
                 ReadAkkuTemp();
@@ -1134,7 +1145,7 @@ __myevic__ void Main()
 			ReadBatteryVoltage();
                         
 			ReadBoardTemp();
-                        if ( ISSINFJ200 )
+                        if ( ISSINFJ200 || ISIKU200 )
                         {
                                 ReadAkkuTemp();
                         }
@@ -1142,7 +1153,7 @@ __myevic__ void Main()
 			if ( 
                                 gFlags.firing 
                                 && ( BoardTemp > dfMaxBoardTemp
-                                || ( ISSINFJ200 && AkkuTemp > 70 ) ) 
+                                || ( ( ISSINFJ200 || ISIKU200 ) && AkkuTemp > 70 ) ) 
                             )
 			{
 				Overtemp();
@@ -1154,7 +1165,8 @@ __myevic__ void Main()
                                 gFlags.soft_charge = 1;
 			}
 			else if ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
-                                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 )
+                                || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE 
+                                || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 )
 			{
 				BatteryCharge(); // <- 2-3 batts for rx
                                 gFlags.soft_charge = 1;
@@ -1473,7 +1485,9 @@ __myevic__ void Main()
                                 UpdateDFTimer = 10;
                         }
                         
-                        if ( dfAwakeTimer && !gFlags.asleep && !VapeDelayTimer ) //&& !gFlags.battery_charging )
+                        if ( dfAwakeTimer 
+                                && !gFlags.asleep 
+                                && !VapeDelayTimer && Screen != 5 ) //!gFlags.battery_charging ) //not in charg
                         {
                                 if ( ++AwakeTimer >= dfAwakeTimer && Screen < 100 )
                                 {

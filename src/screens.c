@@ -391,10 +391,10 @@ __myevic__ void DrawScreen()
 			}
 			break;
                         
-                case  28: // Key Lock
-                        scrSaveOnce = 0;
-                        DarkScreen();
-                        break;
+                //case  28: // Key Lock
+                //        scrSaveOnce = 0;
+                //        DarkScreen();
+                //        break;
     
 		case   2: // Firing
                         if ( dfStealthOn == 1 && StealthPuffs && FireDuration > 1 ) //CurrentFD
@@ -402,7 +402,8 @@ __myevic__ void DrawScreen()
                             --StealthPuffs;
                         }
                         //no brake
-		//case  28: // Key Lock
+		case  28: // Key Lock
+                case  31: // Key UnLock
 		case  40: // Stealth ON/OFF
                        
                         if ( dfStealthOn != 1 )
@@ -416,7 +417,7 @@ __myevic__ void DrawScreen()
 			}
 			else
 			{
-                                LinePuffAwakeTimer = 300;
+                                LinePuffAwakeTimer = 300; //3s
 				MainView();
 			}
 			break;
@@ -463,7 +464,7 @@ __myevic__ void DrawScreen()
 		case  20: // No Atomizer Found
 		case  21: // Atomizer Short
 		case  29: // Device too hot
-		case  31: // Key UnLock
+		//case  31: // Key UnLock
 		case  51: // New Coil
 		case  55: // Imbalanced Batteries
 		case  56: // Check Battery
@@ -592,16 +593,6 @@ __myevic__ void ChargeView()
 {
 	Screen = 5;
 	ScreenDuration = ScrChargeTimes[dfScrChargeTime];
-
-        //if ( !ScreenDuration && dfStealthOn == 1 )
-        //    ScreenDuration = 10;
-        
-        //not here
-        //if ( dfStealthOn != 1 ) 
-        //    gFlags.screen_on = 1;
-        //else
-        //    gFlags.screen_on = 0;
-            
 	gFlags.refresh_display = 1;            
 }
 
@@ -949,7 +940,7 @@ __myevic__ void ShowBatCharging()
         
 	//}
         int t;
-        if ( ISSINFJ200 )
+        if ( ISSINFJ200 || ISIKU200 )
         {
                 t = dfStatus.IsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
                 DrawValueRight( 52, 90, t, 0, 0x0B, 0 );
@@ -1109,7 +1100,7 @@ __myevic__ void ShowDevTooHot()
         
 /*
         int t;
-        if ( ISSINFJ200 )
+        if ( ISSINFJ200 || ISIKU200 )
         {
                 t = dfIsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
                 DrawValueRight( 52, 0, t, 0, 0x0B, 0 );

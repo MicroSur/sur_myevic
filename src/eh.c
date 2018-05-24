@@ -296,7 +296,7 @@ __myevic__ void EventHandler()
 			}
 
 			if ( ( BoardTemp > dfMaxBoardTemp ) 
-                        || ( ISSINFJ200 && ( AkkuTemp > 70 ) ) )
+                        || ( ( ISSINFJ200 || ISIKU200 ) && ( AkkuTemp > 70 ) ) )
 			{
 				Overtemp();
 				return;
@@ -610,7 +610,8 @@ __myevic__ void EventHandler()
 			}
 			else if ( !ISCUBOID && ! ISCUBO200 && !ISRX200S && !ISRX23 
                                 && !ISRX300 && !ISPRIMO1 && !ISPRIMO2 && !ISPREDATOR 
-                                && !ISGEN3 && !ISRX2 && !ISINVOKE && !ISSINFJ200 && !ISRX217 && !ISGEN2)
+                                && !ISGEN3 && !ISRX2 && !ISINVOKE 
+                                && !ISSINFJ200 && !ISRX217 && !ISGEN2 && !ISIKU200 )
 			{
 				GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );
 				PD7 = 0;
@@ -1111,7 +1112,8 @@ __myevic__ void EventHandler()
 				if ( dfStatus.off )
 					SleepTimer = 0;
 				else
-					SleepTimer = dfDimOffTimeout * 100; //18000;
+                                        DarkScreen();
+					//SleepTimer = dfDimOffTimeout * 100; //18000;
 			}
 			return;
 
@@ -1169,7 +1171,8 @@ __myevic__ void EventHandler()
 					if ( dfStatus.off )
 						SleepTimer = 0;
 					else
-						SleepTimer = dfDimOffTimeout * 100; //18000;
+                                                DarkScreen();
+						//SleepTimer = dfDimOffTimeout * 100; //18000;
 				}
 				else
 				{
@@ -1184,18 +1187,19 @@ __myevic__ void EventHandler()
 			ChargeStatus = 1;
 			if ( NumBatteries > 1 )
 			{
-                            if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 )
+                            if ( ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE 
+                                    || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 )
                             {
-                                USBMaxLoad = 3;
+                                USBMaxLoad = 3; //2A
                             } 
                             else 
                             {
-                                USBMaxLoad = 2;
+                                USBMaxLoad = 2; //1.5A
                             }				
 			}
 			else
 			{
-				USBMaxLoad = 1;
+				USBMaxLoad = 1; //1A
 			}
 			gFlags.low_battery = 0;
 			gFlags.usb_attached = 1;

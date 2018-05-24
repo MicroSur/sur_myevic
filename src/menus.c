@@ -1938,7 +1938,7 @@ __myevic__ void ExpertMenuOnClick()
                         
                 case 6: //boart temp corr
                     
-                    if ( ISSINFJ200 && !AkkuTempFlag && gFlags.edit_value )
+                    if ( ( ISSINFJ200 || ISIKU200 ) && !AkkuTempFlag && gFlags.edit_value )
                     {
                         AkkuTempFlag = 1;
                     }
@@ -1983,9 +1983,10 @@ __myevic__ int ExpertMenuOnEvent( int event )
                                     }
                                     else
                                     {
-                                        ++dfBatteryModel;
-                                    	if ( dfBatteryModel >= GetNBatteries() )  
-                                            dfBatteryModel = BATTERY_CUSTOM;  
+                                        dfBatteryModel = BATTERY_CUSTOM;
+                                        //++dfBatteryModel;
+                                    	//if ( dfBatteryModel >= GetNBatteries() )  
+                                        //    dfBatteryModel = BATTERY_CUSTOM;  
                                     }
                                     SetBatteryModel();
                                     vret = 1;
@@ -2039,10 +2040,11 @@ __myevic__ int ExpertMenuOnEvent( int event )
                                     }
                                     else
                                     {
-                                        if ( dfBatteryModel == BATTERY_CUSTOM )
-                                            dfBatteryModel = GetNBatteries() - 1;   
-                                        else
-                                            --dfBatteryModel;
+                                        dfBatteryModel = 0;
+                                        //if ( dfBatteryModel == BATTERY_CUSTOM )
+                                        //    dfBatteryModel = GetNBatteries() - 1;   
+                                        //else
+                                        //    --dfBatteryModel;
                                     }
                                     SetBatteryModel();
                                     vret = 1;
@@ -2086,12 +2088,12 @@ __myevic__ int ExpertMenuOnEvent( int event )
 					vret = 1;
 					break;
 
-				case 5:	// Battery model
-					dfBatteryModel = BATTERY_CUSTOM;
-					SetBatteryModel();
-                                        gFlags.edit_value = 0;
-					vret = 1;
-					break;
+				//case 5:	// Battery model
+				//	dfBatteryModel = BATTERY_CUSTOM;
+				//	SetBatteryModel();
+                                //        gFlags.edit_value = 0;
+				//	vret = 1;
+				//	break;
                                         
 				case 6:	// board temp corr
                                     
