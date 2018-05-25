@@ -934,7 +934,7 @@ __myevic__ int EvtPlusButton()
 						ModeChange();
 
 						UpdateDFTimer = 50;
-						gFlags.refresh_display = 1;
+						//gFlags.refresh_display = 1;
 						vret = 1;
 					}
 				}
@@ -958,7 +958,7 @@ __myevic__ int EvtPlusButton()
                         //gFlags.MainContrast = 1;
                     }
 			UpdateDFTimer = 50;
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			ScreenDuration = 10;
 			vret = 1;
 		}
@@ -997,7 +997,7 @@ __myevic__ int EvtPlusButton()
 				}
 				RTCSetClockSpeed( cs );
 			}
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			ScreenDuration = 120;
 			vret = 1;
 		}
@@ -1006,7 +1006,7 @@ __myevic__ int EvtPlusButton()
 		case 104:
 		{
 			RTCAdjustClock( 1 );
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			ScreenDuration = 120;
 			vret = 1;
 		}
@@ -1059,7 +1059,7 @@ __myevic__ int EvtPlusButton()
                     }
                     
 			gFlags.draw_edited_item = 1;
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			ScreenDuration = 60;
 			EditModeTimer = 6000;
 			vret = 1;
@@ -1119,7 +1119,7 @@ __myevic__ int EvtPlusButton()
 				EditItemIndex %= 50;
 			}
 			EditModeTimer = 3000;
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			vret = 1;	
 		}
                 break;
@@ -1134,12 +1134,13 @@ __myevic__ int EvtPlusButton()
                         UpdateDFTimer = 50;
                         //EditModeTimer = 3000;
                         ScreenDuration = 60;
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			vret = 1;
 		}
                 break;
 	}
-
+        
+        gFlags.refresh_display = 1;
 	return vret;
 }
 
@@ -1167,7 +1168,7 @@ __myevic__ int EvtMinusButton()
                         //gFlags.MainContrast = 1;
                     }
 			UpdateDFTimer = 50;			
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			ScreenDuration = 10;
 			vret = 1;
 		}
@@ -1206,7 +1207,7 @@ __myevic__ int EvtMinusButton()
 				}
 				RTCSetClockSpeed( cs );
 			}
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			ScreenDuration = 120;
 			vret = 1;
 		}
@@ -1215,7 +1216,7 @@ __myevic__ int EvtMinusButton()
 		case 104:
 		{
 			RTCAdjustClock( -1 );
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			ScreenDuration = 120;
 			vret = 1;
 		}
@@ -1265,7 +1266,7 @@ __myevic__ int EvtMinusButton()
                     }
                         
 			gFlags.draw_edited_item = 1;
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			ScreenDuration = 60;
 			EditModeTimer = 6000;
 			vret = 1;
@@ -1324,7 +1325,7 @@ __myevic__ int EvtMinusButton()
 				if ( !EditItemIndex-- ) EditItemIndex = 49;
 			}
 			EditModeTimer = 3000;
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			vret = 1;
 		}
                 break;
@@ -1339,12 +1340,13 @@ __myevic__ int EvtMinusButton()
                         UpdateDFTimer = 50;
                         //EditModeTimer = 3000;
                         ScreenDuration = 60;
-			gFlags.refresh_display = 1;
+			//gFlags.refresh_display = 1;
 			vret = 1;
 		}
                 break;                
 	}
 
+        gFlags.refresh_display = 1;
 	return vret;
 }
 
@@ -1357,7 +1359,7 @@ __myevic__ int EvtToggleClock()
         dfStatus2.anim3d = 0;
         ShowLogo( 0 );
 	UpdateDFTimer = 50;
-	MainView();
+	//MainView();
 	return 1;
 }
 
@@ -1703,21 +1705,25 @@ __myevic__ int CustomEvents()
 			EditItemIndex = 0;
 			break;
                         
-		case 40:
+/*
+		case 40: //was logo menu select
 			SetScreen( 107, 15 );
 			EditModeTimer = 3000;
 			EditItemIndex = 0;
 			break;
+*/
                         
                 case 41:
 			//fbStartGame();
                         CurrentMenu = &GameMenu; 
+                        CurrentMenuItem = FBSpeed;
                         SetScreen( 102, 15 );                        
 			break;
                         
                 case EVENT_TETRIS:
  			//ttStartGame();
                         CurrentMenu = &GameTtMenu; 
+                        CurrentMenuItem = dfTTSpeed;
                         SetScreen( 102, 15 );
 			break;
                         

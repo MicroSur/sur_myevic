@@ -183,6 +183,15 @@ __myevic__ void TempMinus()
 	}
 }
 
+/*
+__myevic__ void UpdatePTT()
+{
+    			UpdatePTTimer = 80;
+			EditModeTimer = 1000;
+			gFlags.refresh_display = 1;
+			gFlags.draw_edited_item = 1;
+}
+*/
 
 //----- (000039E0) --------------------------------------------------------
 __myevic__ void EventHandler()
