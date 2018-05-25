@@ -532,8 +532,10 @@ __myevic__ void GetUserInput()
 				}
 			}
 			else if ( dfStatus.keylock && !EditModeTimer
-				&& Screen != 51
-				&& !IsMenuScreen() )
+				&& Screen != 51 && !dfStatus.off //new coil
+				&& !IsMenuScreen() 
+                                //&& Screen != 5 //charge
+                                )
 			{
 				Event = 30;	// key lock violation
 			}
@@ -553,7 +555,7 @@ __myevic__ void GetUserInput()
 				}
 			}
 			else if ( dfStatus.keylock && !EditModeTimer
-				&& Screen != 51
+				&& Screen != 51 //&& !dfStatus.Off
 				&& !IsMenuScreen()
                                 && Screen != 5 //charge
                                 )
