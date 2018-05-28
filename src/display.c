@@ -352,6 +352,17 @@ __myevic__ void DrawFillRectLines( const int x1, const int y1,const  int x2, con
 	}
 }
 
+/*
+__myevic__ void DrawRect( const int x1, const int y1,const  int x2, const int y2, const int color)
+{
+    	DrawHLine( x1, y1,  x2, color );
+	DrawHLine( x1, y2,  x2, color );
+
+	DrawVLine( x1, y1, y2, color );
+	DrawVLine( x2, y1, y2, color );
+}
+*/
+
 //=========================================================================
 //----- (0000579C) --------------------------------------------------------
 __myevic__ uint32_t DrawImage( const int x, const int y, const uint8_t img )

@@ -875,7 +875,7 @@ __myevic__ void DrawPower( int pwr, int yp )
     //Smart line = 60
 	int xp, xc; // x coord for preheat
         //int yp = 12;
-        
+    
     if ( !dfStatus.onewatt )
     {            
 	if ( pwr < 100 )
@@ -901,27 +901,29 @@ __myevic__ void DrawPower( int pwr, int yp )
 		DrawImage( 54, yp+16, 0x98 ); //w 28
 	}
     }
-    else
+    else //one watt
     {
-        if ( pwr < 100 )
+        uint16_t p = pwr + 5; //round up
+        
+        if ( p < 100 )
 	{
 		xp = 33;
-		DrawValue( 13, yp+1, pwr / 10, 0, 0x48, 1 ); //13
+		DrawValue( 13, yp+1, p / 10, 0, 0x48, 1 ); //13
 		DrawImage( 33, yp+8, 0xB9 ); //W
 	}
 	else
 	{
 
-		if ( pwr < 1000 )
+		if ( p < 1000 )
 		{
                     	xp = 47;
-			DrawValue( 11, yp+1, pwr / 10, 0, 0x48, 2 ); //13
+			DrawValue( 11, yp+1, p / 10, 0, 0x48, 2 ); //13
                         DrawImage( 47, yp+16, 0xB2 ); //w
 		}
 		else
 		{
                         xp = 54;
-			DrawValue( 3, yp+1, pwr / 10, 0, 0x48, 3 ); //13
+			DrawValue( 3, yp+1, p / 10, 0, 0x48, 3 ); //13
                         DrawImage( 54, yp+16, 0x98 ); //w 28
 		}
 		

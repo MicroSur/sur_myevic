@@ -1495,11 +1495,16 @@ __myevic__ void ShowImbBatts()
 //=========================================================================
 __myevic__ void ShowPowerCurve()
 {
-    	DrawHLine( 6,  19,  58, 1 );
-	DrawHLine( 6, 119,  58, 1 );
+    	//DrawHLine( 6,  19,  58, 1 );
+	//DrawHLine( 6, 119,  58, 1 );
 
-	DrawVLine( 6,  19, 119, 1 ); //100 h
-	DrawVLine( 58, 19, 119, 1 );
+	//DrawVLine( 6,  19, 119, 1 ); //100 h
+	//DrawVLine( 58, 19, 119, 1 );
+        
+        DrawFillRect(6, 19, 58, 120, 1);
+        DrawFillRect(7, 20, 57, 119, 0);
+        
+        DrawVLineDots( 32, 20, 120 ); //100% line
 
 	int t = EditItemIndex; // * 5;
 	int j = -1;
@@ -1518,17 +1523,25 @@ __myevic__ void ShowPowerCurve()
 			t2 = dfPwrCurve[i+1].time;
 
 			if ( t2 == 0 ) t2 = 50;
+                        
+                        //connecting vert lines for pretty view
+                        DrawHLine( 7 + dfPwrCurve[i+1].power / 4,
+                                20 + 2 * t2,
+                                7 + dfPwrCurve[i].power / 4,
+                                1 );		
 		}
 		else
 		{
 			t2 = 50;
-		}
-
+                        }
+  
+                //DrawVLine( const int x, const int y1, const int y2, const int color )
+                
 		DrawVLine( 7 + dfPwrCurve[i].power / 4,
                             20 + 2 * t1,
                             19 + 2 * t2,
                             1 );
-
+                               
 		if (( t2 > t ) && ( j < 0 ))
 		{
 			j = i;
@@ -1542,11 +1555,19 @@ __myevic__ void ShowPowerCurve()
 								22 + 2 * t1, // / 5,
 								1 );
 */
-                                DrawHLine( 7,  20 + 2 * t1,  7 + dfPwrCurve[i].power / 4, 1 );
+                            //DrawHLine( const int x1, const int y, const int x2, const int color )
+                            // pointer line
+                            DrawHLine( 7,  20 + 2 * t1,  7 + dfPwrCurve[i].power / 4, 1 );
 			}
 		}
+                //DrawLine( int x1, int y1, int x2, int y2, int color, int thick )
+                //DrawLine( 7 + dfPwrCurve[i].power / 4,
+                //                    20 + 2 * t1, 
+                //                    7 + dfPwrCurve[i+1].power / 4, 
+                //                    19 + 2 * t2, 
+                //                    1, 1 );                                           
 	}
-
+        
 	if ( !gFlags.edit_value || gFlags.draw_edited_item )
 	{
 		DrawImage( 2, 16 + EditItemIndex *2, 0xD4 ); // ">"

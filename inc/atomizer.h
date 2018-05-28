@@ -142,8 +142,8 @@ extern void SwitchRezLock( int lock );
 //extern uint16_t RereadRez();
 //extern void SetRez();
 
-extern int SearchSMARTRez( uint16_t rez );
-extern void SetAtoSMARTParams();
+//extern int SearchSMARTRez( uint16_t rez );
+//extern void SetAtoSMARTParams();
 extern void RoundPowers();
 
 extern uint16_t CelsiusToF( uint16_t tc );

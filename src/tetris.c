@@ -135,9 +135,9 @@ int ttCreateTimeout(TT_TIMEOUT_FUNC f) {
     return -1;
 }
 
-void ttCLSBuf() {
-    MemClear2(0, ScreenBuffer, SCREEN_BUFFER_SIZE);
-}
+//void ttCLSBuf() {
+//    MemClear2(0, ScreenBuffer, SCREEN_BUFFER_SIZE);
+//}
 
 void LoadPiece(int BlockFlag, uint8_t pieceNumber, int col, int row) {
 
@@ -765,7 +765,7 @@ void ttStartScreen() {
         noRotate = 1;
         noShift = 1;
         SetRandSeed(TMR1Counter);
-        ttCLSBuf();
+        MemClear2(0, ScreenBuffer, SCREEN_BUFFER_SIZE); //ttCLSBuf();
 
         fillTetrisArray(); //+2 border
         fillTetrisScreen(0); //2-11 x 2-21

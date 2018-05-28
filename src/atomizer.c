@@ -1423,6 +1423,7 @@ void RoundPowers()
 //=========================================================================
 // SMART mode resistances values
 //JoyeTech BF coils res 0.25(TC NI),  0.5, 0.6, 1, 1.5 Ohm
+/*
 const uint16_t SMARTRezValues[] =
 		{	50, 60, 100, 150	};
 
@@ -1433,10 +1434,12 @@ const uint16_t SMARTPowers[] =
 			180, 250,
 			160, 200,
 			200, 750	};
+*/
 
 
 //=========================================================================
 //----- (00008F5C) --------------------------------------------------------
+/*
 __myevic__ int SearchSMARTRez( uint16_t rez )
 {
 	int i;
@@ -1451,6 +1454,7 @@ __myevic__ int SearchSMARTRez( uint16_t rez )
 	}
 	return i;
 }
+*/
 
 
 //=========================================================================
@@ -1460,7 +1464,7 @@ __myevic__ void SetAtoSMARTParams()
 	int i, j, k;
 
 	uint16_t r;
-	uint16_t p;
+	//uint16_t p;
 
 	for ( i = 9 ; i > 0 ; --i )
 	{
@@ -1479,12 +1483,12 @@ __myevic__ void SetAtoSMARTParams()
 	if ( i > 0 ) //choose exist
 	{
 		ConfigIndex = i;
-
+                
+/*
 		p = dfSavedCfgPwr[i];
 		if ( p > MaxPower || p < 10 )
 		{
-			//if ( dfMode == 6 ) only 6
-			//{
+                                //search BF coils
 				j = SearchSMARTRez( r );
 				dfSavedCfgPwr[i] = SMARTPowers[ j << 1 ];
                                 
@@ -1492,20 +1496,6 @@ __myevic__ void SetAtoSMARTParams()
                                 {
                                     dfSavedCfgPwr[i] = dfPower;
                                 }
-			//}
-                        
-
-			//else
-			//{
-			//	dfSavedCfgPwr[i] = dfPower;
-			//}
-		}
-/*
-		if ( dfMode == 4 )
-		{
-			dfPower = dfSavedCfgPwr[i];
-			RoundPowers();
-		}
 */
                 
 /*
@@ -1545,15 +1535,8 @@ __myevic__ void SetAtoSMARTParams()
 		}
 
 		dfSavedCfgRez[ConfigIndex] = AtoRez;
-
-		//if ( dfMode == 6 )
-		//{
-			dfSavedCfgPwr[ConfigIndex] = SMARTPowers[ SearchSMARTRez( AtoRez ) << 1 ];
-		//}
-		//else
-		//{
-		//	dfSavedCfgPwr[ConfigIndex] = dfPower;
-		//}
+                dfSavedCfgPwr[ConfigIndex] = dfPower;
+		//dfSavedCfgPwr[ConfigIndex] = SMARTPowers[ SearchSMARTRez( AtoRez ) << 1 ];
 	}
         
 	UpdateDFTimer = 50;
