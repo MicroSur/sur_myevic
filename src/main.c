@@ -237,10 +237,10 @@ __myevic__ void InitHardware()
 
 	InitGPIO();
 
-	if ( !PD3 )
-	{
-		gFlags.noclock = 1;
-	}
+	//if ( !PD3 )
+	//{
+	//	gFlags.noclock = 1;
+	//}
 
 	InitSPI0();
 	InitEADC();
@@ -843,6 +843,7 @@ __myevic__ void SleepIfIdle()
                         
 			if ( dfDimOffMode == 1 || ( ( BatteryVoltage <= BatteryCutOff + 20 ) && !gFlags.usb_attached ) )
 			{
+                                SwitchOffCase = 4; //from sleep 
 				dfStatus.off = 1;
 				//Screen = 0;
                                 //LEDOff(); ?
@@ -1023,13 +1024,21 @@ __myevic__ void Main()
 
 	//CustomStartup();
 
+/*
 	if ( !PD3 || !PE0 )
 	{
 		DrawScreen();
 		while ( !PD3 || !PE0 )
 			;
 	}
-       
+*/
+	if ( !PE0 ) //need for reset mod from menu
+	{
+		DrawScreen();
+		while ( !PE0 )
+			;
+	}
+        
 	while ( 1 )
 	{            
             	while ( gFlags.playing_fb || gFlags.playing_tt )

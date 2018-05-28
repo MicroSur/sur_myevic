@@ -1248,6 +1248,10 @@ __myevic__ void ShowGoodBye()
                     
                 case 3:
                     DrawStringCentered( String_LongFire, 100 );
+                    break;
+                    
+                case 4:
+                    DrawStringCentered( String_Sleep, 100 );
                     break;                    
     }
   

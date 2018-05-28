@@ -18,7 +18,7 @@ extern uint8_t	BatAnimLevel;
 extern uint8_t	SplashTimer;
 extern uint16_t	AwakeTimer;
 
-extern uint8_t	SwitchOffCase; // why my mod auto switch off, 1 - puff, 2 awake time, //3 fire protect, 
+extern uint8_t	SwitchOffCase; // why my mod auto switch off, 1 - puff, 2 awake time, //3 fire protect, 5 from sleep option, 
 
 extern uint8_t	EditItemIndex;
 extern uint16_t	EditModeTimer;

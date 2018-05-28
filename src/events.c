@@ -113,18 +113,20 @@ __myevic__ void KeyRepeat()
 	if ( !PE0 )
 		return;
 
-	if ( dfStatus.keylock && !EditModeTimer )
+	if ( ( dfStatus.keylock && !EditModeTimer ) 
+                || dfStatus.off )
 	{
 		if ( !IsMenuScreen() )
 			return;
 	}
 
-	if ( dfStatus.off )
-	{
-		if ( !IsMenuScreen() )
-			return;
-	}
-	else if ( EditModeTimer && ( Screen == 1 ) )
+	//if ( dfStatus.off )
+	//{
+	//	if ( !IsMenuScreen() )
+	//		return;
+	//}
+	//else if ( EditModeTimer && ( Screen == 1 ) )
+        if ( !dfStatus.off && EditModeTimer && ( Screen == 1 ) )
 	{
 		if ( EditItemIndex != 2 )
 			return;
