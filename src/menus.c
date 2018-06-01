@@ -3960,13 +3960,13 @@ const menu_t ScreenSaveMenu =
 	8,
 	{
 		{ String_Off, 0, EVENT_PARENT_MENU, 0 }, //none
-		{ String_Clock, 0, EVENT_PARENT_MENU, 0 },
-		{ String_3D, 0, EVENT_PARENT_MENU, 0 },
-		{ String_Logo, 0, EVENT_PARENT_MENU, 0 },
+		{ String_3D, 0, EVENT_PARENT_MENU, 0 },    
 		{ String_Qix, 0, EVENT_PARENT_MENU, 0 },
-		{ String_Snow, 0, EVENT_PARENT_MENU, 0 },
-		{ String_Splash, 0, EVENT_PARENT_MENU, 0 },
-                { String_Vaped, 0, EVENT_PARENT_MENU, 0 }
+		{ String_Snow, 0, EVENT_PARENT_MENU, 0 },                        
+                { String_Vaped, 0, EVENT_PARENT_MENU, 0 },                        
+		{ String_Clock, 0, EVENT_PARENT_MENU, 0 },
+		{ String_Logo, 0, EVENT_PARENT_MENU, 0 },
+		{ String_Splash, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
 

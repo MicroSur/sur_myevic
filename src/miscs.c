@@ -795,20 +795,91 @@ static pt3d_t points[20]; //biggest one
 
 //uint8_t Object3D = 0;
 
+//	  SSAVER_NONE = 0,
+//     SSAVER_3D,
+//	SSAVER_QIX,     //
+//	SSAVER_SNOW,
+//      SSAVER_SF,              
+//	SSAVER_CLOCK,   
+//	SSAVER_LOGO,
+//	SSAVER_SPLASH,  // rotate too with +-
+//	  SSAVER_MAX
+                
+__myevic__ void NextSSaver()
+{
+    if ( dfScreenSaver == SSAVER_3D )
+    {
+        if ( ++Object3D > N3DOBJECTS ) 
+        {
+            dfScreenSaver = SSAVER_QIX;
+            Object3D = 1;
+        }
+    }
+    else
+    {
+	if ( ++dfScreenSaver == SSAVER_MAX ) 
+        {
+            dfScreenSaver = SSAVER_3D;   
+            Object3D = 1;
+        }
+    }
+    
+    if ( !ISANIMSAVER(dfScreenSaver) ) SetScreen( 60, ScreenDuration );
+}
 
+
+__myevic__ void PreviousSSaver()
+{
+    if ( dfScreenSaver == SSAVER_3D )
+    {
+        if ( --Object3D < 1 ) 
+        {
+            dfScreenSaver = SSAVER_SPLASH;
+            Object3D = N3DOBJECTS;
+        }
+    }
+    else
+    {
+        --dfScreenSaver;
+        Object3D = N3DOBJECTS;
+    }
+    
+    if ( !ISANIMSAVER(dfScreenSaver) ) SetScreen( 60, ScreenDuration );
+}
+
+/*
 __myevic__ void Next3DObject()
 {
-        if ( Screen == 60 ) ClearScreenBuffer(); //DrawFillRect( 0, 0, 63, 127, 0 );
+        //if ( Screen == 60 ) we here from if Screen == 60 
+        //ClearScreenBuffer(); move once in call //DrawFillRect( 0, 0, 63, 127, 0 );
 	if ( ++Object3D > N3DOBJECTS ) Object3D = 1;
 }
 
 
 __myevic__ void Previous3DObject()
 {
-        if ( Screen == 60 ) ClearScreenBuffer(); //DrawFillRect( 0, 0, 63, 127, 0 );
+        //if ( Screen == 60 ) 
+        //ClearScreenBuffer(); //DrawFillRect( 0, 0, 63, 127, 0 );
 	if ( --Object3D < 1 ) Object3D = N3DOBJECTS;
 }
 
+__myevic__ void NextSSaver()
+{
+	if ( ++dfScreenSaver == SSAVER_MAX ) dfScreenSaver = 2; //SSAVER_CLOCK,...
+        
+        //if ( !ISANIMSAVER(dfScreenSaver) ) 
+            SetScreen( 60, ScreenDuration );
+}
+
+
+__myevic__ void PreviousSSaver()
+{
+	if ( --dfScreenSaver < 2 ) dfScreenSaver = SSAVER_MAX - 1; //SSAVER_SF,
+        
+        //if ( !ISANIMSAVER(dfScreenSaver) ) 
+            SetScreen( 60, ScreenDuration );
+}
+*/
 
 __myevic__ void compute_matrix( matrix3d_t mat, const angles_t *a )
 {

@@ -21,9 +21,11 @@ extern uint16_t FilterWMean( filter_t *filter, uint16_t data );
 
 //extern uint8_t Object3D;
 extern void anim3d( int );
-extern void Next3DObject();
-extern void Previous3DObject();
-					
+//extern void Next3DObject();
+//extern void Previous3DObject();
+extern void NextSSaver();
+extern void PreviousSSaver();
+
 extern int32_t sine( int32_t x );
 extern int32_t cosine( int32_t x );
 

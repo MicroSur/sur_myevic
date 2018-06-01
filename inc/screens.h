@@ -35,13 +35,13 @@ extern uint32_t GetVV( uint32_t MJoules );
 
 enum {
 	SSAVER_NONE = 0,
-	SSAVER_CLOCK,
-	SSAVER_3D,
-	SSAVER_LOGO,
+        SSAVER_3D,
 	SSAVER_QIX,
 	SSAVER_SNOW,
-	SSAVER_SPLASH,
         SSAVER_SF,
+	SSAVER_CLOCK,
+	SSAVER_LOGO,
+	SSAVER_SPLASH,
 	SSAVER_MAX
 };
 
@@ -69,7 +69,7 @@ extern void ShowKeyUnLock();
 extern void ShowNoAtoFound();
 extern void Show10sProtec();
 extern void ShowWeakBat();
-extern void ShowInfos();
+//extern void ShowInfos();
 extern void ShowContrast();
 extern void ShowMenus();
 extern void ShowRTCSpeed();
@@ -183,7 +183,7 @@ extern const uint8_t String_Build[];
 //extern const uint8_t String_mld[];
 //extern const uint8_t String_ml[];
 extern const uint8_t String_Check[];
-extern const uint8_t String_Adapter[];
+//extern const uint8_t String_Adapter[];
 extern const uint8_t String_Charge[];
 extern const uint8_t String_Error[];
 extern const uint8_t String_Imbalanced[];

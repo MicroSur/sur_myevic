@@ -527,12 +527,19 @@ __myevic__ void GetUserInput()
 		{
 			if ( Screen == 60 )
 			{
-				if ( dfScreenSaver == SSAVER_3D )
-				{
-					Next3DObject();
-					Event = 0;
-				}
-			}
+                                ClearScreenBuffer();
+                                Event = 0;
+                                
+				//if ( dfScreenSaver == SSAVER_3D )
+				//{
+                                //    Next3DObject();
+                                //    //Event = 0;
+				//}
+                                //else 
+                                //{
+                                    NextSSaver();
+                                //}
+			} //else if for rotate savers
 			else if ( dfStatus.keylock && !EditModeTimer
 				&& Screen != 51 && !dfStatus.off //new coil
 				&& !IsMenuScreen() 
@@ -550,11 +557,18 @@ __myevic__ void GetUserInput()
 		{
 			if ( Screen == 60 )
 			{
-				if ( dfScreenSaver == SSAVER_3D )
-				{
-					Previous3DObject();
-					Event = 0;
-				}
+                                ClearScreenBuffer();
+                                Event = 0;
+                                
+				//if ( dfScreenSaver == SSAVER_3D )
+				//{
+                                //    Previous3DObject();
+                                //    //Event = 0;
+				//}
+                                //else 
+                                //{
+                                    PreviousSSaver();
+                                //}
 			}
 			else if ( dfStatus.keylock && !EditModeTimer
 				&& Screen != 51 //&& !dfStatus.Off

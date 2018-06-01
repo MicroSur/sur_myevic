@@ -24,7 +24,7 @@
 #define ISMODEVW(m) (((m)==4)||((m)==6))
 #define ISMODEBY(m) ((m)==5)
 
-#define	ISANIMSAVER(m) (((m)==2)||((m)==4)||((m)==5)) //SSAVER_3D SSAVER_QIX SSAVER_SNOW
+#define	ISANIMSAVER(m) ( ( (m)>0 ) && ( (m)<5 ) ) //SSAVER_3D SSAVER_QIX SSAVER_SNOW  SSAVER_SF
 //-------------------------------------------------------------------------
 
 #define FWVERSION	111

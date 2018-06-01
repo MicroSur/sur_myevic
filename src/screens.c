@@ -220,17 +220,18 @@ __myevic__ void DrawScreen()
                                 }
                                 else
                                 {
-                                    if ( gFlags.MainContrast )
-                                    {
+                                    //if ( gFlags.MainContrast )
+                                    //{
                                         DisplaySetContrast( dfContrast2 );
                                         gFlags.MainContrast = 0;
-                                    }
+                                    //}
                                 }
                                
                                 scrSaveOnce = 0;
                                 ScreenRefreshTimer = 0;
                                 
-                                if ( dfStatus.off || !ISANIMSAVER(dfScreenSaver) || ( ISANIMSAVER(dfScreenSaver) && !gFlags.animready ) )
+                                if ( dfStatus.off || !ISANIMSAVER(dfScreenSaver) 
+                                        || ( ISANIMSAVER(dfScreenSaver) && !gFlags.animready ) )
                                 {
                                     //call anim once, other in AnimateScreenSaver()
                                     //call non anim while duration
@@ -372,17 +373,19 @@ __myevic__ void DrawScreen()
                         }
 			else
 			{
+                                uint16_t spt = GetScreenProtection();
+                                
 				if (( !gFlags.firing )
 				&&	( dfStealthOn != 1 )
 				&&	( SleepTimer > 0 )
 				&&	( dfScreenSaver > 0 )
-				&&	( GetScreenProtection() > 0 )
+				&&	( spt > 0 )
                                 &&	( scrSaveOnce ) 
                                         
                                         )
 				{
                                         gFlags.animready = 0;
-                                        SetScreen( 60, GetScreenProtection() );
+                                        SetScreen( 60, spt );
 					//Screen = 60;
 					//ScreenDuration = GetScreenProtection();
 					//gFlags.refresh_display = 1;
@@ -1470,7 +1473,7 @@ __myevic__ void ShowCheckUSB()
 {
 	DrawStringCentered( String_Check, 80 );
 	DrawStringCentered( String_USB, 92 );
-	DrawStringCentered( String_Adapter, 102 );
+	//DrawStringCentered( String_Adapter, 102 );
 }
 
 
