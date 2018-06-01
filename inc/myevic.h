@@ -168,7 +168,7 @@ typedef struct
 /* 00001000 */	int sample_atemp:1;         //was debug 
 /* 00002000 */	int noclock:1;
 /* 00004000 */	int read_bir:1;
-/* 00008000 */	int monitoring:1;
+/* 00008000 */	int monitoring:1; //not used
 
 /* 00010000 */	int screen_on:1; //bit 48
 /* 00020000 */	int pwm_pll:1;

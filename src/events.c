@@ -1379,26 +1379,6 @@ __myevic__ int EvtToggleClock()
 	return 1;
 }
 
-//-------------------------------------------------------------------------
-
-/*
-__myevic__ int EvtDebugMode()
-{
-	if ( dfStatus.dbgena )
-	{
-		gFlags.debug ^= 1;
-	}
-	else
-	{
-		gFlags.debug = 0;
-	}
-	gFlags.refresh_display = 1;
-	return 1;
-}
-*/
-
-//-------------------------------------------------------------------------
-
 __myevic__ int EvtLongFire()
 {
 	int vret = 0;

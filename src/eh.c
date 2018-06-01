@@ -1168,8 +1168,10 @@ __myevic__ void EventHandler()
 			gFlags.usb_attached = 0;
 			gFlags.battery_charging = 0;
                         dfStatus.usbchghotoff = 0;
-			gFlags.monitoring = 0;
-                        gFlags.refresh_display = 1;
+			//gFlags.monitoring = 0; not used
+                        
+                        //gFlags.refresh_display = 1;
+                        
 			if ( Screen == 5 )
 			{
 				if ( dfStatus.off || dfStealthOn == 1 )

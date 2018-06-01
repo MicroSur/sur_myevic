@@ -1187,7 +1187,7 @@ __myevic__ void Main()
 
 			if (( dfStatus2.anim3d ) && ( Screen == 1 ) && ( !EditModeTimer ) && !HideLogo && !SplashTimer ) //&& ( dfMode != 6 )
 			{
-				anim3d( 0 ); //as logo
+				anim3d(); //as logo
 			}
 
 			if ( ( Screen == 60 || Screen == 0 ) && !dfStatus.off ) 

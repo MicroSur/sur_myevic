@@ -810,9 +810,47 @@ __myevic__ void DrawInfoLines()
                 }
 	}
 
-        if ( dfMode != 6 )
+        if ( dfMode == 6 )
+        {
+                int x1, x2;
+                int pMax = 0;
+                int p;
+                
+                for ( int i = 0 ; i < 10 ; ++i )
+                {
+                    p = dfSavedCfgPwr[i];
+                    if ( p > pMax ) pMax = p;
+                }
+                
+                if ( !pMax ) pMax = MaxPower;
+                
+            	for ( int i = 0 ; i < 10 ; ++i )
+                {
+                    p = dfSavedCfgPwr[i];
+                    
+                    if ( i == ConfigIndex && AtoStatus == 4 )
+                    {
+                        x1 = 3;
+                        x2 = 3;
+                    }
+                    else
+                    {
+                        x1 = 4;
+                        x2 = 1;
+                    }
+                
+                    //DrawFillRect( const int x1, const int y1,const  int x2, const int y2, const int color)
+                    DrawFillRect( x1+i*6, 72 - 26 * p / pMax, x1+x2+i*6, 72, 1); //74 = bottom, 30 = height
+                    //DrawVLine( i+4, 36 - 20 * p / MaxPower, 36, 1 );
+		}
+                
+        }
+        else
+        {
+        //if ( dfMode != 6 )
             DrawCoilLine( 63 );
-        
+        }
+                
         DrawAPTLines();
         
 }
@@ -977,11 +1015,12 @@ __myevic__ void ShowLogo( int place )
     {
         if ( !HideLogo )
         {
-    			if ( dfStatus2.anim3d ) //&& !HideLogo )
-			{           
-				anim3d( 1 );
-			}
-			else if ( dfStatus.clock ) //&& !HideLogo )
+                        if ( dfStatus2.anim3d ) return;
+    			//if ( dfStatus2.anim3d ) //&& !HideLogo )
+			//{           
+				//anim3d( 0 );
+			//}
+			if ( dfStatus.clock ) //&& !HideLogo )
 			{                                 
 				if ( dfStatus.digclk != dfStatus2.digclk2 ) //D 01  M 10 
 				{
@@ -996,22 +1035,8 @@ __myevic__ void ShowLogo( int place )
 			}
                         else if ( !dfStatus.nologo && dfStatus.logomid ) //&& !HideLogo ) //mid logo
 			{
-                               //int h = GetLogoHeight();
-
-                                //if ( h )
-                                //{
                                     DrawFillRect( 0, 42, 63, 112, 0 );
-                                    DrawLOGO( 0, 77 - h / 2 );
-                                    
-                                    //if ( h > 40 ) 
-                                    //{
-                                    //    DrawLOGO( 0, 50 );
-                                    //}
-                                    //else 
-                                    //{
-                                    //    DrawLOGO( 0, 56 );
-                                    //} 
-                                //}
+                                    DrawLOGO( 0, 77 - h / 2 );      
                         }
                         else 
                         {
@@ -1086,7 +1111,6 @@ __myevic__ void ShowMainView()
 
 	if ( !gFlags.firing )
 	{
-		//if ( gFlags.splash && SplashTimer )
                 if ( SplashTimer )                    
 		{
 			ShowSplash();
@@ -1147,58 +1171,20 @@ __myevic__ void ShowMainView()
 		}
                 
 	}
-	else if (( dfMode == 4 ) || ( dfMode == 5 )) //pwr bypass
+	//else if (( dfMode == 4 ) || ( dfMode == 5 )) //pwr bypass
+        else 
 	{
-            
-		DrawPower( pwr, 12 );
-                
-	}
-	else if ( dfMode == 6 ) //smart
-	{
-            
-                int x1, x2;
-                int pMax = 0;
-                int p;
-                
-                for ( int i = 0 ; i < 10 ; ++i )
-                {
-                    p = dfSavedCfgPwr[i];
-                    if ( p > pMax ) pMax = p;
-                }
-                
-                if ( !pMax ) pMax = MaxPower;
-                
-            	for ( int i = 0 ; i < 10 ; ++i )
-                {
-                    p = dfSavedCfgPwr[i];
-                    
-                    if ( i == ConfigIndex && AtoStatus == 4 )
-                    {
-                        x1 = 3;
-                        x2 = 3;
-                    }
-                    else
-                    {
-                        x1 = 4;
-                        x2 = 1;
-                    }
-                
-                    //DrawFillRect( const int x1, const int y1,const  int x2, const int y2, const int color)
-                    DrawFillRect( x1+i*6, 72 - 26 * p / pMax, x1+x2+i*6, 72, 1); //74 = bottom, 30 = height
-                    //DrawVLine( i+4, 36 - 20 * p / MaxPower, 36, 1 );
-		}
-
-                if ( !gFlags.firing )
+                if ( dfMode == 6 && !gFlags.firing ) //smart
                 {
                         pwr = dfSavedCfgPwr[(int)ConfigIndex]; //show fixed power
                 }
                 
-                DrawPower( pwr, 12 );
-                // DrawAPTLines();
-                        
-	} //dfMode == 6 
+		DrawPower( pwr, 12 );
+                
+	}
 
-           
+///////////////////////////////////////////////////////////
+        
             static int sx = 0; //pacman line
             //if ( ( gFlags.firing || gFlags.battery_charging ) && HideLogo ) //dfStatus.nologo )
             if ( ( gFlags.firing || gFlags.battery_charging ) 
@@ -1222,19 +1208,21 @@ __myevic__ void ShowMainView()
                 sx = 0;
                 DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
             }
-
+            
+//////////////
+            
             if ( Screen == 2 || EditModeTimer )
             {
-			DrawInfoLines();
+		DrawInfoLines();
             }
             else
             {
-                    ShowLogo( 0 );      
+                ShowLogo( 0 );  //center   
             }
 
             if (( Screen == 1 ) && !EditModeTimer && !HideLogo && !dfStatus.nologo && !dfStatus.logomid)
             {
-                        ShowLogo( 1 ); //top pic logo
+                ShowLogo( 1 ); //top pic logo
             }
         
        

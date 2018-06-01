@@ -79,7 +79,16 @@ __myevic__ void DrawScreen()
 	if ( gFlags.refresh_display )
 	{
 		gFlags.refresh_display = 0;
-		ClearScreenBuffer();
+                
+                if ( Screen == 1 && !HideLogo && dfStatus2.anim3d )
+                {
+                    DrawFillRect( 0, 0, 63, 44, 0 ); //clear spaces, no flick in 3d
+                    DrawFillRect( 0, 113, 63, 127, 0 ); //
+                }
+                else
+                {
+                    ClearScreenBuffer();
+                }
 
 		switch ( Screen )
 		{
@@ -1329,7 +1338,7 @@ __myevic__ void AnimateScreenSaver()
 	switch ( dfScreenSaver )
 	{
 		case SSAVER_3D:
-			anim3d( 0 );
+			anim3d();
 			break;
 
 		case SSAVER_QIX:

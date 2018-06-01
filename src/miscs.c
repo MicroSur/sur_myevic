@@ -909,7 +909,7 @@ __myevic__ void rotate_object( pt3d_t *dst, const obj3d_t *src, const matrix3d_t
 {
 	int32_t s, d, x, y, z;
 
-        if ( Screen == 60 ) //&& Object3D == 7 ) //tie 
+        if ( Screen == 60 )
         {
             s = 3 * src->scale / 2;
         } else {
@@ -944,7 +944,7 @@ __myevic__ void next_angle_spin()
 	angles.z += speeds_spin.z; angles.z %= 360;
 }
 
-__myevic__ void anim3d( int redraw_last )
+__myevic__ void anim3d() //( int redraw_last )
 {
 	static int tscaler = 0;
 	const obj3d_t *object;
@@ -960,16 +960,17 @@ __myevic__ void anim3d( int redraw_last )
 		return;
 	}
 
-	if ( !redraw_last )
-	{
-		rotate_object( points, object, rot_matrix );
-
+	//if ( !redraw_last )
+	//{
+            
+                rotate_object( points, object, rot_matrix );
+               
                 if ( ++tscaler < 4 ) return; //4 speed
 		tscaler = 0;
-                
-                if (Object3D == 9) next_angle_spin();
+                      
+                if ( Object3D == 9 ) next_angle_spin();
                 else next_angle();
-                
+
 		compute_matrix( rot_matrix, &angles );
                 
 		int f = 256;
@@ -978,7 +979,6 @@ __myevic__ void anim3d( int redraw_last )
 			points[i].x = f * points[i].x / ( f + points[i].z );
 			points[i].y = f * points[i].y / ( f + points[i].z );
 		}
-	}
 
         if ( Screen == 60 )
         {
@@ -986,7 +986,7 @@ __myevic__ void anim3d( int redraw_last )
             thk = 2;
             ClearScreenBuffer(); //DrawFillRect( 0, 0, 63, 127, 0 );
         } 
-        else 
+        else
         {  
             int h = GetLogoHeight();
             int yh = 42;
@@ -1008,11 +1008,11 @@ __myevic__ void anim3d( int redraw_last )
 			thk
 		);
 	}
-
-	if ( !redraw_last )
-	{
+         
+	//if ( !redraw_last )
+	//{
 		DisplayRefresh();
-	}
+	//}
 }
 
 //=========================================================================
