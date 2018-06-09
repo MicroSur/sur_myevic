@@ -160,7 +160,7 @@ __myevic__ void DrawPwrLine( int pwr, int line )
         if ( dfUIVersion == 1 )
         {
             fset = 0x29;
-            y += 3;
+            y += 2; //3;
             x = 63;
             yoff = 8;
         }
@@ -207,7 +207,7 @@ __myevic__ void DrawTempLine( int line )
         if ( dfUIVersion == 1 )
         {
             fset = 0x29;
-            y += 3;
+            y += 2; //3;
             x = 63;
             yoff = 8;
         }
@@ -290,7 +290,7 @@ __myevic__ void DrawCoilLine( int line )
         if ( dfUIVersion == 1 )
         {
             fset = 0x29;
-            y += 10;
+            y += 9; //10;
             x = 63;
             yoff = 8;
         }
@@ -929,7 +929,7 @@ __myevic__ void DrawPower( int pwr, int yp )
 
 		if ( pwr < 1000 )
 		{
-			DrawValue( 0, yp+1, pwr, 1, 0x48, 3 );
+			DrawValue( 1, yp+1, pwr, 1, 0x48, 3 ); //0->1 for pc, need big dot 4x24
 		}
 		else
 		{
@@ -1074,7 +1074,7 @@ __myevic__ void ShowLogo( int place )
                                     else
                                     {
                                         y2 = 66;
-                                        y = 14;
+                                        y = 12; //14;
                                     }
                                     
                                     DrawFillRect( 0, 0, 63, y2, 0 );
@@ -1190,14 +1190,16 @@ __myevic__ void ShowMainView()
             if ( ( gFlags.firing || gFlags.battery_charging ) 
                     && ( HideLogo || ( dfStatus.nologo && !dfStatus2.anim3d && !dfStatus.clock ) ) )
             {
+                DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
+                
                 if ( sx % 2 ) 
                 {
-                    DrawHLineDots( sx+9, 41, 63, 1 );
+                    //DrawHLineDots( sx+9, 41, 63, 1 );
                     DrawImage( sx, 37, 0xCC );
                 }
                 else 
                 {
-                    DrawHLineDots( sx+8, 41, 63, 1 );
+                    //DrawHLineDots( sx+8, 41, 63, 1 );
                     DrawImage( sx, 37, 0xCB );
                 }
                 sx += 3;
