@@ -388,7 +388,7 @@ __myevic__ void SetProductID()
                         BoxName = "FJ200";
 			break;
 		}
-                else if ( u32Data == PID_SINFJ200 )
+                else if ( u32Data == PID_IKU200 )
 		{
 			dfMaxHWVersion = HWV_IKU200;
 			//DFMagicNumber = ;
