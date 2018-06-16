@@ -1397,7 +1397,7 @@ __myevic__ void BVOMenuOnClick()
 {
 	switch ( CurrentMenuItem )
 	{
-		case 4:
+		case 4: //batteries screen with graph
                     SetScreen( 54, 30 ); //need both for prevent auto-close
                     FireClicksEvent = 34;
                     break;

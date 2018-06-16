@@ -146,11 +146,11 @@ __myevic__ void InitGPIO()
 	// PC0 = PWM0 CH0
 	BBC_Configure( BBC_PWMCH_BUCK, 1 );     // 0 1
         
-        if ( !ISINVOKE && ! ISIKU200 )
-        {
+    if ( !ISINVOKE && !ISIKU200 )
+    {
 	// PC2 = PWM0 CH2
 	BBC_Configure( BBC_PWMCH_BOOST, 1 );    // 2 1
-        }
+    }
         
 	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || 
                 ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || 

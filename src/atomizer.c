@@ -154,16 +154,27 @@ __myevic__ void InitPWM()
         //#define BBC_PWM_FREQ                  150000
     
 	PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_BUCK, BBC_PWM_FREQ, 0 );
+        
+    if ( !ISIKU200 ) //invoke and all without boost
+    {
 	PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_BOOST, BBC_PWM_FREQ, 0 );
+    }
 
 	PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_BUCK );
 	PWM_EnablePeriodInt( PWM0, BBC_PWMCH_BUCK, 0 );
 
+    if ( !ISIKU200 )
+    {
 	PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_BOOST );
 	PWM_EnablePeriodInt( PWM0, BBC_PWMCH_BOOST, 0 );
+    }
 
 	PWM_Start( PWM0, 1 << BBC_PWMCH_BUCK );
+        
+    if ( !ISIKU200 )
+    {        
 	PWM_Start( PWM0, 1 << BBC_PWMCH_BOOST );
+    }
 
 /**
  * @brief This macro set the comparator of the selected channel
@@ -179,8 +190,11 @@ __myevic__ void InitPWM()
 **/
         
 	BoostDuty = 0;
+    //if ( !ISIKU200 )
+    //{         
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
-
+    //}
+        
 	BuckDuty = 0;
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
 
@@ -1005,12 +1019,13 @@ __myevic__ void RegulateBuckBoost()
 			{
 				if ( BBCMode != 1 )
 				{
+                                    if ( !ISINVOKE && !ISIKU200 ) //todo new function for buck only mods?
+                                    {
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
-                                        
-					if ( !ISVTCDUAL && !ISINVOKE && !ISIKU200 ) 
-                                            PC3 = 1;
+					if ( !ISVTCDUAL ) PC3 = 1;
+                                    }
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = MaxBuck;
@@ -1038,12 +1053,13 @@ __myevic__ void RegulateBuckBoost()
 			{
 				if ( BBCMode != 2 )
 				{
+                                    if ( !ISINVOKE && !ISIKU200 ) 
+                                    {
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
-                                        
-					if ( !ISVTCDUAL && !ISINVOKE && !ISIKU200 ) 
-                                            PC3 = 1;
+					if ( !ISVTCDUAL ) PC3 = 1;
+                                    }
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = ( BBCMode == 0 ) ? MinBuck : MaxBuck;
@@ -1087,13 +1103,14 @@ __myevic__ void RegulateBuckBoost()
 			{
 				if ( BBCMode != 3 )
 				{
+                                    if ( !ISINVOKE && !ISIKU200 ) 
+                                    {
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
-                                        
-					if ( !ISVTCDUAL && !ISINVOKE && !ISIKU200 ) 
-                                            PC3 = 1;
-
+					if ( !ISVTCDUAL ) PC3 = 1;
+                                    }
+                                
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = MaxBuck;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, BuckDuty );
@@ -1325,8 +1342,13 @@ __myevic__ void TweakTargetVoltsJT()
 				PC1 = 0;
 				BuckDuty = 0;
 				PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
+                                
 				BoostDuty = 0;
+                            //if ( !ISIKU200 )
+                            //{                                
 				PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
+                            //}
+                                
 			}
 			else
 			{
@@ -1684,8 +1706,13 @@ __myevic__ void ProbeAtomizer()
 			{
 				SetADCState( 15, 0 );
 			}
+                        
 			BoostDuty = 0;
+                    //if ( !ISIKU200 )
+                    //{                        
 			PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
+                    //}
+                        
 			BuckDuty = 0;
 			PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
 		}

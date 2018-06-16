@@ -473,15 +473,21 @@ __myevic__ void DevicesOnOff( int off )
 		BBC_Configure( BBC_PWMCH_BUCK, 0 );                             // 0 0
                 
 		if ( !ISVTCDUAL && !ISINVOKE ) 
+                {
                     //ISIKU200
                     PC3 = 0;                                                    // 4000488C
+                }
                 
                 if ( !ISINVOKE )
+                {
                     //ISIKU200
                     PC2 = 0;                                                        // 40004888
+                }
                 
                 if ( !ISINVOKE && !ISIKU200 ) //todo check others
+                {
                     BBC_Configure( BBC_PWMCH_BOOST, 0 );                        // 2 0
+                }
                 
                 if ( ISIKU200 )
                 {

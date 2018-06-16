@@ -29,6 +29,25 @@ typedef struct
 }
 Battery_t;
 
+//enum { //BatteryStatus
+//	BtSt_OK = 0,
+//        BtSt_OOE_ERR,       //1 imbalanced
+//	BtSt_NOBAT_ERR,     //2
+//	BtSt_USBHI_ERR,     //3 high usb volts
+//        BtSt_LOWCURR_ERR,   //4 charge err low output current?
+//
+//};
+//
+//enum { //ChargeStatus
+//	ChSt_NOR = 0,    //0 Battery charging
+//        ChSt_BAL,        //1 ballancing charge from min_ch
+//        ChSt_LOW,        //2 low batt charging, < 2.8v
+//	ChSt_MAX,        //3 max current charging
+//	ChSt_MIN,        //4 min current charging
+//        ChSt_FUL,        //5 charge full
+//	ChSt_ERR,        //6 stopped charge
+//};
+
 //-------------------------------------------------------------------------
 
 extern uint16_t RTBattVolts;

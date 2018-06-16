@@ -98,10 +98,12 @@ const uint8_t SSD1306_InitSeq[] =
 		//0xAD, // for SH1106 SH1106_SET_PUMP_MODE 0XAD
 		//0x8A, // SH1106_PUMP_OFF 0X8A
 		//0xD9, //def //Set Pre-charge Period
-		//0x22,
+		//0x22, //DCLK for phase 1 and 2 
+        //0xD9,
+        //0x2F,
 		0xDB, // Set VCOMH Deselect Level, adjusts the VCOMH regulator output, SETVCOMDETECT
-		0x30	}; //35? 00h 20h_def 30h
-
+	        0x30 //35? 00h 20h_def 30h // 00 - darker but artefacts when lighter
+        };
 //----- (00005530) --------------------------------------------------------
 __myevic__ void SSD1306_Init()
 {

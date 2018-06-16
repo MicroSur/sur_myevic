@@ -305,7 +305,7 @@ __myevic__ void EventHandler()
 			}
 
 			if ( ( BoardTemp > dfMaxBoardTemp ) 
-                        || ( ( ISSINFJ200 || ISIKU200 ) && ( AkkuTemp > 70 ) ) )
+                            || ( ( ISSINFJ200 || ISIKU200 ) && ( AkkuTemp > 70 ) ) )
 			{
 				Overtemp();
 				return;

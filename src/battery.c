@@ -761,7 +761,7 @@ __myevic__ void ReadBatteryVoltage()
                         {
                             if ( ISGEN2 )
                                 VbatSample1 += 4;
-                            if ( ISIKU200 )
+                            else if ( ISIKU200 )
                                 VbatSample1 += 3;                            
                             else
                                 VbatSample1 += 2;  
@@ -1091,7 +1091,7 @@ __myevic__ int CheckBattery()
                         {
                             if ( ISGEN2 )
                                 bv += 4;
-                            if ( ISIKU200 )
+                            else if ( ISIKU200 )
                                 bv += 3;                            
                             else
                                 bv += 2;
@@ -1949,8 +1949,8 @@ __myevic__ void BatteryCharge()
 				}
 				else if ( ChargeCurrent < ChargerTarget )
 				{
-					if (( ++ChargerTempo >  10 && ChargeCurrent <  tmpChargeCurrent )
-					||	(	ChargerTempo > 100 && ChargeCurrent >= tmpChargeCurrent ))
+					if (( ++ChargerTempo > 10 && ChargeCurrent < tmpChargeCurrent )
+					||	( ChargerTempo > 100 && ChargeCurrent >= tmpChargeCurrent ))
 					{
 						ChargerTempo = 0;
 
@@ -1959,9 +1959,7 @@ __myevic__ void BatteryCharge()
 							if ( ChargeCurrent < 180 )
 							{
 								BatteryStatus = 4;
-                                                                
-                                                                BatteryPinsSet (0);         
-                                                                
+                                                                BatteryPinsSet (0);          
 							}
 						}
 						//else if ( ChargeCurrent < 1507 )
