@@ -1512,7 +1512,7 @@ __myevic__ void BatteryChargeDual()
 			{
 				if ( NumBatteries == 2 )
 				{
-					Event = 12;
+					Event = 12; //charge start
 					ChargeStatus = 0;
 				}
 			}
@@ -1840,7 +1840,7 @@ __myevic__ void BatteryCharge()
 			{
 				if ( ( BattVoltsHighest < 420 ) || ( BBBits && BatteryVoltage < 415 ) )
 				{
-					Event = 12;
+					Event = 12; //start charge
 					ChargeStatus = 0;
 				}                               
 			}

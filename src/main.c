@@ -484,7 +484,7 @@ __myevic__ void DevicesOnOff( int off )
                     PC2 = 0;                                                        // 40004888
                 }
                 
-                if ( !ISINVOKE && !ISIKU200 ) //todo check others
+                if ( !ISINVOKE && !ISIKU200 )
                 {
                     BBC_Configure( BBC_PWMCH_BOOST, 0 );                        // 2 0
                 }
@@ -522,6 +522,7 @@ __myevic__ void DevicesOnOff( int off )
                 if ( !ISRX2 && !ISSINP80 && !ISINVOKE && !ISRX217 && !ISGEN2 )
 		{ 
                     //i200
+                    if ( ISIKU200 ) PE13 = 0;
                     GPIO_DisableInt( PD, 0 );
                     PD0 = 0;                                                        // 400048C0
                     GPIO_SetMode( PD, GPIO_PIN_PIN0_Msk, GPIO_MODE_OUTPUT );        // 400040C0 1 1
@@ -545,6 +546,7 @@ __myevic__ void DevicesOnOff( int off )
 			PA3 = 0;                                                // 4000480C
 			PA2 = 0;                                                // 40004808
                     }
+                    //ISIKU200  PC2 = 0; PC3 = 0 ^^
 		}
                 
 		if ( ISVTCDUAL )
@@ -683,6 +685,8 @@ __myevic__ void DevicesOnOff( int off )
 			PB7 = 1;                                                // 485C
 		}
 
+                if ( ISIKU200 ) PE13 = 1;
+                
 		SetADCState( 1, 1 );
 		SetADCState( 2, 1 );
                 

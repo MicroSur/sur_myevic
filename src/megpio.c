@@ -112,9 +112,14 @@ __myevic__ void InitGPIO()
         else if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISINVOKE || ISSINFJ200 || ISIKU200 )
 	{
             if ( !ISSINFJ200 && !ISIKU200 ) 
-                    PD1 = 0;
-            
-            GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
+            {
+                PD1 = 0;
+                GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
+            }
+            else
+            {
+                GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_INPUT );
+            }
 	}
         else if ( ISRX2 || ISRX217 || ISGEN2 )
         {

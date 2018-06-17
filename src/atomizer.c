@@ -190,10 +190,10 @@ __myevic__ void InitPWM()
 **/
         
 	BoostDuty = 0;
-    //if ( !ISIKU200 )
-    //{         
+    if ( !ISIKU200 )
+    {         
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
-    //}
+    }
         
 	BuckDuty = 0;
 	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
@@ -1159,7 +1159,11 @@ __myevic__ void RegulateBuckBoost()
 					}
 				}
 
-				PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
+                                if ( !ISINVOKE && !ISIKU200 ) 
+                                {
+                                    PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
+                                }
+                                
 			}
 			break;
 
@@ -1344,10 +1348,10 @@ __myevic__ void TweakTargetVoltsJT()
 				PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
                                 
 				BoostDuty = 0;
-                            //if ( !ISIKU200 )
-                            //{                                
+                            if ( !ISIKU200 )
+                            {                                
 				PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
-                            //}
+                            }
                                 
 			}
 			else
@@ -1708,10 +1712,10 @@ __myevic__ void ProbeAtomizer()
 			}
                         
 			BoostDuty = 0;
-                    //if ( !ISIKU200 )
-                    //{                        
+                    if ( !ISIKU200 )
+                    {                        
 			PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
-                    //}
+                    }
                         
 			BuckDuty = 0;
 			PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
