@@ -218,7 +218,7 @@ __myevic__ void SetClicksAction( uint8_t num )
 
 						case CLICK_ACTION_PROFILE:
                                                         //sur do not like EVENT_NEXT_PROFILE;
-							FireClicksEvent = EVENT_PROFILE_MENU;	// Cycle profile
+							FireClicksEvent = EVENT_PROFILE_MENU;
 							break;
                                                         
                                                 case CLICK_ACTION_TETRIS:
@@ -242,11 +242,7 @@ __myevic__ void SetClicksAction( uint8_t num )
 							break;
 
                                                 case CLICK_ACTION_REZRESET:
-                                                        if ( AtoStatus == 4 )
-                                                        {
-                                                            ResetResistance();
-                                                            SwitchRezLock( 1 ); //reread TC rez
-                                                        }
+                                                        FireClicksEvent = EVENT_RESET_RES; //CustomEvents()
 							break;
                                                         
 					}
@@ -1591,7 +1587,15 @@ __myevic__ int CustomEvents()
 		case EVENT_EDIT_CONTRAST:	// Contrast screen
 			vret = EvtContrastMenu();
 			break;
-
+                        
+		case EVENT_RESET_RES:
+                        if ( AtoStatus == 4 ) //ok res
+                        {
+                            ResetResistance();
+                            SwitchRezLock( 1 ); //reread TC rez
+                        }
+			break;
+                        
 		case EVENT_ENTER_MENUS:	// Menus screen
                         gFlags.MainContrast = 1;
                         DisplaySetContrast( dfContrast );
