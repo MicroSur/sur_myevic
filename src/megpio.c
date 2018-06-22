@@ -175,7 +175,7 @@ __myevic__ void InitGPIO()
         else if ( ISSINFJ200 )
         {
             	PA1 = 1;
-		BBC_Configure( 4, 0 );                          // 4 0
+		//? BBC_Configure( 4, 0 );                          // 4 0
                 PA1 = 1;
                 
                 PB7 = 0; // LED
@@ -184,7 +184,7 @@ __myevic__ void InitGPIO()
         else if ( ISIKU200 )
         {
                 PA2 = 1;
-                BBC_Configure( 3, 0 ); 
+                //? BBC_Configure( 3, 0 ); 
                 PA2 = 1;                
         }
         

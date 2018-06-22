@@ -813,7 +813,8 @@ __myevic__ void ReadBatteryVoltage()
 				BattVolts[1] = VbatSample2 - VbatSample1;
 				NumBatteries = 2;
 			}
-			else if (( VbatSample1 - VbatSample1 / 10 < VbatSample2 ) && ( VbatSample2 >= 100 ))
+			else if (( VbatSample1 - VbatSample1 / 10 < VbatSample2 ) 
+                                && ( VbatSample2 >= 100 ))
 			{
 				NumBatteries = 1;
 			}
@@ -841,6 +842,7 @@ __myevic__ void ReadBatteryVoltage()
 			else
 				BattVolts[1] = VbatSample2 - BattVolts[0];
 		}
+/*
 		else if ( ISCUBO200 )
 		{
 			VbatSample1 = 125 * ( VbatSample1 >> 7 ) / 100;
@@ -861,10 +863,9 @@ __myevic__ void ReadBatteryVoltage()
 			else
 				BattVolts[2] = VbatSample3 - VbatSample1 - BattVolts[1];
 		}
-		else if ( ISRX200S || ISRX23 || ISGEN3 )
+*/
+		else if ( ISRX200S || ISRX23 || ISGEN3 || ISCUBO200 )
 		{
-		//	myprintf( "S1=%d S2=%d S3=%d\n",
-		//		VbatSample1, VbatSample2, VbatSample3 );
                     
 //          B[2]     B[1]     B[0] 
 //	    |        |	      |
@@ -877,11 +878,21 @@ __myevic__ void ReadBatteryVoltage()
                             VbatSample1 = ( VbatSample1 >> 7 ) + 3;
                         else
                             VbatSample1 = 125 * ( VbatSample1 >> 7 ) / 100;
-                
-			VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
-			VbatSample3 =   3 * ( VbatSample3 >> 4 ) >> 3;
                         
-                        if ( ISGEN3 && VbatSample3 ) VbatSample3 += 4;
+                        if ( ISCUBO200 )
+                            VbatSample2 =  13 * ( VbatSample2 >> 4 ) / 48;
+                        else
+                            VbatSample2 = 139 * ( VbatSample2 >> 4 ) / 624;
+                        
+			VbatSample3 = 3 * ( VbatSample3 >> 4 ) >> 3;
+                        
+                        if ( VbatSample3 )
+                        {
+                            if ( ISGEN3 ) 
+                                VbatSample3 += 4;
+                            else if ( ISCUBO200 ) 
+                                VbatSample3 += 3;
+                        }
                         
 			BattVolts[0] = VbatSample1;
 
@@ -993,6 +1004,10 @@ __myevic__ void ReadBatteryVoltage()
 	}
 }
 
+__myevic__ int RBSample1()
+{
+    return 139 * ReadBatterySample( 1 ) / 624;
+}
 
 //=========================================================================
 //----- (0000074C) --------------------------------------------------------
@@ -1002,7 +1017,7 @@ __myevic__ int CheckBattery()
 	int v0;
 	int pwr;
 	int i;
-	int bvtot, bv, bv2, bv3, bv4, bs;
+	int bvtot, bv, bv2, bv3, bv4; //, bs;
 
 	v0 = 0;
 
@@ -1031,8 +1046,8 @@ __myevic__ int CheckBattery()
 
 			if ( NumBatteries == 2 )
 			{
-				bs = 139 * ReadBatterySample( 1 ) / 624;
-				bv2 = ( bs <= bv ) ? 0 : ( bs - bv );
+				bvtot = RBSample1(); //139 * ReadBatterySample( 1 ) / 624;
+				bv2 = ( bvtot <= bv ) ? 0 : ( bvtot - bv );
 
 				bv  += dfBVOffset[1];
 				bv2 += dfBVOffset[2];
@@ -1056,8 +1071,8 @@ __myevic__ int CheckBattery()
                 else if ( ISINVOKE )
                 {
                         bv = ( ReadBatterySample( 0 ) >> 3 ) + 1;
-                        bs = 139 * ReadBatterySample( 1 ) / 624;
-                        bv2 = ( bs <= bv ) ? 0 : ( bs - bv );
+                        bvtot = RBSample1(); //139 * ReadBatterySample( 1 ) / 624;
+                        bv2 = ( bvtot <= bv ) ? 0 : ( bvtot - bv );
                         
                         bv  += dfBVOffset[1];
 			bv2 += dfBVOffset[2];
@@ -1073,7 +1088,7 @@ __myevic__ int CheckBattery()
                         || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 )
                 {
                     
-			bvtot = 139 * ReadBatterySample( 1 ) / 624;
+			bvtot = RBSample1(); //139 * ReadBatterySample( 1 ) / 624;
                         
 			if ( bvtot ) 
                         {
@@ -1113,7 +1128,7 @@ __myevic__ int CheckBattery()
                 }    
 		else if ( ISCUBOID )
 		{
-			bvtot = 139 * ReadBatterySample( 1 ) / 624;
+			bvtot = RBSample1(); //139 * ReadBatterySample( 1 ) / 624;
 			if ( bvtot ) bvtot += 4;
 
 			bv = ( ReadBatterySample( 0 ) >> 3 ) + 32;
@@ -1167,7 +1182,7 @@ __myevic__ int CheckBattery()
 
 			if ( NumBatteries > 1 )
 			{
-                                bv2 = 139 * ReadBatterySample( 1 ) / 624;
+                                bv2 = RBSample1(); //139 * ReadBatterySample( 1 ) / 624;
                                 if ( ISGEN3 ) bv2 += 3;
                                 
 				if ( bv2 <= bv )
@@ -1213,9 +1228,7 @@ __myevic__ int CheckBattery()
                         else
 			{
 				bv  += dfBVOffset[0];
-
 				RTBVolts[0] = bv;
-
 				RTBVTotal = bv;
 			}
                 }    
@@ -1224,7 +1237,7 @@ __myevic__ int CheckBattery()
 			bv4 = 29 * ReadBatterySample( 3 ) >> 6;
 			bv3 = 3 * ReadBatterySample( 2 ) >> 3;
 			bv  = ReadBatterySample( 0 ) >> 3;
-			bv2 = 139 * ReadBatterySample( 1 ) / 624;
+			bv2 = RBSample1(); //139 * ReadBatterySample( 1 ) / 624;
 
 			if ( bv4 < bv3 )
 				bv4 = 0;
@@ -1693,10 +1706,9 @@ __myevic__ void BatteryCharge()
 	//	ChargeMode, ChargeStatus, BatteryStatus,
 	//	PD1, ChargerDuty, EOCTempo );
 
-	if ( gFlags.bad_cell ) //for ( ISRX200S || ISRX23 || ISGEN3 )
+	if ( gFlags.bad_cell ) //for ( ISRX200S || ISRX23 || ISGEN3 || ISCUBO200 )
 	{
 		BatteryStatus = 2; // Check Battery
-                
                 BatteryPinsSet (0);
 	}
 	else if ( BatteryVoltage >= 250 )
@@ -1724,7 +1736,8 @@ __myevic__ void BatteryCharge()
 			}
 		}
 	}
-	else if ( ( ISRX200S || ISRX23 || ISGEN3 ) && BattVolts[0] >= 250 && BattVolts[1] >= 250 && BattVolts[2] < 20 )
+	else if ( ( ISRX200S || ISRX23 || ISGEN3 || ISCUBO200 ) 
+                && BattVolts[0] >= 250 && BattVolts[1] >= 250 && BattVolts[2] < 20 )
 	{
 		NumBatteries = 2;
 		NewBatteryData();

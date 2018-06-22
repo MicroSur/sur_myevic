@@ -250,20 +250,34 @@ __myevic__ void InitPWM()
 //----- (00005CC0) --------------------------------------------------------
 __myevic__ void BBC_Configure( uint32_t chan, uint32_t mode )
 {
-	if ( chan == BBC_PWMCH_BUCK )
+	if ( chan == BBC_PWMCH_BUCK ) //0
 	{
+            //R2, #0x40000000
+            //LDR     R0, [R2,#0x40]
+            //GPC_MFPL Offset: 0x40
+            //
+            //SYS_GPC_MFPL_PC0MFP_Msk          (0xF << SYS_GPC_MFPL_PC0MFP_Pos)
+            //GPC_MFPL PC0 setting for PWM0_CH0
+            //SYS_GPC_MFPL_PC0MFP_Pos = 0
+            //BIC.W   R0, R0, #0xF
+            
 		SYS->GPC_MFPL &= ~SYS_GPC_MFPL_PC0MFP_Msk;
 
 		if ( mode )
 		{
+                    //SYS_GPC_MFPL_PC0MFP_PWM0_CH0           (6ul << SYS_GPC_MFPL_PC0MFP_Pos)
+                    //ORR.W   R0, R0, #6
+                    
 			SYS->GPC_MFPL |= SYS_GPC_MFPL_PC0MFP_PWM0_CH0;
 		}
 		else
 		{
+                    //PC 0x40004080
+                    
 			GPIO_SetMode( PC, GPIO_PIN_PIN0_Msk, GPIO_MODE_OUTPUT );
 		}
 	}
-	else if ( chan == BBC_PWMCH_BOOST )
+	else if ( chan == BBC_PWMCH_BOOST ) //2
 	{
 		SYS->GPC_MFPL &= ~SYS_GPC_MFPL_PC2MFP_Msk;
 
@@ -276,7 +290,7 @@ __myevic__ void BBC_Configure( uint32_t chan, uint32_t mode )
 			GPIO_SetMode( PC, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );
 		}
 	}
-	else if ( chan == BBC_PWMCH_CHARGER )
+	else if ( chan == BBC_PWMCH_CHARGER ) //5
 	{
 		SYS->GPD_MFPL &= ~SYS_GPD_MFPL_PD7MFP_Msk;
 
@@ -289,6 +303,35 @@ __myevic__ void BBC_Configure( uint32_t chan, uint32_t mode )
 			GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );
 		}
 	}
+        
+/*
+	else if ( chan == 3 )
+	{
+		SYS->GPA_MFPL &= ~SYS_GPA_MFPL_PA2MFP_Msk;
+
+		if ( mode )
+		{
+			SYS->GPA_MFPL |= SYS_GPA_MFPL_PA2MFP_PWM1_CH3;
+		}
+		else
+		{
+			GPIO_SetMode( PA, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );
+		}
+	}
+	else if ( chan == 4 )
+	{
+		SYS->GPA_MFPL &= ~SYS_GPA_MFPL_PA1MFP_Msk;
+
+		if ( mode )
+		{
+			SYS->GPA_MFPL |= SYS_GPA_MFPL_PA1MFP_PWM1_CH4;
+		}
+		else
+		{
+			GPIO_SetMode( PA, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
+		}
+	}        
+*/
 }
 
 

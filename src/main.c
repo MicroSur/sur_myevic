@@ -492,7 +492,7 @@ __myevic__ void DevicesOnOff( int off )
                 if ( ISIKU200 )
                 {
                     PA2 = 0;
-                    BBC_Configure( 3, 0 ); 
+                    //? BBC_Configure( 3, 0 ); 
                 }
                 
 		if ( ISCUBO200 || ISRX200S || ISRX23 )
@@ -506,7 +506,7 @@ __myevic__ void DevicesOnOff( int off )
                 else if ( ISSINFJ200 )
                 {
                     	PA1 = 0;                                                // 0x400048DC
-			BBC_Configure( 4, 0 );                                  // 4 0
+			//? BBC_Configure( 4, 0 );                                  // 4 0
 			PA1 = 0;
                         PA2 = 0;
                 }                
