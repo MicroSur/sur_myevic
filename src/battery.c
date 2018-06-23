@@ -1971,7 +1971,7 @@ __myevic__ void BatteryCharge()
 						{
 							if ( ChargeCurrent < 180 )
 							{
-								BatteryStatus = 4;
+								BatteryStatus = 4; // no charge current long time
                                                                 BatteryPinsSet (0);          
 							}
 						}

@@ -2534,8 +2534,11 @@ __myevic__ void GameISelect()
 
 __myevic__ void GameIClick()
 {
+    if ( CurrentMenuItem < 3 )
+    {
 	if ( FBSpeed > 2 ) FBSpeed = 1;
         fbStartGame();
+    }
 }
 
 __myevic__ void GameTtMEnter()
@@ -2554,8 +2557,11 @@ __myevic__ void GameTtISelect()
 
 __myevic__ void GameTtIClick()
 {
+    if ( CurrentMenuItem < 3 )
+    {
         if ( dfTTSpeed > 2 ) dfTTSpeed = 1;
         ttStartGame();
+    }
 }
 
 //-----------------------------------------------------------------------------

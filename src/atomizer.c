@@ -303,9 +303,7 @@ __myevic__ void BBC_Configure( uint32_t chan, uint32_t mode )
 			GPIO_SetMode( PD, GPIO_PIN_PIN7_Msk, GPIO_MODE_OUTPUT );
 		}
 	}
-        
-/*
-	else if ( chan == 3 )
+	else if ( chan == 3 ) //need for charge iKuu i200
 	{
 		SYS->GPA_MFPL &= ~SYS_GPA_MFPL_PA2MFP_Msk;
 
@@ -318,7 +316,8 @@ __myevic__ void BBC_Configure( uint32_t chan, uint32_t mode )
 			GPIO_SetMode( PA, GPIO_PIN_PIN2_Msk, GPIO_MODE_OUTPUT );
 		}
 	}
-	else if ( chan == 4 )
+/*
+ else if ( chan == 4 ) // used in FJ200 stock FW
 	{
 		SYS->GPA_MFPL &= ~SYS_GPA_MFPL_PA1MFP_Msk;
 

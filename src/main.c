@@ -492,7 +492,7 @@ __myevic__ void DevicesOnOff( int off )
                 if ( ISIKU200 )
                 {
                     PA2 = 0;
-                    //? BBC_Configure( 3, 0 ); 
+                    BBC_Configure( 3, 0 );  //need for charge
                 }
                 
 		if ( ISCUBO200 || ISRX200S || ISRX23 )

@@ -3,7 +3,7 @@
 
 //=============================================================================
 
-/* DC/DC converters PWM channels */
+/* DC/DC converters PWM channels : BBC Buck-Boost Converter */
 #define BBC_PWMCH_BUCK		0
 #define BBC_PWMCH_BOOST		2
 

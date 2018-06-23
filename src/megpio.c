@@ -184,7 +184,7 @@ __myevic__ void InitGPIO()
         else if ( ISIKU200 )
         {
                 PA2 = 1;
-                //? BBC_Configure( 3, 0 ); 
+                BBC_Configure( 3, 0 ); //need for charge
                 PA2 = 1;                
         }
         

@@ -336,7 +336,12 @@ __myevic__ void DrawScreen()
 //DrawValue( 0, 0, dfStatus2.reztype ? 1: 0, 0, 0x0B, 0 ); //BoostDuty  BuckDuty PWMCycles
 //DrawValueRight( 64, 108, sleep_ticks, 0, 0x0B, 0 );     //gFlags.asleep ? 1 : 0      dfTempAlgo
 //DrawValue( 0, 108, GetLockState(), 0, 0x0B, 0 ); //SwitchOffCase AwakeTimer TCR SetTimeRTD.u32Day
-
+        
+//DrawValue( 0, 0, BatteryStatus, 0, 0x0B, 0 );
+//DrawValueRight( 64, 0, ChargeStatus, 0, 0x0B, 0 );         
+//DrawValueRight( 64, 108, ChargerDuty, 0, 0x0B, 0 );
+//DrawValue( 0, 108, GetLockState(), 0, 0x0B, 0 );
+        
 //DisplayRefresh(); //uncomment too
 
 
