@@ -493,6 +493,7 @@ __myevic__ void DevicesOnOff( int off )
                 {
                     PA2 = 0;
                     BBC_Configure( 3, 0 );  //need for charge
+                    PA2 = 0;
                 }
                 
 		if ( ISCUBO200 || ISRX200S || ISRX23 )
@@ -685,7 +686,8 @@ __myevic__ void DevicesOnOff( int off )
 			PB7 = 1;                                                // 485C
 		}
 
-                if ( ISIKU200 ) PE13 = 1;
+                if ( ISIKU200 ) 
+                    PE13 = 1;
                 
 		SetADCState( 1, 1 );
 		SetADCState( 2, 1 );
@@ -866,7 +868,7 @@ __myevic__ void SleepIfIdle()
                         
 			gFlags.sample_btemp = 1;
                         
-                        if ( ISSINFJ200 )
+                        if ( ISSINFJ200 || ISIKU200 )
                             gFlags.sample_atemp = 1;
                         
                         

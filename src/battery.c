@@ -1653,7 +1653,11 @@ __myevic__ void BatteryPinsSet( int lh )
     {
             PF2 = lh;
     }
-    else if ( !ISSINFJ200 && !ISIKU200 )
+    else if ( ISIKU200 )
+    {
+            PA2 = lh;
+    }
+    else if ( !ISSINFJ200 ) //&& !ISIKU200 )
     {
             PF0 = lh;
     }
@@ -1950,7 +1954,8 @@ __myevic__ void BatteryCharge()
                                         else
                                             ChargerTarget = GetMaxCharge( 300 ); //300 - 600 while around 421
 				}
-
+                                
+                                // go charge
 				BBC_Configure( BBC_PWMCH_CHARGER, 1 );
 
 				if ( ( ChargeCurrent > ChargerTarget + 10 ) || ( USBVolts < 400 ) )
