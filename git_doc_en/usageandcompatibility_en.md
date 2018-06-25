@@ -27,10 +27,11 @@
   * Reuleaux RX Gen3 Dual
   * RX2 20700
   * Sinuous P80
-  * Sinuous FJ200 (not full)
+  * Sinuous FJ200
 
  * Eleaf
-  * Invoke ?
+  * Invoke
+  * iKuu i200    
 
 * Others
   * Vaponaute La Petite Box

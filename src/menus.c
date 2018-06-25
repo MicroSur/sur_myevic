@@ -4455,8 +4455,8 @@ __myevic__ void DrawMenu()
 
 	if ( CurrentMenuItem >= CurrentMenu->nitems ) CurrentMenuItem = 0;
 
-	DrawString( CurrentMenu->caption, 4, 5 );
-	DrawHLine( 0, 16, 63, 1 );
+	DrawString( CurrentMenu->caption, 4, 3 ); //4 5
+	DrawHLine( 0, 14, 63, 1 ); //0 16
 
 	if (( CurrentMenu->nitems > 8 ) && ( CurrentMenuItem > 3 ))
 	{
@@ -4480,7 +4480,7 @@ __myevic__ void DrawMenu()
 
 		mitem_t const *mi = &CurrentMenu->mitems[firstitem+i];
 
-		int line = 18 + 14 * i;
+		int line = 16 + 14 * i; //18 + 14 * i;
 
 		if ( mi->caption )
 		{
@@ -4489,7 +4489,7 @@ __myevic__ void DrawMenu()
 				DrawFillRect( 0, line, 63, line + 12, 1 );
                                 DrawStringInv( mi->caption, 2, line + 2 );
                                 if ( mi->action_type == MACTION_SUBMENU )
-                                    DrawImageInv( 58, line+2, 0xD4 );
+                                    DrawImageInv( 58, line+2, 0xD4 ); // |>
 			}
 			else
 			{
@@ -4506,7 +4506,7 @@ __myevic__ void DrawMenu()
 
 		if ( CurrentMenu->on_drawitem )
 		{
-			CurrentMenu->on_drawitem( firstitem + i, 18+14*i, CurrentMenuItem == firstitem + i );
+			CurrentMenu->on_drawitem( firstitem + i, line, CurrentMenuItem == firstitem + i ); //18+14*i
 		}
 	}
 }
