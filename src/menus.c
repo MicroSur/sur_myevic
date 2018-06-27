@@ -1555,6 +1555,11 @@ __myevic__ void MaxMenuIDraw( int it, int line, int sel )
                         DrawStringRight( dfStatus2.bybatts ? String_All : String_B1, 63, line+2 );
 			break;
                         
+		case 5:	// bat cut off
+                    	DrawValueRight( 53, line+2, BatteryCutOff, 2, 0x0B, 0 );
+			DrawImageRight( 63, line+2, 0x7D );
+			break;                        
+                        
 		//case 4:	// bat amps
                 //    
                 //        DrawValueRight( 53, line+2, dfBattMaxAmps, 0, 0x0B, 0 );
@@ -1643,6 +1648,14 @@ __myevic__ int MaxMenuOnEvent( int event )
                                          dfUSBMaxCharge += 10;   
                                         }
 					break;
+
+                                case 5: //batt cutoff
+                                    
+                                        if ( ++dfBatCutOff > 80 )
+                                        {
+                                            dfBatCutOff = ( KeyTicks == 0 ) ? 20 : 80;
+                                        }
+                                        break;
                                         
                                 //case 4: //max amps
                                 //        if ( dfBattMaxAmps + 1 > 50 )
@@ -1703,6 +1716,14 @@ __myevic__ int MaxMenuOnEvent( int event )
                                         }
 					break;    
 
+                                case 5: //batt cutoff
+                                    
+                                        if ( --dfBatCutOff < 20 )
+                                        {
+                                            dfBatCutOff = ( KeyTicks == 0 ) ? 80 : 20;
+                                        }
+                                        break;
+                                        
                                 //case 4: //max amps
                                 //        if ( dfBattMaxAmps - 1 < 1 )
                                 //        {
@@ -1736,6 +1757,10 @@ __myevic__ int MaxMenuOnEvent( int event )
                                 case 3:	// charge
 					dfUSBMaxCharge = 1000;
 					break;  
+
+                                case 5:	// bat cutoff
+					dfBatCutOff = 30; //2.80
+					break; 
                                         
                                 //case 4:	// max amps
 				//	dfBattMaxAmps = 20;
@@ -1754,7 +1779,7 @@ __myevic__ int MaxMenuOnEvent( int event )
             MaxVolts = dfMaxVolts;
             SetAtoLimits();
             
-            //SetBatteryModel();
+            SetBatteryModel();
             
             UpdateDFTimer = 50;
             gFlags.refresh_display = 1;
@@ -3916,13 +3941,14 @@ const menu_t MAXMenu =
 	0,
 	MaxMenuOnClick+1,
 	MaxMenuOnEvent+1,
-	6,
+	7,
 	{
 		{ String_PWR_s, 0, 0, 0 },	       
                 { String_VOLT_s, 0, 0, 0 },
 		{ String_TEMP_s, 0, 0, 0 },
                 { String_UCH_s, 0, 0, 0 },
-                { String_BY, 0, 0, 0 },                        
+                { String_BY, 0, 0, 0 },
+                { String_BATT_s, 0, 0, 0 },                        
                 { String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

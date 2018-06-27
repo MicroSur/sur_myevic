@@ -214,7 +214,7 @@ typedef struct dfParams
 /* 00C2 */	uint16_t	VVRatio;                //calc vaped
 /* 00C4 */	uint8_t		PHDelay;
 /* 00C5 */	uint8_t		Clicks[4];
-/* 00C9 */	uint8_t		DimTimeout; //not used
+/* 00C9 */	uint8_t		BatCutOff;             //was DimTimeout
 /* 00CA */	uint8_t		BatteryModel;
 /* 00CB 00 padding */
 /* 00CC */	uint16_t	USBMaxCharge; // 8 bit??? /10
@@ -439,7 +439,7 @@ extern dfStruct_t DataFlash;
 #define dfVVRatio		DFP(VVRatio)
 #define dfPHDelay		DFP(PHDelay)
 #define dfClick			DFP(Clicks)
-//#define dfDimTimeout            DFP(DimTimeout)
+#define dfBatCutOff             DFP(BatCutOff)
 #define dfBatteryModel          DFP(BatteryModel)
 #define dfBVOffset		DFP(BVOffset)
 #define dfPreheatTime           DFP(PreheatTime)

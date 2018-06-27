@@ -350,7 +350,15 @@ __myevic__ void SetBatteryModel()
 */
 	}
 
-	BatteryCutOff = Battery->cutoff;
+        if ( dfBatCutOff >= 20 && dfBatCutOff <= 80 ) //270 330
+        {
+            BatteryCutOff = dfBatCutOff + 250;
+        }
+        else
+        {
+            BatteryCutOff = Battery->cutoff;
+            dfBatCutOff = Battery->cutoff - 250;
+        }
 
 	if ( !BatteryIntRez )
 	{
@@ -1289,7 +1297,7 @@ __myevic__ int CheckBattery()
 	if ( i == 3 )
 	{
 		StopFire();
-		Event = 28;  //Battery < 3.1V idle or < 2.8V firing
+		Event = 28; //battery low
 		return 1;
 	}
 

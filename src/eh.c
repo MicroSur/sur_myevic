@@ -282,7 +282,7 @@ __myevic__ void EventHandler()
 
 			if ( gFlags.low_battery )
 			{
-				if ( BatteryVoltage < BatteryCutOff + 20) //+ 50 )
+				if ( BatteryVoltage < BatteryCutOff + 20 ) //+ 50 )
 				{
                                         SetScreen( 25, 2 );
 					//gFlags.refresh_display = 1;
@@ -299,7 +299,7 @@ __myevic__ void EventHandler()
 
 			if ( BatteryVoltage <= BatteryCutOff ) //+ 30 )
 			{
-				Event = 28;
+				Event = 28; //battery low
 				gFlags.low_battery = 1;
 				return;
 			}
@@ -934,7 +934,7 @@ __myevic__ void EventHandler()
 			//ScreenDuration = 10;
 			return;
 
-		case 28:	// Battery < 3.1V idle or < 2.8V firing
+		case 28:
 			StopFire();
 			KeyPressTime |= 0x8000;
                         SetScreen( 24, 3 );
