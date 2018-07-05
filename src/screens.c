@@ -1211,8 +1211,11 @@ __myevic__ void Show10sProtec()
 //----- (00007810) --------------------------------------------------------
 __myevic__ void ShowWeakBat()
 {
-	DrawStringCentered( String_Weak, 110 );
-	DrawStringCentered( String_Battery, 119 );
+	//DrawStringCentered( String_Weak, 110 );
+	//DrawStringCentered( String_Battery, 119 );
+        
+        DrawString( String_Weak, 8, 114 );
+        DrawString( String_BATT_s, 37, 114 );
 }
 
 

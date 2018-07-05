@@ -605,17 +605,20 @@ __myevic__ void DrawAPTLines()
 		case 9:	// Board temperature
 		{             
                         int t;
+                        
+                        DrawString( String_TEMP_s, 0, line+2 );
+                        
                         if ( ISSINFJ200 || ISIKU200 )
                         {
-                            DrawString( String_TEMP_s, 0, line+2 );
+                            //DrawString( String_TEMP_s, 0, line+2 );
                             t = dfStatus.IsCelsius ? AkkuTemp : CelsiusToF( AkkuTemp );
                             DrawValueRight( 37, line+2, t, 0, 0x0B, 0 );
                             //DrawImage( 54, 90, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
                         }
-                        else
-                        {
-                            DrawString( String_BOARD_s, 0, line+2 );    
-                        }
+                        //else
+                        //{
+                        //    DrawString( String_BOARD_s, 0, line+2 );    
+                        //}
                         
                         t = dfStatus.IsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 			DrawValue( t>99?31:39, line, t, 0, 0x1F, t>99?3:2 );

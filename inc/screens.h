@@ -168,7 +168,7 @@ extern const uint8_t String_End[];
 extern const uint8_t String_BATT_s[];
 extern const uint8_t String_VOUT_s[];
 extern const uint8_t String_TEMP_s[];
-extern const uint8_t String_BOARD_s[];
+//extern const uint8_t String_BOARD_s[];
 extern const uint8_t String_RES_s[];
 extern const uint8_t String_LIQ_s[];
 
