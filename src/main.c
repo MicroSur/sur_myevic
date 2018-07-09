@@ -1322,12 +1322,17 @@ __myevic__ void Main()
                                     InitDisplay();
                                     gFlags.refresh_display = 1;
                                 }
-                                                //
-                                if ( !( gFlags.apuff && dfStatus.endlessfire && FireDuration >= dfProtec ) )
+
+                                if ( gFlags.apuff && dfStatus.endlessfire && FireDuration >= dfProtec )
+                                {
+                                    dfTimeCount += FireDuration;
+                                    FireDuration = 0;
+                                }
+                                else
                                 {
                                     ++FireDuration;
                                 }
-                                
+                                                               
                                 if ( dfStatus.pcurve ) ++CurveRepeatTimerDuration;
                                         
 				//if ( gFlags.monitoring )
