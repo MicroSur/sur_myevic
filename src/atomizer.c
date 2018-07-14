@@ -945,7 +945,7 @@ __myevic__ void ReadAtomizer()
 				}
 				return;
 			}
-			if ( AtoProbeCount <= 10 && AtoRezMilli > 10000 ) //3500 ) more if infin autofire? todo
+			if ( AtoProbeCount <= 10 && AtoRezMilli > 5000 ) //3500 ) more if infin autofire? todo
 			{
 				AtoStatus = 3;
 				//myprintf( "RL_LARGE %d\n", AtoRezMilli );
@@ -960,7 +960,7 @@ __myevic__ void ReadAtomizer()
 			}
 			if ( (AtoStatus == 4 || !AtoStatus || AtoStatus == 3)
 					&& AtoRezMilli >= 50
-					&& AtoRezMilli <= 10000 //3500
+					&& AtoRezMilli <= 5000 //3500
 					&& (gFlags.firing || AtoProbeCount <= 10) )
 			{
 				AtoStatus = 4;
