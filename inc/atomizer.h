@@ -18,7 +18,7 @@
 #define VVEL_MIN_RATIO	  50
 #define VVEL_MAX_RATIO	1000
 
-#define FIRE_PROTEC_MIN  20
+#define FIRE_PROTEC_MIN  10
 #define FIRE_PROTEC_DEF 100
 #define FIRE_PROTEC_MAX 250
 
