@@ -985,13 +985,13 @@ __myevic__ void EventHandler()
 			StopFire();
 			if ( AtoError )
 				return;
-			if ( FireDuration >= dfProtec ) //FIRE_PROTEC_MAX )
-			{
-                                SetScreen( 23, 4 );
+			//if ( FireDuration >= dfProtec ) //FIRE_PROTEC_MAX  from call
+			//{
+                                SetScreen( 23, 1 );
 				//gFlags.refresh_display = 1;
 				//Screen = 23;
 				//ScreenDuration = 3;
-			}
+			//}
 			return;
 
 		case 23:	// Reset Time counter

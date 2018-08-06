@@ -1216,7 +1216,7 @@ __myevic__ void ShowMainView()
             
 //////////////
             
-            if ( Screen == 2 || EditModeTimer )
+            if ( Screen == 2 || Screen == 23 || EditModeTimer ) //fire long_fire_protec
             {
 		DrawInfoLines();
             }

@@ -466,10 +466,11 @@ __myevic__ void DrawScreen()
                                         SwitchOffCase = 3;
 					Event = 17; //on-off mod
 				}
-				else
+				else if ( PE0 )
 				{
                                         scrSaveOnce = 1;
-                                        DarkScreen();
+                                        MainView();
+                                        //DarkScreen();
 				}
 			}
 			break;
@@ -1201,9 +1202,14 @@ __myevic__ void ShowNoAtoFound()
 //----- (000077F4) --------------------------------------------------------
 __myevic__ void Show10sProtec()
 {
-	ShowFireDuration( 0 );
-	DrawStringCentered( String_LongFire, 88 );
-	DrawStringCentered( String_Protection, 102 );
+    //screen 23, event 24
+    ShowMainView();
+    
+	//ShowFireDuration( 0 );
+        DrawFillRect( 0, 0, 63, 9, 0 );
+	//DrawStringCentered( String_LongFire, 88 );
+	DrawStringCentered( String_LongFire, 0 ); //116   
+	//DrawStringCentered( String_Protection, 102 );
 }
 
 
