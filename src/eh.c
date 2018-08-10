@@ -987,7 +987,7 @@ __myevic__ void EventHandler()
 				return;
 			//if ( FireDuration >= dfProtec ) //FIRE_PROTEC_MAX  from call
 			//{
-                                SetScreen( 23, 1 );
+                                SetScreen( 23, 3 );
 				//gFlags.refresh_display = 1;
 				//Screen = 23;
 				//ScreenDuration = 3;
@@ -1284,7 +1284,7 @@ __myevic__ void EventHandler()
 					MainView();
                                     }         
 			}                        
-			else if ( Screen == 2 )
+			else if ( Screen == 2 || Screen == 31 ) //fire, unlock
 			{
 				MainView();
 			}
@@ -1470,7 +1470,7 @@ __myevic__ void EventHandler()
 					MainView();
 				}
 			}
-			else if ( Screen == 2 )
+			else if ( Screen == 2 || Screen == 31 ) //fire, unlock
 			{
 				MainView();
 			}
