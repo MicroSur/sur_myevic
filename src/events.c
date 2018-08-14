@@ -527,7 +527,7 @@ __myevic__ void GetUserInput()
                 
 		if ( UserInputs == 2 ) //right button
 		{
-			if ( Screen == 60 )
+			if ( dfStatus.wakeonpm && Screen == 60 )
 			{
                                 ClearScreenBuffer();
                                 Event = 0;
@@ -557,7 +557,7 @@ __myevic__ void GetUserInput()
 		}
 		else if ( UserInputs == 3 ) //left button
 		{
-			if ( Screen == 60 )
+			if ( dfStatus.wakeonpm && Screen == 60 )
 			{
                                 ClearScreenBuffer();
                                 Event = 0;
