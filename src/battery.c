@@ -278,6 +278,7 @@ uint8_t		BatteryTenth;
 uint8_t         BatteryTenthAll[4];
 uint8_t		NoEventTimer;
 uint16_t	LinePuffAwakeTimer;
+uint16_t	VapedLineTimer;
 uint8_t		BatReadTimer;
 uint8_t		NumBatteries;
 uint8_t		MaxBatteries;

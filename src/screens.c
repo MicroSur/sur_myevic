@@ -435,6 +435,7 @@ __myevic__ void DrawScreen()
 			else
 			{
                                 LinePuffAwakeTimer = 300; //3s
+                                //not here VapedLineTimer = dfFireScrDuration * 100;
 				MainView();
 			}
 			break;
@@ -459,7 +460,7 @@ __myevic__ void DrawScreen()
 		case  23: // 10s Protection
 			if ( !dfStatus.off )
 			{
-				// Switch box off after 10s if no response
+				// Switch box off after xx sec if no response
 				// have been given to a long fire.
 				if ( !PE0 && gFlags.user_idle )
 				{

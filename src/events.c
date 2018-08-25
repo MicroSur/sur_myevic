@@ -784,7 +784,7 @@ __myevic__ void GetUserInput()
 		if ( UserInputs == 1 )
 		{
                         uint16_t pt;
-                        pt = dfProtec * 10 + 500; // +5 sec then Off mod
+                        pt = dfProtec * 10; // in real +3 sec then before mod off
                         
 			if ( KeyPressTime >= pt ) //FIRE_PROTEC_MAX * 10 + 100 )
 			{
@@ -1528,6 +1528,7 @@ __myevic__ void ResetVapedCounter()
 {
     MilliJoules = 0;
     dfJoules = 0;
+    MilliJoulesVapedOn = 0;
     UpdateDFTimer = 50;
 }
 

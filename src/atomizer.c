@@ -52,6 +52,8 @@ uint16_t        NextPreheatTimer;
 uint32_t	MilliJoules; // for vaped
 uint32_t	MilliJoulesDay; // for vaped
 uint32_t	MilliJoulesEnergy;
+uint32_t	MilliJoulesVapedOn; //temp var for last session vaped
+
 uint8_t		RezMillis;
 
 uint8_t		Set_NewRez_dfRez;

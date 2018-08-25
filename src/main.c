@@ -299,6 +299,8 @@ __myevic__ void InitRTC()
         if ( !MilliJoulesDay ) MilliJoulesDay = dfJoulesDay;
         if ( !MilliJoulesEnergy ) MilliJoulesEnergy = dfJoulesEnergy;
         
+        MilliJoulesVapedOn = MilliJoules;
+        
         RTCWriteNextMidnight();
         
 }
@@ -849,6 +851,7 @@ __myevic__ void SleepIfIdle()
                         NextPreheatTimer = 0;
                         AutoPuffTimer = 0;
                         AwakeTimer = 0;
+                        MilliJoulesVapedOn = MilliJoules;
                         gFlags.apuff = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();

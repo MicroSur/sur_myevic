@@ -645,6 +645,7 @@ __myevic__ void EventHandler()
 			FireDuration = 0;
                         CurveRepeatTimerDuration=0;
                         AtoRezMilliMin = AtoRezMilli;
+                        VapedLineTimer = dfFireScrDuration * 100;
                         
                         if ( Screen == 1 ) gFlags.FireNotFlipped = 1;
         
@@ -1061,6 +1062,7 @@ __myevic__ void EventHandler()
                                 
                                 PuffsOffCount = 0;
                                 AwakeTimer = 0;
+                                MilliJoulesVapedOn = MilliJoules;
                                 
 				dfStatus.off = 1;
 				//gFlags.refresh_display = 1;

@@ -88,6 +88,7 @@ extern uint16_t NextPreheatTimer;
 extern uint32_t	MilliJoules;
 extern uint32_t	MilliJoulesDay;
 extern uint32_t	MilliJoulesEnergy;
+extern uint32_t	MilliJoulesVapedOn;
 extern uint8_t	RezMillis;
 extern uint16_t	BypassVolts;
 

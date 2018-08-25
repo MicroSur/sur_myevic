@@ -210,7 +210,10 @@ __myevic__ void TimedItems()
 
 	if ( LinePuffAwakeTimer )
 		--LinePuffAwakeTimer;
-        
+
+	if ( !gFlags.firing && VapedLineTimer )
+		--VapedLineTimer;
+               
 	if ( EditModeTimer )
 	{
 		if ( --EditModeTimer )

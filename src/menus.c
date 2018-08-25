@@ -618,7 +618,7 @@ __myevic__ void ScreenMenuIDraw( int it, int line, int sel )
 {
 	switch ( it )
 	{
-		case 6: //fire scr duration
+		case 5: //fire scr duration
 			DrawFillRect( 44, line, 63, line+12, 0 );
 			DrawImage( 58, line+2, 0x94 );
 			DrawValueRight( 57, line+2, dfFireScrDuration, 0, 0x0B, 0 );
@@ -633,7 +633,7 @@ __myevic__ void ScreenMenuOnClick()
 {
 	switch ( CurrentMenuItem )
 	{
-		case 6:	//fire scr duration
+		case 5:	//fire scr duration
 			gFlags.edit_value ^= 1;
 			break;     
 	}
@@ -653,7 +653,7 @@ __myevic__ int ScreenMenuOnEvent( int event )
 		case 2:	// Plus
 			switch ( CurrentMenuItem )
                         {
-				case 6: //fire scr duration
+				case 5: //fire scr duration
 					if ( ++dfFireScrDuration > 9 )
 					{
 						if ( KeyTicks < 5 ) dfFireScrDuration = 0;
@@ -667,7 +667,7 @@ __myevic__ int ScreenMenuOnEvent( int event )
 		case 3:	// Minus
 			switch ( CurrentMenuItem )
 			{
-				case 6: //fire scr duration
+				case 5: //fire scr duration
 					if ( --dfFireScrDuration > 9 ) //< 1 )
 					{
 						if ( KeyTicks < 5 ) dfFireScrDuration = 9;
@@ -683,7 +683,7 @@ __myevic__ int ScreenMenuOnEvent( int event )
                 case EVENT_LONG_FIRE:
                         switch ( CurrentMenuItem )
 			{                    
-                                case 6: //fire scr duration
+                                case 5: //fire scr duration
                                         dfFireScrDuration = 2;
                                         gFlags.edit_value = 0;
                                         vret = 1;
@@ -4100,8 +4100,8 @@ const menu_t ScreenMenu =
 		{ String_Saver, &ScreenSaveMenu, 0, MACTION_SUBMENU },
 		{ String_Logo, &LogoMenu, 0, MACTION_SUBMENU },
                 { String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
+                { String_FireScrDur, 0, 0, 0 }, //5                        
 		{ String_Invert, &ScreenInvData, EVENT_INVERT_SCREEN, MACTION_DATA },
-                { String_FireScrDur, 0, 0, 0 },
                 { String_FiFlip, &FireFlip, 0, MACTION_DATA },
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
