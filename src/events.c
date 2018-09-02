@@ -487,6 +487,7 @@ __myevic__ void GetUserInput()
                                 case 5:
                                         SetClicksAction( dfClick[FireClickCount-2] );
 
+/*
 					if ( dfStatus.off )
 					{
                                             if ( FireClickCount == 2 )
@@ -499,7 +500,27 @@ __myevic__ void GetUserInput()
 						{
 							FireClicksEvent = 0;
 						}
-					}
+                                        }    
+*/
+                                        
+                                        if ( dfStatus.off )
+					{
+                                            if ( FireClicksEvent != 17 )
+                                            {
+                                                if ( FireClickCount == 2 )
+                                                {
+                                                    //SetScreen( 54, 10 );
+                                                    FireClicksEvent = 34;
+                                                    //SetClicksAction( CLICK_ACTION_BATTERIES );
+                                                }
+                                                else
+						{
+                                                    FireClicksEvent = 0;
+						}
+                                            }
+                                            
+                                        }
+                                        
 					break;
 
                                 default:
