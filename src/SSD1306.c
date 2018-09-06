@@ -17,10 +17,6 @@ __myevic__ void SSD1306_Refresh()
 		DisplaySendCommand( 0xB0 + i );
 		DisplaySendCommand( 0 );
 		DisplaySendCommand( ( dfStatus.flipped ) ? 0x12 : 0x10 );
-                //if ( dfStatus.flipped )
-                //    DisplaySendCommand ( 0x12 );
-                //else
-                //    DisplaySendCommand ( 0x10 );
                 
 		DisplaySendData( sb, 64 ); //64 * 16 = 1024 = 64 * 128 / 8 ;bytes
 		sb += 64;
@@ -163,6 +159,8 @@ __myevic__ void SSD1306_ScreenOff()
 //----- (00005500) --------------------------------------------------------
 __myevic__ void SSD1306_Plot( int x, int y, int color )
 {
+    //for DrawPoint()
+    
 	uint8_t mask;
 	uint32_t i;
 
@@ -296,6 +294,11 @@ __myevic__ uint32_t SSD1306_Bitmap( int x, int y, const image_t *image, int colo
 //----- (000064C8) --------------------------------------------------------
 __myevic__ void SSD1306_WriteBytes( const int isData, const uint8_t data[], const int len )
 {
+    //PERIPH_BASE          (0x40000000UL)  /*!< (Peripheral) Base Address */
+    //APBPERIPH_BASE       (PERIPH_BASE + 0x00040000)
+    //SPI0_BASE            (APBPERIPH_BASE + 0x20000)
+    // SPI0 = SPI0_BASE = 40060000
+    
 	register int is_data = ( isData == 0x40 );
 	register int byte;
 

@@ -157,7 +157,7 @@ __myevic__ void InitPWM()
     
 	PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_BUCK, BBC_PWM_FREQ, 0 );
         
-    if ( !ISIKU200 ) //invoke and all without boost
+    if ( !ISIKU200 ) //todo: add invoke and all without boost
     {
 	PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_BOOST, BBC_PWM_FREQ, 0 );
     }
@@ -579,7 +579,7 @@ __myevic__ void ReadAtoCurrent()
         int c;
 	//int s;
 
-        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3 || ISRX2 
+        if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISFIT || ISGEN3 || ISRX2 
                 || ISINVOKE || ISSINP80 || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 
                 || ( ISPRIMOMINI && dfHWVersion > 100 ) )
             c = 11; //lsrs B
@@ -885,7 +885,7 @@ __myevic__ void ReadAtomizer()
                 
 		AtoRezMilli = 13 * AtoShuntRez * ADCAtoSum / ( 3 * ADCShuntSum );
                 
-                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISGEN3
+                if ( ISPRIMO1 || ISPRIMO2 || ISPREDATOR || ISPRIMOSE || ISFIT || ISGEN3
                     || ISRX2 || ISSINP80 || ISINVOKE || ISSINFJ200 || ISRX217 || ISGEN2 
                     || ( ISPRIMOMINI && dfHWVersion > 100 ) || ISIKU200 )  
                 {
@@ -1756,6 +1756,7 @@ __myevic__ void ProbeAtomizer()
 			}
                         
 			BoostDuty = 0;
+                        
                     if ( !ISIKU200 )
                     {                        
 			PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );

@@ -412,6 +412,10 @@ __myevic__ uint32_t ReadBatterySample( int nbat )
 			{
 				sample = ADC_Read( 4 );
 			}
+                        else if ( ISFIT )
+                        {
+                                sample = ADC_Read( 3 );
+                        }
 			else
 			{
 				sample = ADC_Read( 18 ); //ISINVOKE ISSINP80 ISSINFJ200 i200

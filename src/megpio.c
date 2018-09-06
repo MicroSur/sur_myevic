@@ -141,7 +141,7 @@ __myevic__ void InitGPIO()
 //      LDR     R1, [R0,#0x48]
 //      STR     R1, [R0,#0x48]
 	if ( ISRX300 || ISPRIMO1 || ISPRIMO2 || ISPRIMOMINI || ISPREDATOR 
-                || ISPRIMOSE || ISGEN3 || ISINVOKE || ISSINP80 || ISRX2 
+                || ISPRIMOSE || ISFIT || ISGEN3 || ISINVOKE || ISSINP80 || ISRX2 
                 || ISSINFJ200 || ISRX217 || ISGEN2 || ISIKU200 )
 	{
 		SYS->GPD_MFPL &= ~(SYS_GPD_MFPL_PD0MFP_Msk|SYS_GPD_MFPL_PD1MFP_Msk);
@@ -166,7 +166,7 @@ __myevic__ void InitGPIO()
 		PD7 = 0;
 	}
 
-        if ( ISGEN3 )
+        if ( ISGEN3 || ISFIT )
 	{
 		PD1 = 0;
 		GPIO_SetMode( PD, GPIO_PIN_PIN1_Msk, GPIO_MODE_OUTPUT );
@@ -359,7 +359,7 @@ __myevic__ void InitGPIO()
 
         //Nested Vector Interrupt Controller
 /*
-        if ( ISRX217 || ISGEN2 ) //what to do?
+        if ( ISRX217 || ISGEN2 || ISFIT ) //what they do?
         {
         NVIC_EnableIRQ( GPA_IRQn );                                         // 0x10
         NVIC_EnableIRQ( GPB_IRQn );                                         // 0x11
