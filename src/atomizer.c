@@ -156,26 +156,22 @@ __myevic__ void InitPWM()
         //#define BBC_PWM_FREQ                  150000
     
 	PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_BUCK, BBC_PWM_FREQ, 0 );
-        
-    if ( !ISIKU200 ) //todo: add invoke and all without boost
-    {
-	PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_BOOST, BBC_PWM_FREQ, 0 );
-    }
-
-	PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_BUCK );
+        PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_BUCK );
 	PWM_EnablePeriodInt( PWM0, BBC_PWMCH_BUCK, 0 );
-
-    if ( !ISIKU200 )
-    {
-	PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_BOOST );
-	PWM_EnablePeriodInt( PWM0, BBC_PWMCH_BOOST, 0 );
-    }
-
 	PWM_Start( PWM0, 1 << BBC_PWMCH_BUCK );
         
-    if ( !ISIKU200 )
-    {        
-	PWM_Start( PWM0, 1 << BBC_PWMCH_BOOST );
+	BuckDuty = 0;
+        BoostDuty = 0;
+	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
+        
+    if ( !ISINVOKE && !ISIKU200 )
+    {
+	PWM_ConfigOutputChannel( PWM0, BBC_PWMCH_BOOST, BBC_PWM_FREQ, 0 );
+        PWM_EnableOutput( PWM0, 1 << BBC_PWMCH_BOOST );
+	PWM_EnablePeriodInt( PWM0, BBC_PWMCH_BOOST, 0 );
+        PWM_Start( PWM0, 1 << BBC_PWMCH_BOOST );
+        
+        PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
     }
 
 /**
@@ -191,14 +187,6 @@ __myevic__ void InitPWM()
 #define PWM_SET_CMR(pwm, u32ChannelNum, u32CMR) ((pwm)->CMPDAT[(u32ChannelNum)]= (u32CMR))
 **/
         
-	BoostDuty = 0;
-    if ( !ISIKU200 )
-    {         
-	PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
-    }
-        
-	BuckDuty = 0;
-	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
 
 	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
                 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISRX2 || ISINVOKE 
@@ -987,14 +975,20 @@ __myevic__ void ReadAtomizer()
 //-----------------------------------------------------------------------------
 __myevic__ void RegulateDualBuck()
 {
+    
+    //ISINVOKE && ISIKU200 do not have dual buck, but pwm(2) not enabled in InitPWM, proba
+    
 	if ( BBCMode != BBCNextMode )
 	{
 		if ( gFlags.firing )
 		{
+                    if ( !ISINVOKE && !ISIKU200 )
+                    {
 			BBC_Configure( BBC_PWMCH_BUCK2, 1 );
 			BuckDuty = MinBuck;
 			PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK2, BuckDuty );
 			PC3 = 1;
+                    }
 		}
 
 		BBC_Configure( BBC_PWMCH_BUCK1, 1 );
@@ -1024,8 +1018,12 @@ __myevic__ void RegulateDualBuck()
 		BuckDuty = ProbeDuty;
 	}
 
-	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK2, BuckDuty );
-	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK1, BuckDuty );
+    if ( !ISINVOKE && !ISIKU200 )
+    {
+	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK2, BuckDuty ); //2
+    }
+        
+	PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK1, BuckDuty ); //0
 }
 
 
@@ -1051,7 +1049,8 @@ __myevic__ void RegulateBuckBoost()
 	AtoVoltsADC = ADC_Read( 1 );
 	AtoVolts = ( 1109 * AtoVoltsADC ) >> 12;
 
-	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 )
+	if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 
+                || ISIKU200 || ISINVOKE )
 	{
 		RegulateDualBuck();
 		return;
@@ -1063,13 +1062,13 @@ __myevic__ void RegulateBuckBoost()
 			{
 				if ( BBCMode != 1 )
 				{
-                                    if ( !ISINVOKE && !ISIKU200 ) //todo new function for buck only mods?
-                                    {
+                                    //if ( !ISINVOKE && !ISIKU200 ) //todo new function for buck only mods?
+                                    //{
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
 					if ( !ISVTCDUAL ) PC3 = 1;
-                                    }
+                                    //}
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = MaxBuck;
@@ -1097,13 +1096,13 @@ __myevic__ void RegulateBuckBoost()
 			{
 				if ( BBCMode != 2 )
 				{
-                                    if ( !ISINVOKE && !ISIKU200 ) 
-                                    {
+                                    //if ( !ISINVOKE && !ISIKU200 ) 
+                                    //{
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
 					if ( !ISVTCDUAL ) PC3 = 1;
-                                    }
+                                    //}
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = ( BBCMode == 0 ) ? MinBuck : MaxBuck;
@@ -1147,13 +1146,13 @@ __myevic__ void RegulateBuckBoost()
 			{
 				if ( BBCMode != 3 )
 				{
-                                    if ( !ISINVOKE && !ISIKU200 ) 
-                                    {
+                                    //if ( !ISINVOKE && !ISIKU200 ) 
+                                    //{
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
 					if ( !ISVTCDUAL ) PC3 = 1;
-                                    }
+                                    //}
                                 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = MaxBuck;
@@ -1203,10 +1202,10 @@ __myevic__ void RegulateBuckBoost()
 					}
 				}
 
-                                if ( !ISINVOKE && !ISIKU200 ) 
-                                {
+                                //if ( !ISINVOKE && !ISIKU200 ) 
+                                //{
                                     PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
-                                }
+                                //}
                                 
 			}
 			break;
@@ -1392,7 +1391,8 @@ __myevic__ void TweakTargetVoltsJT()
 				PWM_SET_CMR( PWM0, BBC_PWMCH_BUCK, 0 );
                                 
 				BoostDuty = 0;
-                            if ( !ISIKU200 )
+                                
+                            if ( !ISINVOKE && !ISIKU200 )
                             {                                
 				PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
                             }
@@ -1757,7 +1757,7 @@ __myevic__ void ProbeAtomizer()
                         
 			BoostDuty = 0;
                         
-                    if ( !ISIKU200 )
+                    if ( !ISINVOKE && !ISIKU200 )
                     {                        
 			PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, 0 );
                     }

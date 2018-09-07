@@ -1670,7 +1670,7 @@ __myevic__ void BatteryPinsSet( int lh )
     {
             PA2 = lh;
     }
-    else if ( !ISSINFJ200 ) //&& !ISIKU200 )
+    else if ( !ISSINFJ200 )
     {
             PF0 = lh;
     }
