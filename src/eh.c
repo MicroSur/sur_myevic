@@ -1005,6 +1005,7 @@ __myevic__ void EventHandler()
 
 		case 22:	// Reset Puff counter
 			dfPuffCount = 0;
+                        SessionPuffs = 0;
 			UpdatePTTimer = 80;
 			EditModeTimer = 1000;
 			gFlags.refresh_display = 1;
@@ -1063,7 +1064,8 @@ __myevic__ void EventHandler()
                                 PuffsOffCount = 0;
                                 AwakeTimer = 0;
                                 MilliJoulesVapedOn = MilliJoules;
-                                
+                                SessionPuffs = 0;
+ 
 				dfStatus.off = 1;
 				//gFlags.refresh_display = 1;
 				UpdateDFTimer = 1;

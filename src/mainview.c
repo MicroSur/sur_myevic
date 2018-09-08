@@ -444,8 +444,19 @@ __myevic__ void DrawVapedDayLine ( int line )
 
 __myevic__ void DrawPuffCounterLine ( int line )
 {
+        uint32_t v;
+        
+        if ( !EditModeTimer && VapedLineTimer )
+        {
+            v = SessionPuffs;
+        }
+        else
+        {
+            v = dfPuffCount;
+        }
+            
 	DrawString( String_PUFF_s, 0, line );
-	DrawValueRight( 64, line-2, dfPuffCount, 0, 0x1F, 0 );
+	DrawValueRight( 64, line-2, v, 0, 0x1F, 0 );
 }
 
 //=============================================================================

@@ -852,6 +852,7 @@ __myevic__ void SleepIfIdle()
                         AutoPuffTimer = 0;
                         AwakeTimer = 0;
                         MilliJoulesVapedOn = MilliJoules;
+                        SessionPuffs = 0;
                         gFlags.apuff = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();

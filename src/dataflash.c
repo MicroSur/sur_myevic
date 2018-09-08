@@ -654,7 +654,7 @@ __myevic__ void FMCReadCounters()
 		dfPuffCount = 0;
 		dfTimeCount = 0;
 	}
-
+               
 	FMC_DISABLE_ISP();
 	SYS_LockReg();
 }

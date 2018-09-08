@@ -53,7 +53,8 @@ uint32_t	MilliJoules; // for vaped
 uint32_t	MilliJoulesDay; // for vaped
 uint32_t	MilliJoulesEnergy;
 uint32_t	MilliJoulesVapedOn; //temp var for last session vaped
-
+uint8_t         SessionPuffs;
+        
 uint8_t		RezMillis;
 
 uint8_t		Set_NewRez_dfRez;
@@ -492,6 +493,8 @@ __myevic__ void StopFire()
 			dfTimeCount += FireDuration;
 			if ( dfTimeCount > 999999 ) dfTimeCount = 0;
 			if ( ++dfPuffCount > 99999 ) dfPuffCount = 0;
+                        ++SessionPuffs;
+                        
 			UpdatePTTimer = 80;                        
                         
                         if ( dfPuffsOff && ++PuffsOffCount >= dfPuffsOff )

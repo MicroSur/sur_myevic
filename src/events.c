@@ -1569,6 +1569,7 @@ __myevic__ void ResetPuffCounters()
 {
     dfTimeCount = 0;
     dfPuffCount = 0;
+    SessionPuffs = 0;
     UpdatePTTimer = 80;
     UpdateDFTimer = 50;
 }
