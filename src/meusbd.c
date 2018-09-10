@@ -16,9 +16,10 @@ void usbdEP3Handler();
 //void usbdEP5Handler();
 //void usbdEP6Handler();
 
-
+//https://www.beyondlogic.org/usbnutshell/usb5.shtml
 //=========================================================================
 
+/*!<USB HID Report Descriptor */
 const uint8_t usbdHIDReport[27] =
 {
 	0x05, 0x01, // USAGE_PAGE (Generic Desktop)
@@ -37,6 +38,7 @@ const uint8_t usbdHIDReport[27] =
 	0xC0        // END_COLLECTION
 };
 
+/*!<USB Device Descriptor */
 const uint8_t usbdDevice[] =
 {
 	LEN_DEVICE,     /* bLength */
@@ -62,6 +64,7 @@ const uint8_t usbdDevice[] =
 #define DESC_LEN_WITHOUT_VCOM \
 	(LEN_CONFIG + LEN_INTERFACE + LEN_HID + LEN_ENDPOINT * 2)
 
+/*!<USB Configure Descriptor */
 const uint8_t usbdConfigDesc[] =
 {
 	LEN_CONFIG,     /* bLength */
@@ -1399,7 +1402,8 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 						}
 					}
 */
-                                        // for FWUpdater
+                                        // for FWUpdater, HID_CMD_SETDATETIME now
+/*
 					if ( df->i.Year >= 2000 && df->i.Year <= 2099 )
 					{
 						S_RTC_TIME_DATA_T rtd;
@@ -1413,6 +1417,7 @@ __myevic__ void hidGetOutReport( uint8_t *pu8Buffer, uint32_t u32BufferLen )
 						rtd.u32TimeScale = RTC_CLOCK_24;
 						SetRTC( &rtd );
 					}
+*/
 
 					gFlags.refresh_display = 1;
 				}

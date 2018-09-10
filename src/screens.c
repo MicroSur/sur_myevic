@@ -693,7 +693,7 @@ __myevic__ void ShowRTCSpeed()
 
 	GetRTC( &rtd );
 	//DrawTimeSmall( 10, 25, &rtd, 0x1F );
-        DrawTime( 3, 25, &rtd, 0x1F );
+        DrawTime( 3, 29, &rtd, 0x1F );
 
 	if ( gFlags.has_x32 )
 	{
@@ -1384,6 +1384,7 @@ __myevic__ void ShowSetTimeDate()
     // end debug
     
         uint8_t EdItInd;
+        int line = 29;
         
         //__myevic__ void DrawTime( int x, int y, S_RTC_TIME_DATA_T *rtd, int colors )
 
@@ -1391,12 +1392,8 @@ __myevic__ void ShowSetTimeDate()
         {
             EdItInd = EditItemIndex - 3;
         
-            DrawTime( 3, 49, &SetTimeRTD, 0x1F & ~( 1 << ( EdItInd << 1 ) ) );
-            DrawDate( 4, 64, &SetTimeRTD, 0x1F );
-        
-            //DrawStringCentered( String_LongFire, 103 );
-            //DrawStringCentered( String_Save, 114 );
-
+            DrawTime( 3, line, &SetTimeRTD, 0x1F & ~( 1 << ( EdItInd << 1 ) ) );
+            DrawDate( 4, line+15, &SetTimeRTD, 0x1F );
         }
         else
         {
@@ -1417,13 +1414,13 @@ __myevic__ void ShowSetTimeDate()
             //DrawString( String_Date, 4, 5 );
             //DrawHLine( 0, 16, 63, 1 );
 
-            DrawTime( 3, 49, &SetTimeRTD, 0x1F ); //rdt
-            DrawDate( 4, 64, &SetTimeRTD, col );
+            DrawTime( 3, line, &SetTimeRTD, 0x1F ); //rdt
+            DrawDate( 4, line+15, &SetTimeRTD, col );
         
         }
         
-        DrawStringCentered( String_LongFire, 103 );
-	DrawStringCentered( String_Save, 114 );
+        DrawStringCentered( String_LongFire, 83 );
+	DrawStringCentered( String_Save, 94 );
         
 }
 
