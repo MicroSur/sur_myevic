@@ -1148,13 +1148,27 @@ __myevic__ void ShowAtoShortBad()
 	DrawStringCentered( String_Atomizer, 102 );
 }
 
+__myevic__ void ClearUpLine()
+{
+    ShowMainView();
+    DrawFillRect( 0, 0, 63, 9, 0 );
+}
 
 //=========================================================================
 //----- (00007750) --------------------------------------------------------
 __myevic__ void ShowBatLow()
 {
-	DrawStringCentered( String_Battery, 88 );
-	DrawStringCentered( String_Low, 102 );
+    //screen 24, event 28
+	//DrawStringCentered( String_Battery, 88 );
+	//DrawStringCentered( String_Low, 102 );
+    
+    //ShowMainView();
+    //DrawFillRect( 0, 0, 63, 9, 0 );
+    
+    ClearUpLine();
+
+    DrawString( String_Low, 7, 0 );    
+    DrawImage( 37, 0, 0xEA ); //battery   
 }
 
 
@@ -1162,9 +1176,15 @@ __myevic__ void ShowBatLow()
 //----- (0000776C) --------------------------------------------------------
 __myevic__ void ShowBatLowLock()
 {
-	DrawStringCentered( String_Battery, 82 );
-	DrawStringCentered( String_Low, 92 );
-	DrawStringCentered( String_Lock, 102 );
+    //screen 25 event 1
+//	DrawStringCentered( String_Battery, 82 );
+//	DrawStringCentered( String_Low, 92 );
+//	DrawStringCentered( String_Lock, 102 );
+        
+    ClearUpLine();
+    
+    DrawString( String_Lock, 7, 0 );
+    DrawImage( 37, 0, 0xEA ); //battery   
 }
 
 
@@ -1204,13 +1224,11 @@ __myevic__ void ShowNoAtoFound()
 __myevic__ void Show10sProtec()
 {
     //screen 23, event 24
-    ShowMainView();
+//    ShowMainView();
+//    DrawFillRect( 0, 0, 63, 9, 0 );
     
-	//ShowFireDuration( 0 );
-        DrawFillRect( 0, 0, 63, 9, 0 );
-	//DrawStringCentered( String_LongFire, 88 );
-	DrawStringCentered( String_LongFire, 0 ); //116   
-	//DrawStringCentered( String_Protection, 102 );
+    ClearUpLine();
+    DrawStringCentered( String_LongFire, 0 ); //116   
 }
 
 
@@ -1220,9 +1238,13 @@ __myevic__ void ShowWeakBat()
 {
 	//DrawStringCentered( String_Weak, 110 );
 	//DrawStringCentered( String_Battery, 119 );
-        
-        DrawString( String_Weak, 8, 114 );
-        DrawString( String_BATT_s, 37, 114 );
+    //    DrawString( String_Weak, 8, 114 );
+    //    DrawString( String_BATT_s, 37, 114 );
+    
+    //no ClearUpLine(); 
+    DrawFillRect( 0, 0, 63, 9, 0 );
+    DrawString( String_Weak, 7, 0 );
+    DrawImage( 37, 0, 0xEA ); //battery   	
 }
 
 

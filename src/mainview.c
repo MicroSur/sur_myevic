@@ -1256,8 +1256,8 @@ __myevic__ void ShowMainView()
 		//DrawFillRect( 0, 108, 63, 127, 0 );
 		ShowWeakBat();
 	}
-        else
-        {
+        //else
+        //{
             if ( gFlags.firing || 
                     !( !HideLogo && !dfStatus2.anim3d && dfStatus.clock && dfStatus.digclk == dfStatus2.digclk2 ) )
             { //when not analog clock logo
@@ -1267,7 +1267,7 @@ __myevic__ void ShowMainView()
                     
             }
 
-        }
+        //}
 }
 
 
