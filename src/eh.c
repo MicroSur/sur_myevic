@@ -1065,7 +1065,7 @@ __myevic__ void EventHandler()
                                 AwakeTimer = 0;
                                 MilliJoulesVapedOn = MilliJoules;
                                 SessionPuffs = 0;
- 
+                                EditModeTimer = 0;
 				dfStatus.off = 1;
 				//gFlags.refresh_display = 1;
 				UpdateDFTimer = 1;
@@ -1476,7 +1476,7 @@ __myevic__ void EventHandler()
 			}
 			else if ( Screen == 2 || Screen == 31 ) //fire, unlock
 			{
-				MainView();
+				MainView(); //no wait timeout
 			}
 			else if ( Screen == 51 ) //new coil screen [NEW]
 			{

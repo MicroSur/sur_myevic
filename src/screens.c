@@ -80,7 +80,7 @@ __myevic__ void DrawScreen()
 	{
 		gFlags.refresh_display = 0;
                 
-                if ( Screen == 1 && !HideLogo && dfStatus2.anim3d )
+                if ( Screen == 1 && !HideLogo && dfStatus2.anim3d && !EditModeTimer )
                 {
                     DrawFillRect( 0, 0, 63, 44, 0 ); //clear spaces, no flick in 3d
                     DrawFillRect( 0, 113, 63, 127, 0 ); //
@@ -265,7 +265,8 @@ __myevic__ void DrawScreen()
 				break;
 
 			case 102:
-				ShowMenus();
+				//ShowMenus();
+                                DrawMenu();
 				break;
 
 			case 103:
@@ -675,10 +676,12 @@ __myevic__ void ShowContrast()
 
 //=========================================================================
 
+/*
 __myevic__ void ShowMenus()
 {
 	DrawMenu();
 }
+*/
 
 
 //=========================================================================
@@ -1003,6 +1006,13 @@ __myevic__ void ShowBoardTemp()
 }
 */
 
+__myevic__ void DrawBoxNameCenter( int y )
+{
+        uint8_t strbuf[10];
+        convert_string1( strbuf, BoxName );
+        DrawStringCentered( strbuf, y );
+
+}
 
 //=========================================================================
 //----- (00007684) --------------------------------------------------------
@@ -1025,9 +1035,10 @@ __myevic__ void ShowVersion()
         
         //
         
-        uint8_t strbuf[20];
-        convert_string1( strbuf, BoxName );
-        DrawStringCentered( strbuf, 81 );
+        DrawBoxNameCenter( 81 );
+//        uint8_t strbuf[20];
+//        convert_string1( strbuf, BoxName );
+//        DrawStringCentered( strbuf, 81 );
         
         DrawString( String_Hard, 1, 96 );
         DrawString( String_Version, 26, 96 );
@@ -1215,7 +1226,7 @@ __myevic__ void ShowNoAtoFound()
 {
 	DrawStringCentered( String_No, 82 );
 	DrawStringCentered( String_Atomizer, 92 );
-	DrawStringCentered( String_Found, 102 );
+	//DrawStringCentered( String_Found, 102 );
 }
 
 
@@ -1649,9 +1660,10 @@ __myevic__ void ShowSplash()
                 
         if ( !dfStatus2.splash0 && dfStatus2.splash1 )
         {
-                uint8_t strbuf[20];
-                convert_string1( strbuf, BoxName );
-                DrawStringCentered( strbuf, 115 );
+            DrawBoxNameCenter( 115 );
+            //    uint8_t strbuf[20];
+            //    convert_string1( strbuf, BoxName );
+            //    DrawStringCentered( strbuf, 115 );
         }
         
 	//}

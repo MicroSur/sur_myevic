@@ -84,8 +84,8 @@ const uint8_t SSD1306_InitSeq[] =
 		0xD3, // Set Display Offset ...
 		0x20, // ... to
 		0xDC,
-		0x00,
-		0x20,
+		0x00, //---set low column address ? ---set high column address? --set start line address ?
+		0x20, //Set Memory Addressing Mode ?
 		0x81, // Set Contrast (0~255) ...
 		0x2F, // ... to
 		0xA1, //Set Segment Re-map (A0h/A1h) hor flip / no flip

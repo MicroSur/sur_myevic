@@ -1564,6 +1564,7 @@ __myevic__ void ResetAllCounters()
 {
     ResetVapedCounter();
     ResetPuffCounters();
+    ResetJoulesCounter();
 }
 __myevic__ void ResetPuffCounters()
 {

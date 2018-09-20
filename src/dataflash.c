@@ -262,7 +262,7 @@ __myevic__ void SetProductID()
 		u32Data ^= PID_SCRAMBLE;
                 
                 //MemCpy( BoxID, pid_invoke, 4 );
-                BoxName = " ";
+                BoxName = " "; //9 max
                 DFMagicNumber = 0xDA;
 
 		if ( u32Data == PID_VTCMINI )
