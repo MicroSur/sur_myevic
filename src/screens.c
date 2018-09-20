@@ -1060,9 +1060,9 @@ __myevic__ void ShowNewCoil()
 	DrawImage( 43, 48, 0xC0 );
         DrawImage( 43, 82, 0xC0 );
 	//DrawStringCentered( String_Right, 74 );
-        DrawImage( 55, 54, 0xD4 );
-        DrawImage( 5, 63, 0xD5 );
-        DrawImage( 43, 82, 0xC0 );
+        DrawImage( 50, 32, 0xD4 );
+        DrawImage( 11, 66, 0xD5 );
+
         DrawValue( 14, 46, dfResistance, 2, 0x1F, 3 );
         
 	//if ( ISMODETC( dfMode ) )
@@ -1087,7 +1087,6 @@ __myevic__ void ShowNewCoil()
 		DrawValue( 14, 80, rez, 2, 0x1F, 3 );
 	//}
 	
-	//DrawStringCentered( String_Left, 114 );
 }
 
 
