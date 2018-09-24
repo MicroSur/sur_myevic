@@ -34,6 +34,7 @@ uint8_t         CurveRepeatTimerDuration;
 uint16_t	AtoTemp;
 uint16_t        VWVolts;
 uint16_t	AtoCurrent;
+uint16_t	AtoCurrentMax;
 uint16_t	AtoRez;
 uint8_t		AtoMillis;
 uint16_t	TCR;
@@ -643,6 +644,7 @@ __myevic__ void ReadAtoCurrent()
 	//	}
 		else
 		{
+                        if ( AtoCurrentMax < AtoCurrent ) AtoCurrentMax = AtoCurrent;
 			return;
 		}
 

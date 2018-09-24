@@ -252,7 +252,9 @@ __myevic__ void EventHandler()
 				KeyPressTime |= 0x8000;
 				return;
 			}
-                                               
+                                       
+                        AtoCurrentMax = 0;
+                                                
 			if ( BatteryStatus == 2 )
 			{
                                 SetScreen( 56, 2 );
@@ -641,7 +643,7 @@ __myevic__ void EventHandler()
                         {
                             gFlags.firing = 1;
                         }
-
+                        
 			FireDuration = 0;
                         CurveRepeatTimerDuration=0;
                         AtoRezMilliMin = AtoRezMilli;

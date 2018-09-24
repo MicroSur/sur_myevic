@@ -512,7 +512,7 @@ __myevic__ void DrawAPTLines()
                     {
 			DrawString( String_AMP_s, 0, line+2 );
 			//DrawValue( 27, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 3 );  
-                        DrawValueRight( 55, line, ( gFlags.firing ) ? AtoCurrent : 0, 1, 0x1F, 0 );
+                        DrawValueRight( 55, line, ( gFlags.firing ) ? AtoCurrent : AtoCurrentMax, 1, 0x1F, 0 );
                         
                     }
                     

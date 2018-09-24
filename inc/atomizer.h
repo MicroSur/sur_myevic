@@ -71,6 +71,7 @@ extern uint8_t  CurveRepeatTimerDuration;
 extern uint16_t	AtoTemp;
 extern uint16_t VWVolts;
 extern uint16_t	AtoCurrent;
+extern uint16_t	AtoCurrentMax;
 extern uint16_t	AtoRez;
 extern uint8_t	AtoMillis;
 extern uint8_t	AtoProbeCount;
