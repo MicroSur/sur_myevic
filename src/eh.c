@@ -254,6 +254,7 @@ __myevic__ void EventHandler()
 			}
                                        
                         AtoCurrentMax = 0;
+                        AtoVoltsMax = 0;
                                                 
 			if ( BatteryStatus == 2 )
 			{

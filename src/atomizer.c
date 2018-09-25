@@ -17,6 +17,7 @@
 
 uint32_t	AtoVoltsADC;
 uint32_t	AtoVolts;
+uint32_t	AtoVoltsMax;
 uint32_t	TargetVolts;
 uint32_t        ReplayRez;
 uint32_t	AtoRezMilli;
@@ -644,7 +645,11 @@ __myevic__ void ReadAtoCurrent()
 	//	}
 		else
 		{
+                    if ( AtoStatus != 0 && TargetVolts > 100 )
+                    {
                         if ( AtoCurrentMax < AtoCurrent ) AtoCurrentMax = AtoCurrent;
+                        if ( AtoVoltsMax < AtoVolts ) AtoVoltsMax = AtoVolts;
+                    }
 			return;
 		}
 

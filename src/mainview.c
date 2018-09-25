@@ -584,7 +584,7 @@ __myevic__ void DrawAPTLines()
 		case 6:	// Atomizer voltage
 		{
 			DrawString( String_VOUT_s, 0, line+2 );
-			DrawValue( 27, line, gFlags.firing?AtoVolts:0, 2, 0x1F, 3 );
+			DrawValue( 27, line, gFlags.firing ? AtoVolts : AtoVoltsMax, 2, 0x1F, 3 );
 			DrawImage( ximg, line+2, 0x7D );
 			break;
 		}

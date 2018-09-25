@@ -53,6 +53,7 @@ enum
 //-------------------------------------------------------------------------
 
 extern uint32_t	AtoVolts;
+extern uint32_t	AtoVoltsMax;
 extern uint32_t	TargetVolts;
 extern uint32_t	AtoRezMilli;
 extern uint32_t	ReplayRez;
