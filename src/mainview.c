@@ -434,7 +434,17 @@ __myevic__ void DrawVapedLine ( int line )
 __myevic__ void DrawVapedDayLine ( int line )
 {
         uint32_t vv;
-        vv = GetVV(MilliJoulesDay);
+        
+        if ( !EditModeTimer && VapedLineTimer )
+        {
+            vv = GetVV( MilliJoules - MilliJoulesVapedOn );
+        }
+        else
+        {
+            vv = GetVV( MilliJoulesDay );
+        }
+        
+
         DrawImage( 0, line, 0xF3 ); //mld
         DrawValueRight( 55, line-2, vv, 2, 0x1F, 0 );
         DrawImageRight( 63, line, 0xCD ); //flask
