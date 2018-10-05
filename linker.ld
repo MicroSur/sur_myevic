@@ -34,6 +34,7 @@ SECTIONS {
 		LONG(images2_end)
 		LONG(Strings_Start)
 		LONG(Strings_End)
+                KEEP(*(.myPID))
 
 		. = ALIGN(4);
 		*(.text*)

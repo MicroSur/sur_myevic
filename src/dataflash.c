@@ -40,6 +40,8 @@ uint16_t	fmcCntrsIndex;
 //for updaters
 const char joyetech	[14]	__JOYETECH__	= { 'J','o','y','e','t','e','c','h',' ','A','P','R','O','M' };
 
+uint32_t __attribute__((section (".myPID"))) myPID = 0;
+
 //-------------------------------------------------------------------------
 
 #define __PIDATTR__ \
@@ -256,14 +258,22 @@ __myevic__ void SetProductID()
 	uint32_t offset;
 	uint32_t u32Data;
 
+        //MemCpy( BoxID, pid_invoke, 4 );
+        BoxName = ""; //9 max
+        DFMagicNumber = 0xDA;
+                
 	for ( offset = 0 ; offset < LDROM_SIZE ; offset += 4 )
 	{
-		u32Data = FMC_Read( LDROM_BASE + offset );
+                if ( myPID )
+                {
+                    u32Data = myPID;
+                }
+                else
+                {
+                    u32Data = FMC_Read( LDROM_BASE + offset );
+                }            
+
 		u32Data ^= PID_SCRAMBLE;
-                
-                //MemCpy( BoxID, pid_invoke, 4 );
-                BoxName = " "; //9 max
-                DFMagicNumber = 0xDA;
 
 		if ( u32Data == PID_VTCMINI )
 		{
