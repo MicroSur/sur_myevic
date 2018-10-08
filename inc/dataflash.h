@@ -73,7 +73,7 @@ typedef struct
 
 /* 00000100 */	unsigned int x32off:1;      //lsls 0x17
 /* 00000200 */	unsigned int priopwr:1;     //lsls 0x16
-/* 00000400 */	unsigned int onewatt:1;     //lsls 0x15
+/* 00000400 */	unsigned int onewatt:1;     //lsls 0x15     //10 bit for menu
 /* 00000800 */	unsigned int digclk:1;      //lsls 0x14
 /* 00001000 */	unsigned int nbrc:1;      //lsls 0x13        new battery reset counters
 /* 00002000 */	unsigned int phpct:1;       //lsls 0x12     // preheat in percent or watts
@@ -121,6 +121,7 @@ typedef struct
 /* 00002000 */	unsigned int dfRezLockedSS:1;
 /* 00004000 */	unsigned int dfRezLockedTCR:1;       
 /* 00008000 */	unsigned int replay:1;          //15 bit
+/* 00010000 */	unsigned int session:1;
 }
 // Do not exceed 32 bits;
 dfStatus2_t;

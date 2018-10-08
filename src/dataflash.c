@@ -39,7 +39,7 @@ uint16_t	fmcCntrsIndex;
 	__attribute__((section (".joyetech")))
 //for updaters
 const char joyetech	[14]	__JOYETECH__	= { 'J','o','y','e','t','e','c','h',' ','A','P','R','O','M' };
-
+// myPID - 0x15C offset in binary file always
 uint32_t __attribute__((section (".myPID"))) myPID = 0;
 
 //-------------------------------------------------------------------------

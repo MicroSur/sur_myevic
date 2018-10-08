@@ -643,6 +643,7 @@ const obj3d_t octa =
 	octa_lines
 };
 
+/*
 const pt3d_t dodeca_points[] = 
 	{
 		{  50,  50,  50 }, //  0
@@ -768,6 +769,7 @@ const obj3d_t isoca =
 	isoca_points,
 	isoca_lines
 };
+*/
 
 const obj3d_t *objects3d[] =
 	{
@@ -775,8 +777,8 @@ const obj3d_t *objects3d[] =
 		&tetra,
 		&cube,
 		&octa,
-		&dodeca,
-		&isoca,
+		//&dodeca,
+		//&isoca,
                 &tie,   
                 &quartz,
                 &spinner        
@@ -968,7 +970,7 @@ __myevic__ void anim3d() //( int redraw_last )
                 if ( ++tscaler < 4 ) return; //4 speed
 		tscaler = 0;
                       
-                if ( Object3D == 9 ) next_angle_spin();
+                if ( Object3D == 7 ) next_angle_spin();
                 else next_angle();
 
 		compute_matrix( rot_matrix, &angles );

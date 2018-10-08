@@ -285,8 +285,8 @@ extern const uint8_t String_Size[];
 extern const uint8_t String_hms[];
 extern const uint8_t String_HM[];
 extern const uint8_t String_Octa[];
-extern const uint8_t String_Dodeca[];
-extern const uint8_t String_Isoca[];
+//extern const uint8_t String_Dodeca[];
+//extern const uint8_t String_Isoca[];
 extern const uint8_t String_Square[];
 extern const uint8_t String_TIE[];
 extern const uint8_t String_Quartz[];
@@ -357,6 +357,7 @@ extern const uint8_t String_FMP[];
 extern const uint8_t String_All[];
 extern const uint8_t String_Puff24[];
 extern const uint8_t String_ResetCoil[];
+extern const uint8_t String_Session[];
 
 //==============================================================================
 

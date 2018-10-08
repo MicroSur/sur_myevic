@@ -998,9 +998,7 @@ __myevic__ void IFMenuIDraw( int it, int line, int sel )
 {
     //Interface
     
-	//if ( it > CurrentMenu->nitems - 2 )
-	//	return;
-	if ( it < 1 || it > CurrentMenu->nitems - 2 )
+	if ( it < 1 || it > CurrentMenu->nitems - 3 )
 		return;
         
 	DrawFillRect( 40, line, 63, line+12, 0 );
@@ -3456,15 +3454,15 @@ const menu_t Object3DMenu =
 	0,
 	Object3DOnClick+1,
 	0,
-	9,
+	7,
 	{
 		//{ String_Off, 0, EVENT_PARENT_MENU, 0 }, //none
                 { String_Square, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Tetra, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Box, 0, EVENT_PARENT_MENU, 0 },
 		{ String_Octa, 0, EVENT_PARENT_MENU, 0 },
-		{ String_Dodeca, 0, EVENT_PARENT_MENU, 0 },
-		{ String_Isoca, 0, EVENT_PARENT_MENU, 0 },
+		//{ String_Dodeca, 0, EVENT_PARENT_MENU, 0 },
+		//{ String_Isoca, 0, EVENT_PARENT_MENU, 0 },
                 { String_TIE, 0, EVENT_PARENT_MENU, 0 },
                 { String_Quartz, 0, EVENT_PARENT_MENU, 0 },     
                 { String_Spinner, 0, EVENT_PARENT_MENU, 0 }  
@@ -4127,6 +4125,14 @@ const menu_t ClicksMenu =
 	}
 };
 
+const mdata_t Session =
+{
+	&dfStatus2,
+	&BitDesc,
+	MITYPE_BIT,
+	16
+};
+
 const menu_t IFMenu =
 {
 	String_Interface,
@@ -4136,7 +4142,7 @@ const menu_t IFMenu =
 	0,
 	IFMenuOnClick+1,
 	0,
-	9,
+	10,
 	{
                 { String_Clicks, &ClicksMenu, 0, MACTION_SUBMENU },
 		{ String_1Watt, 0, 0, 0 },
@@ -4145,7 +4151,8 @@ const menu_t IFMenu =
 		{ String_Temp, 0, 0, 0 },
 		{ String_PPwr, 0, 0, 0 },
                 { String_UI, 0, 0, 0 },
-                { String_Splash, 0, 0, 0 },        
+                { String_Splash, 0, 0, 0 },
+                { String_Session, &Session, 0, MACTION_DATA },        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

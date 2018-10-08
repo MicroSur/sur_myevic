@@ -415,7 +415,7 @@ __myevic__ void DrawVapedLine ( int line )
 {
         uint32_t vv;
         
-        if ( !EditModeTimer && VapedLineTimer )
+        if ( !EditModeTimer && VapedLineTimer && dfStatus2.session )
         {
             vv = GetVV( MilliJoules - MilliJoulesVapedOn );
         }
@@ -435,7 +435,7 @@ __myevic__ void DrawVapedDayLine ( int line )
 {
         uint32_t vv;
         
-        if ( !EditModeTimer && VapedLineTimer )
+        if ( !EditModeTimer && VapedLineTimer && dfStatus2.session )
         {
             vv = GetVV( MilliJoules - MilliJoulesVapedOn );
         }
@@ -456,7 +456,7 @@ __myevic__ void DrawPuffCounterLine ( int line )
 {
         uint32_t v;
         
-        if ( !EditModeTimer && VapedLineTimer )
+        if ( !EditModeTimer && VapedLineTimer && dfStatus2.session )
         {
             v = SessionPuffs;
         }
