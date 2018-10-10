@@ -122,6 +122,7 @@ typedef struct
 /* 00004000 */	unsigned int dfRezLockedTCR:1;       
 /* 00008000 */	unsigned int replay:1;          //15 bit
 /* 00010000 */	unsigned int session:1;
+/* 00020000 */	unsigned int garbage:1;         //17
 }
 // Do not exceed 32 bits;
 dfStatus2_t;

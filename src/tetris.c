@@ -39,10 +39,8 @@ PieceSpace;
 PieceSpace currentPiece = {0};
 PieceSpace oldPiece = {0};
 
-int tetrisScreen[14][24] = {
-    {1},
-    {1}
-};
+int tetrisScreen[14][24];
+int GarbageScreen[14][24];
 
 int ttTetrisLine = 14;
 int ttAnimStep = 0;
@@ -226,8 +224,15 @@ void fillTetrisArray() {
             tetrisScreen[c][r] = 1;
         }
     }
+    
+    for (int r = 2; r < 22; r++) {
+        for (int c = 2; c < 12; c++) {
+            tetrisScreen[c][r] = 0;
+        }
+    }
 }
 
+/*
 void fillTetrisScreen(uint8_t value) {
 
     for (int r = 2; r < 22; r++) {
@@ -236,6 +241,7 @@ void fillTetrisScreen(uint8_t value) {
         }
     }
 }
+*/
 
 int oledX(int x) {
     int ox;
@@ -299,13 +305,13 @@ void DrawDot(int X, int Y, uint8_t dot) {
     DrawFillRect(X, Y, X + 4, Y + 4, dot);
 }
 
-/*
+
 void DrawHole(int X, int Y) {
     X = oledX(X);
     Y = oledY(Y);
     DrawFillRect(X + 1, Y + 1, X + 3, Y + 3, 0);
 }
-*/
+
 
 void DrawBoard() {
     //21
@@ -314,16 +320,61 @@ void DrawBoard() {
     // 4    ...*
     // 3    3...
     // 2 3 4 ... 11
+    
+    if ( dfStatus2.garbage ) gameOver = 2; //check garbage empty
+    
     for (int r = 2; r < 22; r++) {
         for (int c = 2; c < 12; c++) {
+            
             if (tetrisScreen[c][r] == 3) tetrisScreen[c][r] = 0;
+
+            if (GarbageScreen[c][r] == 3) GarbageScreen[c][r] = 0;
+
             if (tetrisScreen[c][r] == 1) {
-                //if (tetrisScreen[c][r]) {
+                
                 DrawDot(c, r, 1);
-            } else
+                
+                if (GarbageScreen[c][r]) {
+                    DrawHole(c, r);
+                    gameOver = 0; //play continue
+                } 
+                
+            } else {
                 DrawDot(c, r, 0);
+            }
         }
     }
+}
+
+void fillTetrisScreenRnd() {
+
+    int allzero = 1;
+    int allfull = 1;
+    
+    //tetrisScreen[2][2] = 1;
+    //tetrisScreen[7][3] = 1;
+    //tetrisScreen[11][4] = 1;
+    
+    //GarbageScreen[2][2]=1;
+    //GarbageScreen[7][3]=1;
+    //GarbageScreen[11][4]=1;
+    
+    while(allzero || allfull) {
+        for (int r = 2; r < 6; r++) {
+            for (int c = 2; c < 12; c++) {
+                tetrisScreen[c][r] = (((Random() & 100) - 50) > 50 ) ? 1 : 0 ;
+                GarbageScreen[c][r] = tetrisScreen[c][r];
+                        
+                if (tetrisScreen[c][r]) {
+                    allzero = 0;
+                }
+                if (!tetrisScreen[c][r]) {
+                    allfull = 0;
+                }                
+            }
+        }
+    }
+    DrawBoard();
 }
 
 void DrawTTCup() {
@@ -460,15 +511,12 @@ void setLevel(uint16_t lvl) //, int show)
 
 void CompletedLines() {
 
-    //int rowCheck = 0;
-    //int coloumCheck = 0;
-    int fullLine = 0;
-    int noLine = 1;
+    int fullLine;
+    int noLine;
     int linesProcessed = 0;
-    int clearedLines = 0;
-    int topRow = 0;
-    int bottomRow = 0;
-    //int currentRow = 0;
+    int clearedLines;
+    int topRow;
+    int bottomRow;
     uint16_t AmountScored = 0;
 
     if (currentPiece.Row > 5) bottomRow = currentPiece.Row - 4;
@@ -487,10 +535,10 @@ void CompletedLines() {
             }
         }
 
-        if (fullLine) {
+        if (fullLine) {                                            
             //make line values 3's and render
             for (int c = 2; c < 12; c++) {
-                tetrisScreen[c][rowCheck] = 3; //to del
+                tetrisScreen[c][rowCheck] = 3; //will be 0 in DrawBoard()
                  //DrawHole(c, rowCheck); //animation
                  //DisplayRefresh();
             }
@@ -509,30 +557,37 @@ void CompletedLines() {
             for (int currentRow = 2; currentRow < 22; currentRow++) {
                 noLine = 1;
                 for (int c = 2; c < 12; c++) {
-                    if (tetrisScreen[c][currentRow]) noLine = 0;
+                    if (tetrisScreen[c][currentRow]) noLine = 0; //line not empty
                 }
                 if (noLine) {
                     //move all lines down
                     for (int r = currentRow + 1; r < 22; r++) {
                         for (int c = 2; c < 12; c++) {
-                            if (tetrisScreen[c][r]) tetrisScreen[c][r - 1] = 2;
+                            
+                            if (tetrisScreen[c][r]) tetrisScreen[c][r - 1] = 1; //2;
                             else tetrisScreen[c][r - 1] = 3;
+                                                           
+                            if (GarbageScreen[c][r]) GarbageScreen[c][r - 1] = 1;
+                            else GarbageScreen[c][r - 1] = 3;
+                            
                         }
                     }
                 }
             }
 
+/*
             //make the 2's 1's
             for (int r = 2; r < 22; r++) {
                 for (int c = 2; c < 12; c++) {
                     if (tetrisScreen[c][r] == 2) tetrisScreen[c][r] = 1;
                 }
             }
+*/
+        
             clearedLines--;
             DrawBoard();
         }
-
-
+                            
         //process score
         switch (linesProcessed) {
             case 1:
@@ -768,8 +823,9 @@ void ttStartScreen() {
         MemClear2(0, ScreenBuffer, SCREEN_BUFFER_SIZE); //ttCLSBuf();
 
         fillTetrisArray(); //+2 border
-        fillTetrisScreen(0); //2-11 x 2-21
-
+        //fillTetrisScreen(0); //2-11 x 2-21
+        if ( dfStatus2.garbage ) fillTetrisScreenRnd();
+        
         DrawTTCup();
         setLevel(level);
         setScore(0);
@@ -794,7 +850,7 @@ void ttStartScreen() {
         ttSetTimeoutDelay(100);
         ttCreateTimeout(ttGame);
         ttCreateTimeout(CheckButtons);
-
+        
     } else {
 
         DrawFillRect(0, 18, 63, 108, 0); //erase
@@ -808,8 +864,8 @@ void ttStartScreen() {
                 ttAnimStep = 1;
         }
 
-        DrawString(String_Vaping, 12, ttTetrisLine + 20);
-        DrawString(String_Tetris, 12, ttTetrisLine + 30);
+        DrawString(String_Vaping, 14, ttTetrisLine + 20);
+        DrawString(String_Tetris, 14, ttTetrisLine + 30);
         
         uint8_t strbuf[5];
         convert_string1( strbuf, "Best" );
@@ -898,7 +954,7 @@ void ttStartGame() {
     Screen = 0;
     gFlags.user_idle = 1; //0
     gFlags.refresh_display = 1;
-
+    gameOver = 0;
     NoEventTimer = 0;
     SleepTimer = 3000; //30 sec for first time
 

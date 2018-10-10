@@ -784,10 +784,10 @@ __myevic__ void EventHandler()
 				pwr = dfPower;
 			}
 
-                        uint8_t pc = 0;
+                        uint8_t pc = 0; // for vvlite
 			if ( ISMODEVW(dfMode) )
 			{
-				if ( dfStatus.pcurve )
+				if ( dfStatus.pcurve && !CurveDelay )
 				{
 					pwr = dfPwrCurve[0].power * pwr / 100;
 
@@ -795,10 +795,15 @@ __myevic__ void EventHandler()
 					{
 						pwr = AtoMaxPower;
 					}
-                                        if ( !CurveDelay ) pc = 1;
+                                        //if ( !CurveDelay ) 
+                                            pc = 1;
 				}
-				//else if ( !PreheatDelay && dfStatus.preheat )
-                                else if ( dfStatus.preheat )
+                                
+				//( !PreheatDelay && dfStatus.preheat )
+                                //else if ( dfStatus.preheat ) //elseif - for priority curve. 
+                                //see TweakTargetVoltsVW too
+                                
+                                if ( dfStatus.preheat )     // if - for priority preheat                              
 				{
                                     if (dfStatus2.smart_ph && dfPHDelay && NextPreheatTimer )
                                     {
@@ -809,24 +814,26 @@ __myevic__ void EventHandler()
 					PreheatTimer = dfPreheatTime;
                                     }
                                         
+                                    if ( PreheatTimer )
+                                    {
+                                        if ( dfStatus.phpct )
+                                        {
+                                            PreheatPower = dfPower * dfPreheatPwr / 100;
+                                        }
+                                        else
+                                        {
+                                            PreheatPower = dfPreheatPwr;
+                                        }
 
-					if ( dfStatus.phpct )
-					{
-						PreheatPower = dfPower * dfPreheatPwr / 100;
-					}
-					else
-					{
-						PreheatPower = dfPreheatPwr;
-					}
+                                        if ( PreheatPower > AtoMaxPower )
+                                        {
+                                            PreheatPower = AtoMaxPower;
+                                        }
 
-					if ( PreheatPower > AtoMaxPower )
-					{
-						PreheatPower = AtoMaxPower;
-					}
-
-					pwr = PreheatPower;
+                                        pwr = PreheatPower;
                                         pc = 1;
-				}
+                                    }
+                                }
 
 
 				gFlags.limit_power = 0; //todo 

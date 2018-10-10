@@ -3185,6 +3185,15 @@ const menu_t GameMenu =
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };
+
+const mdata_t Garbage =
+{
+	&dfStatus2,
+	&BitDesc,
+	MITYPE_BIT,
+	17
+};
+
 const menu_t GameTtMenu =
 {
 	String_Tetris,
@@ -3194,11 +3203,12 @@ const menu_t GameTtMenu =
 	GameTtISelect+1,
 	GameTtIClick+1,
 	0,
-	4,
+	5,
 	{
 		{ String_Easy, 0, 0, 0 },
 		{ String_Normal, 0, 0, 0 },
 		{ String_Survival, 0, 0, 0 },
+                { String_Garbage, &Garbage, 0, MACTION_DATA },    
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

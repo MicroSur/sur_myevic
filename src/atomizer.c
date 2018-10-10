@@ -483,12 +483,19 @@ __myevic__ void StopFire()
                 dfJoulesDay = MilliJoulesDay;
                 dfJoulesEnergy = MilliJoulesEnergy;
                 
+/*
 		if (( FireDuration * 10 >= dfPreheatTime )
 		||  ( dfStatus.pcurve && FireDuration > 10 ))
 		{
 			PreheatDelay = dfPHDelay * 100;
                         CurveDelay = dfCUDelay * 100;
 		}       
+*/
+                if ( dfStatus.preheat && FireDuration * 10 >= dfPreheatTime )
+                    PreheatDelay = dfPHDelay * 100;
+
+                if ( dfStatus.pcurve && FireDuration > 10 )
+                    CurveDelay = dfCUDelay * 100;
                 
                 if ( FireDuration > 5 ) // > 0.5 sec
 		{
@@ -1306,16 +1313,11 @@ __myevic__ uint16_t GetVoltsForPower( uint16_t pwr )
 //=========================================================================
 //----- (00003198) --------------------------------------------------------
 __myevic__ void TweakTargetVoltsVW()
-{
+{ // 1000 Hz
 	unsigned int pwr;
         uint8_t pc = 0;
         
-	if ( PreheatTimer )
-	{
-		pwr = PreheatPower;
-                pc = 1;
-	}
-	else if ( dfMode == 6 )
+	if ( dfMode == 6 )
 	{
 		pwr = dfSavedCfgPwr[ConfigIndex];
 	}
@@ -1324,7 +1326,7 @@ __myevic__ void TweakTargetVoltsVW()
 		pwr = dfPower;
 	}
 
-	if ( dfStatus.pcurve )
+	if ( dfStatus.pcurve && !CurveDelay )
 	{
 		int t;
                 
@@ -1337,13 +1339,20 @@ __myevic__ void TweakTargetVoltsVW()
 				break;
 
 		int p = dfPwrCurve[t].power;
-		if ( p > 100 && CurveDelay ) p = 100;
+		//if ( p > 100 && CurveDelay ) p = 100;
 
-		pwr = p * pwr / 100;
+                    pwr = p * pwr / 100;
                 
-                if ( !CurveDelay ) pc = 1;
+                //if ( !CurveDelay ) 
+                    pc = 1;
 	}
 
+        if ( dfStatus.preheat && PreheatTimer )
+	{
+		pwr = PreheatPower;
+                pc = 1;
+	}
+        
 	pwr = AtoPowerLimit( pwr );
 
         if ( dfStatus.vvlite && !pc ) //&& !( dfStatus.keylock && dfStatus2.replay ) )
