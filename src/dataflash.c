@@ -176,7 +176,8 @@ __myevic__ void RestartMod()
 {
 	//if ( UpdateDFTimer ) 
         UpdateDataFlash();
-	if ( UpdatePTTimer ) UpdatePTCounters();
+	//if ( UpdatePTTimer ) 
+        UpdatePTCounters();
 
 	if ( ISVTCDUAL || ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISPRIMO1 
                 || ISPRIMO2 || ISPREDATOR || ISGEN3 || ISINVOKE || ISRX2 || ISSINFJ200 

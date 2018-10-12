@@ -4802,13 +4802,11 @@ __myevic__ int MenuEvent( int event )
 		}
 	}
 
-/*
-	if ( ISEGRIPII ) // or gFlags.swap_keys
+	if ( ISEGRIPII )
 	{
 		if ( event == 2 ) event = 3;
 		else if ( event == 3 ) event = 2;
 	}
-*/
 
 	switch ( event )
 	{

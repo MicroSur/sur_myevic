@@ -1219,11 +1219,12 @@ __myevic__ void ShowMainView()
 ///////////////////////////////////////////////////////////
         
             static int sx = 0; //pacman line
+            DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
             //if ( ( gFlags.firing || gFlags.battery_charging ) && HideLogo ) //dfStatus.nologo )
             if ( ( gFlags.firing || gFlags.battery_charging ) 
                     && ( HideLogo || ( dfStatus.nologo && !dfStatus2.anim3d && !dfStatus.clock ) ) )
             {
-                DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
+                //DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
                 
                 if ( sx % 2 ) 
                 {
@@ -1241,7 +1242,7 @@ __myevic__ void ShowMainView()
             else 
             {
                 sx = 0;
-                DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
+                //DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
             }
             
 //////////////

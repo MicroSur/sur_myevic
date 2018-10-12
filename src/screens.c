@@ -927,7 +927,7 @@ __myevic__ void ShowBatCharging()
 		for ( int i = 0 ; i < NumBatteries ; ++i )
 		{
 			DrawValue(  1, line-14 - i * 14, BattVolts[NumBatteries - i - 1], 2, 0x0B, 3 ); //104
-			DrawImage( 23, line-14 - i * 14, 0x7D );
+			DrawImage( 23, line-14 - i * 14, ( BBBits & (1 << i) ) ? 0x7D : 0x97 );
 		}
                 
                 if ( NumBatteries > 1 )

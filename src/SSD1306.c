@@ -214,7 +214,7 @@ __myevic__ uint32_t SSD1306_Bitmap( int x, int y, const image_t *image, int colo
 
 	bm_ptr = 0;
 
-	lines = image->height >> 3; //  \3 , in bytes
+	lines = image->height >> 3; //  /8 , in bytes
 
 	for ( h = 0 ; h < lines ; ++h )
 	{
@@ -222,9 +222,11 @@ __myevic__ uint32_t SSD1306_Bitmap( int x, int y, const image_t *image, int colo
 
 		for ( w = 0 ; w < image->width ; ++w )
 		{
-			pixels = image->bitmap[bm_ptr++];
-
-			if ( color ) pixels = ~pixels;
+			pixels = image->bitmap[bm_ptr++]; //byte
+                                               
+                        //pixels = ( ( pixels >> 1 ) & 0xF8 ) | ( pixels & 7 ) ; shift test 3 6 8 bad
+                        
+			if ( color ) pixels = ~pixels; //inverse
 
 			if ( shift )
 			{
