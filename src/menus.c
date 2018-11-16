@@ -2173,24 +2173,24 @@ __myevic__ void ScreenSaveOnSelect()
 __myevic__ void CoilsMenuIDraw( int it, int line, int sel )
 {
         int t;
-	if ( it < 3 || it > 5 )
+	if ( it < 4 || it > 6 )
 		return;
         
 	DrawFillRect( 32, line, 63, line+12, 0 );
 
 	switch ( it )
 	{
-		case 3:	// Cold
+		case 4:	// Cold
                         t = dfStatus.IsCelsius ? dfColdLockTemp : CelsiusToF( (uint16_t)dfColdLockTemp );
 			DrawValueRight( 52, line+2, t, 0, 0x0B, 0 ); //t>99?3:2
                         DrawImageRight( 63, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 			//DrawImage( 55, line+2, dfIsCelsius ? 0xC9 : 0xC8 );
 			break;
-		case 4:	// New
+		case 5:	// New
 			DrawValueRight( 52, line+2, dfNewRezPerc, 0, 0x0B, 0 );
 			DrawImageRight( 63, line+2, 0xC2 );
 			break;
-		case 5:	// Check
+		case 6:	// Check
 		{
 			const uint8_t *s;
 			DrawFillRect( 36, line, 63, line+12, 0 );
@@ -2213,11 +2213,11 @@ __myevic__ void CoilsMenuOnClick()
 {
 	switch ( CurrentMenuItem )
 	{           
-		case 3:	// Cold
-                case 4: // New
+		case 4:	// Cold
+                case 5: // New
 			gFlags.edit_value ^= 1;
 			break;
-		case 5:	// Check
+		case 6:	// Check
 			//if ( ISMODETC(dfMode) )
 			//{
 				dfStatus.chkmodeoff ^= 1;
@@ -2257,12 +2257,12 @@ __myevic__ int CoilsMenuOnEvent( int event )
 		case 2:
 			switch ( CurrentMenuItem )
 			{
-				case 3:	// Cold
+				case 4:	// Cold
 					if ( ++dfColdLockTemp > 40 )
 						dfColdLockTemp = 1;
 					vret = 1;
 					break;
-				case 4:	// New
+				case 5:	// New
 					if ( ++dfNewRezPerc > 50 )
 						dfNewRezPerc = 1;
 					vret = 1;
@@ -2273,12 +2273,12 @@ __myevic__ int CoilsMenuOnEvent( int event )
 		case 3:
 			switch ( CurrentMenuItem )
 			{
-				case 3:	// Cold
+				case 4:	// Cold
 					if ( --dfColdLockTemp < 1 )
 						dfColdLockTemp = 40;
 					vret = 1;
 					break;
-				case 4:	// Cold
+				case 5:	// Cold
 					if ( --dfNewRezPerc < 1 )
 						dfNewRezPerc = 50;
 					vret = 1;
@@ -2289,12 +2289,12 @@ __myevic__ int CoilsMenuOnEvent( int event )
 		case EVENT_LONG_FIRE:
 			switch ( CurrentMenuItem )
 			{
-				case 3:	// Cold
+				case 4:	// Cold
 					dfColdLockTemp = 20;
                                         gFlags.edit_value = 0;
 					vret = 1;
 					break;
-				case 4:	// Cold
+				case 5:	// Cold
 					dfNewRezPerc = 5;
                                         gFlags.edit_value = 0;
 					vret = 1;
@@ -3434,6 +3434,14 @@ const menu_t CoilsMgmtMenu =
 	}
 };
 
+const mdata_t AutoProfileData =
+{
+	&dfStatus2,
+	&BitDesc,
+	MITYPE_BIT,
+	18
+};
+
 const menu_t CoilsMenu =
 {
 	String_Coils,
@@ -3443,11 +3451,12 @@ const menu_t CoilsMenu =
 	0,
 	CoilsMenuOnClick+1,
 	CoilsMenuOnEvent+1,
-	7,
+	8,
 	{
 		{ String_Manage, &CoilsMgmtMenu, 0, MACTION_SUBMENU },
 		{ String_TCR, &TCRSetMenu, 0, MACTION_SUBMENU },
                 { String_Profile, 0, 0, MACTION_SUBMENU }, //EVENT_PROFILE_MENU, MACTION_SUBMENU },
+                { String_SMART, &AutoProfileData, 0, MACTION_DATA },
                 { String_Cold, 0, 0, 0 },
                 { String_New, 0, 0, 0 },
 		{ String_Check, 0, 0, 0 },                         

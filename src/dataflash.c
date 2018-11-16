@@ -1877,8 +1877,8 @@ __myevic__ void LoadProfile( int p )
 	dfParams_t *params;
 	uint8_t *s, *d, *s2, *d2;
 
-	if ( p >= DATAFLASH_PROFILES_MAX )
-		return;
+	//if ( p >= DATAFLASH_PROFILES_MAX )
+	//	return;
 
 	addr = DATAFLASH_PROFILES_BASE + p * DATAFLASH_PARAMS_SIZE;
 
@@ -2001,8 +2001,9 @@ __myevic__ int IsProfileValid( int p )
 {
 	uint32_t addr;
 	dfParams_t *params;
-	if ( p >= DATAFLASH_PROFILES_MAX )
-		return 0;
+        
+	//if ( p >= DATAFLASH_PROFILES_MAX )
+	//	return 0;
         
 	addr = DATAFLASH_PROFILES_BASE + p * DATAFLASH_PARAMS_SIZE;
 	params = (dfParams_t*)addr;
@@ -2011,4 +2012,46 @@ __myevic__ int IsProfileValid( int p )
 		return 1;
 	}
 	return 0;
+}
+
+__myevic__ uint16_t GetProfileRes( int p )
+{
+	uint32_t addr;
+	dfParams_t *params;
+        // 0018	uint16_t	Resistance;
+        
+        if ( IsProfileValid( p ) )
+        {
+            addr = DATAFLASH_PROFILES_BASE + p * DATAFLASH_PARAMS_SIZE;
+            params = (dfParams_t*)addr;
+        
+            return params->Resistance;
+        }
+        else
+        {
+            return 0;
+        }
+}
+
+__myevic__ void SetProfile()
+{
+    //auto set profile by resistance
+    
+    uint16_t r;
+   
+    for ( int i = 0; i < DATAFLASH_PROFILES_MAX; ++i )
+    {
+        r = GetProfileRes( i );
+        
+        if ( 
+           r 
+           && ( AtoRez - AtoRez * dfNewRezPerc / 100 <= r )
+           && ( AtoRez + AtoRez * dfNewRezPerc / 100 >= r )                
+           )
+        {
+            if ( dfProfile != i ) LoadProfile( i );
+            return;
+        }
+                                
+    }
 }

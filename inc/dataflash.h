@@ -123,6 +123,7 @@ typedef struct
 /* 00008000 */	unsigned int replay:1;          //15 bit
 /* 00010000 */	unsigned int session:1;
 /* 00020000 */	unsigned int garbage:1;         //17
+/* 00040000 */	unsigned int autoprofile:1;
 }
 // Do not exceed 32 bits;
 dfStatus2_t;
@@ -501,6 +502,7 @@ extern uint8_t	ScrFlip;
 //=========================================================================
 // Functions
 
+extern void SetProfile();
 extern void InitDataFlash();
 extern void InitVariables();
 extern void ResetDataFlash();

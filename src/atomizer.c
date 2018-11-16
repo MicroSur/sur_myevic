@@ -1818,9 +1818,10 @@ __myevic__ void ProbeAtomizer()
        
 	if ( AtoStatus == 4 )
 	{
-		// 
-                //    if ( AtoProbeCount < 11 ) //if ( AtoProbeCount != 11 )
-		//	return;
+                //if ( AtoProbeCount < 11 )
+                if ( AtoProbeCount != 11 )
+                    return;
+            
 		AtoRez = AtoRezMilli / 10;
 		AtoMillis = AtoRezMilli % 10;
                                        
@@ -1859,37 +1860,46 @@ __myevic__ void ProbeAtomizer()
 		if ( !LastAtoRez )
 		{
 			Set_NewRez_dfRez = 1;
-		}
+		}               
 		LastAtoRez = AtoRez;
 		LastAtoMillis = AtoMillis;
 		LastAtoError = AtoError;              
 		//SetAtoLimits();
                 
+                //if ( AtoProbeCount >= 12 ) // if rem Return ^^
+                if ( dfStatus2.autoprofile ) SetProfile(); //auto set Profile for new atom
+                
 		if ( Screen != 2 || gFlags.firing ) gFlags.refresh_display = 1; //no refresh while scr2 delay
 		//ScreenDuration = GetMainScreenDuration();
 	}
-        else if ( AtoProbeCount >= 12 )
+        else //if ( AtoProbeCount >= 12 ) Return ^^
         {
-                SetAtoLimits(); //and smartRez
+                SetAtoLimits(); //and smartRez, stable here
         }
 
+
 	if ( Set_NewRez_dfRez )
+            //1 if LastAtoRez=0
+            //2 from ResetResistance()
+            //1 InitVariables()
+            //2 SleepIfIdle()
+            //2 shunt change
 	{          
-		if ( Set_NewRez_dfRez == 2 ) //was: reset rez, sleep???, shunt changed
+		if ( Set_NewRez_dfRez == 2 ) //was: reset rez, sleep, shunt changed
 		{
 			Set_NewRez_dfRez = 1;
 		}
-                
+                                                
 		if ( !dfResistance )
 		{                               
 			if ( AtoRez )
 			{                             
                                 dfResistance = AtoRez;
 				RezMillis = AtoMillis;
-				UpdateDFTimer = 50;
+                                UpdateDFTimer = 50;                               
 			}
 		}
-                
+                                
 		gFlags.new_rez_ni = 1;
 		gFlags.new_rez_ti = 1;
 		gFlags.new_rez_ss = 1;

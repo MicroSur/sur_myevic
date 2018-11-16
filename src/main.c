@@ -844,7 +844,7 @@ __myevic__ void SleepIfIdle()
 		{                                        
 			GoToSleep();
                         
-			//Set_NewRez_dfRez = 2; we need recheck res?
+			Set_NewRez_dfRez = 2; //we need recheck res after wakeup? yes 
 			AtoProbeCount = 0;
 			AtoRezMilli = 0;
                         PuffsOffCount = 0;
