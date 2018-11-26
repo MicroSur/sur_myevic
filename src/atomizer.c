@@ -1644,7 +1644,7 @@ __myevic__ void SetAtoLimits()
 	if ( dfPower > MaxPower ) dfPower = MaxPower;
 	if ( dfTCPower > MaxTCPower ) dfTCPower = MaxTCPower;
 
-	if ( !AtoError && AtoRez ) //  why this bug was -> && dfMode == 6 )
+	if ( !AtoError && AtoRez )
 	{
                 if ( Set_NewRez_dfRez ) //no change ConfigIndex while vaping
                 {
@@ -1653,10 +1653,10 @@ __myevic__ void SetAtoLimits()
             
 		if ( dfMode == 6 )
                 {
-                        if ( Set_NewRez_dfRez ) //no change ConfigIndex while vaping
-                        {
-                            SetAtoSMARTParams();
-                        }
+                        //if ( Set_NewRez_dfRez ) //no change ConfigIndex while vaping
+                        //{
+                        //    SetAtoSMARTParams();
+                        //}
                 
 			pwr = dfSavedCfgPwr[ConfigIndex];
                 }
@@ -1687,6 +1687,8 @@ __myevic__ void SetAtoLimits()
 //----- (00006038) --------------------------------------------------------
 __myevic__ void ProbeAtomizer()
 {
+    // from ResetResistance(), eh() on fire_button, Main() 3 times, Menus() 2
+    
 	if ( 
                ( ISVTCDUAL && ( BatteryStatus == 2 || !PA3 ) )
             || ( ( ISCUBOID || ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 ) && ( BatteryStatus == 2 || !PF0 ) )
@@ -1863,22 +1865,19 @@ __myevic__ void ProbeAtomizer()
 		}               
 		LastAtoRez = AtoRez;
 		LastAtoMillis = AtoMillis;
-		LastAtoError = AtoError;              
-		//SetAtoLimits();
+		LastAtoError = AtoError;
                 
-                //if ( AtoProbeCount >= 12 ) // if rem Return ^^
-                if ( dfStatus2.autoprofile ) SetProfile(); //auto set Profile for new atom
+                SetAtoLimits();
                 
 		if ( Screen != 2 || gFlags.firing ) gFlags.refresh_display = 1; //no refresh while scr2 delay
 		//ScreenDuration = GetMainScreenDuration();
-	}
-        else //if ( AtoProbeCount >= 12 ) Return ^^
-        {
-                SetAtoLimits(); //and smartRez, stable here
         }
 
 
 	if ( Set_NewRez_dfRez )
+            
+            // ato mount
+            
             //1 if LastAtoRez=0
             //2 from ResetResistance()
             //1 InitVariables()
@@ -1899,7 +1898,9 @@ __myevic__ void ProbeAtomizer()
                                 UpdateDFTimer = 50;                               
 			}
 		}
-                                
+                            
+                if ( dfStatus2.autoprofile ) SetProfile(); //auto set Profile for new atom
+                
 		gFlags.new_rez_ni = 1;
 		gFlags.new_rez_ti = 1;
 		gFlags.new_rez_ss = 1;
