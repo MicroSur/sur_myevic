@@ -736,6 +736,10 @@ __myevic__ void GetUserInput()
                                         break;                                        
                                     case 4: //vv day
                                         MilliJoulesDay = 0;
+                                        break;
+                                    case 15: //stopwatch
+                                        RTCGetEpoch( &startwatch );
+                                        break;      
                             }
                         }
                     }

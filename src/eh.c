@@ -1347,11 +1347,11 @@ __myevic__ void EventHandler()
                                             }
                                             else if ( EditItemIndex == 4 )
                                             {
-                                                if ( --dfAPT3 > 14 ) dfAPT3 = 14;
+                                                if ( --dfAPT3 > APTMax ) dfAPT3 = APTMax;
                                             }
                                             else if ( EditItemIndex == 5 )
                                             {
-                                                if ( --dfAPT > 14 ) dfAPT = 14;
+                                                if ( --dfAPT > APTMax ) dfAPT = APTMax;
                                             }
 					}
 					else if ( !ISMODETC(dfMode) )
@@ -1558,12 +1558,12 @@ __myevic__ void EventHandler()
 							break;
 
                                                 case 4:
-							if ( ++dfAPT3 > 14 ) dfAPT3 = 0;
+							if ( ++dfAPT3 > APTMax ) dfAPT3 = 0;
                                                         gFlags.edit_capture_evt = 1;
 							break;
                                                         
                                                 case 5:
-							if ( ++dfAPT > 14 ) dfAPT = 0;
+							if ( ++dfAPT > APTMax ) dfAPT = 0;
                                                         gFlags.edit_capture_evt = 1;
 							break;
 

@@ -20,6 +20,8 @@ extern uint8_t	WattsInc;
 extern volatile uint8_t Event;
 extern uint8_t	LastEvent;
 
+#define APTMax  15 // 0 - max
+
 //  0 Idle
 //  1 Fire button
 //  2 Edit (+ button)

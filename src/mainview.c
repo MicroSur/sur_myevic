@@ -469,6 +469,34 @@ __myevic__ void DrawPuffCounterLine ( int line )
 	DrawValueRight( 64, line-2, v, 0, 0x1F, 0 );
 }
 
+__myevic__ void DrawStopwatch( int line )
+{
+    S_RTC_TIME_DATA_T rtd;
+    time_t t;
+
+    RTCGetEpoch( &t );
+    t -= startwatch;
+    RTCEpochToTime( &rtd, &t );
+
+    if ( rtd.u32Hour == 24 ) RTCGetEpoch( &startwatch ); //reset 24h
+    
+    DrawValueRight( 19, line, rtd.u32Hour, 0, 0x1F, 2 );
+    DrawImage( 20, line+2, 0xDD );
+    DrawValue( 24, line, rtd.u32Minute, 0, 0x1F, 2 );
+    DrawImage( 41, line+2, 0xDD );
+    DrawValue( 45, line, rtd.u32Second, 0, 0x1F, 2 );
+    
+    InvertRect( 0, line-1, 63, line+10 );
+    
+/*
+    //instead of main power/temp line in idle
+    DrawValue( 0, 13, rtd.u32Hour, 0, 0x3D, 2 );
+    DrawImage( 23, 20, 0xD8 );
+    DrawValue( 25, 13, rtd.u32Minute, 0, 0x3D, 2 );
+    DrawValue( 49, 13, rtd.u32Second, 0, 0x1F, 2 );
+*/
+}
+
 //=============================================================================
 
 __myevic__ void DrawAPTLines()
@@ -702,7 +730,12 @@ __myevic__ void DrawAPTLines()
                         DrawValueRight( 55, line, AtoRezMilliMin, 3, 0x1F, 4 ); 
                         DrawImage( ximg-1, line+2, 0xC0 );
 			break;
-		}                 
+		}          
+                case 15: // stopwatch
+		{
+                        DrawStopwatch( line );
+			break;
+		}                         
 	}
     }
 }
@@ -1102,7 +1135,9 @@ __myevic__ void ShowLogo( int place )
                                     else if ( dfUIVersion == 0 )
                                     {
                                         y2 = 60;
-                                        y = 7;
+                                        //y = 7;
+                                        y = (62 - h) / 2;
+                                        
                                     }
                                     else
                                     {
@@ -1124,26 +1159,6 @@ __myevic__ void ShowLogo( int place )
         //}
     }
 }
-
-/*
-__myevic__ void DrawStopwatch()
-{
-    S_RTC_TIME_DATA_T rtd;
-    time_t t;
-
-    RTCGetEpoch( &t );
-    t -= startwatch;
-    RTCEpochToTime( &rtd, &t );
-
-    if ( rtd.u32Hour == 24 ) RTCGetEpoch( &startwatch ); //reset 24h
-    
-    //instead of main power/temp line in idle
-    DrawValue( 0, 13, rtd.u32Hour, 0, 0x3D, 2 );
-    DrawImage( 23, 20, 0xD8 );
-    DrawValue( 25, 13, rtd.u32Minute, 0, 0x3D, 2 );
-    DrawValue( 49, 13, rtd.u32Second, 0, 0x1F, 2 );
-}
-*/
 
 //=============================================================================
 
@@ -1252,6 +1267,7 @@ __myevic__ void ShowMainView()
                     && ( HideLogo || ( dfStatus.nologo && !dfStatus2.anim3d && !dfStatus.clock ) ) )
             {
                 //DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
+                DrawHLine( sx-5, 41, sx, 0 );
                 
                 if ( sx % 2 ) 
                 {

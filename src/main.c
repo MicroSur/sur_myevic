@@ -21,7 +21,7 @@
 volatile gFlags_t gFlags;
 uint8_t BoxModel;
 
-//time_t startwatch = 0;
+time_t startwatch;
 
 //const uint8_t  MaxBoardTemp = 70;
 
