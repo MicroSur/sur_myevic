@@ -64,6 +64,7 @@ extern void RTCAdjustClock( int seconds );
 
 extern void RTCSleep();
 extern void RTCWakeUp();
+extern void InitRTC();
 
 extern time_t RTCGetEpoch( time_t *t );
 

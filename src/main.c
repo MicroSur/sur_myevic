@@ -154,6 +154,7 @@ void InitDevices()
 
 	// Setup PLL to 144MHz and HCLK source to PLL/2
 	CLK_SetCoreClock( CPU_FREQ );
+CLK_WaitClockReady( CLK_STATUS_PLLSTB_Msk );
 
 	// UART0 CLK = HXT/1
 	//#if (ENABLE_UART)
@@ -767,6 +768,7 @@ __myevic__ void LightSleep()
 
 	// Wake up the PLL
 	CLK_SetCoreClock( CPU_FREQ );
+CLK_WaitClockReady( CLK_STATUS_PLLSTB_Msk );
 
 	// Update clock data
 	SystemCoreClockUpdate();

@@ -737,10 +737,11 @@ __myevic__ uint32_t hidResetParamCmd( CMD_T *pCmd )
 	//ResetDataFlash();
 	//dfProfile = p;
         
-	pCmd->u8Cmd = HID_CMD_NONE;
-        
         ResetDFlashRes();
-        gFlags.refresh_display = 1;      
+        InitRTC(); //for light sleep flags
+        //gFlags.refresh_display = 1;
+        
+	pCmd->u8Cmd = HID_CMD_NONE;    
         
 	return 0;
 }
