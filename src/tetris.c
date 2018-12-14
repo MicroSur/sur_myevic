@@ -348,8 +348,8 @@ void DrawBoard() {
 
 void fillTetrisScreenRnd() {
 
-    int allzero = 1;
-    int allfull = 1;
+    int allzero;
+    int allfull;
     
     //tetrisScreen[2][2] = 1;
     //tetrisScreen[7][3] = 1;
@@ -359,9 +359,11 @@ void fillTetrisScreenRnd() {
     //GarbageScreen[7][3]=1;
     //GarbageScreen[11][4]=1;
     
-    while(allzero || allfull) {
-        for (int r = 2; r < 6; r++) {
-            for (int c = 2; c < 12; c++) {
+    for (int r = 2; r < 6; r++) {
+        allzero = 1;
+        allfull = 1;
+        while(allzero || allfull) {
+            for (int c = 2; c < 12; c++) {   
                 tetrisScreen[c][r] = (((Random() & 100) - 50) > 50 ) ? 1 : 0 ;
                 GarbageScreen[c][r] = tetrisScreen[c][r];
                         

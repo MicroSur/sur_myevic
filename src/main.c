@@ -20,6 +20,9 @@
 
 volatile gFlags_t gFlags;
 uint8_t BoxModel;
+
+//time_t startwatch = 0;
+
 //const uint8_t  MaxBoardTemp = 70;
 
 //=========================================================================
@@ -278,6 +281,9 @@ __myevic__ void InitRTC()
 
 	gFlags.rtcinit = 1;
 
+//RTCGetEpoch( &startwatch );
+        
+        
 //	time_t vvbase;
 
 //	vvbase = RTCReadRegister( RTCSPARE_VV_BASE );

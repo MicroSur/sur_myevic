@@ -625,8 +625,8 @@ __myevic__ void DrawAPTLines()
                 
 		case 8:	// Real-time clock ( preserved case 8 )
 		{
-			S_RTC_TIME_DATA_T rtd;
-			GetRTC( &rtd );
+			//S_RTC_TIME_DATA_T rtd;
+			//GetRTC( &rtd );
 			//DrawTime( 3, line, &rtd, 0x1F );
                         DrawDigitClock( line, 1 );
 			break;
@@ -1125,6 +1125,26 @@ __myevic__ void ShowLogo( int place )
     }
 }
 
+/*
+__myevic__ void DrawStopwatch()
+{
+    S_RTC_TIME_DATA_T rtd;
+    time_t t;
+
+    RTCGetEpoch( &t );
+    t -= startwatch;
+    RTCEpochToTime( &rtd, &t );
+
+    if ( rtd.u32Hour == 24 ) RTCGetEpoch( &startwatch ); //reset 24h
+    
+    //instead of main power/temp line in idle
+    DrawValue( 0, 13, rtd.u32Hour, 0, 0x3D, 2 );
+    DrawImage( 23, 20, 0xD8 );
+    DrawValue( 25, 13, rtd.u32Minute, 0, 0x3D, 2 );
+    DrawValue( 49, 13, rtd.u32Second, 0, 0x1F, 2 );
+}
+*/
+
 //=============================================================================
 
 __myevic__ void ShowMainView()
@@ -1183,6 +1203,12 @@ __myevic__ void ShowMainView()
 		pwr  = ClampPower( BypassVolts, 1); //0 );
 	}
 
+    //if ( Screen != 2 )
+    //{
+    //    DrawStopwatch();
+    //}
+    //else
+    //{    
 	if ( ISMODETC(dfMode) )
 	{
 		if ( dfStatus.priopwr )
@@ -1215,7 +1241,8 @@ __myevic__ void ShowMainView()
 		DrawPower( pwr, 12 );
                 
 	}
-
+    //}
+        
 ///////////////////////////////////////////////////////////
         
             static int sx = 0; //pacman line

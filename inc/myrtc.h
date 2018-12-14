@@ -43,6 +43,7 @@
 
 extern volatile int32_t ClockCorrection;
 //extern volatile uint8_t IsRTCAlarmINT;
+//extern time_t startwatch;
 
 //=========================================================================
 // Functions
