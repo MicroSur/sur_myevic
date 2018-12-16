@@ -339,10 +339,21 @@ __myevic__ void DrawVLineDots( const int x, const int y1, const int y2 )
 //----- (0000575C) --------------------------------------------------------
 __myevic__ void DrawFillRect( const int x1, const int y1,const  int x2, const int y2, const int color)
 {
-	for ( int y = y1 ; y <= y2 ; ++y )
+        DrawHLine( x1+1, y1, x2-1, color ); //rounded corners
+        
+	for ( int y = y1+1 ; y <= y2-1 ; ++y )
 	{
 		DrawHLine( x1, y, x2, color );
 	}
+        
+        DrawHLine( x1+1, y2, x2-1, color );
+        
+/*
+        DrawPoint( x1, y1, 0 );
+        DrawPoint( x1, y2, 0 );
+        DrawPoint( x2, y1, 0 );
+        DrawPoint( x2, y2, 0 );
+*/
 }
 __myevic__ void DrawFillRectLines( const int x1, const int y1,const  int x2, const int y2, const int color)
 {

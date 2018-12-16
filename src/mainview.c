@@ -17,6 +17,8 @@ uint8_t		HideLogo;
 uint8_t		SplashTimer;
 uint16_t        AwakeTimer;
 
+const uint8_t *ProfileName[] = { String_Profile1, String_Profile2, String_Profile3, String_Profile4, String_Profile5 };
+    
 //=============================================================================
 //----- (00001654) --------------------------------------------------------
 __myevic__ void MainView()
@@ -72,7 +74,7 @@ __myevic__ void DrawVapeAwakeLine ()
 __myevic__ void DrawMode()
 {
     //first line
-    
+       
     if ( dfAwakeTimer || dfPuffsOff )
     {
         if ( !EditModeTimer && LinePuffAwakeTimer ) //EditModeTimer && ( EditItemIndex 
@@ -82,7 +84,9 @@ __myevic__ void DrawMode()
         }
     }
     LinePuffAwakeTimer = 0;
-            
+                                  
+    if ( EditModeTimer || ( ProfileName[dfProfile][0] == 0xBC ) )
+    {                      
 	if ( !BLINKITEM(0) )
 	{
 		switch ( dfMode )
@@ -92,12 +96,6 @@ __myevic__ void DrawMode()
                         case 2:
 				DrawString( String_TEMP, 10, 0 );
 				break;
-			//case 1:
-			//	DrawString( String_TEMP, 10, 0 );
-			//	break;
-			//case 2:
-			//	DrawString( String_TEMP, 10, 0 );
-			//	break;
 			case 3:
 				DrawString( String_TCR, 10, 0 );
 				break;
@@ -127,9 +125,6 @@ __myevic__ void DrawMode()
 				break;
 			case 2:
 				DrawString( String_SS, 42 , 0 );
-				//DrawImage( 48, 3, 0x04 );
-				//DrawImage( 54, 3, 0x02 );
-				//DrawImage( 59, 3, 0x07 );
 				break;
 			case 3:
 				DrawValue( 35, 0, dfTCRM[dfTCRIndex], 0, 0x0B, 3 ); // 26 TCR value
@@ -140,6 +135,11 @@ __myevic__ void DrawMode()
 				break;
 		}
 	}
+    }
+    else
+    {
+        DrawStringCentered( ProfileName[dfProfile], 0 ); //show custom profile name
+    }
 }
 
 //=============================================================================
@@ -745,10 +745,12 @@ __myevic__ void ShowFireDuration( int line )
 {
 	int x;
 	DrawFillRect( 0, line, 63, line+9, 1 );
+/*
         DrawPixel( 0, 0, 0 );
         DrawPixel( 63, 0, 0 );
         DrawPixel( 0, line+9, 0 );
         DrawPixel( 63, line+9, 0 );
+*/
 	DrawFillRect( 1, line+1, 62, line+8, 0 );
 	x = ( FireDuration > dfProtec / 2 ) ? 5 : 38;
 	DrawValue( x, line+1, FireDuration, 1, 0xB, 0 );

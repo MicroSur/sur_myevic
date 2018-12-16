@@ -282,19 +282,19 @@ __myevic__ void AlgoMenuIDraw( int it, int line, int sel )
 			{
 				case TCALGO_JOY:
 				default:
-					DrawStringRight( String_Off, 63, line + 2 );
+					DrawStringRight( String_Off, 63, line+2 );
 					break;
 
 				case TCALGO_SWEET:
-					DrawStringRight( String_Sweet, 63, line + 2 );
+					DrawStringRight( String_Sweet, 63, line+2 );
 					break;
 
 				case TCALGO_BOOST:
-					DrawStringRight( String_Boost, 63, line + 2 );
+					DrawStringRight( String_Boost, 63, line+2 );
 					break;
 
 				case TCALGO_PID:
-					DrawStringRight( String_PID, 63, line + 2 );
+					DrawStringRight( String_PID, 63, line+2 );
 					break;
 			}
 			break;
@@ -713,11 +713,11 @@ __myevic__ void LogoMenuIDraw( int it, int line, int sel )
                     DrawFillRect( 40, line, 63, line+12, 0 );
                     
                     if ( dfStatus.nologo )
- 			DrawStringRight( String_Off, 63, line + 2 );
+ 			DrawStringRight( String_Off, 63, line+2 );
                     else if ( dfStatus.logomid )
-                        DrawStringRight( String_Mid, 63, line + 2 );
+                        DrawStringRight( String_Mid, 63, line+2 );
                     else
-                        DrawStringRight( String_Top, 63, line + 2 );
+                        DrawStringRight( String_Top, 63, line+2 );
                     
                 }   
                     break;
@@ -4429,12 +4429,12 @@ __myevic__ void DrawMenuData( int line, int sel, const mdata_t *data )
 
 			if ( !desc )
 			{
-				DrawFillRect( 40, line, 63, line + 12, 0 );
+				DrawFillRect( 40, line, 63, line+12, 0 );
 				DrawStringRight( b ? String_On : String_Off, 63, line+2 ); //44
 			}
 			else
 			{
-				DrawFillRect( desc->div ? : 40, line, 63, line + 12, 0 );
+				DrawFillRect( desc->div ? : 40, line, 63, line+12, 0 );
 				DrawStringRight( b ? desc->on : desc->off, desc->pos ? : 63, line+2 );
 			}
 			break;
@@ -4464,15 +4464,15 @@ __myevic__ void DrawMenuData( int line, int sel, const mdata_t *data )
 			}
 			else
 			{
-				DrawValueRight( desc->posr, line + 2, v, desc->dp, desc->z, desc-> nd );
+				DrawValueRight( desc->posr, line+2, v, desc->dp, desc->z, desc-> nd );
 				//if ( desc->unit_s ) // not used 
 				//{
-				//	DrawStringRight( desc->unit_s, 63, line + 2 ); //desc->posr + 1
+				//	DrawStringRight( desc->unit_s, 63, line+2 ); //desc->posr + 1
 				//}
 				//else 
                                 if ( desc->unit_c )
 				{
-					DrawImageRight( 63, line + 2, desc->unit_c );
+					DrawImageRight( 63, line+2, desc->unit_c );
 				}
 			}
 
@@ -4538,14 +4538,14 @@ __myevic__ void DrawMenu()
 		{
 			if ( CurrentMenuItem == firstitem + i )
 			{
-				DrawFillRect( 0, line, 63, line + 12, 1 );
-                                DrawStringInv( mi->caption, 2, line + 2 );
+				DrawFillRect( 0, line, 63, line+12, 1 );
+                                DrawStringInv( mi->caption, 2, line+2 );
                                 if ( mi->action_type == MACTION_SUBMENU )
                                     DrawImageInv( 58, line+2, 0xD4 ); // |>
 			}
 			else
 			{
-				DrawString( mi->caption, 2, line + 2 );
+				DrawString( mi->caption, 2, line+2 );
                                 if ( mi->action_type == MACTION_SUBMENU )
                                     DrawImage( 58, line+2, 0xD4 );
 			}

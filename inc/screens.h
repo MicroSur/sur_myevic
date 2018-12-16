@@ -360,6 +360,13 @@ extern const uint8_t String_ResetCoil[];
 extern const uint8_t String_Session[];
 extern const uint8_t String_Garbage[];
 
+//
+extern const uint8_t String_Profile1[];
+extern const uint8_t String_Profile2[];
+extern const uint8_t String_Profile3[];
+extern const uint8_t String_Profile4[];
+extern const uint8_t String_Profile5[];
+
 //==============================================================================
 
 #endif
