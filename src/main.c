@@ -1011,6 +1011,7 @@ __myevic__ void Main()
 	InitVariables();
 
 	// Enable chip temp sensor sampling by ADC
+        //SetADCState( 17, 1 ); we can use build-in Temp sensor for all mods too
 	if ( ISRX300 )
 	{
 		SYS->IVSCTL |= SYS_IVSCTL_VTEMPEN_Msk;

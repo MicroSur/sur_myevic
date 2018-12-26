@@ -745,30 +745,32 @@ __myevic__ void ShowBattery()
         if ( dfBattLine == 2 ) //volts + small 
 		{
 			//uint16_t bv = gFlags.firing ? RTBattVolts : BatteryVoltage;
-			DrawValueRight(	20, line, bv, 2, 0x0B, 0 );
-			DrawImage( 21, line, 0x7D );
+			DrawValueRight(	21, line, bv, 2, 0x0B, 0 );
+			DrawImage( 22, line, 0x97 ); //v
 		}
 	else if ( dfBattLine == 1 ) //percent + small
 		{
 			DrawValueRight(	17, line, BatteryPercent, 0, 0x0B, 0 );
-			DrawImage( 18, line, 0xC2 );
+			DrawImage( 18, line, 0xC2 ); //%
 		}
         else if ( dfBattLine == 0 ) //percent+volts (was big)
         {
                 DrawValueRight(	17, line, BatteryPercent, 0, 0x0B, 0 ); 
-                DrawImage( 19, line, 0xC2 );
+                DrawImage( 19, line, 0xC2 ); //%
                 
                 //uint16_t bv = gFlags.firing ? RTBattVolts : BatteryVoltage;
 		DrawValueRight(	56, line, bv, 2, 0x0B, 0 );
-		DrawImage( 57, line, 0x97 );
+		DrawImage( 57, line, 0x97 ); //v
                 
-                DrawVLineDots( 31, 114, 127 );
+                // later for 10pc blinc DrawVLineDots( 31, 114, 127 ); //vert line
                 
         }
 
+        // draw batts icons
         
-	if ( gFlags.battery_10pc && !gFlags.battery_charging )
+	if ( gFlags.battery_10pc && !gFlags.battery_charging && !gFlags.draw_battery )
 	{
+/*
 		if ( gFlags.draw_battery )
 		{
 			if ( dfBattLine == 1 || dfBattLine == 2 )
@@ -785,7 +787,8 @@ __myevic__ void ShowBattery()
                                 DrawImage( 1, line, 0xE2 ); //2 small empty
                                 DrawImage( 33, line, 0xE2 );    
                         }
-		}
+                }
+*/
 	}
 	else if ( gFlags.draw_battery_charging && gFlags.battery_charging )
 	{
@@ -825,6 +828,7 @@ __myevic__ void ShowBattery()
                 //                DrawImage( 23, 117, 0xC6 );
                                 DrawVLine( 31, 114, 127, 1 );
 			}
+                        DrawVLineDots( 31, 114, 127 ); //vert line
 		//	else if ( BatteryTenth )
 		//	{
 		//		DrawFillRectLines( 10, 119, (4 * BatteryTenth + 9), 123, 1 );

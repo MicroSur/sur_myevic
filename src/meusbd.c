@@ -965,8 +965,6 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 	mondata->IsCharging = gFlags.battery_charging;
 	mondata->IsCelsius = dfStatus.IsCelsius;
 
-	uint16_t temp = dfStatus.IsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
-
 	if ( gFlags.firing )
 	{
 		//for ( int i = 0 ; i < NumBatteries ; ++i )
@@ -982,6 +980,7 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 		mondata->OutputVoltage = AtoVolts;
 		mondata->OutputCurrent = AtoCurrent * 10;
 	}
+/*
 	else
 	{
 		//for ( int i = 0 ; i < NumBatteries ; ++i )
@@ -995,12 +994,14 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 		//	mondata->Temperature = temp;
 		//}
 	}
+*/
         
 	for ( int i = 0 ; i < NumBatteries ; ++i )
 	{
 		mondata->BatteryVoltage[i] = ( gFlags.firing ? RTBVolts[i] : BattVolts[i] ) - 275;
 	}
         
+        uint16_t temp = dfStatus.IsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
         mondata->Temperature = temp;
         
 	if ( ISMODETC(dfMode) )

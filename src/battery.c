@@ -1728,7 +1728,7 @@ __myevic__ void BatteryCharge()
 		BatteryStatus = 2; // Check Battery
                 BatteryPinsSet (0);
 	}
-	else if ( BatteryVoltage >= 250 )
+	else if ( BatteryVoltage >= 230 )
 	{
 		if ( gFlags.usb_attached && USBVolts > 580 )
 		{
@@ -1756,6 +1756,7 @@ __myevic__ void BatteryCharge()
 	else if ( ( ISRX200S || ISRX23 || ISGEN3 || ISCUBO200 ) 
                 && BattVolts[0] >= 250 && BattVolts[1] >= 250 && BattVolts[2] < 20 )
 	{
+            //BattVolts[2] < 20 may case low BatteryVoltage
 		NumBatteries = 2;
 		NewBatteryData();
 
