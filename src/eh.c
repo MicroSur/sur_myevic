@@ -629,14 +629,14 @@ __myevic__ void EventHandler()
 				PD7 = 0;
 			}
 
-			if ( ISEGRIPII || ISEVICAIO || ISSINFJ200 || ISSINP80 ) 
-			{
+			//if ( ISEGRIPII || ISEVICAIO || ISSINFJ200 || ISSINP80 ) 
+			//{ //check mod in LEDControl()
 				//if ( !dfStealthOn ) // != 0 for stealth contrast too
 				//{
 					LEDTimer = 0;
 					gFlags.led_on = 1;
 				//}
-			}
+			//}
 
 		//	myprintf( "StartFire\n" );
                         
@@ -1126,8 +1126,10 @@ __myevic__ void EventHandler()
 			MainView();
 			return;
 
-		case 13:	// Battery charge stop
+		case 13:	// Battery charge stop + usb attached
 			gFlags.battery_charging = 0;
+                        LEDOff();
+                        
                         if ( Screen == 5 )
 			{
 				gFlags.refresh_display = 1;
@@ -1181,6 +1183,7 @@ __myevic__ void EventHandler()
 			}
 			gFlags.usb_attached = 0;
 			gFlags.battery_charging = 0;
+                        LEDOff();
                         dfStatus.usbchghotoff = 0;
 			//gFlags.monitoring = 0; not used
                         

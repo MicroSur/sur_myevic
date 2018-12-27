@@ -866,6 +866,7 @@ __myevic__ void ResetDataFlash()
 //      dfMaxPower = 0;
 //      dfMaxVolts = 0;
         
+        RereadRez();
         InitSetPowerVoltMax();
         SetAtoLimits();
         

@@ -87,10 +87,10 @@ __myevic__ void TMR1_IRQHandler()
 		gFlags.tick_5khz = 1;
 		++TMR1Counter;
 
-		if ( gFlags.led_on )
-		{
+		//if ( gFlags.led_on )
+		//{
 			LEDControl();
-		}
+		//}
 	}
 }
 
@@ -255,7 +255,8 @@ __myevic__ void TimedItems()
 		if ( gFlags.battery_charging )
 		{
 			gFlags.draw_battery_charging ^= 1;
-
+                        gFlags.led_on ^= 1;
+                        
 			if ( Screen == 1 || Screen == 5 )
 			{
 				if ( BatAnimLevel < 10 )

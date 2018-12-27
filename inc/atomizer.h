@@ -144,7 +144,7 @@ extern void Overtemp();
 extern void ResetResistance();
 
 extern void SwitchRezLock( int lock );
-//extern uint16_t RereadRez();
+extern uint16_t RereadRez();
 //extern void SetRez();
 
 //extern int SearchSMARTRez( uint16_t rez );

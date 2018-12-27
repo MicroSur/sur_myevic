@@ -1214,9 +1214,9 @@ volatile uint8_t LEDTimer;
 
 __myevic__ void LEDGetColor()
 {
-	LEDBlue = dfLEDColor & 0x1F;
-	LEDGreen = ( dfLEDColor & ( 0x1F << 5 ) ) >> 5;
-	LEDRed = ( dfLEDColor & ( 0x1F << 10 ) ) >> 10;
+	LEDBlue = dfLEDColor & 0x1F; // 0000000000011111 dfLEDColor
+	LEDGreen = ( dfLEDColor & ( 0x1F << 5 ) ) >> 5; //000001111100000
+	LEDRed = ( dfLEDColor & ( 0x1F << 10 ) ) >> 10; //111110000000000
 }
 
 __myevic__ void LEDSetColor()
@@ -1225,7 +1225,7 @@ __myevic__ void LEDSetColor()
         if ( ISEGRIPII || ISEVICAIO || ISSINFJ200 || ISSINP80 ) 
         {
             gFlags.led_on = 1;
-            //LEDTimer = 0;
+            LEDTimer = 20;
         }
 }
 
@@ -1239,7 +1239,7 @@ __myevic__ void LEDSetColor()
 __myevic__ void LEDOff()
 {
     gFlags.led_on = 0;
-    
+
     if ( ISSINFJ200 )
     {
         PB7 = 0;
@@ -1258,6 +1258,12 @@ __myevic__ void LEDOff()
 // Called by Timer 1 @ 5kHz
 __myevic__ void LEDControl()
 {
+    if ( !gFlags.led_on ) 
+    {
+        LEDOff();
+        return;
+    }
+        
     uint32_t phase = TMR1Counter % 25;
     
     if ( ISSINFJ200 )
@@ -1293,12 +1299,15 @@ __myevic__ void LEDControl()
             PD->DOUT &= ~3;
         }               
     }
+    // no else
 }
 
 __myevic__ void LEDTimerTick()
 {
+    //10Hz
+    
 	if ( LEDTimer )
-	{
+	{                   
 		if ( !--LEDTimer )
 		{
 			LEDOff();
