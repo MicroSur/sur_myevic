@@ -92,6 +92,7 @@ extern uint16_t GetScreenProtection();
 //extern uint16_t GetMainScreenDuration();
 extern void SetScreen( int screen, int duration );
 extern void DarkScreen();
+extern void Sleep0Screen();
 
 //==============================================================================
 

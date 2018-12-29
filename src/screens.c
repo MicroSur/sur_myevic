@@ -46,6 +46,15 @@ void DarkScreen()
 	gFlags.refresh_display = 1;
 }
 
+
+//=========================================================================
+void Sleep0Screen()
+{
+        Screen = 0;
+	SleepTimer = 0;
+        gFlags.refresh_display = 1;
+}
+
 //=========================================================================
 // Called at a frequency of 10Hz except when firing in TC modes.
 // Called at a frequency of 2Hz when firing in TC modes.
@@ -1300,7 +1309,10 @@ __myevic__ void ShowGoodBye()
                     
                 case 4:
                     DrawStringCentered( String_Sleep, 100 );
-                    break;                    
+                    break;
+                    
+		default:
+			break;                    
     }
   
     gFlags.refresh_display = 1;

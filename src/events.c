@@ -548,7 +548,8 @@ __myevic__ void GetUserInput()
                 
 		if ( UserInputs == 2 ) //right button
 		{
-			if ( dfStatus.wakeonpm && Screen == 60 )
+			if ( dfStatus.wakeonpm && Screen == 60 && !dfStatus.off )
+                            //!dfStatus.off = pass key while clock on screen in off state
 			{
                                 ClearScreenBuffer();
                                 Event = 0;

@@ -225,15 +225,19 @@ __myevic__ void EventHandler()
 			{
                             if ( Screen == 60 || Screen == 54 ) // set clock off, battery
                             {
+/*
                                 Screen = 0;
 				SleepTimer = 0;
                                 gFlags.refresh_display = 1;
+*/
+                                Sleep0Screen();
                             }
                             else if( !gFlags.battery_charging && !dfStatus.offmodclock && Screen == 0 )
                             {
                                 SetScreen( 60, 10 );
                             }                           
-                        return;                       
+                            
+                            return;                       
 			}
 
 			if ( Screen == 1 )
@@ -1098,6 +1102,7 @@ __myevic__ void EventHandler()
 		case 16:	// Edit mode
 			if ( dfStatus.off )
 				return;
+                        
 			gFlags.draw_edited_item = 1;
 			EditItemIndex = 0;
 			EditModeTimer = 1000;
@@ -1107,6 +1112,7 @@ __myevic__ void EventHandler()
 		case 15:	// Single Fire click
 			if ( dfStatus.off || gFlags.firing )
 				return;
+                        
 			if ( gFlags.refresh_battery )
 			{
 				gFlags.refresh_battery = 0;
@@ -1467,17 +1473,22 @@ __myevic__ void EventHandler()
 
                         if ( dfStatus.off )
 			{
-                            if ( Screen == 61 ) // hide goodbye scr
+                            if ( Screen == 60 || Screen == 54 ) // clock /batts
                             {
+/*
                                 Screen = 0;
 				SleepTimer = 0;
                                 gFlags.refresh_display = 1;
+*/
+                                Sleep0Screen();
                             }
-                            else if( !gFlags.battery_charging && ( Screen == 0 || Screen == 60 ) )
+                            
+                            if ( !gFlags.battery_charging && ( Screen == 0 ) )
                             {
                                 SetScreen( 61, SwitchOffCase ? 3 : 2 ); //goodbye
                             }                           
-                        return;                       
+                            
+                            return;                       
 			}
                         
 			if ( Screen == 0 || Screen == 60 )
