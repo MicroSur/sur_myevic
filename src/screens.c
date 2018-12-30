@@ -352,6 +352,10 @@ __myevic__ void DrawScreen()
 //DrawValueRight( 64, 108, ChargerDuty, 0, 0x0B, 0 );
 //DrawValue( 0, 108, GetLockState(), 0, 0x0B, 0 );
         
+//DrawValue( 0, 0, gFlags.user_idle ? 1 : 0, 0, 0x0B, 0 );
+//DrawValueRight( 64, 0, SleepTimer, 0, 0x0B, 0 );  
+//DrawValue( 0, 108, Screen, 0, 0x0B, 0 );
+
 //DisplayRefresh(); //uncomment too
 
 
@@ -623,7 +627,8 @@ __myevic__ void ChargeView()
     //ShowBatCharging();
 	Screen = 5;
 	ScreenDuration = ScrChargeTimes[dfScrChargeTime];
-	gFlags.refresh_display = 1;            
+        SleepTimer = dfDimOffTimeout * 100; //fo reset session counters
+	gFlags.refresh_display = 1;  
 }
 
 

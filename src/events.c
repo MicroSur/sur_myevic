@@ -410,6 +410,7 @@ __myevic__ void GetUserInput()
 	{
 		if ( LastInputs == 1 )
 			StopFire();
+                
 		gFlags.user_idle = 1;
 		LastInputs = -1;
 		KeyPressTime = 0;

@@ -189,7 +189,7 @@ __myevic__ void TimedItems()
 	static  uint8_t BatAnimTimer = 0;
         uint8_t dfc;
         
-	if ( !Screen && SleepTimer )
+	if ( ( Screen == 0 || Screen == 5 ) && SleepTimer ) //off or charge, for reset session counters
 		--SleepTimer;
 
 	if ( ISVTCDUAL )

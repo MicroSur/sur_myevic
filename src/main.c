@@ -848,20 +848,34 @@ __myevic__ void SleepIfIdle()
 {
 	if ( !gFlags.firing && !NoEventTimer )
 	{
-		if ( ( Screen == 0 ) && ( SleepTimer == 0 ) && ( gFlags.user_idle ) )
+            if ( SleepTimer == 0 && gFlags.user_idle )
+            {
+                if ( Screen == 5 || Screen == 0 )
+                {
+                    //reset on charge too
+                    PuffsOffCount = 0;
+                    NextPreheatTimer = 0;
+                    AutoPuffTimer = 0;
+                    AwakeTimer = 0;
+                    MilliJoulesVapedOn = MilliJoules;
+                    SessionPuffs = 0;
+                    gFlags.apuff = 0;
+                }
+                
+		if ( Screen == 0 )
 		{                                        
 			GoToSleep();
                         
 			Set_NewRez_dfRez = 2; //we need recheck res after wakeup? yes 
 			AtoProbeCount = 0;
 			AtoRezMilli = 0;
-                        PuffsOffCount = 0;
-                        NextPreheatTimer = 0;
-                        AutoPuffTimer = 0;
-                        AwakeTimer = 0;
-                        MilliJoulesVapedOn = MilliJoules;
-                        SessionPuffs = 0;
-                        gFlags.apuff = 0;
+                        //PuffsOffCount = 0;
+                        //NextPreheatTimer = 0;
+                        //AutoPuffTimer = 0;
+                        //AwakeTimer = 0;
+                        //MilliJoulesVapedOn = MilliJoules;
+                        //SessionPuffs = 0;
+                        //gFlags.apuff = 0;
 			gFlags.sample_vbat = 1;
 			ReadBatteryVoltage();
                         
@@ -886,8 +900,8 @@ __myevic__ void SleepIfIdle()
                         
                         gFlags.asleep = 1;
 		}
-                
-                
+            }    
+   
 		NoEventTimer = 200; //2s
 	}
 }
