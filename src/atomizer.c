@@ -1362,7 +1362,8 @@ __myevic__ void TweakTargetVoltsVW()
         }
         else
         {
-            TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
+            //TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
+            TargetVolts = GetVoltsForPower( pwr * PowerScale / 100 );
         }
 }
 

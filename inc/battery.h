@@ -54,7 +54,7 @@ extern uint16_t RTBattVolts;
 extern uint16_t	RTBVolts[4];
 extern uint16_t	RTBVTotal;
 extern uint16_t LowBatVolts;
-//extern uint32_t	PowerScale; // no auto power down
+extern uint32_t	PowerScale; //optional reduce pwr on low battery
 extern uint16_t	BatteryVoltage;
 extern uint16_t	BattVoltsTotal;
 extern uint16_t	BattVolts[4];

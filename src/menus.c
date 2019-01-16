@@ -4338,6 +4338,14 @@ const mdata_t Replay =
 	MITYPE_BIT,
 	15
 };
+const mdata_t PwrLow =
+{
+	&dfStatus2,
+	&BitDesc,
+	MITYPE_BIT,
+	19
+};
+
 const menu_t VapingMenu =
 {
 	String_Vaping,
@@ -4347,7 +4355,7 @@ const menu_t VapingMenu =
 	0,
 	VapingMenuOnClick+1,
 	VapingMenuOnEvent+1,
-	14,
+	15,
 	{
 		{ String_Preheat, &PreheatMenu, 0, MACTION_SUBMENU },
 		{ String_Curve, &CurveMenu, 0, MACTION_SUBMENU },
@@ -4362,6 +4370,7 @@ const menu_t VapingMenu =
                 { String_AutoFi, &APuffTime, 0, MACTION_DATA }, //10 
                 { String_ATime, 0, 0, MACTION_DATA },        //11
                 { String_Repeat, &Replay, 0, MACTION_DATA },
+                { String_PwrLo, &PwrLow, 0, MACTION_DATA },                        
 		{ String_Back, 0, EVENT_PARENT_MENU, 0 }
 	}
 };

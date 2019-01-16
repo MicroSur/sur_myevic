@@ -263,7 +263,7 @@ const Battery_t Batteries[] =
 //-------------------------------------------------------------------------
 
 uint16_t	LowBatVolts;
-//uint32_t	PowerScale;
+uint32_t	PowerScale;
 uint16_t	BatteryVoltage;
 uint16_t	BattVoltsHighest;
 uint16_t	BattVoltsTotal;
@@ -1309,43 +1309,41 @@ __myevic__ int CheckBattery()
 	RTBattVolts = bv;
 
 	if ( !( gFlags.firing )
-		|| ( !ISMODEVW(dfMode) && ( !ISMODETC(dfMode) || gFlags.check_mode ) ) ) //TODO
+		|| ( !ISMODEVW(dfMode) && ( !ISMODETC(dfMode) || gFlags.check_mode ) ) )
 	{
-		//gFlags.decrease_voltage = 0;
+		gFlags.decrease_voltage = 0;
 		return 0;
 	}
 
 	int limit_voltage = BatteryCutOff + 10;
-
+        // from eh: LowBatVolts = ( BatteryVoltage > BatteryCutOff + 100 ) ? 0 : BatteryVoltage;
+        
 	if ( LowBatVolts
 		&& pwr > BatteryMaxPwr
-		//&& PowerScale == 100
+		&& PowerScale == 100
 		&& bv >= limit_voltage
 		&& 100 * ( bv - limit_voltage ) / ( LowBatVolts - limit_voltage ) < 10
 		)
 	{
 		v0 = 1;
-		//PowerScale = 100 * BatteryMaxPwr / pwr;
+		PowerScale = 100 * BatteryMaxPwr / pwr;
 	}
 
 	if ( v0 || gFlags.limit_power || bv < limit_voltage )
 	{
 		if ( !gFlags.limit_power || !gFlags.read_bir )
 		{
-			ShowWeakBatFlag = 5;
+			ShowWeakBatFlag = 5; //times
 		}
 
 		gFlags.limit_power = 0;
-		//gFlags.decrease_voltage = 0; //1;
+		gFlags.decrease_voltage = 1;
 
-/*
 		if ( ISMODEVW(dfMode) && ( PowerScale > 5 ))
 		{
 			--PowerScale;
 		}
-*/
 	}
-/*
 	else
 	{
 		gFlags.decrease_voltage = 0;
@@ -1357,7 +1355,10 @@ __myevic__ int CheckBattery()
 		}
 
 	}
-*/
+        
+        if ( !dfStatus2.pwrlow )
+            PowerScale = 100;
+        
 	return 0;
 }
 

@@ -721,7 +721,7 @@ __myevic__ void EventHandler()
                 //        TargetVolts = 500;
                 //else           
 			TargetVolts = 100;
-			////PowerScale = 100;
+			PowerScale = 100;
                 
                         
 			if ( ISMODETC(dfMode) )
@@ -840,12 +840,14 @@ __myevic__ void EventHandler()
                                 }
 
 
-				gFlags.limit_power = 0; //todo 
-//                              if ( pwr > 300 ) pwr = 300;
+				gFlags.limit_power = 0;
+                                if ( pwr > 300 ) pwr = 300;
 				if ( pwr > BatteryMaxPwr )
 				{
 					gFlags.limit_power = 1;
-				//	PowerScale = 100 * BatteryMaxPwr / pwr;
+					if ( dfStatus2.pwrlow )
+                                            PowerScale = 100 * BatteryMaxPwr / pwr;
+                                        
 					pwr = BatteryMaxPwr;
                                         pc = 1;
 				}
@@ -859,7 +861,7 @@ __myevic__ void EventHandler()
                                 }
                                 else
                                 {
-                                    TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
+                                    TargetVolts = GetVoltsForPower( pwr );                  //* PowerScale / 100 );
                                 }
                     //}
                     //else

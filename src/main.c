@@ -1266,14 +1266,16 @@ __myevic__ void Main()
 					{
                 //if ( gFlags.pbank ) //stop PBank
                                                     
-                                                pwr = BatteryMaxPwr;
 						gFlags.limit_power = 1;
-						//PowerScale = 100 * BatteryMaxPwr / pwr;
+                                                if ( dfStatus2.pwrlow )
+                                                    PowerScale = 100 * BatteryMaxPwr / pwr;
+
+                                                pwr = BatteryMaxPwr;
 					}
 					else
 					{
 						gFlags.limit_power = 0;
-						//PowerScale = 100;
+						PowerScale = 100;
 					}
 
 				}
