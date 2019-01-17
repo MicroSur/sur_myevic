@@ -1337,7 +1337,9 @@ __myevic__ int CheckBattery()
 		}
 
 		gFlags.limit_power = 0;
-		gFlags.decrease_voltage = 1;
+                
+                if ( dfStatus2.pwrlow )
+                    gFlags.decrease_voltage = 1;
 
 		if ( ISMODEVW(dfMode) && ( PowerScale > 5 ))
 		{
@@ -1348,12 +1350,10 @@ __myevic__ int CheckBattery()
 	{
 		gFlags.decrease_voltage = 0;
 
-
 		if (( PowerScale < 100 ) && ( bv > limit_voltage ))
 		{
 			++PowerScale;
 		}
-
 	}
         
         if ( !dfStatus2.pwrlow )

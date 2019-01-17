@@ -788,7 +788,9 @@ __myevic__ void EventHandler()
 				pwr = dfPower;
 			}
 
-                        uint8_t pc = 0; // for vvlite
+                        int pc = 0; // for vvlite
+                        int poverscale_flag = 0;
+                        
 			if ( ISMODEVW(dfMode) )
 			{
 				if ( dfStatus.pcurve && !CurveDelay )
@@ -841,12 +843,15 @@ __myevic__ void EventHandler()
 
 
 				gFlags.limit_power = 0;
-                                if ( pwr > 300 ) pwr = 300;
+                                //if ( pwr > 300 ) pwr = 300;
 				if ( pwr > BatteryMaxPwr )
 				{
 					gFlags.limit_power = 1;
 					if ( dfStatus2.pwrlow )
+                                        {
                                             PowerScale = 100 * BatteryMaxPwr / pwr;
+                                            poverscale_flag = 1;
+                                        }
                                         
 					pwr = BatteryMaxPwr;
                                         pc = 1;
@@ -854,14 +859,15 @@ __myevic__ void EventHandler()
                                 
                     //if ( !gFlags.pbank ) 
                     //{
-                                if ( dfStatus.vvlite && !pc ) //&& !( dfStatus.keylock && dfStatus2.replay ) )
+                                if ( dfStatus.vvlite && !pc && !poverscale_flag ) 
+                                    //&& !( dfStatus.keylock && dfStatus2.replay ) )
                                 {
                                     if ( !dfVVLockedVolt ) dfVVLockedVolt = VWVolts;
                                     TargetVolts = dfVVLockedVolt;
                                 }
                                 else
                                 {
-                                    TargetVolts = GetVoltsForPower( pwr );                  //* PowerScale / 100 );
+                                    TargetVolts = GetVoltsForPower( pwr );   //* PowerScale / 100 );
                                 }
                     //}
                     //else

@@ -1079,13 +1079,10 @@ __myevic__ void RegulateBuckBoost()
 			{
 				if ( BBCMode != 1 )
 				{
-                                    //if ( !ISINVOKE && !ISIKU200 ) //todo new function for buck only mods?
-                                    //{
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
 					if ( !ISVTCDUAL ) PC3 = 1;
-                                    //}
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = MaxBuck;
@@ -1113,13 +1110,10 @@ __myevic__ void RegulateBuckBoost()
 			{
 				if ( BBCMode != 2 )
 				{
-                                    //if ( !ISINVOKE && !ISIKU200 ) 
-                                    //{
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
 					if ( !ISVTCDUAL ) PC3 = 1;
-                                    //}
 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = ( BBCMode == 0 ) ? MinBuck : MaxBuck;
@@ -1163,13 +1157,10 @@ __myevic__ void RegulateBuckBoost()
 			{
 				if ( BBCMode != 3 )
 				{
-                                    //if ( !ISINVOKE && !ISIKU200 ) 
-                                    //{
 					BBC_Configure( BBC_PWMCH_BOOST, 1 );
 					BoostDuty = MinBoost;
 					PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
 					if ( !ISVTCDUAL ) PC3 = 1;
-                                    //}
                                 
 					BBC_Configure( BBC_PWMCH_BUCK, 1 );
 					BuckDuty = MaxBuck;
@@ -1219,10 +1210,7 @@ __myevic__ void RegulateBuckBoost()
 					}
 				}
 
-                                //if ( !ISINVOKE && !ISIKU200 ) 
-                                //{
                                     PWM_SET_CMR( PWM0, BBC_PWMCH_BOOST, BoostDuty );
-                                //}
                                 
 			}
 			break;
@@ -1315,7 +1303,8 @@ __myevic__ uint16_t GetVoltsForPower( uint16_t pwr )
 __myevic__ void TweakTargetVoltsVW()
 { // 1000 Hz
 	unsigned int pwr;
-        uint8_t pc = 0;
+        int pc = 0;
+        //int poverscale_flag = 0;
         
 	if ( dfMode == 6 )
 	{
@@ -1355,14 +1344,17 @@ __myevic__ void TweakTargetVoltsVW()
         
 	pwr = AtoPowerLimit( pwr );
 
-        if ( dfStatus.vvlite && !pc ) //&& !( dfStatus.keylock && dfStatus2.replay ) )
+	//if ( dfStatus2.pwrlow && gFlags.limit_power )
+        //    poverscale_flag = 1;
+                                            
+        if ( dfStatus.vvlite && !pc && !gFlags.decrease_voltage ) 
+            //&& !( dfStatus.keylock && dfStatus2.replay ) )
         {
             if ( !dfVVLockedVolt ) dfVVLockedVolt = VWVolts;
             TargetVolts = dfVVLockedVolt;
         }
         else
         {
-            //TargetVolts = GetVoltsForPower( pwr );//* PowerScale / 100 );
             TargetVolts = GetVoltsForPower( pwr * PowerScale / 100 );
         }
 }
@@ -1389,12 +1381,11 @@ __myevic__ void TweakTargetVoltsJT()
 
 		temp = ( dfStatus.IsCelsius ) ? CelsiusToF( dfTemp ) : dfTemp;
 
-		//if ( gFlags.decrease_voltage )
-		//{
-		//	if ( TargetVolts ) --TargetVolts;
-		//}
-		//else 
-                if ( AtoTemp < temp )
+		if ( gFlags.decrease_voltage )
+		{
+			if ( TargetVolts ) --TargetVolts;
+		}
+		else if ( AtoTemp < temp )
 		{
 			++TargetVolts;
 			gFlags.limit_ato_temp = 0;
@@ -1457,7 +1448,14 @@ __myevic__ void TweakTargetVoltsReplay()
                     ++TargetVolts;
                 }
 
-		if ( TargetVolts > volts ) TargetVolts = volts;
+                if ( !gFlags.decrease_voltage )
+                {
+                    if ( TargetVolts > volts ) TargetVolts = volts;
+                }
+                else
+                {
+                    TargetVolts = GetVoltsForPower( pwr * PowerScale / 100 );
+                }
 }
 
 
@@ -2398,7 +2396,7 @@ algostage_t tabStagesSweet[]=
 
 int condBoostEnd()
 {
-	return ( AlgoCtl.atemp > AlgoCtl.ttemp * AlgoCtl.boost / 100 ) ; //|| gFlags.decrease_voltage );
+        return (( AlgoCtl.atemp > AlgoCtl.ttemp * AlgoCtl.boost / 100 ) || gFlags.decrease_voltage );
 }
 
 int condNearCross1()
@@ -2548,16 +2546,15 @@ __myevic__ void TweakTargetVoltsSegments()
 		AlgoCtl.stage->tests = 0;
 	}
 
-	//if ( gFlags.decrease_voltage )
-	//{
-	//	if ( TargetVolts )
-	//	{
-	//		AlgoCtl.mvolts -= 10;
-	//		TargetVolts = AlgoCtl.mvolts / 10;
-	//	}
-	//}
-	//else 
-        if ( AlgoCtl.atemp < AlgoCtl.ttemp )
+	if ( gFlags.decrease_voltage )
+	{
+		if ( TargetVolts )
+		{
+			AlgoCtl.mvolts -= 10;
+			TargetVolts = AlgoCtl.mvolts / 10;
+		}
+	}
+	else if ( AlgoCtl.atemp < AlgoCtl.ttemp )
 	{
 		AlgoCtl.mvolts += AlgoCtl.stage->inc;
 		TargetVolts = AlgoCtl.mvolts / 10;
@@ -2617,15 +2614,15 @@ __myevic__ void TweakTargetVoltsPID()
 
 	if ( volts < 50 ) volts = 50;
 
-	//if ( gFlags.decrease_voltage )
-	//{
-	//	if ( volts < TargetVolts ) TargetVolts = volts;
-	//	else if ( TargetVolts ) --TargetVolts;
-	//}
-	//else
-	//{
+	if ( gFlags.decrease_voltage )
+	{
+		if ( volts < TargetVolts ) TargetVolts = volts;
+		else if ( TargetVolts ) --TargetVolts;
+	}
+	else
+	{
 		TargetVolts = volts;
-	//}
+	}
 }
 
 
