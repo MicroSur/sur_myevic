@@ -274,10 +274,10 @@ void DrawPiece(int X, int Y, int draw) {
 
             if (!draw) {
                 if (oldPiece.curBlock[r][c]) {
-                    DrawFillRect(x1, y1, x2, y2, draw);
+                    DrawFillRect1(x1, y1, x2, y2, draw);
                 }
             } else if (currentPiece.curBlock[r][c]) {
-                DrawFillRect(x1, y1, x2, y2, draw);
+                DrawFillRect1(x1, y1, x2, y2, draw);
             }
         }
     }
@@ -293,7 +293,7 @@ void DrawNext() //(int X, int Y)
             int y1 = r * 4 - 4; //+ Y;
             int x2 = x1 + 2;
             int y2 = y1 + 2;
-            DrawFillRect(x1, y1, x2, y2, currentPiece.nextBlock[r][c]);
+            DrawFillRect1(x1, y1, x2, y2, currentPiece.nextBlock[r][c]);
         }
     }
     DisplayRefresh();
@@ -302,14 +302,14 @@ void DrawNext() //(int X, int Y)
 void DrawDot(int X, int Y, uint8_t dot) {
     X = oledX(X);
     Y = oledY(Y);
-    DrawFillRect(X, Y, X + 4, Y + 4, dot);
+    DrawFillRect1(X, Y, X + 4, Y + 4, dot);
 }
 
 
 void DrawHole(int X, int Y) {
     X = oledX(X);
     Y = oledY(Y);
-    DrawFillRect(X + 1, Y + 1, X + 3, Y + 3, 0);
+    DrawFillRect1(X + 1, Y + 1, X + 3, Y + 3, 0);
 }
 
 
