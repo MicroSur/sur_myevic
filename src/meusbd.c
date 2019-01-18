@@ -302,15 +302,16 @@ __myevic__ void USBD_IRQHandler(void)
 			usbdEP3Handler();
 		}
 
+/*
 		if(u32IntSts & USBD_INTSTS_EP4)
 		{
-			/* Clear event flag */
+			// Clear event flag
 			USBD_CLR_INT_FLAG(USBD_INTSTS_EP4);
 		}
 
 		if(u32IntSts & USBD_INTSTS_EP5)
 		{
-			/* Clear event flag */
+			// Clear event flag
 			USBD_CLR_INT_FLAG(USBD_INTSTS_EP5);
 			// Interrupt IN
 			//usbdEP5Handler(); //vcom
@@ -318,7 +319,7 @@ __myevic__ void USBD_IRQHandler(void)
 
 		if(u32IntSts & USBD_INTSTS_EP6)
 		{
-			/* Clear event flag */
+			// Clear event flag
 			USBD_CLR_INT_FLAG(USBD_INTSTS_EP6);
 			// Interrupt OUT
 			//usbdEP6Handler();  //vcom
@@ -326,12 +327,13 @@ __myevic__ void USBD_IRQHandler(void)
 
 		if(u32IntSts & USBD_INTSTS_EP7)
 		{
-			/* Clear event flag */
+			// Clear event flag
 			USBD_CLR_INT_FLAG(USBD_INTSTS_EP7);
 		}
+*/
 	}
 
-	/* clear unknown event */
+	// clear unknown event
 	USBD_CLR_INT_FLAG(u32IntSts);
 }
 
@@ -928,12 +930,14 @@ __myevic__ uint32_t hidGetProfile( CMD_T *pCmd )
 //-------------------------------------------------------------------------
 // Read Configuration
 //-------------------------------------------------------------------------
+/*
 __myevic__ uint32_t hidSetProfile( CMD_T *pCmd )
 {
 	//myprintf( "Set Profile command - Profile: %d\n", pCmd->u32Arg1 );
 	hidDataIndex = 0;
 	return 0;
 }
+*/
 
 
 //-------------------------------------------------------------------------
@@ -959,7 +963,7 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 
 	MemSet( mondata, 0, u32ParamLen );
 
-	mondata->Timestamp = TMR2Counter / 10;
+	mondata->Timestamp = TMR2Counter / 10; // 1/10 sec, 100ms
 
 	mondata->IsFiring = gFlags.firing;
 	mondata->IsCharging = gFlags.battery_charging;

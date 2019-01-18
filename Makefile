@@ -24,8 +24,6 @@ OBJS := $(NUVOSDK)/Device/Nuvoton/M451Series/Source/system_M451Series.o \
 	$(NUVOSDK)/StdDriver/src/wdt.o \
 	$(NUVOSDK)/StdDriver/src/crc.o
 
-# 	$(NUVOSDK)/StdDriver/src/uart.o \
-
 MYEVIC_OBJS := src/myevic.o \
 	src/main.o \
 	src/atomizer.o \

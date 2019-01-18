@@ -232,13 +232,7 @@ __myevic__ void InitHardware()
 	}
 
 	SetPWMClock();
-
 	SYS_LockReg();
-
-	//#if (ENABLE_UART)
-	//InitUART0();
-	//#endif
-
 	InitGPIO();
 
 	//if ( !PD3 )
@@ -748,9 +742,6 @@ __myevic__ void LightSleep()
 	CLK_DisableModuleClock( PWM0_MODULE );
 	CLK_DisableModuleClock( SPI0_MODULE );
 	CLK_DisableModuleClock( CRC_MODULE );
-	//#if (ENABLE_UART)
-	//CLK_DisableModuleClock( UART0_MODULE );
-	//#endif
 
         //CLK_EnableModuleClock( USBD_MODULE );
         
@@ -774,9 +765,7 @@ CLK_WaitClockReady( CLK_STATUS_PLLSTB_Msk );
 	SystemCoreClockUpdate();
 
 	// Wake up Modules
-	//#if (ENABLE_UART)
-	//CLK_EnableModuleClock( UART0_MODULE );
-	//#endif
+
 	CLK_EnableModuleClock( PWM0_MODULE );
 	CLK_EnableModuleClock( SPI0_MODULE );
 	CLK_EnableModuleClock( CRC_MODULE );

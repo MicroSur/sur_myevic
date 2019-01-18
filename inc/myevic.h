@@ -2,7 +2,6 @@
 #define __MYEVIC_H__
 
 #include "M451Series.h"
-//#include "myprintf.h"
 #include "dtmacros.h"
 
 //=========================================================================
@@ -15,8 +14,6 @@
 #define PLL_FREQ		(CPU_FREQ<<1)
 
 #define BBC_PWM_FREQ	150000
-
-//#define ENABLE_UART		0
 
 //-------------------------------------------------------------------------
 
@@ -206,7 +203,6 @@ extern void MemSet( void*, const char, const uint32_t );
 //extern void DrawHexLong( int x, int y, int v, int font );
 
 extern uint32_t sqrtul( uint32_t v );
-//extern uint32_t GetFirmwareSize();
 
 //=========================================================================
 #endif /* __MYEVIC_H__ */
