@@ -64,10 +64,10 @@ const Battery_t myCustom[] =
 		String_CUS,
 		{
 			{   0, 310 },
-			{  10, 330 },
-			{  20, 340 },
-			{  30, 348 },
-			{  40, 355 },
+			{  10, 340 },
+			{  20, 350 },
+			{  30, 355 },
+			{  40, 359 },
 			{  50, 362 },
 			{  60, 365 },
 			{  70, 369 },
@@ -461,7 +461,8 @@ __myevic__ void SetBatMaxPower()
 
 	// milliWatts
 	// Assume 90% efficiency of the circuitry
-	int Pmax = 90	* ( BatteryVoltage - BatteryIntRez * Imax / 1000 )
+        //sur IMHO 75% for single battery pcb and 50% for others 
+	int Pmax = 80 * ( BatteryVoltage - BatteryIntRez * Imax / 1000 )
 					* Imax / 1000;
 
 	BatteryMaxPwr = NumBatteries * Pmax / 100;
@@ -480,7 +481,8 @@ __myevic__ void ReadInternalResistance()
 	// mA
 	// Assume 90% efficiency of the circuitry
 	//ibat = ( 1000 * AtoVolts * AtoCurrent ) / ( 9 * RTBVTotal );
-        ibat = 10000 * AtoVolts * AtoCurrent / RTBVTotal / 90;
+        //sur IMHO 75% for single battery pcb and 50% for others 
+        ibat = 10000 * AtoVolts * AtoCurrent / RTBVTotal / 80;
 
 	// mOhm
 	rez = ( 10000 * ( BattVoltsTotal - RTBVTotal ) ) / ibat;

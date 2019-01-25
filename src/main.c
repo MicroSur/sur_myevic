@@ -844,10 +844,12 @@ __myevic__ void SleepIfIdle()
                     //reset on charge too
                     PuffsOffCount = 0;
                     NextPreheatTimer = 0;
+                    NextPreheatPower = 0;
                     AutoPuffTimer = 0;
                     AwakeTimer = 0;
-                    MilliJoulesVapedOn = MilliJoules;
+                    MilliJoulesVapedOn = MilliJoules; //for last Session vaped
                     SessionPuffs = 0;
+                    EditModeTimer = 0;
                     gFlags.apuff = 0;
                 }
                 
@@ -891,7 +893,7 @@ __myevic__ void SleepIfIdle()
 		}
             }    
    
-		NoEventTimer = 200; //2s
+            NoEventTimer = 200; //2s
 	}
 }
 
@@ -1213,7 +1215,8 @@ __myevic__ void Main()
                             gFlags.soft_charge = 0;
                         }
 
-			if (( dfStatus2.anim3d ) && ( Screen == 1 ) && ( !EditModeTimer ) && !HideLogo && !SplashTimer ) //&& ( dfMode != 6 )
+			if (( dfStatus2.anim3d ) && ( Screen == 1 ) && ( !EditModeTimer ) 
+                                && !HideLogo && !SplashTimer && !gFlags.toggleclock ) //&& ( dfMode != 6 )
 			{
 				anim3d(); //as logo
 			}

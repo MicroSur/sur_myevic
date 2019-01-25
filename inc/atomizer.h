@@ -87,6 +87,7 @@ extern uint16_t	PreheatPower;
 extern uint16_t	PreheatDelay;
 extern uint16_t	CurveDelay;
 extern uint16_t NextPreheatTimer;
+extern uint16_t NextPreheatPower;
 extern uint32_t	MilliJoules;
 extern uint32_t	MilliJoulesDay;
 extern uint32_t	MilliJoulesEnergy;

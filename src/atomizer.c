@@ -51,6 +51,7 @@ uint16_t	PreheatPower;
 uint16_t	PreheatDelay;
 uint16_t	CurveDelay;
 uint16_t        NextPreheatTimer;
+uint16_t	NextPreheatPower;
 uint32_t	MilliJoules; // for vaped
 uint32_t	MilliJoulesDay; // for vaped
 uint32_t	MilliJoulesEnergy;
@@ -491,14 +492,20 @@ __myevic__ void StopFire()
                         CurveDelay = dfCUDelay * 100;
 		}       
 */
-                if ( dfStatus.preheat && FireDuration * 10 >= dfPreheatTime )
-                    PreheatDelay = dfPHDelay * 100;
+                //if ( dfStatus.preheat && FireDuration * 10 >= dfPreheatTime )
+                //    PreheatDelay = dfPHDelay * 100;
 
-                if ( dfStatus.pcurve && FireDuration > 10 )
-                    CurveDelay = dfCUDelay * 100;
+                //if ( dfStatus.pcurve && FireDuration > 10 )
+                //    CurveDelay = dfCUDelay * 100;
                 
                 if ( FireDuration > 5 ) // > 0.5 sec
 		{
+                        if ( dfStatus.preheat )
+                            PreheatDelay = dfPHDelay * 100;
+                    
+                        if ( dfStatus.pcurve )
+                            CurveDelay = dfCUDelay * 100;
+                    
 			dfTimeCount += FireDuration;
 			if ( dfTimeCount > 999999 ) dfTimeCount = 0;
 			if ( ++dfPuffCount > 99999 ) dfPuffCount = 0;
@@ -851,7 +858,7 @@ __myevic__ void ReadAtomizer()
             
 		if ( !gFlags.firing )
 		{
-                    NumShuntSamples = 50;
+                        NumShuntSamples = 50;
 /*
 			if ( AtoProbeCount == 10 )
 			{
@@ -863,7 +870,7 @@ __myevic__ void ReadAtomizer()
 			}
 */
 		}
-		else
+		else //firing
 		{
 			NumShuntSamples = 1;
 		}
@@ -1238,7 +1245,8 @@ __myevic__ void AtoWarmUp()
 //	if ( AtoProbeCount >= 12 ) ProbeDuty <<= 1;
 
 	WUC = 0;
-	WarmUpCounter = ( !gFlags.pwm_pll || NumBatteries > 1 ) ? 2000 : 3000;
+	//WarmUpCounter = ( !gFlags.pwm_pll || NumBatteries > 1 ) ? 2000 : 3000;
+        WarmUpCounter = 2000;
 
 	// Loop time around 19us on atomizer probing
 	//  and around 26.4us (37.86kHz) on firing.
@@ -1820,12 +1828,13 @@ __myevic__ void ProbeAtomizer()
 	if ( AtoStatus == 4 )
 	{
                 //if ( AtoProbeCount < 11 )
-                if ( AtoProbeCount != 11 )
-                    return;
-            
+         
 		AtoRez = AtoRezMilli / 10;
 		AtoMillis = AtoRezMilli % 10;
-                                       
+                   
+                if ( AtoProbeCount != 11 )
+                    return;
+                
                 if ( !ISMODETC(dfMode) )
                 {
                     if ( !dfStatus2.vwrezlock && dfResistance > AtoRez ) dfResistance = AtoRez; // real goes down to cold (may be in TC too?)

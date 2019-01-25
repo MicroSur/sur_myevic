@@ -29,8 +29,9 @@ __myevic__ void MainView()
 		{
 			HideLogo = dfHideLogo;
 		}
-		Screen = 1;
-		ScreenDuration = ScrMainTimes[dfScrMainTime]; //GetMainScreenDuration();
+		//Screen = 1;
+		//ScreenDuration = ScrMainTimes[dfScrMainTime]; //GetMainScreenDuration();
+                SetScreen( 1, ScrMainTimes[dfScrMainTime] );
                 gFlags.screen_on = 1;
                 
 	}
@@ -42,11 +43,12 @@ __myevic__ void MainView()
 		}
 		else
 		{
-			Screen = 0;
-			SleepTimer = 0;
+			//Screen = 0;
+			//SleepTimer = 0;
+                        Sleep0Screen();
 		}
 	}
-	gFlags.refresh_display = 1;
+	//gFlags.refresh_display = 1;
 }
 
 //=============================================================================
@@ -1056,12 +1058,19 @@ __myevic__ void DrawPower( int pwr, int yp )
                 
 		if ( dfStatus.preheat )
 		{
-			if ( !PreheatDelay || gFlags.osc_1hz )
-			{
-                            if ( dfStatus2.smart_ph && NextPreheatTimer && ( NextPreheatTimer < dfPreheatTime ) )
-                                DrawImage( xp, yp-2, 0x94 ); //S 7A , s 94 (y-2)
-                            else DrawImage( xp, yp-2, 0x91 ); //P 77, p 91
-			}
+                    if ( !PreheatDelay || gFlags.osc_1hz )
+                    {
+                        int v = GetSmartPreheat();
+                        if ( v && NextPreheatTimer && ( NextPreheatTimer < dfPreheatTime ) )
+                        {
+                            DrawImage( xp, yp-2, 0x94 ); //S 7A , s 94 (y-2)
+                        }
+                        else
+                        {
+                            DrawImage( xp, yp-2, 0x91 ); //P 77, p 91
+                        }
+                    }
+
 		}                
 	}
         else if ( ISMODETC(dfMode) )
@@ -1075,13 +1084,27 @@ __myevic__ void DrawPower( int pwr, int yp )
 
 //=============================================================================
 
+__myevic__ void DrawClockMid()
+{
+    if ( dfStatus.digclk != dfStatus2.digclk2 ) //D 01  M 10 
+    {
+        //DrawFillRect( 0, 42, 63, 112, 0 );
+	DrawDigitClock( 62, 0 ); //60
+    }
+    else
+    {	//00 11 AD aM
+        //DrawFillRect( 0, 44, 63, 127, 0 );
+        DrawClock( 48 ); //53
+    } 
+}
+
 __myevic__ void ShowLogo( int place )
 {
     int h = GetLogoHeight();
     
-    if ( !place ) // 0
+    if ( !place ) // 0, middle scr
     {
-        if ( !HideLogo )
+        if ( !HideLogo && !gFlags.toggleclock )
         {
                         if ( dfStatus2.anim3d ) return;
     			//if ( dfStatus2.anim3d ) //&& !HideLogo )
@@ -1089,10 +1112,12 @@ __myevic__ void ShowLogo( int place )
 				//anim3d( 0 );
 			//}
 			if ( dfStatus.clock ) //&& !HideLogo )
-			{                                 
+			{                   
+                                DrawClockMid();
+/*
 				if ( dfStatus.digclk != dfStatus2.digclk2 ) //D 01  M 10 
 				{
-                                        DrawFillRect( 0, 42, 63, 112, 0 );
+                                        //DrawFillRect( 0, 42, 63, 112, 0 );
 					DrawDigitClock( 62, 0 ); //60
 				}
 				else
@@ -1100,20 +1125,31 @@ __myevic__ void ShowLogo( int place )
                                         DrawFillRect( 0, 44, 63, 127, 0 );
 					DrawClock( 53 );
 				}       
+*/
 			}
                         else if ( !dfStatus.nologo && dfStatus.logomid ) //&& !HideLogo ) //mid logo
 			{
-                                    DrawFillRect( 0, 42, 63, 112, 0 );
+                                    //DrawFillRect( 0, 42, 63, 112, 0 );
                                     DrawLOGO( 0, 77 - h / 2 );      
                         }
                         else 
                         {
-                                DrawInfoLines();
+                                DrawInfoLines(); //no firing, no logos
                         } 
         }
         else
         {
-                DrawInfoLines();
+            if ( !gFlags.toggleclock )
+            {
+                DrawInfoLines(); //no firing, HideLogo timer != 0
+            }
+            else
+            {
+                //HideLogo = dfHideLogo;
+                //DrawFillRect( 0, 42, 63, 112, 0 );
+                //DrawDigitClock( 62, 0 );
+                DrawClockMid();
+            }
         }
     }
     else //1 pic logo top
@@ -1127,7 +1163,7 @@ __myevic__ void ShowLogo( int place )
                         {
                             if ( h > 40 )
                             {
-                                if ( !( dfStatus2.anim3d || dfStatus.clock ) )
+                                if ( !( dfStatus2.anim3d || dfStatus.clock || gFlags.toggleclock ) )
                                 {
                                     if ( dfMode == 6 )
                                     {
@@ -1152,7 +1188,7 @@ __myevic__ void ShowLogo( int place )
                                 
                                 DrawLOGO( 0, y ); //x y
                             }
-                            else
+                            else // h <= 40
                             {
                                 DrawHLineDots( 0, 41, 63, 0 );
                                 DrawLOGO( 0, 0 ); //x y
@@ -1266,7 +1302,8 @@ __myevic__ void ShowMainView()
             DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
             //if ( ( gFlags.firing || gFlags.battery_charging ) && HideLogo ) //dfStatus.nologo )
             if ( ( gFlags.firing || gFlags.battery_charging ) 
-                    && ( HideLogo || ( dfStatus.nologo && !dfStatus2.anim3d && !dfStatus.clock ) ) )
+                    && ( HideLogo || ( dfStatus.nologo && !dfStatus2.anim3d && !dfStatus.clock ) ) 
+                    && !gFlags.toggleclock )
             {
                 //DrawHLineDots( 0, 41, 63, 1 ); //main first h-lines
                 DrawHLine( sx-5, 41, sx, 0 );
@@ -1294,7 +1331,7 @@ __myevic__ void ShowMainView()
             
             if ( Screen == 2 || Screen == 23 || EditModeTimer ) //fire long_fire_protec
             {
-		DrawInfoLines();
+		DrawInfoLines(); //on firing
             }
             else
             {
@@ -1312,18 +1349,15 @@ __myevic__ void ShowMainView()
 		//DrawFillRect( 0, 108, 63, 127, 0 );
 		ShowWeakBat();
 	}
-        //else
-        //{
-            if ( gFlags.firing || 
-                    !( !HideLogo && !dfStatus2.anim3d && dfStatus.clock && dfStatus.digclk == dfStatus2.digclk2 ) )
-            { //when not analog clock logo
-                
-                    DrawHLineDots( 0, 113, 63, 1 ); //second h-line
-                    ShowBattery();
-                    
-            }
 
+        //if ( gFlags.firing || 
+        //    !( !HideLogo && !dfStatus2.anim3d && dfStatus.clock && dfStatus.digclk == dfStatus2.digclk2 ) )
+        //{ //when not analog clock logo
+                
+            DrawHLineDots( 0, 113, 63, 1 ); //second h-line
+            ShowBattery();    
         //}
+
 }
 
 
@@ -1385,7 +1419,7 @@ __myevic__ void DrawDigitClock( int line, int infoline )
                 y = 16;
 	}
         else
-	{
+	{ //big digits
 		//DrawValue( 4, line-3, rtd.u32Hour, 0, 0x29, 2 );
 		//DrawValue( 32, line-3, rtd.u32Minute, 0, 0x29, 2 );
                 DrawValueRight( 26 - x, line-10, h, 0, 0x3D, 0 ); //2

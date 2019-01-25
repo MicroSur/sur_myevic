@@ -738,12 +738,12 @@ __myevic__ void fbStartGame()
 	gFlags.playing_fb = 1;
 	Screen = 0;
 	gFlags.user_idle = 1;
-	gFlags.refresh_display = 1;
 	NoEventTimer = 0;
 	SleepTimer = 3000;
 	fbInitTimeouts();
 	ClearScreenBuffer();
 	//DisplayRefresh();
+        //gFlags.refresh_display = 1;
         fbAnimStep = 0;
 	//fbBirdAnim( 24 );
         fbSetTimeoutDelay( 20 ); //to show start screen

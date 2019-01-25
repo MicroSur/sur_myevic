@@ -153,11 +153,11 @@ typedef struct
                                                 //0x20000068
 /* 00000001 */	int edit_value:1;
 /* 00000002 */	int new_rez_tcr:1;              //lsls 0x1E
-/* 00000004 */	int nbcr:1;
+/* 00000004 */	int nbcr:1;                 //if new buttery - counters reset
 /* 00000008 */	int bad_cell:1;
 /* 00000010 */	int edit_capture_evt:1;
 /* 00000020 */	int osc_1hz:1;
-/* 00000040 */	int unused38:1;
+/* 00000040 */	int toggleclock:1;          //show clock from clicks
 /* 00000080 */	int batt_unk:1;
 
 /* 00000100 */	int tick_1hz:1;
@@ -166,7 +166,7 @@ typedef struct
 /* 00000800 */	int asleep:1;               //mod in sleep or off
 /* 00001000 */	int sample_atemp:1;         //was debug 
 /* 00002000 */	int noclock:1;
-/* 00004000 */	int read_bir:1;
+/* 00004000 */	int read_bir:1;             //read batt int rez
 /* 00008000 */	int monitoring:1; //not used
 
 /* 00010000 */	int screen_on:1; //bit 48
@@ -177,6 +177,7 @@ typedef struct
 /* 00200000 */	int fading:1;
 /* 00400000 */	int led_on:1;
 /* 00800000 */	int apuff:1;       //auto fire used
+
 /* 01000000 */	int playing_tt:1;
 /* 02000000 */	int soft_charge:1;
 /* 04000000 */	int inverse:1;

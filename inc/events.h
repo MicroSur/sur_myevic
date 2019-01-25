@@ -123,6 +123,11 @@ extern int CustomEvents();
 extern void PowerPlus( uint16_t *pwr, uint16_t min, uint16_t max );
 extern void PowerMinus( uint16_t *pwr, uint16_t min, uint16_t max );
 
+extern int GetSmartPreheat();
+extern uint16_t GetPreheatPwrFromPerc();
+extern uint16_t GetPreheatPwr();
+//extern uint16_t SetPreheatPwrPerc();
+extern void SetEditTimer();
 
 //==============================================================================
 

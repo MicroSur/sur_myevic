@@ -1398,16 +1398,23 @@ __myevic__ int EvtMinusButton()
 
 //-------------------------------------------------------------------------
 
+/*
 __myevic__ int EvtToggleClock()
 {
+
         HideLogo = 0;
 	dfStatus.clock ^= 1;
         dfStatus2.anim3d = 0;
         ShowLogo( 0 );
 	UpdateDFTimer = 50;
-	//MainView();
+
+        
+        gFlags.toggleclock ^= 1;
+        //gFlags.refresh_display;
+                
 	return 1;
 }
+*/
 
 __myevic__ int EvtLongFire()
 {
@@ -1612,7 +1619,9 @@ __myevic__ int CustomEvents()
 			break;
 
 		case EVENT_TOGGLE_CLOCK:	// Double Fire
-			vret = EvtToggleClock();
+			//vret = EvtToggleClock();
+                        gFlags.toggleclock ^= 1;
+                        MainView(); //fast change
 			break;
 
 		case EVENT_EDIT_CONTRAST:	// Contrast screen
@@ -1681,16 +1690,18 @@ __myevic__ int CustomEvents()
 
 		case EVENT_RESET_VAPED:
 		        ResetVapedCounter();
-                        EditModeTimer = 1000;
-			gFlags.refresh_display = 1;
-			gFlags.draw_edited_item = 1; 
+                        //EditModeTimer = 1000;
+			//gFlags.refresh_display = 1;
+			//gFlags.draw_edited_item = 1; 
+                        SetEditTimer();
                         break;
                         
                 case EVENT_RESET_JOULES:
                         ResetJoulesCounter();
-                        EditModeTimer = 1000;
-			gFlags.refresh_display = 1;
-			gFlags.draw_edited_item = 1;  
+                        //EditModeTimer = 1000;
+			//gFlags.refresh_display = 1;
+			//gFlags.draw_edited_item = 1;
+                        SetEditTimer();
 			break;
 
 /*

@@ -307,14 +307,25 @@ __myevic__ void TimedItems()
 
 	if ( PreheatDelay )
 	{
+                uint16_t pp = GetPreheatPwr();
+                
 		if ( --PreheatDelay )
                 {
+                    uint16_t v = ( 100 - (PreheatDelay / dfPHDelay) );
+                    
                     //smart preheat
-                    NextPreheatTimer = (100 - (PreheatDelay / dfPHDelay) ) * dfPreheatTime / 100;
+                    // NextPreheatTimer goes up from 0 to dfPreheatTime
+                    NextPreheatTimer = v * dfPreheatTime / 100;
+                    //NextPreheatTimer = ( 100 - (PreheatDelay / dfPHDelay) ) * dfPreheatTime / 100;
+
+                    if ( pp > dfPower )
+                        NextPreheatPower = dfPower + ( v * ( pp - dfPower ) /100 );
+                    
                 }
                 else
-                {
+                {                    
                     NextPreheatTimer = dfPreheatTime;
+                    NextPreheatPower = pp;
                 }
                 
 		if ( ( Screen == 1 ) && !( PreheatDelay % 25 ) )

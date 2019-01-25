@@ -125,6 +125,7 @@ typedef struct
 /* 00020000 */	unsigned int garbage:1;         //17
 /* 00040000 */	unsigned int autoprofile:1;
 /* 00080000 */	unsigned int pwrlow:1;          // 19 powerscale on-off
+/* 00100000 */	unsigned int smart_ph2:1;
 }
 // Do not exceed 32 bits;
 dfStatus2_t;

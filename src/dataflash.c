@@ -1850,7 +1850,7 @@ const uint8_t ProfileFilter[32] =
 const uint32_t  StatusFilter = 0b10010000000111001110111111001010;
 //                                      3       2       1       0  
 //                               84218421842184218421842184218421
-const uint32_t StatusFilter2 = 0b00000000000000001111100110000101;
+const uint32_t StatusFilter2 = 0b00000000000110001111100110000101;
 
 //-------------------------------------------------------------------------
 // Apply newly reloaded parameters

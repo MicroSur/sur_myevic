@@ -353,8 +353,8 @@ __myevic__ void DrawScreen()
 //DrawValue( 0, 108, GetLockState(), 0, 0x0B, 0 );
         
 //DrawValue( 0, 0, gFlags.user_idle ? 1 : 0, 0, 0x0B, 0 );
-//DrawValueRight( 64, 0, SleepTimer, 0, 0x0B, 0 );  
-//DrawValue( 0, 108, Screen, 0, 0x0B, 0 );
+//DrawValueRight( 64, 0, PreheatPower, 0, 0x0B, 0 );  //SleepTimer
+//DrawValueRight( 64, 108, NextPreheatPower, 0, 0x0B, 3 );
 
 //DisplayRefresh(); //uncomment too
 
@@ -549,9 +549,10 @@ __myevic__ void DrawScreen()
 			break;
                         
                 case  61: // goodbye
-			Screen = 0;
-			SleepTimer = 0;
-                        gFlags.refresh_display = 1;
+			//Screen = 0;
+			//SleepTimer = 0;
+                        //gFlags.refresh_display = 1;
+                        Sleep0Screen();
                         break;
                         
 		default:
@@ -901,7 +902,10 @@ __myevic__ void ShowBatCharging()
 		return;
 	}
                
-        int line = ISINVOKE ? 116 : 118; //ISINVOKE
+        int line = ISINVOKE ? 116 : 118;
+        
+        if ( !gFlags.soft_charge )
+            DrawDigitClock( 40, 0 );
         
 /*
 	switch ( dfScreenSaver )
@@ -944,8 +948,8 @@ __myevic__ void ShowBatCharging()
 */
 		for ( int i = 0 ; i < NumBatteries ; ++i )
 		{
-			DrawValue(  1, line-14 - i * 14, BattVolts[NumBatteries - i - 1], 2, 0x0B, 3 ); //104
-			DrawImage( 23, line-14 - i * 14, ( BBBits & (1 << i) ) ? 0x7D : 0x97 );
+			DrawValue(  3, line-14 - i * 14, BattVolts[NumBatteries - i - 1], 2, 0x0B, 3 );
+			DrawImage( 25, line-14 - i * 14, ( BBBits & (1 << i) ) ? 0x7D : 0x97 );
 		}
                 
                 if ( NumBatteries > 1 )
@@ -1001,7 +1005,7 @@ __myevic__ void ShowBattVolts()
     y = 43 - ( v2p[i].voltage - 270 ) * 30 / 153;
     //y = map( v2p[i].voltage, 270, 423, 43, 13);
     //DrawPoint( )
-    r = BatteryPercent <= v2p[i].percent ? 2 : 1;
+    r = BatteryPercent <= v2p[i].percent ? 1 : 2;
     //DrawCircle( int x_centre, int y_centre, int r, int color, int fill )
     DrawCircle( x, y, r, 1, 1 );
     }

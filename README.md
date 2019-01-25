@@ -1,8 +1,8 @@
 ## **SME ( sur_myevic )**
 
-#### [Документация на русском](https://github.com/MicroSur/sur_myevic/blob/master/README_ru.md)
+#### [Документация на русском / russian manual](https://github.com/MicroSur/sur_myevic/blob/master/README_ru.md)
 
-SME is a fork of myevic Custom Firmware from [ClockSelect](https://github.com/ClockSelect/myevic/blob/master/src)
+SME is a fork of myevic custom firmware for vaping mods from [ClockSelect](https://github.com/ClockSelect/myevic/blob/master/src)
 
 #### Based on:
 *Original VTC Mini 3.03 firmware*
@@ -26,7 +26,7 @@ A list of some differences from the original firmware (google translate)
 * **automatic shutdown** mode after reaching the user specified number of puffs or the operating time of the mod.
 * in the information line, you can choose to display a set of **important information**, not just puffs and amps.
 * in the first interface of the screen an additional information line is added, for greater clarity.
-* the second screen mode, where the power and resistance lines are shown in large font.
+* the second screen mode, where the power and resistance lines are shown with large font.
 * a short-time display of clocks in the off mode.
 * turn off/on the charging screen of the mod by the minus button. Timeouts of the charging screen display.
 * setting **maximum values** power, voltage, temperature, charging current (for 2+ battery modes), number of batteries for bypass.
@@ -46,32 +46,10 @@ A list of some differences from the original firmware (google translate)
 * games Tetris and Flappy Bird for fun.
 
 
-**The documentation is for myevic and may not be correct for SME version! Read the Russian manual!**
+**Old detailed English documentation for ClockSelect`s myevic may not be correct for this SME version! 
+Read the Russian manual!**  
 
-## Documentation Index 
-   __1.__ [Usage and compatibility](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/usageandcompatibility_en.md)
-   
-   __2.__ [Behaviour Changes](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/behaviourchanges_en.md)
-   
-   __3.__ [How to build](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/howtobuild_en.md)
-
-   __4.__ [Profiles](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/profiles_en.md)
-
-   __5.__ [Menus](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/menus_en.md)
-
- 5a. [Main Screen](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/mainscr_en.md)
-     
-   5b. [Screen Menu](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/screen_en.md)
-
-   5c. [Coil Menu](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/coils_en.md)
-
-   5d. [Vaping Menu](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/vaping_en.md)
-
-   5e. [Clock Menu](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/clock_en.md)
-
-   5f. [Interface Menu](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/interface_en.md)
-  
-   5d. [Expert Menu](https://github.com/MicroSur/sur_myevic/blob/master/git_doc_en/expert_en.md)
+#### [Документация на русском / russian manual](https://github.com/MicroSur/sur_myevic/blob/master/README_ru.md)
 
 -----
 ### Thanks to:
@@ -87,7 +65,7 @@ A list of some differences from the original firmware (google translate)
     * bluenazgul
     * Sharky1980
     * gdb
-    * Dil3mm4 (documentation)
+    * Dil3mm4 (en documentation)
 
     And many others, supporting this project and taking the time to open or help solving issues.
 

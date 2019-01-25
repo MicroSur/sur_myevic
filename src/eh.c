@@ -26,6 +26,45 @@ uint8_t		NewMillis;
 
 //=========================================================================
 
+__myevic__ int GetSmartPreheat()
+{
+    return dfStatus2.smart_ph | ( dfStatus2.smart_ph2 << 1 );
+}
+
+__myevic__ uint16_t GetPreheatPwrFromPerc()
+{
+    //dfPreheatPwr in percent
+    //return real power
+    return dfPower * dfPreheatPwr / 100;
+}
+
+__myevic__ uint16_t GetPreheatPwr()
+{
+    //return watts
+    if ( dfStatus.phpct )
+        return GetPreheatPwrFromPerc(); //dfPower * dfPreheatPwr / 100;
+    else
+        return dfPreheatPwr;
+}
+
+__myevic__ void SetEditTimer()
+{
+    EditModeTimer = 1000;
+    gFlags.draw_edited_item = 1;
+    gFlags.refresh_display = 1;
+}
+
+/*
+__myevic__ uint16_t SetPreheatPwrPerc()
+{
+    //dfPreheatPwr in watts
+    //return in percents
+    return 100 * dfPreheatPwr / dfPower;
+}
+*/
+
+//=========================================================================
+
 __myevic__ void PowerPlus( uint16_t *pwr, uint16_t min, uint16_t max )
 {
 	max = max - ( max % WattsInc );
@@ -811,36 +850,32 @@ __myevic__ void EventHandler()
                                 
                                 if ( dfStatus.preheat )     // if - for priority preheat                              
 				{
-                                    if (dfStatus2.smart_ph && dfPHDelay && NextPreheatTimer )
+                                    int v = GetSmartPreheat();
+                                    
+                                    if ( v == 1 && dfPHDelay && NextPreheatTimer )
                                     {
                                         PreheatTimer = NextPreheatTimer;
                                     } 
-                                    else if ( !PreheatDelay )
+                                    else if ( !PreheatDelay || v == 2 )
                                     {
 					PreheatTimer = dfPreheatTime;
                                     }
                                         
                                     if ( PreheatTimer )
-                                    {
-                                        if ( dfStatus.phpct )
-                                        {
-                                            PreheatPower = dfPower * dfPreheatPwr / 100;
-                                        }
+                                    {                                       
+                                        if ( v == 2 && NextPreheatPower )
+                                            PreheatPower = NextPreheatPower;
                                         else
-                                        {
-                                            PreheatPower = dfPreheatPwr;
-                                        }
-
+                                            PreheatPower = GetPreheatPwr();  
+                                                
+                                        
                                         if ( PreheatPower > AtoMaxPower )
-                                        {
                                             PreheatPower = AtoMaxPower;
-                                        }
 
                                         pwr = PreheatPower;
                                         pc = 1;
                                     }
                                 }
-
 
 				gFlags.limit_power = 0;
                                 //if ( pwr > 300 ) pwr = 300;
@@ -1020,18 +1055,20 @@ __myevic__ void EventHandler()
 		case 23:	// Reset Time counter
 			dfTimeCount = 0;
 			UpdatePTTimer = 80;
-			EditModeTimer = 1000;
-			gFlags.refresh_display = 1;
-			gFlags.draw_edited_item = 1;
+                        SetEditTimer();
+			//EditModeTimer = 1000;
+			//gFlags.refresh_display = 1;
+			//gFlags.draw_edited_item = 1;
 			return;
 
 		case 22:	// Reset Puff counter
 			dfPuffCount = 0;
                         SessionPuffs = 0;
 			UpdatePTTimer = 80;
-			EditModeTimer = 1000;
-			gFlags.refresh_display = 1;
-			gFlags.draw_edited_item = 1;
+                        SetEditTimer();
+			//EditModeTimer = 1000;
+			//gFlags.refresh_display = 1;
+			//gFlags.draw_edited_item = 1;
 			return;
                         
 		//case 20:	// Show Info
@@ -1083,13 +1120,14 @@ __myevic__ void EventHandler()
                                     InitDisplay();
                                 }
                                 
-                                PuffsOffCount = 0;
-                                AwakeTimer = 0;
-                                MilliJoulesVapedOn = MilliJoules;
-                                SessionPuffs = 0;
-                                EditModeTimer = 0;
+                                // = 0 in SleepIfIdle()
+                                //PuffsOffCount = 0;
+                                //AwakeTimer = 0;
+                                //MilliJoulesVapedOn = MilliJoules;
+                                //SessionPuffs = 0;
+                                //EditModeTimer = 0;
+                                
 				dfStatus.off = 1;
-				//gFlags.refresh_display = 1;
 				UpdateDFTimer = 1;
                                 
 				if ( gFlags.battery_charging )
@@ -1111,9 +1149,10 @@ __myevic__ void EventHandler()
 			if ( dfStatus.off )
 				return;
                         
-			gFlags.draw_edited_item = 1;
+			//gFlags.draw_edited_item = 1;
 			EditItemIndex = 0;
-			EditModeTimer = 1000;
+			//EditModeTimer = 1000;
+                        SetEditTimer();
 			MainView();
 			return;
 
@@ -1146,13 +1185,14 @@ __myevic__ void EventHandler()
                         
                         if ( Screen == 5 )
 			{
-				gFlags.refresh_display = 1;
-				Screen = 0;
+				//gFlags.refresh_display = 1;
+				//Screen = 0;
 				if ( dfStatus.off )
-					SleepTimer = 0;
+                                        Sleep0Screen();
+                                        //SleepTimer = 0;
 				else
                                         DarkScreen();
-					//SleepTimer = dfDimOffTimeout * 100; //18000;
+                                        //SleepTimer = dfDimOffTimeout * 100; //18000;
 			}
 			return;
 
@@ -1207,11 +1247,11 @@ __myevic__ void EventHandler()
 			{
 				if ( dfStatus.off || dfStealthOn == 1 )
 				{
-                                    	Screen = 0;
-					gFlags.refresh_display = 1;
-                                        
+                                    	//Screen = 0;
+					//gFlags.refresh_display = 1;                                       
 					if ( dfStatus.off )
-						SleepTimer = 0;
+                                                Sleep0Screen();
+						//SleepTimer = 0;
 					else
                                                 DarkScreen();
 						//SleepTimer = dfDimOffTimeout * 100; //18000;
@@ -1545,9 +1585,10 @@ __myevic__ void EventHandler()
 
 				if ( EditModeTimer )
 				{
-					EditModeTimer = 1000;
-					gFlags.draw_edited_item = 1;
-
+					//EditModeTimer = 1000;
+					//gFlags.draw_edited_item = 1;
+                                        SetEditTimer();
+                                        
 					switch ( EditItemIndex )
 					{
 						case 0:
