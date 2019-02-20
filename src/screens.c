@@ -662,7 +662,7 @@ __myevic__ void ShowContrast()
 
         dfc = ContrastNum ? dfContrast2 : dfContrast;   
 
-        DrawValueRight( 63, 6, ContrastNum+1, 0, 0x0B, 1 );
+        DrawValueRight( 63, 5, ContrastNum+1, 0, 0x0B, 1 );
 	DrawString( String_Contrast, 4, 5 );
 	DrawHLine( 0, 16, 63, 1 );
 
@@ -1695,15 +1695,4 @@ __myevic__ void ShowSplash()
 	//{
 	//	MainView();
 	//}
-}
-
-__myevic__ uint32_t GetVV( uint32_t MJoules )
-{
-    uint32_t vv;
-    vv = dfVVRatio * ( MJoules / 1000 );
-    vv /= 10;
-    vv /= 100;
-    vv /= 100;
-    if ( vv > 9999 ) vv = 9999;
-    return vv;
 }

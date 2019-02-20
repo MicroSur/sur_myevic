@@ -404,11 +404,40 @@ __myevic__ void DrawTimeCounterLine ( int line )
 __myevic__ void DrawEnergyLine ( int line )
 {
         uint32_t vv;
+        int dp;
+        
         vv = ( MilliJoulesEnergy / 3600 ) / 100;
-        if ( vv > 9999 ) vv = 9999;                        
+        
+        dp = 2; //99.99
+        if ( vv > 99999 ) vv = 99999;
+        if ( vv > 9999 ) 
+        {
+            vv /= 10;
+            dp = 1; //999.9
+        }
+        
         DrawImage( 1, line+2, 0xDE ); //energy
-        DrawValueRight( 55, line, vv, 2, 0x1F, 0 );
+        DrawValueRight( 55, line, vv, dp, 0x1F, 0 );
         DrawImageRight( 63, line, 0x67 ); //wh
+}
+
+__myevic__ uint32_t GetVV( uint32_t MJoules, int *dp )
+{
+    uint32_t vv;
+    vv = dfVVRatio * ( MJoules / 1000 );
+    vv /= 10;
+    vv /= 100;
+    vv /= 100;
+    
+    *dp = 2; //99.99
+    if ( vv > 99999 ) vv = 99999;
+    if ( vv > 9999 ) 
+    {
+        vv /= 10;
+        *dp = 1; //999.9
+    }
+        
+    return vv;
 }
 
 //=============================================================================
@@ -416,18 +445,19 @@ __myevic__ void DrawEnergyLine ( int line )
 __myevic__ void DrawVapedLine ( int line )
 {
         uint32_t vv;
+        int dp;
         
         if ( !EditModeTimer && VapedLineTimer && dfStatus2.session )
         {
-            vv = GetVV( MilliJoules - MilliJoulesVapedOn );
+            vv = GetVV( MilliJoules - MilliJoulesVapedOn, &dp );
         }
         else
         {
-            vv = GetVV( MilliJoules );
+            vv = GetVV( MilliJoules, &dp );
         }
 
         DrawImage( 0, line, 0xF9 ); //ml
-        DrawValueRight( 55, line-2, vv, 2, 0x1F, 0 );
+        DrawValueRight( 55, line-2, vv, dp, 0x1F, 0 );
         DrawImageRight( 63, line, 0xCD ); //flask
 }
 
@@ -436,19 +466,20 @@ __myevic__ void DrawVapedLine ( int line )
 __myevic__ void DrawVapedDayLine ( int line )
 {
         uint32_t vv;
+        int dp;
         
         if ( !EditModeTimer && VapedLineTimer && dfStatus2.session )
         {
-            vv = GetVV( MilliJoules - MilliJoulesVapedOn );
+            vv = GetVV( MilliJoules - MilliJoulesVapedOn, &dp );
         }
         else
         {
-            vv = GetVV( MilliJoulesDay );
+            vv = GetVV( MilliJoulesDay, &dp );
         }
         
 
         DrawImage( 0, line, 0xF3 ); //mld
-        DrawValueRight( 55, line-2, vv, 2, 0x1F, 0 );
+        DrawValueRight( 55, line-2, vv, dp, 0x1F, 0 );
         DrawImageRight( 63, line, 0xCD ); //flask
 }
 

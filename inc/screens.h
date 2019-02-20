@@ -31,7 +31,7 @@ extern void DrawClock();
 extern void DrawDigitClock(int line, int infoline);
 extern void ShowLogo( int place );
 
-extern uint32_t GetVV( uint32_t MJoules );
+//extern uint32_t GetVV( uint32_t MJoules );
 
 enum {
 	SSAVER_NONE = 0,
