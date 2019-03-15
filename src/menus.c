@@ -99,7 +99,7 @@ const menu_t LogoMenu;
 const uint8_t *strSplash[] = { String_Off, String_On, String_Box };
 const uint8_t *modes[] = { String_NI, String_TI, String_SS, String_TC, String_PW, String_BY, String_SM };
 const uint8_t *strDMY[] = { String_DMY1, String_MDY, String_DMY2, String_YMD };
-const uint8_t strADM[4] = { 0x9C, 0x9F, 0xA8, 0x68 }; //A D M a
+const uint8_t strADM[4] = { 0x9C, 0x9F, 0xA8, 0x9D }; //A D M B
 const uint8_t *strSmartPH[] = { String_Off, String_TIME_s, String_PWR_s };
 
 const mbitdesc_t BitDesc =
@@ -948,7 +948,7 @@ __myevic__ void ClockMenuIDraw( int it, int line, int sel )
 			DrawFillRect( 36, line, 63, line+12, 0 );
 			//DrawImageRight( 63, line+2, dfStatus.digclk ? 0x9F : 0x9C ); // D/A
                         
-                        //const uint8_t strADM[4] = { 0x9C, 0x9F, 0xA8, 0x68 }; //A D M a
+                        //const uint8_t strADM[4] = { 0x9C, 0x9F, 0xA8, 0x9D }; //A D M B
                         
 			int f = dfStatus.digclk | ( dfStatus2.digclk2 << 1 );  // 0 1 2 3
                         DrawImageRight( 63, line+2, strADM[f] ); 
@@ -1540,14 +1540,14 @@ __myevic__ void MaxMenuIDraw( int it, int line, int sel )
                     } else {
                         DrawValueRight( 53, line+2, dfMaxPower / 10, 0, 0x0B, 0);  
                     }
-			DrawImageRight( 63, line+2, 0x7E );
+			DrawImageRight( 63, line+2, 0x7E ); //W-
                         break;                       
                     
 		case 1:	// v
                         if (!dfMaxVolts) dfMaxVolts = MaxVolts;
                         
                     	DrawValueRight( 53, line+2, dfMaxVolts, 2, 0x0B, 0 );
-			DrawImageRight( 63, line+2, 0x7D );
+			DrawImageRight( 63, line+2, 0x7D ); //V-
 			break;
 
 		case 2:	// t
@@ -1562,7 +1562,7 @@ __myevic__ void MaxMenuIDraw( int it, int line, int sel )
                         DrawImageRight( 63, line+2 , 0xF6 ); // N/A
                     } else {
                     	DrawValueRight( 53, line+2, dfUSBMaxCharge / 10, 2, 0x0B, 3 );
-			DrawImageRight( 63, line+2, 0x68 );
+			DrawImageRight( 63, line+2, 0x68 ); //A-
                     }
 			break;
                 
@@ -2704,11 +2704,14 @@ __myevic__ void CoilsIDraw( int it, int line, int sel )
 		InvertRect( 0, line, 63, line+12 );
 	}
         
-        while ( AtoStatus == 4 && AtoProbeCount < 12 )
+
+        while ( AtoStatus == 4 && AtoProbeCount < 11 ) //12
 		{
                     ProbeAtomizer();
                     WaitOnTMR2( 10 );
 		}
+
+        
         //ProbeAtomizer();
         //DrawValue( 17, 117, AtoRez, 2, 0x0B, 3 );
 	//DrawImage( 39, 117, 0xC0 );
@@ -2907,24 +2910,24 @@ __myevic__ void TCRSetIDraw( int it, int line, int sel )
         {
             case 1:
             case 7:
-                DrawStringRight( String_NI, 59, line+2 );
+                DrawStringRight( String_NI, 63, line+2 );
                 break;
             case 2:
             case 8:    
-                DrawStringRight( String_TI, 59, line+2 );
+                DrawStringRight( String_TI, 63, line+2 );
                 break;
             case 3:
             case 9:    
-                DrawStringRight( String_SS, 59, line+2 );
+                DrawStringRight( String_SS, 63, line+2 );
                 break;
             case 4:
-                DrawStringRight( String_M1, 59, line+2 );
+                DrawStringRight( String_M1, 63, line+2 );
                 break;
             case 5:
-                DrawStringRight( String_M2, 59, line+2 );
+                DrawStringRight( String_M2, 63, line+2 );
                 break;
             case 6:
-                DrawStringRight( String_M3, 59, line+2 );
+                DrawStringRight( String_M3, 63, line+2 );
                 break;
                 
             default:
@@ -3314,7 +3317,7 @@ const menu_t PreheatMenu =
 
 const mvaluedesc_t TCRNIDesc =
 {
-	32, 59,
+	32, 63,
 	0, 0,
 	0, 999,     // 0 = DEF
 	&DrawTCRP+1,
@@ -3327,7 +3330,7 @@ const mvaluedesc_t TCRNIDesc =
 
 const mvaluedesc_t TCRTIDesc =
 {
-	32, 59,
+	32, 63,
 	0, 0,
 	0, 999,
 	&DrawTCRP+1,
@@ -3340,7 +3343,7 @@ const mvaluedesc_t TCRTIDesc =
 
 const mvaluedesc_t TCRSSDesc =
 {
-	32, 59,
+	32, 63,
 	0, 0,
 	0, 999,
 	&DrawTCRP+1,
@@ -3353,7 +3356,7 @@ const mvaluedesc_t TCRSSDesc =
 
 const mvaluedesc_t TCRMDesc =
 {
-	32, 59,
+	32, 63,
 	0, 0,
 	1, 999,
 	0,

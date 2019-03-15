@@ -844,7 +844,7 @@ __myevic__ void CheckMode()
 //----- (00003250) --------------------------------------------------------
 __myevic__ void ReadAtomizer()
 {
-    // 1000Hz from Main() + from Probe
+    // 1000Hz from Main( on Fire ) + from Probe
     
 	uint32_t ADCShuntSum;
 	uint32_t ADCShuntSum1;
@@ -858,7 +858,8 @@ __myevic__ void ReadAtomizer()
             
 		if ( !gFlags.firing )
 		{
-                        NumShuntSamples = 50;
+                        NumShuntSamples = 20;
+
 /*
 			if ( AtoProbeCount == 10 )
 			{
@@ -959,7 +960,7 @@ __myevic__ void ReadAtomizer()
 				}
 				return;
 			}
-			if ( AtoProbeCount <= 10 && AtoRezMilli > 5000 ) //3500 ) more if infin autofire? todo
+			if ( AtoProbeCount <= 10 && AtoRezMilli > 5000 ) //more if infin autofire? todo
 			{
 				AtoStatus = 3;
 				//myprintf( "RL_LARGE %d\n", AtoRezMilli );
@@ -973,14 +974,14 @@ __myevic__ void ReadAtomizer()
 				return;
 			}
 			if ( (AtoStatus == 4 || !AtoStatus || AtoStatus == 3)
-					&& AtoRezMilli >= 50
-					&& AtoRezMilli <= 5000 //3500
+					&& AtoRezMilli >= 50 // = 0.05
+					&& AtoRezMilli <= 5000
 					&& (gFlags.firing || AtoProbeCount <= 10) )
 			{
 				AtoStatus = 4;
-                                            //if ( gFlags.firing ) 
                                 ReadAtoTemp();
 			}
+                        
                     //} //pbank
                     //else
                     //{
@@ -1036,7 +1037,8 @@ __myevic__ void RegulateDualBuck()
 			++BuckDuty;
 	}
 
-	if ( ( AtoStatus == 0 || AtoStatus == 1 || AtoStatus == 5 || ( !gFlags.firing && AtoProbeCount >= 12 ) )
+	if ( ( AtoStatus == 0 || AtoStatus == 1 || AtoStatus == 5 
+                || ( !gFlags.firing && AtoProbeCount >= 12 ) )
 		&& BuckDuty >= ProbeDuty )
 	{
 		BuckDuty = ProbeDuty;
@@ -1232,7 +1234,7 @@ __myevic__ void RegulateBuckBoost()
 //----- (00002EBC) --------------------------------------------------------
 __myevic__ void AtoWarmUp()
 {
-	uint32_t WUC;
+	//uint32_t WUC;
 
 	BBCNextMode = 2;
 	BBCMode = 0;
@@ -1244,9 +1246,9 @@ __myevic__ void AtoWarmUp()
 //	// For real-time atomizer measure accuracy (10 bits).
 //	if ( AtoProbeCount >= 12 ) ProbeDuty <<= 1;
 
-	WUC = 0;
+	//WUC = 0;
 	//WarmUpCounter = ( !gFlags.pwm_pll || NumBatteries > 1 ) ? 2000 : 3000;
-        WarmUpCounter = 2000;
+        WarmUpCounter = 1<<12; //5000;
 
 	// Loop time around 19us on atomizer probing
 	//  and around 26.4us (37.86kHz) on firing.
@@ -1255,11 +1257,11 @@ __myevic__ void AtoWarmUp()
 		if ( !gFlags.probing_ato && !gFlags.firing )
 			break;
 
-		if ( gFlags.firing || !gFlags.pwm_pll || !WUC || ( WUC - WarmUpCounter >= 20 ) )
-		{
-			WUC = WarmUpCounter;
+		//if ( gFlags.firing || !gFlags.pwm_pll || !WUC || ( WUC - WarmUpCounter >= 20 ) )
+		//{
+		//	WUC = WarmUpCounter;
 			RegulateBuckBoost();
-		}
+		//}
 
 		ReadAtoCurrent();
 
@@ -1705,8 +1707,6 @@ __myevic__ void ProbeAtomizer()
             )
         {
 		AtoStatus = 0;   //no ato (no batt || !pin)
-                
-//myprintf("PF0=%d PD1=%d PF2=%d BatteryStatus=%d\n", PF0, PD1, PF2, BatteryStatus );
 	}
 	else //ISSINP80
 	{
@@ -1719,7 +1719,7 @@ __myevic__ void ProbeAtomizer()
 		WaitOnTMR2( 2 );
 
 /*
- * 		if (( AtoProbeCount == 8 ) || ( gFlags.firing ))
+ 		if (( AtoProbeCount == 8 ) || ( gFlags.firing ))
 		{
 			if ( gFlags.firing )
 			{
@@ -1761,9 +1761,22 @@ __myevic__ void ProbeAtomizer()
                 
                 if ( gFlags.firing )
 			gFlags.limit_ato_temp = 1;
-                                
-                TargetVolts = 100;  
-                        //if ( gFlags.pbank ) TargetVolts = 500;  
+                
+                
+                if ( ISCUBO200 || ISRX200S || ISRX23 || ISRX300 || ISGEN3 || AtoProbeCount < 8 )
+                    TargetVolts = 100;
+                else
+                    TargetVolts = GetVoltsForPower( 100 ); //not for rx23
+                
+                if ( Screen == 0 || Screen == 60 || Screen == 5 )
+                {
+                    TargetVolts = 50;
+                }
+
+                if ( !TargetVolts ) TargetVolts = 100;
+                if ( TargetVolts > 600 ) TargetVolts = 600;
+                
+                //if ( gFlags.pbank ) TargetVolts = 500;  
 
 		gFlags.probing_ato = 1;
 		AtoWarmUp();
@@ -1807,10 +1820,10 @@ __myevic__ void ProbeAtomizer()
 			break;
 		case 1:
                 case 5:    
-			AtoError = 2;
+			AtoError = 2; //short
 			break;
 		case 2:
-			AtoError = 3;
+			AtoError = 3; //low
 			break;
 		case 4:
 		default:

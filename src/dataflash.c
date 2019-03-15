@@ -826,7 +826,7 @@ __myevic__ void ResetDataFlash()
 	dfStatus.wakeonpm = 1;
 	dfScrMainTime = 5;          //index of ScrMainTimes[6] = { 30, 60, 5, 10, 15, 20 };
 //      dfDimTimeout = 20;          //see dfScrMainTime; set in GetMainScreenDuration()
-        dfDimOffTimeout = 180;      //sleep timeout     
+        dfDimOffTimeout = 120;      //sleep timeout     
 	dfTCRM[0] = 90;
 	dfTCRM[1] = 100;
 	dfTCRM[2] = 110;

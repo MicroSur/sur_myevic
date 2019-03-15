@@ -244,12 +244,15 @@ __myevic__ void DrawTempLine( int line )
 
 __myevic__ void DrawVoltsLine( int volts, int line )
 {
+    	if ( BLINKITEM(2) )
+		return;
+        
         int fset, x, y, yoff;
         fset = 0x1F;
         y = line;
         x = 55;
         yoff = 2;
-        
+                
         if ( dfUIVersion == 1 )
         {
             fset = 0x29;
@@ -260,7 +263,7 @@ __myevic__ void DrawVoltsLine( int volts, int line )
         
         if ( dfStatus.vvlite && dfMode == 4 )
         {
-            DrawImage( 0, y+yoff, 0xF8 );   
+            DrawImage( 0, y+yoff, 0xF8 ); //vv
         } 
         else
         {
@@ -321,17 +324,17 @@ __myevic__ void DrawCoilLine( int line )
             {
             if ( dfUIVersion == 1 )
             {
-                DrawImage( 6, y+yoff, 0xC3 ); //lock glyph
+                DrawImage( 6, y+yoff, 0xC3 ); //lock glyph on left side over
             }
             else
             {    
-		DrawImage( x+1, y+yoff, 0xC3 ); //lock
+		DrawImage( x+2, y+yoff, 0xC3 ); //lock
             }
 	}
 	else
 	{
             if ( dfUIVersion == 0 )
-		DrawImage( x+1, y+yoff, 0xC0 );
+		DrawImage( x+2, y+yoff, 0xC0 );
 	}
 
 	if ( rez )
@@ -418,7 +421,7 @@ __myevic__ void DrawEnergyLine ( int line )
         
         DrawImage( 1, line+2, 0xDE ); //energy
         DrawValueRight( 55, line, vv, dp, 0x1F, 0 );
-        DrawImageRight( 63, line, 0x67 ); //wh
+        DrawImageRight( 64, line, 0x67 ); //wh
 }
 
 __myevic__ uint32_t GetVV( uint32_t MJoules, int *dp )
@@ -458,7 +461,7 @@ __myevic__ void DrawVapedLine ( int line )
 
         DrawImage( 0, line, 0xF9 ); //ml
         DrawValueRight( 55, line-2, vv, dp, 0x1F, 0 );
-        DrawImageRight( 63, line, 0xCD ); //flask
+        DrawImageRight( 64, line, 0xCD ); //flask
 }
 
 //=============================================================================
@@ -480,7 +483,7 @@ __myevic__ void DrawVapedDayLine ( int line )
 
         DrawImage( 0, line, 0xF3 ); //mld
         DrawValueRight( 55, line-2, vv, dp, 0x1F, 0 );
-        DrawImageRight( 63, line, 0xCD ); //flask
+        DrawImageRight( 64, line, 0xCD ); //flask
 }
 
 //=============================================================================
@@ -587,7 +590,7 @@ __myevic__ void DrawAPTLines()
                         
                     }
                     
-			DrawImage( ximg, line+2, 0x9C );
+			DrawImage( ximg, line+2, 0x68 ); //A
 			break;
 		}
 
@@ -713,7 +716,7 @@ __myevic__ void DrawAPTLines()
                         
                         t = dfStatus.IsCelsius ? BoardTemp : CelsiusToF( BoardTemp );
 			DrawValue( t>99?31:39, line, t, 0, 0x1F, t>99?3:2 );
-			DrawImage( ximg-1, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
+			DrawImage( ximg, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
                         //ScreenRefreshTimer = 10;
 			break;
 		}
@@ -724,7 +727,7 @@ __myevic__ void DrawAPTLines()
 			//int nd = ( rez < 1000 ) ? 3 : 4;
 			DrawString( String_RES_s, 0, line+2 );
 			DrawValueRight( 55, line, rez, 3, 0x1F, 4 );
-			DrawImage( ximg-1, line+2, 0xC0 );
+			DrawImage( ximg, line+2, 0xC0 );
 			// Refresh every second
 			//ScreenRefreshTimer = 10;
 			break;
@@ -734,7 +737,7 @@ __myevic__ void DrawAPTLines()
 		{
 			DrawImage( 0, line+2, 0xFA );
 			DrawValueRight( 55, line, BatteryIntRez, 3, 0x1F, 4 );
-			DrawImage( ximg-1, line+2, 0xC0 );
+			DrawImage( ximg, line+2, 0xC0 );
 			break;
 		}
                 
@@ -745,7 +748,7 @@ __myevic__ void DrawAPTLines()
                         if ( !AtoRezMilli ) AtoTemp = 32;
                         int t = dfStatus.IsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
 			DrawValueRight( 55, line, t, 0, 0x1F, 0 ); //t>99?3:2
-			DrawImage( ximg-1, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
+			DrawImage( ximg, line+2, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 			break;
 		}
                 
@@ -761,7 +764,7 @@ __myevic__ void DrawAPTLines()
 		{
 			DrawImage( 0, line+2, 0xED );
                         DrawValueRight( 55, line, AtoRezMilliMin, 3, 0x1F, 4 ); 
-                        DrawImage( ximg-1, line+2, 0xC0 );
+                        DrawImage( ximg, line+2, 0xC0 );
 			break;
 		}          
                 case 15: // stopwatch

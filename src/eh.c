@@ -357,26 +357,31 @@ __myevic__ void EventHandler()
 				return;
 			}
 
+/*
 			while ( AtoStatus == 4 && AtoProbeCount < 12 )
 			{
 				ProbeAtomizer();
                                 WaitOnTMR2( 10 );
 			}
-
+*/
+                        
+                        if ( AtoStatus != 4 )
+                            ProbeAtomizer();
+                        
 			switch ( AtoStatus )
 			{
 				case 1:
 					Event = 25; //short
 					break;
 				case 2:
-					Event = 27;
+					Event = 27; // Atomizer Low
 					break;
 				case 0:
 				case 3:
-					Event = 26;
+					Event = 26; // No Atomizer Found
 					break;
                                 case 5:
-                                	Event = 70; //overcurrent
+                                	Event = 70; // from check current
 					break;
 				case 4:
 				default:
@@ -758,8 +763,9 @@ __myevic__ void EventHandler()
 
                 //if ( gFlags.pbank ) 
                 //        TargetVolts = 500;
-                //else           
-			TargetVolts = 100;
+                //else         
+                        
+			//TargetVolts = 100; // get any in ProbeAtomizer
 			PowerScale = 100;
                 
                         
@@ -804,6 +810,7 @@ __myevic__ void EventHandler()
 				}
 			}
 
+/*
 			if ( !ISMODETC(dfMode) )
 			{
 				if ( AtoRez < 5 ) //0.05
@@ -813,6 +820,7 @@ __myevic__ void EventHandler()
 					return;
 				}
 			}
+*/
 			//else
 			//{
 			//	InitTCAlgo(); // went upstairs
@@ -925,7 +933,7 @@ __myevic__ void EventHandler()
 				SetADCState( 15, 1 );
 			}
                         
-			AtoWarmUp();
+			AtoWarmUp(); //need this here
                         
 			if ( !gFlags.firing || LastInputs != 1 )
 				StopFire();
@@ -992,12 +1000,12 @@ __myevic__ void EventHandler()
 			//ScreenDuration = 10;
 			return;
 
-		case 28:
+		case 28:        // Battery Low
 			StopFire();
 			KeyPressTime |= 0x8000;
                         SetScreen( 24, 3 );
 			//gFlags.refresh_display = 1;
-			//Screen = 24; // Battery Low
+			//Screen = 24; 
 			//ScreenDuration = 2;
 			return;
 
@@ -1396,7 +1404,7 @@ __myevic__ void EventHandler()
 				{
 					EditModeTimer = 1000;
 
-					if ( gFlags.edit_capture_evt )
+					if ( gFlags.edit_capture_evt ) // plus button was pressed before
 					{
                                             if ( EditItemIndex == 2 )
                                             {
@@ -1434,12 +1442,11 @@ __myevic__ void EventHandler()
 							}
 */
 						}
-						else
-// change info lines for edit
+						else //no smart mode
 						{
 							if ( EditItemIndex == 0 )
 							{
-								EditItemIndex = 3; //re-read rez in VW
+								EditItemIndex = 2; //vvolt
 							}
 							else
 							{
@@ -1456,7 +1463,7 @@ __myevic__ void EventHandler()
 					{
                                                 if ( dfUIVersion == 1 && EditItemIndex == 3 )
                                                 {
-                                                        ++EditItemIndex; //skip 3-d info line
+                                                        ++EditItemIndex; //skip 3-d info line (upper apt)
                                                 }
 						if ( ++EditItemIndex > 6 )
 							EditItemIndex = 0;
@@ -1612,8 +1619,15 @@ __myevic__ void EventHandler()
 							break;
 
 						case 2:
-							dfStatus.priopwr ? TempPlus() : PowerPlus( &dfTCPower, 10, MaxTCPower );
-							gFlags.edit_capture_evt = 1; // for use minus button here too
+                                                        if ( dfMode == 4 )
+                                                        {
+                                                            dfStatus.vvlite  ^= 1;
+                                                        }
+                                                        else
+                                                        {
+                                                            dfStatus.priopwr ? TempPlus() : PowerPlus( &dfTCPower, 10, MaxTCPower );
+                                                            gFlags.edit_capture_evt = 1; // for use minus button here too
+                                                        }
 							break;
 
 						case 3:

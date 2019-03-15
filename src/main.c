@@ -1408,7 +1408,7 @@ __myevic__ void Main()
 				if
 				(	!dfStatus.off
 					&& Event == 0
-					&& ( AtoProbeCount < 12 )
+					&& ( AtoProbeCount < 11 ) // 12 - gives 2 proba pikes
 					&& ( Screen == 0 || Screen == 1 || Screen == 2 || Screen == 5 || Screen == 60 )
                                 )
 				{
@@ -1460,12 +1460,11 @@ __myevic__ void Main()
                                 ( AtoStatus == 1 || AtoStatus == 5 || AtoStatus == 2 ) //short overcurrent low
                                 && !dfStatus.off
                                 && Event == 0
-                                && AtoProbeCount >= 12
+                                && AtoProbeCount >= 11 //>= 12 //11 - for recheck rez after error, with ( AtoProbeCount < 11 ) above
                                 )
                             {
                                 AtoStatus = 4;
                                 ProbeAtomizer();
-                                //ReadAtomizer();
                             }
 
                         }

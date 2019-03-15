@@ -352,9 +352,9 @@ __myevic__ void DrawScreen()
 //DrawValueRight( 64, 108, ChargerDuty, 0, 0x0B, 0 );
 //DrawValue( 0, 108, GetLockState(), 0, 0x0B, 0 );
         
-//DrawValue( 0, 0, gFlags.user_idle ? 1 : 0, 0, 0x0B, 0 );
-//DrawValueRight( 64, 0, PreheatPower, 0, 0x0B, 0 );  //SleepTimer
-//DrawValueRight( 64, 108, NextPreheatPower, 0, 0x0B, 3 );
+//DrawValue( 0, 0, AtoProbeCount, 0, 0x0B, 0 ); //gFlags.user_idle ? 1 : 0
+//DrawValueRight( 64, 0, AtoRezMilli, 0, 0x0B, 0 );  //SleepTimer PreheatPower
+//DrawValueRight( 64, 108, TargetVolts, 0, 0x0B, 0 ); //NextPreheatPower
 
 //DisplayRefresh(); //uncomment too
 
@@ -777,7 +777,7 @@ __myevic__ void ShowBattery()
 		DrawValueRight(	56, line, bv, 2, 0x0B, 0 );
 		DrawImage( 57, line, 0x97 ); //v
                 
-                // later for 10pc blinc DrawVLineDots( 31, 114, 127 ); //vert line
+                // later for 10pc blink DrawVLineDots( 31, 114, 127 ); //vert line
                 
         }
 
@@ -960,7 +960,7 @@ __myevic__ void ShowBatCharging()
         
                 DrawString( String_Charge, 6, 20 );
                 DrawValue(  31, 34, ChargeCurrent / 10, 2, 0x0B, 3 );
-                DrawImage( 52, 34, 0x68 );
+                DrawImage( 52, 34, 0x68 ); //A
                 } 
                 else
                 {

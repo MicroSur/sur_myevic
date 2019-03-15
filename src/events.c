@@ -188,64 +188,64 @@ __myevic__ void KeyRepeat()
 __myevic__ void SetClicksAction( uint8_t num )
 {
     //multi fire clicks
-    					switch ( num )
-                                        //switch ( gFlags.asleep ? dfClick[FireClickCount-3] : dfClick[FireClickCount-2] )
-					{
-						default:
-                                                case CLICK_ACTION_NONE:                                                    
-							break;
+    switch ( num )
+    //switch ( gFlags.asleep ? dfClick[FireClickCount-3] : dfClick[FireClickCount-2] )
+    {
+        default:
+        case CLICK_ACTION_NONE:                                                    
+            break;
 
-						case CLICK_ACTION_EDIT:
-							FireClicksEvent = 16;	// edit mode
-							break;
+	case CLICK_ACTION_EDIT:
+            FireClicksEvent = 16;	// edit mode
+            break;
 
-						case CLICK_ACTION_TDOM:
-							FireClicksEvent = EVENT_TOGGLE_TDOM;	// priority power
-							break;
+	case CLICK_ACTION_TDOM:
+            FireClicksEvent = EVENT_TOGGLE_TDOM;	// priority power
+            break;
 
-						case CLICK_ACTION_CLOCK:
-							FireClicksEvent = EVENT_TOGGLE_CLOCK;	// toggle clock display
-							break;
+        case CLICK_ACTION_CLOCK:
+            FireClicksEvent = EVENT_TOGGLE_CLOCK;	// toggle clock display
+            break;
 
-						case CLICK_ACTION_NEXT_MODE:
-							FireClicksEvent = EVENT_NEXT_MODE;	// change mode
-							break;
+        case CLICK_ACTION_NEXT_MODE:
+            FireClicksEvent = EVENT_NEXT_MODE;	// change mode
+            break;
 
-						case CLICK_ACTION_ON_OFF:
-                                                        if ( !dfStatus.off ) SwitchOffCase = 0; 
-							FireClicksEvent = 17;	// Switch On/Off
-							break;
+        case CLICK_ACTION_ON_OFF:
+            if ( !dfStatus.off ) SwitchOffCase = 0; 
+            FireClicksEvent = 17;	// Switch On/Off
+            break;
 
-						case CLICK_ACTION_PROFILE:
-                                                        //sur do not like EVENT_NEXT_PROFILE;
-							FireClicksEvent = EVENT_PROFILE_MENU;
-							break;
+        case CLICK_ACTION_PROFILE:
+            //sur do not like EVENT_NEXT_PROFILE;
+            FireClicksEvent = EVENT_PROFILE_MENU;
+            break;
                                                         
-                                                case CLICK_ACTION_TETRIS:
-							FireClicksEvent = EVENT_TETRIS; // tetris
-							break;
+        case CLICK_ACTION_TETRIS:
+            FireClicksEvent = EVENT_TETRIS; // tetris
+            break;
                                                         
-                                                case CLICK_ACTION_GAME:
-							FireClicksEvent = 41;	// flappy
-							break;
+        case CLICK_ACTION_GAME:
+            FireClicksEvent = 41;	// flappy
+            break;
                                                         
-                                                case CLICK_ACTION_SAVER:
-							FireClicksEvent = EVENT_SAVER;
-							break;       
+        case CLICK_ACTION_SAVER:
+            FireClicksEvent = EVENT_SAVER;
+            break;       
 
-                                                case CLICK_ACTION_MENU:
-                                                        FireClicksEvent = EVENT_ENTER_MENUS;
-							break;
+        case CLICK_ACTION_MENU:
+            FireClicksEvent = EVENT_ENTER_MENUS;
+            break;
                                                         
-                                                case CLICK_ACTION_BATTERIES:
-                                                        FireClicksEvent = 34; //all volts
-							break;
+        case CLICK_ACTION_BATTERIES:
+            FireClicksEvent = 34; //all volts
+            break;
 
-                                                case CLICK_ACTION_REZRESET:
-                                                        FireClicksEvent = EVENT_RESET_RES; //CustomEvents()
-							break;
+        case CLICK_ACTION_REZRESET:
+            FireClicksEvent = EVENT_RESET_RES; //CustomEvents()
+            break;
                                                         
-					}
+    }
 }
 
 //=========================================================================
