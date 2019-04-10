@@ -1808,7 +1808,7 @@ __myevic__ int MaxMenuOnEvent( int event )
 __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 {
     int t;
-    
+        
 	//if ( it >= CurrentMenu->nitems - 1 )
 	//	return;
 	if ( it < 1 || it > 6 )
@@ -1835,7 +1835,7 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
 
 		case 3:	// SHR
 			//DrawValue( 40, line+2, AtoShuntRez, 0, 0x0B, 3 );
-                        ProbeAtomizer();
+                        //ProbeAtomizer();
                         DrawValueRight( 63, line+2, AtoRezMilli, 3, 0x0B, 4 );
 			//if ( gFlags.edit_value && sel )
 			//	InvertRect( 0, line, 63, line+12 );
@@ -1910,6 +1910,9 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
         
         if ( gFlags.edit_value && sel )
 		InvertRect( 0, line, 63, line+12 );
+        
+        ProbeAtoSeries();
+        gFlags.refresh_display = 1;
 }
 
 __myevic__ void ExpertMenuOnClick()
@@ -2705,16 +2708,7 @@ __myevic__ void CoilsIDraw( int it, int line, int sel )
 	}
         
 
-        while ( AtoStatus == 4 && AtoProbeCount < 11 ) //12
-		{
-                    ProbeAtomizer();
-                    WaitOnTMR2( 10 );
-		}
-
-        
-        //ProbeAtomizer();
-        //DrawValue( 17, 117, AtoRez, 2, 0x0B, 3 );
-	//DrawImage( 39, 117, 0xC0 );
+        ProbeAtoSeries();
         DrawValue( 15, 117, AtoRezMilli, 3, 0x0B, 4 ); 
 	DrawImage( 43, 117, 0xC0 );  
         gFlags.refresh_display = 1;

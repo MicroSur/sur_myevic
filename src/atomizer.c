@@ -2302,6 +2302,15 @@ __myevic__ void Overtemp()
 	KeyPressTime |= 0x8000;
 }
 
+__myevic__ void ProbeAtoSeries()
+{
+	while ( AtoStatus == 4 && AtoProbeCount < 11 ) //12
+	{
+		ProbeAtomizer();
+		WaitOnTMR2( 10 );
+	}
+}
+
 //=========================================================================
 // Force re-read of the resistance
 //-------------------------------------------------------------------------
@@ -2315,11 +2324,14 @@ __myevic__ void ResetResistance()
 	AtoProbeCount = 0;
 	AtoStatus = 4;
 
-	while ( AtoStatus == 4 && AtoProbeCount < 12 )
+        ProbeAtoSeries();
+/*
+	while ( AtoStatus == 4 && AtoProbeCount < 11 ) //12
 	{
 		ProbeAtomizer();
 		WaitOnTMR2( 10 );
 	}
+*/
                                 
         AtoRez = AtoRezMilli / 10;
         AtoMillis = AtoRezMilli % 10;
