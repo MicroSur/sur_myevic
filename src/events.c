@@ -1637,6 +1637,7 @@ __myevic__ int CustomEvents()
 			break;
                         
 		case EVENT_ENTER_MENUS:	// Menus screen
+                        EditModeTimer = 0; //prevent exit menu by this timeout
                         gFlags.MainContrast = 1;
                         DisplaySetContrast( dfContrast );
 			vret = EvtEnterMenus();

@@ -1677,8 +1677,8 @@ __myevic__ void SetAtoLimits()
 		if ( pwr < AtoMinPower ) pwr = AtoMinPower;
 		if ( pwr > AtoMaxPower ) pwr = AtoMaxPower;
 
-		VWVolts = GetAtoVWVolts( pwr, AtoRez );
-                dfVVLockedVolt = GetAtoVWVolts( pwr, dfResistance );
+                    VWVolts = GetAtoVWVolts( pwr, AtoRez );
+                    dfVVLockedVolt = GetAtoVWVolts( pwr, dfResistance );
 
 		if ( dfMode == 6 ) //SMART
 			//dfPower = ClampPower( dfVWVolts, 1 );
@@ -1928,6 +1928,8 @@ __myevic__ void ProbeAtomizer()
 		gFlags.new_rez_tcr = 1;
 
 		if ( !dfStatus.chkmodeoff ) gFlags.check_mode = 1;
+                
+                SetAtoLimits(); //for Volt setting fix on smart profile changes
 	}
 }
 
