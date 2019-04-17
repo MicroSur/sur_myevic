@@ -1863,6 +1863,7 @@ __myevic__ void ApplyParameters()
         InitSetPowerVoltMax();
         InitVariables();
 	SetBatteryModel();
+        dfRezVW = 0; //not use locked vvres (while it not in DF r                                            eally) on profile change
 	ModeChange();
 
 	gFlags.refresh_display = 1;

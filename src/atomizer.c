@@ -1909,7 +1909,7 @@ __myevic__ void ProbeAtomizer()
 		{
 			Set_NewRez_dfRez = 1;
 		}
-                                                
+                
 		if ( !dfResistance )
 		{                               
 			if ( AtoRez )
