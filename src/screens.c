@@ -662,9 +662,9 @@ __myevic__ void ShowContrast()
 
         dfc = ContrastNum ? dfContrast2 : dfContrast;   
 
-        DrawValueRight( 63, 5, ContrastNum+1, 0, 0x0B, 1 );
-	DrawString( String_Contrast, 4, 5 );
-	DrawHLine( 0, 16, 63, 1 );
+        DrawValueRight( 63, 3, ContrastNum+1, 0, 0x0B, 1 );
+	DrawString( String_Contrast, 4, 3 );
+	DrawHLine( 0, 14, 63, 1 );
 
 	pc = ( ( 100 * dfc ) / 255 );
 	nd = ( pc < 100 ? pc < 10 ? 1 : 2 : 3 );

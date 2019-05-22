@@ -1492,6 +1492,7 @@ __myevic__ int EvtLongFire()
 
 __myevic__ int EvtContrastMenu()
 {
+    // ShowContrast()
         ContrastNum = 0;
        // DisplaySetContrast( dfContrast );
        // gFlags.refresh_display = 1;
