@@ -810,15 +810,14 @@ __myevic__ void GetUserInput()
 	{
 		if ( UserInputs == 1 )
 		{
-                        uint16_t pt;
-                        pt = dfProtec * 10; // in real +3 sec then before mod off
+                        //uint16_t pt;
+                        //pt = dfProtec * 10;
                         
-			if ( KeyPressTime >= pt ) //FIRE_PROTEC_MAX * 10 + 100 )
-			{
-				//KeyPressTime = pt; //dfProtec * 10 + 50; //FIRE_PROTEC_MAX * 10 + 100;
+			if ( KeyPressTime >= dfProtec * 100 )
+			{				
 				gFlags.user_idle = 1; //to switch mod Off
 			}
-			else if ( ( gFlags.firing || Screen == 23 ) && FireDuration >= dfProtec )
+			else if ( ( gFlags.firing || Screen == 23 ) && FireDuration >= dfProtec * 10 )
 			{
                             if ( !( gFlags.apuff && dfStatus.endlessfire ) )
 				Event = 24;	// fire protection, show screen 23_1

@@ -61,7 +61,7 @@ __myevic__ void DrawVapeAwakeLine ()
     
         DrawValueRight( 13, 0, pc, 0, 0x0B, 2 );
         
-        DrawImage( 16, 0, 0xBA ); //Off
+        DrawImage( 17, 0, 0xBA ); //Off
         
 	//DrawValueRight( 20, 1, AwakeTimer / 3600, 0, 0x0B, 0 );
 	//DrawImage( 20, 1, 0xD7 );
@@ -788,10 +788,10 @@ __myevic__ void ShowFireDuration( int line )
         DrawPixel( 63, line+9, 0 );
 */
 	DrawFillRect( 1, line+1, 62, line+8, 0 );
-	x = ( FireDuration > dfProtec / 2 ) ? 5 : 38;
+	x = ( FireDuration > (dfProtec * 10 ) / 2 ) ? 5 : 37;
 	DrawValue( x, line+1, FireDuration, 1, 0xB, 0 );
 	DrawImage( x + 15 + 6 * ( FireDuration > 99 ), line+1, 0x94 );
-	InvertRect( 1, line+1, 3 + 59 * FireDuration / dfProtec, line+8 );   
+	InvertRect( 1, line+1, 3 + 59 * FireDuration / ( dfProtec * 10 ), line+8 );   
 
 }
 

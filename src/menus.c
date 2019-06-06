@@ -337,9 +337,9 @@ __myevic__ void VapingMenuIDraw( int it, int line, int sel )
 	switch ( it )
 	{
 		case 5:	// Protec
-			DrawFillRect( 34, line, 63, line+12, 0 );
+			DrawFillRect( 40, line, 63, line+12, 0 );
 			DrawImageRight( 63, line+2, 0x94 );
-			DrawValueRight( 57, line+2, dfProtec, 1, 0x0B, 0 );
+			DrawValueRight( 57, line+2, dfProtec, 0, 0x0B, 0 );
 			//if ( sel && gFlags.edit_value )
 			//	InvertRect( 0, line, 63, line+12 );
 			break;
@@ -569,7 +569,7 @@ __myevic__ int VapingMenuOnEvent( int event )
                         switch ( CurrentMenuItem )
 			{                    
                                 case 5: //protec
-                                        dfProtec = 100;
+                                        dfProtec = 10; //100;
                                         vret = 1;
                                         break;
 
@@ -1860,33 +1860,6 @@ __myevic__ void ExpertMenuIDraw( int it, int line, int sel )
                         //if ( gFlags.edit_value && sel )
                         //        InvertRect( 0, line, 63, line+12 );
 			break;
-
-/*
-		case 6:	// USB
-			if ( dfStatus.vcom )
-				DrawStringRight( String_COM, 63, line+2 );
-			//else if ( dfStatus.storage )
-			//	DrawString( String_DSK, 40, line+2 );
-			else
-				DrawStringRight( String_HID, 63, line+2 );
-			break;
-*/
-
-/*
-		case 7:	// DBG
-			if ( dfStatus.dbgena )
-				DrawStringRight( String_ON, 63, line+2 );
-			else
-				DrawStringRight( String_OFF, 63, line+2 );
-			break;
-*/
-
-		//case 8:	// PC Tools
-		//	if ( dfStatus.nfe )
-		//		DrawString( String_ON, 40, line+2 );
-		//	else
-		//		DrawString( String_OFF, 40, line+2 );
-		//	break;
                         
                 case 6:	// mod Temp
                     if ( AkkuTempFlag )
@@ -3269,14 +3242,6 @@ const mdata_t PreheatDelayData =
 	0
 };
 
-const mdata_t CurveDelayData =
-{
-	&dfCUDelay,
-	&PreheatDelayDesc,
-	MITYPE_BYTE,
-	0
-};
-
 /*
 const mdata_t PreheatSmartData =
 {
@@ -3677,7 +3642,7 @@ const mdata_t DimOffDelayData =
 
 const menu_t ScreenProtMenu =
 {
-	String_Protection,
+	String_Protect,
 	&ScreenMenu,
 	0,
 	ScreenProtMenuIDraw+1,
@@ -3940,7 +3905,7 @@ const menu_t CUSMenu =
 	24,
 	{
 		{ String_Percent, 0, 0, 0 },	
-                { String_V, &CUS1Voltage, 0, MACTION_DATA },
+                { String_V, &CUS1Voltage, 0, MACTION_DATA }, // 0xBE                       
 		{ String_Percent, &CUS2Percent, 0, MACTION_DATA },
                 { String_V, &CUS2Voltage, 0, MACTION_DATA },        
                 { String_Percent, &CUS3Percent, 0, MACTION_DATA },
@@ -4130,7 +4095,7 @@ const menu_t ScreenMenu =
 	9,
 	{
 		{ String_Contrast, 0, EVENT_EDIT_CONTRAST, MACTION_SUBMENU }, //0
-		{ String_Protection, &ScreenProtMenu, 0, MACTION_SUBMENU },
+		{ String_Protect, &ScreenProtMenu, 0, MACTION_SUBMENU },
 		{ String_Saver, &ScreenSaveMenu, 0, MACTION_SUBMENU },
 		{ String_Logo, &LogoMenu, 0, MACTION_SUBMENU },
                 { String_3D, &Object3DMenu, 0, MACTION_SUBMENU },
@@ -4299,17 +4264,27 @@ const menu_t AlgoMenu =
 };
 
 
+/*
 const mbitdesc_t CurveEnaDesc =
 {
 	40, 63,
 	String_On, //Yes,
 	String_Off //No
 };
+*/
+
+const mdata_t CurveDelayData =
+{
+	&dfCUDelay,
+	&PreheatDelayDesc, //same descr
+	MITYPE_BYTE,
+	0
+};
 
 const mdata_t CurveEnaData =
 {
 	&dfStatus,
-	&CurveEnaDesc,
+	&BitDesc, //&CurveEnaDesc,
 	MITYPE_BIT,
 	28
 };
@@ -4379,7 +4354,7 @@ const menu_t VapingMenu =
                 { String_Algo, &AlgoMenu, 0, MACTION_SUBMENU },
                 { String_Modes, &ModesMenu, 0, MACTION_SUBMENU },
 		{ String_Vaped, 0, EVENT_SET_JOULES, MACTION_SUBMENU }, //ShowSetJoules()
-                { String_Prot, 0, 0, 0 },                        
+                { String_Protect, 0, 0, 0 },                        
                 { String_PuffsOff, 0, 0, 0 }, //6
                 { String_VapeTimeOff, 0, 0, 0 }, //7
                 { String_HoldFi, 0, 0, 0 },     //8   
