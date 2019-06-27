@@ -433,7 +433,7 @@ __myevic__ void EventHandler()
 				}
 				else if ( !dfStatus2.dfRezLockedNI )
 				{
-					word_200000BA = dfRezNI * 10 + ( dfMillis & 0xf );
+					FullRezNI = dfRezNI * 10 + ( dfMillis & 0xf );
 
 					if (  3 * dfRezNI >= NewRez )
 					{
@@ -493,7 +493,7 @@ __myevic__ void EventHandler()
 				}
 				else if ( !dfStatus2.dfRezLockedTI )
 				{
-					word_200000B8 = dfRezTI * 10 + ( ( dfMillis >> 4 ) & 0xf );
+					FullRezTI = dfRezTI * 10 + ( ( dfMillis >> 4 ) & 0xf );
 
 					if (  2 * dfRezTI >= NewRez )
 					{
@@ -553,7 +553,7 @@ __myevic__ void EventHandler()
 				}
 				else if ( !dfStatus2.dfRezLockedSS )
 				{
-					word_200000BC = dfRezSS * 10 + ( ( dfMillis >> 8 ) & 0xf );
+					FullRezSS = dfRezSS * 10 + ( ( dfMillis >> 8 ) & 0xf );
 
 					if ( 3 * dfRezSS >= 2 * NewRez )
 					{
@@ -612,7 +612,7 @@ __myevic__ void EventHandler()
 				}
 				else if ( !dfStatus2.dfRezLockedTCR )
 				{
-					word_200000BE = dfRezTCR * 10 + ( dfMillis >> 12 );
+					FullRezTCR = dfRezTCR * 10 + ( dfMillis >> 12 );
 
 					if ( 3 * dfRezTCR >= 2 * NewRez )
 					{

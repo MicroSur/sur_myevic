@@ -61,10 +61,10 @@ uint8_t         SessionPuffs;
 uint8_t		RezMillis;
 
 uint8_t		Set_NewRez_dfRez;
-uint16_t	word_200000B8;
-uint16_t	word_200000BA;
-uint16_t	word_200000BC;
-uint16_t	word_200000BE;
+uint16_t	FullRezTI;
+uint16_t	FullRezNI;
+uint16_t	FullRezSS;
+uint16_t	FullRezTCR;
 uint8_t		NewMillis;
 
 uint8_t		LastAtoError;
@@ -796,27 +796,27 @@ __myevic__ void CheckMode()
 
 		if ( !gFlags.new_rez_ni  )
 		{
-			dfRezNI  = word_200000BA / 10;
+			dfRezNI  = FullRezNI / 10;
 			dfMillis &= ~0xf;
-			dfMillis |= word_200000BA % 10; //word_200000B8
+			dfMillis |= FullRezNI % 10;
 		}
 		if ( !gFlags.new_rez_ti  )
 		{
-			dfRezTI  = word_200000B8 / 10;
+			dfRezTI  = FullRezTI / 10;
 			dfMillis &= ~0xf0;
-			dfMillis |= ( word_200000B8 % 10 ) << 4;
+			dfMillis |= ( FullRezTI % 10 ) << 4;
 		}
 		if ( !gFlags.new_rez_ss  )
 		{
-			dfRezSS  = word_200000BC / 10;
+			dfRezSS  = FullRezSS / 10;
 			dfMillis &= ~0xf00;
-			dfMillis |= ( word_200000BC % 10 ) << 8;  //word_200000B8
+			dfMillis |= ( FullRezSS % 10 ) << 8;
 		}
 		if ( !gFlags.new_rez_tcr )
 		{
-			dfRezTCR = word_200000BE / 10;
+			dfRezTCR = FullRezTCR / 10;
 			dfMillis &= ~0xf000;
-			dfMillis |= ( word_200000BE % 10 ) << 12;  //word_200000B8
+			dfMillis |= ( FullRezTCR % 10 ) << 12;
 		}
 
 		if ( AtoRez < 5 )
@@ -2380,7 +2380,7 @@ typedef struct algoctl
 	uint32_t	counter;
 	int32_t		error;
 	int32_t		integ;
-	uint8_t		start;
+//	uint8_t		start;
 }
 algoctl_t;
 
@@ -2664,6 +2664,8 @@ __myevic__ void TweakTargetVoltsPID()
 
 __myevic__ void TweakTargetVoltsTC()
 {
+    // 1000Hz
+    
 	if ( !TargetVolts )
 		return;
 

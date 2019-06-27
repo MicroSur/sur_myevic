@@ -190,6 +190,8 @@ extern volatile gFlags_t gFlags;
 extern uint8_t BoxModel;
 extern char *BoxName;
 
+//extern int ones_flag;
+
 //=========================================================================
 // Functions from assembly language part
 //-------------------------------------------------------------------------

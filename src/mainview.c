@@ -189,7 +189,7 @@ __myevic__ void DrawPwrLine( int pwr, int line )
 	}
         
         if ( dfUIVersion == 0 ) 
-            DrawImage( x+1, y+yoff, 0x98 );
+            DrawImage( x+2, y+yoff, 0x7E ); //0x98
 }
 
 
@@ -236,7 +236,7 @@ __myevic__ void DrawTempLine( int line )
 	}
                
         if ( dfUIVersion == 0 )
-                DrawImage( x+1, y+yoff, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
+                DrawImage( x+2, y+yoff, dfStatus.IsCelsius ? 0xC9 : 0xC8 );
 }
 
 

@@ -98,10 +98,10 @@ extern uint8_t	RezMillis;
 extern uint16_t	BypassVolts;
 
 extern uint8_t	Set_NewRez_dfRez;
-extern uint16_t	word_200000B8;
-extern uint16_t	word_200000BA;
-extern uint16_t	word_200000BC;
-extern uint16_t	word_200000BE;
+extern uint16_t	FullRezTI;
+extern uint16_t	FullRezNI;
+extern uint16_t	FullRezSS;
+extern uint16_t	FullRezTCR;
 
 extern const uint8_t TempCoefsNI[];
 extern const uint8_t TempCoefsTI[];
@@ -163,6 +163,7 @@ extern const uint16_t SMARTPowers[];
 extern void InitTCAlgo();
 extern void TweakTargetVoltsSegments();
 extern void TweakTargetVoltsAlgo();
+//extern void TweakTargetVoltsJT();
 
 extern int GetLockState();
 

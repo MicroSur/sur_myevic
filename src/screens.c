@@ -353,8 +353,9 @@ __myevic__ void DrawScreen()
 //DrawValue( 0, 108, GetLockState(), 0, 0x0B, 0 );
         
 //DrawValue( 0, 0, AtoProbeCount, 0, 0x0B, 0 ); //gFlags.user_idle ? 1 : 0
-//DrawValueRight( 64, 0, AtoRezMilli, 0, 0x0B, 0 );  //SleepTimer PreheatPower
-//DrawValueRight( 64, 108, TargetVolts, 0, 0x0B, 0 ); //NextPreheatPower
+//DrawValueRight( 64, 0, AtoTemp, 0, 0x0B, 0 );  //SleepTimer PreheatPower
+//DrawValue( 0, 108, AtoTemp, 0, 0x0B, 0 );
+//DrawValueRight( 64, 108, ones_flag, 0, 0x0B, 0 ); //NextPreheatPower
 
 //DisplayRefresh(); //uncomment too
 
@@ -382,7 +383,7 @@ __myevic__ void DrawScreen()
 
 	if ( TenthOfSecs < 10 )
 		return;
-
+        
 	TenthOfSecs = 0;
         //                              every second now:
 

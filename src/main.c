@@ -23,6 +23,8 @@ uint8_t BoxModel;
 
 time_t startwatch;
 
+//int ones_flag = 1;
+        
 //const uint8_t  MaxBoardTemp = 70;
 
 //=========================================================================
@@ -1068,7 +1070,7 @@ __myevic__ void Main()
 		while ( !PE0 )
 			;
 	}
-        
+                                
 	while ( 1 )
 	{            
             	while ( gFlags.playing_fb || gFlags.playing_tt )
@@ -1131,7 +1133,7 @@ __myevic__ void Main()
 		{
 			// 1000Hz
 			gFlags.tick_1khz = 0;
-
+                        
 			if ( gFlags.firing )
 			{
 				ReadAtomizer();
@@ -1144,7 +1146,23 @@ __myevic__ void Main()
 					{
 						CheckMode();
 					}
-					TweakTargetVoltsTC();
+/*
+                                        unsigned int temp = ( dfStatus.IsCelsius ) ? CelsiusToF( dfTemp ) : dfTemp;
+                                        
+                                        if ( 
+                                                && ones_flag
+                                                && dfTCAlgo == TCALGO_PID
+                                                && ( AtoTemp < temp - 10 )
+                                                )
+                                        {
+                                                TweakTargetVoltsJT();       
+                                        }
+                                        else
+                                        {
+                                                ones_flag = 0;
+*/
+                                            	TweakTargetVoltsTC(); 
+                                        //}
 				}
 				else if ( ISMODEVW(dfMode) )
 				{
@@ -1159,8 +1177,15 @@ __myevic__ void Main()
                                     }
 				}
             //}
+/*
 			}
+                        else //if ( gFlags.firing )
+                        {
+                                ones_flag = 1;
+*/
+                        }
 
+                        
 			//if ( dfStatus.vcom )
 			//{
 			//	VCOM_Poll();
@@ -1377,7 +1402,7 @@ __myevic__ void Main()
 
 			if ( !( gFlags.firing && ISMODETC(dfMode) ) ) //!(A && B) = !A || !B  DeMorgans Law
 			{
-                                        DrawScreen();
+                                DrawScreen();
 			}
 
 			if ( KeyTicks < 5 )

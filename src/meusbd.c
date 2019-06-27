@@ -1005,7 +1005,15 @@ __myevic__ uint32_t hidGetMonData( CMD_T *pCmd )
 		mondata->BatteryVoltage[i] = ( gFlags.firing ? RTBVolts[i] : BattVolts[i] ) - 275;
 	}
         
-        uint16_t temp = dfStatus.IsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
+        unsigned int temp;
+        if ( AtoStatus != 4 )
+        {    
+            temp = 0;
+        }
+        else
+        {
+            temp = dfStatus.IsCelsius ? FarenheitToC( AtoTemp ) : AtoTemp;
+        }
         mondata->Temperature = temp;
         
 	if ( ISMODETC(dfMode) )
